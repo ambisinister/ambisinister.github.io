@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Proj. Notes</title>
+		<link href="../css/index.css" type="text/css" rel="stylesheet" />
+		<link rel="shortcut icon" href="../images/shine.ico"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="../scripts/scroll.js"></script>
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		<div class="header">
+			<h1>Eryk Banatt</h1>
+			<p>Cognitive Science Student, CS Enthusiast, Melee Player, Button Presser</p>
+				<nav class="nav" id="bar">
+					<hr />
+					<ul>
+						<li><a href = "../index.html">Home</a></li>
+						<li><a href = "../about.html">About/Contact</a></li>
+						<li><a href = "../projects.html">Projects</a></li>
+						<li><a href = "../melee.html">Melee</a></li>
+						<li><a href = "../hobbies.html">Hobbies</a></li>
+						<li><a href = "../resume.pdf">Resume</a></li>
+					</ul>
+					<hr />
+				</nav>
+		</div>
+
+		<div class="pagetext">
+			<h2>Notes on Projection 1.0:</h2>
+
+			<h3 id="sql">SQL Query of any player's matches</h3>
+
+			<p>I don't know if Tafokints has some sort of system like this but if he doesn't he should definitely consider it - it's very handy to have matches in this sort of format because you can get all sorts of information really easily</p>
+
+			<img src="../images/projection/useful.png" />
+
+			<p id="assign">Making this information publically available in some sort of app would be super useful - I frequently talk with friends about who's beaten who recently and trying to find all of Silent Wolf's bracket matches against fox players is a gigantic pain (and is now super simple with this database)</p>
+
+			<h3>Assigning People Skill</h3>
+
+			<p id="sports">This is one of the shakier parts of this project, so I tried to make the bins fairly large to compensate for the fact that I'm not 100% super familiar with every single player's skill level. Like I said, this is basically a giant demo and there are a number of things that this can be replaced with in a production environment, so please don't approach me all upset that player X is in tier Y and should really be in tier Z because I promise I will do literally nothing about it.</p>
+
+			<h3>Winrate In Melee vs In Sports</h3>
+
+			<p><i><a href="http://physics.bu.edu/~redner/pubs/pdf/jqas.pdf" target="_blank">Eli Ben-Naim et al. 2006</a></i> did a similar analysis with a bunch of different sports:</p>
+
+			<img src="../images/projection/sports.png" />
+
+			<p id="global">It's a pretty good read if you're interested in sports statistics, but if you want a quick comparison to Melee then the tl;dr is that Melee's upset rate is similar to the NFL upset rate (~36%) and overall is a tad on the conservative side on the spectrum of traditional sports.</p>
+
+			<h3 >Global Character Curves</h3>
+
+			<p>Dumped here to not take up too much space on the actual writeup</p>
+
+			<img src="../images/projection/FoxvsAll.png" />
+			<img src="../images/projection/FalcovsAll.png" />
+			<img src="../images/projection/FalconvsAll.png" />
+			<img src="../images/projection/MarthvsAll.png" />
+			<img src="../images/projection/PeachvsAll.png" />
+			<img src="../images/projection/SamusvsAll.png" />
+			<img src="../images/projection/SheikvsAll.png" />
+			<img src="../images/projection/PuffvsAll.png" />
+			<img src="../images/projection/ICsvsAll.png"/>
+
+			<h3 id="matchups">Matchup Curves</h3>
+
+			<p>A very many of these simply didn't have enough data to be useful - here's a few of the ones that at least made some sense.</p>
+
+			<img src="../images/projection/foxvsfalco.png" />
+			<img src="../images/projection/foxvssheik.png" />
+			<img src="../images/projection/foxvsmarth.png" />
+			<img src="../images/projection/falcovssheik.png" />
+			<img src="../images/projection/falconvssheik.png" id="trend"/>
+
+			<h3 >Trendlines</h3>
+
+			<p id="ratings">Part of the reason I wasn't super comfortable using much data from these curves, especially for character vs character, is because I wasn't super knowledgable about trendlines and I wasn't particularly thrilled with the way they turned out. If I want to improve this I'll need to learn more about trendlines, weight the trendlines based on which points have the most matches played (since a point with 80 matches and a point with 1 match are weighted equally with a normal trendline). I also need to figure out how to apply more specific rules to trendlines (e.g. must always be increasing or staying the same, must begin at 1 and end at 0, etc) because the fact that these curves slope downwards at the ends sometimes is definitely not what I wanted.</p>
+
+			<h3 >Volatility - Characters and Matchups</h3>
+
+			<p>This applies the integral that I mentioned on the global character curve:</p>
+
+			<table border=1 style="width:100%">
+				<tr><th>Character</th>	<th>Consistency</th><th>Upset</th></tr>
+				<tr><td>Puff</td> 		<td>91%</td>	<td>14%</td></tr>
+				<tr><td>Peach</td> 		<td>89%</td>	<td>17%</td></tr>
+				<tr><td>Samus</td> 		<td>85%</td>	<td>12%</td></tr>
+				<tr><td>Marth</td> 		<td>85%</td>	<td>15%</td></tr>
+				<tr><td>Fox</td> 		<td>84%</td>	<td>14%</td></tr>
+				<tr><td>Sheik</td> 		<td>83%</td>	<td>11%</td></tr>
+				<tr><td>Ice Climbers</td><td>81%</td> 	<td>20%</td></tr>
+				<tr><td>Falco</td> 		<td>81%</td>	<td>12%</td></tr>
+				<tr><td>Falcon</td> 	<td>79%</td>	<td id="tree">10%</td></tr>
+			</table>
+
+			<h3 >Decision Tree Classifier</h3>
+
+			<p>The classifier is a simple one that just follows a series of rules, but just because it's a simple idea doesn't mean it won't have a complicated execution</p>
+
+			<iframe src='https://gfycat.com/ifr/InfamousBitesizedGull' frameborder='0' scrolling='no' width='640' height='360' allowfullscreen id="features"></iframe>
+
+			<h3 >Features</h3>
+
+			<p id="radar">I was originally gonna throw in "Winrate vs opponent's character" as a feature but it worked better than I had hoped with just the features I put in and I was worried about overfitting the data, so I just left it alone to prevent additional complications. I'll probably play around with it some more eventually but for now this is fine.</p>
+
+			<h3 >Radar Chart</h3>
+
+			<p>Full Disclosure - I didn't use matplotlib for this, I just found a tool online to do it. You <i>can</i> use matplotlib for this but actually finding good places to put these values is another task in and of itself (I tried to place it as "would have a 50% winrate vs players of this skill" which would likely be an entirely seperate problem solved probably with linear regression or something) so I just made one as a sort of mockup.</p>
+
+		</div>
+	</body>
+</html>
+

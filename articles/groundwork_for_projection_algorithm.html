@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Projection 1.0</title>
+		<link href="../css/index.css" type="text/css" rel="stylesheet" />
+		<link rel="shortcut icon" href="../images/shine.ico"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="../scripts/scroll.js"></script>
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		<div class="header">
+			<h1>Eryk Banatt</h1>
+			<p>Cognitive Science Student, CS Enthusiast, Melee Player, Button Presser</p>
+				<nav class="nav" id="bar">
+					<hr />
+					<ul>
+						<li><a href = "../index.html">Home</a></li>
+						<li><a href = "../about.html">About/Contact</a></li>
+						<li><a href = "../projects.html">Projects</a></li>
+						<li><a href = "../melee.html">Melee</a></li>
+						<li><a href = "../hobbies.html">Hobbies</a></li>
+						<li><a href = "../resume.pdf">Resume</a></li>
+					</ul>
+					<hr />
+				</nav>
+		</div>
+
+		<div class="pagetext">
+			<h2 id="#top">Performance, Projections, and Prediction:</h2>
+			<h3>Building a Basic Projection Algorithm</h3>
+
+			<img src="../images/projection/database.png" />
+
+			<p>I'm going to ask a simple question with a fun answer - if we had data on every serious Melee set played in the last X years, what could we do with it?</p>
+
+			<ul>
+				<li>We could see which characters are most successful</li>
+				<li>We could see which matchups are good/bad</li>
+				<li>We can see which players are best at which matchups</li>
+				<li><i>We can use it to predict wins/losses</i></li>
+			</ul>
+
+
+			<h3>The Big Picture</h3>
+
+			<p>Basically, most projections are done with a simple &quot;if seed1 > seed2, seed1 wins&quot; method, even if one player is playing an opponent he usually loses to, or bad matchup, or a matchup that they specifically struggle with.</p>
+
+			<p>So if we want to build a better projection algorithm, we'll need to control for more variables than just seeding, and, more importantly, we'll need to quantify things that have up until now been rather handwavey.</p>
+
+			<p>Goals</p>
+			<ul>
+				<li>
+				Trying to eliminate bias: almost <a href="https://twitter.com/ssbmhax/status/765780046028107777" target="_blank">every opinion</a> I <a href="https://twitter.com/TSM_Leffen/status/761318207827369984" target="_blank">hear about</a> tier lists <a href="https://twitter.com/LiquidHbox/status/759803536624521216" target="_blank">underrates their own character</a> and <a href="https://twitter.com/MVG_Mew2King/status/759832399907782656" target="_blank">overrates their own problem matchups</a>, so I specifically tried to limit my interaction with the data.
+				</li>
+				<li>
+				Trying to improve performance: obviously, especially since Melee is pretty volatile and the "better player" doesn't always win, especially at very small skill differences
+				</li>
+				<li>
+				Trying to understand more: using data to explain <i>why</i> things happen - character limitations, player strengths and weaknesses, rivalries, etc.
+				</li>
+
+			</ul>
+
+			<p>This algorithm should really only show differing performance in the close cases - an algorithm that predicts that the 400th seed would beat the 3rd seed based on a good matchup would be a pretty worthless algorithm (or a 100-0 matchup). But when you get to 13th seed vs 12th seed, the past data / matchups / individual strengths become somewhat more important in generating projections.</p>
+
+			<p>Let's begin by introducing the idea of &quot;tiers&quot; which any Melee player should be intimately familiar with already. While the difference between #5 and #6 might be hotly contested and mostly negligible, the difference between #7-12 and #18-46 is marked by a pretty noticable jump. So too it will be with our projections - ranking players isn't necessarily that important, but separating them enough such that upsets are easily noticable is much more important. If Fox players consistently have high win rate vs Peach players a full standard deviation higher above them in skill, a case for the matchup being bad for Peach starts to become pretty reasonable. On the other hand, a Fox ditto between Lucky and SFAT (in 2016) is close enough such that the winner is more or less determined by, for our purposes, random chance (as in: who is playing better that day, as opposed to who the clear better player is)</p>
+
+			<p> So this will be a pretty simple projection algorithm, since I am one person with a limited data set, but it will hopefully lay the foundation for something greater, potentially for a <a href="https://smash.gg/about" target="_blank">group of people with access to much more data than me</a>.</p>
+
+			<h3>Obtaining Some Data</h3>
+
+			<p>To begin, I wrote a script that pulls tournament results from majors and supermajors. I used <a href="https://www.crummy.com/software/BeautifulSoup/" target="_blank">BeautifulSoup</a> to scrape brackets on <a href ="http://wiki.teamliquid.net/smash/Major_Tournaments" target="_blank">Liquipedia</a> and output the results into a <a href="https://www.sqlite.org/about.html" target="_blank">sqlite3</a> database<sup>.</p>
+
+			<p>Since this is just a proof-of-concept, I'm willing to proceed with just this data, even though a lot of matches (especially in Winners Bracket) are omitted from these brackets on Liquipedia (e.g. Mafia's win over Axe at Super Smash Con 2016). More data would provide a more complete picture, but at the very least this dataset would still have the most relevant wins/losses of the players with the most recorded sets (read: the strongest players).</p>
+
+			<p>I then manually assigned a character to each player with more than 2 wins (I had no real means of automating this since the brackets didn't always have characters, especially with the weaker players).</p> 
+
+			<p>With a quick SQL query<a href="./projection_notes.html" target="_blank">[1]</a></sup> we can now pull up any players wins and losses, and can filter by character / skill / etc. Some fun things we can do with this are look for the biggest upsets (Kalamazhu vs Wizzrobe, HMW vs Plup, Smilez vs Dizzkidboogie) or ranked player losses to relatively unknown players (DJ Nintendo vs Trulliam, Chillindude vs Nightmare) which by itself is a pretty cool thing to have access to.</p>
+
+			<p>We can stop here and take a quick look at overall character usage. Below we can see character usage as a ratio of players, and as a ratio of matches.<p>
+
+			<figure>
+				<a href="../images/projection/charuse.png" target="_blank"><img src="../images/projection/charuse.png" /></a>
+				<figcaption>Black = Misc Characters</figcaption>
+			</figure>
+
+			<p>It's interesting to note the differences between these. Falco in particular is very striking - Despite ~17% of players using him, he only appears in ~11% of the matches, meaning lots of falcos are losing early in bracket ("The Falcomaster Effect"). Fox is the opposite, although 25% of players use him, he's present in ~29% of matches. Most of the differences make intuitive sense but it's still funny to observe some things (Pikachu, for instance, having &lt;1% of players [i.e. Axe] but almost 3% of matches just based on how far he gets at every tournament)</p>
+
+			<p>I also manually seperated<sup><a href="./projection_notes.html#assign" target="_blank">[2]</a></sup> the players into 8 tiers based on skill, with 1 being the highest and 8 being unlikely to make finals bracket at a major. I did this manually because I only had access to final brackets (so I couldn't just use winrate due to lack of R1/R2 pools), but long-run this could easily be done with any sort of ranking (MIOM top 100, raw winrate, whatever)</p>
+
+			<table border=1>
+				<tr>
+					<td> </td>
+					<td> Tier 1 </td>
+					<td> Tier 2 </td>
+					<td> Tier 3 </td>
+					<td> Tier 4 </td>
+					<td> Tier 5 </td>
+					<td> Tier 6 </td>
+					<td> Tier 7 </td>
+					<td> Tier 8 </td>
+				</tr>
+				<tr>
+					<td> <b>Socal Example</b> </td>
+					<td> Mango </td>
+					<td> Westballz Lucky S2J </td>
+					<td> MacD HugS </td>
+					<td> Mikehaze Santiago</td>
+					<td> Eddy Mexico Alex19 </td>
+					<td> CDK Faceroll Squid ROFL Kira Ken </td>
+					<td> Jace Luigikid Reno </td>
+					<td> Players unlikely to place at nationals </td>
+				</tr>
+			</table>
+
+			<p>After that, I ran through the wins and losses to build profiles of each of the players. Specifically, for each match I gathered the following information:</p>
+
+			<ul>
+				<li>Player's win/loss vs that individual opponent</li>
+				<li>Player's win/loss vs that opponent's character</li>
+				<li>Player's character's win/loss vs that opponent</li>
+				<li>Player's character's win/loss vs that opponent's character</li>
+				<li>Player's win/loss vs an opponent at that tier difference </li>
+				<li>Player's win/loss vs an opponent using that opponent's character at that tier difference </li>
+				<li>Player's character's win/loss vs an opponent at that tier difference </li>
+				<li>Player's character's win/loss vs an opponent using that opponent's character at that tier difference</li>
+			</ul>
+
+			<p>Phew! lot's of variables, and lots of pretty <i>convoluted</i> variables, at that. But what can we do with this?</p>
+
+			<h3>The Win/Loss Curve</h3>
+
+			<p>Well, we can make a general prediction curve of win/loss percentage between two opponents of known skill level. I visualized our previous data with <a href="http://matplotlib.org/" target="_blank">matplotlib</a>, producing the curve below</p>
+
+			<img src="../images/projection/allvsall.png" />
+
+			<p>This is basically all of melee - given two players of variable skills, who wins? This graph is very interesting because it tips us off as to exactly how upset-heavy or volatile the game is as a whole<sup><a href="./projection_notes.html#sports" target="_blank">[3]</a></sup>. It's also appropriately zero-sum: if one player wins, the other must lose, so the graph must pass through 50% at skill difference = 0, and must be symmetric (if a player 2 levels higher has a 80% chance to win, then a player 2 levels lower has a 20% chance to win). These properties vanish once we start excluding certain datapoints, but it's kind of a neat thing to observe - what kind of curve is best for an esport? A game where skill is not a factor and victory is completely random isn't interesting, whereas a game where the better player wins 100% of the time isn't exciting, but where the curve best belongs is a cool thing to think about. Melee's seems to point to a 33% chance to upset, but I'd imagine a game like Smash 4 would be somewhat more upset-prone. <i>(I speak about Melee vs Traditional Sports in the <a href="./projection_notes.html#sports" target="_blank">notes</a>, if you're interested)</i></p>
+
+			<p>Anyways, hopefully you can already see where this is going. We can look at each of the characters and see roughly how they perform relative to everybody else (e.g. "Fox vs Everybody" or "Peach vs Everybody")</p>
+
+			<img src="../images/projection/FoxvsAll.png" />
+
+			<p>The really interesting thing about these curves is just how many of them cross 50% around skill difference = 0. I suppose on some level it's pretty obvious that any given person in any tier would have roughly 50% winrate vs anybody else in that tier, but it's kind of neat to see exactly how viable many of these characters really seem to be. Of course, this data doesn't necessarily capture the elite level (although it does really only capture national level and higher), and also obviously won't account for hypothetical "held back by character" arguments like "Abate would be so good if he was as good at Fox as he was at Luigi" but personally I don't really think the latter is that important anyways.</p>
+
+			<p>From this we can kind of narrow down our usable character list to ones that don't seem to suffer from a lack of data<sup><a href="./projection_notes.html#global" target="_blank">[4]</a></sup>. For example, Fox obviously has plenty of data whereas Yoshi definitely does not.</p>
+
+			<img src="../images/projection/YoshivsAll.png" />
+
+			<p>My personal favorite among these is Ice Climbers, who seems have enough data and forms a loose correlation between skill and winrate, but is so much more all over the place compared to anybody else. Of the charts with enough data to not be thrown out, ICs seem to be the most volatile with the weakest connection between skill and winrate, which I suppose explains the frequent upsets performed by ICs players and against ICs players (lint vs Dizzkid, Kaeon vs Nintendude, Dizzkid vs M2K, Infinite Numbers vs MacD, etc just to name a few off the top of my head)</p>
+
+			<img src="../images/projection/ICsvsAll.png" />
+
+			<p>Let's say we want to know about only matches of Fox vs Peach. Well, we can get that! </p>
+
+			<img src="../images/projection/peachvsfox.png" />
+
+			<p>So if you want to talk about &quot;the Fox vs Peach matchup&quot;, you are almost always talking about the middle point there, where skill difference ~= 0. If the odds of winning vs Peach as Fox, all else held equal, is 60%, then Fox performs vs Peach as, effectively, a 60-40 matchup (this doesn't necessarily match theory or ideal play, though!). However, that's not really how competition works in a vaccuum - sometimes you win against players better than you, and sometimes you lose against players worse than you. And in those cases, it's interesting to see what kind of probabilities you have<sup><a href="./projection_notes.html#matchups" target="_blank">[5]</a></sup>.</p>
+
+			<p>Sadly, for the most part there wasn't really enough data in this set to make very many confident conclusions<sup><a href="./projection_notes.html#trend" target="_blank">[6]</a></sup> about matchups, but that would certainly change with more matches and a larger dataset.</p>
+
+			<p>So, aside from looking at winrate at roughly equal skill, what can we learn here?</p>
+
+			<h3>Analysis at Skill Variations</h3>
+
+			<p>Well, <img class="inline" src="../images/projection/getupset.gif" /> will give you the total expected win/loss rate against players worse than you, and likewise <img class="inline" src="../images/projection/upsetsomeone.gif" /> will return the win/loss rate against players better than you. We can call the former &quot;consistency rate&quot; and the latter &quot;upset potential&quot;</p>
+
+			<p>It's possible certain characters are more consistent, or more prone to pulling upsets, and it would be useful to know which characters have this property. We can apply this on each character's global curve to get "volatility ratings". If we had more data, we could also use this to generate a matchup spread that is heatmapped for these values, and check out these values at a glance. We'd have a real, quantifiable way to gauge the volatility of a matchup!</p>
+
+			<p>From here it becomes more of a selective game on who the best performing character really is - do you value strong matchup spread, or more consistency? Do you want a better shot at upsetting skilled opponents, or do you want to lose as little as possible to people beneath you? We can look at the complete picture of how everybody does against everybody<sup><a href="./projection_notes.html#ratings" target="_blank">[7]</a></sup>. As you might expect, it turns out the floaties (e.g. Puff, Peach, Samus) have higher consistency rates, but interestingly the chance to pull upsets has no clear pattern to it</p>
+
+			<p>Here's where the fun starts, though. Now that we have all this neat information, we can start making more accurate projections between player A and player B.</p>
+
+			<p>If the two players have matches in our database, we can put a lot of weight into their <b>previous encounters</b> and use that to project who will win. However, we can still use past data even if the two have never played before; if we know that in character X vs character Y, all else being held equal, character X has a <b>better matchup</b>, then we can give the nod to player A, who plays character X. We can loosely control for <b>&quot;being good or bad at a matchup&quot;</b>, too.</p>
+
+			<p>This is a lot of variables, but luckily we have a pretty good sized training set and can just use machine learning!</p>
+
+			<p>For the classifier, I used <a href="http://scikit-learn.org/stable/" target="_blank">scikit-learn</a> and built the classifier around <a href="http://scikit-learn.org/stable/modules/tree.html" target="_blank">Decision Trees</a>, mostly because that was the simplest model for the simplest version of this project<sup><a href="./projection_notes.html#tree" target="_blank">[8]</a></sup>.</p>
+
+			<p>I'm interested to see how much data is actually usable (at least in it's current state) but the very basic-level features we can use are the following<sup><a href="./projection_notes.html#features" target="_blank">[9]</a></sup>:</p>
+			<table border=1 style="width:100%">
+				<tr>
+					<td>Player 1</td>
+					<td>Player 2</td>
+					<td>Skill Difference</td>
+					<td>Individual Record</td>
+					<td>P1's Character</td>
+					<td>P2's Character</td>
+					<td>Winner</td>
+				</tr>
+				<tr>
+					<td>Mango</td>
+					<td>Wizzrobe</td>
+					<td>+2</td>
+					<td>5-0</td>
+					<td>Fox</td>
+					<td>Falcon</td>
+					<td>Mango</td>
+				</tr>
+				<tr>
+					<td>MacD</td>
+					<td>Nintendude</td>
+					<td>-1</td>
+					<td>1-1</td>
+					<td>Peach</td>
+					<td>Ice Climbers</td>
+					<td>MacD</td>
+				</tr>
+			</table>
+
+			<p>It doesn't quite have enough data to always be on the money, but it can use past matches and matchups to reasonably guess the result of matches between players that have never played before, even if the classifier is told they are of equal skill.</p>
+
+			<p>Using this kind of classifier with data about matchups might shed a bit more light on what the difference is between &quot;being good at a matchup&quot; vs &quot;playing a good matchup&quot;. If you're good at a matchup that everybody else is good at just as much as you, then you aren't actually any better than normal, you just play a character who performs better in the current metagame. Why did player X start being able to beat player Y? Is it because they learned that specific matchup? Or did they just get better accross the board?</p>
+
+			<img src="../images/projection/circle.png" />
+
+			<p>This isn't perfect though (In it's current form it's too simple to be perfect) and comes with some grains of salt.</p>
+
+			<p>Caveats: 
+
+			<ul>
+				<li>Nobody improves - and this is a big limitation to version 1.0 of this algorithm. A win vs some players in early 2015 just isn't as valuable as a win vs them in 2016, but under this algorithm it would be. This would be fixable (<i>simply</i>, but not necessarily easily) by making the skill tier calculation happen on a rolling basis (i.e. after every tournament), but that would require more work and this is just a proof of concept right now.</li> 
+				<li>This only uses data from very big tournaments, because people sandbag at locals / people go random characters to experiment / it's messy to judge the whole world on them</li>
+				<li>This assumes everybody always plays the same character, and that playing a more advantageous matchup with a character you're worse at is roughly equal to playing your main in a bad matchup. I have no real reason to believe the latter aside from it making things somewhat more convenient, but without access to what everybody played in every match in every set then I don't have a good way to provide input otherwise (I am only one person!) If this sort of thing were applied to, say, smashgg or Tafokints, where they have countless brackets with characters already in a database, this assumption wouldn't be needed at all!</li>
+				<li>&quot;Overrepresentedness&quot; is worth nothing. This model assumes that many foxes and few puffs is due to people simply wanting to play fox and not wanting to play puff - this is a direct measure of &quot;best performing characters&quot; as opposed to &quot;best characters&quot; since the former is objective and the latter is subjective</li>
+			</ul>
+
+			<h3>Performance</h3>
+
+			<p>I compared this to the smash.gg projected bracket at Shine 2016. At this tournament, the projected bracket was always advancing the higher seed, although some players had higher/lower seeds than expected because they beat/lost to certain players and "stole" their seeds in pools. The classifier I trained didn't have access to the seeding (and obviously didn't have access to the results of the testing data), but had access to each players' character and match history at previous nationals.</p>
+
+			<p>The classifier performed identical to the smash.gg projected bracket except for the following predictions:</p>
+
+			<ul>
+				<li>Captain Smuckers < Son2</li>
+				<li>Reno < Crunch</li>
+				<li>Plup < SFAT</li>
+				<li>Plup < Lucky</li>
+				<li>S2J < Azusa</li>
+				<li>M2K < Swedish Delight</li>
+				<li>Infinite Numbers < Wobbles</li>
+				<li>KJH < Wobbles</li>
+				<li>dizzkid < Wobbles</li>
+				<li>Kage < Prince Abu</li>
+				<li>The Moon < Prof Pro</li>
+				<li>Reno < Tafokints</li>
+				<li>Nintendude < MacD</li>
+				<li>Hbox < Mango</li>
+			</ul>
+
+			<p>Of these 14 disagreements, smash.gg was correct for 5 of them and the classifier was correct for 9 of them, which is a marginally better yet still quite successful result considering the relatively small amount of data and few features used.</p>
+
+			<p>There are some "errors" here that I don't think are from flaws with the classifier, particularly the projection of Swedish Delight over Mew2King. Although this is obviously not what happened at this tournament (Mew2King destroyed Swedish), Swedish Delight had a winning record against Mew2King before this tournament. The classifier was basically told "Sheik Player 1 is slightly stronger than Sheik Player 2, but Sheik Player 2 ususally wins" and predicted that Player 2 would win, which I think is pretty reasonable.</p>
+
+			<p>Some other fun observations:</p>
+
+			<ul>
+				<li>This regularly predicts rather large upsets on Falcon players</li>
+				<li>This classifier somewhat overrates Mango, likely because of favorable matchups against players he normally gets seeded under (Fox vs Puff, Fox vs Peach)</li>
+				<li>This classifier doesn't seem to think Peach vs Puff is that bad for Peach, which is almost certainly because all of Armada's wins over Hbox are marked as Peach vs Puff</li>
+				<li>I'm pretty impressed that it managed to guess the seeding so accurately, especially considering the information it had about skill levels was very handwavey</li>
+			</ul>
+
+			<p>Overall a pretty cool result for such a simple classifier</p>
+
+			<h3>Further Applications</h3>
+
+			<p>You can also get really detailed portaits of each player's strengths and weaknesses, and use this data to build cool radar charts<sup><a href="./projection_notes.html#radar" target="_blank">[10]</a></sup>.</p> 
+
+			<img src="../images/projection/radar.png" />
+
+			<p>I'd enjoy building some sort of app where you can look at each player, see their win record / what they're extra good/bad at (and I might do that on a smaller scale for New England), but it's a bit too much work for one person and I'm pretty content with this project for now.</p>
+
+			<i>posted on 9/11/16</i>
+			<br >
+			<a href="#top">Back to Top</a>
+		</div>
+	</body>
+</html>
