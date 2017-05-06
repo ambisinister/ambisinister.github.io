@@ -49,6 +49,17 @@
 
 			<h2>Hardware</h2>
 
+			<p>Accomplishing this from a hardware perspective is simple enough, and most of what is necessary for a prototype for this controller is readily available and open source (which is extremely convenient!).</p>
+
+			<p>For this project I'll be using an Adafruit Pro Trinket 5V, which is a small 5 Volt microcontroller that's compatible with most typical Arduino sketches. Since we can use Arduino sketches, we can use the Gamecube Controller libraries used in most projects like this, namely the <a href="https://github.com/NicoHood/Nintendo" target="_blank">nicohood</a> Gamecube Controller Adapter library and loosely adapt <a href="https://github.com/SimpleControllers/SimpleControllersBuild-a-Box" target="_blank">SimpleControllers' DIY Smashbox</a> project for our purposes.</p>
+
+			<img src="https://cdn-learn.adafruit.com/assets/assets/000/025/646/medium800/adafruit_products_pro5.png?1432753967" />
+
+			<p>I bought a random third party controller on Amazon for ~$9 and used it for the shell + the cable (since it was labelled and saved me the trouble of figuring out which color was what on a GCC extension cable). I got a few Wii Nunchuck controllers and rewired them so that I could use them for this project. Then I got the pro trinket working on a breadboard, testing each button and analog axis one at a time. Once I was fairly confident I was all set I got to work on getting it to fit inside a shell.</p>
+
+			<p>[[beyond this point still in progress]]</p>
+
+			<p>I took detailed measurements of the third party controller's PCB, and fleshed out a pinout for the pro trinket. I designed a PCB layout of this shape in <a href="http://fritzing.org/home/" target="_blank">Fritzing</a> and hopefully will find some way to get it manufactured. I plan on ordering some Omron D2F Switches and figuring out some way to mount them on the buttons once they're soldered onto the PCB.</p>
 
 			<h2>Software</h2>
 
@@ -80,7 +91,7 @@
 
 			<p>The most likely answer to this is to have one trigger wired to digital press and one trigger wired to lightpress. You can do this on an OEM controller with some slight modification, so this would be almost unquestionably legal. However, you can't quit out of matches if you do this (surprisingly deal-breaking: I did the aforementioned mod for Slox and this bothered him so much he ended up switching off it despite finding it very useful) and I personally use digital press L and R for different things (e.g. powershielding with L and wavedashing with R) so I wouldn't really like needing to reprogram my muscle memory like that.</p>
 
-			<p>The pipe-dream answer is to just abuse the fact that there are two triggers on a gamecube controller. The L button returns digital L, the R button returns digital R, and pressing both returns a lightshield L/R. It's a little clunky and makes wavedashing OOS from a lightshield a bit complicated, and flirts with the line of "macro" a bit too much for my tastes, but it's what I'm doing with for now just because I think it sounds the most interesting.</p>
+			<p>Another fun answer is simply abusing button combinations that normally don't do anything, similar to what the 20XX hack pack does. This could mean something like activating lightshield when a trigger + the B button is pressed, since normally pressing B while in shield does nothing. This treads the line between macro and button a bit much to my liking, but it's worth playing around with just for fun.</p>
 
 			<h3>Solving the Problem of Shield Dropping</h3>
 
@@ -114,6 +125,10 @@
 			<p>Aside from just being really excited at the prospect of having a perfect gamecube controller and the primal satisfaction I got from manufacturing my own controller (holy moly!) I hope that this spurs community figureheads to come to a conclusion about this controller business once and for all. If this controller ends up being legal I might consider something like a kickstarter since I'm certain this kind of controller appeals to a much wider audience than the smashbox.</p>
 
 			<p>At the very least, it's comforting to know that Melee will not die if Nintendo elects to stop making Gamecube controllers. We can always just make more ourselves.</p>
+
+			<i>posted on 4/12/2017</i>
+			<br >
+			<a href="#top">Back to Top</a>
 
 		</div>
 	</body>
