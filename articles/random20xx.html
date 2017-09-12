@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>20XX Randomized Savestates</title>
+		<link href="../css/index.css" type="text/css" rel="stylesheet" />
+		<link rel="shortcut icon" href="../images/shine.ico"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="../scripts/scroll.js"></script>
+	</head>
+	<body>
+		<div class="header">
+			<h1>Eryk Banatt</h1>
+			<p>Cognitive Science Student, CS Enthusiast, Melee Player, Button Presser</p>
+				<nav class="nav" id="bar">
+					<hr />
+					<ul>
+						<li><a href = "../index.html">Home</a></li>
+						<li><a href = "../about.html">About/Contact</a></li>
+						<li><a href = "../projects.html">Projects</a></li>
+						<li><a href = "../melee.html">Melee</a></li>
+						<li><a href = "../links.html">Links</a></li>
+						<li><a href = "../resume.pdf">Resume</a></li>
+					</ul>
+					<hr />
+				</nav>
+		</div>
+
+		<div class="pagetext">
+
+			<h1 id="20xx406savestateworkflowindolphin">20XX 4.06 Savestate Workflow in Dolphin</h1>
+
+				<h2 id="intro">Intro</h2>
+
+				<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">finally got around to writing an autohotkey script to randomly switch between replays and now I&#39;m no longer the worst fox at armada shining <a href="https://t.co/DFG8mK640q">pic.twitter.com/DFG8mK640q</a></p>&mdash; Eryk (@Ambisinister_) <a href="https://twitter.com/Ambisinister_/status/906309920387190784">September 9, 2017</a></blockquote>
+
+				<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+				<h3 id="help">Help</h3>
+
+				<p>Putting this at the very top to hopefully increase engagement: this is extremely imperfect and there are a few potential improvements that could be done to make it better. Here are a few of those potential improvements, and if you know of a solution to them please get in contact with me so that I can update this and have it be a better resource.</p>
+
+				<ul>
+				<li>Using Wii U mode Gamecube Controller inputs to trigger actions in autohotkey
+
+
+				<ul>
+				<li>right now I've been using two solutions, both sort of clunky - you can press a key on your keyboard to randomly switch between replays, or you can randomly switch between replays every X seconds. Ideally you would just press D-Pad Left and get a random dolphin savestate, but I don't know how to do this using Wii U mode since Windows doesn't seem to detect it as a joystick and I'm admittedly kind of an autohotkey noob.</li></ul>
+				</li>
+
+				<li>Using FasterMelee with similar input lag compared to console, without using Netplay Lobby
+
+
+				<ul>
+				<li>The standard solution to artificially inserting lag frames in FasterMelee (since it has less input lag than console) is to enter a netplay lobby by yourself and crank buffer up. This is fine, except for the fact that savestates are disabled in the netplay lobby, rendering this useless. If you know of a workaround for this (or, potentially, if you're on the FM team and would consider adding a super-hidden "enable savestates in netplay" option), please get in contact with me.</li></ul>
+				</li>
+				</ul>
+
+				<h3 id="usefulpractice">Useful Practice</h3>
+
+				<p>4.06/4.07 is likely the most important non-sentient tool you have to work on specific scenarios in your game, and doing this in Dolphin will allow you greater control over your savestate workflow which will save you time and greatly streamline your practice sessions. </p>
+
+				<p>A big problem you'll frequently run into doing 4.06 practice on console is the limitation that comes with only being able to do one replay at a time. This means that every time you turn the console off you need to redo the entire replay, and every time you switch up what you're practicing your old replay is lost. This is an enormous timesink, especially if you spend a lot of time crafting a really detailed replay, practice a single situation for maybe a half hour or so, and then replace it with something completely different. </p>
+
+				<p>The solution here is to use dolphin savestates - you can make your replay, save a state in dolphin with the replay running, make another replay, save a <em>different</em> state with <em>that</em> replay running, so on and so forth until you have up to ten concurrent replays in different savestate slots. You can preserve the replays forever this way, since they get stored as GALE01.sxx (where xx is the number slot it is, from 01 to 10). Savestates are around 17MB each, which is fairly large but you can still build yourself a pretty sizable collection assuming you have the hard drive space for it (for comparison, 880 savestates is about the same size as Overwatch).</p>
+
+				<p>Another nice thing about this is that you can practice mixup situations this way, using a simple randomized autohotkey script. So if you have the same situation with 7 different variations (e.g. the same recovery with 7 firefox angles) then you can practice reacting to the angle, timing your input, and edgeguarding. </p>
+
+				<p>You can build up a database of drillable situations and copy-paste replays into the root StateSaves directory (and re-rename it to GALE01.sxx of course) which saves you plenty of time and increases the longevity of your replays. You can now focus on making your replays as detailed as possible and get accurate practice on that situation forever, instead of rushing through it just to stay vaguely sharp at it. </p>
+
+				<h2 id="workflow">Workflow</h2>
+
+				<p>Steamlining this process is pretty straightforward, but requires you to learn a workflow that might be a bit complicated at first. This also assumes you're comfortable making replays normally in 20XX, so if you're not then you should <a href="https://www.youtube.com/playlist?list=PLu-bIFnbffA8qmGlJmzqtD0Tnpj1xnLxf">watch these</a>.</p>
+
+				<h3 id="preppingreplays">Prepping replays</h3>
+
+				<p>First, you'll want to turn off in-game music. The last thing you want is to associate a certain timing with a specific part of the dreamland theme, instead of actually practicing reacting to specific mixups - just practice with your own music in the background. You can use the "Game Music OFF" Gecko code, but keep in mind that any replays you make without this code don't super play nice when you enable this. You'll also want to turn off stuff like rainbow FD, or just things that would tip you off which replay was which before you had a practicable cue to do so.</p>
+
+				<p>Next, you'll want to create your replay scenario up until the "branch point". To truly create good mixup replays, you'll want the first parts of each replay to be completely identical - I usually create a replay with a single setup leading up to it (i.e. both characters spotdodge) and then make multiple savestates on the frame where you want the replays to become different.</p>
+
+				<p><img src="../images/ahk20xx/start_01_splitpoint.png" alt="" /></p>
+
+				<p>Then, for each alternate path, do the following:</p>
+
+				<ul>
+				<li>complete the replay</li>
+
+				<li>switch opponent to "Playback"</li>
+
+				<li>make your controller control yourself, another controller control your opponent</li>
+
+				<li>load the replay + save over the "branching path" savestate</li>
+				</ul>
+
+				<p><img src="../images/ahk20xx/start_02_save.png" alt="" /></p>
+
+				<p>This is a bit much to get through text so here's a short video in which I create a few replays to practice reacting to shffl nair in the fox ditto in order to trade with upsmash. (note: forgot to turn off rainbow FD, whoops). Making 5 replays this way took 9 minutes and that's even with me completely botching one and having to redo it, so it's pretty quick once you get the hang of it.</p>
+
+				<iframe width="560" height="315" src="https://www.youtube.com/embed/xcCQ6zFPuN8" frameborder="0" allowfullscreen></iframe>
+
+				<p>To be used in dolphin, you need to have the savestates in your dolphin directory in /dolphin/User/StateSaves, saved as GALE01.sxx - you can rename savestates that are in s01 format to, say, s10 with no issue. So, once you make your savestates, you can copy these files somewhere and rename them, and using them again is just a matter of recopying them back to the /StateSaves/ root. </p>
+
+				<p>Personally, I've started building a small database of replays to use whenever I want to practice something specific.</p>
+
+				<p><img src="../images/ahk20xx/database.png" alt="" /></p>
+
+				<h3 id="scripting">Scripting</h3>
+
+				<p>First and foremost, you'll want to download <a href="https://autohotkey.com/">AutoHotkey</a>. What this program does is allow you to create basic macros for your computer - map a certain button combination to a button, randomly select between keypresses, move files around your computer, the whole shebang. We're going to learn to write scripts to randomly swap between replays, which will let us practice a replay without 100% knowing which replay we are practicing. The random switching between them roughly emulates the <a href="https://www.youtube.com/watch?v=4IoMUGFE46U">function of the programmable dummy in training mode of other fighting games</a>, which is a pretty useful feature to have.</p>
+
+				<p>Your basic building blocks are:</p>
+
+				<ul>
+				<li>Loop, {}</li>
+
+				<li>random, key, 1, 4 (you can replace with whatever numbers)</li>
+
+				<li>Send { %key% down } / Send { %key% up }</li>
+
+				<li>Sleep xxxx (replace xxxx with some number)</li>
+				</ul>
+
+				<p>The level of difficulty of this script is about as basic as you could want - the only annoying stipulations are that you need to explicitly tell ahk to <em>hold</em> the key down for a short while since sometimes just sending the number will not trigger the replay. </p>
+
+				<p>An example of a script with three replays would be the following</p>
+
+				<script src="https://gist.github.com/ambisinister/db13662c2b03df2b1b06d48b6da08364.js"></script>
+
+				<p>You also might want to manage your savestates automatically instead of manually copying and pasting them to the StateSaves folder. This, too, is pretty trivial in ahk. You can even try automating a practice routine, which is a little tedious to configure (you need to manually figure out times for each replay, or press a key on your keyboard to advance to the next replay) but an example of that might look like this</p>
+
+				<script src="https://gist.github.com/ambisinister/f52da94ac89d855ba2f8d3679734a2cf.js"></script>
+
+				<h3 id="potential">Potential</h3>
+
+				<p>If this gets fleshed out or streamlined, it could be a noticeable improvement to how you go about practicing certain situations. While it's already possible to practice reacting to certain things using 4.06 (techchasing comes to mind), being able to arbitrarily map out a decision tree and randomly select between them lends a great deal of extra power to practicing with replays.</p>
+
+				<p>If any noticable improvements to this idea are made, I'll update this document with them. As I mentioned earlier, if you have a solution to the input lag / WiiU-GCC-Adapter -> AHK interfacing, <em>please</em> don't hesitate to get in contact with me.</p>
+
+				<p><i>Posted 9/11/17</i></p>
+				<p><a href="#top">Back to Top</a></p>
+
+		</div>
+
+	</body>
+
+</html>
