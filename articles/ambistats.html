@@ -37,15 +37,15 @@
 
 			<p>I was interviewed briefly for <a href="">ESPN esports</a> about the inner workings of Melee Stats, and by far the most frequent criticism that our group received was “why don’t you just use an objective system to do ranks?”</p>
 
-			<p><img src="" alt="../images/ambistats/reddit_kid.png"></p>
+			<p><img src="../images/ambistats/reddit_kid.png" alt=""></p>
 
 			<p>The short answer to this is “well, we’ve tried, and it doesn’t work well.” The long answer is that most of these Rating algorithms are not well-suited either for melee or for double-elimination formats. For example, here is ELO run on the database</p>
 
-			<p><img src="" alt="../images/ambistats/top_50_according_to_reddit_kid.png"></p>
+			<p><img src="../images/ambistats/top_50_according_to_reddit_kid.png" alt=""></p>
 
 			<p>And here is the top 10 with Glicko-2 run on the database</p>
 
-			<p><img src="" alt="../images/ambistats/glicko_sucks_too.png"></p>
+			<p><img src="../images/ambistats/glicko_sucks_too.png" alt=""></p>
 
 			<p>I played chess in tournament for several years before playing melee, and I also frequently thought about how nice it would be if there were some publicly available ratings system in melee. However, there’s three basic roadblocks to allowing these systems from working well: match misparity, Claude Bloodgood syndrome, and win appraisal.</p>
 
@@ -53,7 +53,7 @@
 
 			<p>Something people often neglect when making the suggestion to use ELO is that ELO functions by <a href="https://en.wikipedia.org/wiki/Elo_rating_system">projecting the wins and losses you will have across a tournament</a> given how many matches you play, a number which is a constant in Swiss format and a variable in Double Elimination. Below is the update function for ELO, which in plain english is “your rating is adjusted by the difference between your actual and expected scores, multiplied by a constant K”</p>
 
-			<p><img src="" alt="../images/elo_update.png"></p>
+			<p><img src="../images/elo_update.png" alt=""></p>
 
 			<p>Double elimination inherently requires more matches played in losers, so not only do all the players have different number of matches, but even two players playing in the same round of losers usually have played a different number of matches to reach that spot. Not only that, but every player will have the same number of set losses every tournament except for the single winner of the tournament. So, imagine a local tournament featuring Mang0. Our formula would predict that he ought to come out of this tournament with five wins and no losses. If he loses round 1 and plays ten sets in losers to win the tournament, this is obviously a horrendous performance for Mang0 but a wildly rewarded one using ELO (10 &gt; 5). You can try predicting it match by match and use percent chance to win (which is what online chess clubs like ICC use), but this leaves a lot to be desired in practice and also simply misses the point entirely: ELO is structured around players having a roughly equal number of games each tournament, and double elimination means that placements and number of matches played are always different. ELO, and it’s commonly used variants like Glicko-2 or trueskill simply aren’t well-suited for the format used in Melee tournaments.</p>
 
@@ -162,11 +162,11 @@
 
 			<p>Melee Stats, spearheaded by <a href="https://www.twitter.com/ssbmdingus?lang=en">Dingus</a>, is frequently recruited to provide input on seeding for national tournaments. The way seeding gets done is that players get placed into broad tiers, and then those tiers are then fed into pools, attempting to avoid region conflicts or repeat matches from recent tournaments. Visualizing each tier’s winrate against across all the tiers is a little messy…</p>
 
-			<p><img src="" alt="../images/ambistats/winrates_bad.png"></p>
+			<p><img src="../images/ambistats/winrates_bad.png" alt=""></p>
 
 			<p>…but if we plot winrate in a third dimension it yields this very pretty gradient:</p>
 
-			<p><img src="" alt="../images/ambistats/winrates_good.png"></p>
+			<p><img src="../images/ambistats/winrates_good.png" alt=""></p>
 
 			<p>The seeding tiers are remarkably consistent, even at the lower levels (mostly thanks to <a href="twitter.com/tl343?lang=en">Algebra</a> and Dingus’ insanely wide knowledge of the game’s mid-level playerbase).</p>
 
@@ -180,14 +180,14 @@
 
 			<p>As a demo, let’s try to classify every player that has any games against any player with a tier. I ran this tiering twice, once straight through and once several times tier by tier (so that wins against unclassified high tier players isn’t ignored for low level players, providing more data), yielding the following results, respectively:</p>
 
-			<p><img src="" alt="../images/ambistats/winrates_autotag_simple.png"></p>
-			<p><img src="" alt="../images/ambistats/winrates_autotag_multi.png"></p>
+			<p><img src="../images/ambistats/winrates_autotag_simple.png" alt=""></p>
+			<p><img src="../images/ambistats/winrates_autotag_multi.png" alt=""></p>
 
 			<p>The gradient is substantially worse, but it’s still there - this is a decent starting point.</p>
 
 			<p>Here’s the same code run on only players with more than five won matches against players with tiers lower than nine. This <em>should</em> return a graph with a less noisy gradient, while only sacrificing the lower level data with fewer results to account for them.</p>
 
-			<p><img src="" alt="../images/ambistats/winrates_autotag_final.png"></p>
+			<p><img src="../images/ambistats/winrates_autotag_final.png" alt=""></p>
 
 			<p>And indeed, it tiers a number of players, bringing us up to 5799 matches between them while maintaining the gradient. This is a pretty solid result, and we can use this to examine some interesting trends in the data.</p>
 
