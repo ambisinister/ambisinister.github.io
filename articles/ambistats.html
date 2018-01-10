@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ambistats</title>
+		<link href="../css/index.css" type="text/css" rel="stylesheet" />
+		<link rel="shortcut icon" href="../images/shine.ico"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="../scripts/scroll.js"></script>
+	</head>
+	<body>
+		<div class="header">
+			<h1>Eryk Banatt</h1>
+			<p>Cognitive Science Student, CS Enthusiast, Melee Player, Button Presser</p>
+				<nav class="nav" id="bar">
+					<hr />
+					<ul>
+						<li><a href = "../index.html">Home</a></li>
+						<li><a href = "../about.html">About/Contact</a></li>
+						<li><a href = "../projects.html">Projects</a></li>
+						<li><a href = "../melee.html">Melee</a></li>
+						<li><a href = "../links.html">Links</a></li>
+						<li><a href = "../resume.pdf">Resume</a></li>
+					</ul>
+					<hr />
+				</nav>
+		</div>
+
+		<div class="pagetext">
+
+			<h1 id="illusionobjectiveranks">Making Sense of Melee: The Illusion of Objective Ranks and the Real Impact of Everything</h1>
+
+			<p><i>Draft: v0.8 | Posted: 1/9/2018 | Updated: 1/9/2018 | confidence of success: 85% | estimated time to completion: 1/15/2018 | importance: High</i></p>
+
+			<p>A while has passed since I did my project <a href="./groundwork_for_projection_algorithm.html">predicting tournament matches</a> at Super Smash Brothers tournaments with Machine Learning. Since then, I’ve gotten involved with the <a href="http://www.espn.com/esports/story/_/id/20580441/smash-bros-seeding-not-secretive-suspected">Melee Stats</a> group, and eventually decided it would be appropriate to revisit this project on a somewhat larger scale  - a more technically ambitious version of the last one, with more data, better visualization, and substantially more practical application.</p>
+
+			<h3><a id="Why_dont_you_just_use_ELO_4"></a>“Why don’t you just use ELO?”</h3>
+
+			<p>I was interviewed briefly for <a href="">ESPN esports</a> about the inner workings of Melee Stats, and by far the most frequent criticism that our group received was “why don’t you just use an objective system to do ranks?”</p>
+
+			<p><img src="" alt="../images/ambistats/reddit_kid.png"></p>
+
+			<p>The short answer to this is “well, we’ve tried, and it doesn’t work well.” The long answer is that most of these Rating algorithms are not well-suited either for melee or for double-elimination formats. For example, here is ELO run on the database</p>
+
+			<p><img src="" alt="../images/ambistats/top_50_according_to_reddit_kid.png"></p>
+
+			<p>And here is the top 10 with Glicko-2 run on the database</p>
+
+			<p><img src="" alt="../images/ambistats/glicko_sucks_too.png"></p>
+
+			<p>I played chess in tournament for several years before playing melee, and I also frequently thought about how nice it would be if there were some publicly available ratings system in melee. However, there’s three basic roadblocks to allowing these systems from working well: match misparity, Claude Bloodgood syndrome, and win appraisal.</p>
+
+			<h4><a id="Match_Misparity_20"></a>Match Misparity</h4>
+
+			<p>Something people often neglect when making the suggestion to use ELO is that ELO functions by <a href="https://en.wikipedia.org/wiki/Elo_rating_system">projecting the wins and losses you will have across a tournament</a> given how many matches you play, a number which is a constant in Swiss format and a variable in Double Elimination. Below is the update function for ELO, which in plain english is “your rating is adjusted by the difference between your actual and expected scores, multiplied by a constant K”</p>
+
+			<p><img src="" alt="../images/elo_update.png"></p>
+
+			<p>Double elimination inherently requires more matches played in losers, so not only do all the players have different number of matches, but even two players playing in the same round of losers usually have played a different number of matches to reach that spot. Not only that, but every player will have the same number of set losses every tournament except for the single winner of the tournament. So, imagine a local tournament featuring Mang0. Our formula would predict that he ought to come out of this tournament with five wins and no losses. If he loses round 1 and plays ten sets in losers to win the tournament, this is obviously a horrendous performance for Mang0 but a wildly rewarded one using ELO (10 &gt; 5). You can try predicting it match by match and use percent chance to win (which is what online chess clubs like ICC use), but this leaves a lot to be desired in practice and also simply misses the point entirely: ELO is structured around players having a roughly equal number of games each tournament, and double elimination means that placements and number of matches played are always different. ELO, and it’s commonly used variants like Glicko-2 or trueskill simply aren’t well-suited for the format used in Melee tournaments.</p>
+
+			<h4><a id="Claude_Bloodgood_28"></a>Claude Bloodgood</h4>
+
+			<p><a href="https://en.wikipedia.org/wiki/Claude_Bloodgood">Claude Bloodgood</a> is my favorite chess player, mostly because of how messed up of a human being he was. Bloodgood was a strong amateur chess player that was sentenced to death in the late 60s after murdering his mother, although his sentence was later changed to life in prison after the death penalty was ruled unconstitutional at the time in 1972. In prison, Bloodgood played thousands of rated games against other prison inmates, all of whom were awful, and won so many games that his rating inflated to 2759, making him the 2nd highest rated player in country (<a href="https://en.wikipedia.org/wiki/Bobby_Fischer">Bobby Fischer</a>, for comparison, retired at 2760). He eventually qualified for the US Chess Championship due to being one of the top 16 rated players, which made the US Chess Federation ultimately reconsider a lot of their rules with regards to how ratings functioned. There’s so many things about Claude Bloodgood that warrant their own post (his opening of choice, the Grob Attack, of which <a href="https://books.google.com/books/about/The_Tactical_Grob.html?id=wVKjQwAACAAJ">he wrote a book on</a>; his self-proclamation of being a Nazi spy during the war; his attempt to break out of prison after overpowering a guard at a chess tournament - the list is unending), but I’ll leave them for another time, or perhaps encourage <a href="https://twitter.com/jon_bois">Jon Bois</a> to do a video on him.</p>
+
+			<p>For our purposes, Bloodgood serves as a great example of “closed pool” rating abuse. You get inflated ratings by being the best player in your playerpool, even if your playerpool is a relatively weak one. Since so many regions in melee have players that don’t travel and simply beat up everyone in their region (Stango, Hanky Panky, Rudolph), its absurdly difficult to compare them in this way (just think of how different #5 in FL is from #5 in TN).</p>
+
+			<h4><a id="Win_Appraisal_34"></a>Win Appraisal</h4>
+
+			<p>In chess, go, and other frequently-elo-measured games, every player has a relatively static skill level against every other player. There aren’t really “King’s Gambit Mains” that have a tough time against “Pirc Defense Mains”. A win against an 1800 rated player is worth the same amount of points to one 1200 player as they are to another 1200 player. However, the existence of multiple characters in melee means that every win isn’t necessarily created equal - wins as peach against puff players are inherently more valuable than wins as fox against puff players, and so on. ELO is structured around the idea of all matches being worth the same amount, and thus misses the nuance when, say, lloD beats prince abu, a player ranked lower than him.</p>
+
+			<p>This is the weakest point, of course, since this is a highly debatable assertion and it’s not always clear which matches are valuable since everybody’s matchup chart is a little different. Usually people agree on the big imbalances (most people agree that peach loses to jigglypuff) but even at top level certain matchups are assessed wildly differently.</p>
+
+			<h3><a id="Objectivity_40"></a>Objectivity</h3>
+
+			<p>I do not believe in objectivity in rankings.</p>
+
+			<p>This is not to say I think <em>being objective</em> with regards to rankings is impossible, nor do I think “objective” tools serve no purpose (the tools I’ve written have already proven highly useful in generating baselines for seeding tournaments). No, more specifically I want to stress that “objective” ranking systems are much less objective than they actually seem, and the word “algorithmic” or “empirical” might be better.</p>
+			<p>It frustrates me to see people in the smash community treat measures like elo as “the truth” because they “don’t have any human input”. This simply factually incorrect - these so-called objective measures have as much human input as anything else, codified into the constants and design choices of their algorithms. Designing these things is as much an art as it is a science, and the choice on how to weigh placements, upsets, losses, consistency, peaks, and the like are all just that - choices, made by a human sitting in a chair with Sublime Text 3 open.</p>
+
+			<p>For instance - <a href="https://twitter.com/practicaltas/status/943894443173732352">PracticalTAS</a> has one of the more prominent, visible ranking algorithms (the output of which was submitted this year as a ballot for SSBMrank 2017). Unlike most similar algorithms, this ranking incorporates placings instead of just head-to-head. However, <em>unlike</em> head-to-head data, placings are highly a function of seeding, which is performed by humans. Imagine two players, the same skill level, that both place 49th at the same tournament. <em>By definition</em>, the player with a higher seed will have had an easier bracket to reach that placement (on average), meaning that incorporating placement disproportionately rewards players with higher seeds. This isn’t necessarily a bad thing, and indeed would loosely incorporate the seeding data into the rankings, “improving” them to be more like the seeding (assuming you generally agree with the seeding). The point here is that it ultimately boils back to human input, obfuscated by lines of code and decisions made before any numbers are ever crunched.</p>
+
+			<p>I think it would be much, much healthier if the community discarded this misconception of “true objectivity” altogether, because I can envision a future in which community members treat the algorithmic ranking overlord as something out of <em>psycho pass</em>.</p>
+
+			<p><em>“Well, I didn’t think Crush was the tenth best player in the world, but I am a human and the algorithm is free from bias, so I am the one who is wrong”</em></p>
+			<p>That said, data visualization is fun and being able to accurately synthesize all of the available information in a coherent way is valuable; keeping this in mind, we proceed.</p>
+
+			<h3><a id="Getting_Data_56"></a>Getting Data</h3>
+
+			<p>I scraped data off of <a href="http://smash.gg">smash.gg</a> using only NTSC brackets from 2017 that were listed in <em><a href="http://www.meleeitonme.com/category/whens-melee/">When’s Melee?</a></em>. I used BeautifulSoup4 instead of just using their API, not because it was easier but because I had most of the code written already.</p>
+			<p>Most of this process was automated, as <a href="http://smash.gg">smash.gg</a> occasionally has character data that was pretty straightforward to infer people’s mains and backwards-assign then to all their matches. Sacrificing some accuracy, we can also guess for the most part which character players choose against which characters, which was a huge problem with the 2015 version of this project - my old results listed peach puff as roughly 50-50 since armada and hungrybox had so many sets together, even though armada played fox in almost all of those matches. There might be errors in the inference, especially among players that select characters against specific players rather than characters, but broadly speaking it’s a lot more accurate this way.</p>
+
+			<h3><a id="Database_Design_62"></a>Database Design</h3>
+
+			<p>Like before, I put this data into a sqlite3 database.</p>
+
+			<p>There’s a number of ways you could go about doing this, depending on the goals you had in mind with what you will ultimately be doing with this data.</p>
+
+			<p>What I settled on for this was a set of three tables, with the following information in them:</p>
+
+			<p>Players</p>
+			<table class="table table-striped table-bordered">
+			<thead>
+			<tr>
+			<th>Tag</th>
+			<th>Character</th>
+			<th>Skill-level</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+			<td>lint</td>
+			<td>Falco</td>
+			<td>1</td>
+			</tr>
+			</tbody>
+			</table>
+			<p>Matches</p>
+			<table class="table table-striped table-bordered">
+			<thead>
+			<tr>
+			<th>winner</th>
+			<th>WCharacteer</th>
+			<th>loser</th>
+			<th>LCharacter</th>
+			<th>wins</th>
+			<th>losses</th>
+			<th>Event</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+			<td>lint</td>
+			<td>Falco</td>
+			<td>Captain Smuckers</td>
+			<td>Falcon</td>
+			<td>3</td>
+			<td>2</td>
+			<td>Smash Corner 77</td>
+			</tr>
+			</tbody>
+			</table>
+			<p>Tournaments</p>
+			<table class="table table-striped table-bordered">
+			<thead>
+			<tr>
+			<th>Event</th>
+			<th>Date</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+			<td>Smash Corner 77</td>
+			<td>20180103</td>
+			</tr>
+			</tbody>
+			</table>
+
+			<p>I can get most of the data I want this way by using joins between tables, and it’s fairly suitable for what I am doing - if I was doing this long-term for production (i.e. building something in which I could track people’s skill level over time) then I would probably add a WSkill and LSkill column, so that I could have access to the skill level of a player at any given event. This is beyond the scope of my project currently (especially considering the fact that I only collected</p>
+
+			<h3><a id="Tiering_Players_At_Every_Level_90"></a>Tiering Players At Every Level</h3>
+
+			<h4><a id="Melee_Stats_Seeding_92"></a>Melee Stats Seeding</h4>
+
+			<p>Melee Stats, spearheaded by <a href="https://www.twitter.com/ssbmdingus?lang=en">Dingus</a>, is frequently recruited to provide input on seeding for national tournaments. The way seeding gets done is that players get placed into broad tiers, and then those tiers are then fed into pools, attempting to avoid region conflicts or repeat matches from recent tournaments. Visualizing each tier’s winrate against across all the tiers is a little messy…</p>
+
+			<p><img src="" alt="../images/ambistats/winrates_bad.png"></p>
+
+			<p>…but if we plot winrate in a third dimension it yields this very pretty gradient:</p>
+
+			<p><img src="" alt="../images/ambistats/winrates_good.png"></p>
+
+			<p>The seeding tiers are remarkably consistent, even at the lower levels (mostly thanks to <a href="twitter.com/tl343?lang=en">Algebra</a> and Dingus’ insanely wide knowledge of the game’s mid-level playerbase).</p>
+
+			<p>[[heres a bunch more analysis of the general efficacy of melee stats seeding]]</p>
+
+			<p>So it’s fairly clear that this group has a very consistent track record for accurately placing players at their appropriate skill level. Furthermore, this group has a bunch of spreadsheets containing their work comparing players to other players, which is trivial to import into our database. We can leverage this by using MS tiers as a training set and see if we can’t figure out a way to auto-tag players’ skill levels based on their set history.</p>
+
+			<h4><a id="AutoTiering_with_Machine_Learning_108"></a>Auto-Tiering with Machine Learning</h4>
+
+			<p>So, for our purposes, we’d like a way to tier every relevant player in such a way that this general structure is preserved. This is a classic classification problem, and if we assign all of the attendees of a recent tournament (The Big House 7) to the tiers given to them by Melee Stats, we can generate a sizable training set.</p>
+
+			<p>As a demo, let’s try to classify every player that has any games against any player with a tier. I ran this tiering twice, once straight through and once several times tier by tier (so that wins against unclassified high tier players isn’t ignored for low level players, providing more data), yielding the following results, respectively:</p>
+
+			<p><img src="" alt="../images/ambistats/winrates_autotag_simple.png"></p>
+			<p><img src="" alt="../images/ambistats/winrates_autotag_multi.png"></p>
+
+			<p>The gradient is substantially worse, but it’s still there - this is a decent starting point.</p>
+
+			<p>Here’s the same code run on only players with more than five won matches against players with tiers lower than nine. This <em>should</em> return a graph with a less noisy gradient, while only sacrificing the lower level data with fewer results to account for them.</p>
+
+			<p><img src="" alt="../images/ambistats/winrates_autotag_final.png"></p>
+
+			<p>And indeed, it tiers a number of players, bringing us up to 5799 matches between them while maintaining the gradient. This is a pretty solid result, and we can use this to examine some interesting trends in the data.</p>
+
+			<p><em>Just as a brief aside - before anyone suggests that this be used without human curation, the tiering contained some serious misses likely due to sandbagging at locals (Null, for example, was listed as the highest possible tier). I’m confident this would be useful in a well-maintained regionals+ dataset (or tafostats) but for the mishmash of locals+ in this dataset it was certainly more of a broad prototype rather than a production-ready autoseeder.</em></p>
+
+			<h3><a id="Analysis_at_skill_variations_128"></a>Analysis at skill variations</h3>
+
+			<p>With this many sets, we can get a lot more interesting data about how matchups behave at different skill levels compared to 1835 sets like I did in the first version of this project.</p>
+
+			<p>We can also do a similar analysis for only top 100 data by doing (((rankwin-1)-(ranklose-1))%10) on ssbmrank data - tafokints did a similar analysis on <a href="https://esports.htc.com/articles/fox-vs-marth">Fox vs Marth</a> data which was great but ultimately fruitless at changing most people’s opinions.</p>
+
+			<h4><a id="Volatility_134"></a>Volatility</h4>
+
+			<p>One of the more popular aspects of the pilot version of this project was the correlation between skill and winrate. We can calculate R-squared for each of these skill-winrate functions and order them from most to least volatile</p>
+
+			<p>&lt;&lt;table&gt;&gt;</p>
+
+			<p>For instance, here is the most tightly correlated character between skill and winrate:</p>
+
+			<p><img src="" alt=""></p>
+
+			<p>And here is the least</p>
+
+			<p><img src="" alt=""></p>
+
+			<p>Loosely interpreted, less volatile characters perform more consistently across the board compared to other players of the same character that are of similar skill to them. More volatile characters can more frequently make bigger upsets at a lower skill level, but also open themselves up to be upset by players worse than them.</p>
+
+			<i>posted on 1/9/2018</i>
+			<br >
+			<a href="#top">Back to Top</a>
+		</div>
+	</body>
+</html>
