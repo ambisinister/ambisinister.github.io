@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>ambistats</title>
+		<title>Making Sense of Melee</title>
 		<link href="../css/index.css" type="text/css" rel="stylesheet" />
 		<link rel="shortcut icon" href="../images/shine.ico"/>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -30,7 +30,7 @@
 
 			<h1 id="illusionobjectiveranks">Making Sense of Melee: The Illusion of Objective Ranks and the Real Impact of Everything</h1>
 
-			<p><i>Draft: v1.0 | Posted: 1/9/2018 | Updated: 1/28/2018 | confidence of success: 85% | estimated time to completion: 1/15/2018 | importance: High</i></p>
+			<p><i>Draft: v1.1 | Posted: 1/9/2018 | Updated: 1/29/2018 | confidence of success: 85% | estimated time to completion: 1/15/2018 | importance: High</i></p>
 
 			<p>A while has passed since I did my project <a href="./groundwork_for_projection_algorithm.html">predicting tournament matches</a> at Super Smash Brothers tournaments with Machine Learning. Since then, I've gotten involved with the <a href="http://www.espn.com/esports/story/_/id/20580441/smash-bros-seeding-not-secretive-suspected">Melee Stats</a> group, and eventually decided it would be appropriate to revisit this project on a somewhat larger scale  - a more technically ambitious version of the last one, with more data, better visualization, and substantially more practical application.</p>
 
@@ -164,9 +164,9 @@
 
 			<h3 id="tieringplayersateverylevel">Tiering Players At Every Level</h3>
 
-			<h4 id="meleestatsseeding">Melee Stats Seeding</h4>
+			<h4 id="meleestatsseeding">Melee National Seeding</h4>
 
-			<p>Melee Stats, spearheaded by <a href="https://www.twitter.com/ssbmdingus?lang=en">Dingus</a>, is frequently recruited to provide input on seeding for national tournaments. The way seeding gets done is that players get placed into broad tiers, and then those tiers are then fed into pools, attempting to avoid region conflicts or repeat matches from recent tournaments. Visualizing each tier's winrate against across all the tiers is a little messy...</p>
+			<p><a href="https://www.twitter.com/ssbmdingus?lang=en">Dingus</a> and <a href="https://twitter.com/TL343">Algebra</a>, who have been seeding nationals since Genesis 3, teamed up with Melee Stats in 2017 to help with seeding larger tournaments. The way seeding gets done is that players get placed into broad tiers, and then those tiers are then fed into pools, attempting to avoid region conflicts or repeat matches from recent tournaments. Visualizing each tier's winrate against across all the tiers is a little messy...</p>
 
 			<p><img src="../images/ambistats/winrates_bad.png" alt="" /> </p>
 
@@ -174,7 +174,7 @@
 
 			<p><img src="../images/ambistats/winrates_good.png" alt="" /> </p>
 
-			<p>The seeding tiers are remarkably consistent, even at the lower levels (mostly thanks to <a href="https://twitter.com/TL343">Algebra</a> and Dingus' insanely wide knowledge of the game's mid-level playerbase).</p>
+			<p>The seeding tiers are remarkably consistent, even at the lower levels (mostly thanks to  and Dingus' insanely wide knowledge of the game's mid-level playerbase).</p>
 
 			<p>So it's fairly clear that this group has a very consistent track record for accurately placing players at their appropriate skill level. Furthermore, this group has a bunch of private spreadsheets containing their work comparing players to other players, which is trivial to import into our database. We can leverage this by using MS tiers as a training set and see if we can't figure out a way to auto-tag players' skill levels based on their set history.</p>
 
