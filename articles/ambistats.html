@@ -56,7 +56,7 @@
 
 			<p>Something people often neglect when making the suggestion to use ELO is that ELO functions by <a href="https://en.wikipedia.org/wiki/Elo_rating_system">predicting the number of wins and losses you will have across a tournament</a> given how many matches you play, a number which is a constant in Swiss format and a variable in Double Elimination. Below is the update function for ELO, which in plain english is "your rating is adjusted by the difference between your actual and expected scores, multiplied by a constant K"</p>
 
-			<p><img src="../images/elo_update.png" alt="" /></p>
+			<p><img src="../images/ambistats/elo_update.png" alt="" /></p>
 
 			<p>Double elimination inherently requires more matches played in losers, so not only do all the players have different number of matches, but even two players playing in the same round of losers usually have played a different number of matches to reach that spot. Not only that, but every player will have the same number of set losses every tournament except for the single winner of the tournament. So, imagine a local tournament featuring Mang0. We may predict that he ought to come out of this tournament with five wins and no losses. If he loses round 1 and plays ten sets in losers to win the tournament, this is obviously a horrendous performance for Mang0 but a wildly rewarded one using ELO (10 > 5). You can try retroactively predicting the number of points you <em>ought to</em> win given how many you played, but this also punishes players that win through winners and therefore play fewer matches - a 2000-rated player winning 3 points out of 5 against a [100, 2200, 2200, 2200, 2200] bracket is worth the same to ELO regardless of whether you beat the 100 or lost to them; in double elimination, losing to a 100-rated player R1 might net a 2000-rated player a longer but not much more difficult bracket run, something like [100, 1500, 1800, 1800, 2000, 2200, 2200, 2200], thereby rewarding the player slightly more for losing to the 100-rated player compared to losing to the 2200 player. You can <em>also</em> try predicting it match by match and use percent chance to win (which is what online chess clubs like ICC use), but this leaves a lot to be desired in practice and also simply misses the point entirely: ELO is structured around players having a roughly equal number of games each tournament, and double elimination means that placements and number of matches played are always different. ELO, and it's commonly used variants like Glicko-2 or trueskill simply aren't well-suited for the format used in Melee tournaments.</p>
 
@@ -265,7 +265,7 @@
 
 			<p>Plugging X = 0 into every regression function and ordering by average yields the following table.</p>
 
-			<p><img src="../images/ambistats/empirical_tier_list.png" alt="" /></p>
+			<img src="../images/ambistats/empirical_tier_list.png" alt="" />
 
 			<p>What a list! Definitely some highly wonky numbers in there - Fox with a roughly equal win percentage on Marths (which <a href="https://esports.htc.com/articles/fox-vs-marth">does not necessarily hold up</a> at the higher levels), Ice Climbers with a slight edge on Fox, Falcon with the highest average, and other peculiarities. Like last time, I'm struck by how close to 50/50 most of these matchups are, with some bigger exceptions. </p>
 
@@ -328,9 +328,8 @@
 
 			<p>My only big takeaways from looking are the data here are as follows:</p>
 
-			<pre><code>1. People are overreacting about matchup ratios and, more broadly, how viable [X] character is
-			2. Using computational methods to arrive at big conclusions about Melee suffer from lack of data, human intervention, or both
-			</code></pre>
+			<p>1. People are overreacting about matchup ratios and, more broadly, how viable [X] character is</p>
+			<p>2. Using computational methods to arrive at big conclusions about Melee suffers from lack of data, human intervention, or both<p>
 
 			<p>My big hope here is that people can read this and know that we <em>are</em> trying, and that the solutions to the problems in the Melee community <em>aren't</em> so easy. I've seen a lot of frustration being levied towards SSBMrank panelists, Tournament Seeders, Tafokints, Local and Regional Power Ranking Panels, Tournament Organizers, and so on. I'm hoping with this short writeup that at least some of this ire is abated by the assurance that there's tons of people working behind the scenes to make sure everything runs smoothly, and that everybody has the best experience possible. Oftentimes ideas that <em>sound</em> good at first (e.g. "use ELO to seed tournaments to eliminate exposure bias") simply fall apart after you actually try to implement them. The melee community isn't perfect, but at the end of the day most of us are just doing all of this because we like it, and having a degree of good faith that people are doing their best would do wonders for everybody. Melee is still grassroots enough for "normal people's" ideas to have some sway in the community, so if you think there is some big issue in the melee community then <a href="https://www.reddit.com/r/smashbros/comments/7rbx2j/assessing_west_coast_bias_on_ssbmrank_and_why_it/">examine the problem for yourself</a> and maybe you can make some small difference in this small community full of people who like the same thing you do.</p>
 
