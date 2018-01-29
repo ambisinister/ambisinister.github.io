@@ -48,7 +48,7 @@
 
 			<p>And here is the top 10 with Glicko-2 run on the database</p>
 
-			<p><img src="../images/ambistats/glicko_sucks_too.png" alt="" /></p>
+			<p><img src="../images/ambistats/glicko_sucks_too.jpg" alt="" /></p>
 
 			<p>I played chess in tournaments for several years before playing melee, and I also frequently thought about how nice it would be if there were some publicly available, widely-implemented ratings system in melee. However, there's three basic roadblocks to allowing these systems from working well: match disparity, Claude Bloodgood syndrome, and win appraisal.</p>
 
@@ -56,7 +56,7 @@
 
 			<p>Something people often neglect when making the suggestion to use ELO is that ELO functions by <a href="https://en.wikipedia.org/wiki/Elo_rating_system">predicting the number of wins and losses you will have across a tournament</a> given how many matches you play, a number which is a constant in Swiss format and a variable in Double Elimination. Below is the update function for ELO, which in plain english is "your rating is adjusted by the difference between your actual and expected scores, multiplied by a constant K"</p>
 
-			<p><img src="../images/ambistats/elo_update.png" alt="" /></p>
+			<p><img src="../images/ambistats/elo_update.PNG" alt="" /></p>
 
 			<p>Double elimination inherently requires more matches played in losers, so not only do all the players have different number of matches, but even two players playing in the same round of losers usually have played a different number of matches to reach that spot. Not only that, but every player will have the same number of set losses every tournament except for the single winner of the tournament. So, imagine a local tournament featuring Mang0. We may predict that he ought to come out of this tournament with five wins and no losses. If he loses round 1 and plays ten sets in losers to win the tournament, this is obviously a horrendous performance for Mang0 but a wildly rewarded one using ELO (10 > 5). You can try retroactively predicting the number of points you <em>ought to</em> win given how many you played, but this also punishes players that win through winners and therefore play fewer matches - a 2000-rated player winning 3 points out of 5 against a [100, 2200, 2200, 2200, 2200] bracket is worth the same to ELO regardless of whether you beat the 100 or lost to them; in double elimination, losing to a 100-rated player R1 might net a 2000-rated player a longer but not much more difficult bracket run, something like [100, 1500, 1800, 1800, 2000, 2200, 2200, 2200], thereby rewarding the player slightly more for losing to the 100-rated player compared to losing to the 2200 player. You can <em>also</em> try predicting it match by match and use percent chance to win (which is what online chess clubs like ICC use), but this leaves a lot to be desired in practice and also simply misses the point entirely: ELO is structured around players having a roughly equal number of games each tournament, and double elimination means that placements and number of matches played are always different. ELO, and it's commonly used variants like Glicko-2 or trueskill simply aren't well-suited for the format used in Melee tournaments.</p>
 
@@ -300,7 +300,7 @@
 
 			<p>One of the more popular aspects of the pilot version of this project was the correlation between skill and winrate. There are three calculations that interest me about these charts - Upset Potential, Volatility, and Correlation between winrate and skill. These can be calculated fairly easily: you can calculate upset chances by calculating the definite integral between the endpoints of the regression function and the +/- 0 skill difference (less than 0 = being upset, greater than 0 = upsetting others), you can calculate volatility by finding the derivative of the function at +/- 0 (flatter curves mean each "unit skill" affects winrate less dramatically), and you can calculate correlation between skill and winrate by finding the residual sum of squares of the data compared to the regression function.</p>
 
-			<p><img src="../images/ambistats/curve_data.png" alt="" /></p>
+			<p><img src="../images/ambistats/curve_data.PNG" alt="" /></p>
 
 			<p>The really exciting thing about this data is that the relationships between skill and winrate is much more clear compared to previous results; the tiers are a little wider and there's much more information, which led to pretty well-defined regression curves; likewise, this analysis provides almost no useful information whatsoever, which I find to be rather exciting. While there is some variation in the relative error of the regression functions, on a macro level almost every character performs virtually identically - you'll have a vaguely 14% chance to make upsets, you'll have a vaguely 14% chance to be upset yourself, and adjusting the two players' skill levels on average will affect the winrate virtually identically. Some characters exhibit a slightly greater chance to pull upsets or to upset others, but it's mostly attributable to noise, as no character moves more than three percent away from the average on either side except for Puff, who has a 4% (no pun intended) above average chance to pull upsets compared to the average character. </p>
 
