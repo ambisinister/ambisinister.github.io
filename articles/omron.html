@@ -1,151 +1,460 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>How Variable Are Omron Scales</title>
-		<link href="../css/index.css" type="text/css" rel="stylesheet" />
-		<link rel="shortcut icon" href="../images/shine.ico"/>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
-		<script>
-		  window.dataLayer = window.dataLayer || [];
-		  function gtag(){dataLayer.push(arguments);}
-		  gtag('js', new Date());
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>omron</title>
+<!-- 2018-06-20 Wed 00:35 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="ambi" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
 
-		  gtag('config', 'UA-101739190-1');
-		</script>
-		<script src="../scripts/scroll.js"></script>
-	</head>
-	<body>
-		<div class="header">
-			<h1>Eryk Banatt</h1>
-			<p>Cognitive Science Student, CS Enthusiast, Melee Player, Button Presser</p>
-				<nav class="nav" id="bar">
-					<hr />
-					<ul>
-						<li><a href = "../index.html">Home</a></li>
-						<li><a href = "../about.html">About/Contact</a></li>
-						<li><a href = "../projects.html">Projects</a></li>
-						<li><a href = "../melee.html">Melee</a></li>
-						<li><a href = "../links.html">Links</a></li>
-						<li><a href = "../resume.pdf">Resume</a></li>
-					</ul>
-					<hr />
-				</nav>
-		</div>
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-		<div class="pagetext">
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
 
-			<h1 id="howvariableareomronscales">How Variable are Omron Scales?</h1>
+<script type="text/javascript">
 
-			<p><em>Draft: v0.66.0 | Posted: 7/8/2017 | Updated: 8/31/17 | confidence of success: 75% | estimated time to completion: December 2017 | importance: Low</em></p>
+$(function() {
+    'use strict';
 
-			<h2 id="abstract">Abstract</h2>
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
-			<p>I measure myself with an Omron body composition scale roughly every 30-60 minutes or so across two days, seeing how my weight fluctuates throughout the day, after meals and exercise, etc. I cross-referenced this with the other variables this scale tracks (body-fat percentage, Visceral Fat, and Skeltal Muscle) to see if these variables were valuable or meaningful, or if paying attention to them would be misleading. I found that a commonly-held criticism of the scale - that water weight caused large fluctuations in bodyfat measurement - was difficult to reproduce, and that the scale seemed to be relatively consistent despite fluctuations of roughly 2% in either direction. That is to say, water intake had very little affect on actual water retention as measured by the scale. Remaining to be done is repeated trials at substantially different body compositions.</p>
+});
+</script>
 
-			<h2 id="intro">Intro</h2>
+<link rel="stylesheet" type="text/css" href="./css/default.css" />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
 
-			<p>I'm working on a data-driven approach to my own personal health, and something I thought could potentially be valuable was a simple body-composition scale. I figured it would be somewhat more information than <a href="https://www.amazon.com/AccuFitness-AM99-Accu-Measure-Body-Caliper/dp/B000QURRUK">fat calipers</a>, as well as being more consistent and easy to use. I was worried about the apparent fluctuation that some of the more negative reviews complained about, with the claim being that increased water intake drastically affects the bodyfat percentage measurement. After considering that I track my food and water intake very closely, I figured I might be able to remedy this with some spreadsheet magic and a lot of free time. </p>
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
 
-			<p>The goal here was to determine how variable the body composition measurements were, how they change with water intake over time, and how seriously (if at all) I should consider those data points. I did this by measuring myself roughly every thirty minutes to an hour, and recording what/when I ate/drank as well as what I was doing. I did this for two days to collect data points, then threw all the data in excel to visualize it. I was hoping for a function that I could input the times I drank water, along with how much, in order to adjust what measurement I was given. I also harbored suspicion that such a correlation might not exist at all (i.e. a possible mass case of "the scale is definitely lying to me"), so this was also partially meant to test this claim.</p>
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
 
-			<h2 id="pilotresults160lbsjuly2017">Pilot Results (160lbs, July 2017)</h2>
-
-			<p>After taking 18 measurements on the first day, I found almost no correlations between any of the data points - Weight and Bodyfat Percentage seemed completely uncorrelated (p=0.35), although skeletal muscle and bodyfat percentage were extremely correlated (p=6.75e-14) which suggests to me that the scale performs some kind of calculation on the same measurement to return both values. To test this, I took a few measurements while wearing a backpack with some weight in it (~10lbs and ~20lbs), which averaged around 23% and 27% bodyfat, respectively. (sidenote: putting those backpacks on and seeing numbers that I actually weighed only a few months ago was extremely disorienting!). Given the numbers from my normal day (means of .19 and 160 = 30.4lbs fat) and these new numbers (.23*170=39.1; .27*180=48.6) it was basically suggesting that all this added weight was fat. This gave me some confidence that the scale was indeed measuring <em>something</em>, and was probably calculating bodyfat percentage by process of elimination (i.e. everything not X is fat, therefore you are Y% bodyfat).</p>
-
-			<p>Curiously, throughout the day I was unable to demonstrate a correlation between my normal water intake and bodyfat percentage. I tried using "amount of water consumed since last measurement", "difference in water since last measurement", and "total water change since beginning of day" (for which I even used a <a href="http://www.triharder.com/thm_swrate.aspx">sweating calculator</a> to account for water lost during a run). The lowest p-value I got was 0.24, which is certainly not very significant. I did, however, note an outlier immediately after running (19% -> 15%) which shot back up after taking a shower (10 minutes later, 15% -> 17%). I tried getting my hands wet and using it to see if it would mess with the measurement (it didn't), and I took 6 measurements directly in a row to see if it would fluctuate that low, which it didn't (min: 18.4, max: 20.1; notably this range only excludes 5 data points from measuring 18 times throughout the entire day - the scale might just have an accuracy of +/- 2%). </p>
-
-			<p>So, I thought of a few scenarios in which running might have caused an outlier like this:</p>
-
-			<ul>
-			<li>Water <em>does</em> change the scale result, but only at more extreme quantities</li>
-
-			<li>Running depleted something in my body like glycogen, which was replenished because I had cereal for breakfast (note: almost certainly not fat, since an optimistic 300ish calories from a 30 minute run should burn a max of 0.08 lbs of fat given the common handwavey estimate of 3500 calories per pound of fat)
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
 
 
-			<ul>
-			<li>In this case, it would be repeatable the next time I went for a run. When I tested this, I did the same sequence and saw my bodyfat measurement drop to 16%, so I suspect that this might be a good part of it.</li></ul>
-			</li>
-			</ul>
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="preamble" class="status">
 
-			<p>So, the next day I deliberately didn't eat any food or drink any water for most of the day, then ate a great deal and drank a lot of water in a really short window. The hope with this was to get somewhat dehydrated, then <em>very</em> hydrated to see if the change in weight would affect anything. I ended up eating 467g of food (my entire food intake for a day) and drinking 48 fl oz of water (which weighs 1422g) for a total change of about 4 lbs (it was very uncomfortable, especially given how small my meals had been for the months before this). My scale weight changed exactly 4 lbs before and after (158.8 -> 162.8), and my bodyfat percentage didn't really change (and actually went down compared to immediately before eating, although both were well within the normal fluctuation for the day at 21.9 -> 21.6). Notably, the visceral fat measurement was bumped up to 6 despite being 5 the previous 25 measurements. My weight fluctuated pretty wildly after eating (-> 164.4 -> 162.2) but my body fat percentage remained between the same range the entire time. </p>
+<!-- heading -->
+<!-- add here -->
 
-			<p>The mean values for each day's body fat measurement were 19.2 and 20.4, respectively. Below is a histogram of results aggregated from both days, which is close enough to normal given the relatively small sample size.</p>
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
 
-			<p><img src="../images/health/omron_hist.png" alt="" /></p>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content">
+<h1 class="title">omron</h1>
+<div id="table-of-contents">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#howvariableareomronscales">How Variable are Omron Scales?</a>
+<ul>
+<li><a href="#abstract">Abstract</a></li>
+<li><a href="#intro">Intro</a></li>
+<li><a href="#pilotresults160lbsjuly2017">Pilot Results (160lbs, July 2017)</a></li>
+<li><a href="#secondaryresultsaugust282017">Secondary Results (August 28, 2017)</a></li>
+<li><a href="#thoughts">Thoughts</a></li>
+<li><a href="#stilllefttodo">Still left to do</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-howvariableareomronscales" class="outline-1">
+<h1 id="howvariableareomronscales"><a id="sec-1" name="sec-1"></a>How Variable are Omron Scales?</h1>
+<div class="outline-text-1" id="text-howvariableareomronscales">
+<blockquote>
+<p>
+/Draft: v0.66.0 | Posted: 7/8/2017 | Updated: 8/31/17 | confidence of
+success: 75% | estimated time to completion: December 2017 | importance:
+Low/
+</p>
+</blockquote>
+</div>
 
-			<p>And below are the percent deviations of each point from the overall mean, and histograms of each measure's percent deviations (omitted is visceral fat, which was overwhelmingly consistent to the point of not needing a histogram). From this you can gather that the measurements are mostly consistent, and usually fall upon a relatively normal distribution. If you assume that the mean value is somewhat accurate, you can assume that this scale will return an accurate value most of the time, and if you take enough points of data (i.e. measuring each day for a long period of time) then the noise generated from outliers will likely be filtered out. </p>
+<div id="outline-container-abstract" class="outline-2">
+<h2 id="abstract"><a id="sec-1-1" name="sec-1-1"></a>Abstract</h2>
+<div class="outline-text-2" id="text-abstract">
 
-			<p><img src="../images/health/omron_dev.png" alt="" />
-			<img src="../images/health/omron_whist.png" alt="" />
-			<img src="../images/health/omron_bhist.png" alt="" />
-			<img src="../images/health/omron_mhist.png" alt="" /></p>
+<p>
+I measure myself with an Omron body composition scale roughly every
+30-60 minutes or so across two days, seeing how my weight fluctuates
+throughout the day, after meals and exercise, etc. I cross-referenced
+this with the other variables this scale tracks (body-fat percentage,
+Visceral Fat, and Skeltal Muscle) to see if these variables were
+valuable or meaningful, or if paying attention to them would be
+misleading. I found that a commonly-held criticism of the scale - that
+water weight caused large fluctuations in bodyfat measurement - was
+difficult to reproduce, and that the scale seemed to be relatively
+consistent despite fluctuations of roughly 2% in either direction. That
+is to say, water intake had very little affect on actual water retention
+as measured by the scale. Remaining to be done is repeated trials at
+substantially different body compositions.
+</p>
+</div>
+</div>
 
-			<p>Overall, the bodyfat composition measurement and my water intake/expenditure seem to have very little, if any, correlation between them. The bodyfat percentage measurement as well as the other measurements on this scale seem to be relatively consistent, albeit fluctuating across a 3-4%ish range. </p>
+<div id="outline-container-intro" class="outline-2">
+<h2 id="intro"><a id="sec-1-2" name="sec-1-2"></a>Intro</h2>
+<div class="outline-text-2" id="text-intro">
 
-			<h2 id="secondaryresultsaugust282017">Secondary Results (August 28, 2017)</h2>
+<p>
+I'm working on a data-driven approach to my own personal health, and
+something I thought could potentially be valuable was a simple
+body-composition scale. I figured it would be somewhat more information
+than
+<a href="https://www.amazon.com/AccuFitness-AM99-Accu-Measure-Body-Caliper/dp/B000QURRUK">fat
+calipers</a>, as well as being more consistent and easy to use. I was
+worried about the apparent fluctuation that some of the more negative
+reviews complained about, with the claim being that increased water
+intake drastically affects the bodyfat percentage measurement. After
+considering that I track my food and water intake very closely, I
+figured I might be able to remedy this with some spreadsheet magic and a
+lot of free time.
+</p>
 
-			<p>After reaching my weight goal I maintained weight for a bit, then retested the scale. Results are as follows.</p>
+<p>
+The goal here was to determine how variable the body composition
+measurements were, how they change with water intake over time, and how
+seriously (if at all) I should consider those data points. I did this by
+measuring myself roughly every thirty minutes to an hour, and recording
+what/when I ate/drank as well as what I was doing. I did this for two
+days to collect data points, then threw all the data in excel to
+visualize it. I was hoping for a function that I could input the times I
+drank water, along with how much, in order to adjust what measurement I
+was given. I also harbored suspicion that such a correlation might not
+exist at all (i.e. a possible mass case of "the scale is definitely
+lying to me"), so this was also partially meant to test this claim.
+</p>
+</div>
+</div>
 
-			<p><img src="../images/health/omron_whist_2.png" alt="" />
-			<img src="../images/health/omron_bhist_2.png" alt="" />
-			<img src="../images/health/omron_mhist_2.png" alt="" /></p>
+<div id="outline-container-pilotresults160lbsjuly2017" class="outline-2">
+<h2 id="pilotresults160lbsjuly2017"><a id="sec-1-3" name="sec-1-3"></a>Pilot Results (160lbs, July 2017)</h2>
+<div class="outline-text-2" id="text-pilotresults160lbsjuly2017">
 
-			<p>Visceral fat was 4 for every measurement, a change of 1. It seems the scale is suggesting the following changes since last measurement:</p>
+<p>
+After taking 18 measurements on the first day, I found almost no
+correlations between any of the data points - Weight and Bodyfat
+Percentage seemed completely uncorrelated (p=0.35), although skeletal
+muscle and bodyfat percentage were extremely correlated (p=6.75e-14)
+which suggests to me that the scale performs some kind of calculation on
+the same measurement to return both values. To test this, I took a few
+measurements while wearing a backpack with some weight in it (~10lbs and
+~20lbs), which averaged around 23% and 27% bodyfat, respectively.
+(sidenote: putting those backpacks on and seeing numbers that I actually
+weighed only a few months ago was extremely disorienting!). Given the
+numbers from my normal day (means of .19 and 160 = 30.4lbs fat) and
+these new numbers (.23*170=39.1; .27*180=48.6) it was basically
+suggesting that all this added weight was fat. This gave me some
+confidence that the scale was indeed measuring <i>something</i>, and was
+probably calculating bodyfat percentage by process of elimination (i.e.
+everything not X is fat, therefore you are Y% bodyfat).
+</p>
 
-			<ul>
-			<li>Weight 160 lbs -> 148 lbs</li>
+<p>
+Curiously, throughout the day I was unable to demonstrate a correlation
+between my normal water intake and bodyfat percentage. I tried using
+"amount of water consumed since last measurement", "difference in water
+since last measurement", and "total water change since beginning of day"
+(for which I even used a
+<a href="http://www.triharder.com/thm_swrate.aspx">sweating calculator</a> to
+account for water lost during a run). The lowest p-value I got was 0.24,
+which is certainly not very significant. I did, however, note an outlier
+immediately after running (19% -&gt; 15%) which shot back up after taking a
+shower (10 minutes later, 15% -&gt; 17%). I tried getting my hands wet and
+using it to see if it would mess with the measurement (it didn't), and I
+took 6 measurements directly in a row to see if it would fluctuate that
+low, which it didn't (min: 18.4, max: 20.1; notably this range only
+excludes 5 data points from measuring 18 times throughout the entire day - the scale might just have an accuracy of +/- 2%).
+</p>
 
-			<li>Bodyfat 19.5% -> 17.7%</li>
+<p>
+So, I thought of a few scenarios in which running might have caused an
+outlier like this:
+</p>
 
-			<li>Skeletal Muscle 40.5% -> 40.5%</li>
-			</ul>
+<ul class="org-ul">
+<li>Water <i>does</i> change the scale result, but only at more extreme
+quantities
+</li>
+<li>Running depleted something in my body like glycogen, which was
+replenished because I had cereal for breakfast (note: almost
+certainly not fat, since an optimistic 300ish calories from a 30
+minute run should burn a max of 0.08 lbs of fat given the common
+handwavey estimate of 3500 calories per pound of fat)
 
-			<p>Meaning I preserved a good amount of muscle and lost mostly fat. Hooray!</p>
+<ul class="org-ul">
+<li>In this case, it would be repeatable the next time I went for a
+run. When I tested this, I did the same sequence and saw my
+bodyfat measurement drop to 16%, so I suspect that this might be a
+good part of it.
+</li>
+</ul>
+</li>
+</ul>
 
-			<h2 id="thoughts">Thoughts</h2>
+<p>
+So, the next day I deliberately didn't eat any food or drink any water
+for most of the day, then ate a great deal and drank a lot of water in a
+really short window. The hope with this was to get somewhat dehydrated,
+then <i>very</i> hydrated to see if the change in weight would affect
+anything. I ended up eating 467g of food (my entire food intake for a
+day) and drinking 48 fl oz of water (which weighs 1422g) for a total
+change of about 4 lbs (it was very uncomfortable, especially given how
+small my meals had been for the months before this). My scale weight
+changed exactly 4 lbs before and after (158.8 -&gt; 162.8), and my bodyfat
+percentage didn't really change (and actually went down compared to
+immediately before eating, although both were well within the normal
+fluctuation for the day at 21.9 -&gt; 21.6). Notably, the visceral fat
+measurement was bumped up to 6 despite being 5 the previous 25
+measurements. My weight fluctuated pretty wildly after eating (-&gt; 164.4
+-&gt; 162.2) but my body fat percentage remained between the same range the
+entire time.
+</p>
 
-			<p>So far, This scale seems to provide a tentatively accurate measure of a number of different variables, and I'm excited to track how they change as the composition of my body adjusts. I think the variation in the measurements is negligible enough to be useful enough for looking at trends. So far, I've only measured "local" weight changes, so I'm only assigning a ~75% confidence that these data points are valuable at different body compositions.  </p>
+<p>
+The mean values for each day's body fat measurement were 19.2 and 20.4,
+respectively. Below is a histogram of results aggregated from both days,
+which is close enough to normal given the relatively small sample size.
+</p>
 
-			<p>Interesting to note, on a separate tangent, that my weight fluctuated a range of 2.6 lbs during a single day (not including my 4lb binge), which will be a useful figure for analyzing trends in my weight over longer time periods.</p>
 
-			<h2 id="stilllefttodo">Still left to do</h2>
+<div class="figure">
+<p><img src="../images/health/omron_hist.png" alt="omron_hist.png" />
+</p>
+</div>
 
-			<p>I won't have a very high degree of confidence until I perform these more rigorous all-day tests at least <del>two more times</del> one more time at very a different body composition, and see how they compare to these results. Current plans are:</p>
+<p>
+And below are the percent deviations of each point from the overall
+mean, and histograms of each measure's percent deviations (omitted is
+visceral fat, which was overwhelmingly consistent to the point of not
+needing a histogram). From this you can gather that the measurements are
+mostly consistent, and usually fall upon a relatively normal
+distribution. If you assume that the mean value is somewhat accurate,
+you can assume that this scale will return an accurate value most of the
+time, and if you take enough points of data (i.e. measuring each day for
+a long period of time) then the noise generated from outliers will
+likely be filtered out.
+</p>
 
-			<ul>
-			<li><del>Lose 10 pounds, predicted measurement of lower than 16% bodyfat</del> <em>in hindsight this was a little ridiculous, given that I was something like 20.5% bodyfat at 160 lbs, would require the 10 pounds I lost to be something like 80% bodyfat (32ish lbs -> 24 lbs bodyfat), which is highly unlikely given that a good portion of what makes up lean body mass is water, which would surely be lost at lower bodyweight no matter how slowly I went.</em></li>
+<p>
+<img src="../images/health/omron_dev.png" alt="omron_dev.png" /> <img src="../images/health/omron_whist.png" alt="omron_whist.png" />
+<img src="../images/health/omron_bhist.png" alt="omron_bhist.png" />
+<img src="../images/health/omron_mhist.png" alt="omron_mhist.png" />
+</p>
 
-			<li>Gain 10 pounds, while resistance training, predicted measurement of lower than 19% bodyfat, confidence 65% <em>updated: given ~18% at 150 = 27 lbs fat, the threshold for >19% at 160lbs is 30.4lbs, making this a roughly 70/30 estimate.</em></li>
+<p>
+Overall, the bodyfat composition measurement and my water
+intake/expenditure seem to have very little, if any, correlation between
+them. The bodyfat percentage measurement as well as the other
+measurements on this scale seem to be relatively consistent, albeit
+fluctuating across a 3-4%ish range.
+</p>
+</div>
+</div>
 
-			<li>Maybe get a more accurate bodyfat measurement (<a href="https://en.wikipedia.org/wiki/Air_displacement_plethysmography">Bodpod</a>, <a href="https://en.wikipedia.org/wiki/Hydrostatic_weighing">hydrostatic</a>, etc) to assess accuracy rather than just self-consistency.</li>
-			</ul>
+<div id="outline-container-secondaryresultsaugust282017" class="outline-2">
+<h2 id="secondaryresultsaugust282017"><a id="sec-1-4" name="sec-1-4"></a>Secondary Results (August 28, 2017)</h2>
+<div class="outline-text-2" id="text-secondaryresultsaugust282017">
 
-			<p><del>I'm guessing I'll be able to test at 150 pounds around mid-august (75% confidence), so I'll update this document when I get there.</del> <em>judged correct August 8 2017</em></p>
+<p>
+After reaching my weight goal I maintained weight for a bit, then
+retested the scale. Results are as follows.
+</p>
 
-			<p>Next is gaining 10 lbs, which I imagine should be completed by late october (70% confidence).</p>
+<p>
+<img src="../images/health/omron_whist_2.png" alt="omron_whist_2.png" />
+<img src="../images/health/omron_bhist_2.png" alt="omron_bhist_2.png" />
+<img src="../images/health/omron_mhist_2.png" alt="omron_mhist_2.png" />
+</p>
 
-			<i>posted on 7/8/2017</i>
-			<br >
-			<a href="#top">Back to Top</a>
+<p>
+Visceral fat was 4 for every measurement, a change of 1. It seems the
+scale is suggesting the following changes since last measurement:
+</p>
 
-			<div id="comments">
-				<p></p>
-				<hr />
-					<div id="disqus_thread">
-						<script>
-						(function() {
-						var d = document, s = d.createElement('script');
-						s.src = 'https://planetbanatt.disqus.com/embed.js';
-						s.setAttribute('data-timestamp', +new Date());
-						(d.head || d.body).appendChild(s);
-						})();
-						</script>
-						<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-					</div>
-				</div>
+<ul class="org-ul">
+<li>Weight 160 lbs -&gt; 148 lbs
+</li>
+<li>Bodyfat 19.5% -&gt; 17.7%
+</li>
+<li>Skeletal Muscle 40.5% -&gt; 40.5%
+</li>
+</ul>
 
-		</div>
-	</body>
+<p>
+Meaning I preserved a good amount of muscle and lost mostly fat. Hooray!
+</p>
+</div>
+</div>
+
+<div id="outline-container-thoughts" class="outline-2">
+<h2 id="thoughts"><a id="sec-1-5" name="sec-1-5"></a>Thoughts</h2>
+<div class="outline-text-2" id="text-thoughts">
+
+<p>
+So far, This scale seems to provide a tentatively accurate measure of a
+number of different variables, and I'm excited to track how they change
+as the composition of my body adjusts. I think the variation in the
+measurements is negligible enough to be useful enough for looking at
+trends. So far, I've only measured "local" weight changes, so I'm only
+assigning a ~75% confidence that these data points are valuable at
+different body compositions.
+</p>
+
+<p>
+Interesting to note, on a separate tangent, that my weight fluctuated a
+range of 2.6 lbs during a single day (not including my 4lb binge), which
+will be a useful figure for analyzing trends in my weight over longer
+time periods.
+</p>
+</div>
+</div>
+
+<div id="outline-container-stilllefttodo" class="outline-2">
+<h2 id="stilllefttodo"><a id="sec-1-6" name="sec-1-6"></a>Still left to do</h2>
+<div class="outline-text-2" id="text-stilllefttodo">
+
+<p>
+I won't have a very high degree of confidence until I perform these more
+rigorous all-day tests at least <del>two more times</del> one more time at very a
+different body composition, and see how they compare to these results.
+Current plans are:
+</p>
+
+<ul class="org-ul">
+<li><del>Lose 10 pounds, predicted measurement of lower than 16% bodyfat</del> /in
+hindsight this was a little ridiculous, given that I was something
+like 20.5% bodyfat at 160 lbs, would require the 10 pounds I lost to
+be something like 80% bodyfat (32ish lbs -&gt; 24 lbs bodyfat), which is
+highly unlikely given that a good portion of what makes up lean body
+mass is water, which would surely be lost at lower bodyweight no
+matter how slowly I went./
+</li>
+<li>Gain 10 pounds, while resistance training, predicted measurement of
+lower than 19% bodyfat, confidence 65% /updated: given ~18% at 150 =
+27 lbs fat, the threshold for &gt;19% at 160lbs is 30.4lbs, making this
+a roughly 70/30 estimate./
+</li>
+<li>Maybe get a more accurate bodyfat measurement
+(<a href="https://en.wikipedia.org/wiki/Air_displacement_plethysmography">Bodpod</a>,
+<a href="https://en.wikipedia.org/wiki/Hydrostatic_weighing">hydrostatic</a>,
+etc) to assess accuracy rather than just self-consistency.
+</li>
+</ul>
+
+<p>
+<del>I'm guessing I'll be able to test at 150 pounds around mid-august (75%
+confidence), so I'll update this document when I get there.</del> <i>judged
+correct August 8 2017</i>
+</p>
+
+<p>
+Next is gaining 10 lbs, which I imagine should be completed by late
+october (70% confidence).
+</p>
+
+<p>
+<i>posted on 7/8/2017</i><br  />
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<br >
+<a href="#top">Back to Top</a>
+<div id="comments">
+    <p></p>
+    <hr />
+       <div id="disqus_thread">
+           <script>
+(function() {
+var d = document, s = d.createElement('script');
+s.src = 'https://planetbanatt.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</body>
 </html>

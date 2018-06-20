@@ -1,97 +1,344 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Tweets</title>
-		<link href="css/index.css" type="text/css" rel="stylesheet" />
-		<link rel="shortcut icon" href="./images/shine.ico"/>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-		<script src="scripts/scroll.js"></script>
-		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
-		<script>
-		  window.dataLayer = window.dataLayer || [];
-		  function gtag(){dataLayer.push(arguments);}
-		  gtag('js', new Date());
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Tweets</title>
+<!-- 2018-06-20 Wed 00:35 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="ambi" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
 
-		  gtag('config', 'UA-101739190-1');
-		</script>
-	</head>
-	<body>
-		<div class="header">
-			<h1>Eryk Banatt</h1>
-			<p>Cognitive Science Student, CS Enthusiast, Melee Player, Button Presser</p>
-				<nav class="nav" id="bar">
-					<hr />
-					<ul>
-						<li><a href = "index.html">Home</a></li>
-						<li><a href = "about.html">About/Contact</a></li>
-						<li><a href = "projects.html">Projects</a></li>
-						<li><a href = "melee.html">Melee</a></li>
-						<li><a href = "links.html">Links</a></li>
-						<li><a href = "resume.pdf">Resume</a></li>
-					</ul>
-					<hr />
-				</nav>
-		</div>
-		
-		<div class="pagetext">
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-			<h1 id="twittersizedthingsivedone">Twitter-Sized Things I've Done</h1>
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
 
-				<p>I post very frequently on Twitter, usually with Melee-related jokes and quips. However, every so often I do a project that I think is interesting but doesn't warrant an extensive writeup. For these I usually post on twitter, but as with blogs it becomes hard to go back and find something you want (especially if ~90% of your posts are jokes). So this page is sort of an index of my tweets that had actual substance to them.</p>
+<script type="text/javascript">
 
-				<h2 id="ssbmtheorycraft">SSBM Theorycraft:</h2>
+$(function() {
+    'use strict';
 
-				<p><a href="https://twitter.com/Ambisinister_/status/894236993554714624">Q-Drop shield pressure (video)</a></p>
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
-				<p><a href="https://twitter.com/Ambisinister_/status/894301430693195776">RTA Viable Peach shield break w/ Mr. Saturn (video)</a></p>
+});
+</script>
 
-				<p><a href="https://twitter.com/Ambisinister_/status/871824094576168962">Jigglypuff bair from ledge -> no-jump sing ledgegrab</a></p>
+<link rel="stylesheet" type="text/css" href="./css/default.css" />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
 
-				<p><a href="https://twitter.com/Ambisinister_/status/860968102330339328">Upthrow -> Dash Pivot Shine (not very practical)</a></p>
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
 
-				<p><a href="https://twitter.com/Ambisinister_/status/836512860343832577">Z-Axis causing sheik fair to whiff</a></p>
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
 
-				<p><a href="https://twitter.com/Ambisinister_/status/825201587320668160">Fox Nair frame advantage vs. Aerial Height (infographic)</a></p>
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
 
-				<p><a href="https://twitter.com/Ambisinister_/status/805533354368126980">Tournament Winner walljump doublejump bair on rock transformation (video)</a></p>
 
-				<h2 id="diyprojects">DIY Projects</h2>
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="preamble" class="status">
 
-				<p><a href="https://twitter.com/Ambisinister_/status/871937662843858944">Mechanical Keyboard Gamecube Controller Triggers</a></p>
+<!-- heading -->
+<!-- add here -->
 
-				<h2 id="stats">Stats:</h2>
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
 
-				<p><a href="https://twitter.com/Ambisinister_/status/886288045330358273">Evo 2017 R1 Pools results demographics (collab w/ Algebra)</a></p>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content">
+<h1 class="title">Tweets</h1>
+<div id="table-of-contents">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#eryk-banatt">Eryk Banatt</a></li>
+<li><a href="#twittersizedthingsivedone">Twitter-Sized Things I've Done</a>
+<ul>
+<li><a href="#ssbmtheorycraft">SSBM Theorycraft:</a></li>
+<li><a href="#diyprojects">DIY Projects</a></li>
+<li><a href="#stats">Stats:</a></li>
+<li><a href="#fun">Fun:</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="header">
 
-				<p><a href="https://twitter.com/ambisinister_/status/903323311089885185">Bet on implementation of UCF ($10, 1:1 odds, with @uconnsdoom)</a></p>
+<div id="outline-container-eryk-banatt" class="outline-1">
+<h1 id="eryk-banatt"><a id="sec-1" name="sec-1"></a>Eryk Banatt</h1>
+<div class="outline-text-1" id="text-eryk-banatt">
 
-				<p><p><em><a href="https://twitter.com/Ambisinister_/status/913580629996064768">The Local is Dying</a></em> (Tongue-in-cheek analysis of attendance at SSBM locals)</p>
+<p>
+Cognitive Science Student, CS Enthusiast, Melee Player, Button Presser
+</p>
 
-				<h2 id="fun">Fun:</h2>
+<hr  />
 
-				<p><a href="https://twitter.com/Ambisinister_/status/878703025933647877">Giant Bob-omb</a></p>
+<ul class="org-ul">
+<li><a href="index.html">Home</a>
+</li>
+<li><a href="about.html">About/Contact</a>
+</li>
+<li><a href="projects.html">Projects</a>
+</li>
+<li><a href="melee.html">Melee</a>
+</li>
+<li><a href="links.html">Links</a>
+</li>
+<li><a href="resume.pdf">Resume</a>
+</li>
+</ul>
 
-				<p><a href="https://twitter.com/Ambisinister_/status/865480825990557699">Upsmash -> Reverse Bair -> doublejump reverse bair -> Shine</a></p>
+<hr  />
 
-				<p><a href="https://twitter.com/Ambisinister_/status/862934717234122753">Samus Hammer Glitch</a></p>
+</div>
 
-				<p><a href="https://twitter.com/Ambisinister_/status/860951801922822144">Slapdash -> dash -> pivot dtilt</a></p>
+<div class="pagetext">
+</div>
+</div>
 
-				<p><a href="https://twitter.com/Ambisinister_/status/859132350134972417">Please stop posting about ranges using hitlag images</a></p>
+<div id="outline-container-twittersizedthingsivedone" class="outline-1">
+<h1 id="twittersizedthingsivedone"><a id="sec-2" name="sec-2"></a>Twitter-Sized Things I've Done</h1>
+<div class="outline-text-1" id="text-twittersizedthingsivedone">
 
-				<p><a href="https://twitter.com/Ambisinister_/status/855232001242259456">Bolt Winner's Interview ambisinister commerical</a></p>
+<p>
+I post very frequently on Twitter, usually with Melee-related jokes and
+quips. However, every so often I do a project that I think is
+interesting but doesn't warrant an extensive writeup. For these I
+usually post on twitter, but as with blogs it becomes hard to go back
+and find something you want (especially if ~90% of your posts are
+jokes). So this page is sort of an index of my tweets that had actual
+substance to them.
+</p>
+</div>
 
-				<p><a href="https://twitter.com/Ambisinister_/status/852800180021731328">Sick teams save</a></p>
+<div id="outline-container-ssbmtheorycraft" class="outline-2">
+<h2 id="ssbmtheorycraft"><a id="sec-2-1" name="sec-2-1"></a>SSBM Theorycraft:</h2>
+<div class="outline-text-2" id="text-ssbmtheorycraft">
 
-				<p><a href="https://twitter.com/Ambisinister_/status/840328225209356288">peach waveshine infinite x2</a></p>
+<p>
+<a href="https://twitter.com/Ambisinister_/status/894236993554714624">Q-Drop
+shield pressure (video)</a>
+</p>
 
-				<p><a href="https://twitter.com/Ambisinister_/status/832516318670811136">Thing I plan on retweeting whenever I lose to marths</a></p>
+<p>
+<a href="https://twitter.com/Ambisinister_/status/894301430693195776">RTA
+Viable Peach shield break w/ Mr. Saturn (video)</a>
+</p>
 
-				<p><a href="https://twitter.com/Ambisinister_/status/832513545858326528">Ness fun NBA HRC strat</a></p>
+<p>
+<a href="https://twitter.com/Ambisinister_/status/871824094576168962">Jigglypuff
+bair from ledge -&gt; no-jump sing ledgegrab</a>
+</p>
 
-				<p><a href="https://twitter.com/Ambisinister_/status/803116412864724992">bbesSlyFox</a></p>
-		</div>
-	</body>
+<p>
+<a href="https://twitter.com/Ambisinister_/status/860968102330339328">Upthrow
+-&gt; Dash Pivot Shine (not very practical)</a>
+</p>
 
+<p>
+<a href="https://twitter.com/Ambisinister_/status/836512860343832577">Z-Axis
+causing sheik fair to whiff</a>
+</p>
+
+<p>
+<a href="https://twitter.com/Ambisinister_/status/825201587320668160">Fox Nair
+frame advantage vs. Aerial Height (infographic)</a>
+</p>
+
+<p>
+<a href="https://twitter.com/Ambisinister_/status/805533354368126980">Tournament
+Winner walljump doublejump bair on rock transformation (video)</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-diyprojects" class="outline-2">
+<h2 id="diyprojects"><a id="sec-2-2" name="sec-2-2"></a>DIY Projects</h2>
+<div class="outline-text-2" id="text-diyprojects">
+
+<p>
+<a href="https://twitter.com/Ambisinister_/status/871937662843858944">Mechanical
+Keyboard Gamecube Controller Triggers</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-stats" class="outline-2">
+<h2 id="stats"><a id="sec-2-3" name="sec-2-3"></a>Stats:</h2>
+<div class="outline-text-2" id="text-stats">
+
+<p>
+<a href="https://twitter.com/Ambisinister_/status/886288045330358273">Evo 2017
+R1 Pools results demographics (collab w/ Algebra)</a>
+</p>
+
+<p>
+<a href="https://twitter.com/ambisinister_/status/903323311089885185">Bet on
+implementation of UCF ($10, 1:1 odds, with @uconnsdoom)</a>
+</p>
+
+<p>
+<i><a href="https://twitter.com/Ambisinister_/status/913580629996064768">The
+Local is Dying</a></i> (Tongue-in-cheek analysis of attendance at SSBM
+locals)
+</p>
+</div>
+</div>
+
+<div id="outline-container-fun" class="outline-2">
+<h2 id="fun"><a id="sec-2-4" name="sec-2-4"></a>Fun:</h2>
+<div class="outline-text-2" id="text-fun">
+
+<p>
+<a href="https://twitter.com/Ambisinister_/status/878703025933647877">Giant
+Bob-omb</a>
+</p>
+
+<p>
+<a href="https://twitter.com/Ambisinister_/status/865480825990557699">Upsmash
+-&gt; Reverse Bair -&gt; doublejump reverse bair -&gt; Shine</a>
+</p>
+
+<p>
+<a href="https://twitter.com/Ambisinister_/status/862934717234122753">Samus
+Hammer Glitch</a>
+</p>
+
+<p>
+<a href="https://twitter.com/Ambisinister_/status/860951801922822144">Slapdash
+-&gt; dash -&gt; pivot dtilt</a>
+</p>
+
+<p>
+<a href="https://twitter.com/Ambisinister_/status/859132350134972417">Please
+stop posting about ranges using hitlag images</a>
+</p>
+
+<p>
+<a href="https://twitter.com/Ambisinister_/status/855232001242259456">Bolt
+Winner's Interview ambisinister commerical</a>
+</p>
+
+<p>
+<a href="https://twitter.com/Ambisinister_/status/852800180021731328">Sick
+teams save</a>
+</p>
+
+<p>
+<a href="https://twitter.com/Ambisinister_/status/840328225209356288">peach
+waveshine infinite x2</a>
+</p>
+
+<p>
+<a href="https://twitter.com/Ambisinister_/status/832516318670811136">Thing I
+plan on retweeting whenever I lose to marths</a>
+</p>
+
+<p>
+<a href="https://twitter.com/Ambisinister_/status/832513545858326528">Ness fun
+NBA HRC strat</a>
+</p>
+
+<p>
+<a href="https://twitter.com/Ambisinister_/status/803116412864724992">bbesSlyFox</a>
+</p>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<br >
+<a href="#top">Back to Top</a>
+<div id="comments">
+    <p></p>
+    <hr />
+       <div id="disqus_thread">
+           <script>
+(function() {
+var d = document, s = d.createElement('script');
+s.src = 'https://planetbanatt.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</body>
 </html>

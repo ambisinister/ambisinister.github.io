@@ -1,81 +1,323 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>About</title>
-		<link href="css/index.css" type="text/css" rel="stylesheet" />
-		<link rel="shortcut icon" href="./images/shine.ico"/>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-		<script src="scripts/scroll.js"></script>
-		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
-		<script>
-		  window.dataLayer = window.dataLayer || [];
-		  function gtag(){dataLayer.push(arguments);}
-		  gtag('js', new Date());
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>about</title>
+<!-- 2018-06-20 Wed 00:36 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="ambi" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
 
-		  gtag('config', 'UA-101739190-1');
-		</script>
-	</head>
-	<body>
-		<div class="header">
-			<h1>Eryk Banatt</h1>
-			<p>Cognitive Science Student, CS Enthusiast, Melee Player, Button Presser</p>
-				<nav class="nav" id="bar">
-					<hr />
-					<ul>
-						<li><a href = "index.html">Home</a></li>
-						<li><a href = "about.html">About/Contact</a></li>
-						<li><a href = "projects.html">Projects</a></li>
-						<li><a href = "melee.html">Melee</a></li>
-						<li><a href = "links.html">Links</a></li>
-						<li><a href = "resume.pdf">Resume</a></li>
-					</ul>
-					<hr />
-				</nav>
-		</div>
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-		<div class="pagetext">
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
 
-			<h1>About/Contact</h1>
-			<p>	Hello! </p>
+<script type="text/javascript">
 
-			<h2>Content</h2>
-			<p> The content on this website is mostly my writings on various topics like video games, Cognitive Science, electronics, and a bunch of other tangentially related topics. In short, it's a bunch of essays written by myself, about my projects or about topics I'm just generally interested in. At the moment it's a bit bare, but I'm actively working on a bunch of stuff so that should change in the near future.</p>
+$(function() {
+    'use strict';
 
-			<p>Format-wise, I went with a website like this mostly out of my explicit dislike for blogs, which I think are more analogous to a newspaper than they are to, say, a book. I quite like Gwern's idea of "<a href="https://www.gwern.net/About#long-content">Long Content</a>", and in general a lot of the content I'm interested in writing is meant to still be readable in 5/10/20 years.</p>
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
-			<h2>Learning By Accumulation</h2>
+});
+</script>
 
-			<p>This is a sort of meta-skill I developed during my college years that has served me extremely well up to now. Before I started learning to do this, I would think of project ideas and more or less immediately discard them, since I didn't yet have the relevant skillset to accomplish it and felt that acquiring that skillset would be too much of an investment. Something like "make a machine learning classifier for seeding tournament brackets" felt impossible to me, since I was under the erroneous assumption that I would need to learn mountains of machine learning to "become worthy" of doing a project on machine learning. In short, I felt that I didn't deserve to use tools that I had not yet mastered completely.</p>
+<link rel="stylesheet" type="text/css" href="./css/default.css" />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
 
-			<p>Luckily, I realized, that's not really the case! Becoming functional and mediocre at pretty much anything is within reach for pretty much anyone, and if you're doing it for the sake of a project and not a career then it's often practical to only acquire what you need to accomplish your goal. This can often lead you to a more passionate interest in your subject that you otherwise would have had (i.e. making something cool to gauge your interest in a subject, then deciding that it was extremely cool and learning more about it).</p>
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
 
-			<p>The nice thing about this is that your skillset and knowledge don't go away after you finish your project. By doing many things, you learn to do many things, and thereby gain access to even more things you wouldn't have even thought of had you not done the first thing. As they say, once you're given a hammer, nails start popping up all over the place.</p>
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
 
-			<p>It seems like a pretty obvious thing to say, but you won't believe how often I see people place this sort of self-imposed barrier to action upon themselves. People who show up to SSBM tournaments after spending a year practicing by themselves, since they didn't feel "good enough to play with real players", or people who refuse to do anything vaguely math-related since they're afraid of numbers.</p>
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
 
-			<p>Also important to note is that learning in this way will often put you face-to-face with failure. It's important to realize that this is okay! Having consistent output is more important than making sure all your output is good, since you have no obligation to share every single failure you have. Trying something too hard and messing up still nets you experience points in the real world, and as Neal Stephenson put it: "hey, at least a wild-goose chase gives you some exercise."</p>
 
-			<h2>Disagreeing with Me</h2>
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="preamble" class="status">
 
-			<p>You may eventually find a point on which you disagree with me on, perhaps extremely strongly. For these events, please consult the following directions:</p>
+<!-- heading -->
+<!-- add here -->
 
-			<p>For smaller disagreements, I would suggest just confronting me about them. I have a stronger interest in holding accurate beliefs than defending my own beliefs, so there's a very real chance that you'll be able to change my mind, and even if you're certain I won't be able to change yours I would probably appreciate the opportunity to challenge my own beliefs and make them more accurate. You can do this at virtually any time, and I will not request time to prepare myself since if I need preparation then I probably don't have a very solid grasp of why I believe the thing anyways.</p>
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
 
-			<p>For larger disagreements, we can settle it like gentlemen/women and have a good, honest duel over it. I propose a set of three games, each best of three. one in a game of my own choosing (most likely Super Smash Brothers Melee), one game of your choosing, and a game in the middle (let's say, rock paper scissors). For these disagreements, I suggest a training period of one month in which I can learn your game and you can learn mine, and at the end of the month we duel and the winner would be declared the victor, being definitively and objectively correct at whatever squabble we were having. I am reasonably competent at many games, but I am not amazing at any of them, so I find this to be a fair victory condition.</p>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content">
+<h1 class="title">about</h1>
+<div id="table-of-contents">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#aboutcontact">About/Contact</a>
+<ul>
+<li><a href="#content">Content</a></li>
+<li><a href="#learning-by-accumulation">Learning By Accumulation</a></li>
+<li><a href="#disagreeing-with-me">Disagreeing with Me</a></li>
+<li><a href="#getting-in-touch-with-me">Getting in Touch with Me</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-aboutcontact" class="outline-1">
+<h1 id="aboutcontact"><a id="sec-1" name="sec-1"></a>About/Contact</h1>
+<div class="outline-text-1" id="text-aboutcontact">
 
-			<p>For the biggest, most impossible to resolve disagreements, I am willing to accept a challenge to a fair and honorable boxing match to the death. Please only use this option for the most passionate beliefs you have, those because of which my existence completely invalidates yours. I reserve the right to tap out at any time (with the condition that you are declared right, of course). However, this will require a full year of training, in which I will have enough time to get in decent shape, learn some sort of martial arts, and come to terms with the fragility of life. Like I mentioned, though, most things probably would be better suited for the previous condition with the three video games, so please choose those as a default option.</p>
+<p>
+Hello!
+</p>
+</div>
 
-			<h2>Getting in Touch with Me</h2>
+<div id="outline-container-content" class="outline-2">
+<h2 id="content"><a id="sec-1-1" name="sec-1-1"></a>Content</h2>
+<div class="outline-text-2" id="text-content">
 
-			<p> If you want to talk to me about academics or any of my more serious projects, feel free to shoot me an email at erykbanatt@gmail.com</p>
-			<p> You can find me on twitter <a href="https://www.twitter.com/ambisinister_", target="_blank">@ambisinister_</a>, some tweets I thought worth saving are collected <a href="./twitter.html", target="_blank">here.</a></p>
-			<p> If you want to talk to me about Melee, friend me on 
-			<a href="https://www.facebook.com/ambisinisterSSBM" target="_blank">facebook</a> and send me a message. I love talking about Melee! </p>
+<p>
+The content on this website is mostly my writings on various topics like
+video games, Cognitive Science, electronics, and a bunch of other
+tangentially related topics. In short, it's a bunch of essays written by
+myself, about my projects or about topics I'm just generally interested
+in. At the moment it's a bit bare, but I'm actively working on a bunch
+of stuff so that should change in the near future.
+</p>
 
-			<hr />
-			<p><i>Updated 2/18/2018</i></p>
+<p>
+Format-wise, I went with a website like this mostly out of my explicit
+dislike for blogs, which I think are more analogous to a newspaper than
+they are to, say, a book. I quite like Gwern's idea of
+"<a href="https://www.gwern.net/About#long-content">Long Content</a>", and in
+general a lot of the content I'm interested in writing is meant to still
+be readable in 5/10/20 years.
+</p>
+</div>
+</div>
 
-		</div>
-	</body>
+<div id="outline-container-learning-by-accumulation" class="outline-2">
+<h2 id="learning-by-accumulation"><a id="sec-1-2" name="sec-1-2"></a>Learning By Accumulation</h2>
+<div class="outline-text-2" id="text-learning-by-accumulation">
+
+<p>
+This is a sort of meta-skill I developed during my college years that
+has served me extremely well up to now. Before I started learning to do
+this, I would think of project ideas and more or less immediately
+discard them, since I didn't yet have the relevant skillset to
+accomplish it and felt that acquiring that skillset would be too much of
+an investment. Something like "make a machine learning classifier for
+seeding tournament brackets" felt impossible to me, since I was under
+the erroneous assumption that I would need to learn mountains of machine
+learning to "become worthy" of doing a project on machine learning. In
+short, I felt that I didn't deserve to use tools that I had not yet
+mastered completely.
+</p>
+
+<p>
+Luckily, I realized, that's not really the case! Becoming functional and
+mediocre at pretty much anything is within reach for pretty much anyone,
+and if you're doing it for the sake of a project and not a career then
+it's often practical to only acquire what you need to accomplish your
+goal. This can often lead you to a more passionate interest in your
+subject that you otherwise would have had (i.e. making something cool to
+gauge your interest in a subject, then deciding that it was extremely
+cool and learning more about it).
+</p>
+
+<p>
+The nice thing about this is that your skillset and knowledge don't go
+away after you finish your project. By doing many things, you learn to
+do many things, and thereby gain access to even more things you wouldn't
+have even thought of had you not done the first thing. As they say, once
+you're given a hammer, nails start popping up all over the place.
+</p>
+
+<p>
+It seems like a pretty obvious thing to say, but you won't believe how
+often I see people place this sort of self-imposed barrier to action
+upon themselves. People who show up to SSBM tournaments after spending a
+year practicing by themselves, since they didn't feel "good enough to
+play with real players", or people who refuse to do anything vaguely
+math-related since they're afraid of numbers.
+</p>
+
+<p>
+Also important to note is that learning in this way will often put you
+face-to-face with failure. It's important to realize that this is okay!
+Having consistent output is more important than making sure all your
+output is good, since you have no obligation to share every single
+failure you have. Trying something too hard and messing up still nets
+you experience points in the real world, and as Neal Stephenson put it:
+"hey, at least a wild-goose chase gives you some exercise."
+</p>
+</div>
+</div>
+
+<div id="outline-container-disagreeing-with-me" class="outline-2">
+<h2 id="disagreeing-with-me"><a id="sec-1-3" name="sec-1-3"></a>Disagreeing with Me</h2>
+<div class="outline-text-2" id="text-disagreeing-with-me">
+
+<p>
+You may eventually find a point on which you disagree with me on,
+perhaps extremely strongly. For these events, please consult the
+following directions:
+</p>
+
+<p>
+For smaller disagreements, I would suggest just confronting me about
+them. I have a stronger interest in holding accurate beliefs than
+defending my own beliefs, so there's a very real chance that you'll be
+able to change my mind, and even if you're certain I won't be able to
+change yours I would probably appreciate the opportunity to challenge my
+own beliefs and make them more accurate. You can do this at virtually
+any time, and I will not request time to prepare myself since if I need
+preparation then I probably don't have a very solid grasp of why I
+believe the thing anyways.
+</p>
+
+<p>
+For larger disagreements, we can settle it like gentlemen/women and have
+a good, honest duel over it. I propose a set of three games, each best
+of three. one in a game of my own choosing (most likely Super Smash
+Brothers Melee), one game of your choosing, and a game in the middle
+(let's say, rock paper scissors). For these disagreements, I suggest a
+training period of one month in which I can learn your game and you can
+learn mine, and at the end of the month we duel and the winner would be
+declared the victor, being definitively and objectively correct at
+whatever squabble we were having. I am reasonably competent at many
+games, but I am not amazing at any of them, so I find this to be a fair
+victory condition.
+</p>
+
+<p>
+For the biggest, most impossible to resolve disagreements, I am willing
+to accept a challenge to a fair and honorable boxing match to the death.
+Please only use this option for the most passionate beliefs you have,
+those because of which my existence completely invalidates yours. I
+reserve the right to tap out at any time (with the condition that you
+are declared right, of course). However, this will require a full year
+of training, in which I will have enough time to get in decent shape,
+learn some sort of martial arts, and come to terms with the fragility of
+life. Like I mentioned, though, most things probably would be better
+suited for the previous condition with the three video games, so please
+choose those as a default option.
+</p>
+</div>
+</div>
+
+<div id="outline-container-getting-in-touch-with-me" class="outline-2">
+<h2 id="getting-in-touch-with-me"><a id="sec-1-4" name="sec-1-4"></a>Getting in Touch with Me</h2>
+<div class="outline-text-2" id="text-getting-in-touch-with-me">
+
+<p>
+If you want to talk to me about academics or any of my more serious
+projects, feel free to shoot me an email at erykbanatt@gmail.com
+</p>
+
+<p>
+You can find me on twitter
+<a href="https://www.twitter.com/ambisinister_">@ambisinister\_</a>, some tweets
+I thought worth saving are collected <a href="./twitter.html">here.</a>
+</p>
+
+<p>
+If you want to talk to me about Melee, friend me on
+<a href="https://www.facebook.com/ambisinisterSSBM">facebook</a> and send me a
+message. I love talking about Melee!
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<br >
+<a href="#top">Back to Top</a>
+<div id="comments">
+    <p></p>
+    <hr />
+       <div id="disqus_thread">
+           <script>
+(function() {
+var d = document, s = d.createElement('script');
+s.src = 'https://planetbanatt.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</body>
 </html>

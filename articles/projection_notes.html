@@ -1,123 +1,410 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Proj. Notes</title>
-		<link href="../css/index.css" type="text/css" rel="stylesheet" />
-		<link rel="shortcut icon" href="../images/shine.ico"/>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-		<script src="../scripts/scroll.js"></script>
-		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
-		<script>
-		  window.dataLayer = window.dataLayer || [];
-		  function gtag(){dataLayer.push(arguments);}
-		  gtag('js', new Date());
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>projection_notes</title>
+<!-- 2018-06-20 Wed 00:35 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="ambi" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
 
-		  gtag('config', 'UA-101739190-1');
-		</script>
-		<meta charset="UTF-8">
-	</head>
-	<body>
-		<div class="header">
-			<h1>Eryk Banatt</h1>
-			<p>Cognitive Science Student, CS Enthusiast, Melee Player, Button Presser</p>
-				<nav class="nav" id="bar">
-					<hr />
-					<ul>
-						<li><a href = "../index.html">Home</a></li>
-						<li><a href = "../about.html">About/Contact</a></li>
-						<li><a href = "../projects.html">Projects</a></li>
-						<li><a href = "../melee.html">Melee</a></li>
-						<li><a href = "../links.html">Links</a></li>
-						<li><a href = "../resume.pdf">Resume</a></li>
-					</ul>
-					<hr />
-				</nav>
-		</div>
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-		<div class="pagetext">
-			<h2>Notes on Projection 1.0:</h2>
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
 
-			<h3 id="sql">SQL Query of any player's matches</h3>
+<script type="text/javascript">
 
-			<p>I don't know if Tafokints has some sort of system like this but if he doesn't he should definitely consider it - it's very handy to have matches in this sort of format because you can get all sorts of information really easily</p>
+$(function() {
+    'use strict';
 
-			<img src="../images/projection/useful.png" />
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
-			<p id="assign">Making this information publically available in some sort of app would be super useful - I frequently talk with friends about who's beaten who recently and trying to find all of Silent Wolf's bracket matches against fox players is a gigantic pain (and is now super simple with this database)</p>
+});
+</script>
 
-			<h3>Assigning People Skill</h3>
+<link rel="stylesheet" type="text/css" href="./css/default.css" />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
 
-			<p id="sports">This is one of the shakier parts of this project, so I tried to make the bins fairly large to compensate for the fact that I'm not 100% super familiar with every single player's skill level. Like I said, this is basically a giant demo and there are a number of things that this can be replaced with in a production environment, so please don't approach me all upset that player X is in tier Y and should really be in tier Z because I promise I will do literally nothing about it.</p>
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
 
-			<h3>Winrate In Melee vs In Sports</h3>
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
 
-			<p><i><a href="http://physics.bu.edu/~redner/pubs/pdf/jqas.pdf" target="_blank">Eli Ben-Naim et al. 2006</a></i> did a similar analysis with a bunch of different sports:</p>
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
 
-			<img src="../images/projection/sports.png" />
 
-			<p id="global">It's a pretty good read if you're interested in sports statistics, but if you want a quick comparison to Melee then the tl;dr is that Melee's upset rate is similar to the NFL upset rate (~36%) and overall is a tad on the conservative side on the spectrum of traditional sports.</p>
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="preamble" class="status">
 
-			<h3 >Global Character Curves</h3>
+<!-- heading -->
+<!-- add here -->
 
-			<p>Dumped here to not take up too much space on the actual writeup</p>
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
 
-			<img src="../images/projection/FoxvsAll.png" />
-			<img src="../images/projection/FalcovsAll.png" />
-			<img src="../images/projection/FalconvsAll.png" />
-			<img src="../images/projection/MarthvsAll.png" />
-			<img src="../images/projection/PeachvsAll.png" />
-			<img src="../images/projection/SamusvsAll.png" />
-			<img src="../images/projection/SheikvsAll.png" />
-			<img src="../images/projection/PuffvsAll.png" />
-			<img src="../images/projection/ICsvsAll.png"/>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content">
+<h1 class="title">projection_notes</h1>
+<div id="table-of-contents">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#notes-on-projection-1.0">Notes on Projection 1.0:</a>
+<ul>
+<li><a href="#sql">SQL Query of any player's matches</a></li>
+<li><a href="#assigning-people-skill">Assigning People Skill</a></li>
+<li><a href="#winrate-in-melee-vs-in-sports">Winrate In Melee vs In Sports</a></li>
+<li><a href="#global-character-curves">Global Character Curves</a></li>
+<li><a href="#matchups">Matchup Curves</a></li>
+<li><a href="#trendlines">Trendlines</a></li>
+<li><a href="#volatility-characters-and-matchups">Volatility - Characters and Matchups</a></li>
+<li><a href="#decision-tree-classifier">Decision Tree Classifier</a></li>
+<li><a href="#features">Features</a></li>
+<li><a href="#radar-chart">Radar Chart</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-notes-on-projection-1.0" class="outline-1">
+<h1 id="notes-on-projection-1.0"><a id="sec-1" name="sec-1"></a>Notes on Projection 1.0:</h1>
+<div class="outline-text-1" id="text-notes-on-projection-1.0">
+</div>
 
-			<h3 id="matchups">Matchup Curves</h3>
+<div id="outline-container-sql" class="outline-2">
+<h2 id="sql"><a id="sec-1-1" name="sec-1-1"></a>SQL Query of any player's matches</h2>
+<div class="outline-text-2" id="text-sql">
 
-			<p>A very many of these simply didn't have enough data to be useful - here's a few of the ones that at least made some sense.</p>
+<p>
+I don't know if Tafokints has some sort of system like this but if he
+doesn't he should definitely consider it - it's very handy to have
+matches in this sort of format because you can get all sorts of
+information really easily
+</p>
 
-			<img src="../images/projection/foxvsfalco.png" />
-			<img src="../images/projection/foxvssheik.png" />
-			<img src="../images/projection/foxvsmarth.png" />
-			<img src="../images/projection/falcovssheik.png" />
-			<img src="../images/projection/falconvssheik.png" id="trend"/>
+<p>
+<img src="../images/projection/useful.png" alt="useful.png" />
+Making this information publically available in some sort of app would
+be super useful - I frequently talk with friends about who's beaten who
+recently and trying to find all of Silent Wolf's bracket matches against
+fox players is a gigantic pain (and is now super simple with this
+database)
+</p>
+</div>
+</div>
 
-			<h3 >Trendlines</h3>
+<div id="outline-container-assigning-people-skill" class="outline-2">
+<h2 id="assigning-people-skill"><a id="sec-1-2" name="sec-1-2"></a>Assigning People Skill</h2>
+<div class="outline-text-2" id="text-assigning-people-skill">
 
-			<p id="ratings">Part of the reason I wasn't super comfortable using much data from these curves, especially for character vs character, is because I wasn't super knowledgable about trendlines and I wasn't particularly thrilled with the way they turned out. If I want to improve this I'll need to learn more about trendlines, weight the trendlines based on which points have the most matches played (since a point with 80 matches and a point with 1 match are weighted equally with a normal trendline). I also need to figure out how to apply more specific rules to trendlines (e.g. must always be increasing or staying the same, must begin at 1 and end at 0, etc) because the fact that these curves slope downwards at the ends sometimes is definitely not what I wanted.</p>
+<p>
+This is one of the shakier parts of this project, so I tried to make the
+bins fairly large to compensate for the fact that I'm not 100% super
+familiar with every single player's skill level. Like I said, this is
+basically a giant demo and there are a number of things that this can be
+replaced with in a production environment, so please don't approach me
+all upset that player X is in tier Y and should really be in tier Z
+because I promise I will do literally nothing about it.
+</p>
+</div>
+</div>
 
-			<h3 >Volatility - Characters and Matchups</h3>
+<div id="outline-container-winrate-in-melee-vs-in-sports" class="outline-2">
+<h2 id="winrate-in-melee-vs-in-sports"><a id="sec-1-3" name="sec-1-3"></a>Winrate In Melee vs In Sports</h2>
+<div class="outline-text-2" id="text-winrate-in-melee-vs-in-sports">
 
-			<p>This applies the integral that I mentioned on the global character curve:</p>
+<p>
+<i><a href="http://physics.bu.edu/~redner/pubs/pdf/jqas.pdf">Eli Ben-Naim et al.
+2006</a></i> did a similar analysis with a bunch of different sports:
+</p>
 
-			<table border=1 style="width:100%">
-				<tr><th>Character</th>	<th>Consistency</th><th>Upset</th></tr>
-				<tr><td>Puff</td> 		<td>91%</td>	<td>14%</td></tr>
-				<tr><td>Peach</td> 		<td>89%</td>	<td>17%</td></tr>
-				<tr><td>Samus</td> 		<td>85%</td>	<td>12%</td></tr>
-				<tr><td>Marth</td> 		<td>85%</td>	<td>15%</td></tr>
-				<tr><td>Fox</td> 		<td>84%</td>	<td>14%</td></tr>
-				<tr><td>Sheik</td> 		<td>83%</td>	<td>11%</td></tr>
-				<tr><td>Ice Climbers</td><td>81%</td> 	<td>20%</td></tr>
-				<tr><td>Falco</td> 		<td>81%</td>	<td>12%</td></tr>
-				<tr><td>Falcon</td> 	<td>79%</td>	<td id="tree">10%</td></tr>
-			</table>
+<p>
+<img src="../images/projection/sports.png" alt="sports.png" />
+It's a pretty good read if you're interested in sports statistics, but
+if you want a quick comparison to Melee then the tl;dr is that Melee's
+upset rate is similar to the NFL upset rate (~36%) and overall is a tad
+on the conservative side on the spectrum of traditional sports.
+</p>
+</div>
+</div>
 
-			<h3 >Decision Tree Classifier</h3>
+<div id="outline-container-global-character-curves" class="outline-2">
+<h2 id="global-character-curves"><a id="sec-1-4" name="sec-1-4"></a>Global Character Curves</h2>
+<div class="outline-text-2" id="text-global-character-curves">
 
-			<p>The classifier is a simple one that just follows a series of rules, but just because it's a simple idea doesn't mean it won't have a complicated execution</p>
+<p>
+Dumped here to not take up too much space on the actual writeup
+</p>
 
-			<iframe src='https://gfycat.com/ifr/InfamousBitesizedGull' frameborder='0' scrolling='no' width='640' height='360' allowfullscreen id="features"></iframe>
+<p>
+<img src="../images/projection/FoxvsAll.png" alt="FoxvsAll.png" />
+<img src="../images/projection/FalcovsAll.png" alt="FalcovsAll.png" />
+<img src="../images/projection/FalconvsAll.png" alt="FalconvsAll.png" />
+<img src="../images/projection/MarthvsAll.png" alt="MarthvsAll.png" />
+<img src="../images/projection/PeachvsAll.png" alt="PeachvsAll.png" />
+<img src="../images/projection/SamusvsAll.png" alt="SamusvsAll.png" />
+<img src="../images/projection/SheikvsAll.png" alt="SheikvsAll.png" />
+<img src="../images/projection/PuffvsAll.png" alt="PuffvsAll.png" />
+<img src="../images/projection/ICsvsAll.png" alt="ICsvsAll.png" />
+</p>
+</div>
+</div>
+<div id="outline-container-matchups" class="outline-2">
+<h2 id="matchups"><a id="sec-1-5" name="sec-1-5"></a>Matchup Curves</h2>
+<div class="outline-text-2" id="text-matchups">
 
-			<h3 >Features</h3>
+<p>
+A very many of these simply didn't have enough data to be useful -
+here's a few of the ones that at least made some sense.
+</p>
 
-			<p id="radar">I was originally gonna throw in "Winrate vs opponent's character" as a feature but it worked better than I had hoped with just the features I put in and I was worried about overfitting the data, so I just left it alone to prevent additional complications. I'll probably play around with it some more eventually but for now this is fine.</p>
+<p>
+<img src="../images/projection/foxvsfalco.png" alt="foxvsfalco.png" />
+<img src="../images/projection/foxvssheik.png" alt="foxvssheik.png" />
+<img src="../images/projection/foxvsmarth.png" alt="foxvsmarth.png" />
+<img src="../images/projection/falcovssheik.png" alt="falcovssheik.png" />
+<img src="../images/projection/falconvssheik.png" alt="falconvssheik.png" />
+</p>
+</div>
+</div>
+<div id="outline-container-trendlines" class="outline-2">
+<h2 id="trendlines"><a id="sec-1-6" name="sec-1-6"></a>Trendlines</h2>
+<div class="outline-text-2" id="text-trendlines">
 
-			<h3 >Radar Chart</h3>
+<p>
+Part of the reason I wasn't super comfortable using much data from these
+curves, especially for character vs character, is because I wasn't super
+knowledgable about trendlines and I wasn't particularly thrilled with
+the way they turned out. If I want to improve this I'll need to learn
+more about trendlines, weight the trendlines based on which points have
+the most matches played (since a point with 80 matches and a point with
+1 match are weighted equally with a normal trendline). I also need to
+figure out how to apply more specific rules to trendlines (e.g. must
+always be increasing or staying the same, must begin at 1 and end at 0,
+etc) because the fact that these curves slope downwards at the ends
+sometimes is definitely not what I wanted.
+</p>
+</div>
+</div>
 
-			<p>Full Disclosure - I didn't use matplotlib for this, I just found a tool online to do it. You <i>can</i> use matplotlib for this but actually finding good places to put these values is another task in and of itself (I tried to place it as "would have a 50% winrate vs players of this skill" which would likely be an entirely seperate problem solved probably with linear regression or something) so I just made one as a sort of mockup.</p>
+<div id="outline-container-volatility---characters-and-matchups" class="outline-2">
+<h2 id="volatility---characters-and-matchups"><a id="sec-1-7" name="sec-1-7"></a>Volatility - Characters and Matchups</h2>
+<div class="outline-text-2" id="text-volatility---characters-and-matchups">
 
-		</div>
-	</body>
+<p>
+This applies the integral that I mentioned on the global character
+curve:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="right" />
+
+<col  class="right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Character</th>
+<th scope="col" class="right">Consistency</th>
+<th scope="col" class="right">Upset</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">Puff</td>
+<td class="right">91%</td>
+<td class="right">14%</td>
+</tr>
+
+<tr>
+<td class="left">Peach</td>
+<td class="right">89%</td>
+<td class="right">17%</td>
+</tr>
+
+<tr>
+<td class="left">Samus</td>
+<td class="right">85%</td>
+<td class="right">12%</td>
+</tr>
+
+<tr>
+<td class="left">Marth</td>
+<td class="right">85%</td>
+<td class="right">15%</td>
+</tr>
+
+<tr>
+<td class="left">Fox</td>
+<td class="right">84%</td>
+<td class="right">14%</td>
+</tr>
+
+<tr>
+<td class="left">Sheik</td>
+<td class="right">83%</td>
+<td class="right">11%</td>
+</tr>
+
+<tr>
+<td class="left">Ice Climbers</td>
+<td class="right">81%</td>
+<td class="right">20%</td>
+</tr>
+
+<tr>
+<td class="left">Falco</td>
+<td class="right">81%</td>
+<td class="right">12%</td>
+</tr>
+
+<tr>
+<td class="left">Falcon</td>
+<td class="right">79%</td>
+<td class="right">10%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-decision-tree-classifier" class="outline-2">
+<h2 id="decision-tree-classifier"><a id="sec-1-8" name="sec-1-8"></a>Decision Tree Classifier</h2>
+<div class="outline-text-2" id="text-decision-tree-classifier">
+
+<p>
+The classifier is a simple one that just follows a series of rules, but
+just because it's a simple idea doesn't mean it won't have a complicated
+execution
+</p>
+</div>
+</div>
+
+<div id="outline-container-features" class="outline-2">
+<h2 id="features"><a id="sec-1-9" name="sec-1-9"></a>Features</h2>
+<div class="outline-text-2" id="text-features">
+
+<p>
+I was originally gonna throw in "Winrate vs opponent's character" as a
+feature but it worked better than I had hoped with just the features I
+put in and I was worried about overfitting the data, so I just left it
+alone to prevent additional complications. I'll probably play around
+with it some more eventually but for now this is fine.
+</p>
+</div>
+</div>
+
+<div id="outline-container-radar-chart" class="outline-2">
+<h2 id="radar-chart"><a id="sec-1-10" name="sec-1-10"></a>Radar Chart</h2>
+<div class="outline-text-2" id="text-radar-chart">
+
+<p>
+Full Disclosure - I didn't use matplotlib for this, I just found a tool
+online to do it. You <i>can</i> use matplotlib for this but actually finding
+good places to put these values is another task in and of itself (I
+tried to place it as "would have a 50% winrate vs players of this skill"
+which would likely be an entirely seperate problem solved probably with
+linear regression or something) so I just made one as a sort of mockup.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<br >
+<a href="#top">Back to Top</a>
+<div id="comments">
+    <p></p>
+    <hr />
+       <div id="disqus_thread">
+           <script>
+(function() {
+var d = document, s = d.createElement('script');
+s.src = 'https://planetbanatt.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</body>
 </html>
-

@@ -1,102 +1,267 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Visual Framerate Project</title>
-		<link href="../css/index.css" type="text/css" rel="stylesheet" />
-		<link rel="shortcut icon" href="../images/shine.ico"/>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
-		<script>
-		  window.dataLayer = window.dataLayer || [];
-		  function gtag(){dataLayer.push(arguments);}
-		  gtag('js', new Date());
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>framerate</title>
+<!-- 2018-06-20 Wed 00:36 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="ambi" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
 
-		  gtag('config', 'UA-101739190-1');
-		</script>
-		<script src="../scripts/scroll.js"></script>
-	</head>
-	<body>
-		<div class="header">
-			<h1>Eryk Banatt</h1>
-			<p>Cognitive Science Student, CS Enthusiast, Melee Player, Button Presser</p>
-				<nav class="nav" id="bar">
-					<hr />
-					<ul>
-						<li><a href = "../index.html">Home</a></li>
-						<li><a href = "../about.html">About/Contact</a></li>
-						<li><a href = "../projects.html">Projects</a></li>
-						<li><a href = "../melee.html">Melee</a></li>
-						<li><a href = "../links.html">Links</a></li>
-						<li><a href = "../resume.pdf">Resume</a></li>
-					</ul>
-					<hr />
-				</nav>
-		</div>
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-		<div class="pagetext">
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
 
-			<h2>A Rough Test of Human Visual Perception's "Framerate"</h2>
-			<h3>A Beginner Arduino Project</h3>
+<script type="text/javascript">
 
-			<p>This was a fun little project I did to learn the basics of using Arduino, and to explore a question I've had for a while - what is the "framerate" of your visual perception, if such a thing exists? It wasn't a very detailed project, and it wasn't a super well-constructed test (n=1, that being myself, and not blinded in any way), but it was a fun way to spend a couple hours.</p> 
+$(function() {
+    'use strict';
 
-			<img src="../images/arduino01.jpg" title="Project completed"/>
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
-			<p>The general idea of this project is that the LED begins blinking at 60hz, and there are three buttons on the board. The left button decreases the blink speed by 10hz, the right one increases the blink speed by 10hz, and the middle button is a modifier button that, when held down, will change the amount the previous two buttons change to 1hz (left + middle = -1hz, right + middle = +1hz). The code and the wiring was pretty simple; you can think of it as a simple extension of the sample "blink" code but with a few more buttons and variables. Long story short, it's a strobe light that you can precisely control the frequency for.</p>
+});
+</script>
 
-			<p>To use this, I took it into a dark room and removed all other sources of light. I did three trials, looking in different places (directly into the LED, at the LED from the side, and at the light "spill" on the table). I then adjusted the frequency of the blinks until I could no longer percieve the light flickering, and recorded the result. Unfortunately the LED wouldn't flicker faster than 280hz (it would just turn off) so I couldn't get any data beyond that.</p>
+<link rel="stylesheet" type="text/css" href="./css/default.css" />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
 
-			<style>
-			table{
-				text-align: center;
-				margin-left: auto;
-				margin-right: auto;
-			}
-			</style>
-			<table border="1">
-				<tr>
-					<th></th>
-					<th>Into Light</th>
-					<th>From Side</th>
-					<th>At Spill</th>
-				</tr>
-				<tr>
-					<th>Result</th>
-					<td>280hz+</td>
-					<td>68hz</td>
-					<td>47hz</td>
-				</tr>
-			</table>
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
 
-			<p>I thought it was interesting that the results varied so much depending on what I looked at (it seems weird at first that I would be able to percieve a light source flickering but not be able to percieve the light spill from a light source flickering at the same frequency). So I did some googling and came upon this <a href="http://cogsci.stackexchange.com/questions/5531/does-perception-have-a-frame-rate" target="_blank">excellent stackexchange post</a> that could shed some light (no pun intended) on why this could be the case. <a href="http://michaelfrankdeering.org/Projects/EyeModel/limits.pdf" target="_blank">Other papers</a> about this field of research set the framerate at 60hz, a number which is "hoped to be high enough," and mention that some speculation exists for human visual perception exceeding 300hz. You also don't really percieve things around you in perfect chronological order - your mind does some preprocessing on your sensory inputs before you recieve them in order to <a href="http://www.cell.com/current-biology/pdf/S0960-9822(03)00445-7.pdf" target="_blank">percieve things as happening at the same time</a> (here's an obvious example; touch your nose and hit your foot against something. Despite a much longer path for the information to travel through your nervous system, you'll percieve them as happening at the same time).</p>
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
 
-			<p>In short - <a href="http://terrycavanaghgames.com/nayasquest/" target="_blank">visual perception is really complicated!</a> And while it's fun to pose questions like "What is the framerate of visual perception?" we arrive at the answer we so often arrive at in Cognitive Science:</p>
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
 
-			<p><i>That's not a very good question because the human mind is more complicated than that.</i></p>
 
-			<i>posted on 12/28/16</i>
-			<br >
-			<a href="#top">Back to Top</a>
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="preamble" class="status">
 
-			<div id="comments">
-				<p></p>
-				<hr />
-					<div id="disqus_thread">
-						<script>
-						(function() {
-						var d = document, s = d.createElement('script');
-						s.src = 'https://planetbanatt.disqus.com/embed.js';
-						s.setAttribute('data-timestamp', +new Date());
-						(d.head || d.body).appendChild(s);
-						})();
-						</script>
-						<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-					</div>
-				</div>
+<!-- heading -->
+<!-- add here -->
 
-		</div>
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
 
-	</body>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content">
+<h1 class="title">framerate</h1>
+<div id="table-of-contents">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#a-rough-test-of-human-visual-perceptions-framerate">A Rough Test of Human Visual Perception's "Framerate"</a>
+<ul>
+<li><a href="#a-beginner-arduino-project">A Beginner Arduino Project</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-a-rough-test-of-human-visual-perceptions-framerate" class="outline-1">
+<h1 id="a-rough-test-of-human-visual-perceptions-framerate"><a id="sec-1" name="sec-1"></a>A Rough Test of Human Visual Perception's "Framerate"</h1>
+<div class="outline-text-1" id="text-a-rough-test-of-human-visual-perceptions-framerate">
+</div>
 
+<div id="outline-container-a-beginner-arduino-project" class="outline-2">
+<h2 id="a-beginner-arduino-project"><a id="sec-1-1" name="sec-1-1"></a>A Beginner Arduino Project</h2>
+<div class="outline-text-2" id="text-a-beginner-arduino-project">
+
+<p>
+This was a fun little project I did to learn the basics of using
+Arduino, and to explore a question I've had for a while - what is the
+"framerate" of your visual perception, if such a thing exists? It wasn't
+a very detailed project, and it wasn't a super well-constructed test
+(n=1, that being myself, and not blinded in any way), but it was a fun
+way to spend a couple hours.
+</p>
+
+<p>
+<img src="../images/arduino01.jpg" alt="arduino01.jpg" />
+The general idea of this project is that the LED begins blinking at
+60hz, and there are three buttons on the board. The left button
+decreases the blink speed by 10hz, the right one increases the blink
+speed by 10hz, and the middle button is a modifier button that, when
+held down, will change the amount the previous two buttons change to 1hz
+(left + middle = -1hz, right + middle = +1hz). The code and the wiring
+was pretty simple; you can think of it as a simple extension of the
+sample "blink" code but with a few more buttons and variables. Long
+story short, it's a strobe light that you can precisely control the
+frequency for.
+</p>
+
+<p>
+To use this, I took it into a dark room and removed all other sources of
+light. I did three trials, looking in different places (directly into
+the LED, at the LED from the side, and at the light "spill" on the
+table). I then adjusted the frequency of the blinks until I could no
+longer percieve the light flickering, and recorded the result.
+Unfortunately the LED wouldn't flicker faster than 280hz (it would just
+turn off) so I couldn't get any data beyond that.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">&#xa0;</th>
+<th scope="col" class="left">Into Light</th>
+<th scope="col" class="left">From Side</th>
+<th scope="col" class="left">At Spill</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">Result</td>
+<td class="left">280hz+</td>
+<td class="left">68hz</td>
+<td class="left">47hz</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+I thought it was interesting that the results varied so much depending
+on what I looked at (it seems weird at first that I would be able to
+percieve a light source flickering but not be able to percieve the light
+spill from a light source flickering at the same frequency). So I did
+some googling and came upon this
+<a href="http://cogsci.stackexchange.com/questions/5531/does-perception-have-a-frame-rate">excellent
+stackexchange post</a> that could shed some light (no pun intended) on why
+this could be the case.
+<a href="http://michaelfrankdeering.org/Projects/EyeModel/limits.pdf">Other
+papers</a> about this field of research set the framerate at 60hz, a
+number which is "hoped to be high enough," and mention that some
+speculation exists for human visual perception exceeding 300hz. You also
+don't really percieve things around you in perfect chronological order -
+your mind does some preprocessing on your sensory inputs before you
+recieve them in order to
+<a href="http://www.cell.com/current-biology/pdf/S0960-9822(03)00445-7.pdf">percieve
+things as happening at the same time</a> (here's an obvious example; touch
+your nose and hit your foot against something. Despite a much longer
+path for the information to travel through your nervous system, you'll
+percieve them as happening at the same time).
+</p>
+
+<p>
+In short - <a href="http://terrycavanaghgames.com/nayasquest/">visual
+perception is really complicated!</a> And while it's fun to pose questions
+like "What is the framerate of visual perception?" we arrive at the
+answer we so often arrive at in Cognitive Science:
+</p>
+
+<p>
+<i>That's not a very good question because the human mind is more
+complicated than that.</i>
+</p>
+
+<p>
+<i>posted on 12/28/16</i><br  />
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<br >
+<a href="#top">Back to Top</a>
+<div id="comments">
+    <p></p>
+    <hr />
+       <div id="disqus_thread">
+           <script>
+(function() {
+var d = document, s = d.createElement('script');
+s.src = 'https://planetbanatt.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</body>
 </html>

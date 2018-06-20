@@ -1,134 +1,421 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>360 FOV Idea</title>
-		<link href="../css/index.css" type="text/css" rel="stylesheet" />
-		<link rel="shortcut icon" href="../images/shine.ico"/>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-		<script src="../scripts/scroll.js"></script>
-		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
-		<script>
-		  window.dataLayer = window.dataLayer || [];
-		  function gtag(){dataLayer.push(arguments);}
-		  gtag('js', new Date());
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>360view</title>
+<!-- 2018-06-20 Wed 00:36 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="ambi" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
 
-		  gtag('config', 'UA-101739190-1');
-		</script>		
-	</head>
-	<body>
-		<div class="header">
-			<h1>Eryk Banatt</h1>
-			<p>Cognitive Science Student, CS Enthusiast, Melee Player, Button Presser</p>
-				<nav class="nav" id="bar">
-					<hr />
-					<ul>
-						<li><a href = "../index.html">Home</a></li>
-						<li><a href = "../about.html">About/Contact</a></li>
-						<li><a href = "../projects.html">Projects</a></li>
-						<li><a href = "../melee.html">Melee</a></li>
-						<li><a href = "../links.html">Links</a></li>
-						<li><a href = "../resume.pdf">Resume</a></li>
-					</ul>
-					<hr />
-				</nav>
-		</div>
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-		<div class="pagetext">
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
 
-			<h1 id="seeingeverythingavisualperceptionexperimentproposal">Seeing Everything: A Visual Perception Experiment Proposal</h1>
+<script type="text/javascript">
 
-			<p><i>Draft: v1.0 | Posted: 12/9/2017 | Updated: 12/9/2017 | confidence of success: 5% | estimated time to completion: Likely Never | importance: Low</i></p>
+$(function() {
+    'use strict';
 
-			<h2 id="abstract">Abstract</h2>
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
-			<p>I am no longer a cognitive science student, but every so often I will read / watch something that makes me think "This would make a fantasic experiment". Most people, faced with this kind of situation, usually use this thought as a cue to write science fiction, but this idea has been bothering me so much for so long that I feel like I need to flesh out the idea in a sort of blog-post fashion.</p>
+});
+</script>
 
-			<p>The purpose of this experiment is to apply projections used in cartography to human vision, allowing for an abnormally wide field of vision (ideally close to 360 degrees). This will be done using a VR headset and a helmet of strategically placed ultra-low-latency cameras. There exists the possibility for visual adaptation similar to Stratton 1896, in which visual perception is flipped upside-down after wearing inversion goggles. 360 vision would obviously be a huge asset to groups such as soldiers or pilots, and it's possible that becoming adjusted to this style of vision and then removing it would cause a feeling of "blindness" behind oneself.</p>
+<link rel="stylesheet" type="text/css" href="./css/default.css" />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
 
-			<h2 id="intro">Intro</h2>
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
 
-			<p>In cartography, a lot of thought has been put into how best to map the surface of a sphere onto a two dimensional image. You can't merely "cut apart" the surface of a globe and flatten it - it's like trying to flatten an orange peel. As such, mapping projections unavoidably come with some distortion of the terrain, typically at the edges (i.e. Antarctica).</p>
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
 
-			<p>Human vision is rather limited, as we only have two eyes in the front of our heads and can only see roughly 190 degrees in front of us, with the outer 40 degrees on either side not having any sort of binocular vision (due to only being perceptible by one of the two eyes). Put in a crude diagram, you can imagine it like so:</p>
-
-			<p><img src="../images/ahk20xx/eyes.png" alt="" /></p>
-
-			<p>If you imagine a human that could theoretically see the entire 360 FOV around themselves, their vision would crudely be represented like so:</p>
-
-			<p><img src="../images/ahk20xx/eyes_all.png" alt="" /></p>
-
-			<p>That is, you can imagine this problem like mapping the surface of a sphere from the inside, which if you flip inside out just transposes to the already-well-established field of cartography. Indeed, this has already seen some use in the testbed of video games with some success (and was the inspiration for this project)</p>
-
-			<iframe width="560" height="315" src="https://www.youtube.com/embed/f9v_XN7Wxh8" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
-
-			<p>This naturally comes with some distortion of the visual field, but given how little of the visual field actually <em>matters</em> aside from what the participant is actually gazing at, this seems like a very small price to pay for 360 FOV Vision. (One of my favorite examples comes from <a href="https://link.springer.com/article/10.3758%2FBF03203972">McConkie &amp; Rayner 1975</a> where letters in a text <a href="http://html.scirp.org/file/2-1640303x5.png">were replaced with X's when not directly being looked at</a>. Participants were often completely unaware that the text was abnormal at all, a mere couple of degrees <em>actually</em> being percieved and the rest just being haphazardly filled in by visual perception. Spooky!)</p>
-
-			<h2 id="apparatus">Apparatus</h2>
-
-			<p>The apparatus for this experiment is pretty straightforward, using a Virtual Reality headset (for example, Oculus Rift, or HTC Vive) as well as a few high-end cameras with suitable resolution, framerate, and low latency. A broadband fiber cable company built something similar for a commercial in 2014 with the opposite intention, to demonstrate a way to create "lag" in real time:</p>
-
-			<iframe width="560" height="315" src="https://www.youtube.com/embed/_fNp37zFn9Q" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
-
-			<p>Of course, for real use such a rig would need to be comprised of a camera fast enough to <em>not</em> have this lag and be at least a somewhat decent replacement for human vision. The only cameras I could find with these numbers come from <a href="https://optitrack.com/hardware/compare/">OptiTrack</a> which suggest that this project is feasible (example specifications are 240fps / 4.2ms latency which are roughly good enough given my <a href="https://cogsci.yale.edu/sites/default/files/files/Thesis2017Banatt.pdf">other</a> <a href="http://planetbanatt.net/articles/framerate.html">research</a>) but the $2000 price tag per camera (for a rig that would likely require at least 6) puts this squarely out of hobbyist range, unless there are suitably similar cameras for a much lower price.</p>
-
-			<p>The cameras would map onto the headset's visual plane via a standard mapping projection, offset on each eye to preserve binocular vision as much as possible. From the video cited above, the <a href="https://en.wikipedia.org/wiki/Winkel_tripel_projection">Winkel Tripel projection</a> seems like a good choice for projecting an image that changes (compared to a static map), but there's certainly no shortage of other options - Richard Capek <a href="http://icaci.org/documents/ICC_proceedings/ICC2001/icc2001/file/f24014.doc">wrote a paper in 2001</a> ranking them, and his list gives the nod to the <a href="http://www.csiss.org/map-projections/Polyconic/Ginzburg_5.pdf">Ginzburg V projection</a>. I'm sure there's adjustments to be made for one that changes in real time, but it's mostly a matter of implementation rather than design. </p>
-
-			<h2 id="adaptation">Adaptation</h2>
-
-			<p>This experiment is a loosely more tech-oriented version of <a href="http://psycnet.apa.org/record/1926-02881-001">Stratton 1897</a>, in which he wore glasses that used mirrors to invert his visual field. He found that after a while he was able to adapt to this completely, his perception reorienting the image.</p>
-
-			<iframe width="560" height="315" src="https://www.youtube.com/embed/MHMvEMy7B9k" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
-
-			<p>I think the fun part of this experiment is that 360 vision isn't just a modified version of a normal type of sensory perception, it's a direct augmentation - adapting to being able to see behind you and then immediately no longer being able to see behind you wouldn't just be "reorienting" your perception, but rather stripping you of a great deal of your visual perception, and I can't help but wonder if it would feel like being blinded in your peripheral vision, or even just highly annoyed at it, as you might be by changing the FOV in an action video game to 90 degrees instead of 170. </p>
-
-			<h2 id="applications">Applications</h2>
-
-			<p>360 vision seems like it would be a very useful tool in a number of scenarios, although most of the ones that immediately jump out to me are combat-related. You can imagine a fighter pilot engaged in a dogfight with an enemy, and not needing to crane their head and rely on looking in the right direction since every direction is the right direction. There's <a href="https://www.youtube.com/watch?v=xRbQXL1oMqY">precedent</a> for using augmented vision for fighter pilots to eliminate blind spots and such, and an increased FOV seems like a natural addition if it is found that adapting well to the distorted visual field is plausible.</p>
-
-			<p>This experiment is obviously quite a bit out of my financial reach to perform myself, but I certainly can imagine a visual perception lab recieving a grant from HTC to run this with their product - it would be great PR for them and an exciting step for VR technology which is primarily focused on gaming at the moment.</p>
-
-			<p>If nothing else, it would be fun to play a VR game in which I control a giant evangelion-like robot from my chair with this kind of augmented visual perception.</p>
-
-			<h2 id="citationsandlinks">Citations and Links</h2>
-
-			<p><a href="https://link.springer.com/article/10.3758%2FBF03203972">McConkie &amp; Rayner 1975, The span of the effective stimulus during a fixation in reading</a></p>
-
-			<p><a href="http://file.scirp.org/Html/2-1640303_51379.htm">Leung et al 2014, The Perceptual Span in Second Language Reading: An Eye-Tracking Study Using a Gaze-Contingent Moving Window Paradigm</a></p>
-
-			<p><a href="http://psycnet.apa.org/record/1926-02881-001">Stratton 1897, Vision without inversion of the retinal image.</a></p>
-
-			<p><a href="https://www.youtube.com/watch?v=_fNp37zFn9Q">Living With Lag - Ume 2014</a></p>
-
-			<p><a href="http://planetbanatt.net/articles/framerate.html">Banatt 2016, A Rough Test of Human Visual Perception's "Framerate"</a></p>
-
-			<p><a href="https://cogsci.yale.edu/sites/default/files/files/Thesis2017Banatt.pdf">Banatt 2017, Input Latency Perception in Expert-Level Gamers</a></p>
-
-			<p><a href="https://optitrack.com/hardware/compare/">OptiTrack Cameras</a></p>
-
-			<p><a href="http://icaci.org/documents/ICC_proceedings/ICC2001/icc2001/file/f24014.doc">Capek 2001, WHICH IS THE BEST PROJECTION FOR THE WORLD MAP?</a></p>
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
 
 
-			<i>posted on 12/9/17</i>
-			<br >
-			<a href="#top">Back to Top</a>
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="preamble" class="status">
 
-			<div id="comments">
-			<p></p>
-			<hr />
-				<div id="disqus_thread">
-					<script>
-					(function() {
-					var d = document, s = d.createElement('script');
-					s.src = 'https://planetbanatt.disqus.com/embed.js';
-					s.setAttribute('data-timestamp', +new Date());
-					(d.head || d.body).appendChild(s);
-					})();
-					</script>
-					<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-				</div>
-			</div>
+<!-- heading -->
+<!-- add here -->
 
-		</div>
-	</body>
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content">
+<h1 class="title">360view</h1>
+<div id="table-of-contents">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Seeing Everything: A Visual Perception Experiment Proposal</a>
+<ul>
+<li><a href="#abstract">Abstract</a></li>
+<li><a href="#intro">Intro</a></li>
+<li><a href="#apparatus">Apparatus</a></li>
+<li><a href="#adaptation">Adaptation</a></li>
+<li><a href="#applications">Applications</a></li>
+<li><a href="#citationsandlinks">Citations and Links</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-1">
+<h1 id="sec-1">Seeing Everything: A Visual Perception Experiment Proposal</h1>
+<div class="outline-text-1" id="text-1">
+<blockquote>
+<p>
+Draft: v1.0 | Posted: 12/9/2017 | Updated: 12/9/2017 | confidence of
+success: 5% | estimated time to completion: Likely Never | importance:
+Low
+</p>
+</blockquote>
+</div>
+
+<div id="outline-container-abstract" class="outline-2">
+<h2 id="abstract"><a id="sec-1-1" name="sec-1-1"></a>Abstract</h2>
+<div class="outline-text-2" id="text-abstract">
+
+<p>
+I am no longer a cognitive science student, but every so often I will
+read / watch something that makes me think "This would make a fantasic
+experiment". Most people, faced with this kind of situation, usually use
+this thought as a cue to write science fiction, but this idea has been
+bothering me so much for so long that I feel like I need to flesh out
+the idea in a sort of blog-post fashion.
+</p>
+
+<p>
+The purpose of this experiment is to apply projections used in
+cartography to human vision, allowing for an abnormally wide field of
+vision (ideally close to 360 degrees). This will be done using a VR
+headset and a helmet of strategically placed ultra-low-latency cameras.
+There exists the possibility for visual adaptation similar to Stratton
+1896, in which visual perception is flipped upside-down after wearing
+inversion goggles. 360 vision would obviously be a huge asset to groups
+such as soldiers or pilots, and it's possible that becoming adjusted to
+this style of vision and then removing it would cause a feeling of
+"blindness" behind oneself.
+</p>
+</div>
+</div>
+
+<div id="outline-container-intro" class="outline-2">
+<h2 id="intro"><a id="sec-1-2" name="sec-1-2"></a>Intro</h2>
+<div class="outline-text-2" id="text-intro">
+
+<p>
+In cartography, a lot of thought has been put into how best to map the
+surface of a sphere onto a two dimensional image. You can't merely "cut
+apart" the surface of a globe and flatten it - it's like trying to
+flatten an orange peel. As such, mapping projections unavoidably come
+with some distortion of the terrain, typically at the edges (i.e.
+Antarctica).
+</p>
+
+<p>
+Human vision is rather limited, as we only have two eyes in the front of
+our heads and can only see roughly 190 degrees in front of us, with the
+outer 40 degrees on either side not having any sort of binocular vision
+(due to only being perceptible by one of the two eyes). Put in a crude
+diagram, you can imagine it like so:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/ahk20xx/eyes.png" alt="eyes.png" />
+</p>
+</div>
+
+<p>
+If you imagine a human that could theoretically see the entire 360 FOV
+around themselves, their vision would crudely be represented like so:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/ahk20xx/eyes_all.png" alt="eyes_all.png" />
+</p>
+</div>
+
+<p>
+That is, you can imagine this problem like mapping the surface of a
+sphere from the inside, which if you flip inside out just transposes to
+the already-well-established field of cartography. Indeed, this has
+already seen some use in the testbed of video games with some success
+(and was the inspiration for this project)
+</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/f9v_XN7Wxh8" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+
+<p>
+This naturally comes with some distortion of the visual field, but given
+how little of the visual field actually <i>matters</i> aside from what the
+participant is actually gazing at, this seems like a very small price to
+pay for 360 FOV Vision. (One of my favorite examples comes from
+<a href="https://link.springer.com/article/10.3758/BF03203972">McConkie &amp;
+Rayner 1975</a> where letters in a text
+<a href="http://html.scirp.org/file/2-1640303x5.png">were replaced with X's
+when not directly being looked at</a>. Participants were often completely
+unaware that the text was abnormal at all, a mere couple of degrees
+<i>actually</i> being percieved and the rest just being haphazardly filled in
+by visual perception. Spooky!)
+</p>
+</div>
+</div>
+
+<div id="outline-container-apparatus" class="outline-2">
+<h2 id="apparatus"><a id="sec-1-3" name="sec-1-3"></a>Apparatus</h2>
+<div class="outline-text-2" id="text-apparatus">
+
+<p>
+The apparatus for this experiment is pretty straightforward, using a
+Virtual Reality headset (for example, Oculus Rift, or HTC Vive) as well
+as a few high-end cameras with suitable resolution, framerate, and low
+latency. A broadband fiber cable company built something similar for a
+commercial in 2014 with the opposite intention, to demonstrate a way to
+create "lag" in real time:
+</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/_fNp37zFn9Q" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+
+<p>
+Of course, for real use such a rig would need to be comprised of a
+camera fast enough to <i>not</i> have this lag and be at least a somewhat
+decent replacement for human vision. The only cameras I could find with
+these numbers come from
+<a href="https://optitrack.com/hardware/compare/">OptiTrack</a> which suggest
+that this project is feasible (example specifications are 240fps / 4.2ms
+latency which are roughly good enough given my
+<a href="https://cogsci.yale.edu/sites/default/files/files/Thesis2017Banatt.pdf">other</a>
+<a href="http://planetbanatt.net/articles/framerate.html">research</a>) but the
+$2000 price tag per camera (for a rig that would likely require at least 6) puts this squarely out of hobbyist range, unless there are suitably
+similar cameras for a much lower price.
+</p>
+
+<p>
+The cameras would map onto the headset's visual plane via a standard
+mapping projection, offset on each eye to preserve binocular vision as
+much as possible. From the video cited above, the
+<a href="https://en.wikipedia.org/wiki/Winkel_tripel_projection">Winkel Tripel
+projection</a> seems like a good choice for projecting an image that
+changes (compared to a static map), but there's certainly no shortage of
+other options - Richard Capek
+<a href="http://icaci.org/documents/ICC_proceedings/ICC2001/icc2001/file/f24014.doc">wrote
+a paper in 2001</a> ranking them, and his list gives the nod to the
+<a href="http://www.csiss.org/map-projections/Polyconic/Ginzburg_5.pdf">Ginzburg
+V projection</a>. I'm sure there's adjustments to be made for one that
+changes in real time, but it's mostly a matter of implementation rather
+than design.
+</p>
+</div>
+</div>
+
+<div id="outline-container-adaptation" class="outline-2">
+<h2 id="adaptation"><a id="sec-1-4" name="sec-1-4"></a>Adaptation</h2>
+<div class="outline-text-2" id="text-adaptation">
+
+<p>
+This experiment is a loosely more tech-oriented version of
+<a href="http://psycnet.apa.org/record/1926-02881-001">Stratton 1897</a>, in
+which he wore glasses that used mirrors to invert his visual field. He
+found that after a while he was able to adapt to this completely, his
+perception reorienting the image.
+</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/MHMvEMy7B9k" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+
+<p>
+I think the fun part of this experiment is that 360 vision isn't just a
+modified version of a normal type of sensory perception, it's a direct
+augmentation - adapting to being able to see behind you and then
+immediately no longer being able to see behind you wouldn't just be
+"reorienting" your perception, but rather stripping you of a great deal
+of your visual perception, and I can't help but wonder if it would feel
+like being blinded in your peripheral vision, or even just highly
+annoyed at it, as you might be by changing the FOV in an action video
+game to 90 degrees instead of 170.
+</p>
+</div>
+</div>
+
+<div id="outline-container-applications" class="outline-2">
+<h2 id="applications"><a id="sec-1-5" name="sec-1-5"></a>Applications</h2>
+<div class="outline-text-2" id="text-applications">
+
+<p>
+360 vision seems like it would be a very useful tool in a number of
+scenarios, although most of the ones that immediately jump out to me are
+combat-related. You can imagine a fighter pilot engaged in a dogfight
+with an enemy, and not needing to crane their head and rely on looking
+in the right direction since every direction is the right direction.
+There's <a href="https://www.youtube.com/watch?v=xRbQXL1oMqY">precedent</a> for
+using augmented vision for fighter pilots to eliminate blind spots and
+such, and an increased FOV seems like a natural addition if it is found
+that adapting well to the distorted visual field is plausible.
+</p>
+
+<p>
+This experiment is obviously quite a bit out of my financial reach to
+perform myself, but I certainly can imagine a visual perception lab
+recieving a grant from HTC to run this with their product - it would be
+great PR for them and an exciting step for VR technology which is
+primarily focused on gaming at the moment.
+</p>
+
+<p>
+If nothing else, it would be fun to play a VR game in which I control a
+giant evangelion-like robot from my chair with this kind of augmented
+visual perception.
+</p>
+</div>
+</div>
+
+<div id="outline-container-citationsandlinks" class="outline-2">
+<h2 id="citationsandlinks"><a id="sec-1-6" name="sec-1-6"></a>Citations and Links</h2>
+<div class="outline-text-2" id="text-citationsandlinks">
+
+<p>
+<a href="https://link.springer.com/article/10.3758/BF03203972">McConkie &amp;
+Rayner 1975, The span of the effective stimulus during a fixation in
+reading</a>
+</p>
+
+<p>
+<a href="http://file.scirp.org/Html/2-1640303_51379.htm">Leung et al 2014, The
+Perceptual Span in Second Language Reading: An Eye-Tracking Study Using
+a Gaze-Contingent Moving Window Paradigm</a>
+</p>
+
+<p>
+<a href="http://psycnet.apa.org/record/1926-02881-001">Stratton 1897, Vision
+without inversion of the retinal image.</a>
+</p>
+
+<p>
+<a href="https://www.youtube.com/watch?v=_fNp37zFn9Q">Living With Lag - Ume
+2014</a>
+</p>
+
+<p>
+<a href="http://planetbanatt.net/articles/framerate.html">Banatt 2016, A Rough
+Test of Human Visual Perception's "Framerate"</a>
+</p>
+
+<p>
+<a href="https://cogsci.yale.edu/sites/default/files/files/Thesis2017Banatt.pdf">Banatt
+2017, Input Latency Perception in Expert-Level Gamers</a>
+</p>
+
+<p>
+<a href="https://optitrack.com/hardware/compare/">OptiTrack Cameras</a>
+</p>
+
+<p>
+<a href="http://icaci.org/documents/ICC_proceedings/ICC2001/icc2001/file/f24014.doc">Capek
+2001, WHICH IS THE BEST PROJECTION FOR THE WORLD MAP?</a>
+</p>
+
+<p>
+<i>posted on 12/9/17</i><br  />
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<br >
+<a href="#top">Back to Top</a>
+<div id="comments">
+    <p></p>
+    <hr />
+       <div id="disqus_thread">
+           <script>
+(function() {
+var d = document, s = d.createElement('script');
+s.src = 'https://planetbanatt.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</body>
 </html>
