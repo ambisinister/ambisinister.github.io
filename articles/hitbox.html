@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>hitbox</title>
-<!-- 2018-06-20 Wed 00:36 -->
+<!-- 2018-06-20 Wed 23:39 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="ambi" />
@@ -128,8 +128,8 @@ for the JavaScript code in this tag.
 <li><a href="#rough-tutorial">Rough Tutorial</a></li>
 <li><a href="#some-responses">Some Responses</a>
 <ul>
-<li><a href="#the-z-button-and-the-c-stick-are-macros-so-banning-macros-bans-the-original-gamecube-controller">"The Z button and the C stick are macros, so banning macros bans the</a></li>
-<li><a href="#its-better-for-your-hands-and-your-controller-is-even-worse-for-your-hands-than-a-normal-gcc">"It's better for your hands! And your controller is even WORSE for</a></li>
+<li><a href="#the-z-button-and-the-c-stick-are-macros-so-banning-macros-bans-the-original-gamecube-controller">"The Z button and the C stick are macros, so banning macros bans the original gamecube controller"</a></li>
+<li><a href="#its-better-for-your-hands-and-your-controller-is-even-worse-for-your-hands-than-a-normal-gcc">"It's better for your hands! And your controller is even WORSE for your hands than a normal GCC!"</a></li>
 </ul>
 </li>
 <li><a href="#in-closing">In closing</a></li>
@@ -194,16 +194,19 @@ stick down, left, right, down) but placed in convenient locations.
 <div id="outline-container-rough-tutorial" class="outline-2">
 <h2 id="rough-tutorial"><a id="sec-1-1" name="sec-1-1"></a>Rough Tutorial</h2>
 <div class="outline-text-2" id="text-rough-tutorial">
+<i>
 
 <p>
-/Disclaimer: I got almost all of the following information from asking
+Disclaimer: I got almost all of the following information from asking
 Kadano, and if he ever writes a tutorial on this I will link it here.
 He's super awesome and you should <a href="https://twitter.com/Kadano">follow
 him on twitter</a> if you don't already. Worth noting is that he is in
 favor of Analog-Digital conversion buttons, so if you want a different
 perspective from mine, from someone who definitely knows their stuff,
-check his out./
+check his out.
 </p>
+
+</i>
 
 <p>
 You'll need the following:
@@ -234,8 +237,13 @@ towards - more to the right, more towards 3.4V; more to the left, more
 towards 0V; perfectly in the middle, around 1.7V.
 </p>
 
+
+<div class="figure">
+<p><img src="../images/smashbox/controllerpins.JPG" alt="controllerpins.JPG" />
+</p>
+</div>
+
 <p>
-<img src="../images/smashbox/controllerpins.JPG" alt="controllerpins.JPG" />
 The coordinate values are evenly distributed across the voltage values,
 so the coordinate that gets sent is basically just (V - 1.7) / 1.7. If
 you want y = 0.675, you'll want 2.8475V (I haven't verified this since I
@@ -253,14 +261,24 @@ voltage arbitrarily feel free to let me know and I'll drop it in here.
 The specific wiring that I used was as follows
 </p>
 
+
+<div class="figure">
+<p><img src="../images/smashbox/wiring.jpg" alt="wiring.jpg" />
+</p>
+</div>
+
 <p>
-<img src="../images/smashbox/wiring.jpg" alt="wiring.jpg" />
 I also included Y = -1 and C-stick Y = -1 which are the same as X = -1
 but on the other Potentiometer (obviously)
 </p>
 
+
+<div class="figure">
+<p><img src="../images/smashbox/solder.JPG" alt="solder.JPG" />
+</p>
+</div>
+
 <p>
-<img src="../images/smashbox/solder.JPG" alt="solder.JPG" />
 What I did at this step, after completing the wiring and testing that
 the values were correct, was I drilled a few holes where I wanted the
 buttons to be on the shell of the controller.
@@ -268,11 +286,19 @@ buttons to be on the shell of the controller.
 
 <p>
 <img src="../images/smashbox/holes1.JPG" alt="holes1.JPG" /> <img src="../images/smashbox/holes2.JPG" alt="holes2.JPG" />
-Then I mounted the buttons with hot glue
 </p>
 
 <p>
-<img src="../images/smashbox/mount.JPG" alt="mount.JPG" />
+Then I mounted the buttons with hot glue
+</p>
+
+
+<div class="figure">
+<p><img src="../images/smashbox/mount.JPG" alt="mount.JPG" />
+</p>
+</div>
+
+<p>
 Not the most elegant solution, but a functional one for a prototype.
 Results follow:
 </p>
@@ -283,17 +309,15 @@ Results follow:
 </p>
 </div>
 </div>
+
 <div id="outline-container-some-responses" class="outline-2">
 <h2 id="some-responses"><a id="sec-1-2" name="sec-1-2"></a>Some Responses</h2>
 <div class="outline-text-2" id="text-some-responses">
 </div>
 
 <div id="outline-container-the-z-button-and-the-c-stick-are-macros-so-banning-macros-bans-the-original-gamecube-controller" class="outline-3">
-<h3 id="the-z-button-and-the-c-stick-are-macros-so-banning-macros-bans-the-original-gamecube-controller"><a id="sec-1-2-1" name="sec-1-2-1"></a>"The Z button and the C stick are macros, so banning macros bans the</h3>
+<h3 id="the-z-button-and-the-c-stick-are-macros-so-banning-macros-bans-the-original-gamecube-controller"><a id="sec-1-2-1" name="sec-1-2-1"></a>"The Z button and the C stick are macros, so banning macros bans the original gamecube controller"</h3>
 <div class="outline-text-3" id="text-the-z-button-and-the-c-stick-are-macros-so-banning-macros-bans-the-original-gamecube-controller">
-<p>
-original gamecube controller"
-</p>
 
 <p>
 I think it's important when discussing anything to specifically craft
@@ -333,8 +357,13 @@ consider it a "software macro".
 Looking at the IC, we see the following (source: BitBuilt)
 </p>
 
+
+<div class="figure">
+<p><img src="../images/smashbox/pinout.png" alt="pinout.png" />
+</p>
+</div>
+
 <p>
-<img src="../images/smashbox/pinout.png" alt="pinout.png" />
 C stick axes have their own pins, and Z is there too. In hindsight, this
 seems kind of obvious (C-stick controls camera in 1-player mode, and
 they don't do the same things they do in Melee in other gamecube games,
@@ -354,11 +383,8 @@ same page.
 </div>
 
 <div id="outline-container-its-better-for-your-hands-and-your-controller-is-even-worse-for-your-hands-than-a-normal-gcc" class="outline-3">
-<h3 id="its-better-for-your-hands-and-your-controller-is-even-worse-for-your-hands-than-a-normal-gcc"><a id="sec-1-2-2" name="sec-1-2-2"></a>"It's better for your hands! And your controller is even WORSE for</h3>
+<h3 id="its-better-for-your-hands-and-your-controller-is-even-worse-for-your-hands-than-a-normal-gcc"><a id="sec-1-2-2" name="sec-1-2-2"></a>"It's better for your hands! And your controller is even WORSE for your hands than a normal GCC!"</h3>
 <div class="outline-text-3" id="text-its-better-for-your-hands-and-your-controller-is-even-worse-for-your-hands-than-a-normal-gcc">
-<p>
-your hands than a normal GCC!"
-</p>
 
 <p>
 This is very, very true, but I think all of my criticism sort of becomes
@@ -372,14 +398,20 @@ appropriate for the game, way less controversial, and also pretty good
 for your hands. You can even add notches! Go nuts.
 </p>
 
+
+<div class="figure">
+<p><img src="../images/smashbox/fightstick.png" alt="fightstick.png" />
+</p>
+</div>
+
 <p>
-<img src="../images/smashbox/fightstick.png" alt="fightstick.png" />
 Perhaps not the most rigorous test, but I'm pretty sure most fightsticks
 have joysticks
 </p>
 </div>
 </div>
 </div>
+
 <div id="outline-container-in-closing" class="outline-2">
 <h2 id="in-closing"><a id="sec-1-3" name="sec-1-3"></a>In closing</h2>
 <div class="outline-text-2" id="text-in-closing">
@@ -421,7 +453,6 @@ ruleset.
 </div>
 </div>
 <div id="postamble" class="status">
-<br >
 <a href="#top">Back to Top</a>
 <div id="comments">
     <p></p>
