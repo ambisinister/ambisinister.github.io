@@ -1,0 +1,222 @@
+* Gamecube Controllers, The Smash Box, and Digital -> Analog Conversion
+   :PROPERTIES:
+   :CUSTOM_ID: gamecube-controllers-the-smash-box-and-digital---analog-conversion
+   :END:
+
+This is a continuation of the video I put out recently called "Gamecube
+Controllers in the Era of Smash Box"
+
+#+BEGIN_HTML
+<iframe width="560" height="315" src="https://www.youtube.com/embed/zwwc0HjXd1k" frameborder="0" allowfullscreen></iframe>
+#+END_HTML
+
+Most of the inspiration for this video came from my own frustrations in
+the greater community discussion of the Smash Box. I felt that a lot of
+the discussion about the potential legality of Smash Box didn't seem to
+have a strong enough grasp of the actual changes such a controller would
+bring to the metagame. Others, such as
+[[https://www.youtube.com/watch?v=7KN0UvnTFBM][Gravy]], I felt were
+pushing for the controller mostly because they /really want to use it/,
+rather than thinking that it offers no unfair advantage over Gamecube
+controller users and should be legal.
+
+And to some extent, I really get that. I want to do consistent pivot
+uptilt combos too, after all.
+
+But I felt the need to make this controller largely to make sure people
+/really/ understood what they were signing up for.
+
+So, I created this controller with six additional buttons mapping analog
+values to tactile switches in order to basically trivialize certain
+difficult analog movements (specifically, pivot uptilt, pivot dtilt,
+non-tilt shield drop, backdash, asdi down/cc). The six values I chose
+were in my view the most useful inputs that would not be better suited
+for controller notches (e.g. firefox angles), but in practice the
+possibilities are endless; you can have buttons for
+[[https://www.youtube.com/watch?v=xWMnd1amgTI][Ice Climbers solo jump]],
+[[https://www.youtube.com/watch?v=y9nivZx7U8c][sheik upb turnaround]],
+[[https://smashboards.com/threads/how-pre-ledgegrab-body-states-affect-your-ledgedash-timing.346128/page-2#post-16761783][Fox
+optimal ledgedash angles]], slight DI for marth/sheik throws, pivot
+ftilt buttons that are usable for wobbling... Pretty much any hard
+single analog input can just be mapped to a button. For this project,
+though, I tried to limit my button choices to buttons that have
+equivalents on the Smash Box (upwards and downwards tilt modifier, c
+stick down, left, right, down) but placed in convenient locations.
+
+** Rough Tutorial
+   :PROPERTIES:
+   :CUSTOM_ID: rough-tutorial
+   :END:
+#+BEGIN_HTML
+<i>
+#+END_HTML
+
+Disclaimer: I got almost all of the following information from asking
+Kadano, and if he ever writes a tutorial on this I will link it here.
+He's super awesome and you should [[https://twitter.com/Kadano][follow
+him on twitter]] if you don't already. Worth noting is that he is in
+favor of Analog-Digital conversion buttons, so if you want a different
+perspective from mine, from someone who definitely knows their stuff,
+check his out.
+
+#+BEGIN_HTML
+</i>
+#+END_HTML
+
+You'll need the following:
+
+-  Soldering Equipment
+-  Wire
+-  Tact Switches
+-  Resistors
+-  Some method of creating holes in the shell (Drill, Dremel, etc)
+-  Breadboard (semi-optional)
+
+When looking at the pcb from the back, you'll notice there are three
+pins to the Potentiometer for each axis of an analog stick. The leftmost
+pin (from the back, so the one corresponding to right) is wired to 3.4v,
+the left is wired to ground (0V), and the middle is the signal pin which
+sends a variable voltage to the IC based on what direction it's tilted
+towards - more to the right, more towards 3.4V; more to the left, more
+towards 0V; perfectly in the middle, around 1.7V.
+
+[[../images/smashbox/controllerpins.JPG]]
+
+The coordinate values are evenly distributed across the voltage values,
+so the coordinate that gets sent is basically just (V - 1.7) / 1.7. If
+you want y = 0.675, you'll want 2.8475V (I haven't verified this since I
+don't have a multimeter, but it's what I've been told). To get this, you
+can try different amounts of resistance by testing it with a
+[[https://learn.sparkfun.com/tutorials/how-to-use-a-breadboard][breadboard]].
+Kadano has determined through trial and error that you can use 10 ohm
+resistors for full values, 5kohm resistors for shield drop values, and
+trimpots for calibration over time from value degradation (YMMV on the
+exact values). If someone can build a circuit that is able to change
+voltage arbitrarily feel free to let me know and I'll drop it in here.
+
+The specific wiring that I used was as follows
+
+[[../images/smashbox/wiring.jpg]]
+
+I also included Y = -1 and C-stick Y = -1 which are the same as X = -1
+but on the other Potentiometer (obviously)
+
+[[../images/smashbox/solder.JPG]]
+
+What I did at this step, after completing the wiring and testing that
+the values were correct, was I drilled a few holes where I wanted the
+buttons to be on the shell of the controller.
+
+[[../images/smashbox/holes1.JPG]] [[../images/smashbox/holes2.JPG]]
+
+Then I mounted the buttons with hot glue
+
+[[../images/smashbox/mount.JPG]]
+
+Not the most elegant solution, but a functional one for a prototype.
+Results follow:
+
+[[../images/smashbox/results1.JPG]] [[../images/smashbox/results2.JPG]]
+[[../images/smashbox/results3.JPG]]
+
+** Some Responses
+   :PROPERTIES:
+   :CUSTOM_ID: some-responses
+   :END:
+
+*** "The Z button and the C stick are macros, so banning macros bans the original gamecube controller"
+    :PROPERTIES:
+    :CUSTOM_ID: the-z-button-and-the-c-stick-are-macros-so-banning-macros-bans-the-original-gamecube-controller
+    :END:
+
+I think it's important when discussing anything to specifically craft
+clear definitions for what you're talking about. In this case, I want to
+clearly define the term "macro" and precisely explain what the
+difference is between the c stick and a button that performs a shine.
+(This has also been called a "button bind" to differentiate it from a
+button that performs multiple inputs on multiple frames, but those are
+very obviously illegal so I won't be considering them).
+
+The easiest way to define this is to look at the C stick and look at a
+theoretical button that performs a shine. The C stick acts as direction
++ A, which makes it a macro, right? Well, sort of. If I were to wire a
+button that completes a "B" press, and also sends an analog value of Y =
+-1 through the signal pin of the potentiometer, it would just be
+direction + B. This is a macro too, and has long since been considered
+banned. So, are these the same thing?
+
+One way to approach this problem would be to look at the pinout of the
+actual integrated circuit on the pcb of the gamecube controller. If
+something on the controller sends values to two places with one input,
+we can consider it a "hardware macro", and if it's registered on the IC
+under it's own input, but performs two inputs in the game, then we can
+consider it a "software macro".
+
+Looking at the IC, we see the following (source: BitBuilt)
+
+[[../images/smashbox/pinout.png]]
+
+C stick axes have their own pins, and Z is there too. In hindsight, this
+seems kind of obvious (C-stick controls camera in 1-player mode, and
+they don't do the same things they do in Melee in other gamecube games,
+whatever that means for you).
+
+So calling Z and C-stick "macros" is, at least in my view, a little
+misleading; doing any of those things still sends input from one button
+(or Potentiometer) to one pin, whereas the shine button sends input from
+one button to two pins. One's a "macro" on the software level, and one's
+a "macro" on the hardware level. If this doesn't strike you as a real
+difference, that's fine; I just want to make sure everybody is on the
+same page.
+
+*** "It's better for your hands! And your controller is even WORSE for your hands than a normal GCC!"
+    :PROPERTIES:
+    :CUSTOM_ID: its-better-for-your-hands-and-your-controller-is-even-worse-for-your-hands-than-a-normal-gcc
+    :END:
+
+This is very, very true, but I think all of my criticism sort of becomes
+moot when you change the fightstick to have, well, a stick. I'm not so
+conservative that I'd be unwilling to consider alternative controllers
+(especially with the potential to be better for your hands), but when
+they have potentially gamebreaking functionalities then we start having
+issues. A "more normal-looking" fightstick with a fully analog joystick
+would be way more appealing to FGC players interested in Melee, way more
+appropriate for the game, way less controversial, and also pretty good
+for your hands. You can even add notches! Go nuts.
+
+[[../images/smashbox/fightstick.png]]
+
+Perhaps not the most rigorous test, but I'm pretty sure most fightsticks
+have joysticks
+
+** In closing
+    :PROPERTIES:
+    :CUSTOM_ID: in-closing
+    :END:
+
+I am not /firmly/ against Smash Box, since Smash Box being legal will
+allow me to use a controller that trivializes a lot of difficult
+techniques. I am a player that enjoys tech skill, and I am a player that
+would be given even more tools with the legality of analog-digital
+conversion buttons. I believe that the biggest consequence for Smash Box
+legality isn't actually encountering SmashBox users (I seriously doubt
+more than a handful of players will become serious tournament threats
+using this, although I am prepared to be proven wrong), but rather
+encountering gcc modders (such as myself!) that also have access to
+tools people haven't been able to learn in 15 years of playing this
+game.
+
+People discussing the legality of this controller really need to grasp
+how big of a deal this decision is; legalizing this controller and
+allowing buttons mapped to analog values will change the metagame in
+many ways that we can easily grasp, and likely in many ways we haven't
+even thought of yet. I know TOs like Jesse Hertz of Nebulous are not
+only approving of this concept, but rather excited by the idea, and have
+already stated publicly that controllers such as mine will be allowed in
+their events. My only hope is that the people writing the rulesets for
+nationals will take into account the enormous change this /will/ bring
+to the game /before/ they make their decisions, and either way I'll be
+waiting with the best possible controller that is legal under their
+ruleset.
+
+/posted on 12/22/16/\\
