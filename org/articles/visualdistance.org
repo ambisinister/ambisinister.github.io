@@ -42,11 +42,13 @@ This is a direct callback to the previously reused drawing, despite being an ent
 
 #+BEGIN_QUOTE
 "Repetition serves as a handprint of human intent"
+
 — [[https://aeon.co/essays/why-repetition-can-turn-almost-anything-into-music][Elizabeth Margulis]]
 #+END_QUOTE
 
 #+BEGIN_QUOTE
 YOU (YOU) THINK THE ABOVE GRAPHIC LOOKS FAMILIAR. YOU THINK YOU HAVE SEEN THIS GREAT DRAWING BEFORE, IN A DIFFERENT CONTEXT. YOU SEE. THIS IS WHAT MASTER STORY TELLERS REFER TO AS A "VISUAL CALLBACK". TRULY EXCEPTIONAL PROFESSIONALS OFTEN WILL TAKE AN OLD DRAWING THEY DID. THAT SHOWS A SIMILAR SITUATION. AND DO A COUPLE OF HALF ASSED THINGS. LIKE CHANGE THE COLORS. TO MAKE IT SLIGHTLY DIFFERENT. 
+
 — Caliborn, /Homestuck/ page [[https://www.homestuck.com/story/6265][6265]]
 #+END_QUOTE
 
@@ -179,7 +181,7 @@ Anyways, lets give it a shot[fn:6].
       return quantized
 
 #+END_SRC
-#+BEGIN_SRC python :noweb yes 
+#+BEGIN_SRC python :noweb yes :exports strip-export
   <<hamming-functions>>
   full_list = hamming_a_directory('./screens/binary/')
   full_list.sort(key=lambda x: int(x[2]))
@@ -258,7 +260,7 @@ We don't get amazing results on every frame, and some of the frames with busier 
 
 But I think the result extracts the edges with enough precision that it's functional enough for now.
 
-#+BEGIN_SRC python :noweb yes 
+#+BEGIN_SRC python :noweb yes exports: strip-export
   <<hamming-functions>>
   full_list = hamming_a_directory('./screens/canny/')
   full_list.sort(key=lambda x: int(x[2]))
@@ -341,7 +343,7 @@ quantize based on mean value
 
 find hamming distances between images
 
-#+BEGIN_SRC python :noweb yes 
+#+BEGIN_SRC python :noweb yes :exports strip-export
   <<hamming-functions>>
   full_list = hamming_a_directory('./screens/phash/', False)
   full_list.sort(key=lambda x: int(x[2]))
@@ -399,7 +401,7 @@ Another variant of this idea is pHash, which uses [[https://en.wikipedia.org/wik
       img_new.save(saveto)
 #+END_SRC
 
-#+BEGIN_SRC python :noweb yes 
+#+BEGIN_SRC python :noweb yes :exports strip-export
   <<hamming-functions>>
   full_list = hamming_a_directory('./screens/phash/', False)
   full_list.sort(key=lambda x: int(x[2]))
@@ -451,7 +453,7 @@ Alright, as a last ditch attempt, let's try running this on the canny edge-detec
 
 #+END_SRC
 
-#+BEGIN_SRC python :noweb yes 
+#+BEGIN_SRC python :noweb yes :exports strip-export
   <<hamming-functions>>
   import numpy as np
   full_list = hamming_a_directory('./screens/phash/', False)
@@ -722,12 +724,11 @@ Its using this framework in which we can apply k-means clustering as an ok means
 
       return ret
 #+END_SRC
-#+BEGIN_SRC python :noweb yes 
+#+BEGIN_SRC python :noweb yes exports: strip-export 
 <<clustering>>
 return cluster([[1,1], [1,1], [1,0], [1,3], [10,12], [10,11], [10,10], [20,20], [22,20], [21,21]])
 #+END_SRC
 
-#+RESULTS:
 | (10 12) | (10 11) | (10 10) |       |
 | (1 1)   | (1 1)   | (1 0)   | (1 3) |
 | (20 20) | (22 20) | (21 21) |       |
@@ -738,7 +739,7 @@ Awesome, we have an implementation working now.
 
 Just so we can see before running it on the full webcomic pruned to only include likely-clustered images, lets just see what we get if we run it on our 10 image dataset of canny edge-detected images.
 
-#+BEGIN_SRC python :noweb yes 
+#+BEGIN_SRC python :noweb yes exports: strip-export 
   <<clustering>>
   <<filter_dupes>>
 
@@ -750,13 +751,12 @@ Just so we can see before running it on the full webcomic pruned to only include
   return give_names(cluster(grid), panels, grid)
 #+END_SRC
 
-#+RESULTS:
 | 1828_2.png |            |            |            |            |            |            |            |            |
 | 1525_1.png | 1525_2.png | 1530_1.png | 2338_1.png | 2488_1.png | 1033_1.png | 1870_1.png | 2079_2.png | 1034_1.png |
 
 Well, that's sort of funny; the elbow method yields k=2 here because 1828_2 is so noisy compared to all the other panels, which certainly makes enough sense. Let's see if we can force it to use at least three clusters.
 
-#+BEGIN_SRC python :noweb yes 
+#+BEGIN_SRC python :noweb yes exports: strip-export 
   <<clustering>>
   <<filter_dupes>>
 
@@ -768,7 +768,6 @@ Well, that's sort of funny; the elbow method yields k=2 here because 1828_2 is s
   return give_names(cluster(grid, 3), panels, grid)
 #+END_SRC
 
-#+RESULTS:
 | 1033_1.png | 1034_1.png |
 | 2338_1.png | 2079_2.png |
 | 1525_1.png |            |
@@ -782,7 +781,7 @@ That's better.
 
 Let's run it on the pruned list real fast just to make sure the implementation works the full way through.
 
-#+BEGIN_SRC python :noweb yes 
+#+BEGIN_SRC python :noweb yes exports: strip-export 
   <<clustering>>
   <<filter_dupes>>
 
@@ -791,7 +790,6 @@ Let's run it on the pruned list real fast just to make sure the implementation w
   return give_names(cluster(ham[2]), ham[0], ham[2])
 #+END_SRC
 
-#+RESULTS:
 | 1033_1.png | 1034_1.png |
 | 2338_1.png | 2079_2.png |
 
@@ -799,7 +797,7 @@ Let's run it on the pruned list real fast just to make sure the implementation w
 
 Something funny I'm noticing is that the elbow method fails terribly for such a small subset of the hash images, but the clustering is pretty solid if you have a value for K determined already. Here's what it wants to spit out normally:
 
-#+BEGIN_SRC python :noweb yes 
+#+BEGIN_SRC python :noweb yes exports: strip-export 
   <<clustering>>
   <<filter_dupes>>
 
@@ -808,13 +806,12 @@ Something funny I'm noticing is that the elbow method fails terribly for such a 
   return give_names(cluster(ham[2]), ham[0], ham[2])
 #+END_SRC
 
-#+RESULTS:
 | 1525_1.png | 1525_2.png | 1530_1.png | 2338_1.png | 2488_1.png | 2079_2.png | 1828_2.png |
 | 1033_1.png | 1870_1.png | 1034_1.png |            |            |            |            |
 
 Yuck! Here's the same code but with a narrow range of k-values already selected:
 
-#+BEGIN_SRC python :noweb yes 
+#+BEGIN_SRC python :noweb yes exports: strip-export 
   <<clustering>>
   <<filter_dupes>>
   import matplotlib.pyplot as plt
@@ -824,7 +821,6 @@ Yuck! Here's the same code but with a narrow range of k-values already selected:
   return give_names(cluster(ham[2], 4, 6, 100), ham[0], ham[2])
 #+END_SRC
 
-#+RESULTS:
 | 1033_1.png | 1870_1.png | 1034_1.png |
 | 2338_1.png | 2488_1.png | 2079_2.png |
 | 1525_1.png | 1525_2.png | 1530_1.png |
@@ -832,7 +828,7 @@ Yuck! Here's the same code but with a narrow range of k-values already selected:
 
 It's perfect aside from the miss on 1870 discussed earlier. A huge improvement compared to the same values of K applied to merely the canny images, which we can visualize below
 
-#+BEGIN_SRC python :noweb yes 
+#+BEGIN_SRC python :noweb yes exports: strip-export 
   <<clustering>>
   <<filter_dupes>>
 
@@ -871,7 +867,7 @@ It worked fine for the edge detection case (in this case, the first try with 182
 
 For smaller images we can directly compare the contents of the images instead of their distances relative to each other, which could yields much smaller sets if we use the hashes (which are 64 pixels instead of 10000 pixels or ~9000 comparisons for edge detected images and hamming distances, respectively). Let's test it out.
 
-#+BEGIN_SRC python :noweb yes 
+#+BEGIN_SRC python :noweb yes :exports strip-export 
   <<clustering>>
   <<filter_dupes>>
 
@@ -895,7 +891,6 @@ For smaller images we can directly compare the contents of the images instead of
 
 #+END_SRC
 
-#+RESULTS:
 | 1525_1.png |            |            |
 | 1525_2.png | 1530_1.png | 1828_2.png |
 | 2338_1.png |            |            |
@@ -908,7 +903,7 @@ The results are honestly sort of random, and running it on a larger subset gives
 
 Clustering aside, let's just see what happens if we find the hamming distances on the hashes for the full webcomic:
 
-#+BEGIN_SRC python :noweb yes
+#+BEGIN_SRC python :noweb yes :exports strip-export
   <<hamming-functions>>
   import numpy as np
   full_list = hamming_a_directory('./screens/phash/', False)
@@ -916,7 +911,6 @@ Clustering aside, let's just see what happens if we find the hamming distances o
   return full_list[:20]
 #+END_SRC
 
-#+RESULTS:
 | 1005_1.png | 1008_1.png | 0 |
 | 1006_2.png | 1016_1.png | 0 |
 | 1012_1.png | 1015_1.png | 0 |
@@ -1002,7 +996,7 @@ The Euclidean distance between pairs a-b and b-c here depends a lot upon the num
 
 What we can do to get around this is perform [[https://en.wikipedia.org/wiki/Principal_component_analysis][Principal Component Analysis]], or PCA. PCA is a statistical procedure useful for /[[https://en.wikipedia.org/wiki/Dimensionality_reduction][dimensionality reduction]]/ which, appropriately, reduces the number of dimensions used in a dataset. [[https://www.youtube.com/watch?v%3D_UVHneBUBW0][StatQuest]] has a good video on the topic, but the high level idea is that you reshape the data along the eigenvectors of it's covariance matrix, and then use only the vectors which account for the greatest degree of variation in order to reduce the number of dimensions while preserving the most information possible. We can use this to reduce our R^9000 dataset to something a lot more manageable - for example, R^3. If we can somehow map the dataset into a reasonably limited dimension without losing too much information, we could use normal Euclidean distance and have it work properly. As an added bonus, performing calculations on a 9000x3 grid is substantially faster than performing calculations on a 9000x9000 grid, so our algorithm should speed up substantially by doing this as well (using PCA to speed up algorithms is pretty standard fare in machine learning)
 
-#+BEGIN_SRC python :noweb yes 
+#+BEGIN_SRC python :noweb yes :exports strip-export
   from sklearn.decomposition import PCA
 
   <<filter_dupes>>
@@ -1194,7 +1188,7 @@ Since our algorithm is much faster now its worthwhile to consider distance betwe
       return mutual_grid
 
 #+END_SRC
-#+BEGIN_SRC python :noweb yes 
+#+BEGIN_SRC python :noweb yes exports: strip-export 
   <<mixed>>
   <<clustering>>
   from sklearn.decomposition import PCA
@@ -1219,7 +1213,7 @@ Since our algorithm is much faster now its worthwhile to consider distance betwe
 
 Sweet, let's take a look at what it does cluster-wise:
 
-#+BEGIN_SRC python :noweb yes 
+#+BEGIN_SRC python :noweb yes exports: strip-export 
   <<mixed>>
   <<clustering>>
 
@@ -1303,7 +1297,7 @@ Likewise, finding all the hamming distances takes a really long time; it would b
 
 and open them again just to check
 
-#+BEGIN_SRC python :noweb yes 
+#+BEGIN_SRC python :noweb yes exports: strip-export
   import cPickle as pickle
   import timeit
 
@@ -1350,7 +1344,7 @@ Likewise, it would probably be useful to speed up our grid conversion method for
 
       return grid
 #+END_SRC
-#+BEGIN_SRC python :noweb yes 
+#+BEGIN_SRC python :noweb yes exports: strip-export
   <<fasternxn>>
   <<hamming-functions>>
   import os
@@ -1521,7 +1515,7 @@ What I want to try now is "reducing the dimensionality" myself by representing t
 
       return newgrid
 #+END_SRC
-#+BEGIN_SRC python :noweb yes 
+#+BEGIN_SRC python :noweb yes exports: strip-export
   import os
   import numpy as np
   import cPickle as pickle
@@ -1807,7 +1801,7 @@ You'll notice that despite my prominent showboating of the hands as an example o
 
 A quick look at the matches reveals what's happening here:
 
-#+BEGIN_SRC python :noweb yes 
+#+BEGIN_SRC python :noweb yes exports: strip-export 
   import cPickle as pickle
   import os
 
@@ -1838,6 +1832,16 @@ A quick look at the matches reveals what's happening here:
 | 3567_1.gif  |
 | 3664_1.gif  |
 | 3710_1.gif  |
+| 3837_2.gif  |
+| 3846_2.gif  |
+| 4634_1.gif  |
+| 4781_1.gif  |
+| 4982_1.gif  |
+| 4997_1.gif  |
+| 5125_1.gif  |
+| 5411_1.gif  |
+| 5451_1.gif  |
+| 5452_1.gif  |
 
 ...etc etc
 
@@ -1888,7 +1892,7 @@ The easiest way I can think to do this is just by scaling it based on how many e
 
       return small_score
 #+END_SRC
-#+BEGIN_SRC python :noweb yes 
+#+BEGIN_SRC python :noweb yes exports: strip-export
   <<weirdpixels>>
   directory = './screens/cannyfilter/'
   panels = os.listdir(directory)
@@ -1913,7 +1917,7 @@ So given this, let's experiment with a simple scaling based upon this value for 
 
       return newgrid
 #+END_SRC
-#+BEGIN_SRC python :noweb yes 
+#+BEGIN_SRC python :noweb yes exports: strip-export
   <<shorthandscaled>>
 
   grid = [[1,2,3],[1,1,3],[35,11,22]]
