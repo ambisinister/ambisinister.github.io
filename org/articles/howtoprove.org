@@ -1,0 +1,305 @@
+* How To Prove It - Notebook
+** Notes and Review
+
+My decision to work through this book was two-fold:
+- I wanted to spend a lot of time practicing and reading through proofs
+- I wanted to practice writing things down in \LaTeX
+
+Velleman's /How to Prove It/ was ideal for both of these, funnily enough, for the same reason - there are an impressive number of exercises. 
+
+** Selected Exercises
+
+*** Chapter 0
+
+**** 1
+
+/(a) factor 2^15 - 1 = 32767 into a product of two smaller positive integers/
+
+#+BEGIN_SRC python
+import numpy as np
+target = 32767
+factors = []
+for x in range(int(np.sqrt(target))):
+  if target % (x+1) == 0:
+    factors.append(x+1)
+return factors[1], target/factors[1]
+#+END_SRC
+
+#+RESULTS:
+| 7 | 4681 |
+
+/(b) Find an integer x such that 1 < x < 2^32767 - 1 and 2^32767 - 1 is divisible by x/
+
+since $n = 32767$ is not prime, there are positive integers $a$ and $b$ such that $a < b, b < n, n = ab$ by Conjecture 2. 
+
+2^n - 1 can be written as 2^ab - 1, and working backwards from the proof of conjecture 2 can be written as $(2^b - 1) * (1 + 2^b + 2^2b + ... + 2^{(a-1)b})$. We only need to know one of these numbers to know it divides 2^32767, so we plug in $b=7$ for $2^b - 1$ and we get a value of $x=127$
+
+Check: https://www.wolframalpha.com/input/?i=2%5E32767+-+1+mod+127
+
+**** 2 
+
+/Make some conjectures about the values of n for which 3^n − 1 is prime or the values of n for which 3^n − 2^n is prime. (You might start by making a table similar to Figure 1.)/
+
+| n | 3^n - 1 | 3^n-2^n |
+| 1 |       2 |       1 |
+| 2 |       8 |       5 |
+| 3 |      26 |      19 |
+| 4 |      80 |      65 |
+| 5 |     242 |     211 |
+| 6 |     728 |     665 |
+
+3^n - 1 will never be prime because 3^n will always yield an odd number and any odd number - 1 is even, meaning it would be divisible by 2.
+
+conjecture: 3^n - 2^n will be prime in cases where n is prime
+
+**** 3 
+
+/The proof of Theorem 3 gives a method for finding a prime number different from any in a given list of prime numbers./
+
+/(a) Use this method to find a prime different from 2, 3, 5, and 7./
+
+let $m = 2*3*5*7 + 1$, so $m = 211$; m is not divisible by 2, 3, 5, or 7 so 211 must either be prime or there must exist a prime higher than 7. In this case, 211 is prime. 
+
+/(b) Use this method to find a prime different from 2, 5, and 11./
+
+let $m = 2*3*11 + 1$, so $m = 67$; m is not divisible by 2, 3, or 11 so 67 must either be prime or there must exist a prime higher than 7. In this case, 67 is prime. 
+
+**** 4
+
+/Find five consecutive integers that are not prime./
+
+$x = (5+1)! + 2$
+$x = 722$
+
+$a_0 \rightarrow 722 % 2 == 0$
+$a_1 \rightarrow 723 % 3 == 0$
+$a_2 \rightarrow 734 % 2 == 0$
+$a_3 \rightarrow 735 % 5 == 0$
+$a_4 \rightarrow 736 % 2 == 0$
+
+**** 5
+
+/Use the table in Figure 1 and the discussion on p. 5 to find two more perfect numbers./
+
+if $2^n - 1$ is prime, $2^{n-1}(2^n - 1)$ is perfect
+
+$2^{5-1}(2^5 - 1) = 496$
+$2^{7-1}(2^7 - 1) = 8128$
+
+**** 6
+
+/The sequence 3, 5, 7 is a list of three prime numbers such that each pair of adjacent numbers in the list differ by two. Are there any more such “triplet primes”?/
+
+let the set of three "triplet primes" be $\{n, n+2, n+4\}$. For any value of n, any number in this set modulo 3 will be either {0, 2, 1}, {2, 1, 0}, and {1, 0, 2} (examples: n=3, n=5, n=4). Meaning one of the three numbers in this set must be divisible by three. Since the only prime number divisible by 3 is 3, there are no other triplet primes. 
+
+
+*** Chapter 1
+
+For the most part this was just set theory review / what unions and intersections meant / etc. so I didn't do most of the exercises.
+
+**** 1.2 Exercises
+
+***** Make truth tables
+
+Pass
+
+***** 4
+
+/Find a formula using only the connectives ∧ and ¬ that is equivalent to P ∨ Q./
+
+$\neg(\neg P \wedge \neg Q)$
+
+This is just negated Demorgan's.
+
+**** 1.3 Exercises
+
+***** 1
+
+/Analyze the logical forms of the following statements/
+/(a) 3 is a common divisor of 6, 9, and 15. (Note: You did this in exercise 2 of Section 1.1, but you should be able to give a better answer now.)/
+
+{x % 3 = 0 | x = {6, 9, 15}}
+
+/(b) x is divisible by both 2 and 3 but not 4./
+
+{(x % 2 = 0) ^ (x % 3 = 0) ^ \neg(x % 4 = 0)}
+
+/(c) x and y are natural numbers, and exactly one of them is prime./
+
+$x \in \mathds{N} \wedge y \in \mathds{N} \wedge \oplus$
+
+***** 3
+
+(a) the set of all celestial objects presently or formally referred to as planets in the solar system
+(b) the set of elite american universities $\cup$ Cornell University
+(c) the set of all states in the united states of america
+(d) the set of all provinces in canada
+
+**** 1.4 Exercises
+
+***** 1
+
+/Let A = {1, 3, 12, 35}, B = {3, 7, 12, 20}, and C = {x | x is a prime number}. List the elements of the following sets. Are any of the sets below disjoint from any of the others? Are any of the sets below subsets of any others?/
+
+/(a) A ∩ B./
+/(b) (A ∪ B) \ C./
+/(c) A ∪ (B \ C)./
+
+a = {3, 12}
+b = {1, 12, 20, 35}
+c = {1, 12, 20, 35}
+
+***** 10
+
+/It is claimed in this section that you cannot make a Venn diagram for four sets using overlapping circles./
+
+/(a) What’s wrong with the following diagram?/
+
+There's no space for $A \cup D$ or $B \cup C$
+
+/(b) Can you make a Venn diagram for four sets using shapes other than circles?/
+
+You can use a graph, I suppose.
+
+*** Chapter 2
+
+**** 2.1 exercises
+
+***** 1
+
+/Analyze the logical forms of the following statements./
+/(a) Anyone who has forgiven at least one person is a saint./
+
+$\forall x \exists y (x has forgiven y \rightarrow x is a saint)$
+
+/(b) Nobody in the calculus class is smarter than everybody in the discrete math class./
+
+$\forall x \neg \exists y (y is smarter than x)$
+
+/(c) Everyone likes Mary, except Mary herself./
+
+$\forall x (x likes Mary | x != Mary)$
+
+/(d) Jane saw a police officer, and Roger saw one too./
+
+$\exists x \exists y (Jane saw (x \vee y) \wedge Roger saw (x \vee y))$
+
+/(e) Jane saw a police officer, and Roger saw him too./
+
+$\exists x (Jane saw x \wedge Roger saw x)$
+
+***** 2
+
+Giving up on reprinting the question starting now
+
+(a) $\forall x (x \text{ bought a rolls royce with cash} \rightarrow x \text{ has a rich uncle})$
+(b) $\exists x \forall y (x \text{ has measles} \rightarrow y \text{ will need to be quarantined} | \text{y has a friend in the dorm})$
+(c) $\exists x \forall y 
+\exists z (x \text{ failed the test} \rightarrow \neg (\text{y will tutor z}) | \text{y got an A, z got a D})$
+(d) $\forall x (\text{x can do it} \rightarrow \text{Jones can do it})$
+(e) $\forall x (\text{Jones can do it} \rightarrow \text{x can do it})$
+
+***** 4
+
+(a) if any man is unmarried, he is unhappy
+(b) there exists a person with a child and a sister
+
+***** 5
+
+(a) Any number which is prime and not 2 is odd
+(b) There exists a biggest perfect number
+
+***** 6
+
+(a) false
+(b) false
+(c) false
+(d) true
+(e) true
+
+***** 7 
+
+(a) true
+(b) false
+(c) false
+(d) true
+(e) true
+(f) false
+
+***** 8
+
+c is now true, d is now false, f is now true
+
+***** 9
+
+f is now true
+
+
+**** 2.2 exercises
+
+***** 8 
+
+$(\forall x \in AP(x)) \wedge (\forall x \in B(P(x)))$
+
+$\forall x (x \in AP(x) \wedge x \in BP(x))$
+
+$\forall x (x \in (A \cup B)P(x))$
+
+***** 11
+
+$\forall x (x \in A \rightarrow x \in B)$
+
+$\neg \exists x (x \in A \wedge \neg(x \in B))$
+
+$\forall x \neg (x \in A \wedge \neg (x \in B))$
+
+$\forall x \neg (x \in A) \vee (x \in B)$
+
+$\forall x (x \in A \rightarrow x \in B)$
+
+*** Chapter 3
+
+**** 3.1 Exercises
+
+***** 5
+
+assume a < b < 0. Then, -a > -b > 0. Since (-a)^2 > (-b)^2 > 0 and (-x)^2 = x^2, a^2 > b^2.
+
+***** 6 
+
+Assume $1/b \geq 1/a$. Then, $ab/b \geq ab/a$ and therefore $a \geq b$. However, $0 < a < b$, which is a contradiction. You could just divide both sides by $ab$ but what's the fun in that. 
+
+***** 7 
+
+assume a^3 > a. Then, a^3 - a > 0. 
+
+$(a^3 - a)(a^2 + 1) > 0(a^2 + 1)$
+
+$a^5 - a^3 + a^3 - a > 0$
+
+Therefore, a^5 > a
+
+***** 8
+
+assume $x \notin D$. Then, $x \notin C \cap D$. Since $x \in A$ and $A \setminus B \subseteq, C \cap D$, then x must have been removed from A, meaning $x \in B$
+
+***** 9 
+
+assume $a<b$. Then, $a+b<b+b$. Therefore $\frac{a+b}{2} < \frac{2b}{2} = b$
+
+***** 11
+
+suppose $ac \geq bd$. Since $a < b$, we have $ac \geq bd > ad$ and therefore $ac > ad$. Therefore, $c > d$
+
+**** 3.2 Exercises
+
+***** 8
+
+assume $a \geq -1$. 
+
+case 1: a = -1. Then $1/a = -1 = 1$, which is a contradiction
+case 2: a = -1 + x where x > 0
+
+$$-1 + x < \frac{1}{x-1} < b < \frac{1}{b}$$
+
+$$(x-1)^2 < 1 < b(x-1) < \frac{1}{b}(x-1)$$

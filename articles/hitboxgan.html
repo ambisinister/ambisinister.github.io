@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>hitboxgan</title>
+<!-- 2019-11-03 Sun 23:07 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="ambi" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="./css/default.css" />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content">
+<h1 class="title">hitboxgan</h1>
+<div id="table-of-contents">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">This Hitbox Does Not Exist</a>
+<ul>
+<li><a href="#sec-1-1">Introduction</a></li>
+<li><a href="#sec-1-2">Dataset</a></li>
+<li><a href="#sec-1-3">An Aside: Character Classification</a></li>
+<li><a href="#sec-1-4">StyleGAN</a></li>
+<li><a href="#sec-1-5">Other Things I Tried Which Worked Less Well</a>
+<ul>
+<li><a href="#sec-1-5-1">Auxiliary Classifier GANs</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-6">References</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-1">
+<h1 id="sec-1">This Hitbox Does Not Exist</h1>
+<div class="outline-text-1" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-2">
+<h2 id="sec-1-1">Introduction</h2>
+<div class="outline-text-2" id="text-1-1">
+<p>
+Recently at work I've been getting interested in some properties of Generative Adversarial Networks (GANs), The actual properties I was looking at aren't terribly interesting to a general audience, but I figured it would be fun and worthwhile to train a few networks to generate some fun images. 
+</p>
+
+<p>
+In short, I played around with GANs to generate images that looked like Super Smash Brothers Melee frame data, and the results can be found in this document.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-2">
+<h2 id="sec-1-2">Dataset</h2>
+<div class="outline-text-2" id="text-1-2">
+<p>
+To assemble this dataset, I scraped every character's moves on ssbwiki and assembled a corpus of gifs, which can be found in a zip file at <a href="http://tinyurl.com/every-hitbox">http://tinyurl.com/every-hitbox</a>. From there, I did some basic image processing to save each frame as a 256x256 square png, which was surprisingly a huge pain given how insistent openCV is on saving frames of gifs as 1-channel images. Here's some very not-optimized code I used to accomplish this task
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #F92672;">import</span> os
+<span style="color: #F92672;">from</span> PIL <span style="color: #F92672;">import</span> Image
+<span style="color: #F92672;">from</span> PIL <span style="color: #F92672;">import</span> GifImagePlugin
+<span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<span style="color: #F92672;">import</span> cv2
+
+<span style="color: #F92672;">from</span> PIL <span style="color: #F92672;">import</span> Image, ImageSequence
+
+<span style="color: #FD971F;">dataloc</span> = <span style="color: #E6DB74;">"/home/ambi/Downloads/data/hitboxes/"</span>
+<span style="color: #FD971F;">dataput</span> = <span style="color: #E6DB74;">"/home/ambi/Downloads/data/hitboxes/dataset/pngs/"</span>
+
+<span style="color: #FD971F;">frames</span> = []
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">pngify</span>():
+    <span style="color: #F92672;">for</span> folder <span style="color: #F92672;">in</span> os.listdir(dataloc):
+        <span style="color: #F92672;">if</span> folder == <span style="color: #E6DB74;">"dataset"</span>:
+            <span style="color: #F92672;">continue</span>
+        <span style="color: #F92672;">else</span>:
+            os.mkdir(dataput+folder)
+        <span style="color: #F92672;">for</span> move <span style="color: #F92672;">in</span> os.listdir(dataloc+folder):
+            <span style="color: #FD971F;">imageObject</span> = Image.<span style="color: #F92672;">open</span>(dataloc+folder+<span style="color: #E6DB74;">'/'</span>+move)
+            <span style="color: #F92672;">try</span>:
+                <span style="color: #F92672;">print</span>(<span style="color: #E6DB74;">"{}: {} frames"</span>.<span style="color: #F92672;">format</span>(move, imageObject.n_frames))
+
+                <span style="color: #F92672;">for</span> i, frame <span style="color: #F92672;">in</span> <span style="color: #F92672;">enumerate</span>(ImageSequence.Iterator(imageObject)):
+                    frame.save(dataput+folder+<span style="color: #E6DB74;">'/'</span>+move.split(<span style="color: #E6DB74;">'.'</span>)[0]+<span style="color: #E6DB74;">'_'</span>+<span style="color: #F92672;">str</span>(i)+<span style="color: #E6DB74;">'.png'</span>)
+            <span style="color: #F92672;">except</span>:
+                <span style="color: #F92672;">print</span>(<span style="color: #E6DB74;">"{} not animated: adding only frame"</span>.<span style="color: #F92672;">format</span>(move))
+                frame.save(dataput+folder+<span style="color: #E6DB74;">'/'</span>+move+<span style="color: #E6DB74;">'.png'</span>)
+</pre>
+</div>
+
+<p>
+This yields us a corpus of 33,292 frames, which should be a solid enough baseline for training a model. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-2">
+<h2 id="sec-1-3">An Aside: Character Classification</h2>
+<div class="outline-text-2" id="text-1-3">
+<p>
+Just to verify that things are working properly, I wrote a very simple CNN to identify which character was on screen. This wasn't much code, and could easily tell the characters apart. 
+</p>
+
+<p>
+<a id="code" name="code"></a>
+</p>
+
+<p>
+The harder frames are an interesting thing to look at &#x2013; with a simple out-of-the-box classifier getting very high accuracy on this relatively easy task, it's interesting to look at where the model gets confused and get some ad-hoc measure of which characters are close together and which characters are far apart. 
+</p>
+
+<p>
+<a id="code-and-stuff" name="code-and-stuff"></a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-2">
+<h2 id="sec-1-4">StyleGAN</h2>
+<div class="outline-text-2" id="text-1-4">
+<p>
+StyleGAN is an intensely media-famous GAN architecture which was notable for how well it was able to synthesize human faces (see, of course, <a href="https://thispersondoesnotexist.com/">This Person Does Not Exist</a>). Gwern notably applied this to a large dataset of anime faces scraped off Danbooru, <a href="https://www.thiswaifudoesnotexist.net/">for a waifu-flavored variant on this</a>. Both the original styleGAN paper (<a href="https://arxiv.org/pdf/1812.04948.pdf">here</a>) and Gwern's writeup (<a href="https://www.gwern.net/TWDNE">here</a>) are must-reads, but it's relatively clear styleGAN works relatively well for both real and drawn images and seems like a good starting point for our 
+</p>
+
+<p>
+StyleGAN has a <a href="https://github.com/manicman1999/StyleGAN-Keras">Keras implementation</a> floating around, which is not-entirely-faithful in some parts but probably works well enough for our purposes. I took this and with some small tweaks was able to get it training without issue. 
+</p>
+
+<p>
+<a id="results" name="results"></a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5" class="outline-2">
+<h2 id="sec-1-5">Other Things I Tried Which Worked Less Well</h2>
+<div class="outline-text-2" id="text-1-5">
+</div><div id="outline-container-sec-1-5-1" class="outline-3">
+<h3 id="sec-1-5-1">Auxiliary Classifier GANs</h3>
+<div class="outline-text-3" id="text-1-5-1">
+<p>
+I played a bit with AC-GANs for this project, because it's a relatively simple idea which yields samples which have labels associated with them, which I thought would be fun to look at ("ah yes, this blob looks like kirby" is something I caught myself doing a good amount with the styleGAN images, but it's a bit of a rorshach test &#x2013; if the label associated with an image is supposed to be Marth, we should expect it to either look close to Marth or to look horrible. 
+</p>
+
+<p>
+AC-GAN generates extremely beautiful MNIST digits, but I think it doesn't scale as well for harder data since it assumes the discriminator can get decent accuracy on the images but also not overpower the generator altogether.
+</p>
+
+<p>
+<a id="images" name="images"></a>
+</p>
+
+<p>
+<a id="code-stuff" name="code-stuff"></a>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6" class="outline-2">
+<h2 id="sec-1-6">References</h2>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+<div id="comments">
+    <p></p>
+    <hr />
+       <div id="disqus_thread">
+           <script>
+(function() {
+var d = document, s = d.createElement('script');
+s.src = 'https://planetbanatt.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</body>
+</html>
