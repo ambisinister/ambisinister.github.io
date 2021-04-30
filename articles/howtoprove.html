@@ -3,11 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>howtoprove</title>
-<!-- 2019-10-05 Sat 22:46 -->
-<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<meta  name="generator" content="Org-mode" />
-<meta  name="author" content="ambi" />
+<!-- 2021-04-02 Fri 00:06 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Prove It</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="ambi" />
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -48,12 +49,13 @@ $(function() {
 </script>
 
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
+<link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
 JavaScript code in this tag.
 
-Copyright (C) 2012-2013 Free Software Foundation, Inc.
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
 
 The JavaScript code in this tag is free software: you can
 redistribute it and/or modify it under the terms of the GNU
@@ -94,48 +96,28 @@ for the JavaScript code in this tag.
  }
 /*]]>*///-->
 </script>
-<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
-<script type="text/javascript">
-<!--/*--><![CDATA[/*><!--*/
+<script type="text/x-mathjax-config">
     MathJax.Hub.Config({
-        // Only one of the two following lines, depending on user settings
-        // First allows browser-native MathML display, second forces HTML/CSS
-        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
-            jax: ["input/TeX", "output/HTML-CSS"],
-        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
-                     "TeX/noUndefined.js"],
-        tex2jax: {
-            inlineMath: [ ["\\(","\\)"] ],
-            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
-            skipTags: ["script","noscript","style","textarea","pre","code"],
-            ignoreClass: "tex2jax_ignore",
-            processEscapes: false,
-            processEnvironments: true,
-            preview: "TeX"
-        },
-        showProcessingMessages: true,
         displayAlign: "center",
-        displayIndent: "2em",
+        displayIndent: "0em",
 
-        "HTML-CSS": {
-             scale: 100,
-             availableFonts: ["STIX","TeX"],
-             preferredFont: "TeX",
-             webFont: "TeX",
-             imageFont: "TeX",
-             showMathMenu: true,
-        },
-        MMLorHTML: {
-             prefer: {
-                 MSIE:    "MML",
-                 Firefox: "MML",
-                 Opera:   "HTML",
-                 other:   "HTML"
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
              }
-        }
-    });
-/*]]>*///-->
+});
 </script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -168,85 +150,85 @@ for the JavaScript code in this tag.
     </nav>
 </div>
 <div id="content">
-<h1 class="title">howtoprove</h1>
+<h1 class="title">Prove It</h1>
 <div id="table-of-contents">
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">How To Prove It - Notebook</a>
+<li><a href="#orga3a824f">How To Prove It - Notebook</a>
 <ul>
-<li><a href="#sec-1-1">Notes and Review</a></li>
-<li><a href="#sec-1-2">Selected Exercises</a>
+<li><a href="#org587e1dc">Notes and Review</a></li>
+<li><a href="#orgc158a94">Selected Exercises</a>
 <ul>
-<li><a href="#sec-1-2-1">Chapter 0</a>
+<li><a href="#orgf9d856f">Chapter 0</a>
 <ul>
-<li><a href="#sec-1-2-1-1">1</a></li>
-<li><a href="#sec-1-2-1-2">2</a></li>
-<li><a href="#sec-1-2-1-3">3</a></li>
-<li><a href="#sec-1-2-1-4">4</a></li>
-<li><a href="#sec-1-2-1-5">5</a></li>
-<li><a href="#sec-1-2-1-6">6</a></li>
+<li><a href="#org2d49e45">1</a></li>
+<li><a href="#org3d22cd8">2</a></li>
+<li><a href="#orge12f99e">3</a></li>
+<li><a href="#orgdecfe4c">4</a></li>
+<li><a href="#org912ea3a">5</a></li>
+<li><a href="#org17628d7">6</a></li>
 </ul>
 </li>
-<li><a href="#sec-1-2-2">Chapter 1</a>
+<li><a href="#orgfb37925">Chapter 1</a>
 <ul>
-<li><a href="#sec-1-2-2-1">1.2 Exercises</a>
+<li><a href="#org7aaccd8">1.2 Exercises</a>
 <ul>
-<li><a href="#sec-1-2-2-1-1">Make truth tables</a></li>
-<li><a href="#sec-1-2-2-1-2">4</a></li>
+<li><a href="#org7bf536a">Make truth tables</a></li>
+<li><a href="#org34b9552">4</a></li>
 </ul>
 </li>
-<li><a href="#sec-1-2-2-2">1.3 Exercises</a>
+<li><a href="#org8dbba1f">1.3 Exercises</a>
 <ul>
-<li><a href="#sec-1-2-2-2-1">1</a></li>
-<li><a href="#sec-1-2-2-2-2">3</a></li>
+<li><a href="#org50336cf">1</a></li>
+<li><a href="#org7664f9b">3</a></li>
 </ul>
 </li>
-<li><a href="#sec-1-2-2-3">1.4 Exercises</a>
+<li><a href="#org1fc8984">1.4 Exercises</a>
 <ul>
-<li><a href="#sec-1-2-2-3-1">1</a></li>
-<li><a href="#sec-1-2-2-3-2">10</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#sec-1-2-3">Chapter 2</a>
-<ul>
-<li><a href="#sec-1-2-3-1">2.1 exercises</a>
-<ul>
-<li><a href="#sec-1-2-3-1-1">1</a></li>
-<li><a href="#sec-1-2-3-1-2">2</a></li>
-<li><a href="#sec-1-2-3-1-3">4</a></li>
-<li><a href="#sec-1-2-3-1-4">5</a></li>
-<li><a href="#sec-1-2-3-1-5">6</a></li>
-<li><a href="#sec-1-2-3-1-6">7</a></li>
-<li><a href="#sec-1-2-3-1-7">8</a></li>
-<li><a href="#sec-1-2-3-1-8">9</a></li>
-</ul>
-</li>
-<li><a href="#sec-1-2-3-2">2.2 exercises</a>
-<ul>
-<li><a href="#sec-1-2-3-2-1">8</a></li>
-<li><a href="#sec-1-2-3-2-2">11</a></li>
+<li><a href="#org8bd25ec">1</a></li>
+<li><a href="#org6ef44c2">10</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#sec-1-2-4">Chapter 3</a>
+<li><a href="#org6dfb178">Chapter 2</a>
 <ul>
-<li><a href="#sec-1-2-4-1">3.1 Exercises</a>
+<li><a href="#org56f6b39">2.1 exercises</a>
 <ul>
-<li><a href="#sec-1-2-4-1-1">5</a></li>
-<li><a href="#sec-1-2-4-1-2">6</a></li>
-<li><a href="#sec-1-2-4-1-3">7</a></li>
-<li><a href="#sec-1-2-4-1-4">8</a></li>
-<li><a href="#sec-1-2-4-1-5">9</a></li>
-<li><a href="#sec-1-2-4-1-6">11</a></li>
+<li><a href="#orgd16fc3b">1</a></li>
+<li><a href="#orgf7c14ef">2</a></li>
+<li><a href="#org7df049a">4</a></li>
+<li><a href="#org9a28199">5</a></li>
+<li><a href="#org1f80078">6</a></li>
+<li><a href="#orgf6032bc">7</a></li>
+<li><a href="#org089689e">8</a></li>
+<li><a href="#org6aeefa4">9</a></li>
 </ul>
 </li>
-<li><a href="#sec-1-2-4-2">3.2 Exercises</a>
+<li><a href="#org304cdf8">2.2 exercises</a>
 <ul>
-<li><a href="#sec-1-2-4-2-1">8</a></li>
+<li><a href="#org6970299">8</a></li>
+<li><a href="#orgea2a4c9">11</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org2946b22">Chapter 3</a>
+<ul>
+<li><a href="#orge3c040a">3.1 Exercises</a>
+<ul>
+<li><a href="#org1ad429b">5</a></li>
+<li><a href="#orgbbd52c6">6</a></li>
+<li><a href="#org4fbdff9">7</a></li>
+<li><a href="#org90a93b1">8</a></li>
+<li><a href="#org2889128">9</a></li>
+<li><a href="#orga5616cb">11</a></li>
+</ul>
+</li>
+<li><a href="#orgf4cbe0b">3.2 Exercises</a>
+<ul>
+<li><a href="#orga02f0a6">8</a></li>
 </ul>
 </li>
 </ul>
@@ -258,20 +240,19 @@ for the JavaScript code in this tag.
 </ul>
 </div>
 </div>
-<div id="outline-container-sec-1" class="outline-1">
-<h1 id="sec-1">How To Prove It - Notebook</h1>
-<div class="outline-text-1" id="text-1">
-</div><div id="outline-container-sec-1-1" class="outline-2">
-<h2 id="sec-1-1">Notes and Review</h2>
-<div class="outline-text-2" id="text-1-1">
+<div id="outline-container-orga3a824f" class="outline-1">
+<h1 id="orga3a824f">How To Prove It - Notebook</h1>
+<div class="outline-text-1" id="text-orga3a824f">
+</div>
+<div id="outline-container-org587e1dc" class="outline-2">
+<h2 id="org587e1dc">Notes and Review</h2>
+<div class="outline-text-2" id="text-org587e1dc">
 <p>
 My decision to work through this book was two-fold:
 </p>
 <ul class="org-ul">
-<li>I wanted to spend a lot of time practicing and reading through proofs
-</li>
-<li>I wanted to practice writing things down in \LaTeX
-</li>
+<li>I wanted to spend a lot of time practicing and reading through proofs</li>
+<li>I wanted to practice writing things down in \LaTeX</li>
 </ul>
 
 <p>
@@ -280,21 +261,22 @@ Velleman's <i>How to Prove It</i> was ideal for both of these, funnily enough, f
 </div>
 </div>
 
-<div id="outline-container-sec-1-2" class="outline-2">
-<h2 id="sec-1-2">Selected Exercises</h2>
-<div class="outline-text-2" id="text-1-2">
-</div><div id="outline-container-sec-1-2-1" class="outline-3">
-<h3 id="sec-1-2-1">Chapter 0</h3>
-<div class="outline-text-3" id="text-1-2-1">
-</div><div id="outline-container-sec-1-2-1-1" class="outline-4">
-<h4 id="sec-1-2-1-1">1</h4>
-<div class="outline-text-4" id="text-1-2-1-1">
+<div id="outline-container-orgc158a94" class="outline-2">
+<h2 id="orgc158a94">Selected Exercises</h2>
+<div class="outline-text-2" id="text-orgc158a94">
+</div>
+<div id="outline-container-orgf9d856f" class="outline-3">
+<h3 id="orgf9d856f">Chapter 0</h3>
+<div class="outline-text-3" id="text-orgf9d856f">
+</div>
+<div id="outline-container-org2d49e45" class="outline-4">
+<h4 id="org2d49e45">1</h4>
+<div class="outline-text-4" id="text-org2d49e45">
 <p>
 <i>(a) factor 2<sup>15</sup> - 1 = 32767 into a product of two smaller positive integers</i>
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-python"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
 <span style="color: #FD971F;">target</span> = 32767
 <span style="color: #FD971F;">factors</span> = []
@@ -318,14 +300,14 @@ since \(n = 32767\) is not prime, there are positive integers \(a\) and \(b\) su
 </p>
 
 <p>
-Check: <a href="https://www.wolframalpha.com/input/?i=2^32767+-+1+mod+127">https://www.wolframalpha.com/input/?i=2^32767+-+1+mod+127</a>
+Check: <a href="https://www.wolframalpha.com/input/?i=2%5E32767+-+1+mod+127">https://www.wolframalpha.com/input/?i=2^32767+-+1+mod+127</a>
 </p>
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-1-2" class="outline-4">
-<h4 id="sec-1-2-1-2">2</h4>
-<div class="outline-text-4" id="text-1-2-1-2">
+<div id="outline-container-org3d22cd8" class="outline-4">
+<h4 id="org3d22cd8">2</h4>
+<div class="outline-text-4" id="text-org3d22cd8">
 <p>
 <i>Make some conjectures about the values of n for which 3<sup>n</sup> − 1 is prime or the values of n for which 3<sup>n</sup> − 2<sup>n</sup> is prime. (You might start by making a table similar to Figure 1.)</i>
 </p>
@@ -334,53 +316,53 @@ Check: <a href="https://www.wolframalpha.com/input/?i=2^32767+-+1+mod+127">https
 
 
 <colgroup>
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 </colgroup>
 <tbody>
 <tr>
-<td class="right">n</td>
-<td class="right">3<sup>n</sup> - 1</td>
-<td class="right">3<sup>n</sup>-2<sup>n</sup></td>
+<td class="org-right">n</td>
+<td class="org-right">3<sup>n</sup> - 1</td>
+<td class="org-right">3<sup>n</sup>-2<sup>n</sup></td>
 </tr>
 
 <tr>
-<td class="right">1</td>
-<td class="right">2</td>
-<td class="right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">1</td>
 </tr>
 
 <tr>
-<td class="right">2</td>
-<td class="right">8</td>
-<td class="right">5</td>
+<td class="org-right">2</td>
+<td class="org-right">8</td>
+<td class="org-right">5</td>
 </tr>
 
 <tr>
-<td class="right">3</td>
-<td class="right">26</td>
-<td class="right">19</td>
+<td class="org-right">3</td>
+<td class="org-right">26</td>
+<td class="org-right">19</td>
 </tr>
 
 <tr>
-<td class="right">4</td>
-<td class="right">80</td>
-<td class="right">65</td>
+<td class="org-right">4</td>
+<td class="org-right">80</td>
+<td class="org-right">65</td>
 </tr>
 
 <tr>
-<td class="right">5</td>
-<td class="right">242</td>
-<td class="right">211</td>
+<td class="org-right">5</td>
+<td class="org-right">242</td>
+<td class="org-right">211</td>
 </tr>
 
 <tr>
-<td class="right">6</td>
-<td class="right">728</td>
-<td class="right">665</td>
+<td class="org-right">6</td>
+<td class="org-right">728</td>
+<td class="org-right">665</td>
 </tr>
 </tbody>
 </table>
@@ -395,9 +377,9 @@ conjecture: 3<sup>n</sup> - 2<sup>n</sup> will be prime in cases where n is prim
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-1-3" class="outline-4">
-<h4 id="sec-1-2-1-3">3</h4>
-<div class="outline-text-4" id="text-1-2-1-3">
+<div id="outline-container-orge12f99e" class="outline-4">
+<h4 id="orge12f99e">3</h4>
+<div class="outline-text-4" id="text-orge12f99e">
 <p>
 <i>The proof of Theorem 3 gives a method for finding a prime number different from any in a given list of prime numbers.</i>
 </p>
@@ -420,9 +402,9 @@ let \(m = 2*3*11 + 1\), so \(m = 67\); m is not divisible by 2, 3, or 11 so 67 m
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-1-4" class="outline-4">
-<h4 id="sec-1-2-1-4">4</h4>
-<div class="outline-text-4" id="text-1-2-1-4">
+<div id="outline-container-orgdecfe4c" class="outline-4">
+<h4 id="orgdecfe4c">4</h4>
+<div class="outline-text-4" id="text-orgdecfe4c">
 <p>
 <i>Find five consecutive integers that are not prime.</i>
 </p>
@@ -442,9 +424,9 @@ let \(m = 2*3*11 + 1\), so \(m = 67\); m is not divisible by 2, 3, or 11 so 67 m
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-1-5" class="outline-4">
-<h4 id="sec-1-2-1-5">5</h4>
-<div class="outline-text-4" id="text-1-2-1-5">
+<div id="outline-container-org912ea3a" class="outline-4">
+<h4 id="org912ea3a">5</h4>
+<div class="outline-text-4" id="text-org912ea3a">
 <p>
 <i>Use the table in Figure 1 and the discussion on p. 5 to find two more perfect numbers.</i>
 </p>
@@ -460,9 +442,9 @@ if \(2^n - 1\) is prime, \(2^{n-1}(2^n - 1)\) is perfect
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-1-6" class="outline-4">
-<h4 id="sec-1-2-1-6">6</h4>
-<div class="outline-text-4" id="text-1-2-1-6">
+<div id="outline-container-org17628d7" class="outline-4">
+<h4 id="org17628d7">6</h4>
+<div class="outline-text-4" id="text-org17628d7">
 <p>
 <i>The sequence 3, 5, 7 is a list of three prime numbers such that each pair of adjacent numbers in the list differ by two. Are there any more such “triplet primes”?</i>
 </p>
@@ -475,29 +457,30 @@ let the set of three "triplet primes" be \(\{n, n+2, n+4\}\). For any value of n
 </div>
 
 
-<div id="outline-container-sec-1-2-2" class="outline-3">
-<h3 id="sec-1-2-2">Chapter 1</h3>
-<div class="outline-text-3" id="text-1-2-2">
+<div id="outline-container-orgfb37925" class="outline-3">
+<h3 id="orgfb37925">Chapter 1</h3>
+<div class="outline-text-3" id="text-orgfb37925">
 <p>
 For the most part this was just set theory review / what unions and intersections meant / etc. so I didn't do most of the exercises.
 </p>
 </div>
 
-<div id="outline-container-sec-1-2-2-1" class="outline-4">
-<h4 id="sec-1-2-2-1">1.2 Exercises</h4>
-<div class="outline-text-4" id="text-1-2-2-1">
-</div><div id="outline-container-sec-1-2-2-1-1" class="outline-5">
-<h5 id="sec-1-2-2-1-1">Make truth tables</h5>
-<div class="outline-text-5" id="text-1-2-2-1-1">
+<div id="outline-container-org7aaccd8" class="outline-4">
+<h4 id="org7aaccd8">1.2 Exercises</h4>
+<div class="outline-text-4" id="text-org7aaccd8">
+</div>
+<div id="outline-container-org7bf536a" class="outline-5">
+<h5 id="org7bf536a">Make truth tables</h5>
+<div class="outline-text-5" id="text-org7bf536a">
 <p>
 Pass
 </p>
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-2-1-2" class="outline-5">
-<h5 id="sec-1-2-2-1-2">4</h5>
-<div class="outline-text-5" id="text-1-2-2-1-2">
+<div id="outline-container-org34b9552" class="outline-5">
+<h5 id="org34b9552">4</h5>
+<div class="outline-text-5" id="text-org34b9552">
 <p>
 <i>Find a formula using only the connectives ∧ and ¬ that is equivalent to P ∨ Q.</i>
 </p>
@@ -513,12 +496,13 @@ This is just negated Demorgan's.
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-2-2" class="outline-4">
-<h4 id="sec-1-2-2-2">1.3 Exercises</h4>
-<div class="outline-text-4" id="text-1-2-2-2">
-</div><div id="outline-container-sec-1-2-2-2-1" class="outline-5">
-<h5 id="sec-1-2-2-2-1">1</h5>
-<div class="outline-text-5" id="text-1-2-2-2-1">
+<div id="outline-container-org8dbba1f" class="outline-4">
+<h4 id="org8dbba1f">1.3 Exercises</h4>
+<div class="outline-text-4" id="text-org8dbba1f">
+</div>
+<div id="outline-container-org50336cf" class="outline-5">
+<h5 id="org50336cf">1</h5>
+<div class="outline-text-5" id="text-org50336cf">
 <p>
 <i>Analyze the logical forms of the following statements</i>
 <i>(a) 3 is a common divisor of 6, 9, and 15. (Note: You did this in exercise 2 of Section 1.1, but you should be able to give a better answer now.)</i>
@@ -546,9 +530,9 @@ This is just negated Demorgan's.
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-2-2-2" class="outline-5">
-<h5 id="sec-1-2-2-2-2">3</h5>
-<div class="outline-text-5" id="text-1-2-2-2-2">
+<div id="outline-container-org7664f9b" class="outline-5">
+<h5 id="org7664f9b">3</h5>
+<div class="outline-text-5" id="text-org7664f9b">
 <p>
 (a) the set of all celestial objects presently or formally referred to as planets in the solar system
 (b) the set of elite american universities \(\cup\) Cornell University
@@ -559,12 +543,13 @@ This is just negated Demorgan's.
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-2-3" class="outline-4">
-<h4 id="sec-1-2-2-3">1.4 Exercises</h4>
-<div class="outline-text-4" id="text-1-2-2-3">
-</div><div id="outline-container-sec-1-2-2-3-1" class="outline-5">
-<h5 id="sec-1-2-2-3-1">1</h5>
-<div class="outline-text-5" id="text-1-2-2-3-1">
+<div id="outline-container-org1fc8984" class="outline-4">
+<h4 id="org1fc8984">1.4 Exercises</h4>
+<div class="outline-text-4" id="text-org1fc8984">
+</div>
+<div id="outline-container-org8bd25ec" class="outline-5">
+<h5 id="org8bd25ec">1</h5>
+<div class="outline-text-5" id="text-org8bd25ec">
 <p>
 <i>Let A = {1, 3, 12, 35}, B = {3, 7, 12, 20}, and C = {x | x is a prime number}. List the elements of the following sets. Are any of the sets below disjoint from any of the others? Are any of the sets below subsets of any others?</i>
 </p>
@@ -583,9 +568,9 @@ c = {1, 12, 20, 35}
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-2-3-2" class="outline-5">
-<h5 id="sec-1-2-2-3-2">10</h5>
-<div class="outline-text-5" id="text-1-2-2-3-2">
+<div id="outline-container-org6ef44c2" class="outline-5">
+<h5 id="org6ef44c2">10</h5>
+<div class="outline-text-5" id="text-org6ef44c2">
 <p>
 <i>It is claimed in this section that you cannot make a Venn diagram for four sets using overlapping circles.</i>
 </p>
@@ -610,15 +595,17 @@ You can use a graph, I suppose.
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-3" class="outline-3">
-<h3 id="sec-1-2-3">Chapter 2</h3>
-<div class="outline-text-3" id="text-1-2-3">
-</div><div id="outline-container-sec-1-2-3-1" class="outline-4">
-<h4 id="sec-1-2-3-1">2.1 exercises</h4>
-<div class="outline-text-4" id="text-1-2-3-1">
-</div><div id="outline-container-sec-1-2-3-1-1" class="outline-5">
-<h5 id="sec-1-2-3-1-1">1</h5>
-<div class="outline-text-5" id="text-1-2-3-1-1">
+<div id="outline-container-org6dfb178" class="outline-3">
+<h3 id="org6dfb178">Chapter 2</h3>
+<div class="outline-text-3" id="text-org6dfb178">
+</div>
+<div id="outline-container-org56f6b39" class="outline-4">
+<h4 id="org56f6b39">2.1 exercises</h4>
+<div class="outline-text-4" id="text-org56f6b39">
+</div>
+<div id="outline-container-orgd16fc3b" class="outline-5">
+<h5 id="orgd16fc3b">1</h5>
+<div class="outline-text-5" id="text-orgd16fc3b">
 <p>
 <i>Analyze the logical forms of the following statements.</i>
 <i>(a) Anyone who has forgiven at least one person is a saint.</i>
@@ -662,9 +649,9 @@ You can use a graph, I suppose.
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-3-1-2" class="outline-5">
-<h5 id="sec-1-2-3-1-2">2</h5>
-<div class="outline-text-5" id="text-1-2-3-1-2">
+<div id="outline-container-orgf7c14ef" class="outline-5">
+<h5 id="orgf7c14ef">2</h5>
+<div class="outline-text-5" id="text-orgf7c14ef">
 <p>
 Giving up on reprinting the question starting now
 </p>
@@ -680,9 +667,9 @@ Giving up on reprinting the question starting now
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-3-1-3" class="outline-5">
-<h5 id="sec-1-2-3-1-3">4</h5>
-<div class="outline-text-5" id="text-1-2-3-1-3">
+<div id="outline-container-org7df049a" class="outline-5">
+<h5 id="org7df049a">4</h5>
+<div class="outline-text-5" id="text-org7df049a">
 <p>
 (a) if any man is unmarried, he is unhappy
 (b) there exists a person with a child and a sister
@@ -690,9 +677,9 @@ Giving up on reprinting the question starting now
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-3-1-4" class="outline-5">
-<h5 id="sec-1-2-3-1-4">5</h5>
-<div class="outline-text-5" id="text-1-2-3-1-4">
+<div id="outline-container-org9a28199" class="outline-5">
+<h5 id="org9a28199">5</h5>
+<div class="outline-text-5" id="text-org9a28199">
 <p>
 (a) Any number which is prime and not 2 is odd
 (b) There exists a biggest perfect number
@@ -700,9 +687,9 @@ Giving up on reprinting the question starting now
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-3-1-5" class="outline-5">
-<h5 id="sec-1-2-3-1-5">6</h5>
-<div class="outline-text-5" id="text-1-2-3-1-5">
+<div id="outline-container-org1f80078" class="outline-5">
+<h5 id="org1f80078">6</h5>
+<div class="outline-text-5" id="text-org1f80078">
 <p>
 (a) false
 (b) false
@@ -713,9 +700,9 @@ Giving up on reprinting the question starting now
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-3-1-6" class="outline-5">
-<h5 id="sec-1-2-3-1-6">7</h5>
-<div class="outline-text-5" id="text-1-2-3-1-6">
+<div id="outline-container-orgf6032bc" class="outline-5">
+<h5 id="orgf6032bc">7</h5>
+<div class="outline-text-5" id="text-orgf6032bc">
 <p>
 (a) true
 (b) false
@@ -727,18 +714,18 @@ Giving up on reprinting the question starting now
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-3-1-7" class="outline-5">
-<h5 id="sec-1-2-3-1-7">8</h5>
-<div class="outline-text-5" id="text-1-2-3-1-7">
+<div id="outline-container-org089689e" class="outline-5">
+<h5 id="org089689e">8</h5>
+<div class="outline-text-5" id="text-org089689e">
 <p>
 c is now true, d is now false, f is now true
 </p>
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-3-1-8" class="outline-5">
-<h5 id="sec-1-2-3-1-8">9</h5>
-<div class="outline-text-5" id="text-1-2-3-1-8">
+<div id="outline-container-org6aeefa4" class="outline-5">
+<h5 id="org6aeefa4">9</h5>
+<div class="outline-text-5" id="text-org6aeefa4">
 <p>
 f is now true
 </p>
@@ -747,12 +734,13 @@ f is now true
 </div>
 
 
-<div id="outline-container-sec-1-2-3-2" class="outline-4">
-<h4 id="sec-1-2-3-2">2.2 exercises</h4>
-<div class="outline-text-4" id="text-1-2-3-2">
-</div><div id="outline-container-sec-1-2-3-2-1" class="outline-5">
-<h5 id="sec-1-2-3-2-1">8</h5>
-<div class="outline-text-5" id="text-1-2-3-2-1">
+<div id="outline-container-org304cdf8" class="outline-4">
+<h4 id="org304cdf8">2.2 exercises</h4>
+<div class="outline-text-4" id="text-org304cdf8">
+</div>
+<div id="outline-container-org6970299" class="outline-5">
+<h5 id="org6970299">8</h5>
+<div class="outline-text-5" id="text-org6970299">
 <p>
 \((\forall x \in AP(x)) \wedge (\forall x \in B(P(x)))\)
 </p>
@@ -767,9 +755,9 @@ f is now true
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-3-2-2" class="outline-5">
-<h5 id="sec-1-2-3-2-2">11</h5>
-<div class="outline-text-5" id="text-1-2-3-2-2">
+<div id="outline-container-orgea2a4c9" class="outline-5">
+<h5 id="orgea2a4c9">11</h5>
+<div class="outline-text-5" id="text-orgea2a4c9">
 <p>
 \(\forall x (x \in A \rightarrow x \in B)\)
 </p>
@@ -794,33 +782,35 @@ f is now true
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-4" class="outline-3">
-<h3 id="sec-1-2-4">Chapter 3</h3>
-<div class="outline-text-3" id="text-1-2-4">
-</div><div id="outline-container-sec-1-2-4-1" class="outline-4">
-<h4 id="sec-1-2-4-1">3.1 Exercises</h4>
-<div class="outline-text-4" id="text-1-2-4-1">
-</div><div id="outline-container-sec-1-2-4-1-1" class="outline-5">
-<h5 id="sec-1-2-4-1-1">5</h5>
-<div class="outline-text-5" id="text-1-2-4-1-1">
+<div id="outline-container-org2946b22" class="outline-3">
+<h3 id="org2946b22">Chapter 3</h3>
+<div class="outline-text-3" id="text-org2946b22">
+</div>
+<div id="outline-container-orge3c040a" class="outline-4">
+<h4 id="orge3c040a">3.1 Exercises</h4>
+<div class="outline-text-4" id="text-orge3c040a">
+</div>
+<div id="outline-container-org1ad429b" class="outline-5">
+<h5 id="org1ad429b">5</h5>
+<div class="outline-text-5" id="text-org1ad429b">
 <p>
 assume a &lt; b &lt; 0. Then, -a &gt; -b &gt; 0. Since (-a)<sup>2</sup> &gt; (-b)<sup>2</sup> &gt; 0 and (-x)<sup>2</sup> = x<sup>2</sup>, a<sup>2</sup> &gt; b<sup>2</sup>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-4-1-2" class="outline-5">
-<h5 id="sec-1-2-4-1-2">6</h5>
-<div class="outline-text-5" id="text-1-2-4-1-2">
+<div id="outline-container-orgbbd52c6" class="outline-5">
+<h5 id="orgbbd52c6">6</h5>
+<div class="outline-text-5" id="text-orgbbd52c6">
 <p>
 Assume \(1/b \geq 1/a\). Then, \(ab/b \geq ab/a\) and therefore \(a \geq b\). However, \(0 < a < b\), which is a contradiction. You could just divide both sides by \(ab\) but what's the fun in that. 
 </p>
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-4-1-3" class="outline-5">
-<h5 id="sec-1-2-4-1-3">7</h5>
-<div class="outline-text-5" id="text-1-2-4-1-3">
+<div id="outline-container-org4fbdff9" class="outline-5">
+<h5 id="org4fbdff9">7</h5>
+<div class="outline-text-5" id="text-org4fbdff9">
 <p>
 assume a<sup>3</sup> &gt; a. Then, a<sup>3</sup> - a &gt; 0. 
 </p>
@@ -839,27 +829,27 @@ Therefore, a<sup>5</sup> &gt; a
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-4-1-4" class="outline-5">
-<h5 id="sec-1-2-4-1-4">8</h5>
-<div class="outline-text-5" id="text-1-2-4-1-4">
+<div id="outline-container-org90a93b1" class="outline-5">
+<h5 id="org90a93b1">8</h5>
+<div class="outline-text-5" id="text-org90a93b1">
 <p>
 assume \(x \notin D\). Then, \(x \notin C \cap D\). Since \(x \in A\) and \(A \setminus B \subseteq, C \cap D\), then x must have been removed from A, meaning \(x \in B\)
 </p>
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-4-1-5" class="outline-5">
-<h5 id="sec-1-2-4-1-5">9</h5>
-<div class="outline-text-5" id="text-1-2-4-1-5">
+<div id="outline-container-org2889128" class="outline-5">
+<h5 id="org2889128">9</h5>
+<div class="outline-text-5" id="text-org2889128">
 <p>
 assume \(a<b\). Then, \(a+b<b+b\). Therefore \(\frac{a+b}{2} < \frac{2b}{2} = b\)
 </p>
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-4-1-6" class="outline-5">
-<h5 id="sec-1-2-4-1-6">11</h5>
-<div class="outline-text-5" id="text-1-2-4-1-6">
+<div id="outline-container-orga5616cb" class="outline-5">
+<h5 id="orga5616cb">11</h5>
+<div class="outline-text-5" id="text-orga5616cb">
 <p>
 suppose \(ac \geq bd\). Since \(a < b\), we have \(ac \geq bd > ad\) and therefore \(ac > ad\). Therefore, \(c > d\)
 </p>
@@ -867,12 +857,13 @@ suppose \(ac \geq bd\). Since \(a < b\), we have \(ac \geq bd > ad\) and therefo
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-4-2" class="outline-4">
-<h4 id="sec-1-2-4-2">3.2 Exercises</h4>
-<div class="outline-text-4" id="text-1-2-4-2">
-</div><div id="outline-container-sec-1-2-4-2-1" class="outline-5">
-<h5 id="sec-1-2-4-2-1">8</h5>
-<div class="outline-text-5" id="text-1-2-4-2-1">
+<div id="outline-container-orgf4cbe0b" class="outline-4">
+<h4 id="orgf4cbe0b">3.2 Exercises</h4>
+<div class="outline-text-4" id="text-orgf4cbe0b">
+</div>
+<div id="outline-container-orga02f0a6" class="outline-5">
+<h5 id="orga02f0a6">8</h5>
+<div class="outline-text-5" id="text-orga02f0a6">
 <p>
 assume \(a \geq -1\). 
 </p>
@@ -883,11 +874,11 @@ case 2: a = -1 + x where x &gt; 0
 </p>
 
 <p>
-$$-1 + x < \frac{1}{x-1} < b < \frac{1}{b}$$
+\[-1 + x < \frac{1}{x-1} < b < \frac{1}{b}\]
 </p>
 
 <p>
-$$(x-1)^2 < 1 < b(x-1) < \frac{1}{b}(x-1)$$
+\[(x-1)^2 < 1 < b(x-1) < \frac{1}{b}(x-1)\]
 </p>
 </div>
 </div>

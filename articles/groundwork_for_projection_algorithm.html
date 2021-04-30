@@ -3,11 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>groundwork_for_projection_algorithm</title>
-<!-- 2018-07-04 Wed 18:28 -->
-<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<meta  name="generator" content="Org-mode" />
-<meta  name="author" content="ambi" />
+<!-- 2021-04-02 Fri 00:06 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SSBM Projection Algorithm</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="ambi" />
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -48,12 +49,13 @@ $(function() {
 </script>
 
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
+<link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
 JavaScript code in this tag.
 
-Copyright (C) 2012-2013 Free Software Foundation, Inc.
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
 
 The JavaScript code in this tag is free software: you can
 redistribute it and/or modify it under the terms of the GNU
@@ -126,12 +128,12 @@ for the JavaScript code in this tag.
     </nav>
 </div>
 <div id="content">
-<h1 class="title">groundwork_for_projection_algorithm</h1>
+<h1 class="title">SSBM Projection Algorithm</h1>
 <div id="table-of-contents">
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#top">Performance, Projections, and Prediction:</a>
+<li><a href="##top">Performance, Projections, and Prediction:</a>
 <ul>
 <li><a href="#building-a-basic-projection-algorithm">Building a Basic Projection Algorithm</a></li>
 <li><a href="#the-big-picture">The Big Picture</a></li>
@@ -145,15 +147,14 @@ for the JavaScript code in this tag.
 </ul>
 </div>
 </div>
-<div id="outline-container-#top" class="outline-1">
-<h1 id="#top"><a id="sec-1" name="sec-1"></a>Performance, Projections, and Prediction:</h1>
+<div id="outline-container-orgcfeecf8" class="outline-1">
+<h1 id="#top"><a id="orgcfeecf8"></a>Performance, Projections, and Prediction:</h1>
 <div class="outline-text-1" id="text-#top">
 </div>
 
-<div id="outline-container-building-a-basic-projection-algorithm" class="outline-2">
-<h2 id="building-a-basic-projection-algorithm"><a id="sec-1-1" name="sec-1-1"></a>Building a Basic Projection Algorithm</h2>
+<div id="outline-container-org46a0dab" class="outline-2">
+<h2 id="building-a-basic-projection-algorithm"><a id="org46a0dab"></a>Building a Basic Projection Algorithm</h2>
 <div class="outline-text-2" id="text-building-a-basic-projection-algorithm">
-
 
 <div class="figure">
 <p><img src="../images/projection/database.png" alt="database.png" />
@@ -167,22 +168,17 @@ with it?
 </p>
 
 <ul class="org-ul">
-<li>We could see which characters are most successful
-</li>
-<li>We could see which matchups are good/bad
-</li>
-<li>We can see which players are best at which matchups
-</li>
-<li><i>We can use it to predict wins/losses</i>
-</li>
+<li>We could see which characters are most successful</li>
+<li>We could see which matchups are good/bad</li>
+<li>We can see which players are best at which matchups</li>
+<li><i>We can use it to predict wins/losses</i></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-the-big-picture" class="outline-2">
-<h2 id="the-big-picture"><a id="sec-1-2" name="sec-1-2"></a>The Big Picture</h2>
+<div id="outline-container-orga9f1c5d" class="outline-2">
+<h2 id="the-big-picture"><a id="orga9f1c5d"></a>The Big Picture</h2>
 <div class="outline-text-2" id="text-the-big-picture">
-
 <p>
 Basically, most projections are done with a simple "if seed1 &gt; seed2,
 seed1 wins" method, even if one player is playing an opponent he usually
@@ -211,18 +207,14 @@ about</a> tier lists
 their own character</a> and
 <a href="https://twitter.com/MVG_Mew2King/status/759832399907782656">overrates
 their own problem matchups</a>, so I specifically tried to limit my
-interaction with the data.
-</li>
+interaction with the data.</li>
 <li>Trying to improve performance: obviously, especially since Melee is
 pretty volatile and the "better player" doesn't always win,
-especially at very small skill differences
-</li>
+especially at very small skill differences</li>
 <li>Trying to understand more: using data to explain <i>why</i> things happen
 <ul class="org-ul">
-<li>character limitations, player strengths and weaknesses, rivalries, etc.
-</li>
-</ul>
-</li>
+<li>character limitations, player strengths and weaknesses, rivalries, etc.</li>
+</ul></li>
 </ul>
 
 <p>
@@ -259,10 +251,9 @@ of people with access to much more data than me</a>.
 </div>
 </div>
 
-<div id="outline-container-obtaining-some-data" class="outline-2">
-<h2 id="obtaining-some-data"><a id="sec-1-3" name="sec-1-3"></a>Obtaining Some Data</h2>
+<div id="outline-container-orga8ad199" class="outline-2">
+<h2 id="obtaining-some-data"><a id="orga8ad199"></a>Obtaining Some Data</h2>
 <div class="outline-text-2" id="text-obtaining-some-data">
-
 <p>
 To begin, I wrote a script that pulls tournament results from majors and
 supermajors. I used
@@ -339,47 +330,47 @@ done with any sort of ranking (MIOM top 100, raw winrate, whatever)
 
 
 <colgroup>
-<col  class="left" />
+<col  class="org-left" />
 
-<col  class="left" />
+<col  class="org-left" />
 
-<col  class="left" />
+<col  class="org-left" />
 
-<col  class="left" />
+<col  class="org-left" />
 
-<col  class="left" />
+<col  class="org-left" />
 
-<col  class="left" />
+<col  class="org-left" />
 
-<col  class="left" />
+<col  class="org-left" />
 
-<col  class="left" />
+<col  class="org-left" />
 
-<col  class="left" />
+<col  class="org-left" />
 </colgroup>
 <tbody>
 <tr>
-<td class="left">&#xa0;</td>
-<td class="left">Tier 1</td>
-<td class="left">Tier 2</td>
-<td class="left">Tier 3</td>
-<td class="left">Tier 4</td>
-<td class="left">Tier 5</td>
-<td class="left">Tier 6</td>
-<td class="left">Tier 7</td>
-<td class="left">Tier 8</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Tier 1</td>
+<td class="org-left">Tier 2</td>
+<td class="org-left">Tier 3</td>
+<td class="org-left">Tier 4</td>
+<td class="org-left">Tier 5</td>
+<td class="org-left">Tier 6</td>
+<td class="org-left">Tier 7</td>
+<td class="org-left">Tier 8</td>
 </tr>
 
 <tr>
-<td class="left"><b>Socal Example</b></td>
-<td class="left">Mango</td>
-<td class="left">Westballz Lucky S2J</td>
-<td class="left">MacD HugS</td>
-<td class="left">Mikehaze Santiago</td>
-<td class="left">Eddy Mexico Alex19</td>
-<td class="left">CDK Faceroll Squid ROFL Kira Ken</td>
-<td class="left">Jace Luigikid Reno</td>
-<td class="left">Players unlikely to place at nationals</td>
+<td class="org-left"><b>Socal Example</b></td>
+<td class="org-left">Mango</td>
+<td class="org-left">Westballz Lucky S2J</td>
+<td class="org-left">MacD HugS</td>
+<td class="org-left">Mikehaze Santiago</td>
+<td class="org-left">Eddy Mexico Alex19</td>
+<td class="org-left">CDK Faceroll Squid ROFL Kira Ken</td>
+<td class="org-left">Jace Luigikid Reno</td>
+<td class="org-left">Players unlikely to place at nationals</td>
 </tr>
 </tbody>
 </table>
@@ -391,24 +382,16 @@ information:
 </p>
 
 <ul class="org-ul">
-<li>Player's win/loss vs that individual opponent
-</li>
-<li>Player's win/loss vs that opponent's character
-</li>
-<li>Player's character's win/loss vs that opponent
-</li>
-<li>Player's character's win/loss vs that opponent's character
-</li>
-<li>Player's win/loss vs an opponent at that tier difference
-</li>
+<li>Player's win/loss vs that individual opponent</li>
+<li>Player's win/loss vs that opponent's character</li>
+<li>Player's character's win/loss vs that opponent</li>
+<li>Player's character's win/loss vs that opponent's character</li>
+<li>Player's win/loss vs an opponent at that tier difference</li>
 <li>Player's win/loss vs an opponent using that opponent's character at
-that tier difference
-</li>
-<li>Player's character's win/loss vs an opponent at that tier difference
-</li>
+that tier difference</li>
+<li>Player's character's win/loss vs an opponent at that tier difference</li>
 <li>Player's character's win/loss vs an opponent using that opponent's
-character at that tier difference
-</li>
+character at that tier difference</li>
 </ul>
 
 <p>
@@ -418,10 +401,9 @@ that. But what can we do with this?
 </div>
 </div>
 
-<div id="outline-container-the-winloss-curve" class="outline-2">
-<h2 id="the-winloss-curve"><a id="sec-1-4" name="sec-1-4"></a>The Win/Loss Curve</h2>
+<div id="outline-container-org6ac89a1" class="outline-2">
+<h2 id="the-winloss-curve"><a id="org6ac89a1"></a>The Win/Loss Curve</h2>
 <div class="outline-text-2" id="text-the-winloss-curve">
-
 <p>
 Well, we can make a general prediction curve of win/loss percentage
 between two opponents of known skill level. I visualized our previous
@@ -522,8 +504,7 @@ So if you want to talk about "the Fox vs Peach matchup", you are almost
 always talking about the middle point there, where skill difference ~=
 </p>
 <ol class="org-ol">
-<li>If the odds of winning vs Peach as Fox, all else held equal, is 60%,
-</li>
+<li>If the odds of winning vs Peach as Fox, all else held equal, is 60%,</li>
 </ol>
 <p>
 then Fox performs vs Peach as, effectively, a 60-40 matchup (this
@@ -548,10 +529,9 @@ learn here?
 </div>
 </div>
 
-<div id="outline-container-analysis-at-skill-variations" class="outline-2">
-<h2 id="analysis-at-skill-variations"><a id="sec-1-5" name="sec-1-5"></a>Analysis at Skill Variations</h2>
+<div id="outline-container-org85dc25f" class="outline-2">
+<h2 id="analysis-at-skill-variations"><a id="org85dc25f"></a>Analysis at Skill Variations</h2>
 <div class="outline-text-2" id="text-analysis-at-skill-variations">
-
 <p>
 Well, <img src="../images/projection/getupset.gif" alt="getupset.gif" /> will give you the total
 expected win/loss rate against players worse than you, and likewise
@@ -595,7 +575,7 @@ win. However, we can still use past data even if the two have never
 played before; if we know that in character X vs character Y, all else
 being held equal, character X has a <b>better matchup</b>, then we can give
 the nod to player A, who plays character X. We can loosely control for
-*"being good or bad at a matchup"*, too.
+<b>"being good or bad at a matchup"</b>, too.
 </p>
 
 <p>
@@ -622,49 +602,49 @@ following<sup><a href="./projection_notes.html#features">9</a></sup>:
 
 
 <colgroup>
-<col  class="left" />
+<col  class="org-left" />
 
-<col  class="left" />
+<col  class="org-left" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="left" />
+<col  class="org-left" />
 
-<col  class="left" />
+<col  class="org-left" />
 
-<col  class="left" />
+<col  class="org-left" />
 </colgroup>
 <tbody>
 <tr>
-<td class="left">Player 1</td>
-<td class="left">Player 2</td>
-<td class="right">Skill Difference</td>
-<td class="right">Individual Record</td>
-<td class="left">P1's Character</td>
-<td class="left">P2's Character</td>
-<td class="left">Winner</td>
+<td class="org-left">Player 1</td>
+<td class="org-left">Player 2</td>
+<td class="org-right">Skill Difference</td>
+<td class="org-right">Individual Record</td>
+<td class="org-left">P1's Character</td>
+<td class="org-left">P2's Character</td>
+<td class="org-left">Winner</td>
 </tr>
 
 <tr>
-<td class="left">Mango</td>
-<td class="left">Wizzrobe</td>
-<td class="right">+2</td>
-<td class="right">5-0</td>
-<td class="left">Fox</td>
-<td class="left">Falcon</td>
-<td class="left">Mango</td>
+<td class="org-left">Mango</td>
+<td class="org-left">Wizzrobe</td>
+<td class="org-right">+2</td>
+<td class="org-right">5-0</td>
+<td class="org-left">Fox</td>
+<td class="org-left">Falcon</td>
+<td class="org-left">Mango</td>
 </tr>
 
 <tr>
-<td class="left">MacD</td>
-<td class="left">Nintendude</td>
-<td class="right">-1</td>
-<td class="right">1-1</td>
-<td class="left">Peach</td>
-<td class="left">Ice Climbers</td>
-<td class="left">MacD</td>
+<td class="org-left">MacD</td>
+<td class="org-left">Nintendude</td>
+<td class="org-right">-1</td>
+<td class="org-right">1-1</td>
+<td class="org-left">Peach</td>
+<td class="org-left">Ice Climbers</td>
+<td class="org-left">MacD</td>
 </tr>
 </tbody>
 </table>
@@ -709,12 +689,10 @@ as a win vs them in 2016, but under this algorithm it would be. This
 would be fixable (<i>simply</i>, but not necessarily easily) by making the
 skill tier calculation happen on a rolling basis (i.e. after every
 tournament), but that would require more work and this is just a
-proof of concept right now.
-</li>
+proof of concept right now.</li>
 <li>This only uses data from very big tournaments, because people sandbag
 at locals / people go random characters to experiment / it's messy to
-judge the whole world on them
-</li>
+judge the whole world on them</li>
 <li>This assumes everybody always plays the same character, and that
 playing a more advantageous matchup with a character you're worse at
 is roughly equal to playing your main in a bad matchup. I have no
@@ -724,22 +702,19 @@ in every match in every set then I don't have a good way to provide
 input otherwise (I am only one person!) If this sort of thing were
 applied to, say, smashgg or Tafokints, where they have countless
 brackets with characters already in a database, this assumption
-wouldn't be needed at all!
-</li>
+wouldn't be needed at all!</li>
 <li>"Overrepresentedness" is worth nothing. This model assumes that many
 foxes and few puffs is due to people simply wanting to play fox and
 not wanting to play puff - this is a direct measure of "best
 performing characters" as opposed to "best characters" since the
-former is objective and the latter is subjective
-</li>
+former is objective and the latter is subjective</li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-performance" class="outline-2">
-<h2 id="performance"><a id="sec-1-6" name="sec-1-6"></a>Performance</h2>
+<div id="outline-container-org8089d17" class="outline-2">
+<h2 id="performance"><a id="org8089d17"></a>Performance</h2>
 <div class="outline-text-2" id="text-performance">
-
 <p>
 I compared this to the smash.gg projected bracket at Shine 2016. At this
 tournament, the projected bracket was always advancing the higher seed,
@@ -756,34 +731,20 @@ except for the following predictions:
 </p>
 
 <ul class="org-ul">
-<li>Captain Smuckers &lt; Son2
-</li>
-<li>Reno &lt; Crunch
-</li>
-<li>Plup &lt; SFAT
-</li>
-<li>Plup &lt; Lucky
-</li>
-<li>S2J &lt; Azusa
-</li>
-<li>M2K &lt; Swedish Delight
-</li>
-<li>Infinite Numbers &lt; Wobbles
-</li>
-<li>KJH &lt; Wobbles
-</li>
-<li>dizzkid &lt; Wobbles
-</li>
-<li>Kage &lt; Prince Abu
-</li>
-<li>The Moon &lt; Prof Pro
-</li>
-<li>Reno &lt; Tafokints
-</li>
-<li>Nintendude &lt; MacD
-</li>
-<li>Hbox &lt; Mango
-</li>
+<li>Captain Smuckers &lt; Son2</li>
+<li>Reno &lt; Crunch</li>
+<li>Plup &lt; SFAT</li>
+<li>Plup &lt; Lucky</li>
+<li>S2J &lt; Azusa</li>
+<li>M2K &lt; Swedish Delight</li>
+<li>Infinite Numbers &lt; Wobbles</li>
+<li>KJH &lt; Wobbles</li>
+<li>dizzkid &lt; Wobbles</li>
+<li>Kage &lt; Prince Abu</li>
+<li>The Moon &lt; Prof Pro</li>
+<li>Reno &lt; Tafokints</li>
+<li>Nintendude &lt; MacD</li>
+<li>Hbox &lt; Mango</li>
 </ul>
 
 <p>
@@ -809,20 +770,16 @@ Some other fun observations:
 </p>
 
 <ul class="org-ul">
-<li>This regularly predicts rather large upsets on Falcon players
-</li>
+<li>This regularly predicts rather large upsets on Falcon players</li>
 <li>This classifier somewhat overrates Mango, likely because of favorable
 matchups against players he normally gets seeded under (Fox vs Puff,
-Fox vs Peach)
-</li>
+Fox vs Peach)</li>
 <li>This classifier doesn't seem to think Peach vs Puff is that bad for
 Peach, which is almost certainly because all of Armada's wins over
-Hbox are marked as Peach vs Puff
-</li>
+Hbox are marked as Peach vs Puff</li>
 <li>I'm pretty impressed that it managed to guess the seeding so
 accurately, especially considering the information it had about skill
-levels was very handwavey
-</li>
+levels was very handwavey</li>
 </ul>
 
 <p>
@@ -831,10 +788,9 @@ Overall a pretty cool result for such a simple classifier
 </div>
 </div>
 
-<div id="outline-container-further-applications" class="outline-2">
-<h2 id="further-applications"><a id="sec-1-7" name="sec-1-7"></a>Further Applications</h2>
+<div id="outline-container-org295184e" class="outline-2">
+<h2 id="further-applications"><a id="org295184e"></a>Further Applications</h2>
 <div class="outline-text-2" id="text-further-applications">
-
 <p>
 You can also get really detailed portaits of each player's strengths and
 weaknesses, and use this data to build cool radar
@@ -855,7 +811,7 @@ for one person and I'm pretty content with this project for now.
 </p>
 
 <p>
-<i>posted on 9/11/16</i><br  />
+<i>posted on 9/11/16</i><br />
 </p>
 </div>
 </div>

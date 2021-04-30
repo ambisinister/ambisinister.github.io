@@ -3,11 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>ambiGCC</title>
-<!-- 2018-07-04 Wed 18:28 -->
-<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<meta  name="generator" content="Org-mode" />
-<meta  name="author" content="ambi" />
+<!-- 2021-04-02 Fri 00:06 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Better Gamecube Controller</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="ambi" />
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -48,12 +49,13 @@ $(function() {
 </script>
 
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
+<link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
 JavaScript code in this tag.
 
-Copyright (C) 2012-2013 Free Software Foundation, Inc.
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
 
 The JavaScript code in this tag is free software: you can
 redistribute it and/or modify it under the terms of the GNU
@@ -126,7 +128,7 @@ for the JavaScript code in this tag.
     </nav>
 </div>
 <div id="content">
-<h1 class="title">ambiGCC</h1>
+<h1 class="title">Better Gamecube Controller</h1>
 <div id="table-of-contents">
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents">
@@ -150,8 +152,8 @@ for the JavaScript code in this tag.
 </ul>
 </div>
 </div>
-<div id="outline-container-building-a-better-gamecube-controller" class="outline-1">
-<h1 id="building-a-better-gamecube-controller"><a id="sec-1" name="sec-1"></a>Building a Better Gamecube Controller</h1>
+<div id="outline-container-org3574cde" class="outline-1">
+<h1 id="building-a-better-gamecube-controller"><a id="org3574cde"></a>Building a Better Gamecube Controller</h1>
 <div class="outline-text-1" id="text-building-a-better-gamecube-controller">
 <blockquote>
 <p>
@@ -160,10 +162,9 @@ for the JavaScript code in this tag.
 </blockquote>
 </div>
 
-<div id="outline-container-abstract" class="outline-2">
-<h2 id="abstract"><a id="sec-1-1" name="sec-1-1"></a>Abstract</h2>
+<div id="outline-container-org1a2b079" class="outline-2">
+<h2 id="abstract"><a id="org1a2b079"></a>Abstract</h2>
 <div class="outline-text-2" id="text-abstract">
-
 <p>
 I build a gamecube controller that emulates the most perfect possible
 OEM controller, and for the most part serves as a black box, making a
@@ -175,10 +176,9 @@ if you took it and deliberately tried to find something unfair about it
 </div>
 </div>
 
-<div id="outline-container-intro" class="outline-2">
-<h2 id="intro"><a id="sec-1-2" name="sec-1-2"></a>Intro</h2>
+<div id="outline-container-org411390f" class="outline-2">
+<h2 id="intro"><a id="org411390f"></a>Intro</h2>
 <div class="outline-text-2" id="text-intro">
-
 <p>
 /This project has been put on hold due to Hax's "Gamecube Controller
 Project" which accomplishes most of the same goals as a prototype
@@ -251,10 +251,9 @@ reasonably pass as "legal" in a tournament environment.
 </div>
 </div>
 
-<div id="outline-container-hardware" class="outline-2">
-<h2 id="hardware"><a id="sec-1-3" name="sec-1-3"></a>Hardware</h2>
+<div id="outline-container-org51f60ee" class="outline-2">
+<h2 id="hardware"><a id="org51f60ee"></a>Hardware</h2>
 <div class="outline-text-2" id="text-hardware">
-
 <p>
 Accomplishing this from a hardware perspective is simple enough, and
 most of what is necessary for a prototype for this controller is readily
@@ -272,7 +271,12 @@ Adapter library and loosely adapt
 DIY Smashbox</a> project for our purposes.
 </p>
 
-<img src="https://cdn-learn.adafruit.com/assets/assets/000/025/646/medium800/adafruit_products_pro5.png?1432753967"></img>
+<div class="html">
+<p>
+&lt;img src="<a href="https://cdn-learn.adafruit.com/assets/assets/000/025/646/medium800/adafruit_products_pro5.png?1432753967">https://cdn-learn.adafruit.com/assets/assets/000/025/646/medium800/adafruit_products_pro5.png?1432753967</a>"&gt;&lt;/img&gt;
+</p>
+
+</div>
 
 <p>
 I bought a random third party controller on Amazon for ~$9 and used it
@@ -294,15 +298,14 @@ abandoned from that point on.
 </div>
 </div>
 
-<div id="outline-container-software" class="outline-2">
-<h2 id="software"><a id="sec-1-4" name="sec-1-4"></a>Software</h2>
+<div id="outline-container-org0051885" class="outline-2">
+<h2 id="software"><a id="org0051885"></a>Software</h2>
 <div class="outline-text-2" id="text-software">
 </div>
 
-<div id="outline-container-solving-the-problem-of-smash-turns" class="outline-3">
-<h3 id="solving-the-problem-of-smash-turns"><a id="sec-1-4-1" name="sec-1-4-1"></a>Solving the Problem of Smash Turns</h3>
+<div id="outline-container-org64c9260" class="outline-3">
+<h3 id="solving-the-problem-of-smash-turns"><a id="org64c9260"></a>Solving the Problem of Smash Turns</h3>
 <div class="outline-text-3" id="text-solving-the-problem-of-smash-turns">
-
 <p>
 Smash Turns are probably the most problematic error, in terms of SSBM,
 on a normal OEM controller. If the game polls your controller at the
@@ -372,10 +375,9 @@ over the deadzone between polls (unsure of the likelihood of this).
 </div>
 </div>
 
-<div id="outline-container-solving-the-problem-of-adt-shield" class="outline-3">
-<h3 id="solving-the-problem-of-adt-shield"><a id="sec-1-4-2" name="sec-1-4-2"></a>Solving the Problem of ADT Shield</h3>
+<div id="outline-container-org33f4e3d" class="outline-3">
+<h3 id="solving-the-problem-of-adt-shield"><a id="org33f4e3d"></a>Solving the Problem of ADT Shield</h3>
 <div class="outline-text-3" id="text-solving-the-problem-of-adt-shield">
-
 <p>
 ADT Shield is a lesser-known mechanic that's best described as "smash
 turns, but for shields". In short, if you shield and your controller
@@ -428,10 +430,9 @@ it's worth playing around with just for fun.
 </div>
 </div>
 
-<div id="outline-container-solving-the-problem-of-shield-dropping" class="outline-3">
-<h3 id="solving-the-problem-of-shield-dropping"><a id="sec-1-4-3" name="sec-1-4-3"></a>Solving the Problem of Shield Dropping</h3>
+<div id="outline-container-orga46fa67" class="outline-3">
+<h3 id="solving-the-problem-of-shield-dropping"><a id="orga46fa67"></a>Solving the Problem of Shield Dropping</h3>
 <div class="outline-text-3" id="text-solving-the-problem-of-shield-dropping">
-
 <p>
 Likewise, we can shift the input/output map of the controller such that
 the shield drop values land on the notches, rather than shifting the
@@ -471,14 +472,13 @@ have long queues and wait times.
 </div>
 </div>
 
-<div id="outline-container-bonus-1.0-dashes" class="outline-3">
-<h3 id="bonus-1.0-dashes"><a id="sec-1-4-4" name="sec-1-4-4"></a>Bonus: 1.0 Dashes</h3>
+<div id="outline-container-org3f28220" class="outline-3">
+<h3 id="bonus-1.0-dashes"><a id="org3f28220"></a>Bonus: 1.0 Dashes</h3>
 <div class="outline-text-3" id="text-bonus-1.0-dashes">
-
 <p>
 1.0 dashes are the dashes fully in a single direction, which are only
 possible with zero deviance off of the axis. In addition to making
-<a href="https://www.youtube.com/watch?v=4uumlWSUqPk&feature=youtu.be">dash speed slightly faster</a>, it also affects
+<a href="https://www.youtube.com/watch?v=4uumlWSUqPk&amp;feature=youtu.be">dash speed slightly faster</a>, it also affects
 <a href="https://www.youtube.com/watch?v=K7dh3tcQr0o">DI on certain moves</a>,
 making otherwise inescapable combos escapable. It's a subtle effect, and
 it's one that Leffen has been leveraging to argue against the legality
@@ -511,10 +511,9 @@ them (since that would be unfair).
 </div>
 </div>
 
-<div id="outline-container-spooky-scary-suggestions" class="outline-2">
-<h2 id="spooky-scary-suggestions"><a id="sec-1-5" name="sec-1-5"></a>Spooky, Scary Suggestions</h2>
+<div id="outline-container-org4bad7fa" class="outline-2">
+<h2 id="spooky-scary-suggestions"><a id="org4bad7fa"></a>Spooky, Scary Suggestions</h2>
 <div class="outline-text-2" id="text-spooky-scary-suggestions">
-
 <p>
 While we've established that I am only seeking to create this controller
 for the powers of good, and not evil, there are unquestionable worries
@@ -583,7 +582,7 @@ make more ourselves.
 </p>
 
 <p>
-<i>posted on 4/12/2017</i><br  />
+<i>posted on 4/12/2017</i><br />
 </p>
 </div>
 </div>

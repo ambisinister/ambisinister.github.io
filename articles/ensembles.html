@@ -3,11 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>ensembles</title>
-<!-- 2020-01-19 Sun 15:36 -->
-<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<meta  name="generator" content="Org-mode" />
-<meta  name="author" content="ambi" />
+<!-- 2021-04-02 Fri 00:06 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Invasion of the Ballot Snatchers</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="ambi" />
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -48,12 +49,13 @@ $(function() {
 </script>
 
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
+<link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
 JavaScript code in this tag.
 
-Copyright (C) 2012-2013 Free Software Foundation, Inc.
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
 
 The JavaScript code in this tag is free software: you can
 redistribute it and/or modify it under the terms of the GNU
@@ -94,48 +96,28 @@ for the JavaScript code in this tag.
  }
 /*]]>*///-->
 </script>
-<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
-<script type="text/javascript">
-<!--/*--><![CDATA[/*><!--*/
+<script type="text/x-mathjax-config">
     MathJax.Hub.Config({
-        // Only one of the two following lines, depending on user settings
-        // First allows browser-native MathML display, second forces HTML/CSS
-        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
-            jax: ["input/TeX", "output/HTML-CSS"],
-        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
-                     "TeX/noUndefined.js"],
-        tex2jax: {
-            inlineMath: [ ["\\(","\\)"] ],
-            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
-            skipTags: ["script","noscript","style","textarea","pre","code"],
-            ignoreClass: "tex2jax_ignore",
-            processEscapes: false,
-            processEnvironments: true,
-            preview: "TeX"
-        },
-        showProcessingMessages: true,
         displayAlign: "center",
-        displayIndent: "2em",
+        displayIndent: "0em",
 
-        "HTML-CSS": {
-             scale: 100,
-             availableFonts: ["STIX","TeX"],
-             preferredFont: "TeX",
-             webFont: "TeX",
-             imageFont: "TeX",
-             showMathMenu: true,
-        },
-        MMLorHTML: {
-             prefer: {
-                 MSIE:    "MML",
-                 Firefox: "MML",
-                 Opera:   "HTML",
-                 other:   "HTML"
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
              }
-        }
-    });
-/*]]>*///-->
+});
 </script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -168,64 +150,66 @@ for the JavaScript code in this tag.
     </nav>
 </div>
 <div id="content">
-<h1 class="title">ensembles</h1>
+<h1 class="title">Invasion of the Ballot Snatchers</h1>
 <div id="table-of-contents">
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">Invasion of the Ballot Snatchers (and Other Stories) - Decorrelated Errors in Panel-Based Rank Voting</a>
+<li><a href="#org09c8f4b">Invasion of the Ballot Snatchers (and Other Stories) - Decorrelated Errors in Panel-Based Rank Voting</a>
 <ul>
-<li><a href="#sec-1-1">Abstract</a></li>
-<li><a href="#sec-1-2">Introduction</a></li>
-<li><a href="#sec-1-3">Ensembles</a></li>
-<li><a href="#sec-1-4">Why Have a Panel?</a>
+<li><a href="#org2116f60">Abstract</a></li>
+<li><a href="#org1edd27d">Introduction</a></li>
+<li><a href="#org60b6a5d">Ensembles</a></li>
+<li><a href="#orgf2b80d9">Why Have a Panel?</a>
 <ul>
-<li><a href="#sec-1-4-1">Return 10 Task</a></li>
-<li><a href="#sec-1-4-2">Decorrelated Errors</a></li>
-<li><a href="#sec-1-4-3">Seeded Return 10 Task</a></li>
+<li><a href="#orgd0e18f7">Return 10 Task</a></li>
+<li><a href="#orgcd7a3fe">Decorrelated Errors</a></li>
+<li><a href="#org0543e2f">Seeded Return 10 Task</a></li>
 </ul>
 </li>
-<li><a href="#sec-1-5">Ranking Simulation Toy Experiments</a>
+<li><a href="#org0cf7025">Ranking Simulation Toy Experiments</a>
 <ul>
-<li><a href="#sec-1-5-1">Lone Wolf vs Panel</a></li>
-<li><a href="#sec-1-5-2">Copycats</a>
+<li><a href="#org8b0db47">Lone Wolf vs Panel</a></li>
+<li><a href="#org06e97ca">Copycats</a>
 <ul>
-<li><a href="#sec-1-5-2-1">Copying Random Agent's List</a></li>
-<li><a href="#sec-1-5-2-2">Copying Unusually Good Agent's List</a></li>
+<li><a href="#org06e2ca6">Copying Random Agent's List</a></li>
+<li><a href="#org97549d5">Copying Unusually Good Agent's List</a></li>
 </ul>
 </li>
-<li><a href="#sec-1-5-3">Collaboration</a></li>
+<li><a href="#org614e933">Collaboration</a></li>
 </ul>
 </li>
-<li><a href="#sec-1-6">Discussion</a></li>
-<li><a href="#sec-1-7">Asides</a>
+<li><a href="#org8087d5f">Discussion</a></li>
+<li><a href="#orgc853d23">Asides</a>
 <ul>
-<li><a href="#sec-1-7-1">Model Output is not Ground Truth</a></li>
+<li><a href="#org295b681">Model Output is not Ground Truth</a></li>
 </ul>
 </li>
-<li><a href="#sec-1-8">Conclusion</a></li>
+<li><a href="#org907681e">Conclusion</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-sec-1" class="outline-1">
-<h1 id="sec-1">Invasion of the Ballot Snatchers (and Other Stories) - Decorrelated Errors in Panel-Based Rank Voting</h1>
-<div class="outline-text-1" id="text-1">
-</div><div id="outline-container-sec-1-1" class="outline-2">
-<h2 id="sec-1-1">Abstract</h2>
-<div class="outline-text-2" id="text-1-1">
+
+<div id="outline-container-org09c8f4b" class="outline-1">
+<h1 id="org09c8f4b">Invasion of the Ballot Snatchers (and Other Stories) - Decorrelated Errors in Panel-Based Rank Voting</h1>
+<div class="outline-text-1" id="text-org09c8f4b">
+</div>
+<div id="outline-container-org2116f60" class="outline-2">
+<h2 id="org2116f60">Abstract</h2>
+<div class="outline-text-2" id="text-org2116f60">
 <p>
 Some theoretical justification for panel-based voting are empirically explored. Some strengths and possible harms in such a system are considered, and simulation experiments are run to see the degree to which they can contribute to harming or helping the list. In addition to demonstrating the advantages of having votes from multiple agents, we demonstrate that copying the output of another agent harms performance even if that agent is significantly better than the other agents. 
 </p>
 </div>
 </div>
 
-<div id="outline-container-sec-1-2" class="outline-2">
-<h2 id="sec-1-2">Introduction</h2>
-<div class="outline-text-2" id="text-1-2">
+<div id="outline-container-org1edd27d" class="outline-2">
+<h2 id="org1edd27d">Introduction</h2>
+<div class="outline-text-2" id="text-org1edd27d">
 <p>
-Every year, Super Smash Brothers Melee players come together to rank the top 100 players based on results from tournaments all over the world<sup><a id="fnr.1" name="fnr.1" class="footref" href="#fn.1">1</a></sup>. Every year, dozens of hand-selected volunteer panelists spend upwards of 30 hours considering the wins and losses of every eligible player, painstakingly crafting lists which they believe accurately reflect the 100 best active players. And, as you might expect, every year, hordes of fans parrot the same handful of talking points about what they believe those panelists are doing wrong.
+Every year, Super Smash Brothers Melee players come together to rank the top 100 players based on results from tournaments all over the world<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>. Every year, dozens of hand-selected volunteer panelists spend upwards of 30 hours considering the wins and losses of every eligible player, painstakingly crafting lists which they believe accurately reflect the 100 best active players. And, as you might expect, every year, hordes of fans parrot the same handful of talking points about what they believe those panelists are doing wrong.
 </p>
 
 <p>
@@ -242,15 +226,15 @@ This is all easy to demonstrate with some very simple programs, and a little bit
 </div>
 </div>
 
-<div id="outline-container-sec-1-3" class="outline-2">
-<h2 id="sec-1-3">Ensembles</h2>
-<div class="outline-text-2" id="text-1-3">
+<div id="outline-container-org60b6a5d" class="outline-2">
+<h2 id="org60b6a5d">Ensembles</h2>
+<div class="outline-text-2" id="text-org60b6a5d">
 <p>
-<a href="https://en.wikipedia.org/wiki/Ensemble_learning">Ensemble methods</a> are a class of machine learning techniques that use multiple algorithms working together in order to achieve better predictive performance than using any algorithm by itself. There are many types of ensemble methods, and using them to boost performance is very common in scenarios like data science competitions<sup><a id="fnr.2" name="fnr.2" class="footref" href="#fn.2">2</a></sup>.
+<a href="https://en.wikipedia.org/wiki/Ensemble_learning">Ensemble methods</a> are a class of machine learning techniques that use multiple algorithms working together in order to achieve better predictive performance than using any algorithm by itself. There are many types of ensemble methods, and using them to boost performance is very common in scenarios like data science competitions<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>.
 </p>
 
 <p>
-<img src="../images/ensembles/ensemble.png" alt="ensemble.png" /><sup><a id="fnr.3" name="fnr.3" class="footref" href="#fn.3">3</a></sup>
+<img src="../images/ensembles/ensemble.png" alt="ensemble.png" /><sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup>
 </p>
 
 <p>
@@ -259,9 +243,9 @@ In a role-reversal of cliche, I will be using anecdotes from the ensemble litera
 </div>
 </div>
 
-<div id="outline-container-sec-1-4" class="outline-2">
-<h2 id="sec-1-4">Why Have a Panel?</h2>
-<div class="outline-text-2" id="text-1-4">
+<div id="outline-container-orgf2b80d9" class="outline-2">
+<h2 id="orgf2b80d9">Why Have a Panel?</h2>
+<div class="outline-text-2" id="text-orgf2b80d9">
 <p>
 The fundamental intuition behind choosing an ensemble over a single agent is the idea that an ensemble allows the agents to "cover for" the mistakes of their peers. If you're the only agent and you make a mistake, your mistake is put into practice. If you're one agent out of ten agents and you make a mistake, then as long as that mistake isn't also made by all of the other agents, you will probably correct the mistake and the correct decision gets put into practice. 
 </p>
@@ -271,15 +255,14 @@ To explain this, we can think about two very simple tasks: the <i>Return 10</i> 
 </p>
 </div>
 
-<div id="outline-container-sec-1-4-1" class="outline-3">
-<h3 id="sec-1-4-1">Return 10 Task</h3>
-<div class="outline-text-3" id="text-1-4-1">
+<div id="outline-container-orgd0e18f7" class="outline-3">
+<h3 id="orgd0e18f7">Return 10 Task</h3>
+<div class="outline-text-3" id="text-orgd0e18f7">
 <p>
 We begin with a super simple task - given the ability to generate a random number normally distributed around any number with some fixed variance, return the closest number to 10 you can. Obviously, the best tactic for this would be to center your normal distribution around the number 10, since by definition data near the mean of the normal distribution are more likely to occur. 
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-python"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
 
 <span style="color: #FD971F;">number_selection</span> = 10
@@ -316,27 +299,27 @@ We begin with a super simple task - given the ability to generate a random numbe
 
 
 <colgroup>
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 </colgroup>
 <tbody>
 <tr>
-<td class="right">1.7972504544531396</td>
-<td class="right">1.5322129946973109</td>
-<td class="right">6.7988449259293935</td>
-<td class="right">0.03550172936625451</td>
+<td class="org-right">1.7972504544531396</td>
+<td class="org-right">1.5322129946973109</td>
+<td class="org-right">6.7988449259293935</td>
+<td class="org-right">0.03550172936625451</td>
 </tr>
 
 <tr>
-<td class="right">0.8653320003692471</td>
-<td class="right">0.6319248291526629</td>
-<td class="right">2.766182868187526</td>
-<td class="right">0.02592768837883419</td>
+<td class="org-right">0.8653320003692471</td>
+<td class="org-right">0.6319248291526629</td>
+<td class="org-right">2.766182868187526</td>
+<td class="org-right">0.02592768837883419</td>
 </tr>
 </tbody>
 </table>
@@ -351,11 +334,11 @@ If you instead have a "panel" of five agents who all get one try at this task, a
 </div>
 </div>
 
-<div id="outline-container-sec-1-4-2" class="outline-3">
-<h3 id="sec-1-4-2">Decorrelated Errors</h3>
-<div class="outline-text-3" id="text-1-4-2">
+<div id="outline-container-orgcd7a3fe" class="outline-3">
+<h3 id="orgcd7a3fe">Decorrelated Errors</h3>
+<div class="outline-text-3" id="text-orgcd7a3fe">
 <p>
-Critically, ensembles only help you when your agents largely make mistakes which are not shared between them. This is what we will be referring to as "decorrelated errors" or "uncorrelated errors"<sup><a id="fnr.4" name="fnr.4" class="footref" href="#fn.4">4</a></sup>. Again, this intuition is pretty straightforward: if all of your agents make the same mistakes, none of them can cover for the others' mistakes. 
+Critically, ensembles only help you when your agents largely make mistakes which are not shared between them. This is what we will be referring to as "decorrelated errors" or "uncorrelated errors"<sup><a id="fnr.4" class="footref" href="#fn.4">4</a></sup>. Again, this intuition is pretty straightforward: if all of your agents make the same mistakes, none of them can cover for the others' mistakes. 
 </p>
 
 <p>
@@ -364,15 +347,14 @@ In our previous example, we showed that you could reduce the variance of this "r
 </div>
 </div>
 
-<div id="outline-container-sec-1-4-3" class="outline-3">
-<h3 id="sec-1-4-3">Seeded Return 10 Task</h3>
-<div class="outline-text-3" id="text-1-4-3">
+<div id="outline-container-org0543e2f" class="outline-3">
+<h3 id="org0543e2f">Seeded Return 10 Task</h3>
+<div class="outline-text-3" id="text-org0543e2f">
 <p>
 The seeded return 10 task is a lot like the return 10 task, but with a twist - the random number you pick is always the same if you decide to center it around that number. In python, it looks like this:
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-python"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
 <span style="color: #FD971F;">number_selection</span> = 10
 <span style="color: #FD971F;">variance</span> = 2.5
@@ -384,6 +366,7 @@ np.random.seed(<span style="color: #F92672;">int</span>(number_selection * 1000)
 
 <pre class="example">
 6.82227340048
+
 </pre>
 
 <p>
@@ -391,7 +374,6 @@ If you run this a million times, you will always return the same random value. T
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-python"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
 
 <span style="color: #FD971F;">number_selection</span> = 10
@@ -431,27 +413,27 @@ If you run this a million times, you will always return the same random value. T
 
 
 <colgroup>
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 </colgroup>
 <tbody>
 <tr>
-<td class="right">3.1777265995156982</td>
-<td class="right">8.881784197001252e-16</td>
-<td class="right">3.1777265995156974</td>
-<td class="right">3.1777265995156974</td>
+<td class="org-right">3.1777265995156982</td>
+<td class="org-right">8.881784197001252e-16</td>
+<td class="org-right">3.1777265995156974</td>
+<td class="org-right">3.1777265995156974</td>
 </tr>
 
 <tr>
-<td class="right">0.32457601896086347</td>
-<td class="right">5.551115123125783e-17</td>
-<td class="right">0.3245760189608635</td>
-<td class="right">0.3245760189608635</td>
+<td class="org-right">0.32457601896086347</td>
+<td class="org-right">5.551115123125783e-17</td>
+<td class="org-right">0.3245760189608635</td>
+<td class="org-right">0.3245760189608635</td>
 </tr>
 </tbody>
 </table>
@@ -461,30 +443,29 @@ For this task, you actually perform better on average if every agent picks a ran
 </p>
 
 <p>
-The big takeaway here is that you don't get any added value adding more agents if they all just make the same mistakes, and you <i>do</i> get added value adding agents with diverse decisionmaking processes, even if those agents are "worse". You'll see this intuition all over the place, in many fields well outside of machine learning - making sure all of the agents working on a task are unlikely to make the same errors is often more important than making sure each individual agent is as good as possible. This is partially why, for example, highly intellectually diverse workplaces tend to outperform workplaces which only hire people within a narrow specialization, especially in the sciences<sup><a id="fnr.5" name="fnr.5" class="footref" href="#fn.5">5</a></sup><sup>, </sup><sup><a id="fnr.6" name="fnr.6" class="footref" href="#fn.6">6</a></sup>. 
+The big takeaway here is that you don't get any added value adding more agents if they all just make the same mistakes, and you <i>do</i> get added value adding agents with diverse decisionmaking processes, even if those agents are "worse". You'll see this intuition all over the place, in many fields well outside of machine learning - making sure all of the agents working on a task are unlikely to make the same errors is often more important than making sure each individual agent is as good as possible. This is partially why, for example, highly intellectually diverse workplaces tend to outperform workplaces which only hire people within a narrow specialization, especially in the sciences<sup><a id="fnr.5" class="footref" href="#fn.5">5</a></sup><sup>, </sup><sup><a id="fnr.6" class="footref" href="#fn.6">6</a></sup>. 
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-1-5" class="outline-2">
-<h2 id="sec-1-5">Ranking Simulation Toy Experiments</h2>
-<div class="outline-text-2" id="text-1-5">
+<div id="outline-container-org0cf7025" class="outline-2">
+<h2 id="org0cf7025">Ranking Simulation Toy Experiments</h2>
+<div class="outline-text-2" id="text-org0cf7025">
 <p>
 To more directly examine panel-based rank voting tasks, let's devise a toy version of this task where the objective is to return a list of "ranked players" [1, 2, 3, &#x2026;, 100] as closely as possible, with distance to the list measured by Root Mean Squared Error.
 </p>
 
 <p>
-$$RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (Y_i - \hat{Y}_i)^2}$$
+\[RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (Y_i - \hat{Y}_i)^2}\]
 </p>
 
 <p>
-Each agent in this task is pretty competent &#x2013; On average, the mean value of the 10th player is centered around 10, the mean value of the 50th player is centered around 50, etc. However, there is some degree of uncertainty for each agent, and sometimes the placement of a player is off by a handful of spots. On top of this, the variance between each agent's vote is heteroscedastic<sup><a id="fnr.7" name="fnr.7" class="footref" href="#fn.7">7</a></sup>, which just means that the variability is different for each point, since usually ranking the lower end of the list is noisier than ranking the top<sup><a id="fnr.8" name="fnr.8" class="footref" href="#fn.8">8</a></sup>.  On top of this, each agent has some small percentage chance to completely mess up one of the indices; they have a 3-5% chance to rank someone almost completely randomly (let's say from 20 to 100). In python, it looks like this:
+Each agent in this task is pretty competent &#x2013; On average, the mean value of the 10th player is centered around 10, the mean value of the 50th player is centered around 50, etc. However, there is some degree of uncertainty for each agent, and sometimes the placement of a player is off by a handful of spots. On top of this, the variance between each agent's vote is heteroscedastic<sup><a id="fnr.7" class="footref" href="#fn.7">7</a></sup>, which just means that the variability is different for each point, since usually ranking the lower end of the list is noisier than ranking the top<sup><a id="fnr.8" class="footref" href="#fn.8">8</a></sup>.  On top of this, each agent has some small percentage chance to completely mess up one of the indices; they have a 3-5% chance to rank someone almost completely randomly (let's say from 20 to 100). In python, it looks like this:
 </p>
 
 <div class="org-src-container">
-
-<pre class="src src-python" id="mpgr-simulator"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<pre class="src src-python" id="orgc88450c"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
 <span style="color: #F92672;">import</span> random
 <span style="color: #F92672;">import</span> matplotlib
 <span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
@@ -523,12 +504,52 @@ matplotlib.use(<span style="color: #E6DB74;">'Agg'</span>)
 
 <span style="color: #F92672;">def</span> <span style="color: #A6E22E;">vote</span>(ballots):
     <span style="color: #F92672;">return</span> np.argsort(np.mean(ballots, axis=0))+1
+
 </pre>
 </div>
 
 <div class="org-src-container">
+<pre class="src src-python"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<span style="color: #F92672;">import</span> random
+<span style="color: #F92672;">import</span> matplotlib
+<span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
+<span style="color: #F92672;">from</span> random <span style="color: #F92672;">import</span> sample
+matplotlib.use(<span style="color: #E6DB74;">'Agg'</span>)
 
-<pre class="src src-python"><span style="color: #F92672;">return</span> single_agent(15, .03)
+<span style="color: #FD971F;">ground_truth</span> = <span style="color: #F92672;">list</span>(<span style="color: #F92672;">range</span>(1,101))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">calculate_error</span>(y, y_hat):
+    <span style="color: #F92672;">return</span> np.sqrt(np.mean([(a - b)**2 <span style="color: #F92672;">for</span> a,b <span style="color: #F92672;">in</span> <span style="color: #F92672;">zip</span>(y, y_hat)]))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">single_agent</span>(variance, error_chance):
+    <span style="color: #FD971F;">ballot</span> = []
+
+    <span style="color: #F92672;">for</span> player <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(1,101):
+        <span style="color: #FD971F;">playernoise</span> = variance * (player / 50.0)
+
+        <span style="color: #F92672;">if</span> random.random() &lt; error_chance:
+            <span style="color: #FD971F;">bounds</span> = np.random.uniform(20,100)
+            ballot.append(np.random.normal(bounds, playernoise))
+
+        <span style="color: #F92672;">else</span>:
+            ballot.append(np.random.normal(player, playernoise))
+
+    <span style="color: #F92672;">return</span> np.argsort(ballot)+1
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">panel</span>(panel_size, variance, errorchance):
+
+    <span style="color: #FD971F;">ballots</span> = []
+
+    <span style="color: #F92672;">for</span> agent <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(panel_size):
+        <span style="color: #FD971F;">panelist</span> = single_agent(variance, errorchance)
+        ballots.append(panelist)
+
+    <span style="color: #F92672;">return</span> ballots
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">vote</span>(ballots):
+    <span style="color: #F92672;">return</span> np.argsort(np.mean(ballots, axis=0))+1
+
+<span style="color: #F92672;">return</span> single_agent(15, .03)
 </pre>
 </div>
 
@@ -537,107 +558,146 @@ matplotlib.use(<span style="color: #E6DB74;">'Agg'</span>)
 
 
 <colgroup>
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="right" />
+<col  class="org-right" />
 
-<col  class="left" />
+<col  class="org-left" />
 </colgroup>
 <tbody>
 <tr>
-<td class="right">2</td>
-<td class="right">1</td>
-<td class="right">3</td>
-<td class="right">4</td>
-<td class="right">5</td>
-<td class="right">6</td>
-<td class="right">8</td>
-<td class="right">7</td>
-<td class="right">9</td>
-<td class="right">14</td>
-<td class="right">19</td>
-<td class="right">10</td>
-<td class="right">13</td>
-<td class="right">17</td>
-<td class="right">12</td>
-<td class="right">11</td>
-<td class="right">16</td>
-<td class="right">28</td>
-<td class="right">15</td>
-<td class="right">21</td>
-<td class="right">31</td>
-<td class="right">25</td>
-<td class="right">29</td>
-<td class="right">34</td>
-<td class="right">24</td>
-<td class="right">40</td>
-<td class="right">27</td>
-<td class="right">20</td>
-<td class="right">18</td>
-<td class="right">26</td>
-<td class="left">&#x2026;</td>
+<td class="org-right">2</td>
+<td class="org-right">1</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+<td class="org-right">5</td>
+<td class="org-right">6</td>
+<td class="org-right">8</td>
+<td class="org-right">7</td>
+<td class="org-right">9</td>
+<td class="org-right">14</td>
+<td class="org-right">19</td>
+<td class="org-right">10</td>
+<td class="org-right">13</td>
+<td class="org-right">17</td>
+<td class="org-right">12</td>
+<td class="org-right">11</td>
+<td class="org-right">16</td>
+<td class="org-right">28</td>
+<td class="org-right">15</td>
+<td class="org-right">21</td>
+<td class="org-right">31</td>
+<td class="org-right">25</td>
+<td class="org-right">29</td>
+<td class="org-right">34</td>
+<td class="org-right">24</td>
+<td class="org-right">40</td>
+<td class="org-right">27</td>
+<td class="org-right">20</td>
+<td class="org-right">18</td>
+<td class="org-right">26</td>
+<td class="org-left">&#x2026;</td>
 </tr>
 </tbody>
 </table>
 <div class="org-src-container">
+<pre class="src src-python"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<span style="color: #F92672;">import</span> random
+<span style="color: #F92672;">import</span> matplotlib
+<span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
+<span style="color: #F92672;">from</span> random <span style="color: #F92672;">import</span> sample
+matplotlib.use(<span style="color: #E6DB74;">'Agg'</span>)
 
-<pre class="src src-python"><span style="color: #75715E;">#</span><span style="color: #75715E;">return calculate_error(ground_truth, single_agent(15, .03))</span>
+<span style="color: #FD971F;">ground_truth</span> = <span style="color: #F92672;">list</span>(<span style="color: #F92672;">range</span>(1,101))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">calculate_error</span>(y, y_hat):
+    <span style="color: #F92672;">return</span> np.sqrt(np.mean([(a - b)**2 <span style="color: #F92672;">for</span> a,b <span style="color: #F92672;">in</span> <span style="color: #F92672;">zip</span>(y, y_hat)]))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">single_agent</span>(variance, error_chance):
+    <span style="color: #FD971F;">ballot</span> = []
+
+    <span style="color: #F92672;">for</span> player <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(1,101):
+        <span style="color: #FD971F;">playernoise</span> = variance * (player / 50.0)
+
+        <span style="color: #F92672;">if</span> random.random() &lt; error_chance:
+            <span style="color: #FD971F;">bounds</span> = np.random.uniform(20,100)
+            ballot.append(np.random.normal(bounds, playernoise))
+
+        <span style="color: #F92672;">else</span>:
+            ballot.append(np.random.normal(player, playernoise))
+
+    <span style="color: #F92672;">return</span> np.argsort(ballot)+1
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">panel</span>(panel_size, variance, errorchance):
+
+    <span style="color: #FD971F;">ballots</span> = []
+
+    <span style="color: #F92672;">for</span> agent <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(panel_size):
+        <span style="color: #FD971F;">panelist</span> = single_agent(variance, errorchance)
+        ballots.append(panelist)
+
+    <span style="color: #F92672;">return</span> ballots
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">vote</span>(ballots):
+    <span style="color: #F92672;">return</span> np.argsort(np.mean(ballots, axis=0))+1
+
+<span style="color: #75715E;">#</span><span style="color: #75715E;">return calculate_error(ground_truth, single_agent(15, .03))</span>
 <span style="color: #F92672;">return</span> calculate_error(ground_truth, vote(panel(10,15,.03)))
 </pre>
 </div>
@@ -645,6 +705,7 @@ matplotlib.use(<span style="color: #E6DB74;">'Agg'</span>)
 
 <pre class="example">
 5.414794548272353
+
 </pre>
 
 <p>
@@ -652,9 +713,9 @@ With this paradigm, we can begin to explore some fundamental questions about pan
 </p>
 </div>
 
-<div id="outline-container-sec-1-5-1" class="outline-3">
-<h3 id="sec-1-5-1">Lone Wolf vs Panel</h3>
-<div class="outline-text-3" id="text-1-5-1">
+<div id="outline-container-org8b0db47" class="outline-3">
+<h3 id="org8b0db47">Lone Wolf vs Panel</h3>
+<div class="outline-text-3" id="text-org8b0db47">
 <p>
 We begin by exploring whether a panel is worth using at all, compared to just using one "good" agent. 
 </p>
@@ -664,8 +725,48 @@ We look at the average mean squared error of solo agents vs a panel of agents, r
 </p>
 
 <div class="org-src-container">
+<pre class="src src-python"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<span style="color: #F92672;">import</span> random
+<span style="color: #F92672;">import</span> matplotlib
+<span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
+<span style="color: #F92672;">from</span> random <span style="color: #F92672;">import</span> sample
+matplotlib.use(<span style="color: #E6DB74;">'Agg'</span>)
 
-<pre class="src src-python"><span style="color: #FD971F;">agent_1</span> = []
+<span style="color: #FD971F;">ground_truth</span> = <span style="color: #F92672;">list</span>(<span style="color: #F92672;">range</span>(1,101))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">calculate_error</span>(y, y_hat):
+    <span style="color: #F92672;">return</span> np.sqrt(np.mean([(a - b)**2 <span style="color: #F92672;">for</span> a,b <span style="color: #F92672;">in</span> <span style="color: #F92672;">zip</span>(y, y_hat)]))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">single_agent</span>(variance, error_chance):
+    <span style="color: #FD971F;">ballot</span> = []
+
+    <span style="color: #F92672;">for</span> player <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(1,101):
+        <span style="color: #FD971F;">playernoise</span> = variance * (player / 50.0)
+
+        <span style="color: #F92672;">if</span> random.random() &lt; error_chance:
+            <span style="color: #FD971F;">bounds</span> = np.random.uniform(20,100)
+            ballot.append(np.random.normal(bounds, playernoise))
+
+        <span style="color: #F92672;">else</span>:
+            ballot.append(np.random.normal(player, playernoise))
+
+    <span style="color: #F92672;">return</span> np.argsort(ballot)+1
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">panel</span>(panel_size, variance, errorchance):
+
+    <span style="color: #FD971F;">ballots</span> = []
+
+    <span style="color: #F92672;">for</span> agent <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(panel_size):
+        <span style="color: #FD971F;">panelist</span> = single_agent(variance, errorchance)
+        ballots.append(panelist)
+
+    <span style="color: #F92672;">return</span> ballots
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">vote</span>(ballots):
+    <span style="color: #F92672;">return</span> np.argsort(np.mean(ballots, axis=0))+1
+
+
+<span style="color: #FD971F;">agent_1</span> = []
 <span style="color: #FD971F;">agent_10</span> = []
 <span style="color: #FD971F;">agent_25</span> = []
 <span style="color: #FD971F;">agent_50</span> = []
@@ -708,8 +809,48 @@ Random error is one thing, but the noise level between panelists also has an int
 </p>
 
 <div class="org-src-container">
+<pre class="src src-python"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<span style="color: #F92672;">import</span> random
+<span style="color: #F92672;">import</span> matplotlib
+<span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
+<span style="color: #F92672;">from</span> random <span style="color: #F92672;">import</span> sample
+matplotlib.use(<span style="color: #E6DB74;">'Agg'</span>)
 
-<pre class="src src-python"><span style="color: #FD971F;">agent_1</span> = []
+<span style="color: #FD971F;">ground_truth</span> = <span style="color: #F92672;">list</span>(<span style="color: #F92672;">range</span>(1,101))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">calculate_error</span>(y, y_hat):
+    <span style="color: #F92672;">return</span> np.sqrt(np.mean([(a - b)**2 <span style="color: #F92672;">for</span> a,b <span style="color: #F92672;">in</span> <span style="color: #F92672;">zip</span>(y, y_hat)]))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">single_agent</span>(variance, error_chance):
+    <span style="color: #FD971F;">ballot</span> = []
+
+    <span style="color: #F92672;">for</span> player <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(1,101):
+        <span style="color: #FD971F;">playernoise</span> = variance * (player / 50.0)
+
+        <span style="color: #F92672;">if</span> random.random() &lt; error_chance:
+            <span style="color: #FD971F;">bounds</span> = np.random.uniform(20,100)
+            ballot.append(np.random.normal(bounds, playernoise))
+
+        <span style="color: #F92672;">else</span>:
+            ballot.append(np.random.normal(player, playernoise))
+
+    <span style="color: #F92672;">return</span> np.argsort(ballot)+1
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">panel</span>(panel_size, variance, errorchance):
+
+    <span style="color: #FD971F;">ballots</span> = []
+
+    <span style="color: #F92672;">for</span> agent <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(panel_size):
+        <span style="color: #FD971F;">panelist</span> = single_agent(variance, errorchance)
+        ballots.append(panelist)
+
+    <span style="color: #F92672;">return</span> ballots
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">vote</span>(ballots):
+    <span style="color: #F92672;">return</span> np.argsort(np.mean(ballots, axis=0))+1
+
+
+<span style="color: #FD971F;">agent_1</span> = []
 <span style="color: #FD971F;">agent_3</span> = []
 <span style="color: #FD971F;">agent_10</span> = []
 <span style="color: #FD971F;">agent_25</span> = []
@@ -754,24 +895,62 @@ From this we can start to somewhat see the effect that the heteroscedasticity ha
 There are two ways to think about this:
 </p>
 <ol class="org-ol">
-<li>Given a fixed noise level for a task (i.e. inherent ambiguity of measurement), you do better with more panelists, and this distinction is more important the noisier the task is.
-</li>
-<li>Given the choice between a single agent with modestly low variance and many agents with comparatively higher variances, you perform better with the latter provided that the panelists make independent decisions
-</li>
+<li>Given a fixed noise level for a task (i.e. inherent ambiguity of measurement), you do better with more panelists, and this distinction is more important the noisier the task is.</li>
+<li>Given the choice between a single agent with modestly low variance and many agents with comparatively higher variances, you perform better with the latter provided that the panelists make independent decisions</li>
 </ol>
 </div>
 </div>
 
-<div id="outline-container-sec-1-5-2" class="outline-3">
-<h3 id="sec-1-5-2">Copycats</h3>
-<div class="outline-text-3" id="text-1-5-2">
+<div id="outline-container-org06e97ca" class="outline-3">
+<h3 id="org06e97ca">Copycats</h3>
+<div class="outline-text-3" id="text-org06e97ca">
 <p>
 One way the errors of agents could become correlated would be if the agents could see one of the agents' ballots, and could choose to copy that "public agent" with some probability. As we saw earlier with the <i>seeded return 10</i> experiment, this effectively turns those two agents into one agent with double the weight of other panelists. 
 </p>
 
 <div class="org-src-container">
+<pre class="src src-python" id="orgbf788aa"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<span style="color: #F92672;">import</span> random
+<span style="color: #F92672;">import</span> matplotlib
+<span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
+<span style="color: #F92672;">from</span> random <span style="color: #F92672;">import</span> sample
+matplotlib.use(<span style="color: #E6DB74;">'Agg'</span>)
 
-<pre class="src src-python" id="mpgr-simulator-2"><span style="color: #F92672;">def</span> <span style="color: #A6E22E;">compromised_panel</span>(publics, copycats, panel_size,
+<span style="color: #FD971F;">ground_truth</span> = <span style="color: #F92672;">list</span>(<span style="color: #F92672;">range</span>(1,101))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">calculate_error</span>(y, y_hat):
+    <span style="color: #F92672;">return</span> np.sqrt(np.mean([(a - b)**2 <span style="color: #F92672;">for</span> a,b <span style="color: #F92672;">in</span> <span style="color: #F92672;">zip</span>(y, y_hat)]))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">single_agent</span>(variance, error_chance):
+    <span style="color: #FD971F;">ballot</span> = []
+
+    <span style="color: #F92672;">for</span> player <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(1,101):
+        <span style="color: #FD971F;">playernoise</span> = variance * (player / 50.0)
+
+        <span style="color: #F92672;">if</span> random.random() &lt; error_chance:
+            <span style="color: #FD971F;">bounds</span> = np.random.uniform(20,100)
+            ballot.append(np.random.normal(bounds, playernoise))
+
+        <span style="color: #F92672;">else</span>:
+            ballot.append(np.random.normal(player, playernoise))
+
+    <span style="color: #F92672;">return</span> np.argsort(ballot)+1
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">panel</span>(panel_size, variance, errorchance):
+
+    <span style="color: #FD971F;">ballots</span> = []
+
+    <span style="color: #F92672;">for</span> agent <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(panel_size):
+        <span style="color: #FD971F;">panelist</span> = single_agent(variance, errorchance)
+        ballots.append(panelist)
+
+    <span style="color: #F92672;">return</span> ballots
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">vote</span>(ballots):
+    <span style="color: #F92672;">return</span> np.argsort(np.mean(ballots, axis=0))+1
+
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">compromised_panel</span>(publics, copycats, panel_size,
                       variance, errorchance, public_var=<span style="color: #AE81FF;">None</span>, public_err=<span style="color: #AE81FF;">None</span>):
 
     <span style="color: #F92672;">if</span> publics+copycats &gt; panel_size:
@@ -801,27 +980,161 @@ One way the errors of agents could become correlated would be if the agents coul
 </div>
 
 <div class="org-src-container">
+<pre class="src src-python"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<span style="color: #F92672;">import</span> random
+<span style="color: #F92672;">import</span> matplotlib
+<span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
+<span style="color: #F92672;">from</span> random <span style="color: #F92672;">import</span> sample
+matplotlib.use(<span style="color: #E6DB74;">'Agg'</span>)
 
-<pre class="src src-python"><span style="color: #F92672;">return</span> calculate_error(ground_truth, vote(compromised_panel(0,0,10,15,.03)))
+<span style="color: #FD971F;">ground_truth</span> = <span style="color: #F92672;">list</span>(<span style="color: #F92672;">range</span>(1,101))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">calculate_error</span>(y, y_hat):
+    <span style="color: #F92672;">return</span> np.sqrt(np.mean([(a - b)**2 <span style="color: #F92672;">for</span> a,b <span style="color: #F92672;">in</span> <span style="color: #F92672;">zip</span>(y, y_hat)]))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">single_agent</span>(variance, error_chance):
+    <span style="color: #FD971F;">ballot</span> = []
+
+    <span style="color: #F92672;">for</span> player <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(1,101):
+        <span style="color: #FD971F;">playernoise</span> = variance * (player / 50.0)
+
+        <span style="color: #F92672;">if</span> random.random() &lt; error_chance:
+            <span style="color: #FD971F;">bounds</span> = np.random.uniform(20,100)
+            ballot.append(np.random.normal(bounds, playernoise))
+
+        <span style="color: #F92672;">else</span>:
+            ballot.append(np.random.normal(player, playernoise))
+
+    <span style="color: #F92672;">return</span> np.argsort(ballot)+1
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">panel</span>(panel_size, variance, errorchance):
+
+    <span style="color: #FD971F;">ballots</span> = []
+
+    <span style="color: #F92672;">for</span> agent <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(panel_size):
+        <span style="color: #FD971F;">panelist</span> = single_agent(variance, errorchance)
+        ballots.append(panelist)
+
+    <span style="color: #F92672;">return</span> ballots
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">vote</span>(ballots):
+    <span style="color: #F92672;">return</span> np.argsort(np.mean(ballots, axis=0))+1
+
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">compromised_panel</span>(publics, copycats, panel_size,
+                      variance, errorchance, public_var=<span style="color: #AE81FF;">None</span>, public_err=<span style="color: #AE81FF;">None</span>):
+
+    <span style="color: #F92672;">if</span> publics+copycats &gt; panel_size:
+        <span style="color: #F92672;">raise</span> <span style="color: #66D9EF;">ValueError</span>(<span style="color: #E6DB74;">"Panel size must be greater than number of public and copycat agents"</span>)
+
+    <span style="color: #FD971F;">public_agents</span> = []
+    <span style="color: #FD971F;">copycat_agents</span> = []
+    <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(publics):
+        <span style="color: #F92672;">if</span> public_var == <span style="color: #AE81FF;">None</span> <span style="color: #F92672;">and</span> public_err == <span style="color: #AE81FF;">None</span>:
+            public_agents.append(single_agent(variance, errorchance))
+        <span style="color: #F92672;">else</span>:
+            public_agents.append(single_agent(public_var, public_err))
+
+    <span style="color: #F92672;">for</span> j <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(copycats):
+        copycat_agents.append(sample(public_agents, 1)[0])
+
+    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(copycat_agents) <span style="color: #F92672;">is</span> 0:
+        <span style="color: #FD971F;">ballots</span> = public_agents
+    <span style="color: #F92672;">else</span>:
+        <span style="color: #FD971F;">ballots</span> = <span style="color: #F92672;">list</span>(np.concatenate((public_agents, copycat_agents)))
+
+    <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(panel_size - <span style="color: #F92672;">len</span>(ballots)):
+        ballots.append(single_agent(variance, errorchance))
+
+    <span style="color: #F92672;">return</span> ballots
+<span style="color: #F92672;">return</span> calculate_error(ground_truth, vote(compromised_panel(0,0,10,15,.03)))
 </pre>
 </div>
 
 
 <pre class="example">
 5.582114294781145
+
 </pre>
 </div>
 
-<div id="outline-container-sec-1-5-2-1" class="outline-4">
-<h4 id="sec-1-5-2-1">Copying Random Agent's List</h4>
-<div class="outline-text-4" id="text-1-5-2-1">
+<div id="outline-container-org06e2ca6" class="outline-4">
+<h4 id="org06e2ca6">Copying Random Agent's List</h4>
+<div class="outline-text-4" id="text-org06e2ca6">
 <p>
 Let's start by assuming that the agents being copied can be any random agent. We will explore the relationship between copycat agents, public agents, and error on the list.
 </p>
 
 <div class="org-src-container">
+<pre class="src src-python"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<span style="color: #F92672;">import</span> random
+<span style="color: #F92672;">import</span> matplotlib
+<span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
+<span style="color: #F92672;">from</span> random <span style="color: #F92672;">import</span> sample
+matplotlib.use(<span style="color: #E6DB74;">'Agg'</span>)
 
-<pre class="src src-python"><span style="color: #FD971F;">copycat_rates</span> = <span style="color: #F92672;">list</span>(<span style="color: #F92672;">range</span>(1,10))
+<span style="color: #FD971F;">ground_truth</span> = <span style="color: #F92672;">list</span>(<span style="color: #F92672;">range</span>(1,101))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">calculate_error</span>(y, y_hat):
+    <span style="color: #F92672;">return</span> np.sqrt(np.mean([(a - b)**2 <span style="color: #F92672;">for</span> a,b <span style="color: #F92672;">in</span> <span style="color: #F92672;">zip</span>(y, y_hat)]))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">single_agent</span>(variance, error_chance):
+    <span style="color: #FD971F;">ballot</span> = []
+
+    <span style="color: #F92672;">for</span> player <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(1,101):
+        <span style="color: #FD971F;">playernoise</span> = variance * (player / 50.0)
+
+        <span style="color: #F92672;">if</span> random.random() &lt; error_chance:
+            <span style="color: #FD971F;">bounds</span> = np.random.uniform(20,100)
+            ballot.append(np.random.normal(bounds, playernoise))
+
+        <span style="color: #F92672;">else</span>:
+            ballot.append(np.random.normal(player, playernoise))
+
+    <span style="color: #F92672;">return</span> np.argsort(ballot)+1
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">panel</span>(panel_size, variance, errorchance):
+
+    <span style="color: #FD971F;">ballots</span> = []
+
+    <span style="color: #F92672;">for</span> agent <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(panel_size):
+        <span style="color: #FD971F;">panelist</span> = single_agent(variance, errorchance)
+        ballots.append(panelist)
+
+    <span style="color: #F92672;">return</span> ballots
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">vote</span>(ballots):
+    <span style="color: #F92672;">return</span> np.argsort(np.mean(ballots, axis=0))+1
+
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">compromised_panel</span>(publics, copycats, panel_size,
+                      variance, errorchance, public_var=<span style="color: #AE81FF;">None</span>, public_err=<span style="color: #AE81FF;">None</span>):
+
+    <span style="color: #F92672;">if</span> publics+copycats &gt; panel_size:
+        <span style="color: #F92672;">raise</span> <span style="color: #66D9EF;">ValueError</span>(<span style="color: #E6DB74;">"Panel size must be greater than number of public and copycat agents"</span>)
+
+    <span style="color: #FD971F;">public_agents</span> = []
+    <span style="color: #FD971F;">copycat_agents</span> = []
+    <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(publics):
+        <span style="color: #F92672;">if</span> public_var == <span style="color: #AE81FF;">None</span> <span style="color: #F92672;">and</span> public_err == <span style="color: #AE81FF;">None</span>:
+            public_agents.append(single_agent(variance, errorchance))
+        <span style="color: #F92672;">else</span>:
+            public_agents.append(single_agent(public_var, public_err))
+
+    <span style="color: #F92672;">for</span> j <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(copycats):
+        copycat_agents.append(sample(public_agents, 1)[0])
+
+    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(copycat_agents) <span style="color: #F92672;">is</span> 0:
+        <span style="color: #FD971F;">ballots</span> = public_agents
+    <span style="color: #F92672;">else</span>:
+        <span style="color: #FD971F;">ballots</span> = <span style="color: #F92672;">list</span>(np.concatenate((public_agents, copycat_agents)))
+
+    <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(panel_size - <span style="color: #F92672;">len</span>(ballots)):
+        ballots.append(single_agent(variance, errorchance))
+
+    <span style="color: #F92672;">return</span> ballots
+
+<span style="color: #FD971F;">copycat_rates</span> = <span style="color: #F92672;">list</span>(<span style="color: #F92672;">range</span>(1,10))
 <span style="color: #FD971F;">public_1</span> = []
 <span style="color: #FD971F;">public_3</span> = []
 <span style="color: #FD971F;">public_5</span> = []
@@ -871,17 +1184,84 @@ Unsurprisingly, we can see that the more agents copy other ballots, the worse th
 </div>
 </div>
 
-<div id="outline-container-sec-1-5-2-2" class="outline-4">
-<h4 id="sec-1-5-2-2">Copying Unusually Good Agent's List</h4>
-<div class="outline-text-4" id="text-1-5-2-2">
+<div id="outline-container-org97549d5" class="outline-4">
+<h4 id="org97549d5">Copying Unusually Good Agent's List</h4>
+<div class="outline-text-4" id="text-org97549d5">
 <p>
-You might think that it would be okay to copy off an agent if their list is better than the average panelist. There are two competing ideas here: it could be possible that duplicating a good agent might help more than correlating the agents would harm, but it may also be possible that overweighing the "best" panelist could serve as a sort of <i>dynamic ensemble selection</i> <sup><a id="fnr.9" name="fnr.9" class="footref" href="#fn.9">9</a></sup> wherein you learn to select the prediction from the agent which seems the most competent at any given point<sup><a id="fnr.10" name="fnr.10" class="footref" href="#fn.10">10</a></sup>. 
+You might think that it would be okay to copy off an agent if their list is better than the average panelist. There are two competing ideas here: it could be possible that duplicating a good agent might help more than correlating the agents would harm, but it may also be possible that overweighing the "best" panelist could serve as a sort of <i>dynamic ensemble selection</i> <sup><a id="fnr.9" class="footref" href="#fn.9">9</a></sup> wherein you learn to select the prediction from the agent which seems the most competent at any given point<sup><a id="fnr.10" class="footref" href="#fn.10">10</a></sup>. 
 </p>
 
 
 <div class="org-src-container">
+<pre class="src src-python"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<span style="color: #F92672;">import</span> random
+<span style="color: #F92672;">import</span> matplotlib
+<span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
+<span style="color: #F92672;">from</span> random <span style="color: #F92672;">import</span> sample
+matplotlib.use(<span style="color: #E6DB74;">'Agg'</span>)
 
-<pre class="src src-python"><span style="color: #FD971F;">copy_0</span> = []
+<span style="color: #FD971F;">ground_truth</span> = <span style="color: #F92672;">list</span>(<span style="color: #F92672;">range</span>(1,101))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">calculate_error</span>(y, y_hat):
+    <span style="color: #F92672;">return</span> np.sqrt(np.mean([(a - b)**2 <span style="color: #F92672;">for</span> a,b <span style="color: #F92672;">in</span> <span style="color: #F92672;">zip</span>(y, y_hat)]))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">single_agent</span>(variance, error_chance):
+    <span style="color: #FD971F;">ballot</span> = []
+
+    <span style="color: #F92672;">for</span> player <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(1,101):
+        <span style="color: #FD971F;">playernoise</span> = variance * (player / 50.0)
+
+        <span style="color: #F92672;">if</span> random.random() &lt; error_chance:
+            <span style="color: #FD971F;">bounds</span> = np.random.uniform(20,100)
+            ballot.append(np.random.normal(bounds, playernoise))
+
+        <span style="color: #F92672;">else</span>:
+            ballot.append(np.random.normal(player, playernoise))
+
+    <span style="color: #F92672;">return</span> np.argsort(ballot)+1
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">panel</span>(panel_size, variance, errorchance):
+
+    <span style="color: #FD971F;">ballots</span> = []
+
+    <span style="color: #F92672;">for</span> agent <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(panel_size):
+        <span style="color: #FD971F;">panelist</span> = single_agent(variance, errorchance)
+        ballots.append(panelist)
+
+    <span style="color: #F92672;">return</span> ballots
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">vote</span>(ballots):
+    <span style="color: #F92672;">return</span> np.argsort(np.mean(ballots, axis=0))+1
+
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">compromised_panel</span>(publics, copycats, panel_size,
+                      variance, errorchance, public_var=<span style="color: #AE81FF;">None</span>, public_err=<span style="color: #AE81FF;">None</span>):
+
+    <span style="color: #F92672;">if</span> publics+copycats &gt; panel_size:
+        <span style="color: #F92672;">raise</span> <span style="color: #66D9EF;">ValueError</span>(<span style="color: #E6DB74;">"Panel size must be greater than number of public and copycat agents"</span>)
+
+    <span style="color: #FD971F;">public_agents</span> = []
+    <span style="color: #FD971F;">copycat_agents</span> = []
+    <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(publics):
+        <span style="color: #F92672;">if</span> public_var == <span style="color: #AE81FF;">None</span> <span style="color: #F92672;">and</span> public_err == <span style="color: #AE81FF;">None</span>:
+            public_agents.append(single_agent(variance, errorchance))
+        <span style="color: #F92672;">else</span>:
+            public_agents.append(single_agent(public_var, public_err))
+
+    <span style="color: #F92672;">for</span> j <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(copycats):
+        copycat_agents.append(sample(public_agents, 1)[0])
+
+    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(copycat_agents) <span style="color: #F92672;">is</span> 0:
+        <span style="color: #FD971F;">ballots</span> = public_agents
+    <span style="color: #F92672;">else</span>:
+        <span style="color: #FD971F;">ballots</span> = <span style="color: #F92672;">list</span>(np.concatenate((public_agents, copycat_agents)))
+
+    <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(panel_size - <span style="color: #F92672;">len</span>(ballots)):
+        ballots.append(single_agent(variance, errorchance))
+
+    <span style="color: #F92672;">return</span> ballots
+
+<span style="color: #FD971F;">copy_0</span> = []
 <span style="color: #FD971F;">copy_1</span> = []
 <span style="color: #FD971F;">copy_3</span> = []
 <span style="color: #FD971F;">copy_5</span> = []
@@ -938,9 +1318,9 @@ Here we can examine the tradeoff. In this example, all of the panelists have a v
 </div>
 </div>
 
-<div id="outline-container-sec-1-5-3" class="outline-3">
-<h3 id="sec-1-5-3">Collaboration</h3>
-<div class="outline-text-3" id="text-1-5-3">
+<div id="outline-container-org614e933" class="outline-3">
+<h3 id="org614e933">Collaboration</h3>
+<div class="outline-text-3" id="text-org614e933">
 <p>
 One thing conceptually similar to copying is "collaboration" between agents, particularly in larger groups. The distinction here is akin to a student copying homework, versus students gathering to work on homework together. While this process is less one-way than copying, it's worth exploring whether this detrimentally decorrelates the errors between agents more than it helps, since these do typically end up making all of the agents' lists more similar to each other. 
 </p>
@@ -950,8 +1330,75 @@ We'll model this by putting a group of agents together, and then having them eac
 </p>
 
 <div class="org-src-container">
+<pre class="src src-python" id="org4c8ffc7"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<span style="color: #F92672;">import</span> random
+<span style="color: #F92672;">import</span> matplotlib
+<span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
+<span style="color: #F92672;">from</span> random <span style="color: #F92672;">import</span> sample
+matplotlib.use(<span style="color: #E6DB74;">'Agg'</span>)
 
-<pre class="src src-python" id="mpgr-simulator-3"><span style="color: #F92672;">def</span> <span style="color: #A6E22E;">cooperative_panel</span>(coop_size, panel_size, variance, errorchance):
+<span style="color: #FD971F;">ground_truth</span> = <span style="color: #F92672;">list</span>(<span style="color: #F92672;">range</span>(1,101))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">calculate_error</span>(y, y_hat):
+    <span style="color: #F92672;">return</span> np.sqrt(np.mean([(a - b)**2 <span style="color: #F92672;">for</span> a,b <span style="color: #F92672;">in</span> <span style="color: #F92672;">zip</span>(y, y_hat)]))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">single_agent</span>(variance, error_chance):
+    <span style="color: #FD971F;">ballot</span> = []
+
+    <span style="color: #F92672;">for</span> player <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(1,101):
+        <span style="color: #FD971F;">playernoise</span> = variance * (player / 50.0)
+
+        <span style="color: #F92672;">if</span> random.random() &lt; error_chance:
+            <span style="color: #FD971F;">bounds</span> = np.random.uniform(20,100)
+            ballot.append(np.random.normal(bounds, playernoise))
+
+        <span style="color: #F92672;">else</span>:
+            ballot.append(np.random.normal(player, playernoise))
+
+    <span style="color: #F92672;">return</span> np.argsort(ballot)+1
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">panel</span>(panel_size, variance, errorchance):
+
+    <span style="color: #FD971F;">ballots</span> = []
+
+    <span style="color: #F92672;">for</span> agent <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(panel_size):
+        <span style="color: #FD971F;">panelist</span> = single_agent(variance, errorchance)
+        ballots.append(panelist)
+
+    <span style="color: #F92672;">return</span> ballots
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">vote</span>(ballots):
+    <span style="color: #F92672;">return</span> np.argsort(np.mean(ballots, axis=0))+1
+
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">compromised_panel</span>(publics, copycats, panel_size,
+                      variance, errorchance, public_var=<span style="color: #AE81FF;">None</span>, public_err=<span style="color: #AE81FF;">None</span>):
+
+    <span style="color: #F92672;">if</span> publics+copycats &gt; panel_size:
+        <span style="color: #F92672;">raise</span> <span style="color: #66D9EF;">ValueError</span>(<span style="color: #E6DB74;">"Panel size must be greater than number of public and copycat agents"</span>)
+
+    <span style="color: #FD971F;">public_agents</span> = []
+    <span style="color: #FD971F;">copycat_agents</span> = []
+    <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(publics):
+        <span style="color: #F92672;">if</span> public_var == <span style="color: #AE81FF;">None</span> <span style="color: #F92672;">and</span> public_err == <span style="color: #AE81FF;">None</span>:
+            public_agents.append(single_agent(variance, errorchance))
+        <span style="color: #F92672;">else</span>:
+            public_agents.append(single_agent(public_var, public_err))
+
+    <span style="color: #F92672;">for</span> j <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(copycats):
+        copycat_agents.append(sample(public_agents, 1)[0])
+
+    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(copycat_agents) <span style="color: #F92672;">is</span> 0:
+        <span style="color: #FD971F;">ballots</span> = public_agents
+    <span style="color: #F92672;">else</span>:
+        <span style="color: #FD971F;">ballots</span> = <span style="color: #F92672;">list</span>(np.concatenate((public_agents, copycat_agents)))
+
+    <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(panel_size - <span style="color: #F92672;">len</span>(ballots)):
+        ballots.append(single_agent(variance, errorchance))
+
+    <span style="color: #F92672;">return</span> ballots
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">cooperative_panel</span>(coop_size, panel_size, variance, errorchance):
 
     <span style="color: #F92672;">if</span> coop_size &gt; panel_size:
         <span style="color: #F92672;">raise</span> <span style="color: #66D9EF;">ValueError</span>(<span style="color: #E6DB74;">"Panel size must be greater than number of public and copycat agents"</span>)
@@ -980,19 +1427,205 @@ We'll model this by putting a group of agents together, and then having them eac
 </div>
 
 <div class="org-src-container">
+<pre class="src src-python"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<span style="color: #F92672;">import</span> random
+<span style="color: #F92672;">import</span> matplotlib
+<span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
+<span style="color: #F92672;">from</span> random <span style="color: #F92672;">import</span> sample
+matplotlib.use(<span style="color: #E6DB74;">'Agg'</span>)
 
-<pre class="src src-python"><span style="color: #F92672;">return</span> calculate_error(ground_truth, vote(cooperative_panel(3,10,15,.03)))
+<span style="color: #FD971F;">ground_truth</span> = <span style="color: #F92672;">list</span>(<span style="color: #F92672;">range</span>(1,101))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">calculate_error</span>(y, y_hat):
+    <span style="color: #F92672;">return</span> np.sqrt(np.mean([(a - b)**2 <span style="color: #F92672;">for</span> a,b <span style="color: #F92672;">in</span> <span style="color: #F92672;">zip</span>(y, y_hat)]))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">single_agent</span>(variance, error_chance):
+    <span style="color: #FD971F;">ballot</span> = []
+
+    <span style="color: #F92672;">for</span> player <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(1,101):
+        <span style="color: #FD971F;">playernoise</span> = variance * (player / 50.0)
+
+        <span style="color: #F92672;">if</span> random.random() &lt; error_chance:
+            <span style="color: #FD971F;">bounds</span> = np.random.uniform(20,100)
+            ballot.append(np.random.normal(bounds, playernoise))
+
+        <span style="color: #F92672;">else</span>:
+            ballot.append(np.random.normal(player, playernoise))
+
+    <span style="color: #F92672;">return</span> np.argsort(ballot)+1
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">panel</span>(panel_size, variance, errorchance):
+
+    <span style="color: #FD971F;">ballots</span> = []
+
+    <span style="color: #F92672;">for</span> agent <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(panel_size):
+        <span style="color: #FD971F;">panelist</span> = single_agent(variance, errorchance)
+        ballots.append(panelist)
+
+    <span style="color: #F92672;">return</span> ballots
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">vote</span>(ballots):
+    <span style="color: #F92672;">return</span> np.argsort(np.mean(ballots, axis=0))+1
+
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">compromised_panel</span>(publics, copycats, panel_size,
+                      variance, errorchance, public_var=<span style="color: #AE81FF;">None</span>, public_err=<span style="color: #AE81FF;">None</span>):
+
+    <span style="color: #F92672;">if</span> publics+copycats &gt; panel_size:
+        <span style="color: #F92672;">raise</span> <span style="color: #66D9EF;">ValueError</span>(<span style="color: #E6DB74;">"Panel size must be greater than number of public and copycat agents"</span>)
+
+    <span style="color: #FD971F;">public_agents</span> = []
+    <span style="color: #FD971F;">copycat_agents</span> = []
+    <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(publics):
+        <span style="color: #F92672;">if</span> public_var == <span style="color: #AE81FF;">None</span> <span style="color: #F92672;">and</span> public_err == <span style="color: #AE81FF;">None</span>:
+            public_agents.append(single_agent(variance, errorchance))
+        <span style="color: #F92672;">else</span>:
+            public_agents.append(single_agent(public_var, public_err))
+
+    <span style="color: #F92672;">for</span> j <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(copycats):
+        copycat_agents.append(sample(public_agents, 1)[0])
+
+    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(copycat_agents) <span style="color: #F92672;">is</span> 0:
+        <span style="color: #FD971F;">ballots</span> = public_agents
+    <span style="color: #F92672;">else</span>:
+        <span style="color: #FD971F;">ballots</span> = <span style="color: #F92672;">list</span>(np.concatenate((public_agents, copycat_agents)))
+
+    <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(panel_size - <span style="color: #F92672;">len</span>(ballots)):
+        ballots.append(single_agent(variance, errorchance))
+
+    <span style="color: #F92672;">return</span> ballots
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">cooperative_panel</span>(coop_size, panel_size, variance, errorchance):
+
+    <span style="color: #F92672;">if</span> coop_size &gt; panel_size:
+        <span style="color: #F92672;">raise</span> <span style="color: #66D9EF;">ValueError</span>(<span style="color: #E6DB74;">"Panel size must be greater than number of public and copycat agents"</span>)
+
+    <span style="color: #FD971F;">ballots</span> = []
+
+    <span style="color: #75715E;"># </span><span style="color: #75715E;">cooperative agents</span>
+    <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(coop_size):
+        ballots.append(single_agent(variance, errorchance))
+
+    <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(<span style="color: #F92672;">len</span>(ballots[0])):
+        <span style="color: #FD971F;">med_vote</span> = np.median(np.array(ballots)[:,x])
+
+        <span style="color: #F92672;">for</span> voter <span style="color: #F92672;">in</span> ballots:
+            <span style="color: #FD971F;">oops</span> = np.<span style="color: #F92672;">abs</span>(med_vote - voter[x]) / 100
+
+            <span style="color: #F92672;">if</span> random.random() &lt; oops:
+                <span style="color: #FD971F;">voter</span>[x] = np.random.normal(med_vote, variance)
+
+    <span style="color: #75715E;"># </span><span style="color: #75715E;">other agents</span>
+    <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(panel_size - <span style="color: #F92672;">len</span>(ballots)):
+        ballots.append(single_agent(variance, errorchance))
+
+    <span style="color: #F92672;">return</span> ballots
+<span style="color: #F92672;">return</span> calculate_error(ground_truth, vote(cooperative_panel(3,10,15,.03)))
 </pre>
 </div>
 
 
 <pre class="example">
 4.843552415324934
+
 </pre>
 
 <div class="org-src-container">
+<pre class="src src-python"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<span style="color: #F92672;">import</span> random
+<span style="color: #F92672;">import</span> matplotlib
+<span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
+<span style="color: #F92672;">from</span> random <span style="color: #F92672;">import</span> sample
+matplotlib.use(<span style="color: #E6DB74;">'Agg'</span>)
 
-<pre class="src src-python"><span style="color: #FD971F;">coop_0</span> = []
+<span style="color: #FD971F;">ground_truth</span> = <span style="color: #F92672;">list</span>(<span style="color: #F92672;">range</span>(1,101))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">calculate_error</span>(y, y_hat):
+    <span style="color: #F92672;">return</span> np.sqrt(np.mean([(a - b)**2 <span style="color: #F92672;">for</span> a,b <span style="color: #F92672;">in</span> <span style="color: #F92672;">zip</span>(y, y_hat)]))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">single_agent</span>(variance, error_chance):
+    <span style="color: #FD971F;">ballot</span> = []
+
+    <span style="color: #F92672;">for</span> player <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(1,101):
+        <span style="color: #FD971F;">playernoise</span> = variance * (player / 50.0)
+
+        <span style="color: #F92672;">if</span> random.random() &lt; error_chance:
+            <span style="color: #FD971F;">bounds</span> = np.random.uniform(20,100)
+            ballot.append(np.random.normal(bounds, playernoise))
+
+        <span style="color: #F92672;">else</span>:
+            ballot.append(np.random.normal(player, playernoise))
+
+    <span style="color: #F92672;">return</span> np.argsort(ballot)+1
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">panel</span>(panel_size, variance, errorchance):
+
+    <span style="color: #FD971F;">ballots</span> = []
+
+    <span style="color: #F92672;">for</span> agent <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(panel_size):
+        <span style="color: #FD971F;">panelist</span> = single_agent(variance, errorchance)
+        ballots.append(panelist)
+
+    <span style="color: #F92672;">return</span> ballots
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">vote</span>(ballots):
+    <span style="color: #F92672;">return</span> np.argsort(np.mean(ballots, axis=0))+1
+
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">compromised_panel</span>(publics, copycats, panel_size,
+                      variance, errorchance, public_var=<span style="color: #AE81FF;">None</span>, public_err=<span style="color: #AE81FF;">None</span>):
+
+    <span style="color: #F92672;">if</span> publics+copycats &gt; panel_size:
+        <span style="color: #F92672;">raise</span> <span style="color: #66D9EF;">ValueError</span>(<span style="color: #E6DB74;">"Panel size must be greater than number of public and copycat agents"</span>)
+
+    <span style="color: #FD971F;">public_agents</span> = []
+    <span style="color: #FD971F;">copycat_agents</span> = []
+    <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(publics):
+        <span style="color: #F92672;">if</span> public_var == <span style="color: #AE81FF;">None</span> <span style="color: #F92672;">and</span> public_err == <span style="color: #AE81FF;">None</span>:
+            public_agents.append(single_agent(variance, errorchance))
+        <span style="color: #F92672;">else</span>:
+            public_agents.append(single_agent(public_var, public_err))
+
+    <span style="color: #F92672;">for</span> j <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(copycats):
+        copycat_agents.append(sample(public_agents, 1)[0])
+
+    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(copycat_agents) <span style="color: #F92672;">is</span> 0:
+        <span style="color: #FD971F;">ballots</span> = public_agents
+    <span style="color: #F92672;">else</span>:
+        <span style="color: #FD971F;">ballots</span> = <span style="color: #F92672;">list</span>(np.concatenate((public_agents, copycat_agents)))
+
+    <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(panel_size - <span style="color: #F92672;">len</span>(ballots)):
+        ballots.append(single_agent(variance, errorchance))
+
+    <span style="color: #F92672;">return</span> ballots
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">cooperative_panel</span>(coop_size, panel_size, variance, errorchance):
+
+    <span style="color: #F92672;">if</span> coop_size &gt; panel_size:
+        <span style="color: #F92672;">raise</span> <span style="color: #66D9EF;">ValueError</span>(<span style="color: #E6DB74;">"Panel size must be greater than number of public and copycat agents"</span>)
+
+    <span style="color: #FD971F;">ballots</span> = []
+
+    <span style="color: #75715E;"># </span><span style="color: #75715E;">cooperative agents</span>
+    <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(coop_size):
+        ballots.append(single_agent(variance, errorchance))
+
+    <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(<span style="color: #F92672;">len</span>(ballots[0])):
+        <span style="color: #FD971F;">med_vote</span> = np.median(np.array(ballots)[:,x])
+
+        <span style="color: #F92672;">for</span> voter <span style="color: #F92672;">in</span> ballots:
+            <span style="color: #FD971F;">oops</span> = np.<span style="color: #F92672;">abs</span>(med_vote - voter[x]) / 100
+
+            <span style="color: #F92672;">if</span> random.random() &lt; oops:
+                <span style="color: #FD971F;">voter</span>[x] = np.random.normal(med_vote, variance)
+
+    <span style="color: #75715E;"># </span><span style="color: #75715E;">other agents</span>
+    <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(panel_size - <span style="color: #F92672;">len</span>(ballots)):
+        ballots.append(single_agent(variance, errorchance))
+
+    <span style="color: #F92672;">return</span> ballots
+
+<span style="color: #FD971F;">coop_0</span> = []
 <span style="color: #FD971F;">coop_3</span> = []
 <span style="color: #FD971F;">coop_8</span> = []
 <span style="color: #FD971F;">coop_12</span> = []
@@ -1047,8 +1680,100 @@ This ultimately doesn't do that much to the list. There's an almost unnoticeable
 </p>
 
 <div class="org-src-container">
+<pre class="src src-python"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<span style="color: #F92672;">import</span> random
+<span style="color: #F92672;">import</span> matplotlib
+<span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
+<span style="color: #F92672;">from</span> random <span style="color: #F92672;">import</span> sample
+matplotlib.use(<span style="color: #E6DB74;">'Agg'</span>)
 
-<pre class="src src-python"><span style="color: #F92672;">print</span>(np.mean([calculate_error(ground_truth, single_agent(15, .03)) <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(20)]))
+<span style="color: #FD971F;">ground_truth</span> = <span style="color: #F92672;">list</span>(<span style="color: #F92672;">range</span>(1,101))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">calculate_error</span>(y, y_hat):
+    <span style="color: #F92672;">return</span> np.sqrt(np.mean([(a - b)**2 <span style="color: #F92672;">for</span> a,b <span style="color: #F92672;">in</span> <span style="color: #F92672;">zip</span>(y, y_hat)]))
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">single_agent</span>(variance, error_chance):
+    <span style="color: #FD971F;">ballot</span> = []
+
+    <span style="color: #F92672;">for</span> player <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(1,101):
+        <span style="color: #FD971F;">playernoise</span> = variance * (player / 50.0)
+
+        <span style="color: #F92672;">if</span> random.random() &lt; error_chance:
+            <span style="color: #FD971F;">bounds</span> = np.random.uniform(20,100)
+            ballot.append(np.random.normal(bounds, playernoise))
+
+        <span style="color: #F92672;">else</span>:
+            ballot.append(np.random.normal(player, playernoise))
+
+    <span style="color: #F92672;">return</span> np.argsort(ballot)+1
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">panel</span>(panel_size, variance, errorchance):
+
+    <span style="color: #FD971F;">ballots</span> = []
+
+    <span style="color: #F92672;">for</span> agent <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(panel_size):
+        <span style="color: #FD971F;">panelist</span> = single_agent(variance, errorchance)
+        ballots.append(panelist)
+
+    <span style="color: #F92672;">return</span> ballots
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">vote</span>(ballots):
+    <span style="color: #F92672;">return</span> np.argsort(np.mean(ballots, axis=0))+1
+
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">compromised_panel</span>(publics, copycats, panel_size,
+                      variance, errorchance, public_var=<span style="color: #AE81FF;">None</span>, public_err=<span style="color: #AE81FF;">None</span>):
+
+    <span style="color: #F92672;">if</span> publics+copycats &gt; panel_size:
+        <span style="color: #F92672;">raise</span> <span style="color: #66D9EF;">ValueError</span>(<span style="color: #E6DB74;">"Panel size must be greater than number of public and copycat agents"</span>)
+
+    <span style="color: #FD971F;">public_agents</span> = []
+    <span style="color: #FD971F;">copycat_agents</span> = []
+    <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(publics):
+        <span style="color: #F92672;">if</span> public_var == <span style="color: #AE81FF;">None</span> <span style="color: #F92672;">and</span> public_err == <span style="color: #AE81FF;">None</span>:
+            public_agents.append(single_agent(variance, errorchance))
+        <span style="color: #F92672;">else</span>:
+            public_agents.append(single_agent(public_var, public_err))
+
+    <span style="color: #F92672;">for</span> j <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(copycats):
+        copycat_agents.append(sample(public_agents, 1)[0])
+
+    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(copycat_agents) <span style="color: #F92672;">is</span> 0:
+        <span style="color: #FD971F;">ballots</span> = public_agents
+    <span style="color: #F92672;">else</span>:
+        <span style="color: #FD971F;">ballots</span> = <span style="color: #F92672;">list</span>(np.concatenate((public_agents, copycat_agents)))
+
+    <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(panel_size - <span style="color: #F92672;">len</span>(ballots)):
+        ballots.append(single_agent(variance, errorchance))
+
+    <span style="color: #F92672;">return</span> ballots
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">cooperative_panel</span>(coop_size, panel_size, variance, errorchance):
+
+    <span style="color: #F92672;">if</span> coop_size &gt; panel_size:
+        <span style="color: #F92672;">raise</span> <span style="color: #66D9EF;">ValueError</span>(<span style="color: #E6DB74;">"Panel size must be greater than number of public and copycat agents"</span>)
+
+    <span style="color: #FD971F;">ballots</span> = []
+
+    <span style="color: #75715E;"># </span><span style="color: #75715E;">cooperative agents</span>
+    <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(coop_size):
+        ballots.append(single_agent(variance, errorchance))
+
+    <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(<span style="color: #F92672;">len</span>(ballots[0])):
+        <span style="color: #FD971F;">med_vote</span> = np.median(np.array(ballots)[:,x])
+
+        <span style="color: #F92672;">for</span> voter <span style="color: #F92672;">in</span> ballots:
+            <span style="color: #FD971F;">oops</span> = np.<span style="color: #F92672;">abs</span>(med_vote - voter[x]) / 100
+
+            <span style="color: #F92672;">if</span> random.random() &lt; oops:
+                <span style="color: #FD971F;">voter</span>[x] = np.random.normal(med_vote, variance)
+
+    <span style="color: #75715E;"># </span><span style="color: #75715E;">other agents</span>
+    <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(panel_size - <span style="color: #F92672;">len</span>(ballots)):
+        ballots.append(single_agent(variance, errorchance))
+
+    <span style="color: #F92672;">return</span> ballots
+<span style="color: #F92672;">print</span>(np.mean([calculate_error(ground_truth, single_agent(15, .03)) <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(20)]))
 <span style="color: #F92672;">print</span>(np.mean([calculate_error(ground_truth, x) <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> cooperative_panel(12,20,15,.03)]))
 </pre>
 </div>
@@ -1057,24 +1782,25 @@ This ultimately doesn't do that much to the list. There's an almost unnoticeable
 <pre class="example">
 16.008590041440648
 14.428700183714534
+
 </pre>
 
 <p>
-&#x2026;but ultimately these are blunders which are largely going to be phased out anyways, through averaging, if all of the agents make good lists overall. Collaboration between agents doesn't harm the list (and helps, minimally), makes each individual agent have a better list, and in human-based scenarios usually makes the lists themselves easier to make<sup><a id="fnr.11" name="fnr.11" class="footref" href="#fn.11">11</a></sup>.
+&#x2026;but ultimately these are blunders which are largely going to be phased out anyways, through averaging, if all of the agents make good lists overall. Collaboration between agents doesn't harm the list (and helps, minimally), makes each individual agent have a better list, and in human-based scenarios usually makes the lists themselves easier to make<sup><a id="fnr.11" class="footref" href="#fn.11">11</a></sup>.
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-1-6" class="outline-2">
-<h2 id="sec-1-6">Discussion</h2>
-<div class="outline-text-2" id="text-1-6">
+<div id="outline-container-org8087d5f" class="outline-2">
+<h2 id="org8087d5f">Discussion</h2>
+<div class="outline-text-2" id="text-org8087d5f">
 <p>
 The simulation experiments we've run shed some light on some common discussion points raised in discourse about panel-based rank systems. 
 </p>
 
 <p>
-For one, Multiple informed agents outperform a single agent even if that lone agent is superior to any individual agent. With regards to MPGR's panel-based rank voting system, I frequently see people on social media argue for an algorithm to replace the panel-based voting, and use a specific panelist whose publicized list they disliked as evidence that panelists should be phased out. Putting aside the fact that algorithms are biased<sup><a id="fnr.12" name="fnr.12" class="footref" href="#fn.12">12</a></sup>, bad at this task<sup><a id="fnr.13" name="fnr.13" class="footref" href="#fn.13">13</a></sup>, and frequently closed-source black boxes (which is bad<sup><a id="fnr.14" name="fnr.14" class="footref" href="#fn.14">14</a></sup>), even if an algorithm <i>did</i> exist which <i>was</i> better than a single panelist, it would be another beast entirely to create an algorithm which would produce similar quality to an aggregation of panelists, with the reduced variance that comes with an ensemble of human voters. This is not to say that it couldn't be done, merely that the appropriate comparison is the aggregate list, rather than to the list of any agent's individual vote. The beauty of ensembles is that you're comfortably allowed to be wrong sometimes, so long as you are not wrong in the same way as others. 
+For one, Multiple informed agents outperform a single agent even if that lone agent is superior to any individual agent. With regards to MPGR's panel-based rank voting system, I frequently see people on social media argue for an algorithm to replace the panel-based voting, and use a specific panelist whose publicized list they disliked as evidence that panelists should be phased out. Putting aside the fact that algorithms are biased<sup><a id="fnr.12" class="footref" href="#fn.12">12</a></sup>, bad at this task<sup><a id="fnr.13" class="footref" href="#fn.13">13</a></sup>, and frequently closed-source black boxes (which is bad<sup><a id="fnr.14" class="footref" href="#fn.14">14</a></sup>), even if an algorithm <i>did</i> exist which <i>was</i> better than a single panelist, it would be another beast entirely to create an algorithm which would produce similar quality to an aggregation of panelists, with the reduced variance that comes with an ensemble of human voters. This is not to say that it couldn't be done, merely that the appropriate comparison is the aggregate list, rather than to the list of any agent's individual vote. The beauty of ensembles is that you're comfortably allowed to be wrong sometimes, so long as you are not wrong in the same way as others. 
 </p>
 
 <p>
@@ -1082,22 +1808,22 @@ In that vein, Copycat agents harm the performance of the ensemble by correlating
 </p>
 
 <p>
-Collaboration, on the flipside, does not seem to have this property, so this should not serve as evidence that panelists should never talk about their lists with each other, or help each other build their lists. In a very literal sense, making a ballot is like doing homework - it's pretty boring, it sucks, it's important, doing it effectively in groups helps performance<sup><a id="fnr.15" name="fnr.15" class="footref" href="#fn.15">15</a></sup>, but copying does not.
+Collaboration, on the flipside, does not seem to have this property, so this should not serve as evidence that panelists should never talk about their lists with each other, or help each other build their lists. In a very literal sense, making a ballot is like doing homework - it's pretty boring, it sucks, it's important, doing it effectively in groups helps performance<sup><a id="fnr.15" class="footref" href="#fn.15">15</a></sup>, but copying does not.
 </p>
 </div>
 </div>
 
-<div id="outline-container-sec-1-7" class="outline-2">
-<h2 id="sec-1-7">Asides</h2>
-<div class="outline-text-2" id="text-1-7">
+<div id="outline-container-orgc853d23" class="outline-2">
+<h2 id="orgc853d23">Asides</h2>
+<div class="outline-text-2" id="text-orgc853d23">
 <p>
 There are a few tangential points which didn't directly fit into the context of these toy simulations, but that I wanted to briefly bring up.
 </p>
 </div>
 
-<div id="outline-container-sec-1-7-1" class="outline-3">
-<h3 id="sec-1-7-1">Model Output is not Ground Truth</h3>
-<div class="outline-text-3" id="text-1-7-1">
+<div id="outline-container-org295b681" class="outline-3">
+<h3 id="org295b681">Model Output is not Ground Truth</h3>
+<div class="outline-text-3" id="text-org295b681">
 <p>
 Very, very often I see people (particularly, panelists) refer to big discrepancies between their ballot and the final ballot as "misses", and refer to ballots which adhere to the final list very closely as "the most correct". While these ballots are usually quite good, this language used to describe panel quality irks me somewhat, since it compares each ballot to the aggregate's output when it really ought to be comparing to the actual ground truth value. Put another way, the panel is trying to approximate the order of the 100 best players, and this line of thinking compares the panelist to the <i>approximation</i> rather than the (inaccessible) "true" list of 100 players. There are two scenarios in which I can imagine this "true" list to differ from even the best possible approximation: data scarcity and multiple stable distributions.
 </p>
@@ -1123,23 +1849,23 @@ Likewise there are scenarios in which valuing different things could yield multi
 </div>
 </div>
 
-<div id="outline-container-sec-1-8" class="outline-2">
-<h2 id="sec-1-8">Conclusion</h2>
-<div class="outline-text-2" id="text-1-8">
+<div id="outline-container-org907681e" class="outline-2">
+<h2 id="org907681e">Conclusion</h2>
+<div class="outline-text-2" id="text-org907681e">
 <p>
 This isn't, by any means, a comprehensive look into the actual process of creating lists in panel-based rank voting. It's a clearly sanitized caricature with one stable, objective, true final list, only intended to explore the idea of correlated errors, rather than fully accurately simulate the entire process. 
 </p>
 
 <p>
-With regards to actually building the lists from data, my thoughts on human-panel-based rank voting are centered around the knowledge that human inference in situations with very little data is remarkably effective<sup><a id="fnr.16" name="fnr.16" class="footref" href="#fn.16">16</a></sup>. There's no shortage of research and even textbooks<sup><a id="fnr.17" name="fnr.17" class="footref" href="#fn.17">17</a></sup> on trying to learn to probabilistically emulate human inference on these sorts of situations, even specifically for ranked voting tasks<sup><a id="fnr.18" name="fnr.18" class="footref" href="#fn.18">18</a></sup>. While an existing algorithm could potentially overcome the flaws of a single agent (i.e. mis-ranking a handful of players based on ignored data, bias, fringe heuristics, etc), so long as the errors of each agent are sufficiently decorrelated then defeating the performance of a panel of informed voters is a larger and more challenging problem than people frequently give it credit for. 
+With regards to actually building the lists from data, my thoughts on human-panel-based rank voting are centered around the knowledge that human inference in situations with very little data is remarkably effective<sup><a id="fnr.16" class="footref" href="#fn.16">16</a></sup>. There's no shortage of research and even textbooks<sup><a id="fnr.17" class="footref" href="#fn.17">17</a></sup> on trying to learn to probabilistically emulate human inference on these sorts of situations, even specifically for ranked voting tasks<sup><a id="fnr.18" class="footref" href="#fn.18">18</a></sup>. While an existing algorithm could potentially overcome the flaws of a single agent (i.e. mis-ranking a handful of players based on ignored data, bias, fringe heuristics, etc), so long as the errors of each agent are sufficiently decorrelated then defeating the performance of a panel of informed voters is a larger and more challenging problem than people frequently give it credit for. 
 </p>
 
 <p>
-That said, this performance is highly, highly dependent on the agents making unrelated mistakes, and things which compromise this compromise the integrity of the entire list<sup><a id="fnr.19" name="fnr.19" class="footref" href="#fn.19">19</a></sup>. It's understandable for panelists who make their full lists publicly available during voting (or, worse, who also let themselves be influenced by the same twitch viewers that frequent these streams every year) to feel that this isn't really their problem, that it's not their fault as legitimate agents if copycat agents decide to cheat off of them. In some sense, they are correct, which is why I think that an improved list would come from blanket stipulations <i>from the authority in control of the list</i> against streaming ballots before the voting deadline. I truly believe we can make this be the best of all possible worlds - panelists could make videos or stream themselves talking about their lists after the deadline, and would enjoy all the same advantages in content creation that they currently do, so long as there's sufficient time between the deadline and the release of the list.
+That said, this performance is highly, highly dependent on the agents making unrelated mistakes, and things which compromise this compromise the integrity of the entire list<sup><a id="fnr.19" class="footref" href="#fn.19">19</a></sup>. It's understandable for panelists who make their full lists publicly available during voting (or, worse, who also let themselves be influenced by the same twitch viewers that frequent these streams every year) to feel that this isn't really their problem, that it's not their fault as legitimate agents if copycat agents decide to cheat off of them. In some sense, they are correct, which is why I think that an improved list would come from blanket stipulations <i>from the authority in control of the list</i> against streaming ballots before the voting deadline. I truly believe we can make this be the best of all possible worlds - panelists could make videos or stream themselves talking about their lists after the deadline, and would enjoy all the same advantages in content creation that they currently do, so long as there's sufficient time between the deadline and the release of the list.
 </p>
 
 <p>
-Finally, this post doesn't examine the degree to which the real mpgr panelists have correlated errors, which is what I imagine the bulk of the criticism is going to be about it. "The panelists have correlated errors, they all think &lt;thing X&gt;" is something we hear very frequently as panelists, mostly about things that range from inaccurate to blatantly false<sup><a id="fnr.20" name="fnr.20" class="footref" href="#fn.20">20</a></sup>. To this, I humbly ask you to just talk to us about it. Most of the MPGR panelists have relatively active social media presence, and it very often feels as if critics are more interested in complaining about heuristics that we <i>might</i> have, and less interested about learning which heuristics we <i>do</i> have. If you want to know how panelists think, go ahead and ask a handful of them - their names are public on the list for a reason.
+Finally, this post doesn't examine the degree to which the real mpgr panelists have correlated errors, which is what I imagine the bulk of the criticism is going to be about it. "The panelists have correlated errors, they all think &lt;thing X&gt;" is something we hear very frequently as panelists, mostly about things that range from inaccurate to blatantly false<sup><a id="fnr.20" class="footref" href="#fn.20">20</a></sup>. To this, I humbly ask you to just talk to us about it. Most of the MPGR panelists have relatively active social media presence, and it very often feels as if critics are more interested in complaining about heuristics that we <i>might</i> have, and less interested about learning which heuristics we <i>do</i> have. If you want to know how panelists think, go ahead and ask a handful of them - their names are public on the list for a reason.
 </p>
 </div>
 </div>
@@ -1148,85 +1874,85 @@ Finally, this post doesn't examine the degree to which the real mpgr panelists h
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
 
-<div class="footdef"><sup><a id="fn.1" name="fn.1" class="footnum" href="#fnr.1">1</a></sup> <p class="footpara">
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
 <a href="https://liquipedia.net/smash/SSBMRank">https://liquipedia.net/smash/SSBMRank</a>
-</p></div>
+</p></div></div>
 
-<div class="footdef"><sup><a id="fn.2" name="fn.2" class="footnum" href="#fnr.2">2</a></sup> <p class="footpara">
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
 XGBoost, for example, is used in virtually every winning Kaggle competition; here's a random example I pulled from the internet <a href="https://towardsdatascience.com/how-i-got-in-the-top-1-on-kaggle-79ddd7c07f1c">https://towardsdatascience.com/how-i-got-in-the-top-1-on-kaggle-79ddd7c07f1c</a>
-</p></div>
+</p></div></div>
 
-<div class="footdef"><sup><a id="fn.3" name="fn.3" class="footnum" href="#fnr.3">3</a></sup> <p class="footpara">
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3">3</a></sup> <div class="footpara"><p class="footpara">
 Figure from “Hands-on Machine Learning with Scikit-Learn &amp; TensorFlow”, Chapter 7, retrieved from KDNuggets.com
-</p></div>
+</p></div></div>
 
-<div class="footdef"><sup><a id="fn.4" name="fn.4" class="footnum" href="#fnr.4">4</a></sup> <p class="footpara">
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4">4</a></sup> <div class="footpara"><p class="footpara">
 Dietterich, Thomas G. "Ensemble methods in machine learning." International workshop on multiple classifier systems. Springer, Berlin, Heidelberg, 2000.
-</p></div>
+</p></div></div>
 
-<div class="footdef"><sup><a id="fn.5" name="fn.5" class="footnum" href="#fnr.5">5</a></sup> <p class="footpara">
+<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5">5</a></sup> <div class="footpara"><p class="footpara">
 Dunbar, Kevin. (1995). How scientists really reason: Scientific reasoning in real-world laboratories. 
-</p></div>
+</p></div></div>
 
-<div class="footdef"><sup><a id="fn.6" name="fn.6" class="footnum" href="#fnr.6">6</a></sup> <p class="footpara">
+<div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6">6</a></sup> <div class="footpara"><p class="footpara">
 Epstein, David. Range: Why Generalists Triumph in a Specialized World. Riverhead Books, 2019.
-</p></div>
+</p></div></div>
 
-<div class="footdef"><sup><a id="fn.7" name="fn.7" class="footnum" href="#fnr.7">7</a></sup> <p class="footpara">
+<div class="footdef"><sup><a id="fn.7" class="footnum" href="#fnr.7">7</a></sup> <div class="footpara"><p class="footpara">
 <a href="http://www.statsmakemecry.com/smmctheblog/confusing-stats-terms-explained-heteroscedasticity-heteroske.html">http://www.statsmakemecry.com/smmctheblog/confusing-stats-terms-explained-heteroscedasticity-heteroske.html</a>
-</p></div>
+</p></div></div>
 
-<div class="footdef"><sup><a id="fn.8" name="fn.8" class="footnum" href="#fnr.8">8</a></sup> <p class="footpara">
+<div class="footdef"><sup><a id="fn.8" class="footnum" href="#fnr.8">8</a></sup> <div class="footpara"><p class="footpara">
 This is backed with actual data from panelists, data which I had access to once, way back when <a href="https://imgur.com/a/jUfST">https://imgur.com/a/jUfST</a>
-</p></div>
+</p></div></div>
 
-<div class="footdef"><sup><a id="fn.9" name="fn.9" class="footnum" href="#fnr.9">9</a></sup> <p class="footpara">
+<div class="footdef"><sup><a id="fn.9" class="footnum" href="#fnr.9">9</a></sup> <div class="footpara"><p class="footpara">
 Cruz, Rafael MO, Robert Sabourin, and George DC Cavalcanti. "Dynamic classifier selection: Recent advances and perspectives." Information Fusion 41 (2018): 195-216.
-</p></div>
+</p></div></div>
 
-<div class="footdef"><sup><a id="fn.10" name="fn.10" class="footnum" href="#fnr.10">10</a></sup> <p class="footpara">
+<div class="footdef"><sup><a id="fn.10" class="footnum" href="#fnr.10">10</a></sup> <div class="footpara"><p class="footpara">
 The problem posed here is a somewhat interesting one research-wise: it can be reframed as comparing dynamic weighting against standard voting strategies, but with more agents. Recall from the <i>Seeded 10 Experiment</i> that copied agents are not distinct; since two identical ballots are fundamentally equivalent to giving one ballot two votes, the comparison here is between a panel of 15 voters and a panel with 10 voters, but with the best agent weighted with 5x importance. Not one you'd really see in ML literature (since it doesn't make sense computationally to compare these), but one that becomes necessary when the agents are just humans making votes. 
-</p></div>
+</p></div></div>
 
-<div class="footdef"><sup><a id="fn.11" name="fn.11" class="footnum" href="#fnr.11">11</a></sup> <p class="footpara">
+<div class="footdef"><sup><a id="fn.11" class="footnum" href="#fnr.11">11</a></sup> <div class="footpara"><p class="footpara">
 Admittedly an anecdotal point, but one which I hope will not prove extremely controversial.
-</p></div>
+</p></div></div>
 
-<div class="footdef"><sup><a id="fn.12" name="fn.12" class="footnum" href="#fnr.12">12</a></sup> <p class="footpara">
+<div class="footdef"><sup><a id="fn.12" class="footnum" href="#fnr.12">12</a></sup> <div class="footpara"><p class="footpara">
 Mehrabi, Ninareh, et al. "A survey on bias and fairness in machine learning." arXiv preprint arXiv:1908.09635 (2019).
-</p></div>
+</p></div></div>
 
-<div class="footdef"><sup><a id="fn.13" name="fn.13" class="footnum" href="#fnr.13">13</a></sup> <p class="footpara">
+<div class="footdef"><sup><a id="fn.13" class="footnum" href="#fnr.13">13</a></sup> <div class="footpara"><p class="footpara">
 <a href="http://planetbanatt.net/articles/ambistats.html">http://planetbanatt.net/articles/ambistats.html</a>
-</p></div>
+</p></div></div>
 
-<div class="footdef"><sup><a id="fn.14" name="fn.14" class="footnum" href="#fnr.14">14</a></sup> <p class="footpara">
+<div class="footdef"><sup><a id="fn.14" class="footnum" href="#fnr.14">14</a></sup> <div class="footpara"><p class="footpara">
 Rudin, Cynthia. "Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead." Nature Machine Intelligence 1.5 (2019): 206.
-</p></div>
+</p></div></div>
 
-<div class="footdef"><sup><a id="fn.15" name="fn.15" class="footnum" href="#fnr.15">15</a></sup> <p class="footpara">
+<div class="footdef"><sup><a id="fn.15" class="footnum" href="#fnr.15">15</a></sup> <div class="footpara"><p class="footpara">
 Cen, Ling, et al. "Learning alone or in a group—An empirical case study of the collaborative learning patterns and their impact on student grades." 2014 International Conference on Interactive Collaborative Learning (ICL). IEEE, 2014.
-</p></div>
+</p></div></div>
 
-<div class="footdef"><sup><a id="fn.16" name="fn.16" class="footnum" href="#fnr.16">16</a></sup> <p class="footpara">
+<div class="footdef"><sup><a id="fn.16" class="footnum" href="#fnr.16">16</a></sup> <div class="footpara"><p class="footpara">
 Tenenbaum, Joshua B., et al. "How to grow a mind: Statistics, structure, and abstraction." science 331.6022 (2011): 1279-1285. 
-</p></div>
+</p></div></div>
 
-<div class="footdef"><sup><a id="fn.17" name="fn.17" class="footnum" href="#fnr.17">17</a></sup> <p class="footpara">
+<div class="footdef"><sup><a id="fn.17" class="footnum" href="#fnr.17">17</a></sup> <div class="footpara"><p class="footpara">
 N. D. Goodman, J. B. Tenenbaum, and The ProbMods Contributors (2016). Probabilistic Models of Cognition (2nd ed.). Retrieved 2020-1-12 from <a href="https://probmods.org/">https://probmods.org/</a>
-</p></div>
+</p></div></div>
 
-<div class="footdef"><sup><a id="fn.18" name="fn.18" class="footnum" href="#fnr.18">18</a></sup> <p class="footpara">
+<div class="footdef"><sup><a id="fn.18" class="footnum" href="#fnr.18">18</a></sup> <div class="footpara"><p class="footpara">
 Gerstenberg, Tobias, and Noah Goodman. "Ping Pong in Church: Productive use of concepts in human probabilistic inference." Proceedings of the Annual Meeting of the Cognitive Science Society. Vol. 34. No. 34. 2012.
-</p></div>
+</p></div></div>
 
-<div class="footdef"><sup><a id="fn.19" name="fn.19" class="footnum" href="#fnr.19">19</a></sup> <p class="footpara">
+<div class="footdef"><sup><a id="fn.19" class="footnum" href="#fnr.19">19</a></sup> <div class="footpara"><p class="footpara">
 I briefly want to touch upon the idea that we should add panelists close to the final list. In a vaccuum this idea sounds good, but I think it's a good example of something that runs into a lot of the issues in this essay: submissions which are mostly copies of public lists, decorrelated errors based on rewarding approximating the approximation rather than any true list, and measuring error based on model output are all potential pitfalls for doing this, and while most panelists are obviously helpful I think there are diminishing returns with more panelists (see: lone wolf vs panel) and that it would be more effective to select for <a href="https://twitter.com/GimmeDatWheat/status/1216904470065491968">good heuristics</a> rather than any list in particular.
-</p></div>
+</p></div></div>
 
-<div class="footdef"><sup><a id="fn.20" name="fn.20" class="footnum" href="#fnr.20">20</a></sup> <p class="footpara">
+<div class="footdef"><sup><a id="fn.20" class="footnum" href="#fnr.20">20</a></sup> <div class="footpara"><p class="footpara">
 A weirdly frequent one I see is the idea of moving players in the top 10 down spots based upon secondary local losses, an idea many top players seem to believe despite virtually zero panelists doing so. Worse still, many of these players will heroically stop attending tournaments in protest because of this completely untrue heuristic, which harms their local scenes. 
-</p></div>
+</p></div></div>
 
 
 </div>
