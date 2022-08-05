@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2021-04-02 Fri 00:06 -->
+<!-- 2022-08-05 Fri 17:56 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Projects</title>
@@ -135,6 +135,7 @@ for the JavaScript code in this tag.
 <ul>
 <li><a href="#projects">Projects</a>
 <ul>
+<li><a href="#org9bc5c06">Target Domain Data induces Negative Transfer in Multi-Source Classification under Category Shift</a></li>
 <li><a href="#org752a8e0">Input Latency Detection in Expert-Level Gamers</a></li>
 <li><a href="#org1f8e723">Making Sense of Melee: The Illusion of Objective Ranks and the Real Impact of Everything</a></li>
 <li><a href="#org9810b88">Plup vs Prince Abu - The Weirdest Set Ever Played</a></li>
@@ -156,27 +157,60 @@ for the JavaScript code in this tag.
 <h1 id="projects"><a id="org1ec4825"></a>Projects</h1>
 <div class="outline-text-1" id="text-projects">
 <p>
-<i>Updated: 9/21/2020</i>
+<i>Updated: 8/5/2022</i>
 </p>
 
 <p>
 The bulk of the content on this website contains what I consider to be
 larger projects of mine, scattered around a number of different topics.
-It's difficult to organize them well based on a simple list, so I'll
-periodically update this as a rough list as I accrue more and more
-projects to add to it.
+It might be somewhat too much to navigate naively, especially if you 
+are not interested in one topic or another. As a result, I maintain
+this page, which is a sort of "highlights reel" of what I consider to
+be some of my best work across various topics. 
 </p>
 
 <p>
-Most of my projects are in some way adjacent to the
-<a href="https://www.youtube.com/watch?v=jX9hbbA-WP4">Super Smash Brothers Melee</a> community, since involving myself there is what I spend most of
-my free time on. Aside from finding the game itself super fun, I've
-found the community to be a great source of inspiration for interesting
-problems to solve.
+To be slightly more precise, I consider this page to be a representative
+sample of what "good work done by Eryk" means, rather than a list of my 
+10ish best projects. I figure this makes it more useful than just a <a href="https://planetbanatt.net/resume.pdf">resume</a> 
+since most people aren't usually interested in digging around the projects
+in a resume anyways. If you want to get to know me, and you ask me to show
+you something cool I did, these represent some good things I might show you.
 </p>
 
 <hr />
 </div>
+<div id="outline-container-org9bc5c06" class="outline-2">
+<h2 id="org9bc5c06">Target Domain Data induces Negative Transfer in Multi-Source Classification under Category Shift</h2>
+<div class="outline-text-2" id="text-org9bc5c06">
+
+<div class="figure">
+<p><img src="../images/misc/negtransfer.png" alt="negtransfer.png" />
+</p>
+</div>
+
+<p>
+<i>(Preprint Under Review)</i>
+</p>
+
+<p>
+My <b>professional work</b> primarily revolves around Machine Learning, in
+particular deep learning and computer vision tasks. In this work, we
+demonstrate that if training data is comprised of multiple domains
+split per-class (e.g. some classes have domain A, and other classes
+have domain B), then you will notice significantly hindered
+performance if one of those domains is the target domain.  This is
+because the network learns to take an "intermediate shortcut" which
+does not go all the way to the class label (as studied in most
+shortcut learning papers), but rather narrows down the choices before
+making a decision. We show that this effect persists even when
+training with state-of-the-art domain adaptation techniques,
+suggesting it is a setting warranting further study.
+</p>
+<hr />
+</div>
+</div>
+
 <div id="outline-container-org752a8e0" class="outline-2">
 <h2 id="org752a8e0"><a href="https://cogsci.yale.edu/sites/default/files/files/Thesis2017Banatt.pdf">Input Latency Detection in Expert-Level Gamers</a></h2>
 <div class="outline-text-2" id="text-org752a8e0">
@@ -217,16 +251,14 @@ can be found <a href="http://planetbanatt.net/articles/lagless.html">here</a>.
 
 <p>
 Aside from academic work, I've also done some statistics and data
-visualization work within the Melee Community. The most prominent of
-these is <i>Making Sense of Melee</i> - a longform statistics writeup in
-which I explore a variety of topics, including flaws in popular ranking
-algorithms, the accuracy of seeding at national tournaments (a topic I
-was
-<a href="http://www.espn.com/esports/story/_/id/20580441/smash-bros-seeding-not-secretive-suspected">interviewed
-by ESPN esports</a> about in 2017), and probabilities to win against
-players at differing skill levels. The post received more than 50,000
-hits, reaching <a href="https://news.ycombinator.com/item?id=16255910">#6 on
-Hacker News</a>.
+visualization work within the <b>Melee Community</b> under the broad <b><a href="https://meleestats.co/staff/">Melee
+Stats</a></b> umbrella.  for which I am Creative Director. The most prominent
+of these is <i>Making Sense of Melee</i> - a longform statistics writeup in
+which I explore a variety of topics, including flaws in popular
+ranking algorithms, the accuracy of seeding at national tournaments (a
+topic I was <a href="http://www.espn.com/esports/story/_/id/20580441/smash-bros-seeding-not-secretive-suspected">interviewed by ESPN esports</a> about in 2017), and
+probabilities to win against players at differing skill levels. The
+post received more than 50,000 hits, reaching <a href="https://news.ycombinator.com/item?id=16255910">#6 on Hacker News</a>.
 </p>
 
 <hr />
@@ -245,9 +277,8 @@ Hacker News</a>.
 You will occasionally see my name in longform video content, also,
 where I am probably most known for this video about one of my favorite
 sets of Super Smash Brothers Melee. The video currently has over
-250,000 views on YouTube at the time of writing, and kickstarted <a href="https://www.youtube.com/channel/UCSkemv_CrepoaGxN4sAH5eA">our
-channel</a>, which now has over 10,000 subscribers, making content like
-this more frequently
+300,000 views on YouTube at the time of writing, and kickstarted <a href="https://www.youtube.com/channel/UCSkemv_CrepoaGxN4sAH5eA">our
+channel</a>, which now has over 25,000 subscribers.
 </p>
 
 <hr />
