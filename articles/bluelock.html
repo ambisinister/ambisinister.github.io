@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2023-05-07 Sun 17:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Blue Lock Second Selection Math</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Eryk Banatt" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="./css/default.css" />
+<link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content">
+<h1 class="title">Blue Lock Second Selection Math</h1>
+<div id="table-of-contents">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgbf8b55b">On the Blue Lock Second Selection</a>
+<ul>
+<li><a href="#orgd193f93">Simulating The Second Selection</a></li>
+<li><a href="#orgfe0e11a">How Many Players Made It Past Blue Lock Man?</a></li>
+<li><a href="#org7d417d3">How Much Does This Affect Skill Distribution?</a></li>
+<li><a href="#org77ce9a2">Closing Thoughts</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbf8b55b" class="outline-1">
+<h1 id="orgbf8b55b">On the Blue Lock Second Selection</h1>
+<div class="outline-text-1" id="text-orgbf8b55b">
+<p>
+The following contains spoilers for the first season of <b>Blue Lock</b>, or the first 100 or so chapters of the Manga. The show is quite good, so I recommend watching it if you're interested in this post.
+</p>
+
+
+<div class="figure">
+<p><img src="../images/bluelock/bluelock_banner.png" alt="bluelock_banner.png" />
+</p>
+</div>
+
+<p>
+The popular anime / manga series <i>Blue Lock</i> has a straightforward yet ridiculous premise. 300 of the top high school soccer forwards in Japan are brought together and put into a training facility where, eventually, 299 of them are told they will be eliminated. If you are eliminated from Blue Lock, you are barred from participating in Japanese soccer forever, no matter how good you are. The promise is that the 1 surviving player will be transformed into the best striker in the world, which is high enough expected value to all of these players that they all willingly participate.
+</p>
+
+<p>
+As such, much of the show is about activities where players are eliminated from the facility. One of the selections (the second), in particular, had a somewhat convoluted percolation-like process which got me curious about the actual math behind it. This process is as follows:
+</p>
+
+<ol class="org-ol">
+<li>Begin with 125 players. Eliminate some proportion of players in single-player "Blue Lock Man" challenges.</li>
+
+<li>Make the players who passed the first stage pair into groups of three. These players will fight other teams of three.</li>
+
+<li>Teams who win steal the best player from the losing team, and go to a stage where they fight other teams of four. Teams who lose drop to a stage where they fight other teams of two.</li>
+
+<li>If you lose as a team of 2, and you aren't picked, you are eliminated. If you win as a team of 4, you select one player from the other team and the five of you clear the stage.</li>
+</ol>
+
+<p>
+One interesting question you can ask about this is: how many players died on the blue lock man stage? The anime and the manga never show any player being eliminated at this stage, which gives off the impression that it may not be that challenging. However, 35 players (7 teams) clear the head-to-head phase. If we model this process, we can figure this out.
+</p>
+</div>
+
+<div id="outline-container-orgd193f93" class="outline-2">
+<h2 id="orgd193f93">Simulating The Second Selection</h2>
+<div class="outline-text-2" id="text-orgd193f93">
+<p>
+We are going to start by writing out this process in python. The code for a rough approximation of the second selection can be found below. Some nuances here:
+</p>
+
+<ul class="org-ul">
+<li>Teams are paired randomly (not exactly correct, in the show strong players generally paired with strong players, but there were some notable exceptions to where this would be complicated to model as an actual social problem).</li>
+<li>Results are done by multiplying the values of every member on the team together and selecting the highest total product team as the winner. This feels close enough to the "chemical reaction" framing the show had in mind, but I probably could have simulated probability to score goals or whatever. Feel free to reimplement this on your own if you have other ideas for this, but it's out of the scope of this post.</li>
+<li>This stage will continue until nobody can play games anymore. It's possible you can select only the first seven teams that clear the selection, and simply stop after that, but it would create an urgency to the selection phase which was absent in the actual story: teams of four who play on the same day as other teams of four would feel pressured to play earlier in the day, and there's probably injury concerns to rushing into playing more games as fast as possible. This feels thematically antithetical compared to losing because you lost.</li>
+<li>It's still certain that some players will be "alive" and there will not be enough players remaining for them to play against. For example: the final team of 4 needed to play another team of 4 in order to form the last group of 5. The losing team is knocked down to the stage of 3, but since there are no other teams of 3 left, I am just assuming all these players get eliminated.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #F92672;">import</span> random
+<span style="color: #F92672;">from</span> functools <span style="color: #F92672;">import</span> <span style="color: #F92672;">reduce</span>
+<span style="color: #F92672;">from</span> operator <span style="color: #F92672;">import</span> mul
+<span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
+<span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<span style="color: #F92672;">import</span> copy
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">append_bylen</span>(team, all_teams, new_two, new_three, new_four):
+    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(team) == 1:
+      all_teams[<span style="color: #E6DB74;">'dead'</span>].append(team)
+    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(team) == 2:
+      new_two.append(team)
+    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(team) == 3:
+      new_three.append(team)
+    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(team) == 4:
+      new_four.append(team)
+    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(team) == 5:
+      all_teams[<span style="color: #E6DB74;">'fives'</span>].append(team)
+
+    <span style="color: #F92672;">return</span> all_teams, new_two, new_three, new_four
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">play</span>(team1, team2):
+    <span style="color: #FD971F;">product1</span> = <span style="color: #F92672;">reduce</span>(mul, team1)
+    <span style="color: #FD971F;">product2</span> = <span style="color: #F92672;">reduce</span>(mul, team2)
+
+    <span style="color: #F92672;">if</span> product1 &lt; product2:
+        <span style="color: #FD971F;">winner</span>, <span style="color: #FD971F;">loser</span> = team1, team2
+    <span style="color: #F92672;">else</span>:
+        <span style="color: #FD971F;">winner</span>, <span style="color: #FD971F;">loser</span> = team2, team1
+
+    <span style="color: #F92672;">return</span> winner, loser
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">add_subplot</span>(ax, all_teams, days):
+    <span style="color: #FD971F;">list_lengths</span> = [(key, <span style="color: #F92672;">len</span>(lst)) <span style="color: #F92672;">for</span> key, lst <span style="color: #F92672;">in</span> all_teams.items()]
+    <span style="color: #FD971F;">labels</span> = [x[0] <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> list_lengths]
+    <span style="color: #FD971F;">lengths</span> = [x[1] <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> list_lengths]
+    ax.bar(labels, lengths)
+    ax.set_ylabel(<span style="color: #E6DB74;">'Teams'</span>)
+    ax.set_title(f<span style="color: #E6DB74;">'Teams after day {days}'</span>)
+    ax.set_xticklabels(labels, rotation=45, ha=<span style="color: #E6DB74;">'right'</span>)
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">visualize_days</span>(data, days):
+    <span style="color: #FD971F;">num_rows</span> = (days + 2) // 3
+    <span style="color: #FD971F;">fig</span>, <span style="color: #FD971F;">axs</span> = plt.subplots(num_rows, 3, figsize=(15, 5 * num_rows))
+
+    <span style="color: #F92672;">for</span> i, ax <span style="color: #F92672;">in</span> <span style="color: #F92672;">enumerate</span>(axs.flat):
+        <span style="color: #F92672;">if</span> i &lt; <span style="color: #F92672;">len</span>(data):
+            add_subplot(ax, data[i], i)
+        <span style="color: #F92672;">else</span>:
+            ax.axis(<span style="color: #E6DB74;">'off'</span>)
+
+    plt.tight_layout()
+    plt.show()
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">second_selection</span>(numbers, verbose=<span style="color: #AE81FF;">False</span>):
+    <span style="color: #75715E;"># </span><span style="color: #75715E;">Step 1 (Blue Lock Man / People Can't Find Teams)</span>
+    <span style="color: #F92672;">while</span> <span style="color: #F92672;">len</span>(numbers) % 3 != 0:
+        numbers.remove(<span style="color: #F92672;">min</span>(numbers))
+
+    <span style="color: #75715E;"># </span><span style="color: #75715E;">Step 2 (Players form teams of three)</span>
+    <span style="color: #FD971F;">all_teams</span> = { <span style="color: #E6DB74;">'dead'</span>: [], <span style="color: #E6DB74;">'twos'</span>: [],
+                 <span style="color: #E6DB74;">'threes'</span>: [numbers[i:i + 3] <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(0, <span style="color: #F92672;">len</span>(numbers), 3)],
+                 <span style="color: #E6DB74;">'fours'</span>: [], <span style="color: #E6DB74;">'fives'</span>: []
+    }
+
+    <span style="color: #FD971F;">days</span> = 0
+    <span style="color: #FD971F;">matches</span> = 0
+
+    <span style="color: #FD971F;">subplots_data</span> = []
+
+    <span style="color: #F92672;">if</span> verbose:
+        subplots_data.append(copy.deepcopy(all_teams))
+
+    <span style="color: #75715E;"># </span><span style="color: #75715E;">Step 3 (Players play in selection until no more games can be played)</span>
+    <span style="color: #F92672;">while</span> <span style="color: #F92672;">any</span>([<span style="color: #F92672;">len</span>(x) &gt;= 2 <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> [all_teams[<span style="color: #E6DB74;">'twos'</span>], all_teams[<span style="color: #E6DB74;">'threes'</span>], all_teams[<span style="color: #E6DB74;">'fours'</span>]]]):
+        <span style="color: #75715E;"># </span><span style="color: #75715E;">3a (teams pair up)</span>
+        random.shuffle(all_teams[<span style="color: #E6DB74;">'twos'</span>])
+        random.shuffle(all_teams[<span style="color: #E6DB74;">'threes'</span>])
+        random.shuffle(all_teams[<span style="color: #E6DB74;">'fours'</span>])
+
+        <span style="color: #FD971F;">new_two</span> = []
+        <span style="color: #FD971F;">new_three</span> = []
+        <span style="color: #FD971F;">new_four</span> = []
+
+        <span style="color: #FD971F;">paired_teams</span> = []
+        <span style="color: #F92672;">for</span> team_list <span style="color: #F92672;">in</span> [all_teams[<span style="color: #E6DB74;">'twos'</span>], all_teams[<span style="color: #E6DB74;">'threes'</span>], all_teams[<span style="color: #E6DB74;">'fours'</span>]]:
+            <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(0, <span style="color: #F92672;">len</span>(team_list) - 1, 2):
+                paired_teams.append((team_list[i], team_list[i + 1]))
+
+        <span style="color: #FD971F;">unpaired_teams</span> = []
+        <span style="color: #F92672;">for</span> team_list <span style="color: #F92672;">in</span> [all_teams[<span style="color: #E6DB74;">'twos'</span>], all_teams[<span style="color: #E6DB74;">'threes'</span>], all_teams[<span style="color: #E6DB74;">'fours'</span>]]:
+            <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(team_list) % 2 != 0:
+                unpaired_teams.append(team_list[-1])
+
+        <span style="color: #F92672;">for</span> team1, team2 <span style="color: #F92672;">in</span> paired_teams:
+            <span style="color: #75715E;"># </span><span style="color: #75715E;">3b (teams play)</span>
+            <span style="color: #FD971F;">matches</span> += 1
+            <span style="color: #FD971F;">winner</span>, <span style="color: #FD971F;">loser</span> = play(team1, team2)
+
+            <span style="color: #75715E;"># </span><span style="color: #75715E;">3c (winner steals best player of loser)</span>
+            <span style="color: #FD971F;">max_val</span> = <span style="color: #F92672;">max</span>(loser)
+            loser.remove(max_val)
+            winner.append(max_val)
+
+            <span style="color: #F92672;">for</span> team <span style="color: #F92672;">in</span> [loser, winner]:
+              <span style="color: #FD971F;">all_teams</span>, <span style="color: #FD971F;">new_two</span>, <span style="color: #FD971F;">new_three</span>, <span style="color: #FD971F;">new_four</span> = append_bylen(team, all_teams, new_two, new_three, new_four)
+
+        <span style="color: #F92672;">for</span> team <span style="color: #F92672;">in</span> unpaired_teams:
+            <span style="color: #FD971F;">all_teams</span>, <span style="color: #FD971F;">new_two</span>, <span style="color: #FD971F;">new_three</span>, <span style="color: #FD971F;">new_four</span> = append_bylen(team, all_teams, new_two, new_three, new_four)
+
+        <span style="color: #FD971F;">all_teams</span>[<span style="color: #E6DB74;">'twos'</span>] = new_two
+        <span style="color: #FD971F;">all_teams</span>[<span style="color: #E6DB74;">'threes'</span>] = new_three
+        <span style="color: #FD971F;">all_teams</span>[<span style="color: #E6DB74;">'fours'</span>] = new_four
+
+        <span style="color: #75715E;"># </span><span style="color: #75715E;">3d (next day)</span>
+        <span style="color: #F92672;">if</span> verbose:
+          <span style="color: #F92672;">print</span>(f<span style="color: #E6DB74;">"end of day {days}, total matches {matches}"</span>)
+          subplots_data.append(copy.deepcopy(all_teams))
+        <span style="color: #FD971F;">days</span> += 1
+
+    <span style="color: #75715E;"># </span><span style="color: #75715E;">Step 4</span>
+    <span style="color: #F92672;">if</span> verbose:
+      <span style="color: #F92672;">print</span>(f<span style="color: #E6DB74;">"Selection complete: total matches {matches}"</span>)
+      visualize_days(subplots_data, days)
+
+    <span style="color: #F92672;">return</span> all_teams[<span style="color: #E6DB74;">'fives'</span>]
+
+<span style="color: #FD971F;">numbers</span> = [np.random.normal(100, 0.2) <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(51)]
+<span style="color: #FD971F;">selected_teams</span> = second_selection(numbers, verbose=<span style="color: #AE81FF;">True</span>)
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="../images/bluelock/teams_days.png" alt="teams_days.png" />
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgfe0e11a" class="outline-2">
+<h2 id="orgfe0e11a">How Many Players Made It Past Blue Lock Man?</h2>
+<div class="outline-text-2" id="text-orgfe0e11a">
+<p>
+If you assume nearly every player makes it past Blue Lock Man, then this process will yield 19 full teams of 5 who survive this selection. That is to say: only 30 players are eliminated in this phase at absolute maximum. A useful thing to keep in mind about this process is that it is symmetrical: teams can only win or lose, so assuming everybody plays each "day", teams will be eliminated and pass at roughly equal rates. 
+</p>
+
+<p>
+That is, \(n\) teams (or \(5n\) players) will pass the selection, \(n\) players will be eliminated in the stage of 2, and the rest get caught in purgatory where they can no longer find opponents. This actually allows us to calculate with relatively fine precision how many players actually made it through Blue Lock Man.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #FD971F;">surviving_teams</span> = []
+
+<span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(35,125):
+  <span style="color: #FD971F;">numbers</span> = [np.random.normal(100, 0.2) <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(i)]
+  <span style="color: #FD971F;">selected_teams</span> = second_selection(numbers)
+  surviving_teams.append(<span style="color: #F92672;">len</span>(selected_teams))
+
+plt.title(<span style="color: #E6DB74;">"Surviving Teams vs Blue Lock Man Challenge"</span>)
+plt.plot(<span style="color: #F92672;">list</span>(<span style="color: #F92672;">range</span>(35,125)), surviving_teams)
+plt.xlabel(<span style="color: #E6DB74;">"Players Past Blue Lock Man"</span>)
+plt.ylabel(<span style="color: #E6DB74;">"Teams Who Clear Selection"</span>)
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="../images/bluelock/surviving_teams_blm.png" alt="surviving_teams_blm.png" />
+</p>
+</div>
+
+<p>
+If 35 players survive, and 7 teams of 5 pass the selection, then we most likely entered this phase with between 48 and 51 players; either 16 or 17 teams of three. It's possible for a few more players to pass the initial stage (up to 53), but if they cannot find teammates or form a group of three, then I'm assuming they're eliminated as well.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7d417d3" class="outline-2">
+<h2 id="org7d417d3">How Much Does This Affect Skill Distribution?</h2>
+<div class="outline-text-2" id="text-org7d417d3">
+<p>
+A very funny thing about this is that it is almost entirely useless as a filtration mechanism for the players involved. If we wanted 35 players, then only 18 players die at most, even including the players who get trapped in "purgatory" rather than getting eliminated outright. 
+</p>
+
+<p>
+We can run this process a large number of times to see how the distribution shifts, and it's very striking how little this moves the distribution.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #FD971F;">all_nums</span> = []
+<span style="color: #FD971F;">all_chosen</span> = []
+
+<span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(10000):
+  <span style="color: #FD971F;">numbers</span> = [np.random.normal(100, 15) <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(51)]
+  <span style="color: #FD971F;">selected_teams</span> = second_selection(numbers)
+
+  <span style="color: #F92672;">for</span> n <span style="color: #F92672;">in</span> numbers:
+    all_nums.append(n)
+  <span style="color: #F92672;">for</span> t <span style="color: #F92672;">in</span> selected_teams:
+    <span style="color: #F92672;">for</span> n <span style="color: #F92672;">in</span> t:
+      all_chosen.append(n)
+
+<span style="color: #F92672;">print</span>(np.mean(all_nums))
+<span style="color: #F92672;">print</span>(np.mean(all_chosen))
+
+plt.title(<span style="color: #E6DB74;">"Histogram of 'Skill Level' of Remaining Players"</span>)
+plt.hist(all_nums, label=<span style="color: #E6DB74;">"Pre-Selection"</span>)
+plt.hist(all_chosen, label=<span style="color: #E6DB74;">"Post-Selection"</span>)
+plt.legend()
+plt.show()
+</pre>
+</div>
+
+<p>
+Mean: 99.95 -&gt; 101.53
+</p>
+
+
+<div class="figure">
+<p><img src="../images/bluelock/skilllevel.png" alt="skilllevel.png" /> 
+</p>
+</div>
+
+<p>
+The means and standard distributions move somewhat rightwards, but it's fairly clear the purpose of this stage of the selection is <b>not</b> to filter out lower-skill players. 
+</p>
+
+<p>
+Put simply: the purpose of this part of the selection is to generate a lot of games with the threat of elimination (i.e. high-stakes matches) where the <i>actual threat</i> of elimination is comparatively much lower than it seems. With 51 players, we end with 29 matches played between them all, and only 18 players eliminated at the end of it, at a rate of 0.65 eliminations per game. It's actually, counterintuitively, extremely forgiving compared to virtually every other phase of Blue Lock, despite being given comparatively more emphasis. There's relatively low risk of really strong players getting eliminated here (although it does rarely happen: see Kunigami), and generally the players who get eliminated tend to be pretty average on average.
+</p>
+
+<p>
+It's amusing to look at this after reading/watching Blue Lock, and to realize that this entire phase was predominantly constructed around giving the successful players tons of matches to build up their mental strength, rather than to do any noteworthy filtering of players by skill. While the threat of elimination was necessary to make the participants play as if their careers depended on it, it's clear from running these simulations that the actual difficulty of this phase was the "light warm up" of the Blue Lock Man exercise, where roughly 60% of the field was summarily eliminated. Having cleared that, the filtered, capable players now need to play a lot of serious games with each other to learn to play in coordinated fashion, which is what this complex, somewhat convoluted phase ended up being. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org77ce9a2" class="outline-2">
+<h2 id="org77ce9a2">Closing Thoughts</h2>
+<div class="outline-text-2" id="text-org77ce9a2">
+<p>
+Two things jump out at me as funny here:
+</p>
+
+<p>
+The first, is that Igarashi cleared the Blue Lock Man phase. My impression of the first phase is that each player recieved a customized exercise aimed at making them improve as quickly as possible. I wonder if there was an element here of "specialize or die", wherein players were provided with tasks which would give them unique weapons they were deemed potentially suitable for, and would perish here otherwise. Without delving into manga spoilers, I do wonder if Igarashi lucked out with his eventual weapon, or if his actual ball control / skill level is simply underplayed for comedic effect, with him actually, truly being a 60th percentile player in the second phase.
+</p>
+
+<p>
+The second, is that 8 of the approximately 51 players who passed the Blue Lock Man phase were from Isagi's Team Z. To me this feels like a pretty blatant overrepresentation, which I probably could chaulk up to convenience on the part of the mangaka. This little tidbit is perhaps more plausible before looking into the math, but the only team Z players who didn't make it past seem to be Lemon, Kuon, and Imamura, with Naruhaya and Kunigami losing in the tournament phase. Not only are they overrepresented in the tournament phase (~15% of the players), they're also overrepresented in the even more exclusive "eliminated in tournament phase" club (28.5% of the eliminated players). Team Z was so strong! 
+</p>
+
+<p>
+In any case, the elimination structure of <i>Blue Lock</i> was very fun for me to turn over in my head. Like many works of this type, they sort of dropped this complex structure on the audience and then mostly asked them not to think too hard about it. But here I am, thinking hard about it anyways! Learning about the approximate difficulty of the Blue Lock Man phase gave me somewhat better appreciation for the relative difficulty of the different components, independent of the screen time those components got.
+</p>
+
+<p>
+If you play around with the code in this post and come up with any other fun conclusions, feel free to let me know! If you get some sort of different result with different distributions or models of playing matches, I would love to hear about them - drop me a line on twitter <a href="https://twitter.com/Ambisinister_">@Ambisinister_</a>.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+<div id="comments">
+    <p></p>
+    <hr />
+       <div id="disqus_thread">
+           <script>
+(function() {
+var d = document, s = d.createElement('script');
+s.src = 'https://planetbanatt.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</body>
+</html>
