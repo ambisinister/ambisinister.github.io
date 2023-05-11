@@ -3,12 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2021-04-02 Fri 00:06 -->
+<!-- 2023-05-10 Wed 20:17 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Invasion of the Ballot Snatchers</title>
 <meta name="generator" content="Org mode" />
-<meta name="author" content="ambi" />
+<meta name="author" content="Lain-Navi" />
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -55,7 +55,7 @@ $(function() {
 @licstart  The following is the entire license notice for the
 JavaScript code in this tag.
 
-Copyright (C) 2012-2019 Free Software Foundation, Inc.
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
 
 The JavaScript code in this tag is free software: you can
 redistribute it and/or modify it under the terms of the GNU
@@ -155,59 +155,59 @@ for the JavaScript code in this tag.
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org09c8f4b">Invasion of the Ballot Snatchers (and Other Stories) - Decorrelated Errors in Panel-Based Rank Voting</a>
+<li><a href="#org1507b21">Invasion of the Ballot Snatchers (and Other Stories) - Decorrelated Errors in Panel-Based Rank Voting</a>
 <ul>
-<li><a href="#org2116f60">Abstract</a></li>
-<li><a href="#org1edd27d">Introduction</a></li>
-<li><a href="#org60b6a5d">Ensembles</a></li>
-<li><a href="#orgf2b80d9">Why Have a Panel?</a>
+<li><a href="#orgada7dad">Abstract</a></li>
+<li><a href="#org6fcb898">Introduction</a></li>
+<li><a href="#org0f682bb">Ensembles</a></li>
+<li><a href="#org258517c">Why Have a Panel?</a>
 <ul>
-<li><a href="#orgd0e18f7">Return 10 Task</a></li>
-<li><a href="#orgcd7a3fe">Decorrelated Errors</a></li>
-<li><a href="#org0543e2f">Seeded Return 10 Task</a></li>
+<li><a href="#org6900d4b">Return 10 Task</a></li>
+<li><a href="#org2d56c5d">Decorrelated Errors</a></li>
+<li><a href="#org1e78fbe">Seeded Return 10 Task</a></li>
 </ul>
 </li>
-<li><a href="#org0cf7025">Ranking Simulation Toy Experiments</a>
+<li><a href="#org82db830">Ranking Simulation Toy Experiments</a>
 <ul>
-<li><a href="#org8b0db47">Lone Wolf vs Panel</a></li>
-<li><a href="#org06e97ca">Copycats</a>
+<li><a href="#orge434194">Lone Wolf vs Panel</a></li>
+<li><a href="#org65ce535">Copycats</a>
 <ul>
-<li><a href="#org06e2ca6">Copying Random Agent's List</a></li>
-<li><a href="#org97549d5">Copying Unusually Good Agent's List</a></li>
+<li><a href="#orgd9bcf01">Copying Random Agent's List</a></li>
+<li><a href="#orgc8a85d1">Copying Unusually Good Agent's List</a></li>
 </ul>
 </li>
-<li><a href="#org614e933">Collaboration</a></li>
+<li><a href="#orgb9bb34b">Collaboration</a></li>
 </ul>
 </li>
-<li><a href="#org8087d5f">Discussion</a></li>
-<li><a href="#orgc853d23">Asides</a>
+<li><a href="#org2728a31">Discussion</a></li>
+<li><a href="#orge9d2334">Asides</a>
 <ul>
-<li><a href="#org295b681">Model Output is not Ground Truth</a></li>
+<li><a href="#org8d616ba">Model Output is not Ground Truth</a></li>
 </ul>
 </li>
-<li><a href="#org907681e">Conclusion</a></li>
+<li><a href="#org0908a6d">Conclusion</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org09c8f4b" class="outline-1">
-<h1 id="org09c8f4b">Invasion of the Ballot Snatchers (and Other Stories) - Decorrelated Errors in Panel-Based Rank Voting</h1>
-<div class="outline-text-1" id="text-org09c8f4b">
+<div id="outline-container-org1507b21" class="outline-1">
+<h1 id="org1507b21">Invasion of the Ballot Snatchers (and Other Stories) - Decorrelated Errors in Panel-Based Rank Voting</h1>
+<div class="outline-text-1" id="text-org1507b21">
 </div>
-<div id="outline-container-org2116f60" class="outline-2">
-<h2 id="org2116f60">Abstract</h2>
-<div class="outline-text-2" id="text-org2116f60">
+<div id="outline-container-orgada7dad" class="outline-2">
+<h2 id="orgada7dad">Abstract</h2>
+<div class="outline-text-2" id="text-orgada7dad">
 <p>
 Some theoretical justification for panel-based voting are empirically explored. Some strengths and possible harms in such a system are considered, and simulation experiments are run to see the degree to which they can contribute to harming or helping the list. In addition to demonstrating the advantages of having votes from multiple agents, we demonstrate that copying the output of another agent harms performance even if that agent is significantly better than the other agents. 
 </p>
 </div>
 </div>
 
-<div id="outline-container-org1edd27d" class="outline-2">
-<h2 id="org1edd27d">Introduction</h2>
-<div class="outline-text-2" id="text-org1edd27d">
+<div id="outline-container-org6fcb898" class="outline-2">
+<h2 id="org6fcb898">Introduction</h2>
+<div class="outline-text-2" id="text-org6fcb898">
 <p>
 Every year, Super Smash Brothers Melee players come together to rank the top 100 players based on results from tournaments all over the world<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>. Every year, dozens of hand-selected volunteer panelists spend upwards of 30 hours considering the wins and losses of every eligible player, painstakingly crafting lists which they believe accurately reflect the 100 best active players. And, as you might expect, every year, hordes of fans parrot the same handful of talking points about what they believe those panelists are doing wrong.
 </p>
@@ -226,9 +226,9 @@ This is all easy to demonstrate with some very simple programs, and a little bit
 </div>
 </div>
 
-<div id="outline-container-org60b6a5d" class="outline-2">
-<h2 id="org60b6a5d">Ensembles</h2>
-<div class="outline-text-2" id="text-org60b6a5d">
+<div id="outline-container-org0f682bb" class="outline-2">
+<h2 id="org0f682bb">Ensembles</h2>
+<div class="outline-text-2" id="text-org0f682bb">
 <p>
 <a href="https://en.wikipedia.org/wiki/Ensemble_learning">Ensemble methods</a> are a class of machine learning techniques that use multiple algorithms working together in order to achieve better predictive performance than using any algorithm by itself. There are many types of ensemble methods, and using them to boost performance is very common in scenarios like data science competitions<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>.
 </p>
@@ -243,9 +243,9 @@ In a role-reversal of cliche, I will be using anecdotes from the ensemble litera
 </div>
 </div>
 
-<div id="outline-container-orgf2b80d9" class="outline-2">
-<h2 id="orgf2b80d9">Why Have a Panel?</h2>
-<div class="outline-text-2" id="text-orgf2b80d9">
+<div id="outline-container-org258517c" class="outline-2">
+<h2 id="org258517c">Why Have a Panel?</h2>
+<div class="outline-text-2" id="text-org258517c">
 <p>
 The fundamental intuition behind choosing an ensemble over a single agent is the idea that an ensemble allows the agents to "cover for" the mistakes of their peers. If you're the only agent and you make a mistake, your mistake is put into practice. If you're one agent out of ten agents and you make a mistake, then as long as that mistake isn't also made by all of the other agents, you will probably correct the mistake and the correct decision gets put into practice. 
 </p>
@@ -255,9 +255,9 @@ To explain this, we can think about two very simple tasks: the <i>Return 10</i> 
 </p>
 </div>
 
-<div id="outline-container-orgd0e18f7" class="outline-3">
-<h3 id="orgd0e18f7">Return 10 Task</h3>
-<div class="outline-text-3" id="text-orgd0e18f7">
+<div id="outline-container-org6900d4b" class="outline-3">
+<h3 id="org6900d4b">Return 10 Task</h3>
+<div class="outline-text-3" id="text-org6900d4b">
 <p>
 We begin with a super simple task - given the ability to generate a random number normally distributed around any number with some fixed variance, return the closest number to 10 you can. Obviously, the best tactic for this would be to center your normal distribution around the number 10, since by definition data near the mean of the normal distribution are more likely to occur. 
 </p>
@@ -334,9 +334,9 @@ If you instead have a "panel" of five agents who all get one try at this task, a
 </div>
 </div>
 
-<div id="outline-container-orgcd7a3fe" class="outline-3">
-<h3 id="orgcd7a3fe">Decorrelated Errors</h3>
-<div class="outline-text-3" id="text-orgcd7a3fe">
+<div id="outline-container-org2d56c5d" class="outline-3">
+<h3 id="org2d56c5d">Decorrelated Errors</h3>
+<div class="outline-text-3" id="text-org2d56c5d">
 <p>
 Critically, ensembles only help you when your agents largely make mistakes which are not shared between them. This is what we will be referring to as "decorrelated errors" or "uncorrelated errors"<sup><a id="fnr.4" class="footref" href="#fn.4">4</a></sup>. Again, this intuition is pretty straightforward: if all of your agents make the same mistakes, none of them can cover for the others' mistakes. 
 </p>
@@ -347,9 +347,9 @@ In our previous example, we showed that you could reduce the variance of this "r
 </div>
 </div>
 
-<div id="outline-container-org0543e2f" class="outline-3">
-<h3 id="org0543e2f">Seeded Return 10 Task</h3>
-<div class="outline-text-3" id="text-org0543e2f">
+<div id="outline-container-org1e78fbe" class="outline-3">
+<h3 id="org1e78fbe">Seeded Return 10 Task</h3>
+<div class="outline-text-3" id="text-org1e78fbe">
 <p>
 The seeded return 10 task is a lot like the return 10 task, but with a twist - the random number you pick is always the same if you decide to center it around that number. In python, it looks like this:
 </p>
@@ -366,8 +366,8 @@ np.random.seed(<span style="color: #F92672;">int</span>(number_selection * 1000)
 
 <pre class="example">
 6.82227340048
-
 </pre>
+
 
 <p>
 If you run this a million times, you will always return the same random value. The most rational decision for any single agent in this example is to select 10 in order to return the closest number to 10, but if you have 100 agents averaged together for this task they always select the same value. This is a critical point to build intuition about ensembles: <b>if you have ten agents that all behave in the same way, you don't have ten agents, you have one agent ten times</b>. 
@@ -449,9 +449,9 @@ The big takeaway here is that you don't get any added value adding more agents i
 </div>
 </div>
 
-<div id="outline-container-org0cf7025" class="outline-2">
-<h2 id="org0cf7025">Ranking Simulation Toy Experiments</h2>
-<div class="outline-text-2" id="text-org0cf7025">
+<div id="outline-container-org82db830" class="outline-2">
+<h2 id="org82db830">Ranking Simulation Toy Experiments</h2>
+<div class="outline-text-2" id="text-org82db830">
 <p>
 To more directly examine panel-based rank voting tasks, let's devise a toy version of this task where the objective is to return a list of "ranked players" [1, 2, 3, &#x2026;, 100] as closely as possible, with distance to the list measured by Root Mean Squared Error.
 </p>
@@ -465,7 +465,7 @@ Each agent in this task is pretty competent &#x2013; On average, the mean value 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python" id="orgc88450c"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<pre class="src src-python" id="orgc30c19d"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
 <span style="color: #F92672;">import</span> random
 <span style="color: #F92672;">import</span> matplotlib
 <span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
@@ -705,17 +705,17 @@ matplotlib.use(<span style="color: #E6DB74;">'Agg'</span>)
 
 <pre class="example">
 5.414794548272353
-
 </pre>
+
 
 <p>
 With this paradigm, we can begin to explore some fundamental questions about panel-based ranking systems. 
 </p>
 </div>
 
-<div id="outline-container-org8b0db47" class="outline-3">
-<h3 id="org8b0db47">Lone Wolf vs Panel</h3>
-<div class="outline-text-3" id="text-org8b0db47">
+<div id="outline-container-orge434194" class="outline-3">
+<h3 id="orge434194">Lone Wolf vs Panel</h3>
+<div class="outline-text-3" id="text-orge434194">
 <p>
 We begin by exploring whether a panel is worth using at all, compared to just using one "good" agent. 
 </p>
@@ -901,15 +901,15 @@ There are two ways to think about this:
 </div>
 </div>
 
-<div id="outline-container-org06e97ca" class="outline-3">
-<h3 id="org06e97ca">Copycats</h3>
-<div class="outline-text-3" id="text-org06e97ca">
+<div id="outline-container-org65ce535" class="outline-3">
+<h3 id="org65ce535">Copycats</h3>
+<div class="outline-text-3" id="text-org65ce535">
 <p>
 One way the errors of agents could become correlated would be if the agents could see one of the agents' ballots, and could choose to copy that "public agent" with some probability. As we saw earlier with the <i>seeded return 10</i> experiment, this effectively turns those two agents into one agent with double the weight of other panelists. 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python" id="orgbf788aa"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<pre class="src src-python" id="orgbca3d40"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
 <span style="color: #F92672;">import</span> random
 <span style="color: #F92672;">import</span> matplotlib
 <span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
@@ -1054,13 +1054,12 @@ matplotlib.use(<span style="color: #E6DB74;">'Agg'</span>)
 
 <pre class="example">
 5.582114294781145
-
 </pre>
 </div>
 
-<div id="outline-container-org06e2ca6" class="outline-4">
-<h4 id="org06e2ca6">Copying Random Agent's List</h4>
-<div class="outline-text-4" id="text-org06e2ca6">
+<div id="outline-container-orgd9bcf01" class="outline-4">
+<h4 id="orgd9bcf01">Copying Random Agent's List</h4>
+<div class="outline-text-4" id="text-orgd9bcf01">
 <p>
 Let's start by assuming that the agents being copied can be any random agent. We will explore the relationship between copycat agents, public agents, and error on the list.
 </p>
@@ -1184,9 +1183,9 @@ Unsurprisingly, we can see that the more agents copy other ballots, the worse th
 </div>
 </div>
 
-<div id="outline-container-org97549d5" class="outline-4">
-<h4 id="org97549d5">Copying Unusually Good Agent's List</h4>
-<div class="outline-text-4" id="text-org97549d5">
+<div id="outline-container-orgc8a85d1" class="outline-4">
+<h4 id="orgc8a85d1">Copying Unusually Good Agent's List</h4>
+<div class="outline-text-4" id="text-orgc8a85d1">
 <p>
 You might think that it would be okay to copy off an agent if their list is better than the average panelist. There are two competing ideas here: it could be possible that duplicating a good agent might help more than correlating the agents would harm, but it may also be possible that overweighing the "best" panelist could serve as a sort of <i>dynamic ensemble selection</i> <sup><a id="fnr.9" class="footref" href="#fn.9">9</a></sup> wherein you learn to select the prediction from the agent which seems the most competent at any given point<sup><a id="fnr.10" class="footref" href="#fn.10">10</a></sup>. 
 </p>
@@ -1318,9 +1317,9 @@ Here we can examine the tradeoff. In this example, all of the panelists have a v
 </div>
 </div>
 
-<div id="outline-container-org614e933" class="outline-3">
-<h3 id="org614e933">Collaboration</h3>
-<div class="outline-text-3" id="text-org614e933">
+<div id="outline-container-orgb9bb34b" class="outline-3">
+<h3 id="orgb9bb34b">Collaboration</h3>
+<div class="outline-text-3" id="text-orgb9bb34b">
 <p>
 One thing conceptually similar to copying is "collaboration" between agents, particularly in larger groups. The distinction here is akin to a student copying homework, versus students gathering to work on homework together. While this process is less one-way than copying, it's worth exploring whether this detrimentally decorrelates the errors between agents more than it helps, since these do typically end up making all of the agents' lists more similar to each other. 
 </p>
@@ -1330,7 +1329,7 @@ We'll model this by putting a group of agents together, and then having them eac
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python" id="org4c8ffc7"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<pre class="src src-python" id="org0e00c49"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
 <span style="color: #F92672;">import</span> random
 <span style="color: #F92672;">import</span> matplotlib
 <span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
@@ -1527,8 +1526,8 @@ matplotlib.use(<span style="color: #E6DB74;">'Agg'</span>)
 
 <pre class="example">
 4.843552415324934
-
 </pre>
+
 
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
@@ -1782,8 +1781,8 @@ matplotlib.use(<span style="color: #E6DB74;">'Agg'</span>)
 <pre class="example">
 16.008590041440648
 14.428700183714534
-
 </pre>
+
 
 <p>
 &#x2026;but ultimately these are blunders which are largely going to be phased out anyways, through averaging, if all of the agents make good lists overall. Collaboration between agents doesn't harm the list (and helps, minimally), makes each individual agent have a better list, and in human-based scenarios usually makes the lists themselves easier to make<sup><a id="fnr.11" class="footref" href="#fn.11">11</a></sup>.
@@ -1792,9 +1791,9 @@ matplotlib.use(<span style="color: #E6DB74;">'Agg'</span>)
 </div>
 </div>
 
-<div id="outline-container-org8087d5f" class="outline-2">
-<h2 id="org8087d5f">Discussion</h2>
-<div class="outline-text-2" id="text-org8087d5f">
+<div id="outline-container-org2728a31" class="outline-2">
+<h2 id="org2728a31">Discussion</h2>
+<div class="outline-text-2" id="text-org2728a31">
 <p>
 The simulation experiments we've run shed some light on some common discussion points raised in discourse about panel-based rank systems. 
 </p>
@@ -1813,17 +1812,17 @@ Collaboration, on the flipside, does not seem to have this property, so this sho
 </div>
 </div>
 
-<div id="outline-container-orgc853d23" class="outline-2">
-<h2 id="orgc853d23">Asides</h2>
-<div class="outline-text-2" id="text-orgc853d23">
+<div id="outline-container-orge9d2334" class="outline-2">
+<h2 id="orge9d2334">Asides</h2>
+<div class="outline-text-2" id="text-orge9d2334">
 <p>
 There are a few tangential points which didn't directly fit into the context of these toy simulations, but that I wanted to briefly bring up.
 </p>
 </div>
 
-<div id="outline-container-org295b681" class="outline-3">
-<h3 id="org295b681">Model Output is not Ground Truth</h3>
-<div class="outline-text-3" id="text-org295b681">
+<div id="outline-container-org8d616ba" class="outline-3">
+<h3 id="org8d616ba">Model Output is not Ground Truth</h3>
+<div class="outline-text-3" id="text-org8d616ba">
 <p>
 Very, very often I see people (particularly, panelists) refer to big discrepancies between their ballot and the final ballot as "misses", and refer to ballots which adhere to the final list very closely as "the most correct". While these ballots are usually quite good, this language used to describe panel quality irks me somewhat, since it compares each ballot to the aggregate's output when it really ought to be comparing to the actual ground truth value. Put another way, the panel is trying to approximate the order of the 100 best players, and this line of thinking compares the panelist to the <i>approximation</i> rather than the (inaccessible) "true" list of 100 players. There are two scenarios in which I can imagine this "true" list to differ from even the best possible approximation: data scarcity and multiple stable distributions.
 </p>
@@ -1849,9 +1848,9 @@ Likewise there are scenarios in which valuing different things could yield multi
 </div>
 </div>
 
-<div id="outline-container-org907681e" class="outline-2">
-<h2 id="org907681e">Conclusion</h2>
-<div class="outline-text-2" id="text-org907681e">
+<div id="outline-container-org0908a6d" class="outline-2">
+<h2 id="org0908a6d">Conclusion</h2>
+<div class="outline-text-2" id="text-org0908a6d">
 <p>
 This isn't, by any means, a comprehensive look into the actual process of creating lists in panel-based rank voting. It's a clearly sanitized caricature with one stable, objective, true final list, only intended to explore the idea of correlated errors, rather than fully accurately simulate the entire process. 
 </p>

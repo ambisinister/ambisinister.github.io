@@ -3,12 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2021-04-02 Fri 00:06 -->
+<!-- 2023-05-10 Wed 20:18 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>This Hitbox Does Not Exist</title>
 <meta name="generator" content="Org mode" />
-<meta name="author" content="ambi" />
+<meta name="author" content="Lain-Navi" />
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -55,7 +55,7 @@ $(function() {
 @licstart  The following is the entire license notice for the
 JavaScript code in this tag.
 
-Copyright (C) 2012-2019 Free Software Foundation, Inc.
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
 
 The JavaScript code in this tag is free software: you can
 redistribute it and/or modify it under the terms of the GNU
@@ -133,30 +133,30 @@ for the JavaScript code in this tag.
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org73e5534">This Hitbox Does Not Exist</a>
+<li><a href="#orgf352649">This Hitbox Does Not Exist</a>
 <ul>
-<li><a href="#org0e23086">Introduction</a></li>
-<li><a href="#org6723032">Dataset</a></li>
-<li><a href="#orgd46ef82">An Aside: Character Classification</a></li>
-<li><a href="#orga7d5f3d">StyleGAN</a></li>
-<li><a href="#org8cf6636">Other Things I Tried Which Worked Less Well</a>
+<li><a href="#org2553361">Introduction</a></li>
+<li><a href="#orgd7a3eae">Dataset</a></li>
+<li><a href="#org6186bd0">An Aside: Character Classification</a></li>
+<li><a href="#org032880e">StyleGAN</a></li>
+<li><a href="#org713b56a">Other Things I Tried Which Worked Less Well</a>
 <ul>
-<li><a href="#orga3f42b7">Auxiliary Classifier GANs</a></li>
+<li><a href="#orge57c06d">Auxiliary Classifier GANs</a></li>
 </ul>
 </li>
-<li><a href="#orgbea2852">References</a></li>
+<li><a href="#org0a13ad4">References</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org73e5534" class="outline-1">
-<h1 id="org73e5534">This Hitbox Does Not Exist</h1>
-<div class="outline-text-1" id="text-org73e5534">
+<div id="outline-container-orgf352649" class="outline-1">
+<h1 id="orgf352649">This Hitbox Does Not Exist</h1>
+<div class="outline-text-1" id="text-orgf352649">
 </div>
-<div id="outline-container-org0e23086" class="outline-2">
-<h2 id="org0e23086">Introduction</h2>
-<div class="outline-text-2" id="text-org0e23086">
+<div id="outline-container-org2553361" class="outline-2">
+<h2 id="org2553361">Introduction</h2>
+<div class="outline-text-2" id="text-org2553361">
 <p>
 Recently at work I've been getting interested in some properties of Generative Adversarial Networks (GANs), The actual properties I was looking at aren't terribly interesting to a general audience, but I figured it would be fun and worthwhile to train a few networks to generate some fun images. 
 </p>
@@ -167,9 +167,9 @@ In short, I played around with GANs to generate images that looked like Super Sm
 </div>
 </div>
 
-<div id="outline-container-org6723032" class="outline-2">
-<h2 id="org6723032">Dataset</h2>
-<div class="outline-text-2" id="text-org6723032">
+<div id="outline-container-orgd7a3eae" class="outline-2">
+<h2 id="orgd7a3eae">Dataset</h2>
+<div class="outline-text-2" id="text-orgd7a3eae">
 <p>
 To assemble this dataset, I scraped every character's moves on ssbwiki and assembled a corpus of gifs, which can be found in a zip file at <a href="http://tinyurl.com/every-hitbox">http://tinyurl.com/every-hitbox</a>. From there, I did some basic image processing to save each frame as a 256x256 square png, which was surprisingly a huge pain given how insistent openCV is on saving frames of gifs as 1-channel images. Here's some very not-optimized code I used to accomplish this task
 </p>
@@ -214,15 +214,15 @@ This yields us a corpus of 33,292 frames, which should be a solid enough baselin
 </div>
 </div>
 
-<div id="outline-container-orgd46ef82" class="outline-2">
-<h2 id="orgd46ef82">An Aside: Character Classification</h2>
-<div class="outline-text-2" id="text-orgd46ef82">
+<div id="outline-container-org6186bd0" class="outline-2">
+<h2 id="org6186bd0">An Aside: Character Classification</h2>
+<div class="outline-text-2" id="text-org6186bd0">
 <p>
 Just to verify that things are working properly, I wrote a very simple CNN to identify which character was on screen. This wasn't much code, and could easily tell the characters apart. 
 </p>
 
 <p>
-<a id="orged232a9"></a>
+<a id="org28deb04"></a>
 </p>
 
 <p>
@@ -230,14 +230,14 @@ The harder frames are an interesting thing to look at &#x2013; with a simple out
 </p>
 
 <p>
-<a id="org2166d68"></a>
+<a id="orgcf9bf9e"></a>
 </p>
 </div>
 </div>
 
-<div id="outline-container-orga7d5f3d" class="outline-2">
-<h2 id="orga7d5f3d">StyleGAN</h2>
-<div class="outline-text-2" id="text-orga7d5f3d">
+<div id="outline-container-org032880e" class="outline-2">
+<h2 id="org032880e">StyleGAN</h2>
+<div class="outline-text-2" id="text-org032880e">
 <p>
 StyleGAN is an intensely media-famous GAN architecture which was notable for how well it was able to synthesize human faces (see, of course, <a href="https://thispersondoesnotexist.com/">This Person Does Not Exist</a>). Gwern notably applied this to a large dataset of anime faces scraped off Danbooru, <a href="https://www.thiswaifudoesnotexist.net/">for a waifu-flavored variant on this</a>. Both the original styleGAN paper (<a href="https://arxiv.org/pdf/1812.04948.pdf">here</a>) and Gwern's writeup (<a href="https://www.gwern.net/TWDNE">here</a>) are must-reads, but it's relatively clear styleGAN works relatively well for both real and drawn images and seems like a good starting point for our 
 </p>
@@ -247,18 +247,18 @@ StyleGAN has a <a href="https://github.com/manicman1999/StyleGAN-Keras">Keras im
 </p>
 
 <p>
-<a id="orgec34681"></a>
+<a id="org9aa2eb6"></a>
 </p>
 </div>
 </div>
 
-<div id="outline-container-org8cf6636" class="outline-2">
-<h2 id="org8cf6636">Other Things I Tried Which Worked Less Well</h2>
-<div class="outline-text-2" id="text-org8cf6636">
+<div id="outline-container-org713b56a" class="outline-2">
+<h2 id="org713b56a">Other Things I Tried Which Worked Less Well</h2>
+<div class="outline-text-2" id="text-org713b56a">
 </div>
-<div id="outline-container-orga3f42b7" class="outline-3">
-<h3 id="orga3f42b7">Auxiliary Classifier GANs</h3>
-<div class="outline-text-3" id="text-orga3f42b7">
+<div id="outline-container-orge57c06d" class="outline-3">
+<h3 id="orge57c06d">Auxiliary Classifier GANs</h3>
+<div class="outline-text-3" id="text-orge57c06d">
 <p>
 I played a bit with AC-GANs for this project, because it's a relatively simple idea which yields samples which have labels associated with them, which I thought would be fun to look at ("ah yes, this blob looks like kirby" is something I caught myself doing a good amount with the styleGAN images, but it's a bit of a rorshach test &#x2013; if the label associated with an image is supposed to be Marth, we should expect it to either look close to Marth or to look horrible. 
 </p>
@@ -268,18 +268,18 @@ AC-GAN generates extremely beautiful MNIST digits, but I think it doesn't scale 
 </p>
 
 <p>
-<a id="org899e56e"></a>
+<a id="org44db4ec"></a>
 </p>
 
 <p>
-<a id="org0d5fb93"></a>
+<a id="orgb9e6923"></a>
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgbea2852" class="outline-2">
-<h2 id="orgbea2852">References</h2>
+<div id="outline-container-org0a13ad4" class="outline-2">
+<h2 id="org0a13ad4">References</h2>
 </div>
 </div>
 </div>

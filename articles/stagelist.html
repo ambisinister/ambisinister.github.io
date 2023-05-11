@@ -3,12 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2021-05-11 Tue 12:21 -->
+<!-- 2023-05-10 Wed 20:18 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SSBM Stagelist</title>
 <meta name="generator" content="Org mode" />
-<meta name="author" content="ambi" />
+<meta name="author" content="Lain-Navi" />
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -55,7 +55,7 @@ $(function() {
 @licstart  The following is the entire license notice for the
 JavaScript code in this tag.
 
-Copyright (C) 2012-2019 Free Software Foundation, Inc.
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
 
 The JavaScript code in this tag is free software: you can
 redistribute it and/or modify it under the terms of the GNU
@@ -133,20 +133,20 @@ for the JavaScript code in this tag.
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org5e14544">All The World's a Stage: On The Stagelist in SSBM</a>
+<li><a href="#orgae02100">All The World's a Stage: On The Stagelist in SSBM</a>
 <ul>
-<li><a href="#org3931b46">Abstract</a></li>
-<li><a href="#org0734bb6">Introduction</a></li>
-<li><a href="#orgaf50dbb">The Tier List</a>
+<li><a href="#org393f876">Abstract</a></li>
+<li><a href="#org3f10703">Introduction</a></li>
+<li><a href="#org498b5f0">The Tier List</a>
 <ul>
-<li><a href="#orgd98c36e">Generating a Matchup Chart</a></li>
-<li><a href="#orga1515c8">From Matchup Chart to Tier List</a>
+<li><a href="#org7cad688">Generating a Matchup Chart</a></li>
+<li><a href="#orgb47a7c6">From Matchup Chart to Tier List</a>
 <ul>
-<li><a href="#org0b8f5b4">Even Distribution (Character vs Cast)</a></li>
-<li><a href="#orga672156">Special Distribution (Character vs Meta)</a></li>
+<li><a href="#org2bc5df8">Even Distribution (Character vs Cast)</a></li>
+<li><a href="#org4114dfd">Special Distribution (Character vs Meta)</a></li>
 </ul>
 </li>
-<li><a href="#org2d574c8">Inferring a distribution from a list</a></li>
+<li><a href="#org9a88974">Inferring a distribution from a list</a></li>
 </ul>
 </li>
 </ul>
@@ -155,22 +155,22 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-org5e14544" class="outline-1">
-<h1 id="org5e14544">All The World's a Stage: On The Stagelist in SSBM</h1>
-<div class="outline-text-1" id="text-org5e14544">
+<div id="outline-container-orgae02100" class="outline-1">
+<h1 id="orgae02100">All The World's a Stage: On The Stagelist in SSBM</h1>
+<div class="outline-text-1" id="text-orgae02100">
 </div>
-<div id="outline-container-org3931b46" class="outline-2">
-<h2 id="org3931b46">Abstract</h2>
-<div class="outline-text-2" id="text-org3931b46">
+<div id="outline-container-org393f876" class="outline-2">
+<h2 id="org393f876">Abstract</h2>
+<div class="outline-text-2" id="text-org393f876">
 <p>
 We explore the matchups of Super Smash Brothers Melee based on survey responses about matchups stratified by stages. We recieved n=x responses to a survey asking participants to give matchup ratios on each stage vs the high tier characters. We use this to explore the idea of adding a banned stage in Best of 5, as well as how closely the list approximates the new SSBM Tier List.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org0734bb6" class="outline-2">
-<h2 id="org0734bb6">Introduction</h2>
-<div class="outline-text-2" id="text-org0734bb6">
+<div id="outline-container-org3f10703" class="outline-2">
+<h2 id="org3f10703">Introduction</h2>
+<div class="outline-text-2" id="text-org3f10703">
 <p>
 A combination of the lack of in-person tournaments and the rise of Project Slippi as the predomant way to play accessible, low-stakes matches have led to an unprecidented rise in netplay tournaments, many of which are free to enter. With all these new, easy-to-run, low-overhead tournaments, a more-frequent-than-usual discourse on alternative rulesets has started popping up. Because tournaments don't require paying for a venue to hold and to attend, running a tournament which runs an alternative, experimental ruleset has never been easier. Some of these ideas, like Frozen Stadium, have been met with near-ubiquitous praise. <a href="https://twitter.com/MeleeStatsPod/status/1382741229725757440">Others</a> have not been met with as much excitement.  
 </p>
@@ -185,9 +185,9 @@ Whether or not this subjective argument carries any weight, as far as the histor
 </div>
 </div>
 
-<div id="outline-container-orgaf50dbb" class="outline-2">
-<h2 id="orgaf50dbb">The Tier List</h2>
-<div class="outline-text-2" id="text-orgaf50dbb">
+<div id="outline-container-org498b5f0" class="outline-2">
+<h2 id="org498b5f0">The Tier List</h2>
+<div class="outline-text-2" id="text-org498b5f0">
 <p>
 In lieu of a global ranking in 2020, Panda Global elected to revive the tier list, which had not been updated in five or six years. The resulting list was relatively inoffensive, as far as the high tier characters go, and the list met minimal criticism from players who use a character above yoshi on the list. 
 </p>
@@ -201,25 +201,25 @@ Still, though, most players are a lot more competent at assessing the attributes
 </p>
 </div>
 
-<div id="outline-container-orgd98c36e" class="outline-3">
-<h3 id="orgd98c36e">Generating a Matchup Chart</h3>
+<div id="outline-container-org7cad688" class="outline-3">
+<h3 id="org7cad688">Generating a Matchup Chart</h3>
 </div>
 
-<div id="outline-container-orga1515c8" class="outline-3">
-<h3 id="orga1515c8">From Matchup Chart to Tier List</h3>
-<div class="outline-text-3" id="text-orga1515c8">
+<div id="outline-container-orgb47a7c6" class="outline-3">
+<h3 id="orgb47a7c6">From Matchup Chart to Tier List</h3>
+<div class="outline-text-3" id="text-orgb47a7c6">
 <p>
 There are two ways to approach generating a tier list: assuming equal character distribution and assuming a specific character distribution
 </p>
 </div>
 
-<div id="outline-container-org0b8f5b4" class="outline-4">
-<h4 id="org0b8f5b4">Even Distribution (Character vs Cast)</h4>
+<div id="outline-container-org2bc5df8" class="outline-4">
+<h4 id="org2bc5df8">Even Distribution (Character vs Cast)</h4>
 </div>
 
-<div id="outline-container-orga672156" class="outline-4">
-<h4 id="orga672156">Special Distribution (Character vs Meta)</h4>
-<div class="outline-text-4" id="text-orga672156">
+<div id="outline-container-org4114dfd" class="outline-4">
+<h4 id="org4114dfd">Special Distribution (Character vs Meta)</h4>
+<div class="outline-text-4" id="text-org4114dfd">
 <p>
 Keep in mind that the distribution here might be different; being good vs jigglypuff might have been more valuable for the tier list during hungrybox's reign at number one, compared to now where he is considered less important to beat to win majors. In both of these scenarios, the actual distribution of characters hasn't really changed, but the relative value of beating a specific character 
 </p>
@@ -227,11 +227,11 @@ Keep in mind that the distribution here might be different; being good vs jiggly
 </div>
 </div>
 
-<div id="outline-container-org2d574c8" class="outline-3">
-<h3 id="org2d574c8">Inferring a distribution from a list</h3>
-<div class="outline-text-3" id="text-org2d574c8">
+<div id="outline-container-org9a88974" class="outline-3">
+<h3 id="org9a88974">Inferring a distribution from a list</h3>
+<div class="outline-text-3" id="text-org9a88974">
 <p>
-<a id="org7638b42"></a>
+<a id="org59e8a47"></a>
 </p>
 </div>
 </div>
