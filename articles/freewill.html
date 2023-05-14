@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2023-05-13 Sat 17:41 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Free Will</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Lain-Navi" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="./css/default.css" />
+<link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content">
+<h1 class="title">Free Will</h1>
+<div id="table-of-contents">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org959006e">The "Free Will" Test</a>
+<ul>
+<li><a href="#orge43ebf2">Existing Implementations</a></li>
+<li><a href="#org802cd57">My Implementation</a></li>
+<li><a href="#orgcd4a214">Simple Heuristics for Being More Random</a></li>
+<li><a href="#org0147550">Thoughts on "Feeling Random"</a></li>
+<li><a href="#org04594c6">Closing Thoughts</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org959006e" class="outline-1">
+<h1 id="org959006e">The "Free Will" Test</h1>
+<div class="outline-text-1" id="text-org959006e">
+<blockquote>
+<p>
+In a class I taught at Berkeley, I did an experiment where I wrote a simple little program that would let people type either “f” or “d” and would predict which key they were going to push next. It’s actually very easy to write a program that will make the right prediction about 70% of the time. Most people don’t really know how to type randomly. They’ll have too many alternations and so on. There will be all sorts of patterns, so you just have to build some sort of probabilistic model. Even a very crude one will do well. I couldn’t even beat my own program, knowing exactly how it worked. I challenged people to try this and the program was getting between 70% and 80% prediction rates. Then, we found one student that the program predicted exactly 50% of the time. We asked him what his secret was and he responded that he “just used his free will.”
+</p>
+
+<p>
+&#x2014; Scott Aaronson, <i>Quantum Computing Since Democritus</i>
+</p>
+</blockquote>
+
+<p>
+As a general numbers dork and competitive fighting game player, the paragraph above has stuck in my mind ever since I read it for the first time &#x2013; "just use your free will" has become a bit of an in-joke among close friends of mine as a result. 
+</p>
+
+<p>
+I've always thought I would be pretty good at this compared to the baseline; a combination of my love for games with <a href="https://www.dustloop.com/w/Mixup">mixups</a> where players have to deal with weighted coin flips, and my general completely baseless belief that I am a "truly alive" person, and "totally not an NPC"<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>. 
+</p>
+
+<p>
+I certainly agree that people are bad at being random &#x2013; I have won many tournament SSBM sets beating players who picked the same couple of options over and over. However, I wanted to prove that I was different, that years of gnashing my teeth in tournaments has produced a truly reliable random number generator in my mind. 
+</p>
+
+<p>
+What I ended up finding out was that I performed better than the reported average reported in the book (hooray!) but that I still had some pretty clear flaws in my random behaviors (oh no!). I do some thinking about how to generate random processes reliably, and test those also.
+</p>
+</div>
+
+<div id="outline-container-orge43ebf2" class="outline-2">
+<h2 id="orge43ebf2">Existing Implementations</h2>
+<div class="outline-text-2" id="text-orge43ebf2">
+<p>
+This was a pretty popular viral meme at one point, so I ended up finding an existing repository implementing it. You can find it <a href="https://people.ischool.berkeley.edu/~nick/aaronson-oracle/">here</a>, and the code describing it <a href="https://github.com/elsehow/aaronson-oracle">here</a>. However, I got the sense that something was a bit off about this implementation, as I immediately crushed it:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/freewill/oracle.png" alt="oracle.png" />
+</p>
+</div>
+
+<p>
+Something about this did not feel right. So, after digging into it, I found out where the flaw was. Per <a href="https://github.com/elsehow/aaronson-oracle#how-does-it-work">their github repository</a>, they are implementing the following:
+</p>
+
+
+<blockquote>
+<p>
+All the basic program did was to examine all 32 possible 5-grams (sequences of five f's and d's), and see which 5-grams were more likely to be followed by f or by d in the user's previous keypresses, and then use that to generate a prediction based on the most recent 5-gram. There might have been various enhancements on top of that &#x2013; e.g., if you're not taking enough data for 5-grams to be useful, then you can also look at 4-grams and 3-grams, and you can also "seed" the predictor with 5-gram data from the previous users (hoping that the next user will be pretty similar).
+</p>
+
+<p>
+This repo implements the no-enhancements version.
+</p>
+</blockquote>
+
+<p>
+Armed with this knowledge, I dug into their code and found the following
+</p>
+
+
+<div class="figure">
+<p><img src="../images/freewill/oracle_fn.png" alt="oracle_fn.png" />
+</p>
+</div>
+
+<p>
+So, if you have a 5-gram which has never been seen before, it will always predict 'f'. If you have a tie between letters, it will always predict 'd'. This seems like a huge flaw! Especially if I can see the stream of letters, can notice the abundance of 'f' predictions, and adjust accordingly. It's possible this will work as intended after you do several hundred keypresses, but in the short-term most users who type 80-130 keys would probably erroneously get "free will" results. So I went about coding up my own implementation where these ties are broken randomly instead.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org802cd57" class="outline-2">
+<h2 id="org802cd57">My Implementation</h2>
+<div class="outline-text-2" id="text-org802cd57">
+<p>
+The code here is, as Aaronson says, very simple. The basic implementation is minimally different from elsehow's repository, but I added the random choice part, let you control how big you wanted the n-grams. The random choice means this is no longer deterministic, so I run it a few times to get consistent measurements.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #F92672;">import</span> random
+<span style="color: #F92672;">import</span> itertools
+<span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
+
+<span style="color: #F92672;">class</span> <span style="color: #66D9EF;">Predictor</span>:
+    <span style="color: #F92672;">def</span> <span style="color: #A6E22E;">__init__</span>(<span style="color: #F92672;">self</span>, n):
+        <span style="color: #F92672;">self</span>.n = n
+        <span style="color: #F92672;">self</span>.ngrams = {}
+        <span style="color: #F92672;">self</span>.correct_predictions = 0
+        <span style="color: #F92672;">self</span>.total_predictions = 0
+        <span style="color: #FD971F;">all_combinations</span> = itertools.product([<span style="color: #E6DB74;">'f'</span>, <span style="color: #E6DB74;">'d'</span>], repeat=n)
+        <span style="color: #F92672;">for</span> combination <span style="color: #F92672;">in</span> all_combinations:
+            <span style="color: #F92672;">self</span>.ngrams[<span style="color: #E6DB74;">''</span>.join(combination)] = {<span style="color: #E6DB74;">'f'</span>: 0, <span style="color: #E6DB74;">'d'</span>: 0}
+
+    <span style="color: #F92672;">def</span> <span style="color: #A6E22E;">predict</span>(<span style="color: #F92672;">self</span>, sequence):
+        <span style="color: #FD971F;">correct_predictions</span> = 0
+        <span style="color: #FD971F;">total_predictions</span> = 0
+        <span style="color: #FD971F;">history</span> = sequence[:<span style="color: #F92672;">self</span>.n]
+        <span style="color: #F92672;">for</span> next_character <span style="color: #F92672;">in</span> sequence[<span style="color: #F92672;">self</span>.n:]:
+            <span style="color: #FD971F;">prediction</span> = <span style="color: #F92672;">self</span>._make_prediction(history)
+            <span style="color: #FD971F;">history</span> = <span style="color: #F92672;">self</span>._update_history(history, next_character)
+            <span style="color: #FD971F;">total_predictions</span> += 1
+            <span style="color: #F92672;">if</span> prediction == next_character:
+                <span style="color: #FD971F;">correct_predictions</span> += 1
+        <span style="color: #F92672;">self</span>.correct_predictions = correct_predictions
+        <span style="color: #F92672;">self</span>.total_predictions = total_predictions
+        <span style="color: #F92672;">return</span> correct_predictions / total_predictions <span style="color: #F92672;">if</span> total_predictions != 0 <span style="color: #F92672;">else</span> 0
+
+    <span style="color: #F92672;">def</span> <span style="color: #A6E22E;">_make_prediction</span>(<span style="color: #F92672;">self</span>, history):
+        <span style="color: #FD971F;">prediction</span> = <span style="color: #F92672;">self</span>.ngrams[history]
+        <span style="color: #F92672;">if</span> prediction[<span style="color: #E6DB74;">'f'</span>] &gt; prediction[<span style="color: #E6DB74;">'d'</span>]:
+            <span style="color: #F92672;">return</span> <span style="color: #E6DB74;">'f'</span>
+        <span style="color: #F92672;">elif</span> prediction[<span style="color: #E6DB74;">'d'</span>] &gt; prediction[<span style="color: #E6DB74;">'f'</span>]:
+            <span style="color: #F92672;">return</span> <span style="color: #E6DB74;">'d'</span>
+        <span style="color: #F92672;">else</span>:
+            <span style="color: #F92672;">return</span> random.choice([<span style="color: #E6DB74;">'f'</span>, <span style="color: #E6DB74;">'d'</span>])
+
+    <span style="color: #F92672;">def</span> <span style="color: #A6E22E;">_update_history</span>(<span style="color: #F92672;">self</span>, history, next_character):
+        <span style="color: #F92672;">self</span>.ngrams[history][next_character] += 1
+        <span style="color: #FD971F;">history</span> = history[1:] + next_character
+        <span style="color: #F92672;">return</span> history
+
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">plot_predictions</span>(sequence, n=3, runs=100):
+    <span style="color: #FD971F;">percentages</span> = []
+    <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(<span style="color: #F92672;">len</span>(sequence)):
+        <span style="color: #FD971F;">avg_percentage</span> = 0
+        <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(runs):  <span style="color: #75715E;"># </span><span style="color: #75715E;">(break ties random)</span>
+            <span style="color: #FD971F;">this_predictor</span> = Predictor(n)
+            this_predictor.predict(sequence[:i])
+            <span style="color: #FD971F;">avg_percentage</span> += this_predictor.correct_predictions / this_predictor.total_predictions <span style="color: #F92672;">if</span> this_predictor.total_predictions != 0 <span style="color: #F92672;">else</span> 0
+        <span style="color: #FD971F;">avg_percentage</span> /= runs 
+        percentages.append(avg_percentage)    
+</pre>
+</div>
+
+<p>
+Doing intentionally patterned keypresses as a test, it's clear this thing does quickly pick up on patterns even at n=3. 
+</p>
+
+<p>
+Below is my attempt at it, using only general intuition and no heuristics or counting. I wanted this to feel like I needed to make a snap judgment (e.g. in a fighting game) where I couldn't sit and generate a random number through some complicated process. I typed 100 keys and somehow landed on an exactly 50/50 split, which I think is interesting!
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #FD971F;">sequence</span> = <span style="color: #E6DB74;">'ffdffdddfffddffddffdddffddfffdfdddffdfddfddfdfddffddfdfffdfddffdffddffddfdffdddddffdfdfffdfddffdddff'</span>
+<span style="color: #F92672;">print</span>(sequence.count(<span style="color: #E6DB74;">'f'</span>))
+<span style="color: #F92672;">print</span>(sequence.count(<span style="color: #E6DB74;">'d'</span>))
+<span style="color: #75715E;"># </span><span style="color: #75715E;">pretty good / lucky distribution for no heuristics</span>
+
+<span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(3,6):
+  <span style="color: #FD971F;">predictor</span> = plot_predictions(sequence, n=i)
+
+  <span style="color: #F92672;">for</span> fd <span style="color: #F92672;">in</span> predictor.ngrams:
+    <span style="color: #F92672;">print</span>(fd, predictor.ngrams[fd])
+</pre>
+</div>
+
+<p>
+<img src="../images/freewill/me_3gram.png" alt="me_3gram.png" />
+<img src="../images/freewill/me_4gram.png" alt="me_4gram.png" />
+<img src="../images/freewill/me_5gram.png" alt="me_5gram.png" />
+</p>
+
+<p>
+I got a result I considered pretty gratifying: it seems like I'm better at this (~60%) than the participants referred to by Aaronson, which made me feel all warm and fuzzy inside. However, I noticed that there were some very obvious disparities in some of my picks, even in easy-to-understand 3-grams. 
+</p>
+
+<ul class="org-ul">
+<li>fff {'f': 0, 'd': 4}</li>
+<li>ffd {'f': 7, 'd': 10}</li>
+<li>fdf {'f': 5, 'd': 6}</li>
+<li>fdd {'f': 11, 'd': 5}</li>
+<li>dff {'f': 4, 'd': 12}</li>
+<li>dfd {'f': 4, 'd': 6}</li>
+<li>ddf {'f': 11, 'd': 4}</li>
+<li>ddd {'f': 5, 'd': 2}</li>
+</ul>
+
+<p>
+This was cool: it exposed a blindspot in some of my decisions (especially near the edges).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcd4a214" class="outline-2">
+<h2 id="orgcd4a214">Simple Heuristics for Being More Random</h2>
+<div class="outline-text-2" id="text-orgcd4a214">
+<p>
+If you had time to think about it, could you beat this test? I think you could &#x2013; and I will present the only use I've ever heard of for memorizing digits of pi: using digits of an irrational number as a random number generator. Here are 100 digits of pi, and I generate a string for this task by taking 'd' for evens and 'f' for odds.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #F92672;">print</span>(<span style="color: #E6DB74;">"generating using 100 digits of pi"</span>)
+
+<span style="color: #75715E;"># </span><span style="color: #75715E;">Generate sequence using digits of pi</span>
+<span style="color: #FD971F;">pi</span> = <span style="color: #E6DB74;">'3141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067'</span>
+<span style="color: #FD971F;">sequence</span> = <span style="color: #E6DB74;">''</span>.join([<span style="color: #E6DB74;">'d'</span> <span style="color: #F92672;">if</span> <span style="color: #F92672;">int</span>(x)%2==0 <span style="color: #F92672;">else</span> <span style="color: #E6DB74;">'f'</span> <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> pi])
+<span style="color: #F92672;">assert</span> sequence == <span style="color: #E6DB74;">'ffdfffddfffdffffdfddddddffdfdfffdddddffffdffffffffdfdddffdfddffdfdfdfddddddddddffdddddfdddffddfffddf'</span>
+<span style="color: #F92672;">print</span>(sequence.count(<span style="color: #E6DB74;">'f'</span>))
+<span style="color: #F92672;">print</span>(sequence.count(<span style="color: #E6DB74;">'d'</span>))
+
+<span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(3,6):
+  <span style="color: #FD971F;">predictor</span> = plot_predictions(sequence, n=i)
+
+  <span style="color: #F92672;">for</span> fd <span style="color: #F92672;">in</span> predictor.ngrams:
+    <span style="color: #F92672;">print</span>(fd, predictor.ngrams[fd])
+</pre>
+</div>
+
+<p>
+<img src="../images/freewill/pi_3gram.png" alt="pi_3gram.png" />
+<img src="../images/freewill/pi_4gram.png" alt="pi_4gram.png" />
+<img src="../images/freewill/pi_5gram.png" alt="pi_5gram.png" />
+</p>
+
+<p>
+It's striking how much better this performs than my results. Well, not really. It's a random sequence, and my sequence was not random, as much as I would have liked to feel that way.
+</p>
+
+<p>
+It should be possible to get random arbitrarily weighted coin flips this way too: if you want a 60-40 split, just take 0-5 as 'd' and 6-9 as 'f'. If you want a 65-35 split, take 0-5 as 'd', take 7-9 as 'f', and take 6 as "check the next digit, 0-4 as 'f', 5-9 as 'd'". I'm certain this will someday be useful for someone. At the very least, some of you who happen to have pi already memorized can use this as a fun party trick to do something with that knowledge.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0147550" class="outline-2">
+<h2 id="org0147550">Thoughts on "Feeling Random"</h2>
+<div class="outline-text-2" id="text-org0147550">
+<p>
+The pi-generated string made me feel extremely uneasy. It severely outperformed me despite feeling "obviously more patterned". There were many stretches where it generated the same value many times in a row, and I felt worried that my idea of using irrational number digits as a random number generator was actually somehow wrong because of some number theory patterning result I had never heard of before.
+</p>
+
+<p>
+For instance: consider the first few digits: 'ffdfffddfffdffffdfdddddd'. This just seems obviously ridiculous! If somebody played mixups like this against me I would probably identify them as "easy to read". The fact that the results are so much better than mine really highlights the point of this study: that "random feeling" and "random" are simply not the same concept. 
+</p>
+
+<p>
+Thinking about this highlights some interesting discussion on whether different scenarios where humans are incentivized to "be random" are, in fact, incentivizing "random feeling" or "truly random" processes. That is to say, I think I felt a lot of pressure to make sure that the distribution of 'f' and 'd' was very close to 50% at all times, whereas the random sequence very clearly did not have such pressure.
+</p>
+
+<p>
+<img src="../images/freewill/distance_from_even_me.png" alt="distance_from_even_me.png" />
+<img src="../images/freewill/distance_from_even_pi.png" alt="distance_from_even_pi.png" />
+</p>
+
+<p>
+I wonder which situations would reward vs punish this behavior &#x2013; if you wanted to be confident that you were being "pretty random", you would feel pressured to make sure you ended up around 50/50, and if you didn't know how many flips you were going to get, it perhaps feels stress-inducing to stray from that. There's a sort of "gravity" pulling you back to 50% when you deviate, compared to a truly random process which "doesn't care" and simply ends up there in the long term. If anyone has thoughts on this I would love to hear them! I'd love to hear from, for example, poker players on how random choices in that game "feel" compared to "are".
+</p>
+</div>
+</div>
+
+<div id="outline-container-org04594c6" class="outline-2">
+<h2 id="org04594c6">Closing Thoughts</h2>
+<div class="outline-text-2" id="text-org04594c6">
+<p>
+I came away from this test feeling affirmed that I possess at least some small quantity of "free will". At the very least, I came away from this thinking that I can make roughly 100 decisions that are relatively random, and that my fighting game training was not for naught. It's possible that if I did 600 keypresses, that this model would slowly build an advantage over me. However, I simply do not have the patience to carefully make 600 keypresses. If I can get a good result in 100, that's good enough for me. 
+</p>
+
+<p>
+I did do some thinking about how such a model could be truly "beaten", i.e. if you knew a priori that your opponent was keeping track of your 3-grams, you could keep a 50-50 distribution for all the ties, and you can guess the opposite value whenever you end up with an unbalanced one, since you know what your opponent will pick. I don't have any sense to how big of an edge you would get with this sort of advantage into your opponent's decision-making process, but it's a useful showcase about how you should keep these sorts of processes close to your chest when you do use them.
+</p>
+
+<p>
+Doing such a modification to the code above seems like it should be straightforwards. At least, it would be, to those who can use their free will to do so.
+</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+At the very least &#x2013; I'd like to be a cool NPC. You know, a real memorable one. That feels achievable, at least.
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+<div id="comments">
+    <p></p>
+    <hr />
+       <div id="disqus_thread">
+           <script>
+(function() {
+var d = document, s = d.createElement('script');
+s.src = 'https://planetbanatt.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</body>
+</html>
