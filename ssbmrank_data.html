@@ -8,25 +8,50 @@
 	    font-family: Arial, sans-serif;
         }
 
-        /* Define cell color rules */
-        td.white { background-color: white; }
-        td.yellow { background-color: #FFFF99; }
-        td.green { background-color: #90EE90; }
-        td.red { background-color: #FF7F7F; }
-        td.black { background-color: black; color: white; }
+	.stickyrow { width: 3000px; }
 
 	/*table stuff */
 	table {
 	    table-layout: fixed;
-	    width: 150%;
+	    width: 10000px;
+	    padding-right:5000px;
 	}
+	
+	/* Fixed first column and header */
+        #crossTable th, #crossTable td {
+            position: sticky;
+            /*background-color: white; */
+        }
+        /* Fixed header */
+        #crossTable th {
+            top: 0;
+            z-index: 2;
+        }
+        /* Fixed first column */
+        #crossTable th:first-child, #crossTable td:first-child {
+            left: 0;
+            z-index: 1;
+        }
+        /* First column width */
+        #crossTable th:first-child, #crossTable td:first-child {
+            min-width: 250px;  /* adjust this as needed */
+        }
 	
 	td, th {
 	    white-space: nowrap;  /* This keeps the text on a single line */
 	    overflow: hidden;  /* This hides text that is too long */
 	    text-overflow: ellipsis;  /* This adds an ellipsis for text that is too long */
-	    width: auto;
+	    /*width: auto;*/
 	}
+
+	.stickycell { background-color: white; }
+	
+	td.white { background-color: #D3D3D3; }
+        td.yellow { background-color: #FFFF99; }
+        td.green { background-color: #90EE90; }
+        td.red { background-color: #FF7F7F; }
+        td.black { background-color: black; }
+
 
     </style>
 
@@ -48,7 +73,7 @@
         <!-- Cross table data will be populated here using JavaScript -->
     </table>
 
-    <h2>Player Ordering</h2>
+    <h2>Player Ordering (Drag Players To Reorder Table)</h2>
     <ol id="sortable">
         <!-- Player list will be populated here using JavaScript -->
     </ol>
@@ -844,24 +869,25 @@
             return data;
         }
 
-        function populateTable(crossTableData) {
+      function populateTable(crossTableData) {
             $("#crossTable").empty();
             var header = $("<tr>");
             header.append($("<th>").text("x"));
             players.forEach(function(id) {
-                header.append($("<th>").text(playersData[id]));
+                header.append($("<th>").addClass("cell stickycell").text(playersData[id]));
             });
             $("#crossTable").append(header);
 
             players.forEach(function(id) {
                 var row = $("<tr>");
-                row.append($("<td>").text(playersData[id]));
+                row.append($("<td>").addClass("cell stickycell stickyrow").text(playersData[id]));
                 players.forEach(function(id2) {
                     var cell = $("<td>").text(crossTableData[id][id2]);
                     if (id == id2) cell.addClass("black");  // diagonal
                     else {
                         var scores = crossTableData[id][id2].split("-");
-                        if (scores[0] == scores[1]) cell.addClass("yellow");
+			if (scores[0] == 0 && scores[1] == 0) cell.addClass("white");
+                        else if (scores[0] == scores[1]) cell.addClass("yellow");
                         else if (scores[0] > scores[1]) cell.addClass("green");
                         else if (scores[0] < scores[1]) cell.addClass("red");
                     }
