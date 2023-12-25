@@ -3488,10 +3488,13 @@
                     if (id == id2) cell.addClass("black");  // diagonal
                     else {
                         var scores = crossTableData[id][id2].split("-");
-			if (scores[0] == 0 && scores[1] == 0) cell.addClass("white");
-                        else if (scores[0] == scores[1]) cell.addClass("yellow");
-                        else if (scores[0] > scores[1]) cell.addClass("green");
-                        else if (scores[0] < scores[1]) cell.addClass("red");
+	                var wins = parseInt(scores[0]);
+	                var losses = parseInt(scores[1]);
+
+	                if (wins == 0 && losses == 0) cell.addClass("white");
+	                else if (wins == losses) cell.addClass("yellow");
+	                else if (wins > losses) cell.addClass("green");
+	                else if (wins < losses) cell.addClass("red");
                     }
                     row.append(cell);
                 });
