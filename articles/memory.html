@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-12-27 Wed 10:25 -->
+<!-- 2023-12-27 Wed 10:32 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Insights from Mnemonics</title>
@@ -205,12 +205,7 @@ Here's a super simple example: a python program which will randomly shuffle a de
 There's a very funny analogy to be made here with <a href="https://jalammar.github.io/illustrated-stable-diffusion/">diffusion models</a>. In the early days of those models, they would slowly add random noise to images, and then train a model to remove that random noise step by step until they arrived back at their original image. To make things more efficient, stable diffusion would encode the image into latent space with a variational autoencoder (VAE), and then perform the diffusion process with the noise directly upon the latents. They found that they could do this and it was pretty much the same as doing it directly on the pixels, but required a lot less processing power. What I'm doing here is sort of similar, in a way &#x2013; I'm hoping to skip the step where I have to do all this "learning of information by encoding and decoding" by directly learning encoded versions of information. The gamble here is that I can learn well with a decoder-only method, if the way I do this encoding is well-constructed enough.
 </p>
 
-<div class="HTML" id="org45e0c08">
-<p>
-&lt;iframe width="560" height="315" src="<a href="https://www.youtube.com/embed/vyMh5SJirmM?si=2LpBf75CMieICljf">https://www.youtube.com/embed/vyMh5SJirmM?si=2LpBf75CMieICljf</a>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen&gt;&lt;/iframe&gt;
-</p>
-
-</div>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/vyMh5SJirmM?si=2LpBf75CMieICljf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 <p>
 And here I think we get a pretty convincing validated hypothesis. I make 0 errors and complete the memorization phase just 14 seconds shy of the <a href="https://artofmemory.com/wiki/International_Master_of_Memory/">International Master of Memory</a> qualifying time, as a complete beginner. The decoding still takes kind of a lot of time, since I am so new at it, but it seems pretty plausible with this self-test that we can offload some of the encoding costs for learning new information to some sort of software responsible for using some a priori known encoding scheme<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>.

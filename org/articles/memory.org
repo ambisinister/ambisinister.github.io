@@ -50,9 +50,9 @@ Here's a super simple example: a python program which will randomly shuffle a de
 
 There's a very funny analogy to be made here with [[https://jalammar.github.io/illustrated-stable-diffusion/][diffusion models]]. In the early days of those models, they would slowly add random noise to images, and then train a model to remove that random noise step by step until they arrived back at their original image. To make things more efficient, stable diffusion would encode the image into latent space with a variational autoencoder (VAE), and then perform the diffusion process with the noise directly upon the latents. They found that they could do this and it was pretty much the same as doing it directly on the pixels, but required a lot less processing power. What I'm doing here is sort of similar, in a way -- I'm hoping to skip the step where I have to do all this "learning of information by encoding and decoding" by directly learning encoded versions of information. The gamble here is that I can learn well with a decoder-only method, if the way I do this encoding is well-constructed enough.
 
-#+BEGIN_HTML
+#+BEGIN_EXPORT HTML
 <iframe width="560" height="315" src="https://www.youtube.com/embed/vyMh5SJirmM?si=2LpBf75CMieICljf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-#+END_HTML
+#+END_EXPORT
 
 And here I think we get a pretty convincing validated hypothesis. I make 0 errors and complete the memorization phase just 14 seconds shy of the [[https://artofmemory.com/wiki/International_Master_of_Memory/][International Master of Memory]] qualifying time, as a complete beginner. The decoding still takes kind of a lot of time, since I am so new at it, but it seems pretty plausible with this self-test that we can offload some of the encoding costs for learning new information to some sort of software responsible for using some a priori known encoding scheme[fn:1].
 
