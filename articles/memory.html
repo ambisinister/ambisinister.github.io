@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2023-12-27 Wed 10:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Insights from Mnemonics</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="./css/default.css" />
+<link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<h1 class="title">Insights from Mnemonics</h1>
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orga38091d">Learning to Memorize, Cheating to Memorize Quickly</a>
+<ul>
+<li><a href="#orgb495d34">Introduction</a></li>
+<li><a href="#orgc84dae0">Developing a PAO system</a>
+<ul>
+<li><a href="#org1665a8b">Hash Collisions in System Creation</a></li>
+<li><a href="#orga871b74">Encoding Cost</a></li>
+</ul>
+</li>
+<li><a href="#orgd280897">Proof of Concept: Computer-Aided Encoding</a></li>
+<li><a href="#org04ef238">We Should All Do More Pointless Things</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga38091d" class="outline-1">
+<h1 id="orga38091d">Learning to Memorize, Cheating to Memorize Quickly</h1>
+<div class="outline-text-1" id="text-orga38091d">
+</div>
+<div id="outline-container-orgb495d34" class="outline-2">
+<h2 id="orgb495d34">Introduction</h2>
+<div class="outline-text-2" id="text-orgb495d34">
+<p>
+When I was in high school I remember reading Harry Lorayne's <a href="https://www.goodreads.com/review/show/1948744189">The Memory Book</a>, and using it to learn to memorize a deck of cards in about 35 minutes of memorization time. It was nice to learn about <a href="https://artofmemory.com/blog/list-of-memory-techniques/">the basic memory techniques</a>, and they were helpful for my studies (especially when I needed to learn ordered lists). I also read <a href="https://en.wikipedia.org/wiki/Moonwalking_with_Einstein">Josh Foer's Moonwalking with Einstein</a>, which was a nice glimpse into the world of competitive memory sports.
+</p>
+
+<p>
+However, this all always seemed like a lot of work just to remember things. I eventually forgot how to do everything in these books, never having really made a huge effort to practice them to begin with.
+</p>
+
+<p>
+But in pursuit of hacking away at the idea of LLM-powered knowledge management software that could "make you remember things", I cracked open a few of these books again, and made an effort to learn them in earnest to see how viable this would be. I'm having a lot of fun in this rabbit hole, and I'll probably continue to update this document as I read a few more of the books I have ordered about this topic. I think I've learned a lot of very useful things about how my own head works, and I've done some fun experiments using these techniques which I think is potentially worth sharing.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc84dae0" class="outline-2">
+<h2 id="orgc84dae0">Developing a PAO system</h2>
+<div class="outline-text-2" id="text-orgc84dae0">
+<p>
+I pretty much immediately dove into creating a PAO system, since I could envision a lot of different use cases for spots where I would want to use three numbers. The way PAO works is that for each number from 00 to 99, you come up with a person, an action, and an object. This way, you can memorize groups of 6 digits by taking the person from the first pair, the action from the second pair, and the object from the third pair. To memorize cards, you repurpose 52 of these as representing playing cards, and you place them in a specific order using a <a href="https://artofmemory.com/blog/how-to-build-a-memory-palace/">memory palace</a>. This was the system prominently featured in <i>Moonwalking with Einstein</i>, so I understood how it worked and didn't need that much help to get off the ground.
+</p>
+
+<p>
+My PAO pegs can be found <a href="https://docs.google.com/spreadsheets/d/18Dg96G1mb1Nu7FeX8-Xc23fuJvYU25VHFCD8MxoHdRA/edit?usp=sharing">here</a>. Most of these were made on a long road trip with my wife; it was a fun word game to kill time ("Who is an anime character whose name starts with 'M'? What can we give Michael Jordan for Object, given that Kuroko has a basketball already? etc"). Since this involves creation 300 unique images, this took a very long time, and it still takes me a moment to really remember what the associated words are both in encoding and decoding. But, it's surprisingly straightforward once you get going! 
+</p>
+
+<p>
+Making the sheet took a couple days of on-off idle thoughts / asking chatGPT for ideas when I gave up. I practiced memorizing cards for about two hours before I could do it while looking at the sheet. After four or five attempts, I was able to use this to get a deck of cards memorized in just over 8 minutes, with no errors.
+</p>
+</div>
+
+<div id="outline-container-org1665a8b" class="outline-3">
+<h3 id="org1665a8b">Hash Collisions in System Creation</h3>
+<div class="outline-text-3" id="text-org1665a8b">
+<p>
+One thing I ran into really fast with making my PAO spreadsheet was the fact that it's really easy to encounter cases where you accidentally use the same action or object for multiple different values. There's the obvious type, where two entries have the same value (e.g. "basketball" and "basketball"), and there's also the ambiguous type, where two entries have completely different words which are easily confused when you manifest them as visual images (e.g. "eating" and "chomping"). Some of these I was able to make a simple substitution to disambiguate (e.g. "eating" -&gt; "swallowing", which is decidedly not "chomping" since no teeth are involved), and for others I simply had to come up with an entirely new PAO entry from scratch.
+</p>
+
+<p>
+I truly cannot imagine how people are capable of making these for 000-999, for a three-digit system. I think people seem to think that the difficulty here lies in remembering 1000 (or 3000) things, but in my opinion I think the much more confusing part is coming up with 1000 unique verbs which neatly slot in to some broader system. Hats off to you, if you are one of these people! 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga871b74" class="outline-3">
+<h3 id="orga871b74">Encoding Cost</h3>
+<div class="outline-text-3" id="text-orga871b74">
+<p>
+Learning to memorize playing cards at first seemed unlikely to cause any huge real benefit for me in the real world (other than a use case for testing my PAO sheet), but surprisingly that was not the case. Drilling through decks of cards made it very clear to me that "seeing something" and "storing it in memory" are not the same thing, and that more or less this entire time I've only been able to remember things that were familiar enough that this was pretty much instantaneous. If I see three cards and read them as "Kanye West Blowing Up a Mountain" (7h, 8s, Kc), I will lose the image if I do not take a moment to really "see" it, to place it somewhere in my head. Sometimes there are images that are so cartoonish that I don't have to try very hard to remember them, and this class of information is the only type of information which I am regularly able to absorb in most real life settings.
+</p>
+
+<p>
+Put another way, learning something and remembering it has three "parts":
+</p>
+
+<ol class="org-ol">
+<li>Encoding the information when you encounter it</li>
+<li>"Placing" the information into memory<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup></li>
+<li>Decoding the information when you want it</li>
+</ol>
+
+<p>
+I am under the impression that, for most people, this encoding, placing, and decoding cost is completely subconscious, which is why people have such varying ability to remember different types of things. It's why study gurus will make vague gestures to "mentally organizing your warehouse of knowledge" and other such handwavey metaphorical analogies to this process. When you learn something new, you can remember it better if you "see it, and then put it somewhere" which takes on a shockingly literal meaning when in this case you are placing things into a memory palace. Most people just do this all as one single process, which will sometimes fail for really hard to remember stuff. Working on learning this was a good way for me to perceive that they are multiple parts, working in tandem.
+</p>
+
+<p>
+Wang Feng, former world memory champion, said this in a <a href="https://planetbanatt.net/articles/wangfeng.html">lecture</a> he delivered explaining these techniques. <i>You have finished reading, right? OK. It is still the first step. The next step is to memorize the information and carry out a forced processing.</i> It's a simple nuance, but the idea that reading something and then carrying out some process to remember it were different steps was new to me, even <a href="https://planetbanatt.net/articles/anki.html">as a relatively prolific flashcards user</a>. To me, the way to remember things was just to read them, and then to read them again once you forget, sometimes not even three minutes later.
+</p>
+
+<p>
+This, to me, was the most valuable takeaway from my time doing all of this memory technique work. I have always complained about my relatively weak ability to remember people's names, to retain information I read, to remember strings of numbers, and so on. The idea that these things were rooted in my "skipping a step" in the learning process, and that this encoding cost is itself a skill which can be improved to take less time, together made a pretty useful insight for me even if the actual achievement of memorizing cards was not much more than a party trick.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd280897" class="outline-2">
+<h2 id="orgd280897">Proof of Concept: Computer-Aided Encoding</h2>
+<div class="outline-text-2" id="text-orgd280897">
+<p>
+The big "reason" I went down this rabbit hole again was to explore the question of if it would be possible to somehow write software which would "make me remember things". To reiterate, this is slightly different from software which would "let me practice remembering things", which is what the multitude of very good flashcard applications are useful for. What I was specifically after was exploring whether or not it was possible to use these techniques in order to <i>directly put something into my memory</i>, to reduce the friction involved in encoding things after reading them.
+</p>
+
+<p>
+I, of course, do not think that this sort of thing should fly in memory competitions, in the same way using a chess engine is not allowed in a chess tournament. However, remembering things is a useful thing people supposedly need in their day-to-day life. If I could demonstrate the possibility of a computer program making something easy for me to remember extremely quickly, that is cause for further investigation.
+</p>
+
+<p>
+Here's a super simple example: a python program which will randomly shuffle a deck of cards, print them to screen, pull from my PAO pegs and encode every necessary group, and print those also. With no cost of encoding, I can just memorize the already-encoded inputs, stop the timer, and then decode them as normal.
+</p>
+
+<p>
+There's a very funny analogy to be made here with <a href="https://jalammar.github.io/illustrated-stable-diffusion/">diffusion models</a>. In the early days of those models, they would slowly add random noise to images, and then train a model to remove that random noise step by step until they arrived back at their original image. To make things more efficient, stable diffusion would encode the image into latent space with a variational autoencoder (VAE), and then perform the diffusion process with the noise directly upon the latents. They found that they could do this and it was pretty much the same as doing it directly on the pixels, but required a lot less processing power. What I'm doing here is sort of similar, in a way &#x2013; I'm hoping to skip the step where I have to do all this "learning of information by encoding and decoding" by directly learning encoded versions of information. The gamble here is that I can learn well with a decoder-only method, if the way I do this encoding is well-constructed enough.
+</p>
+
+<div class="HTML" id="org45e0c08">
+<p>
+&lt;iframe width="560" height="315" src="<a href="https://www.youtube.com/embed/vyMh5SJirmM?si=2LpBf75CMieICljf">https://www.youtube.com/embed/vyMh5SJirmM?si=2LpBf75CMieICljf</a>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen&gt;&lt;/iframe&gt;
+</p>
+
+</div>
+
+<p>
+And here I think we get a pretty convincing validated hypothesis. I make 0 errors and complete the memorization phase just 14 seconds shy of the <a href="https://artofmemory.com/wiki/International_Master_of_Memory/">International Master of Memory</a> qualifying time, as a complete beginner. The decoding still takes kind of a lot of time, since I am so new at it, but it seems pretty plausible with this self-test that we can offload some of the encoding costs for learning new information to some sort of software responsible for using some a priori known encoding scheme<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>.
+</p>
+
+<p>
+It is also validating to run this experiment and to compare it to the world record time, which was about 20 seconds the last time I checked. This method I used essentially skips the encoding cost, and the format does not time the decoding cost. If there was no difficulty in "placing" the information in memory, I should be theoretically able to read the generated images and then instantaneously stop the timer. The fact that I <i>cannot</i> do that, that I have to <i>try to see</i> the image and then <i>put it down</i> in mental space somewhere, is a good indicator that this middle step is what is really being tested here. 
+</p>
+
+<p>
+Creating PAO pegs is a pretty high up-front cost, so I don't know if this sort of thing is ever going to have huge market capture. But all sorts of useful things can be encoded as images like this: 2D (Person-Action) and 3D (Person-Action-Object) 100x100(x100) grid locations, numbers, letters, playing cards, ordered lists, etc. LLMs know what these systems are (they have been around for thousands of years after all, and vector databases can be used to show it anything it doesn't already know), so something which can immediately spit out something using your selected pegs + encodings could be a super useful study paradigm given the right angle.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org04ef238" class="outline-2">
+<h2 id="org04ef238">We Should All Do More Pointless Things</h2>
+<div class="outline-text-2" id="text-org04ef238">
+<p>
+A belief I have is that the most human thing in the world is to do something nobody else cares about.
+</p>
+
+<p>
+Something I see often surrounding the topics of memory training and mnemonics, is that it is useless. And after engaging with it somewhat, I can say that becoming skilled at memorizing arbitrary objects in random orders is something which sounds much more useful than it actually is. You can argue about all of the things I've written above, that my insights about encoding costs or creation of systems or whatever are all things I could have learned without wasting 10 hours staring at playing cards, or arguing with my spouse about whether "Phelps" is more memorable than "Federer". I think all of this is probably true. In a world hyper-optimized for useful insights per unit time, I think there are likely better ways to spend your time.
+</p>
+
+<p>
+But you could say this about a lot of things. You could very easily say this about competing video games, which is something I've done for years, which has led me to meet my spouse, let me befriend the best friends I've ever made, made me try harder than I've ever tried at something before, and got me a great job in a field I'm passionate about. To call something pointless usually ignores the broader context, which is that we can assign meaning to any arbitrary task we can imagine. It's possible to go through your entire life only doing things which are beholden to market forces, only retaining interest in things which the broader population finds equal value in compared to yourself.
+</p>
+
+<p>
+That is one way to do things, I suppose.
+</p>
+
+<p>
+But I do think sometimes it's nice to stand in the sun, and to feel the warmth and the breeze. Sometimes it's nice to simply feel yourself being alive, capturing those fleeting sensations that one day you will lose access to for all eternity. Sometimes it's nice to feel like a child again, and to lie to yourself about how swinging cool fallen tree branches around will be of enormous practical help to you if you're ever attacked by bad guys. In the end, it's not really about the practical utility, it's about the act of swinging.
+</p>
+
+<p>
+If you disconnect from things the appropriate distance, I think you'll find that there's no real reason to do things that you do not like. And, likewise, that there's no need to make excuses to do those things you do like. Thinking something is cool is reason enough.
+</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+If you want an example of what it is like to not do this step, try putting a wikipedia article into <a href="https://www.spreeder.com/app.php">spreeder</a> and cranking the speed up really high. You'll be able to "read" almost all the words, but for some reason you won't really have the same experience as you would have had if you had just read it normally. Most people seem to do this contextualization naturally, relating information they read to other information they already know, which has a physical time cost which is higher for more novel + arbitrary sorts of information. You can improve at this part, and you can feel it's importance directly if you do these sorts of memory exercises.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+James Heisig's "Remembering the Kanji" and "Remembering the Hanzi" is proof enough for me that this has huge value for learners even if you don't come up with these encodings yourself. The important point in those books, as it is here, is that you take the visual elements presented to you and "put them in your head", usually by the act of creating some sort of story. If all we take away from this is "we can use LLMs create RTK vol. III for any type of information, since that just gives the keywords" I think that is of absolutely massive importance!
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+<div id="comments">
+    <p></p>
+    <hr />
+       <div id="disqus_thread">
+           <script>
+(function() {
+var d = document, s = d.createElement('script');
+s.src = 'https://planetbanatt.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</body>
+</html>
