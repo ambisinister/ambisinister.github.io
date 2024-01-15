@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-01-14 Sun 16:59 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Square-1</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="./css/default.css" />
+<link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<h1 class="title">Square-1</h1>
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgecc9ab5">Notes on Humility (Solving a Square-1)</a>
+<ul>
+<li><a href="#org6b936c9">Day 1 - Make moves until you learn something</a></li>
+<li><a href="#orge73796c">Day 2 - Sometimes two different things are really the same problem.</a></li>
+<li><a href="#org6032c43">Day 3 - Once you get there once, you can get there again</a></li>
+<li><a href="#orgcdbcac0">Day 5 - 92 is halfway to 99</a></li>
+<li><a href="#org0818c60">Day 6 - Sometimes you have to Concede</a></li>
+<li><a href="#org2f909cd">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgecc9ab5" class="outline-1">
+<h1 id="orgecc9ab5">Notes on Humility (Solving a Square-1)</h1>
+<div class="outline-text-1" id="text-orgecc9ab5">
+<p>
+My recent stint memorizing things led me back to my other old hobby: speedsolving Rubik's cubes &#x2013; doing research into the 3x3 blindfolded event led me back to the greater speedcubing content sphere, which got me generally interested in the old twisty puzzles again. After watching <a href="https://www.youtube.com/watch?v=DhTZu66aIEo">J Perm's video attempting to solve a Puppet Cube without looking up algorithms</a>, I got it in my head that it would be really fun to do this with the <a href="https://en.wikipedia.org/wiki/Square-1_(puzzle)">Square-1</a>. Armed with some low-level speedsolving knowledge, I was unreasonably confident at my probability of success. I spent the next six days being tortured by this small children's toy.
+</p>
+
+
+<div id="orgabddfdf" class="figure">
+<p><img src="../images/from_clipboard/20240114_143432.png" alt="20240114_143432.png" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6b936c9" class="outline-2">
+<h2 id="org6b936c9">Day 1 - Make moves until you learn something</h2>
+<div class="outline-text-2" id="text-org6b936c9">
+<p>
+I got the cube in the mail, scrambled it up, sat on the couch, and made random turns until I noticed something interesting.
+</p>
+
+<p>
+The first useful thing I noticed was that there is only one axis of rotation from the top and bottom of the puzzle, which means that everything must be done with moving things up and down from those two layers.
+</p>
+
+<p>
+Likewise, I noticed quickly that I could easily flip the orientation of the center pieces without disturbing the top and bottom rows<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>. This was really useful: it meant that throughout the duration of solving this puzzle that I could completely ignore the middle row pieces, since no matter what I could fix whatever any sequence of moves did to the center pieces.
+</p>
+
+<p>
+Most of this day was spent realizing that I could not gain that much ground in terms of learning useful move sequences unless the shape of the cube was predictable in the before and after states of the turns. As a result, I thought it would be the most convenient if I could get the puzzle into it's original "cube" shape, and then look into things which I could do which would leave the cube in a cube state after doing this. Getting the cube into this shape was pretty hard: I did it mostly intuitively, and it involved a lot of random turns when I wasn't sure what to do.
+</p>
+
+<p>
+I did eventually get there, though! And from there it was off to the races. I knew if I tilted one layer the width of a small piece and did a slice, the top and bottom layers would still be squares. Nice! What I did from here was try to pair up as many corner pieces + edge pieces as I could. In my head I was trying to do this as a sort of "blockbuilding" step, where I tried to make it similar to the F2L step of a 3x3<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>.
+</p>
+
+<p>
+Not having explicit algs (or much understanding) made this step pretty confusing. I kept accidentally destroying the paired up pieces I had already made, and I didn't yet have the "insertion" intution for placing corners in a particular layer. But somehow through trial and error I made it to the below, where I intuitively blockbuilt my way to fully solved corners and four edges needing to be flipped.
+</p>
+
+<p>
+This is going great! I'm totally going to solve this soon! I called it a day for today.
+</p>
+
+
+<div id="org913459e" class="figure">
+<p><img src="../images/from_clipboard/20240114_144113.png" alt="20240114_144113.png" />
+</p>
+</div>
+
+<p>
+<b>Remaining: Last 4 edges flip</b>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge73796c" class="outline-2">
+<h2 id="orge73796c">Day 2 - Sometimes two different things are really the same problem.</h2>
+<div class="outline-text-2" id="text-orge73796c">
+<p>
+I initially started feeling fear of screwing up my largely fortuitious progress by making some stupid turns, so day 2 I made a lot of conservative, reversable move sequences so I wouldn't screw things up too much.
+</p>
+
+<p>
+I didn't end up making that much progress this day, but I did manage to somehow convert the above into a case with two edges requiring swap and two corners requiring a twist. Now I had two ways I could solve it: figuring out a 2 edge swap + 2 corner twist, or a particular four edge swap. I don't think, looking back, that this was that much progress: I had merely discovered that basic puzzle-solving idea of \(f^-1(g(f(x)))\), where you set up to some different case, solve that, and then un-set up that case<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>. I was still pretty confident I could do this!
+</p>
+
+<p>
+<b>Remaining: Two edge swap, two edges twist</b>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6032c43" class="outline-2">
+<h2 id="org6032c43">Day 3 - Once you get there once, you can get there again</h2>
+<div class="outline-text-2" id="text-org6032c43">
+<p>
+One thing I resolved to do today was to try some weirder moves and risk screwing up my progress in exchange for learning something new. My thought was: maybe it's just luck that I got this far, but if I got this far by luck then I can get this far with luck again.
+</p>
+
+<p>
+I did, indeed, screw up my progress. But I did learn some interesting things, so it was worth it. Specifically, I had a vague, unclear sense of what I was supposed to do to orient the corner pieces. To say "I learned a corner orientation algorithm" would definitely be overselling what was actually happening on day 3, but I learned where you needed to put the corner piece in order to twist it during a slice move, and things kind of happened on their own from there.
+</p>
+
+<p>
+At the end of this day, I arrived at the following case:
+</p>
+
+
+<div id="org9c23d77" class="figure">
+<p><img src="../images/from_clipboard/20240114_161137.png" alt="20240114_161137.png" />
+</p>
+</div>
+
+<p>
+This is crazy! Just two pieces left! Maybe there is a simple algorithm I can use to directly solve the cube from here! I was filled with confidence that this was actually happening, and I would succeed soon.
+</p>
+
+<p>
+<b>Remaining: Two edge swap</b>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcdbcac0" class="outline-2">
+<h2 id="orgcdbcac0">Day 5 - 92 is halfway to 99</h2>
+<div class="outline-text-2" id="text-orgcdbcac0">
+<p>
+I played around with edge flips at this point, and relatively quickly found a pretty simple three mover which would orient the top and bottom four pieces<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>, and that it could be paired with 180 degree rotations to permute them also<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>. I wasn't sure how it would be possible to solve two edges this way, but I messed around with this paired with setup moves just in case there was some way I could make it work.  
+</p>
+
+<p>
+After messing with this for a few hours, I started to suspect that the last two edges being flipped was a <a href="https://ruwix.com/twisty-puzzles/4x4x4-rubiks-cube-rubiks-revenge/parity/#:~:text=Parity%20is%20something%20that%20most,a%20pain%20to%20deal%20with.">parity case</a>. If that were the case, I was likely completely fucked. I thought back to my time in childhood playing Runescape, about how leveling skills starts out very easy, and then the gap between levels slowly starts to grow. I remember the common maxim: "<a href="https://twitter.com/RuneScape/status/920947434318155776?lang=en">92 is halfway to 99</a>", referring to the amount of total experience to reach the maximum level at a skill.
+</p>
+
+<p>
+In my case, it was more like "97 is halfway to 99". I literally had two pieces to flip on the entire puzzle, and I couldn't do it. I wrote in my journal: "This god damn thing has defeated me. I pray when this is over that this is a complicated parity case and not a simple two edge swap algorithm I am just missing because I am stupid. It has been days." I was in despair. 
+</p>
+
+<p>
+<b>Remaining: Two edges swap</b>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0818c60" class="outline-2">
+<h2 id="org0818c60">Day 6 - Sometimes you have to Concede</h2>
+<div class="outline-text-2" id="text-org0818c60">
+<p>
+I spent about four hours today scrambling the puzzle back into a scrambled state, and then trying to fight my way back to the same spot as before in hopes that I would randomly skip the parity case. I had a sense that parity had something to do with the rare case where I would slice a layer with an odd number of edge pieces, but I could not keep track of this enough during my scrambles, and three separate times arrived right back at a parity case I had encountered before.
+</p>
+
+<p>
+I learned a lot more about the cube in this effort: I figured out an algorithm which would 3 cycle corners on the top face and swap corners on the bottom face<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>, and I used this to reasonably quickly get back to oriented edges, and used the same edge swap from yesterday to solve as many edges as I could. I still had a little bit of difficulty getting the puzzle into a cube shape quickly, I had no idea how to fix parity<sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></sup>, and none of my scrambles seemed to let me get lucky and avoid it.
+</p>
+
+<p>
+I also started to realize: if I can't solve parity, and I claim to solve the puzzle, isn't that sort of lame? If I can't solve a 3x3 without a <a href="https://sarah.cubing.net/3x3x3/pll-skip-cases">PLL skip</a>, can I really claim to be able to solve it? After being stuck on this for a double-digit number of hours, I finally cracked and <a href="https://www.kungfoomanchu.com/guides/andy-klise-square-1.pdf">looked up to see</a> if it was a parity case (it was) and to see if it was hard to independently find (it was).
+</p>
+
+<p>
+I applied the algorithm to my puzzle and then the cube was solved. Back to Square One indeed<sup><a id="fnr.8" class="footref" href="#fn.8" role="doc-backlink">8</a></sup>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2f909cd" class="outline-2">
+<h2 id="org2f909cd">Conclusion</h2>
+<div class="outline-text-2" id="text-org2f909cd">
+<p>
+At the end of the day, despite all my posturing otherwise, I am more of a <a href="https://www.vice.com/en/article/pkpqzb/ok-wtf-are-wordcels-and-shape-rotators">wordcel, rather than a shape rotator</a>. Much of my life has been spent running from this fact, by spending lots of time valiantly struggling with rotation instead of leaning into straightforward word-using which comes relatively naturally to me.
+</p>
+
+<p>
+Nonetheless, I was fairly happy with how I did on this little challenge. By the end of day 6 I had a pretty consistent strategy of:
+</p>
+
+<ol class="org-ol">
+<li>Get the cube shape</li>
+<li>Orient corners</li>
+<li>Permute corners</li>
+<li>Swap as many edges as possible using setup moves and 4-edge swaps</li>
+</ol>
+
+<p>
+which was pretty good overall despite it's incompleteness, not too different from the actual beginner method for solving a square-1:
+</p>
+
+
+<div id="orgf6922a6" class="figure">
+<p><img src="../images/from_clipboard/20240114_162927.png" alt="20240114_162927.png" />
+</p>
+</div>
+
+<p>
+There are some worlds where this strategy probably could solve some Square-1 scrambles, even if I never figured out edge 3-cycles, orienting 1 edge on both faces, or how to fix parity. In some other world I get lucky<sup><a id="fnr.9" class="footref" href="#fn.9" role="doc-backlink">9</a></sup> on the first try, and this blog post reads very differently.
+</p>
+
+<p>
+In general I have resolved to start doing things like this more &#x2013; I think a lot of people see ground that has been covered by other people, and conclude that they could have easily invented or discovered all of those things easily. I see this a lot with math especially, but I often see it in places like programming or competitive gaming as well. A lot of <i>"learning"</i> that gets done these days is akin to being handed a Square-1, a list of algorithms, and being asked to "solve" it.
+</p>
+
+<p>
+That's not much of a puzzle, really! The real puzzle is coming up with the algorithms.
+</p>
+
+<p>
+In the future I'm going to be more mindful of things that feel like puzzles, and things that feel like algorithms sheets. There's a lesson to be found in here about humility, and about appreciating that we can focus on unsolved problems by leaning on ground already covered by others. I'm telling myself that this insight was worth staring at a two-edge swap case for three straight days. 
+</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+/(6,0)/(6,0)/(6,0)
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+In hindsight I think this was complete nonsense, but it was a reasonable thing to try to do given that I had no clue what I was doing.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Something something change of basis, something something linear algebra.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+(0,-1)/(1,1)/(-1,0)
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+(1,0)/(5,-1)/(-5,1)/(5,0)
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6" role="doc-backlink">6</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+(0,-1)/(3,0)/(-3,0)/(3,0)/(-3,0)/ 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.7" class="footnum" href="#fnr.7" role="doc-backlink">7</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+This isn't exactly true: I had a feeling it was related to the weird case of swapping an odd number of edge pieces with a slice, like if you had three kite pieces in the slice. instead of the usual 2 edge 2 kite cases. I couldn't figure out how to leverage this fact during the scrambles, though.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.8" class="footnum" href="#fnr.8" role="doc-backlink">8</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+This is the original, full name of the puzzle. Fitting.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.9" class="footnum" href="#fnr.9" role="doc-backlink">9</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+This would be very unlike me.
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+<div id="comments">
+    <p></p>
+    <hr />
+       <div id="disqus_thread">
+           <script>
+(function() {
+var d = document, s = d.createElement('script');
+s.src = 'https://planetbanatt.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</body>
+</html>

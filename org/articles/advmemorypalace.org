@@ -1,8 +1,10 @@
 #+TITLE: Advanced Memory Palaces
 
-* Book Review: Advanced Memory Palaces
+* Memorizing a Double Elimination Tournament
 
-Joe Reddington's /Advanced Memory Palaces/.
+I recently read Joe Reddington's /Advanced Memory Palaces/. I thought this was a really thought provoking read -- as a machine learning researcher by trade and a relatively beginner /memorist/, it was nice to see some intersection between concepts I think about every day with concepts I have been thinking about a lot lately.
+
+To jump to the good part: 
 
 ** Context
 
@@ -10,9 +12,72 @@ On the back of this book, there is a paragraph which leads with the following:
 
 /This should be the second book you read on memory techniques. It doesn't matter which other book you read first, but you'll find it easier if you've had some practice of both using memory techniques well and discovering their limitations./
 
-Before reading this book, I had read Joshua Foer's /Moonwalking with Einstein/, and Jerry Lucas & Harry Lorayne's /The Memory Book/. The former was more narrative-driven and investigative, the second was more instructional but decided oriented at beginners. The book took a bit to arrive, so I also managed to get ahold of Lynne Kelly's /Memory Craft/. For my current ability, I developed my own PAO word list + got an ~8 minutes speed cards time, a 2:17 speed cards with a program which would spit my pegs out for me, and level 5 on Memory League for card memorization. 
+Before reading this book, I had read Joshua Foer's /Moonwalking with Einstein/, Jerry Lucas & Harry Lorayne's /The Memory Book/, and Lynne Kelly's /[[https://planetbanatt.net/articles/memorycraft.html][Memory Craft]]/. For better or worse, I'd consider all of these books to be aimed at the layperson with no experience doing this sort of thing before. In comparison, this book is explicitly about avoiding some of the more annoying components of actually /using/ these techniques: how to fit more items in a single location, how to organize the flow of information, and all sorts of engineering-type concerns which are notably absent in other books on the topic[fn:1]. 
 
-Likewise, the book seemed to be about making analogies between data structures and mnemonics, which is a topic I had been doing in unscripted rants to my computer-knowing friends for the last several weeks. For all intents and purposes, I seemed like the ideal target for this specific book, and so I purchased it. I figured, if anything was too hard to use for me as a memory techniques user, this book would be overpromising as a good "second book"; if anything was too hard for me to understand as a machine learning researcher, then it was probably too in-the-weeds for memory sport people of other backgrounds. 
+Likewise, the book seemed to be about making analogies between data structures and mnemonics, which is a topic I had been doing in unscripted rants to my computer-knowing friends for the last several weeks. For all intents and purposes, I seemed like the ideal target for this specific book, and so I purchased it. I figured, if anything was too hard to use for me as a memory techniques user, this book would be overpromising as a good "second book"; if anything was too hard for me to understand as a machine learning researcher, then it was probably too in-the-weeds for memory sport people of other backgrounds.
 
-** 
+What really got me engaged was the back half of this book, which is an experimental look at using uncommon data structures for memorizing types of data uncommon to find in memory competitions[fn:3]. The most interesting to me was the section on tree-shaped data: I deal with this sort of data all the time! 
 
+** GENESIS 1
+
+I often joke with my friends that GENESIS is my favorite movie. I'll often put on the playlist of recorded sets from that tournament and watch the story of Armada's journey, and his cinematic clash with America's champion in grand finals. Off the top of my head, I can probably remember a good handful of the most important things about this tournament: Scar's run to winners top 8, Armada's path starting from Harriettheguy, Mango's path starting from Hungrybox, and maybe a few other really important sets like Axe vs Jman. There may be some more 
+
+I am going to attempt to memorize the entire bracket phase of this tournament. After several rounds of pools, the surviving players were dumped into a double-elimination bracket starting from the round of 128[fn:2]. Double elimination is not a very common format in most competitions[fn:4], so I'll need to make some adaptations to what is in the book. 
+
+*** An Array of Pointers
+
+One thing I was surprised to not see discussed at all in this book were [[https://en.wikipedia.org/wiki/Pointer_(computer_programming)][pointers]], which are objects which serve as maps which reference locations in memory, rather than values themselves. Locations are our whole thing, as memory technique people! It was really daunting to remember such a large list of events, but one modification I made was to remember blocks of the bracket, and store those blocks in an array[fn:5].
+
+The way that I tackled memorizing the winners bracket of such a large, tree-like structure of information was to use something similar in spirit to the [[https://en.wikipedia.org/wiki/Skip_list][skip list]] segment of this book: rather than "raw" memorizing a full Ro128 bracket, I would remember a much smaller tree where each node has 8 children, and each node's value is a "root" match which spreads out three more rounds to a local "round of 16". 
+
+*** Result
+
+** Thoughts on "More Fun" Memory Contests
+
+The more I do this sort of thing, the more I think it's no fun to just bring an a priori system into a competition to remember one particular type of thing very well. All of the really interesting stuff I read about mnemonics is about people who design clever systems to remember weird stuff; as fun as memorizing cards is, I think it would be really interesting to hold a competition where you don't know ahead of time what events you will be doing.
+
+This whole exercise being vaguely different, yet fundamentally similar to more traditional events like numbers or random words really makes me think that the memory sports scene is being really held back by pigeonholing itself into specialized list-memory. It would be really cool to arrive at one of these contests and to on-the-fly have to come up with memory systems to remember [[https://drive.google.com/file/d/1-kf9bSQwUEMFOkyuCuLZj9XNQLzkuk_L/view][Rubik's Cube Last Layer Algorithms]], [[https://liquipedia.net/fighters/Evolution_Championship_Series/2023/T7/Round_3_Pools][Round 3 Pools of Tekken EVO 2023]], and a random set of [[https://en.wikipedia.org/wiki/Transcendental_Studies_(Sorabji)][Sorabji's 100 Transcendental Studies for Piano]]. I feel like we would learn so much about memory if we used this sort of wacky format, rather than tunnelling on increasingly large systems for 3- and 4-digit number pegs. I think it would do a lot of good in making the sport feel more "useful", and it would be super interesting to talk to the winners and figure out what sorts of things they came up with. 
+
+** Unsorted notes
+
+The two types of links: natural links (strong) artificial links (fade)
+
+Use wikipedia pages for numbers
+
+redundancy, over time the details in your image will deteriorate. There's two ways claimed to prevent total loss: adding more vivid details (colors, noises, scents), and adding redundant links (e.g. instead of just "dinosaur" and "goblin", also make the dinosaur "gobbling up" something, so there's two links between the images in case one of them breaks.
+
+Major encoder app is a cool idea but the links are broken and if I was going to clone the repo I would just code it myself
+
+When doing links don't fall into the trap of saying the words in the order through some sort of story, each image needs to really directly involve the two adjacent things.
+
+directionality in links is important (teapot -> godzilla -> cheese) if godzilla destroys the teapot then godzilla can't do something to cheese, cheese has to do something to godzilla otherwise the directions will be confusing
+
+Remembering the start of a linked list is really critical
+
+skip list data structure: like a linked list but with an additional next which goes n spots forward rather than just one, similar functionality to making every 5 locations memorable in a memory palace
+
+Unknown and M. Bison, huh, fgc players.
+
+Array: two lists where the target list is linked to by at least one element of the source list, where the source list is ordered. Usually this is the list of integers, in computers, but we can use locations, letter pairs, first-letter-mnemonics, etc.
+
+Key rule: never link one word with two others, or you will mix up what the links refer to. If you want to do this, you can create a /class/ where you refer to info type A (e.g. name) with image part A (e.g. face) and info type B (e.g. job) with image part B (e.g. hands). This requires some more planning, and should be done when you want to memorize a lot of info with a similar structure.
+
+Polymorphism: you want your parentclass.__init__(self) -> link, as well as your new types. Put another way, you just have <class> -> image, rather than like invention -> image, etc.
+
+Memory Feat for review: Memorize and Recite GENESIS 1 top 128 bracket both winners and losers
+
+Each block of 16 has 15 items in it (x8 = 120), plus 8 for winners + grands do the end (128 sets in winners) plus 112 matches in the losers bracket. It makes sense to memorize this backwards for winners and forwards for losers (to help with placing players in the losers bracket progression rather than just having them appear from thin air.
+
+Tree-to-Tree Array
+
+* Footnotes
+
+[fn:5] I'm sure the term for this is /chunking/ in a memory palace, but using the terminology presented in the book is kind of fun.
+
+[fn:4] A double elimination tournament in a sport seems like a good way to get yourself injured as fast as possible.
+
+[fn:3] Put another way, this book makes an implicit argument that this is /because/ techniques for them are not developed, and that memory competitions are /competitions about using the techniques/ and not /competitions about memorizing things/.  
+
+[fn:2] There were actually 126 players and two byes, because 2009 was before smashers discovered how powers of 2 worked.
+
+[fn:1] Namely, a lot of these books are written in a way which genuinely seems to suggest they are teaching you some sort of arcane, magical power. They are extremely powerful, to be sure! But this book can be relatively frank about it's cynicism for using these strategies for remembering specific classes of information, something /The Memory Book/ certainly would never dare to do.  
