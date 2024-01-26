@@ -6,6 +6,8 @@ I recently read Joe Reddington's /Advanced Memory Palaces/. I thought this was a
 
 To jump to the good part: 
 
+<<video>>
+
 ** Context
 
 On the back of this book, there is a paragraph which leads with the following:
@@ -14,29 +16,55 @@ On the back of this book, there is a paragraph which leads with the following:
 
 Before reading this book, I had read Joshua Foer's /Moonwalking with Einstein/, Jerry Lucas & Harry Lorayne's /The Memory Book/, and Lynne Kelly's /[[https://planetbanatt.net/articles/memorycraft.html][Memory Craft]]/. For better or worse, I'd consider all of these books to be aimed at the layperson with no experience doing this sort of thing before. In comparison, this book is explicitly about avoiding some of the more annoying components of actually /using/ these techniques: how to fit more items in a single location, how to organize the flow of information, and all sorts of engineering-type concerns which are notably absent in other books on the topic[fn:1]. 
 
-Likewise, the book seemed to be about making analogies between data structures and mnemonics, which is a topic I had been doing in unscripted rants to my computer-knowing friends for the last several weeks. For all intents and purposes, I seemed like the ideal target for this specific book, and so I purchased it. I figured, if anything was too hard to use for me as a memory techniques user, this book would be overpromising as a good "second book"; if anything was too hard for me to understand as a machine learning researcher, then it was probably too in-the-weeds for memory sport people of other backgrounds.
+Likewise, the book seemed to be about making analogies between data structures and mnemonics, which is a topic I had been doing in unscripted rants to my computer-knowing friends for the last several weeks. For all intents and purposes, I seemed like the ideal target for this specific book, and so I purchased it.
 
 What really got me engaged was the back half of this book, which is an experimental look at using uncommon data structures for memorizing types of data uncommon to find in memory competitions[fn:3]. The most interesting to me was the section on tree-shaped data: I deal with this sort of data all the time! 
 
 ** GENESIS 1
 
-I often joke with my friends that GENESIS is my favorite movie. I'll often put on the playlist of recorded sets from that tournament and watch the story of Armada's journey, and his cinematic clash with America's champion in grand finals. Off the top of my head, I can probably remember a good handful of the most important things about this tournament: Scar's run to winners top 8, Armada's path starting from Harriettheguy, Mango's path starting from Hungrybox, and maybe a few other really important sets like Axe vs Jman. There may be some more 
+I often joke with my friends that GENESIS is my favorite movie. I'll often put on [[https://www.youtube.com/playlist?app=desktop&list=PL58139A3DEBBA2224][the playlist of recorded sets]] from that tournament and watch the story of Armada's journey, and his cinematic clash with America's champion in grand finals. Off the top of my head, I can probably remember a good handful of the most important things about this tournament: Scar's run to winners top 8, Armada's path starting from Lunin, Mango's path starting from Hungrybox, and maybe a few other really important sets like Axe vs Jman. There may be some more big ones I can remember if you really press me on it, but it's mostly winners bracket recorded sets.
 
-I am going to attempt to memorize the entire bracket phase of this tournament. After several rounds of pools, the surviving players were dumped into a double-elimination bracket starting from the round of 128[fn:2]. Double elimination is not a very common format in most competitions[fn:4], so I'll need to make some adaptations to what is in the book. 
+I am going to attempt to memorize the entire bracket phase of this tournament. After several rounds of pools, the surviving players were dumped into a double-elimination bracket starting from the round of 128[fn:2]. Double elimination is not a very common format in most competitions[fn:4], so I'll need to make some adaptations to what is in the book.
 
 *** An Array of Pointers
 
-One thing I was surprised to not see discussed at all in this book were [[https://en.wikipedia.org/wiki/Pointer_(computer_programming)][pointers]], which are objects which serve as maps which reference locations in memory, rather than values themselves. Locations are our whole thing, as memory technique people! It was really daunting to remember such a large list of events, but one modification I made was to remember blocks of the bracket, and store those blocks in an array[fn:5].
+One thing I was surprised to not see discussed in this book were [[https://en.wikipedia.org/wiki/Pointer_(computer_programming)][pointers]], which are objects which serve as maps which reference locations in memory, rather than values themselves. Locations are our whole thing, as memory technique people! It was really daunting to remember such a large list of events, but one modification I made was to remember blocks of the bracket, and store those blocks in an array[fn:5].
 
-The way that I tackled memorizing the winners bracket of such a large, tree-like structure of information was to use something similar in spirit to the [[https://en.wikipedia.org/wiki/Skip_list][skip list]] segment of this book: rather than "raw" memorizing a full Ro128 bracket, I would remember a much smaller tree where each node has 8 children, and each node's value is a "root" match which spreads out three more rounds to a local "round of 16". 
+The way that I tackled memorizing the winners bracket of such a large, tree-like structure of information was to use something similar in spirit to the [[https://en.wikipedia.org/wiki/Skip_list][skip list]] segment of this book: rather than "raw" memorizing a full Ro128 bracket, I would remember a much smaller tree where each node has 8 children, and each node's value is a "root" match which spreads out three more rounds to a local "round of 16". Here's a crude simplified drawing which does this to four leaf nodes rather than 8[fn:22].
+
+[[../images/from_clipboard/20240117_105159.png]]
+
+*** Class Structure
+
+#+BEGIN_SRC python
+  class BracketMatch():
+    def __init__(self, location, upper, lower, winner,
+		 u_prev, l_prev):
+      self.story = f"{upper} and {lower} are fighting because they want to eat {location}.\
+		    {winner} wins their fight and decides to eat {loser} along with {location}."
+      self.up = f"{upper} and {u_prev} are riding on {Related(location)}"
+      self.down = f"{lower} and {l_prev} are being ridden on by {Related(location)}"
+#+END_SRC
+
+It's a little precarious, since we don't keep track of which of upper and u_prev is the higher seed in the class structure. Since that is handled in the next link, I should hopefully be able to keep track of everything except for the very lowest children. As long as I get all the matches and their winners correct, hopefully that still counts as a correct answer.
+
+Likewise, an interesting aspect here is that the use of a "related" function: as long as the location is memorable, we can synthesize similar arbitrary "locations" (e.g. Pidgey -> Toucan Sam, Pidgey -> Big Bird). I would be worried about the links being harmed by overly similar locations and preventing my access to the full list, but since I'm using the skip-tree I only need to remember a "link" of 15 per location, it shouldn't be so bad in theory. I'm not going to write these all out here for the entire bracket, but I'll include the links for one "location block" in the footnotes for those curious about how this looks, with lower detail as it gets closer to the leaf nodes.[fn:6] [fn:7] [fn:8] [fn:9] [fn:10] [fn:11] [fn:12] [fn:13] [fn:14] [fn:15] [fn:16] [fn:17] [fn:18] [fn:19] [fn:20] 
+
+[[../images/from_clipboard/20240117_100543.png]]
 
 *** Result
+
+The big thing here is that all of the mental images, as far as memory techniques go, are very busy. It's not really so bad, but the images take kind of a long time to encode and doing this quickly seems very challenging. 
+
+**** Thoughts on using a Peg Tree
+
+<<after doing it>>
 
 ** Thoughts on "More Fun" Memory Contests
 
 The more I do this sort of thing, the more I think it's no fun to just bring an a priori system into a competition to remember one particular type of thing very well. All of the really interesting stuff I read about mnemonics is about people who design clever systems to remember weird stuff; as fun as memorizing cards is, I think it would be really interesting to hold a competition where you don't know ahead of time what events you will be doing.
 
-This whole exercise being vaguely different, yet fundamentally similar to more traditional events like numbers or random words really makes me think that the memory sports scene is being really held back by pigeonholing itself into specialized list-memory. It would be really cool to arrive at one of these contests and to on-the-fly have to come up with memory systems to remember [[https://drive.google.com/file/d/1-kf9bSQwUEMFOkyuCuLZj9XNQLzkuk_L/view][Rubik's Cube Last Layer Algorithms]], [[https://liquipedia.net/fighters/Evolution_Championship_Series/2023/T7/Round_3_Pools][Round 3 Pools of Tekken EVO 2023]], and a random set of [[https://en.wikipedia.org/wiki/Transcendental_Studies_(Sorabji)][Sorabji's 100 Transcendental Studies for Piano]]. I feel like we would learn so much about memory if we used this sort of wacky format, rather than tunnelling on increasingly large systems for 3- and 4-digit number pegs. I think it would do a lot of good in making the sport feel more "useful", and it would be super interesting to talk to the winners and figure out what sorts of things they came up with. 
+This whole exercise being vaguely different, yet fundamentally similar to more traditional events like numbers or random words really makes me think that the memory sports scene is being really held back by pigeonholing itself into specialized list-memory. It would be really cool to arrive at one of these contests and to on-the-fly have to come up with memory systems to remember [[https://drive.google.com/file/d/1-kf9bSQwUEMFOkyuCuLZj9XNQLzkuk_L/view][Rubik's Cube Last Layer Algorithms]], [[https://liquipedia.net/fighters/Evolution_Championship_Series/2023/T7/Round_3_Pools][Round 3 Pools of Tekken EVO 2023]], and a random set of [[https://en.wikipedia.org/wiki/Transcendental_Studies_(Sorabji)][Sorabji's 100 Transcendental Studies for Piano]][fn:21].  I feel like we would learn so much about memory if we used this sort of wacky format, rather than tunnelling on increasingly large systems for 3- and 4-digit number pegs. I think it would do a lot of good in making the sport feel more "useful", and it would be super interesting to talk to the winners and figure out what sorts of things they came up with. 
 
 ** Unsorted notes
 
@@ -70,7 +98,72 @@ Each block of 16 has 15 items in it (x8 = 120), plus 8 for winners + grands do t
 
 Tree-to-Tree Array
 
+** Appendix A: Mini-Experiment LLM-Augmented Links
+
+The nice thing about formalizing a class structure, as recommended in this particular book, is that all of the stories follow a very simple natural language template, and there's a simple "related object" task associated with it. As such, I thought it seemed likely that an LLM like chatGPT could pretty quickly generate stories in the format associated with a class format. Since you input most of the "structure" by making the template, the task for each pair is mostly just imputing the details and coming up with related words.
+
+GPT-4 is not good enough to understand something this convoluted zero-shot; the task of coming up with related words, propagating them to earlier bracket matches, and repeating this process is a lot of variable-shuffling to keep track of. Very quickly, it starts making up new players.
+
+[[../images/from_clipboard/20240119_161837.png]]
+
+As a result, I needed to come up with the list of keywords to use the template myself, like this:
+
+- m2k, kage, blunted object, lovage, butterfly beach (winner: m2k)
+- m2k, blunted object, hitsuyaga, kira, roaches (winner: m2k)
+- kage, lovage, bladewise, hax, big beach ball (winner: kage)
+- m2k, hitsugaya, bye, connor, zerg (winner: m2k)
+- kira, blunted object, alukard, falcomist, city (winner: blunted object)
+- bladewise, kage, festizzo, choknater, the sun (winner: kage)
+- hax, lovage, eggz, darksonic, volleyball (winner: lovage)
+- m2k, bye, protoss (winner: m2k)
+- hitsugaya, connor, terran (winner: hitsugaya)
+- kira, alukard, skyscraper (winner: kira)
+- falcomist, blunted object, subway (winner: blunted object)
+- bladewise, festizzo, the moon (winner: bladewise)
+- kage, choknater, mars (winner: kage)
+- hax, eggz, baseball (winner: hax)
+- darksonic, lovage, brazil (winner: lovage)
+
+After this point, it started to almost-work. I think with a less convoluted setup, it would work okay, but with so many key words it started to struggle with making sure "up" was riding and "down" was being ridden, and other such nuances. I maintain this would probably work okay for normal memory palace stuff, and I might revisit it in the future. However, for this particular project it's probably quicker to just use images I think of myself.
+
+[[../images/from_clipboard/20240119_163736.png]]
+
+
 * Footnotes
+
+[fn:22] There's two purposes here: first, that I don't want to use hundreds of locations on this little stunt testing tree-data mnemonics. Second, I want to relatively quickly keep track of specific players' runs somewhat close to on command, which would just be too annoying to do if I did this entirely from links.
+
+[fn:21] [[https://twitter.com/MarioBrothBlog/status/1747308342924460156][Supper Mario Broth]] posted a very fun tweet linking to a UofT [[https://www.researchgate.net/publication/366008656_Sound-meaning_mapping_Verbal_imitation_of_Super_Mario][Music + Linguistics paper]] which talks about how Yoruban language can encode melody into words. In the study they give examples of the underground theme from SMB1 encoding to "You are going to die here, I don't think you will get home" for the iconic 12 note melody. I would love to see this sort of thing more often! Creative encodings are much more interesting than other parts of the competitive memory space.
+
+[fn:20] Jmoan KFC, location: Lady of the Lake. Jmoan is an insane tag. The long lost J Sheik.
+
+[fn:19] Vwins A Rookie, location: Wizard. The victory twins club the wizard and A Rookie over the head, as they are distracted arguing about whether occult magic is blasphemous. They each eat half of both. A successful outing.
+
+[fn:18] Warriorknight Phil, location: Mechagodzilla.
+
+[fn:17] Hungrybox Psychomidget, location: Mothra
+
+[fn:16] Uberice Ky, location: Captain Crunch. Ky -> KYS.
+
+[fn:15] PKMVodka DJ Nintendo, location: The Cinnamon Challenge. A beautiful mental image springs forth.
+
+[fn:14] everlasting yayuhzz Doraki, location: Beekeeper. 
+
+[fn:13] Mango has a Bye, location: Jerry Seinfeld. It's a show about nothing!
+
+[fn:12] Vwins KFC, location: King Arthur. Vwins -> Victory Twins. Pointers: Wizard, Lady of the Lake
+
+[fn:11] Hungrybox Phil, location: godzilla. Press one, episode 2, this time on top of Godzilla as he destroys the city. Hungrybox artfully dodges any questionable jokes somehow -- maybe Phil is afraid of heights, he's getting eaten alive. Pointers: Hungrybox leaps off godzilla onto Mothra, Mechagodzilla abducts phil.
+
+[fn:10] PKMVodka Uberice, location: Cinnamon Toast Crunch. Vodka + Smirnoff Ice. Pointers: Doing The Cinnamon Challenge after chugging a fifth of vodka, Captain Crunch dramatically standing upon a smirnoff ice like an anime character on a light post.
+
+[fn:9] Mango Doraki, location: Honey Nut Cheerios. Mango wants to eat a Dorayaki, but it's not sweet enough, so he wants to put honey on it. He doesn't know what honey is, so he just tries to squeeze bee juice onto it thinking it's honey. Doraki -> Dorayaki. Pointers: Mango riding Jerry Seinfeld's shoulders as he delivers lines for the Bee Movie, Beekeeper in his suit riding a Doriyaki on his way to work. 
+
+[fn:8] Hungrybox Vwins, location: Three-headed hydra. Hungrybox is fighting the "victory twins", two cartoonish superheroes with "V" on their chests. Hungrybox has his back to the wall, but clutches it out by releasing the three headed hydra, killing both of them at once, devouring their heads like saturn devouring his own children. The weakened hydra is easy pickings for the mighty clutchbox, who makes a delicious hydra stew from it. Pointers: Hungrybox and Phil are riding godzilla, phil is cracking jokes about razing the city and hungrybox is awkwardly trying to follow along. King Arthur is riding upon the victory twins's shoulders, who can only carry his heavy armor because they are powered up by KFC fried chicken.
+
+[fn:7] Mango Uberice, location: Toucan Sam. Mango is hunting for some toucans to eat. He catches toucan sam, who begs to be spared, but Mango cuts his head off. Mango cooks the toucan meat with smirnoff ice, using it like wine in a sauce. It tastes disgusting, so Mango drinks the rest of the smirnoff ice by itself. Pointers: Mango carrying a Doriyaki, heroically riding upon the bee mascot for Honey Nut Cheerios. The wacky cinnamon toast crunch mascots are riding upon a rocket where the thrusters are a bottle of vodka and a bottle of smirnoff ice.
+
+[fn:6] Mango vs Hungrybox, location: Doduo. Mango and Hbox starving on an island, and there's a big tasty looking Doduo running away from them in a panic, making it's trademark squawking noises. I'm sure roasted Doduo tastes just like chicken, but Mango eats Hungrybox Raw out of rage. Pointers: Mango riding on top of toucan sam, his legs off to the side riding his big colorful bill like he's an anime schoolgirl, and he's holding a gigantic smirnoff ice. Hungrybox is bring letting a three headed hydra ride on his back. He is getting crushed by the weight, but he tries to hold up the V for victory sign to make everyone think he's doing okay.
 
 [fn:5] I'm sure the term for this is /chunking/ in a memory palace, but using the terminology presented in the book is kind of fun.
 
