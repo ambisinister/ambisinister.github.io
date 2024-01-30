@@ -8,7 +8,26 @@
 #+HTML_HEAD: <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 #+HTML_HEAD: <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
 #+HTML_HEAD: <link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-#+HTML_HEAD: <link  href="./css/index_20240128.css" rel="stylesheet">
+#+HTML_HEAD: <link  href="./css/index_20240129.css" rel="stylesheet">
+#+BEGIN_EXPORT html
+<script>
+// use emacs org mode export, they said. It "Just Works", they said.
+window.onload = function() {
+    var firstHr = document.querySelector('hr');
+    if (firstHr) {
+        var div = document.createElement('div');
+        div.className = 'outline-col';
+        var parentDiv = firstHr.parentNode;
+        parentDiv.parentNode.insertBefore(div, parentDiv.nextSibling);
+        var outline2Elements = document.querySelectorAll('.outline-2');
+        outline2Elements.forEach(function(el) {
+            div.appendChild(el);
+        });
+    }
+};
+</script>
+
+#+END_EXPORT
 
 #+BEGIN_EXPORT html
 <div id="preheader_text" class="outline-x">
@@ -19,6 +38,10 @@ This is the web page of *Eryk Banatt*, sometimes referred to by the handle *Ambi
 #+END_EXPORT
 
 * Articles
+
+#+BEGIN_EXPORT html
+<hr>
+#+END_EXPORT
 
 ** Recent
 
@@ -132,3 +155,6 @@ This is the web page of *Eryk Banatt*, sometimes referred to by the handle *Ambi
 [[http://planetbanatt.net/articles/energydrink.html][Energy Drink Tier List]]
 
 [[https://planetbanatt.net/articles/huel.html][Huel Tier List]]
+
+
+
