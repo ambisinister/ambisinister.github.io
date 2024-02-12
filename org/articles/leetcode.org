@@ -8,6 +8,46 @@ I am a researcher, and as you might expect, I write fairly terrible code. In an 
 
 ** Meritocratic Problem Solving
 
-One thing I appreciate about leetcode is that it is a merit-based platform. 
+One thing I appreciate about leetcode is that it is a merit-based platform. That is to say, being able to solve problems on leetcode is almost entirely dependent upon your experience solving other problems. There is an extremely minimal gatekeeping by knowledge, and the path for obtaining the skill necessary to solve the harder problems is entirely outlined on the platform.
 
-** 
+In comparison to my formal computer science education, which was in my view almost entirely testing knowledge rather than skill, I think any idiot could spend time on this website and become good at these sorts of problems. And, to me, this is how it should be: programming is more of a /trade skill/ than a /field of knowledge/, and attempting to learn it without getting good at it is a recipe for disaster. There's a fun analogy to be made with memory sports, where it seems driven by natural ability at first glance, but being bad at memorization usually just means /you don't know how to do it/ and that you /need to practice it/.
+
+** On Staying Sharp
+
+Large Language Models are really amazing at generating code now. Like many other things, they have largely sped up the process of writing simple functions just by writing them in plain text. Even if you can write the solution yourself[fn:1], it's often simply faster to write what you want in english just because it's quicker to type it.
+
+Given that code generation capabilities will only continue to improve, one might ask why we should bother to stay sharp anyways. To me, this question has three very simple answers: machine management, thinking in code, and trust.
+
+*** You are not a programmer
+
+First, if you can't write code yourself and rely completely upon the LLM to generate code for you, you are not a programmer -- you are a manager. This is not to say your work is valueless (good and bad managers certainly exist), but if you cannot take the output of your LLM code generator and improve it to fit your actual specification, you are trapped just asking it to try again. That is to say, what you can create is completely capped by the ability of the LLM to generate what you want[fn:3]. At that point, you are not /writing the code faster using natural language/, you are /not writing any code/. It doesn't matter that there's code on the screen that almost does what you want. If you can't make it do what you want after the LLM spits it out, you are 0% of the way there.
+
+*** Thinking In Code
+
+/Thinking in code/ is an interesting one, and was the bulk of my motivation for staying sharp after LLMs took over a lot of my boilerplate tasks. If you [[https://www.youtube.com/watch?v=VHZDxOmRthE][reach leetcode enlightenment]] and it becomes trivial for you to type up simple functions quickly, for sufficiently abstract tasks it becomes much harder to losslessly describe the desired output in natural language. It's a bit like trying to tell someone how to draw a picture: you can tell them what objects are in it, what art style it is in, what colors to use. But it won't be /the picture you picture/ unless you get in there and do some of the drawing yourself first. Sometimes you just need it to be an apple, any apple, in any style. Other times you need a specific apple, in a specific orientation, and it's hard to use words.
+
+What a lot of people miss is that /you can prompt with code/. At this point it begins to feel much more like pair programming -- you give it some code and ask it to /finish your code/, which allows for a much more straightforward problemsolving process compared to just asking for the entire project zero-shot.
+
+*** Code Trust
+
+Finally, trust is a big problem with LLM generated code. It's not too different from stack overflow copied code, in this way. It's tempting just to take the output and ship it if it passes your small handful of tests. Coming up with a suite of test cases to verify the intended behaviors is a huge part of writing code, and importantly also a huge part of leetcode, specifically.
+
+I love to point to the [[http://www.devpsy.org/teaching/method/confirmation_bias.html][Wason 2-4-6 task]] for this particular point: provided a sequence of number "2-4-6" which fits a rule, and a function which returns True or False if any sequence of 3 numbers solves the rule, try to uncover the rule. Most people will try "4-6-8" and then "10-12-14" and then conclude something like "even numbers going up by 2". But the real rule is just "three numbers ascending". You'll never uncover the rule unless you specifically seek out ways to /falsify/ your hypothesis, which is at odds with your instinct to /confirm/ your hypothesis.
+
+With LLM code, you sometimes get code which appears to work. If you want to treat it like a black box and not do the legwork in understanding every line of code, you /at least/ need to try to falsify the hypothesis that the code works, rather than confirming it.
+
+** Beautiful Problems
+
+Not all problems are created equal. Most of the problems on leetcode are pretty straightforward, even if they are sometimes very hard: identify what algorithms and data structures to use, transmute the problem to a problem you already know how to solve, and then solve it. Every once in a while, though, you encounter what I consider a /beautiful problem/.
+
+One such problem is [[https://leetcode.com/problems/perfect-squares/][279. Perfect Squares]], which can be solved in 4 different ways: one using Dynamic Programming, Static DP, Breadth-First Search, or using math. When I tackled this problem, I wrote up a greedy solution, realized it would not always give me the correct answer, and relatively quickly wrote up a dynamic programming solution. I'd say I spent roughly ten minutes on it, in total. As always, I thumbed through some solutions afterwards, and quickly realized that there were simply multiple ways to solve the problem in addition to what I did. I spent the next 30 minutes in a hyperfixated rabbit hole on wikipedia, reading about [[https://en.wikipedia.org/wiki/Lagrange%27s_four-square_theorem][Lagrange's four-square theorem]], far longer than I spent solving the original problem. This, to me, is the marker of a beautiful problem.
+
+I never really had this sort of math background growing up, so encountering these sorts of theorems always comes as a wonderful little surprise to me whenver I happen upon them. I get the sense that these sorts of problems are more common in [[https://en.wikipedia.org/wiki/List_of_mathematics_competitions][contest math]], where solving them is less about applying a known formula[fn:2] and more about creatively arriving at some solution. While I understand the need to strengthen the ability to apply formulas (it's what pays the bills after all), this sort of thing is what makes me feel like the leetcode habit is worth it as someone not currently looking to pass coding interviews. 
+
+* Footnotes
+
+[fn:3] More directly, problems which the LLM has already seen.
+
+[fn:2] i.e. all of my formal quantitative education, period
+
+[fn:1] Some may say /especially/ if you can write the solution yourself. 
