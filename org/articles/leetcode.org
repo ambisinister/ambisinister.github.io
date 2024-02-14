@@ -2,31 +2,43 @@
 
 * On Leetcode
 
-I am a researcher, and as you might expect, I write fairly terrible code. In an attempt to keep myself sharp, I regularly code on leetcode. 
+I am a researcher, and as you might expect, I write fairly terrible code. In an attempt to keep myself sharp, I regularly code on leetcode.
 
 [[https://leetcode.com/ambisinister/][My Leetcode Profile]]
 
 ** Meritocratic Problem Solving
 
-One thing I appreciate about leetcode is that it is a merit-based platform. That is to say, being able to solve problems on leetcode is almost entirely dependent upon your experience solving other problems. There is an extremely minimal gatekeeping by knowledge, and the path for obtaining the skill necessary to solve the harder problems is entirely outlined on the platform.
+All self-help content that has ever been published is either trying to run towards or away from one universal truth: you need to do things to get better at them. More to the point, you need to /work in a focused way/ to /try to get better/ at things. There are two ways you can deal with this immutable truth. First, you can get really good at pretending. This is what a lot of self-help is about, and for the most part represents the 10-minute-abs phenomenon. Second, you can cram a ton of effort into a short time. This is what "fast improvers" do.
 
-In comparison to my formal computer science education, which was in my view almost entirely testing knowledge rather than skill, I think any idiot could spend time on this website and become good at these sorts of problems. And, to me, this is how it should be: programming is more of a /trade skill/ than a /field of knowledge/, and attempting to learn it without getting good at it is a recipe for disaster. There's a fun analogy to be made with memory sports, where it seems driven by natural ability at first glance, but being bad at memorization usually just means /you don't know how to do it/ and that you /need to practice it/.
+A lot of people get the second part of this wrong. There's a great deal of people who have a misconception that improving at things is a function of how much time you spend at the thing. This is, at the surface level, true. How could it not be true? You start not knowing and then over time you know. But it raises a funny question: why do people improve at different rates? Is it because of innate talent? Is it because of "shortcuts" and hidden wisdom in the learning process?
+
+The real revelation here is that time is just a container for effort, and that a lot of time is a very large container which can hold a lot of effort. There are some things where, to become good at them, you need to cram a monstrous amount of effort into that entire container, to fill it to the brim with a lifetime of excruciatingly high effort. Most things are not like that. Most things are things you can get pretty good at[fn:8] with passive, moderate effort over a long period of time. You can learn these things very quickly if you're willing to be uncomfortable.
+
+To be uncomfortable as much as possible, you need to fill your time with stuff that you struggle with, and remove stuff which is not that bad. For algorithms and data structures, leetcode offers a beautiful platform for most people who want to spend time finding stuff they suck at. Thousands of exercises, a gentle difficulty curve, community solutions for nearly every problem, labels for different types of problems, even detailed sets of problems commonly used for interviews. The path to go from complete beginner to someone with a strong handle on these things is contained entirely within this website, with virtually zero gatekeeping from knowledge or resource access. I know this because I have watched my wife, a biochemist with minimal programming background, grind problems on this platform until she could get through mediums with no assistance. 
+
+The ultimate way to become strong at anything is to fill your time with exercises, ideally optimizing for as difficult and as many as possible. What counts as an exercise for the thing you want to learn is left to the reader, as an exercise.
 
 ** On Staying Sharp
 
-Large Language Models are really amazing at generating code now. Like many other things, they have largely sped up the process of writing simple functions just by writing them in plain text. Even if you can write the solution yourself[fn:1], it's often simply faster to write what you want in english just because it's quicker to type it.
+Large Language Models are really amazing at generating code now. Like many other things, they have largely sped up the process of writing simple functions just by writing them in plain text[fn:4]. Even if you can write the solution yourself[fn:1], it's often simply faster to write what you want in english just because it's quicker to type it.
+
+I find copilot-like tools to have improved my ability to produce code quickly. However, using these tools to write code does not really seem to help me become much better at it[fn:5]. So I resolved to pay back some of the saved time deliberately grinding these sorts of simple problems, to make sure that I continue to improve at actually writing code without help[fn:7].
+
+#+BEGIN_EMBED html
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I was learning Rust yesterday so I disabled it briefly to complete some coding exercises and I felt a sense of dread realizing it was just the cursor and I, alone in the text editor 😬</p>&mdash; Andrej Karpathy (@karpathy) <a href="https://twitter.com/karpathy/status/1608895190672211968?ref_src=twsrc%5Etfw">December 30, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+END_EMBED
 
 Given that code generation capabilities will only continue to improve, one might ask why we should bother to stay sharp anyways. To me, this question has three very simple answers: machine management, thinking in code, and trust.
 
-*** You are not a programmer
+*** You Are Not a Programmer
 
-First, if you can't write code yourself and rely completely upon the LLM to generate code for you, you are not a programmer -- you are a manager. This is not to say your work is valueless (good and bad managers certainly exist), but if you cannot take the output of your LLM code generator and improve it to fit your actual specification, you are trapped just asking it to try again. That is to say, what you can create is completely capped by the ability of the LLM to generate what you want[fn:3]. At that point, you are not /writing the code faster using natural language/, you are /not writing any code/. It doesn't matter that there's code on the screen that almost does what you want. If you can't make it do what you want after the LLM spits it out, you are 0% of the way there.
+First, if you can't write code yourself and rely completely upon the LLM to generate code for you, you are not a programmer -- you are a manager. This is not to say your work is valueless (good and bad managers certainly exist), but if you cannot take the output of your LLM code generator and improve it to fit your actual specification, you are trapped just asking it to try again[fn:6]. That is to say, what you can create is completely capped by the ability of the LLM to generate what you want[fn:3]. At that point, you are not /writing the code faster using natural language/, you are /not writing any code/. It doesn't matter that there's code on the screen that almost does what you want. If you can't make it do what you want after the LLM spits it out, you are 0% of the way there.
 
 *** Thinking In Code
 
-/Thinking in code/ is an interesting one, and was the bulk of my motivation for staying sharp after LLMs took over a lot of my boilerplate tasks. If you [[https://www.youtube.com/watch?v=VHZDxOmRthE][reach leetcode enlightenment]] and it becomes trivial for you to type up simple functions quickly, for sufficiently abstract tasks it becomes much harder to losslessly describe the desired output in natural language. It's a bit like trying to tell someone how to draw a picture: you can tell them what objects are in it, what art style it is in, what colors to use. But it won't be /the picture you picture/ unless you get in there and do some of the drawing yourself first. Sometimes you just need it to be an apple, any apple, in any style. Other times you need a specific apple, in a specific orientation, and it's hard to use words.
+/Thinking in code/ was the bulk of my motivation for staying sharp after LLMs took over a lot of my boilerplate tasks. If you [[https://www.youtube.com/watch?v=VHZDxOmRthE][reach leetcode enlightenment]] and it becomes trivial for you to type up simple functions quickly, for sufficiently abstract tasks it becomes much harder to losslessly describe the desired output in natural language. It's a bit like trying to tell someone how to draw a picture: you can tell them what objects are in it, what art style it is in, what colors to use. But it won't be /the picture you are picturing/ unless you get in there and do some of the drawing yourself first. Sometimes you just need it to be an apple, any apple, in any style. Other times you need a specific apple, in a specific orientation, and it's hard to use words.
 
-What a lot of people miss is that /you can prompt with code/. At this point it begins to feel much more like pair programming -- you give it some code and ask it to /finish your code/, which allows for a much more straightforward problemsolving process compared to just asking for the entire project zero-shot.
+What a lot of people miss is that /you can prompt with code/. At this point it begins to feel much more like pair programming -- you give it some code and ask it to /finish your code/, which allows for a much more straightforward problem-solving process compared to just asking for the entire project zero-shot.
 
 *** Code Trust
 
@@ -40,14 +52,24 @@ With LLM code, you sometimes get code which appears to work. If you want to trea
 
 Not all problems are created equal. Most of the problems on leetcode are pretty straightforward, even if they are sometimes very hard: identify what algorithms and data structures to use, transmute the problem to a problem you already know how to solve, and then solve it. Every once in a while, though, you encounter what I consider a /beautiful problem/.
 
-One such problem is [[https://leetcode.com/problems/perfect-squares/][279. Perfect Squares]], which can be solved in 4 different ways: one using Dynamic Programming, Static DP, Breadth-First Search, or using math. When I tackled this problem, I wrote up a greedy solution, realized it would not always give me the correct answer, and relatively quickly wrote up a dynamic programming solution. I'd say I spent roughly ten minutes on it, in total. As always, I thumbed through some solutions afterwards, and quickly realized that there were simply multiple ways to solve the problem in addition to what I did. I spent the next 30 minutes in a hyperfixated rabbit hole on wikipedia, reading about [[https://en.wikipedia.org/wiki/Lagrange%27s_four-square_theorem][Lagrange's four-square theorem]], far longer than I spent solving the original problem. This, to me, is the marker of a beautiful problem.
+One such problem is [[https://leetcode.com/problems/perfect-squares/][279. Perfect Squares]], which can be solved in 4 different ways: one using Dynamic Programming, Static DP, Breadth-First Search, or using math. When I tackled this problem, I wrote up a greedy solution, realized it would not always give me the correct answer, and relatively quickly wrote up a dynamic programming solution. I'd say I spent roughly ten minutes on it, in total: it was not too hard. As always, I thumbed through some solutions afterwards, and quickly realized that there were simply multiple ways to solve the problem in addition to what I did. I spent the next 30 minutes in a hyperfixated rabbit hole on wikipedia, reading about [[https://en.wikipedia.org/wiki/Lagrange%27s_four-square_theorem][Lagrange's four-square theorem]], far longer than I spent solving the original problem. This, to me, is the marker of a beautiful problem.
 
-I never really had this sort of math background growing up, so encountering these sorts of theorems always comes as a wonderful little surprise to me whenver I happen upon them. I get the sense that these sorts of problems are more common in [[https://en.wikipedia.org/wiki/List_of_mathematics_competitions][contest math]], where solving them is less about applying a known formula[fn:2] and more about creatively arriving at some solution. While I understand the need to strengthen the ability to apply formulas (it's what pays the bills after all), this sort of thing is what makes me feel like the leetcode habit is worth it as someone not currently looking to pass coding interviews. 
+I never really had this sort of math background growing up, so encountering these sorts of weird theorems always comes as a wonderful little surprise to me whenver I happen upon them. I get the sense that these sorts of problems are more common in [[https://en.wikipedia.org/wiki/List_of_mathematics_competitions][contest math]], where solving them is less about applying a known formula[fn:2] and more about creatively arriving at some solution. While I understand the need to strengthen the ability to apply formulas (it's what pays the bills after all), this sort of thing is what makes me feel like the leetcode habit is worth it (as someone not currently looking to pass coding interviews). 
 
 * Footnotes
 
+[fn:8] Great essay on this front: [[https://danluu.com/p95-skill/][Dan Luu's "95th percentile isn't that good"]]
+
+[fn:7] That, and [[https://leetcode.com/mariawu2012/][my wife is also grinding leetcode]] to learn data structures and algorithms for the first time, so I have to make sure I can explain the solutions well :)
+
+[fn:6] A horror story from someone I know who interviewed a potential new candidate: they tried to use copilot to pass a coding interview, and after unsuccessfully trying several prompts asked if it would be ok if they changed the requirement to match what copilot produced.
+
+[fn:5] I think it /does/ often teach me new language features / new libraries I haven't heard of / etc, in the same way reading an editorial "makes me a better programmer".
+
+[fn:4] I see a lot of disagreement over the usefulness of LLMs to generate code, and I think it mostly revolves around whether or not you do work which requires you to understand a very large codebase, which gpt4 is obviously hopeless at. I find it the most useful when I need some sort of simple black-box function, maybe on the scale of your typical leetcode problem. If 100% of your work is maintaining something huge I think it's very unlikely LLM based coding assistants are going to be helpful for you. I rarely do that these days! So for my projects it's been very very useful. Frankly speaking, if Karpathy finds value from something which can write 80% of code with 80% accuracy I think it would just be narcissism to believe I can't find any value in it.
+
 [fn:3] More directly, problems which the LLM has already seen.
 
-[fn:2] i.e. all of my formal quantitative education, period
+[fn:2] From my [[https://planetbanatt.net/articles/square1.html][Square-1 article]], "In the future I'm going to be more mindful of things that feel like puzzles, and things that feel like algorithms sheets" applies nicely here.
 
 [fn:1] Some may say /especially/ if you can write the solution yourself. 
