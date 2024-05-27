@@ -3,12 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-05-10 Wed 20:18 -->
+<!-- 2024-05-26 Sun 20:56 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Probabilistic Models of Cognition</title>
-<meta name="generator" content="Org mode" />
-<meta name="author" content="Lain-Navi" />
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,52 +50,6 @@ $(function() {
 
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
 <link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
-<script type="text/javascript">
-/*
-@licstart  The following is the entire license notice for the
-JavaScript code in this tag.
-
-Copyright (C) 2012-2020 Free Software Foundation, Inc.
-
-The JavaScript code in this tag is free software: you can
-redistribute it and/or modify it under the terms of the GNU
-General Public License (GNU GPL) as published by the Free Software
-Foundation, either version 3 of the License, or (at your option)
-any later version.  The code is distributed WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
-
-As additional permission under GNU GPL version 3 section 7, you
-may distribute non-source (e.g., minimized or compacted) forms of
-that code without the copy of the GNU GPL normally required by
-section 4, provided you include this license notice and a URL
-through which recipients can access the Corresponding Source.
-
-
-@licend  The above is the entire license notice
-for the JavaScript code in this tag.
-*/
-<!--/*--><![CDATA[/*><!--*/
- function CodeHighlightOn(elem, id)
- {
-   var target = document.getElementById(id);
-   if(null != target) {
-     elem.cacheClassElem = elem.className;
-     elem.cacheClassTarget = target.className;
-     target.className = "code-highlighted";
-     elem.className   = "code-highlighted";
-   }
- }
- function CodeHighlightOff(elem, id)
- {
-   var target = document.getElementById(id);
-   if(elem.cacheClassElem)
-     elem.className = elem.cacheClassElem;
-   if(elem.cacheClassTarget)
-     target.className = elem.cacheClassTarget;
- }
-/*]]>*///-->
-</script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -127,119 +81,119 @@ for the JavaScript code in this tag.
         </div><!--/.nav-collapse -->
     </nav>
 </div>
-<div id="content">
+<div id="content" class="content">
 <h1 class="title">Probabilistic Models of Cognition</h1>
-<div id="table-of-contents">
+<div id="table-of-contents" role="doc-toc">
 <h1>Table of Contents</h1>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orge413de2">Probabilistic Models of Cognition - Notebook</a>
+<li><a href="#orgee47040">Probabilistic Models of Cognition - Notebook</a>
 <ul>
-<li><a href="#org25b140f">Short Review</a></li>
-<li><a href="#org167a8fd">WebPPL</a></li>
-<li><a href="#orgf9e5020">Exercise Solutions</a>
+<li><a href="#org28c72de">Short Review</a></li>
+<li><a href="#org883bd0b">WebPPL</a></li>
+<li><a href="#org039ac0d">Exercise Solutions</a>
 <ul>
-<li><a href="#orgcf907b8">Generative Models</a>
+<li><a href="#org5f4569d">Generative Models</a>
 <ul>
-<li><a href="#org5ca0312">1</a></li>
-<li><a href="#orgdaf880c">2</a></li>
-<li><a href="#org8969239">3</a></li>
-<li><a href="#org8b63621">4</a></li>
-<li><a href="#org7aec738">5</a></li>
-<li><a href="#org6ac7fc1">6</a></li>
-<li><a href="#org00fa51d">7</a></li>
-<li><a href="#org63eb4b8">8</a></li>
-<li><a href="#orgff0f399">9</a></li>
+<li><a href="#org44ecd00">1</a></li>
+<li><a href="#org40f540d">2</a></li>
+<li><a href="#orgfae7b07">3</a></li>
+<li><a href="#org26e61b4">4</a></li>
+<li><a href="#org11fa792">5</a></li>
+<li><a href="#org93ba84c">6</a></li>
+<li><a href="#orge780e8f">7</a></li>
+<li><a href="#org2188081">8</a></li>
+<li><a href="#orgb6127c9">9</a></li>
 </ul>
 </li>
-<li><a href="#org9a8248b">Conditioning</a>
+<li><a href="#org8e9a0d8">Conditioning</a>
 <ul>
-<li><a href="#org148d576">1</a></li>
-<li><a href="#orga6120cd">2</a></li>
-<li><a href="#orge0a12a0">3</a></li>
-<li><a href="#org68fed2a">4</a></li>
-<li><a href="#org247542c">5</a></li>
-<li><a href="#orgb1e9f3c">6</a></li>
+<li><a href="#orge5586dd">1</a></li>
+<li><a href="#org993af74">2</a></li>
+<li><a href="#orgf239624">3</a></li>
+<li><a href="#org038cd92">4</a></li>
+<li><a href="#orge040be4">5</a></li>
+<li><a href="#orgbca9e06">6</a></li>
 </ul>
 </li>
-<li><a href="#org2dd2591">Dependence</a>
+<li><a href="#orgc211e97">Dependence</a>
 <ul>
-<li><a href="#org44ba719">1</a></li>
+<li><a href="#orgcf0b754">1</a></li>
 </ul>
 </li>
-<li><a href="#org911d34b">Conditional Dependence</a>
+<li><a href="#org403e374">Conditional Dependence</a>
 <ul>
-<li><a href="#org71d2a8c">1</a></li>
+<li><a href="#orgbdb694b">1</a></li>
 </ul>
 </li>
-<li><a href="#orgec1623b">Bayesian Data Analysis</a>
+<li><a href="#orgab0aa76">Bayesian Data Analysis</a>
 <ul>
-<li><a href="#org4f95208">1</a></li>
-<li><a href="#orgf0820ae">2</a></li>
-<li><a href="#org67fd56a">3</a></li>
-<li><a href="#org5c48e63">4</a></li>
+<li><a href="#org5c1ad50">1</a></li>
+<li><a href="#org3dff9de">2</a></li>
+<li><a href="#org2342227">3</a></li>
+<li><a href="#org545bde0">4</a></li>
 </ul>
 </li>
-<li><a href="#org408af01">Algorithms for Inference</a>
+<li><a href="#org22d17b3">Algorithms for Inference</a>
 <ul>
-<li><a href="#orge9095ff">1</a></li>
-<li><a href="#org4fe24bf">2</a></li>
+<li><a href="#orge25118d">1</a></li>
+<li><a href="#orgfe0cfba">2</a></li>
 </ul>
 </li>
-<li><a href="#org7687572">Learning as conditional inference</a>
+<li><a href="#org564ad05">Learning as conditional inference</a>
 <ul>
-<li><a href="#org95fbb51">1</a></li>
-<li><a href="#org2a40b95">2</a></li>
-<li><a href="#org54c06cc">3</a></li>
+<li><a href="#orgde84503">1</a></li>
+<li><a href="#org212f548">2</a></li>
+<li><a href="#orge2962ff">3</a></li>
 </ul>
 </li>
-<li><a href="#orgb85faed">Learning with a Language of Thought</a>
+<li><a href="#orgd85743b">Learning with a Language of Thought</a>
 <ul>
-<li><a href="#orgec7ef8b">1</a></li>
-<li><a href="#org91065cb">2</a></li>
+<li><a href="#orgee2ee62">1</a></li>
+<li><a href="#org58528f6">2</a></li>
 </ul>
 </li>
-<li><a href="#org43df93f">Hierarchical Models</a>
+<li><a href="#org01af76a">Hierarchical Models</a>
 <ul>
-<li><a href="#org63fb676">1</a></li>
-<li><a href="#org30f14c8">2</a></li>
-<li><a href="#org66802af">3</a></li>
+<li><a href="#org2a88186">1</a></li>
+<li><a href="#orgf90f731">2</a></li>
+<li><a href="#org51e4827">3</a></li>
 </ul>
 </li>
-<li><a href="#org314fef3">Occam's Razor</a>
+<li><a href="#org70d2bc8">Occam's Razor</a>
 <ul>
-<li><a href="#orgb665407">1</a></li>
-<li><a href="#org20ad2cb">2</a></li>
+<li><a href="#org1595a0c">1</a></li>
+<li><a href="#orgba08734">2</a></li>
 </ul>
 </li>
-<li><a href="#orgf253849">Mixture Models</a>
+<li><a href="#org1e30707">Mixture Models</a>
 <ul>
-<li><a href="#org61f5d59">1</a></li>
-<li><a href="#orgc3c465e">2</a></li>
+<li><a href="#org2508f62">1</a></li>
+<li><a href="#orge3bc5df">2</a></li>
 </ul>
 </li>
-<li><a href="#org50b80d5">Social Cognition</a>
+<li><a href="#org9923205">Social Cognition</a>
 <ul>
-<li><a href="#orgfb248f9">1</a></li>
-<li><a href="#org83c3a55">2</a></li>
-<li><a href="#orgc3053d1"></a></li>
+<li><a href="#org23fb9ee">1</a></li>
+<li><a href="#orgf7f0f9e">2</a></li>
+<li><a href="#org950b069"></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org30e8579">Supplementary Readings</a></li>
+<li><a href="#org683f8ce">Supplementary Readings</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orge413de2" class="outline-1">
-<h1 id="orge413de2">Probabilistic Models of Cognition - Notebook</h1>
-<div class="outline-text-1" id="text-orge413de2">
+<div id="outline-container-orgee47040" class="outline-1">
+<h1 id="orgee47040">Probabilistic Models of Cognition - Notebook</h1>
+<div class="outline-text-1" id="text-orgee47040">
 </div>
-<div id="outline-container-org25b140f" class="outline-2">
-<h2 id="org25b140f">Short Review</h2>
-<div class="outline-text-2" id="text-org25b140f">
+<div id="outline-container-org28c72de" class="outline-2">
+<h2 id="org28c72de">Short Review</h2>
+<div class="outline-text-2" id="text-org28c72de">
 <p>
 Probabilistic Models of Cognition is an open-source web textbook which teaches an introduction to the probabilistic approach to cognitive science. A major component of this book is introducing <i>probabilistic programming languages</i>, which are programming languages with probabilistic/random primitives. Probmods (in its current form) does this in <a href="http://webppl.org/">WebPPL</a>, which is basically "probabilistic functional javascript", but some of the papers it references instead use <a href="https://en.wikipedia.org/wiki/Church_(programming_language)">Church</a>, which is a probabilistic dialect of LISP. Both of these are moderately horrible to write programs in, but I do think they accomplish something pretty neat &#x2013; they allow you to easily make inferences about a situation, which in turn allows you to make inferences <i>about other inferences</i>. 
 </p>
@@ -266,9 +220,9 @@ I would definitely recommend it! A very fun read.
 </div>
 </div>
 
-<div id="outline-container-org167a8fd" class="outline-2">
-<h2 id="org167a8fd">WebPPL</h2>
-<div class="outline-text-2" id="text-org167a8fd">
+<div id="outline-container-org883bd0b" class="outline-2">
+<h2 id="org883bd0b">WebPPL</h2>
+<div class="outline-text-2" id="text-org883bd0b">
 <p>
 WebPPL is horrible, and it frustrates me how useful it is considering writing programs in it was remarkably unpleasant the entire time. I joked with a colleague about how my choice between church and webPPL was "essentially, probabilistic lisp vs functional javascript" and the look of abject horror on his face roughly describes how I felt working through this textbook.
 </p>
@@ -334,17 +288,17 @@ That said, you can do some useful stuff in very few lines of code using webPPL, 
 </div>
 </div>
 
-<div id="outline-container-orgf9e5020" class="outline-2">
-<h2 id="orgf9e5020">Exercise Solutions</h2>
-<div class="outline-text-2" id="text-orgf9e5020">
+<div id="outline-container-org039ac0d" class="outline-2">
+<h2 id="org039ac0d">Exercise Solutions</h2>
+<div class="outline-text-2" id="text-org039ac0d">
 </div>
-<div id="outline-container-orgcf907b8" class="outline-3">
-<h3 id="orgcf907b8">Generative Models</h3>
-<div class="outline-text-3" id="text-orgcf907b8">
+<div id="outline-container-org5f4569d" class="outline-3">
+<h3 id="org5f4569d">Generative Models</h3>
+<div class="outline-text-3" id="text-org5f4569d">
 </div>
-<div id="outline-container-org5ca0312" class="outline-4">
-<h4 id="org5ca0312">1</h4>
-<div class="outline-text-4" id="text-org5ca0312">
+<div id="outline-container-org44ecd00" class="outline-4">
+<h4 id="org44ecd00">1</h4>
+<div class="outline-text-4" id="text-org44ecd00">
 <p>
 b) (replace function w/ whatever)
 </p>
@@ -366,9 +320,9 @@ viz.hist(d);
 </div>
 </div>
 
-<div id="outline-container-orgdaf880c" class="outline-4">
-<h4 id="orgdaf880c">2</h4>
-<div class="outline-text-4" id="text-orgdaf880c">
+<div id="outline-container-org40f540d" class="outline-4">
+<h4 id="org40f540d">2</h4>
+<div class="outline-text-4" id="text-org40f540d">
 <p>
 a) 
 </p>
@@ -397,9 +351,9 @@ display([foo(0), foo(0), foo(1)]);
 </div>
 </div>
 
-<div id="outline-container-org8969239" class="outline-4">
-<h4 id="org8969239">3</h4>
-<div class="outline-text-4" id="text-org8969239">
+<div id="outline-container-orgfae7b07" class="outline-4">
+<h4 id="orgfae7b07">3</h4>
+<div class="outline-text-4" id="text-orgfae7b07">
 <p>
 a) the actual calculations come out to .7h .3t for program A and something like 0.729h 0.271t for program B, so a perfect 7:3 split sounds more lika program A
 </p>
@@ -410,9 +364,9 @@ b) program B couldve also produced that, sure, it's within the range of random v
 </div>
 </div>
 
-<div id="outline-container-org8b63621" class="outline-4">
-<h4 id="org8b63621">4</h4>
-<div class="outline-text-4" id="text-org8b63621">
+<div id="outline-container-org26e61b4" class="outline-4">
+<h4 id="org26e61b4">4</h4>
+<div class="outline-text-4" id="text-org26e61b4">
 <p>
 a) P(sneezing) = .14 + .24 + .06 = 0.44; P(sneezing)P(fever) = 0.2 
 </p>
@@ -448,9 +402,9 @@ display([sneeze('bob'), sneeze('alice'), fever('bob'), fever('alice')])
 </div>
 </div>
 
-<div id="outline-container-org7aec738" class="outline-4">
-<h4 id="org7aec738">5</h4>
-<div class="outline-text-4" id="text-org7aec738">
+<div id="outline-container-org11fa792" class="outline-4">
+<h4 id="org11fa792">5</h4>
+<div class="outline-text-4" id="text-org11fa792">
 <p>
 a) 0.4h 0.6t
 b) 
@@ -474,9 +428,9 @@ Infer({method: "forward", samples: 1000}, bentCoin);
 </div>
 </div>
 
-<div id="outline-container-org6ac7fc1" class="outline-4">
-<h4 id="org6ac7fc1">6</h4>
-<div class="outline-text-4" id="text-org6ac7fc1">
+<div id="outline-container-org93ba84c" class="outline-4">
+<h4 id="org93ba84c">6</h4>
+<div class="outline-text-4" id="text-org93ba84c">
 <p>
 a) it seems like it would just be (1-p)<sup>5</sup>*p
 b)
@@ -491,9 +445,9 @@ Infer({method: "forward", samples: 1000}, geometric);
 </div>
 </div>
 
-<div id="outline-container-org00fa51d" class="outline-4">
-<h4 id="org00fa51d">7</h4>
-<div class="outline-text-4" id="text-org00fa51d">
+<div id="outline-container-orge780e8f" class="outline-4">
+<h4 id="orge780e8f">7</h4>
+<div class="outline-text-4" id="text-orge780e8f">
 <p>
 a) / b)
 </p>
@@ -511,9 +465,9 @@ Infer({method: "forward", samples: 1000}, c);
 </div>
 </div>
 
-<div id="outline-container-org63eb4b8" class="outline-4">
-<h4 id="org63eb4b8">8</h4>
-<div class="outline-text-4" id="text-org63eb4b8">
+<div id="outline-container-org2188081" class="outline-4">
+<h4 id="org2188081">8</h4>
+<div class="outline-text-4" id="text-org2188081">
 <p>
 a) flipsequence changes the probability of h and t from p and 1-p (respectively) to some function of p<sup>2</sup> and (1-p)<sup>2</sup> which i am too lazy to figure out exactly; since if the coin is slanted in one direction more than the other it gets even more unlikely to yield the unlikely roll twice in a row, compared to getting the most likely outcome twice in a row (repeating until one of the two happens)
 b) fairCoin just yields 50/50 since there is no slant to exacerbate 
@@ -521,9 +475,9 @@ b) fairCoin just yields 50/50 since there is no slant to exacerbate
 </div>
 </div>
 
-<div id="outline-container-orgff0f399" class="outline-4">
-<h4 id="orgff0f399">9</h4>
-<div class="outline-text-4" id="text-orgff0f399">
+<div id="outline-container-orgb6127c9" class="outline-4">
+<h4 id="orgb6127c9">9</h4>
+<div class="outline-text-4" id="text-orgb6127c9">
 <pre class="example">
 var ground = {shape: 'rect',
   static: true,
@@ -551,13 +505,13 @@ physics.animate(1000, bowlingWorld);
 </div>
 </div>
 
-<div id="outline-container-org9a8248b" class="outline-3">
-<h3 id="org9a8248b">Conditioning</h3>
-<div class="outline-text-3" id="text-org9a8248b">
+<div id="outline-container-org8e9a0d8" class="outline-3">
+<h3 id="org8e9a0d8">Conditioning</h3>
+<div class="outline-text-3" id="text-org8e9a0d8">
 </div>
-<div id="outline-container-org148d576" class="outline-4">
-<h4 id="org148d576">1</h4>
-<div class="outline-text-4" id="text-org148d576">
+<div id="outline-container-orge5586dd" class="outline-4">
+<h4 id="orge5586dd">1</h4>
+<div class="outline-text-4" id="text-orge5586dd">
 <p>
 a)
 </p>
@@ -609,9 +563,9 @@ the coin will be heads 60% of the time (proof same as part c)
 </div>
 </div>
 
-<div id="outline-container-orga6120cd" class="outline-4">
-<h4 id="orga6120cd">2</h4>
-<div class="outline-text-4" id="text-orga6120cd">
+<div id="outline-container-org993af74" class="outline-4">
+<h4 id="org993af74">2</h4>
+<div class="outline-text-4" id="text-org993af74">
 <p>
 a)
 </p>
@@ -649,9 +603,9 @@ conditioning on situations where people have yellow hands allows you to infer th
 </div>
 </div>
 
-<div id="outline-container-orge0a12a0" class="outline-4">
-<h4 id="orge0a12a0">3</h4>
-<div class="outline-text-4" id="text-orge0a12a0">
+<div id="outline-container-orgf239624" class="outline-4">
+<h4 id="orgf239624">3</h4>
+<div class="outline-text-4" id="text-orgf239624">
 <p>
 a)
 </p>
@@ -678,9 +632,9 @@ p(alice is nice | she smiles <i>again</i>) = &#x2026; = .8886
 </div>
 </div>
 
-<div id="outline-container-org68fed2a" class="outline-4">
-<h4 id="org68fed2a">4</h4>
-<div class="outline-text-4" id="text-org68fed2a">
+<div id="outline-container-org038cd92" class="outline-4">
+<h4 id="org038cd92">4</h4>
+<div class="outline-text-4" id="text-org038cd92">
 <p>
 a) 
 </p>
@@ -737,9 +691,9 @@ viz(Infer({method: "enumerate"}, smilesModel))
 </div>
 </div>
 
-<div id="outline-container-org247542c" class="outline-4">
-<h4 id="org247542c">5</h4>
-<div class="outline-text-4" id="text-org247542c">
+<div id="outline-container-orge040be4" class="outline-4">
+<h4 id="orge040be4">5</h4>
+<div class="outline-text-4" id="text-orge040be4">
 <p>
 a) 
 </p>
@@ -809,9 +763,9 @@ print(Infer({method: "enumerate"}, watermodel))
 </div>
 </div>
 
-<div id="outline-container-orgb1e9f3c" class="outline-4">
-<h4 id="orgb1e9f3c">6</h4>
-<div class="outline-text-4" id="text-orgb1e9f3c">
+<div id="outline-container-orgbca9e06" class="outline-4">
+<h4 id="orgbca9e06">6</h4>
+<div class="outline-text-4" id="text-orgbca9e06">
 <p>
 a)
 </p>
@@ -891,17 +845,17 @@ assuming this question is with regards to bayes rule vs the webppl implementatio
 </div>
 </div>
 
-<div id="outline-container-org2dd2591" class="outline-3">
-<h3 id="org2dd2591">Dependence</h3>
-<div class="outline-text-3" id="text-org2dd2591">
+<div id="outline-container-orgc211e97" class="outline-3">
+<h3 id="orgc211e97">Dependence</h3>
+<div class="outline-text-3" id="text-orgc211e97">
 <p>
 I think most of these are pretty clearly either statistically dependent or not but I'll do them anyways moreso for webPPL practice; I drew the nets in a notebook since I was just doing this independently.
 </p>
 </div>
 
-<div id="outline-container-org44ba719" class="outline-4">
-<h4 id="org44ba719">1</h4>
-<div class="outline-text-4" id="text-org44ba719">
+<div id="outline-container-orgcf0b754" class="outline-4">
+<h4 id="orgcf0b754">1</h4>
+<div class="outline-text-4" id="text-orgcf0b754">
 <p>
 a)
 </p>
@@ -1029,17 +983,17 @@ viz(questE(false))
 </div>
 </div>
 
-<div id="outline-container-org911d34b" class="outline-3">
-<h3 id="org911d34b">Conditional Dependence</h3>
-<div class="outline-text-3" id="text-org911d34b">
+<div id="outline-container-org403e374" class="outline-3">
+<h3 id="org403e374">Conditional Dependence</h3>
+<div class="outline-text-3" id="text-org403e374">
 <p>
 The readings page is broken, so I assume there are no readings associated with this relatively short homework 
 </p>
 </div>
 
-<div id="outline-container-org71d2a8c" class="outline-4">
-<h4 id="org71d2a8c">1</h4>
-<div class="outline-text-4" id="text-org71d2a8c">
+<div id="outline-container-orgbdb694b" class="outline-4">
+<h4 id="orgbdb694b">1</h4>
+<div class="outline-text-4" id="text-orgbdb694b">
 <pre class="example">
 Infer({method: 'enumerate'}, function() {
   var cancer = flip(0.00001);
@@ -1109,17 +1063,17 @@ print(check)
 </div>
 </div>
 
-<div id="outline-container-orgec1623b" class="outline-3">
-<h3 id="orgec1623b">Bayesian Data Analysis</h3>
-<div class="outline-text-3" id="text-orgec1623b">
+<div id="outline-container-orgab0aa76" class="outline-3">
+<h3 id="orgab0aa76">Bayesian Data Analysis</h3>
+<div class="outline-text-3" id="text-orgab0aa76">
 <p>
 Again, it seems there are no readings for this chapter.
 </p>
 </div>
 
-<div id="outline-container-org4f95208" class="outline-4">
-<h4 id="org4f95208">1</h4>
-<div class="outline-text-4" id="text-org4f95208">
+<div id="outline-container-org5c1ad50" class="outline-4">
+<h4 id="org5c1ad50">1</h4>
+<div class="outline-text-4" id="text-org5c1ad50">
 <p>
 a)
 </p>
@@ -1183,9 +1137,9 @@ viz.marginals(posterior)
 </div>
 </div>
 
-<div id="outline-container-orgf0820ae" class="outline-4">
-<h4 id="orgf0820ae">2</h4>
-<div class="outline-text-4" id="text-orgf0820ae">
+<div id="outline-container-org3dff9de" class="outline-4">
+<h4 id="org3dff9de">2</h4>
+<div class="outline-text-4" id="text-org3dff9de">
 <p>
 a)
 </p>
@@ -1208,9 +1162,9 @@ From the metaphor of theory/model evaluation, it seems more effective to conside
 </div>
 </div>
 
-<div id="outline-container-org67fd56a" class="outline-4">
-<h4 id="org67fd56a">3</h4>
-<div class="outline-text-4" id="text-org67fd56a">
+<div id="outline-container-org2342227" class="outline-4">
+<h4 id="org2342227">3</h4>
+<div class="outline-text-4" id="text-org2342227">
 <p>
 a)
 </p>
@@ -1245,9 +1199,9 @@ d)
 </div>
 </div>
 
-<div id="outline-container-org5c48e63" class="outline-4">
-<h4 id="org5c48e63">4</h4>
-<div class="outline-text-4" id="text-org5c48e63">
+<div id="outline-container-org545bde0" class="outline-4">
+<h4 id="org545bde0">4</h4>
+<div class="outline-text-4" id="text-org545bde0">
 <p>
 a) 
 </p>
@@ -1349,13 +1303,13 @@ The fit is better if we look at MAP values directly, and the previous values see
 </div>
 </div>
 </div>
-<div id="outline-container-org408af01" class="outline-3">
-<h3 id="org408af01">Algorithms for Inference</h3>
-<div class="outline-text-3" id="text-org408af01">
+<div id="outline-container-org22d17b3" class="outline-3">
+<h3 id="org22d17b3">Algorithms for Inference</h3>
+<div class="outline-text-3" id="text-org22d17b3">
 </div>
-<div id="outline-container-orge9095ff" class="outline-4">
-<h4 id="orge9095ff">1</h4>
-<div class="outline-text-4" id="text-orge9095ff">
+<div id="outline-container-orge25118d" class="outline-4">
+<h4 id="orge25118d">1</h4>
+<div class="outline-text-4" id="text-orge25118d">
 <p>
 a)
 </p>
@@ -1465,9 +1419,9 @@ HMC seems to work better because it's less local and also feasible for the gener
 </div>
 </div>
 
-<div id="outline-container-org4fe24bf" class="outline-4">
-<h4 id="org4fe24bf">2</h4>
-<div class="outline-text-4" id="text-org4fe24bf">
+<div id="outline-container-orgfe0cfba" class="outline-4">
+<h4 id="orgfe0cfba">2</h4>
+<div class="outline-text-4" id="text-orgfe0cfba">
 <p>
 a) 
 </p>
@@ -1626,13 +1580,13 @@ well, whatever it's doing, it's helping a lot!
 </div>
 </div>
 </div>
-<div id="outline-container-org7687572" class="outline-3">
-<h3 id="org7687572">Learning as conditional inference</h3>
-<div class="outline-text-3" id="text-org7687572">
+<div id="outline-container-org564ad05" class="outline-3">
+<h3 id="org564ad05">Learning as conditional inference</h3>
+<div class="outline-text-3" id="text-org564ad05">
 </div>
-<div id="outline-container-org95fbb51" class="outline-4">
-<h4 id="org95fbb51">1</h4>
-<div class="outline-text-4" id="text-org95fbb51">
+<div id="outline-container-orgde84503" class="outline-4">
+<h4 id="orgde84503">1</h4>
+<div class="outline-text-4" id="text-orgde84503">
 <p>
 a) 
 </p>
@@ -1675,9 +1629,9 @@ However, the naive uniform prior will more quickly learn if the true value of th
 </div>
 </div>
 
-<div id="outline-container-org2a40b95" class="outline-4">
-<h4 id="org2a40b95">2</h4>
-<div class="outline-text-4" id="text-org2a40b95">
+<div id="outline-container-org212f548" class="outline-4">
+<h4 id="org212f548">2</h4>
+<div class="outline-text-4" id="text-org212f548">
 <p>
 a) 
 </p>
@@ -1748,9 +1702,9 @@ viz.line(observedDataSizes, variances);
 </div>
 </div>
 
-<div id="outline-container-org54c06cc" class="outline-4">
-<h4 id="org54c06cc">3</h4>
-<div class="outline-text-4" id="text-org54c06cc">
+<div id="outline-container-orge2962ff" class="outline-4">
+<h4 id="orge2962ff">3</h4>
+<div class="outline-text-4" id="text-orge2962ff">
 <p>
 a)
 </p>
@@ -1805,13 +1759,13 @@ this gives roughly uniform probabilities for causal power, but will only get wor
 </div>
 </div>
 </div>
-<div id="outline-container-orgb85faed" class="outline-3">
-<h3 id="orgb85faed">Learning with a Language of Thought</h3>
-<div class="outline-text-3" id="text-orgb85faed">
+<div id="outline-container-orgd85743b" class="outline-3">
+<h3 id="orgd85743b">Learning with a Language of Thought</h3>
+<div class="outline-text-3" id="text-orgd85743b">
 </div>
-<div id="outline-container-orgec7ef8b" class="outline-4">
-<h4 id="orgec7ef8b">1</h4>
-<div class="outline-text-4" id="text-orgec7ef8b">
+<div id="outline-container-orgee2ee62" class="outline-4">
+<h4 id="orgee2ee62">1</h4>
+<div class="outline-text-4" id="text-orgee2ee62">
 <p>
 a)
 </p>
@@ -1838,22 +1792,22 @@ Make it less likely for exponentiation to include a non-constant, I guess.
 </div>
 </div>
 
-<div id="outline-container-org91065cb" class="outline-4">
-<h4 id="org91065cb">2</h4>
-<div class="outline-text-4" id="text-org91065cb">
+<div id="outline-container-org58528f6" class="outline-4">
+<h4 id="org58528f6">2</h4>
+<div class="outline-text-4" id="text-org58528f6">
 <p>
 I'll do this later lol 
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org43df93f" class="outline-3">
-<h3 id="org43df93f">Hierarchical Models</h3>
-<div class="outline-text-3" id="text-org43df93f">
+<div id="outline-container-org01af76a" class="outline-3">
+<h3 id="org01af76a">Hierarchical Models</h3>
+<div class="outline-text-3" id="text-org01af76a">
 </div>
-<div id="outline-container-org63fb676" class="outline-4">
-<h4 id="org63fb676">1</h4>
-<div class="outline-text-4" id="text-org63fb676">
+<div id="outline-container-org2a88186" class="outline-4">
+<h4 id="org2a88186">1</h4>
+<div class="outline-text-4" id="text-org2a88186">
 <p>
 a) 
 </p>
@@ -1906,9 +1860,9 @@ viz.marginals(usealpha) // should roughly match first figure
 </div>
 </div>
 
-<div id="outline-container-org30f14c8" class="outline-4">
-<h4 id="org30f14c8">2</h4>
-<div class="outline-text-4" id="text-org30f14c8">
+<div id="outline-container-orgf90f731" class="outline-4">
+<h4 id="orgf90f731">2</h4>
+<div class="outline-text-4" id="text-orgf90f731">
 <p>
 a)
 </p>
@@ -2025,9 +1979,9 @@ viz(Infer({method: 'forward'}, function(){
 </div>
 </div>
 
-<div id="outline-container-org66802af" class="outline-4">
-<h4 id="org66802af">3</h4>
-<div class="outline-text-4" id="text-org66802af">
+<div id="outline-container-org51e4827" class="outline-4">
+<h4 id="org51e4827">3</h4>
+<div class="outline-text-4" id="text-org51e4827">
 <p>
 a)
 </p>
@@ -2165,13 +2119,13 @@ This seems to make the conclusion weaker, suggesting it might've just been one/a
 </div>
 </div>
 </div>
-<div id="outline-container-org314fef3" class="outline-3">
-<h3 id="org314fef3">Occam's Razor</h3>
-<div class="outline-text-3" id="text-org314fef3">
+<div id="outline-container-org70d2bc8" class="outline-3">
+<h3 id="org70d2bc8">Occam's Razor</h3>
+<div class="outline-text-3" id="text-org70d2bc8">
 </div>
-<div id="outline-container-orgb665407" class="outline-4">
-<h4 id="orgb665407">1</h4>
-<div class="outline-text-4" id="text-orgb665407">
+<div id="outline-container-org1595a0c" class="outline-4">
+<h4 id="org1595a0c">1</h4>
+<div class="outline-text-4" id="text-org1595a0c">
 <p>
 a)
 </p>
@@ -2314,9 +2268,9 @@ People seem to care a good amount about digit-wise patterns compared to the mach
 </div>
 
 
-<div id="outline-container-org20ad2cb" class="outline-4">
-<h4 id="org20ad2cb">2</h4>
-<div class="outline-text-4" id="text-org20ad2cb">
+<div id="outline-container-orgba08734" class="outline-4">
+<h4 id="orgba08734">2</h4>
+<div class="outline-text-4" id="text-orgba08734">
 <p>
 a)
 </p>
@@ -2394,13 +2348,13 @@ casual selection biases the model towards believing there is no relation, since 
 </div>
 </div>
 
-<div id="outline-container-orgf253849" class="outline-3">
-<h3 id="orgf253849">Mixture Models</h3>
-<div class="outline-text-3" id="text-orgf253849">
+<div id="outline-container-org1e30707" class="outline-3">
+<h3 id="org1e30707">Mixture Models</h3>
+<div class="outline-text-3" id="text-org1e30707">
 </div>
-<div id="outline-container-org61f5d59" class="outline-4">
-<h4 id="org61f5d59">1</h4>
-<div class="outline-text-4" id="text-org61f5d59">
+<div id="outline-container-org2508f62" class="outline-4">
+<h4 id="org2508f62">1</h4>
+<div class="outline-text-4" id="text-org2508f62">
 <p>
 a) 
 </p>
@@ -2464,9 +2418,9 @@ It's highly likely that a noisy alien sound comes from an alien which is green w
 </div>
 </div>
 
-<div id="outline-container-orgc3c465e" class="outline-4">
-<h4 id="orgc3c465e">2</h4>
-<div class="outline-text-4" id="text-orgc3c465e">
+<div id="outline-container-orge3bc5df" class="outline-4">
+<h4 id="orge3bc5df">2</h4>
+<div class="outline-text-4" id="text-orge3bc5df">
 <p>
 a)
 </p>
@@ -2510,13 +2464,13 @@ Definitely seems like not everybody followed instructions, you can tune the para
 </div>
 </div>
 
-<div id="outline-container-org50b80d5" class="outline-3">
-<h3 id="org50b80d5">Social Cognition</h3>
-<div class="outline-text-3" id="text-org50b80d5">
+<div id="outline-container-org9923205" class="outline-3">
+<h3 id="org9923205">Social Cognition</h3>
+<div class="outline-text-3" id="text-org9923205">
 </div>
-<div id="outline-container-orgfb248f9" class="outline-4">
-<h4 id="orgfb248f9">1</h4>
-<div class="outline-text-4" id="text-orgfb248f9">
+<div id="outline-container-org23fb9ee" class="outline-4">
+<h4 id="org23fb9ee">1</h4>
+<div class="outline-text-4" id="text-org23fb9ee">
 <p>
 a) 
 </p>
@@ -2575,9 +2529,9 @@ if she does 'a' and then 'b' she's probably trying to hide that she wants a doug
 </div>
 </div>
 
-<div id="outline-container-org83c3a55" class="outline-4">
-<h4 id="org83c3a55">2</h4>
-<div class="outline-text-4" id="text-org83c3a55">
+<div id="outline-container-orgf7f0f9e" class="outline-4">
+<h4 id="orgf7f0f9e">2</h4>
+<div class="outline-text-4" id="text-orgf7f0f9e">
 <p>
 a)
 </p>
@@ -2877,15 +2831,15 @@ I can see two good reasons for why this problem feels unintuitive:
 </ol>
 </div>
 </div>
-<div id="outline-container-orgc3053d1" class="outline-4">
-<h4 id="orgc3053d1"></h4>
+<div id="outline-container-org950b069" class="outline-4">
+<h4 id="org950b069"></h4>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org30e8579" class="outline-2">
-<h2 id="org30e8579">Supplementary Readings</h2>
-<div class="outline-text-2" id="text-org30e8579">
+<div id="outline-container-org683f8ce" class="outline-2">
+<h2 id="org683f8ce">Supplementary Readings</h2>
+<div class="outline-text-2" id="text-org683f8ce">
 <p>
 The probmods webbook itself has a number of supplementary readings (all of which are excellent and fairly important, so you should do them) but there are some extra readings which are probably useful supplementary material on top of those - a number of them I assume are supposed to be true readings, but the readings pages are often broken so it's hard to say for sure. I took these from the <a href="https://cocolab.stanford.edu/psych204-fall2018.html">Psych204/CS428 Fall 2018 syllabus</a>, which is a class using this book taught by Noah Goodman (the first author / editor of probmods). I haven't reproduced all of them here, mostly the ones which I don't think are well-covered by the existing readings.
 </p>
@@ -2906,20 +2860,6 @@ The probmods webbook itself has a number of supplementary readings (all of which
 </div>
 <div id="postamble" class="status">
 <a href="#top">Back to Top</a>
-<div id="comments">
-    <p></p>
-    <hr />
-       <div id="disqus_thread">
-           <script>
-(function() {
-var d = document, s = d.createElement('script');
-s.src = 'https://planetbanatt.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
 </div>
 </body>
 </html>

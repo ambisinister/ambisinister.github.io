@@ -3,12 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-05-10 Wed 20:18 -->
+<!-- 2024-05-26 Sun 20:56 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SSBM Stagelist</title>
-<meta name="generator" content="Org mode" />
-<meta name="author" content="Lain-Navi" />
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,52 +50,6 @@ $(function() {
 
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
 <link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
-<script type="text/javascript">
-/*
-@licstart  The following is the entire license notice for the
-JavaScript code in this tag.
-
-Copyright (C) 2012-2020 Free Software Foundation, Inc.
-
-The JavaScript code in this tag is free software: you can
-redistribute it and/or modify it under the terms of the GNU
-General Public License (GNU GPL) as published by the Free Software
-Foundation, either version 3 of the License, or (at your option)
-any later version.  The code is distributed WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
-
-As additional permission under GNU GPL version 3 section 7, you
-may distribute non-source (e.g., minimized or compacted) forms of
-that code without the copy of the GNU GPL normally required by
-section 4, provided you include this license notice and a URL
-through which recipients can access the Corresponding Source.
-
-
-@licend  The above is the entire license notice
-for the JavaScript code in this tag.
-*/
-<!--/*--><![CDATA[/*><!--*/
- function CodeHighlightOn(elem, id)
- {
-   var target = document.getElementById(id);
-   if(null != target) {
-     elem.cacheClassElem = elem.className;
-     elem.cacheClassTarget = target.className;
-     target.className = "code-highlighted";
-     elem.className   = "code-highlighted";
-   }
- }
- function CodeHighlightOff(elem, id)
- {
-   var target = document.getElementById(id);
-   if(elem.cacheClassElem)
-     elem.className = elem.cacheClassElem;
-   if(elem.cacheClassTarget)
-     target.className = elem.cacheClassTarget;
- }
-/*]]>*///-->
-</script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -127,26 +81,26 @@ for the JavaScript code in this tag.
         </div><!--/.nav-collapse -->
     </nav>
 </div>
-<div id="content">
+<div id="content" class="content">
 <h1 class="title">SSBM Stagelist</h1>
-<div id="table-of-contents">
+<div id="table-of-contents" role="doc-toc">
 <h1>Table of Contents</h1>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgae02100">All The World's a Stage: On The Stagelist in SSBM</a>
+<li><a href="#org670748a">All The World's a Stage: On The Stagelist in SSBM</a>
 <ul>
-<li><a href="#org393f876">Abstract</a></li>
-<li><a href="#org3f10703">Introduction</a></li>
-<li><a href="#org498b5f0">The Tier List</a>
+<li><a href="#org63fd253">Abstract</a></li>
+<li><a href="#org35c62c9">Introduction</a></li>
+<li><a href="#org21b8385">The Tier List</a>
 <ul>
-<li><a href="#org7cad688">Generating a Matchup Chart</a></li>
-<li><a href="#orgb47a7c6">From Matchup Chart to Tier List</a>
+<li><a href="#orga6d2dc8">Generating a Matchup Chart</a></li>
+<li><a href="#org4f15bbe">From Matchup Chart to Tier List</a>
 <ul>
-<li><a href="#org2bc5df8">Even Distribution (Character vs Cast)</a></li>
-<li><a href="#org4114dfd">Special Distribution (Character vs Meta)</a></li>
+<li><a href="#orgfe4e0c3">Even Distribution (Character vs Cast)</a></li>
+<li><a href="#org7caecb3">Special Distribution (Character vs Meta)</a></li>
 </ul>
 </li>
-<li><a href="#org9a88974">Inferring a distribution from a list</a></li>
+<li><a href="#orgcf668be">Inferring a distribution from a list</a></li>
 </ul>
 </li>
 </ul>
@@ -155,22 +109,22 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-orgae02100" class="outline-1">
-<h1 id="orgae02100">All The World's a Stage: On The Stagelist in SSBM</h1>
-<div class="outline-text-1" id="text-orgae02100">
+<div id="outline-container-org670748a" class="outline-1">
+<h1 id="org670748a">All The World's a Stage: On The Stagelist in SSBM</h1>
+<div class="outline-text-1" id="text-org670748a">
 </div>
-<div id="outline-container-org393f876" class="outline-2">
-<h2 id="org393f876">Abstract</h2>
-<div class="outline-text-2" id="text-org393f876">
+<div id="outline-container-org63fd253" class="outline-2">
+<h2 id="org63fd253">Abstract</h2>
+<div class="outline-text-2" id="text-org63fd253">
 <p>
 We explore the matchups of Super Smash Brothers Melee based on survey responses about matchups stratified by stages. We recieved n=x responses to a survey asking participants to give matchup ratios on each stage vs the high tier characters. We use this to explore the idea of adding a banned stage in Best of 5, as well as how closely the list approximates the new SSBM Tier List.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org3f10703" class="outline-2">
-<h2 id="org3f10703">Introduction</h2>
-<div class="outline-text-2" id="text-org3f10703">
+<div id="outline-container-org35c62c9" class="outline-2">
+<h2 id="org35c62c9">Introduction</h2>
+<div class="outline-text-2" id="text-org35c62c9">
 <p>
 A combination of the lack of in-person tournaments and the rise of Project Slippi as the predomant way to play accessible, low-stakes matches have led to an unprecidented rise in netplay tournaments, many of which are free to enter. With all these new, easy-to-run, low-overhead tournaments, a more-frequent-than-usual discourse on alternative rulesets has started popping up. Because tournaments don't require paying for a venue to hold and to attend, running a tournament which runs an alternative, experimental ruleset has never been easier. Some of these ideas, like Frozen Stadium, have been met with near-ubiquitous praise. <a href="https://twitter.com/MeleeStatsPod/status/1382741229725757440">Others</a> have not been met with as much excitement.  
 </p>
@@ -185,9 +139,9 @@ Whether or not this subjective argument carries any weight, as far as the histor
 </div>
 </div>
 
-<div id="outline-container-org498b5f0" class="outline-2">
-<h2 id="org498b5f0">The Tier List</h2>
-<div class="outline-text-2" id="text-org498b5f0">
+<div id="outline-container-org21b8385" class="outline-2">
+<h2 id="org21b8385">The Tier List</h2>
+<div class="outline-text-2" id="text-org21b8385">
 <p>
 In lieu of a global ranking in 2020, Panda Global elected to revive the tier list, which had not been updated in five or six years. The resulting list was relatively inoffensive, as far as the high tier characters go, and the list met minimal criticism from players who use a character above yoshi on the list. 
 </p>
@@ -201,25 +155,25 @@ Still, though, most players are a lot more competent at assessing the attributes
 </p>
 </div>
 
-<div id="outline-container-org7cad688" class="outline-3">
-<h3 id="org7cad688">Generating a Matchup Chart</h3>
+<div id="outline-container-orga6d2dc8" class="outline-3">
+<h3 id="orga6d2dc8">Generating a Matchup Chart</h3>
 </div>
 
-<div id="outline-container-orgb47a7c6" class="outline-3">
-<h3 id="orgb47a7c6">From Matchup Chart to Tier List</h3>
-<div class="outline-text-3" id="text-orgb47a7c6">
+<div id="outline-container-org4f15bbe" class="outline-3">
+<h3 id="org4f15bbe">From Matchup Chart to Tier List</h3>
+<div class="outline-text-3" id="text-org4f15bbe">
 <p>
 There are two ways to approach generating a tier list: assuming equal character distribution and assuming a specific character distribution
 </p>
 </div>
 
-<div id="outline-container-org2bc5df8" class="outline-4">
-<h4 id="org2bc5df8">Even Distribution (Character vs Cast)</h4>
+<div id="outline-container-orgfe4e0c3" class="outline-4">
+<h4 id="orgfe4e0c3">Even Distribution (Character vs Cast)</h4>
 </div>
 
-<div id="outline-container-org4114dfd" class="outline-4">
-<h4 id="org4114dfd">Special Distribution (Character vs Meta)</h4>
-<div class="outline-text-4" id="text-org4114dfd">
+<div id="outline-container-org7caecb3" class="outline-4">
+<h4 id="org7caecb3">Special Distribution (Character vs Meta)</h4>
+<div class="outline-text-4" id="text-org7caecb3">
 <p>
 Keep in mind that the distribution here might be different; being good vs jigglypuff might have been more valuable for the tier list during hungrybox's reign at number one, compared to now where he is considered less important to beat to win majors. In both of these scenarios, the actual distribution of characters hasn't really changed, but the relative value of beating a specific character 
 </p>
@@ -227,11 +181,11 @@ Keep in mind that the distribution here might be different; being good vs jiggly
 </div>
 </div>
 
-<div id="outline-container-org9a88974" class="outline-3">
-<h3 id="org9a88974">Inferring a distribution from a list</h3>
-<div class="outline-text-3" id="text-org9a88974">
+<div id="outline-container-orgcf668be" class="outline-3">
+<h3 id="orgcf668be">Inferring a distribution from a list</h3>
+<div class="outline-text-3" id="text-orgcf668be">
 <p>
-<a id="org59e8a47"></a>
+<a id="org6a47133"></a>
 </p>
 </div>
 </div>
@@ -240,20 +194,6 @@ Keep in mind that the distribution here might be different; being good vs jiggly
 </div>
 <div id="postamble" class="status">
 <a href="#top">Back to Top</a>
-<div id="comments">
-    <p></p>
-    <hr />
-       <div id="disqus_thread">
-           <script>
-(function() {
-var d = document, s = d.createElement('script');
-s.src = 'https://planetbanatt.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
 </div>
 </body>
 </html>

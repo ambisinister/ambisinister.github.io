@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-05-26 Sun 20:56 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>2024 ML Reading</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="./css/default.css" />
+<link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<h1 class="title">2024 ML Reading</h1>
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgf446e55">2024 Reading in Machine Learning</a>
+<ul>
+<li><a href="#orgb59183d">Self-Play Fine-Tuning Converts Weak Language Models to Strong Language Models</a></li>
+<li><a href="#org8a12908">A Vision Check-up for Language Models</a></li>
+<li><a href="#org23122fb">aMUSEd: An Open MUSE Reproduction</a></li>
+<li><a href="#org2d98be3">Image Sculpting: Precise Object Editing with 3D Geometry Control</a></li>
+<li><a href="#org3325f2a">Instruct-Imagen: Image Generation with Multi-modal Instruction</a></li>
+<li><a href="#org6181f64">ODIN: A Single Model for 2D and 3D Perception</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf446e55" class="outline-1">
+<h1 id="orgf446e55">2024 Reading in Machine Learning</h1>
+<div class="outline-text-1" id="text-orgf446e55">
+</div>
+<div id="outline-container-orgb59183d" class="outline-2">
+<h2 id="orgb59183d">Self-Play Fine-Tuning Converts Weak Language Models to Strong Language Models</h2>
+<div class="outline-text-2" id="text-orgb59183d">
+<p>
+<a href="https://arxiv.org/pdf/2401.01335.pdf">link</a>, Quanquan Gu and other UCLA staff
+</p>
+
+<p>
+Self-Play Fine-Tuning (SPIN, lol) is like a GAN framing for LLMs; it tries to discern it's outputs from human generated examples. Self-play, I think, has been a hot topic for LLMs since RLHF became the dominant paradigm for making them, so I'm excited to see some work on it. Fundamental question: <i>Can we empower a weak LLM to improve itself without acquiring additional human annotated data?</i>
+</p>
+
+<p>
+Players: new LLM, old LLM. Old LLM generates responses close to real data, new LLM tries to discern them. Goal is to converge to them being the same. These are the same LLM at different iterations. Doesn't require human feedback nor a stronger LLM.
+</p>
+
+
+<div id="org6df9fdf" class="figure">
+<p><img src="../images/from_clipboard/20240104_104317.png" alt="20240104_104317.png" />
+</p>
+</div>
+
+<p>
+Experiments and results: zephyr7b (ft of mistral7b on ultrachat200k) -&gt; open LLM leaderboard. 58 -&gt; 63 after 3 iterations. Standard ablations, etc. Surpasses vicuna-12b on MT-Bench.
+</p>
+
+<p>
+Some thoughts: I'm not a huge believer in synthetic data, and I think the limited degree to which synthetic data <i>has</i> worked for LLMs where it's largely flopped for vision problems is because of a sort of disembodied version of self-play, which <i>does</i> work. Critical here, imo, is that it is more evidence LLMs have some sort of internal world model; an <i>environment</i> that they can explore to improve their policy. Stuff like alpaca is more akin to policy distillation in my view, moreso than it has a real analogy to supervised training with synthetic data. 
+</p>
+
+<p>
+In this vein, they acknowledge that this is a mechanism for making p<sub>model</sub> and p<sub>data</sub> form the same distribution. They mention how this puts an inherent ceiling on this (human performance). So maybe it's like this: pretraining builds the world model, this type of stuff builds the policy. You can distill the performance of a strong agent (or people) by copying its policy through self-play training.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8a12908" class="outline-2">
+<h2 id="org8a12908">A Vision Check-up for Language Models</h2>
+<div class="outline-text-2" id="text-org8a12908">
+<p>
+<a href="https://arxiv.org/pdf/2401.01862.pdf">link</a>, MIT CSAIL (Pratyusha Sharma et al)
+</p>
+
+<p>
+<i>Although LLM-generated images do not look like natural images, results on image generation and the ability of models to correct these generated images indicate that precise modeling of strings can teach language models about numerous aspects of the visual world.</i> A vibe adjacent to the Imagen paper, which is one of my favorites ever.
+</p>
+
+<p>
+Core here is outputs of text -&gt; image-rendering code -&gt; image, and likewise inputs to the model as image -&gt; image-rendering code. Part II is funny, where they train a resnet on the output of these images and then evaluate them on real images (lmao).
+</p>
+
+
+<div id="org04dc017" class="figure">
+<p><img src="../images/from_clipboard/20240104_110255.png" alt="20240104_110255.png" />
+</p>
+</div>
+
+<p>
+GPT-3.5 is slightly above chance at recognizing human images for scenes, everything else is pretty much at chance for both scenes and objects. Models can fail to recognize objects that they can draw themselves fairly well. I really do not like their imagenet experiments, but I guess it's fine for demonstrating that they are drawing reasonable objects (compared to, like, asking a human to label 1M generations and comparing them to the prompts they were asked to draw).
+</p>
+
+<p>
+Some thoughts: funny! I think most of what happened in this paper was kind of goofy, and I think these capabilities are likely downstream of text examples of explaining how to draw things with these programs (something I think surely exists in the training set of GPT-4, even if not a huge number of examples). It's something I think points to how the code pretraining of GPT helps language generation so much &#x2013; it learns how to represent stuff like "left", "right", "in front of" etc from code, which will help it understand these concepts in downstream language tasks. Language encodes a surprising amount of visual information (see: mnemonics).
+</p>
+</div>
+</div>
+
+<div id="outline-container-org23122fb" class="outline-2">
+<h2 id="org23122fb">aMUSEd: An Open MUSE Reproduction</h2>
+<div class="outline-text-2" id="text-org23122fb">
+<p>
+<a href="https://arxiv.org/pdf/2401.01808.pdf">link</a> huggingface + stability
+</p>
+
+<p>
+They managed to reproduce MUSE, which is a masked image model (MIM) image generation method which doesn't use diffusion + has fewer inference steps / is "more interpretable". Fine-tuning for muse is easier than for diffusion since it only uses 1 image. Image generation quality seems not that great, but it's a good non-diffusion image generation model so I'm happy to see it.
+</p>
+
+<p>
+MUSE originally used a 4.6b text encoder, a 3b base transformer, and a 1b super-resolution transformer. In contrast, this uses 800m parameters total, which is why the output is so much worse. In exchange, normal people can actually run it, so it will potentially help open source. Not much to it otherwise &#x2013; it's a technical report.
+</p>
+
+
+<div id="org704b0e1" class="figure">
+<p><img src="../images/from_clipboard/20240104_114430.png" alt="20240104_114430.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2d98be3" class="outline-2">
+<h2 id="org2d98be3">Image Sculpting: Precise Object Editing with 3D Geometry Control</h2>
+<div class="outline-text-2" id="text-org2d98be3">
+<p>
+<a href="https://arxiv.org/pdf/2401.01702.pdf">link</a> nyu and intel, Yenphraphai et al
+</p>
+
+<ol class="org-ol">
+<li>Single view 3D reconstruction (Zero-1-to-3)</li>
+<li>manipulation of objects in 3D (Space Deformation / ARAP / linear-based skinning)</li>
+<li>coarse-to-fine generative enhancement (feature injection, controlnet + dreambooth)</li>
+</ol>
+
+
+<div id="org99e4e19" class="figure">
+<p><img src="../images/from_clipboard/20240104_121841.png" alt="20240104_121841.png" />
+</p>
+</div>
+
+<p>
+The results look nice. I did not think single view 3D reconstruction was mature enough to actually get this sort of result yet, but given that the remainder of this paper follows pretty intuitively from depth-controlled controlnet and other similar types of conditioned generation. I think I will need to do some playing around with these single view reconstruction methods: even if these are cherry-picked examples, I wouldn't have imagined they would have turned out as nicely as they seem to have here.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3325f2a" class="outline-2">
+<h2 id="org3325f2a">Instruct-Imagen: Image Generation with Multi-modal Instruction</h2>
+<div class="outline-text-2" id="text-org3325f2a">
+<p>
+<a href="https://arxiv.org/pdf/2401.01952.pdf">google</a>
+</p>
+
+<p>
+I will admit I am wary of these google papers given that there's never code + they got caught sprucing up their gemini results, but let's give it a fair read.
+</p>
+
+<p>
+A fine-tuned diffusion model which natively accepts multimodal input similar to T2I-adapter. Benefits of this are that you can refer to particular images in the prompt, rather than just training it to vaguely do something with specific adapter modules. Some work in here on retrieval-augmented training and multi-modal instruction-tuning in the fine-tune process from a normal (image, text) model. The ultimate goal here is a diffusion model which will generalize to different types of / compositions of instructions, rather than having strict modules which just do a specific thing (e.g. controlnet)
+</p>
+
+
+<div id="orga7cbe41" class="figure">
+<p><img src="../images/from_clipboard/20240105_100548.png" alt="20240105_100548.png" />
+</p>
+</div>
+
+<p>
+This seems overall pretty similar to other methods for conditional generation; additional cross attention in the diffusion step of a T2I model, which takes in encoded external images as context. I do like the retrieval-augmented training, which I will be referring to as RAT from now on. I do wonder if the retrieval component can be learned as well, if it's being done in training rather than just in inference. As it stands, they just do 10-NN from frozen CLIP embeddings, with duplication removal, truncated to 5.
+</p>
+
+<p>
+Their results are fine &#x2013; it is not possible to evaluate image generation models from cherrypicked examples in papers, so we will not know how this really performs relative to T2I-adapter and such for quite some time. But what really caught my attention was the following table
+</p>
+
+
+<div id="orga13c658" class="figure">
+<p><img src="../images/from_clipboard/20240105_103438.png" alt="20240105_103438.png" />
+</p>
+</div>
+
+<p>
+The claim here is "Retrieval-augmented training helps generalization", which is a little tenuous, but it's hard to deny the improvement for in-domain eval. I suspect there's still more advantage left on the table here, and that retrieval-augmented training (in a way, a form of active learning) will prove an interesting topic of discussion beyond just enabling multi-modal input.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6181f64" class="outline-2">
+<h2 id="org6181f64">ODIN: A Single Model for 2D and 3D Perception</h2>
+<div class="outline-text-2" id="text-org6181f64">
+<p>
+<a href="https://arxiv.org/pdf/2401.02416.pdf">paper</a> <a href="https://odin-seg.github.io/">website</a>
+</p>
+
+<p>
+Existing models for 3d perception usually use 3D point clouds, and these models are typically trained completely with no 2D data at any point. There was an implicit belief that 2D and 3D data required different architectures, but this paper trains on both of these at once and does well. In particular, this model does better when the point clouds are taken from actual measurements, rather than sampled from an a priori known 3D mesh.
+</p>
+
+
+<div id="orgbd867e8" class="figure">
+<p><img src="../images/from_clipboard/20240105_110916.png" alt="20240105_110916.png" />
+</p>
+</div>
+
+<p>
+The way this works is: Taking RGB-D images, alternating between 2D and 3D stages in the architecture, fusing information from 2D images into a 3D representation, then projecting back those tokens to 2D locations, etc.
+</p>
+
+<p>
+Their ablations are structured really nicely in this paper, really simplifies reading it: joint 2d-3d training helps 3d perception, cross-view fusion is crucial for instance segmentation but not for semantic segmentation, 2d pretrained weight init helps, stronger 2d backbones help, finetuning everything helps, supplying 2d features directly to 3d models via concatenation does not help.
+</p>
+
+<p>
+Yet another entry in the "can we get 3D from 2D" undercurrent that I saw everywhere at ICCV this year. Because 2D data is so much more plentiful than 3D data, even methods that are clearly formulated worse than a pure 3D dataset can have higher value just from generally much higher capability. 
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+</div>
+</body>
+</html>

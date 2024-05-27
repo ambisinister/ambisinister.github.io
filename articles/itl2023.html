@@ -3,12 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-06-16 Fri 16:52 -->
+<!-- 2024-05-26 Sun 20:56 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ITL 2023 Postmortem</title>
-<meta name="generator" content="Org mode" />
-<meta name="author" content="ambi" />
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,52 +50,6 @@ $(function() {
 
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
 <link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
-<script type="text/javascript">
-/*
-@licstart  The following is the entire license notice for the
-JavaScript code in this tag.
-
-Copyright (C) 2012-2019 Free Software Foundation, Inc.
-
-The JavaScript code in this tag is free software: you can
-redistribute it and/or modify it under the terms of the GNU
-General Public License (GNU GPL) as published by the Free Software
-Foundation, either version 3 of the License, or (at your option)
-any later version.  The code is distributed WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
-
-As additional permission under GNU GPL version 3 section 7, you
-may distribute non-source (e.g., minimized or compacted) forms of
-that code without the copy of the GNU GPL normally required by
-section 4, provided you include this license notice and a URL
-through which recipients can access the Corresponding Source.
-
-
-@licend  The above is the entire license notice
-for the JavaScript code in this tag.
-*/
-<!--/*--><![CDATA[/*><!--*/
- function CodeHighlightOn(elem, id)
- {
-   var target = document.getElementById(id);
-   if(null != target) {
-     elem.cacheClassElem = elem.className;
-     elem.cacheClassTarget = target.className;
-     target.className = "code-highlighted";
-     elem.className   = "code-highlighted";
-   }
- }
- function CodeHighlightOff(elem, id)
- {
-   var target = document.getElementById(id);
-   if(elem.cacheClassElem)
-     elem.className = elem.cacheClassElem;
-   if(elem.cacheClassTarget)
-     target.className = elem.cacheClassTarget;
- }
-/*]]>*///-->
-</script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -127,38 +81,38 @@ for the JavaScript code in this tag.
         </div><!--/.nav-collapse -->
     </nav>
 </div>
-<div id="content">
+<div id="content" class="content">
 <h1 class="title">ITL 2023 Postmortem</h1>
-<div id="table-of-contents">
+<div id="table-of-contents" role="doc-toc">
 <h1>Table of Contents</h1>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org9a16a11">Tournament Report: ITL Online 2023</a>
+<li><a href="#org025a80f">Tournament Report: ITL Online 2023</a>
 <ul>
-<li><a href="#org6726806">Intro</a></li>
-<li><a href="#org5f8097e">A Look at the Data</a>
+<li><a href="#orgf83d5a6">Intro</a></li>
+<li><a href="#org57cf55d">A Look at the Data</a>
 <ul>
-<li><a href="#org5d203ab">Ranking Points over time (chronological)</a></li>
-<li><a href="#org5494ae6">Days played / number of scores submitted per day heatmap</a></li>
-<li><a href="#orgf78683b">Amount of time played / session analysis</a></li>
-<li><a href="#org0d3019e">Other Misc Visualizations</a></li>
+<li><a href="#org7968f2d">Ranking Points over time (chronological)</a></li>
+<li><a href="#orgfec4e53">Days played / number of scores submitted per day heatmap</a></li>
+<li><a href="#org280ad1b">Amount of time played / session analysis</a></li>
+<li><a href="#orgc81891d">Other Misc Visualizations</a></li>
 </ul>
 </li>
-<li><a href="#org2a01c6e">"Race Report"</a>
+<li><a href="#org7866f5a">"Race Report"</a>
 <ul>
-<li><a href="#org79c53af">Deciding to Enter</a></li>
-<li><a href="#orgb5d45e9">This is Kind of Complicated</a></li>
-<li><a href="#org452177b">We're gonna go TURBO [10]</a></li>
-<li><a href="#org4f0dca0">Hitting 225k</a></li>
-<li><a href="#orgb6d21b2">FSRs My Beloved</a></li>
-<li><a href="#org06a0e98">Into the Future</a></li>
+<li><a href="#org03879c4">Deciding to Enter</a></li>
+<li><a href="#orgecbb93d">This is Kind of Complicated</a></li>
+<li><a href="#org6c1c24a">We're gonna go TURBO [10]</a></li>
+<li><a href="#org06fcbbe">Hitting 225k</a></li>
+<li><a href="#org3f6ee37">FSRs My Beloved</a></li>
+<li><a href="#org2acacac">Into the Future</a></li>
 </ul>
 </li>
-<li><a href="#org28c27c3">Conclusion</a>
+<li><a href="#org143b17c">Conclusion</a>
 <ul>
-<li><a href="#orged9ead4">Did I Meet My Goals?</a></li>
-<li><a href="#org39b1979">Do I Have Regrets?</a></li>
-<li><a href="#org00e1963">Overall Feelings</a></li>
+<li><a href="#org9a32a1e">Did I Meet My Goals?</a></li>
+<li><a href="#org768bd65">Do I Have Regrets?</a></li>
+<li><a href="#orgec9cdd1">Overall Feelings</a></li>
 </ul>
 </li>
 </ul>
@@ -166,13 +120,13 @@ for the JavaScript code in this tag.
 </ul>
 </div>
 </div>
-<div id="outline-container-org9a16a11" class="outline-1">
-<h1 id="org9a16a11">Tournament Report: ITL Online 2023</h1>
-<div class="outline-text-1" id="text-org9a16a11">
+<div id="outline-container-org025a80f" class="outline-1">
+<h1 id="org025a80f">Tournament Report: ITL Online 2023</h1>
+<div class="outline-text-1" id="text-org025a80f">
 </div>
-<div id="outline-container-org6726806" class="outline-2">
-<h2 id="org6726806">Intro</h2>
-<div class="outline-text-2" id="text-org6726806">
+<div id="outline-container-orgf83d5a6" class="outline-2">
+<h2 id="orgf83d5a6">Intro</h2>
+<div class="outline-text-2" id="text-orgf83d5a6">
 <p>
 This document is a bit of a postmortem / race-report-like overview of my experience competing in ITL Online 2023. A lot happened over the time I spent participating in this event, and I figured it would be good to get out my thoughts about playing.
 </p>
@@ -191,33 +145,33 @@ I've structured this into two main parts: a quantitative part and a "race report
 </div>
 </div>
 
-<div id="outline-container-org5f8097e" class="outline-2">
-<h2 id="org5f8097e">A Look at the Data</h2>
-<div class="outline-text-2" id="text-org5f8097e">
+<div id="outline-container-org57cf55d" class="outline-2">
+<h2 id="org57cf55d">A Look at the Data</h2>
+<div class="outline-text-2" id="text-org57cf55d">
 <p>
-I suppose this is what we're really here for: how did it go? Well, thankfully, this tournament keeps fairly detailed track of how you're doing over time. With some simple code<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>, we can get a nice visual picture of how the tournament went for me along a couple of different metrics.
+I suppose this is what we're really here for: how did it go? Well, thankfully, this tournament keeps fairly detailed track of how you're doing over time. With some simple code<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>, we can get a nice visual picture of how the tournament went for me along a couple of different metrics.
 </p>
 </div>
 
-<div id="outline-container-org5d203ab" class="outline-3">
-<h3 id="org5d203ab">Ranking Points over time (chronological)</h3>
-<div class="outline-text-3" id="text-org5d203ab">
+<div id="outline-container-org7968f2d" class="outline-3">
+<h3 id="org7968f2d">Ranking Points over time (chronological)</h3>
+<div class="outline-text-3" id="text-org7968f2d">
 <p>
 One thing which is nice to know is the rate at which I earned points, relative to how long the event went on. 
 </p>
 
 
-<div class="figure">
+<div id="org411cc75" class="figure">
 <p><img src="../images/itl2023/rp_time.png" alt="rp_time.png" />
 </p>
 </div>
 
 <p>
-This chart tells the story pretty well: playing a few relatively easy charts nobar early on, blasting off to about 100k starting on April 2nd, the day my bar arrived at the front door of my apartment. To me, this day marks the real "start" of my participation, even if I had a few scores registered before. As a primarily bar player, I was really having a hard time playing more than a couple of lowers during my sets, and the arrival of a bar ignited my interest in playing at home a great deal<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>.
+This chart tells the story pretty well: playing a few relatively easy charts nobar early on, blasting off to about 100k starting on April 2nd, the day my bar arrived at the front door of my apartment. To me, this day marks the real "start" of my participation, even if I had a few scores registered before. As a primarily bar player, I was really having a hard time playing more than a couple of lowers during my sets, and the arrival of a bar ignited my interest in playing at home a great deal<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>.
 </p>
 
 
-<div class="figure">
+<div id="orge929af1" class="figure">
 <p><img src="../images/itl2023/bar.png" alt="bar.png" />
 </p>
 </div>
@@ -231,13 +185,13 @@ Another good way to visualize this is with a heatmap with the number of points e
 </p>
 
 
-<div class="figure">
+<div id="orgfa8ee4d" class="figure">
 <p><img src="../images/itl2023/daily_points.png" alt="daily_points.png" />
 </p>
 </div>
 
 <p>
-Something you might want to know is how I did relative to other people over the course of the tournament. The answer to this is: I do not really care. As fun as it occasionally was to mentally compare to other players, the ranking points total did not serve as a great proxy for the skill level of players I felt particularly better or worse than<sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup>. Generally speaking, I felt like everybody in my surrounding stratosphere points-wise was clearly much better than me at the game, but through grit and long hours I could accumulate tons of points somehow.
+Something you might want to know is how I did relative to other people over the course of the tournament. The answer to this is: I do not really care. As fun as it occasionally was to mentally compare to other players, the ranking points total did not serve as a great proxy for the skill level of players I felt particularly better or worse than<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>. Generally speaking, I felt like everybody in my surrounding stratosphere points-wise was clearly much better than me at the game, but through grit and long hours I could accumulate tons of points somehow.
 </p>
 
 <p>
@@ -246,15 +200,15 @@ As such, I'm not going through the trouble of analyzing every play from every ot
 </div>
 </div>
 
-<div id="outline-container-org5494ae6" class="outline-3">
-<h3 id="org5494ae6">Days played / number of scores submitted per day heatmap</h3>
-<div class="outline-text-3" id="text-org5494ae6">
+<div id="outline-container-orgfec4e53" class="outline-3">
+<h3 id="orgfec4e53">Days played / number of scores submitted per day heatmap</h3>
+<div class="outline-text-3" id="text-orgfec4e53">
 <p>
 "How much did I play" is a question which probably deserves two separate answers. First, how many days did I play? I tended to play by doing, roughly speaking, alternating "easy days" and "push days", with the occasional recovery day / day off. At least, that's how it felt like in my head. Below you can see what actually happened:
 </p>
 
 
-<div class="figure">
+<div id="orga671545" class="figure">
 <p><img src="../images/itl2023/num_plays.png" alt="num_plays.png" />
 </p>
 </div>
@@ -264,7 +218,7 @@ So, I played a pretty consistent amount most days, and had the occasional push s
 </p>
 
 
-<div class="figure">
+<div id="org70d9a37" class="figure">
 <p><img src="../images/itl2023/block_avg.png" alt="block_avg.png" />
 </p>
 </div>
@@ -275,9 +229,9 @@ You can see here that I did roughly try to do this, and did a pretty poor job of
 </div>
 </div>
 
-<div id="outline-container-orgf78683b" class="outline-3">
-<h3 id="orgf78683b">Amount of time played / session analysis</h3>
-<div class="outline-text-3" id="text-orgf78683b">
+<div id="outline-container-org280ad1b" class="outline-3">
+<h3 id="org280ad1b">Amount of time played / session analysis</h3>
+<div class="outline-text-3" id="text-org280ad1b">
 <p>
 Drilling a bit deeper, we can try to estimate how many hours I spent actually playing ITG during this time period. The way that I'm estimating this is by looking at my plays, and grouping them by the number of plays which happen within an hour of an adjacent play. If a session looks like it has only 1 play in it, I assume it was 10 minutes long. Otherwise, my session length is the distance between the first play and the last play, where no two plays are more than an hour apart. This isn't perfect (It would be fine if I warmed up and cooled down every set, but that's on me), but I'm assuming the sessions where I get 0 clears roughly balance out with the sets where I truly only play one chart and then call it a day. 
 </p>
@@ -291,7 +245,7 @@ Combining the above with the heatmaps from earlier, we can actually directly see
 </p>
 
 
-<div class="figure">
+<div id="orgfd7c90d" class="figure">
 <p><img src="../images/itl2023/hours_perday.png" alt="hours_perday.png" />
 </p>
 </div>
@@ -302,9 +256,9 @@ Two things jump out at me looking at this. The first is, wow! I sure got a lot m
 </div>
 </div>
 
-<div id="outline-container-org0d3019e" class="outline-3">
-<h3 id="org0d3019e">Other Misc Visualizations</h3>
-<div class="outline-text-3" id="text-org0d3019e">
+<div id="outline-container-orgc81891d" class="outline-3">
+<h3 id="orgc81891d">Other Misc Visualizations</h3>
+<div class="outline-text-3" id="text-orgc81891d">
 <p>
 Below are some less important metrics which are still fun to look at. Max point gain per day, max play per session, average block level per day, etc. These are not terribly important to build a mental picture of my participation, but they are fun to look at, so I'll include them anyways. 
 </p>
@@ -314,19 +268,19 @@ Average EX score per block is very funny here: 14 is quite a bit higher than 13 
 </p>
 
 
-<div class="figure">
+<div id="orge638508" class="figure">
 <p><img src="../images/itl2023/avg_ex_by_block.png" alt="avg_ex_by_block.png" />
 </p>
 </div>
 
 
-<div class="figure">
+<div id="org25e7991" class="figure">
 <p><img src="../images/itl2023/highest_play.png" alt="highest_play.png" />
 </p>
 </div>
 
 
-<div class="figure">
+<div id="orge300f24" class="figure">
 <p><img src="../images/itl2023/block_bar.png" alt="block_bar.png" />
 </p>
 </div>
@@ -334,17 +288,17 @@ Average EX score per block is very funny here: 14 is quite a bit higher than 13 
 </div>
 </div>
 
-<div id="outline-container-org2a01c6e" class="outline-2">
-<h2 id="org2a01c6e">"Race Report"</h2>
-<div class="outline-text-2" id="text-org2a01c6e">
+<div id="outline-container-org7866f5a" class="outline-2">
+<h2 id="org7866f5a">"Race Report"</h2>
+<div class="outline-text-2" id="text-org7866f5a">
 <p>
 What follows from here is more of an emotional postmortem: the visualizations above quantify what was ultimately about a hundred hours of human experience, you know, that I engaged with in real time. I am not a machine; I felt dispair, frustration, hope, joy, and all sorts of weird feelings at different points during this tournament. If you don't care about this, feel free to just skip to the end (or stop: not much from here in the way of fancy graphs). 
 </p>
 </div>
 
-<div id="outline-container-org79c53af" class="outline-3">
-<h3 id="org79c53af">Deciding to Enter</h3>
-<div class="outline-text-3" id="text-org79c53af">
+<div id="outline-container-org03879c4" class="outline-3">
+<h3 id="org03879c4">Deciding to Enter</h3>
+<div class="outline-text-3" id="text-org03879c4">
 <p>
 Some background about me: I started playing ITG in 2021, and I play mostly Stamina on a <a href="https://www.youtube.com/watch?v=y6wGYLE0YI4">Bandit pad</a> that I built. I played for a year and reached a modest (180 | 14), which basically means I could do 32 measures of 180 bpm stream, and I could pass a 14 block chart. I didn't record the former, but here's me doing <a href="https://www.youtube.com/watch?v=9hilQKP6vig">16 measures with relatively comfortable lifebar</a>; my first 14 was <a href="https://www.youtube.com/watch?v=Kkrlbx6Fp0o">Katamari on the Rocks {14}​</a> which required me to repeatedly yell at the screen to not give up in the last block of stream. My exercise at the time was a mix of ITG Stamina and lifting weights in my home gym, both of which I had to stop doing when I had to go through some surgeries throughout the second half of 2022.
 </p>
@@ -359,18 +313,18 @@ good amount of experience managing my diet, so I went into 2023 pretty confident
 </p>
 
 <p>
-An important thing to know about me at the time is that I was absolutely not a tech player. Playing these A20 charts, I was primarily playing 12-13s (X-scale, 8-8.5ish ITG scale). The entire time I've seriously played dance games I've mentally considered Greats to be a more or less equivalent judgment to Blue Fantastic<sup><a id="fnr.4" class="footref" href="#fn.4">4</a></sup>. The extent of my "tech" experience is the period of time I practiced DDR Extreme to prepare for Genesis 8, which I had to drop out of after unexpectedly qualifying for top 64 at Super Smash Bros Melee<sup><a id="fnr.5" class="footref" href="#fn.5">5</a></sup>.
+An important thing to know about me at the time is that I was absolutely not a tech player. Playing these A20 charts, I was primarily playing 12-13s (X-scale, 8-8.5ish ITG scale). The entire time I've seriously played dance games I've mentally considered Greats to be a more or less equivalent judgment to Blue Fantastic<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>. The extent of my "tech" experience is the period of time I practiced DDR Extreme to prepare for Genesis 8, which I had to drop out of after unexpectedly qualifying for top 64 at Super Smash Bros Melee<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>.
 </p>
 
 <p>
-It was around April where I decided I was going to take ITG fairly seriously again. I didn't really like playing stamina on the (at the time unmodded) L-tek, so I bought a <a href="https://www.amazon.com/dp/B089N3CKGZ">commonly suggested bar</a> and decided I was going to make my debut as a beginner tech player. After struggling a bit with the low sensitivity of unmodded L-tek pads, I bought the <a href="https://ddrpad.com/collections/l-tek-pad-parts/products/l-tek-copper-sensitivity-mod">DDRPad "Large" copper tape mod kit</a> which raised the sensitivity a great deal<sup><a id="fnr.6" class="footref" href="#fn.6">6</a></sup>.
+It was around April where I decided I was going to take ITG fairly seriously again. I didn't really like playing stamina on the (at the time unmodded) L-tek, so I bought a <a href="https://www.amazon.com/dp/B089N3CKGZ">commonly suggested bar</a> and decided I was going to make my debut as a beginner tech player. After struggling a bit with the low sensitivity of unmodded L-tek pads, I bought the <a href="https://ddrpad.com/collections/l-tek-pad-parts/products/l-tek-copper-sensitivity-mod">DDRPad "Large" copper tape mod kit</a> which raised the sensitivity a great deal<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgb5d45e9" class="outline-3">
-<h3 id="orgb5d45e9">This is Kind of Complicated</h3>
-<div class="outline-text-3" id="text-orgb5d45e9">
+<div id="outline-container-orgecbb93d" class="outline-3">
+<h3 id="orgecbb93d">This is Kind of Complicated</h3>
+<div class="outline-text-3" id="text-orgecbb93d">
 <p>
 I eventually found that improving at tech was not as straightforward as improving at stamina. When I was really grinding stamina, I mostly failed charts that I attempted trying to push for passes I could just barely accomplish, played speeds that were outside of my comfort zone, played for longer durations than I could hold comfortably, etc. Stamina was easy to grasp for me &#x2013; the entire game is about handling many different kinds of discomfort (form, speed, energy, sweat, etc), and if you want to improve at Stamina, you just find some discomfort that is particularly uncomfortable for you, and throw hours at it.
 </p>
@@ -384,7 +338,7 @@ So I asked the ITL Discord, and I got a lot of really nice advice from very help
 </p>
 
 
-<div class="figure">
+<div id="org1f431b0" class="figure">
 <p><img src="../images/itl2023/advice.png" alt="advice.png" />
 </p>
 </div>
@@ -399,15 +353,15 @@ It worked!
 </div>
 </div>
 
-<div id="outline-container-org452177b" class="outline-3">
-<h3 id="org452177b">We're gonna go TURBO [10]</h3>
-<div class="outline-text-3" id="text-org452177b">
+<div id="outline-container-org6c1c24a" class="outline-3">
+<h3 id="org6c1c24a">We're gonna go TURBO [10]</h3>
+<div class="outline-text-3" id="text-org6c1c24a">
 <p>
-At this point in the event, I've reached about 187k RP. I had more or less just crossed the 150k threshold, which I reached mostly because I discovered the stamina unlock chain and got a ton of points cruising to very easy 10-12 stamina charts even for a relatively out of shape former 14 block player<sup><a id="fnr.7" class="footref" href="#fn.7">7</a></sup>. I mostly spent this time period trying to grind lowers in an attempt to reprogram myself to consider "great" a decidedly not great judgment<sup><a id="fnr.8" class="footref" href="#fn.8">8</a></sup>.
+At this point in the event, I've reached about 187k RP. I had more or less just crossed the 150k threshold, which I reached mostly because I discovered the stamina unlock chain and got a ton of points cruising to very easy 10-12 stamina charts even for a relatively out of shape former 14 block player<sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></sup>. I mostly spent this time period trying to grind lowers in an attempt to reprogram myself to consider "great" a decidedly not great judgment<sup><a id="fnr.8" class="footref" href="#fn.8" role="doc-backlink">8</a></sup>.
 </p>
 
 <p>
-Something happening in the background of all of this is a pretty noteworthy amount of weight loss. I've been playing a lot, I've been super strict about the food I'm eating<sup><a id="fnr.9" class="footref" href="#fn.9">9</a></sup>, I'm walking to work, and so on. I don't own a scale, so I am mostly unable to appreciate how well it's working (if it is working at all). But after doing all of this timing work, getting close to +0 points every session, I made the decision to start trying to play for points again.
+Something happening in the background of all of this is a pretty noteworthy amount of weight loss. I've been playing a lot, I've been super strict about the food I'm eating<sup><a id="fnr.9" class="footref" href="#fn.9" role="doc-backlink">9</a></sup>, I'm walking to work, and so on. I don't own a scale, so I am mostly unable to appreciate how well it's working (if it is working at all). But after doing all of this timing work, getting close to +0 points every session, I made the decision to start trying to play for points again.
 </p>
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ops8bGRmyyc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -417,16 +371,16 @@ This was the first of the "heater" sessions I had during this event. This was a 
 </p>
 
 <p>
-At the end of it I remember thinking: maybe it's possible for me to reach 225k<sup><a id="fnr.10" class="footref" href="#fn.10">10</a></sup>.
+At the end of it I remember thinking: maybe it's possible for me to reach 225k<sup><a id="fnr.10" class="footref" href="#fn.10" role="doc-backlink">10</a></sup>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org4f0dca0" class="outline-3">
-<h3 id="org4f0dca0">Hitting 225k</h3>
-<div class="outline-text-3" id="text-org4f0dca0">
+<div id="outline-container-org06fcbbe" class="outline-3">
+<h3 id="org06fcbbe">Hitting 225k</h3>
+<div class="outline-text-3" id="text-org06fcbbe">
 <p>
-I was at my most insufferable during this time period. I eventually got it into my head that I really, really wanted to hit this points goal, and I would not shut up about this to my friends and to my wife<sup><a id="fnr.11" class="footref" href="#fn.11">11</a></sup>. I remember writing in my journal about how it just barely seemed possible &#x2013; that I had something like 25 days to accumulate roughly 25k more points. If I had twenty more good sessions, where I got a solid 1000 ranking points every session, I would barely make it. In my own words: "I might need to lean at the tape a bit, but I think I can do it". 
+I was at my most insufferable during this time period. I eventually got it into my head that I really, really wanted to hit this points goal, and I would not shut up about this to my friends and to my wife<sup><a id="fnr.11" class="footref" href="#fn.11" role="doc-backlink">11</a></sup>. I remember writing in my journal about how it just barely seemed possible &#x2013; that I had something like 25 days to accumulate roughly 25k more points. If I had twenty more good sessions, where I got a solid 1000 ranking points every session, I would barely make it. In my own words: "I might need to lean at the tape a bit, but I think I can do it". 
 </p>
 
 <p>
@@ -434,11 +388,11 @@ The first few days after that awesome 10k session, I was averaging something lik
 </p>
 
 <p>
-6 days after the my great 10k RP session, out of nowhere I had a session where I got 13.6k rating points across almost 4 hours. Just like that, I had 225k ranking points<sup><a id="fnr.12" class="footref" href="#fn.12">12</a></sup>.
+6 days after the my great 10k RP session, out of nowhere I had a session where I got 13.6k rating points across almost 4 hours. Just like that, I had 225k ranking points<sup><a id="fnr.12" class="footref" href="#fn.12" role="doc-backlink">12</a></sup>.
 </p>
 
 <p>
-I honestly couldn't believe it. I thought I had "used" my heater session for this tournament on my 187k two hour set. The last time before that I had a heater session was when I got my first stamina 14 pass, a very very long time ago<sup><a id="fnr.13" class="footref" href="#fn.13">13</a></sup>. The idea of two in a 7 day span was something I couldn't wrap my head around. I saw the little green plus icon next to a six digit number that started with 225, and it felt like my whole body started vibrating. This was a goal I had set for myself that I was unsure would be possible for me to hit within a month, and I had hit it with twenty days to spare.
+I honestly couldn't believe it. I thought I had "used" my heater session for this tournament on my 187k two hour set. The last time before that I had a heater session was when I got my first stamina 14 pass, a very very long time ago<sup><a id="fnr.13" class="footref" href="#fn.13" role="doc-backlink">13</a></sup>. The idea of two in a 7 day span was something I couldn't wrap my head around. I saw the little green plus icon next to a six digit number that started with 225, and it felt like my whole body started vibrating. This was a goal I had set for myself that I was unsure would be possible for me to hit within a month, and I had hit it with twenty days to spare.
 </p>
 
 <p>
@@ -447,19 +401,19 @@ I bought some nice beers and let myself celebrate a little bit. I haven't had ma
 </div>
 </div>
 
-<div id="outline-container-orgb6d21b2" class="outline-3">
-<h3 id="orgb6d21b2">FSRs My Beloved</h3>
-<div class="outline-text-3" id="text-orgb6d21b2">
+<div id="outline-container-org3f6ee37" class="outline-3">
+<h3 id="org3f6ee37">FSRs My Beloved</h3>
+<div class="outline-text-3" id="text-org3f6ee37">
 <p>
 I spent the last week of the event visiting my wife at our place in Maryland, where we keep my travel pad. Having spent the last two months playing on a penny modded ltek, I figured it would be a big shock playing on a different pad.
 </p>
 
 <p>
-The entire time I had been playing tech, I had built up a mental profile of myself as a tech player: I am good at footswitches, I am bad at bursts and brackets, I have good endurance but I don’t have much footspeed. I returned to playing on my FSR travel pad and found that this was all just a mirage, and that the truth was actually quite a bit murkier. Playing on the FSR pad, I was suddenly essentially a completely different player: I was good at bursts, I was bad at footswitches, I could pass Stamina 14s again<sup><a id="fnr.14" class="footref" href="#fn.14">14</a></sup>, and so on. 
+The entire time I had been playing tech, I had built up a mental profile of myself as a tech player: I am good at footswitches, I am bad at bursts and brackets, I have good endurance but I don’t have much footspeed. I returned to playing on my FSR travel pad and found that this was all just a mirage, and that the truth was actually quite a bit murkier. Playing on the FSR pad, I was suddenly essentially a completely different player: I was good at bursts, I was bad at footswitches, I could pass Stamina 14s again<sup><a id="fnr.14" class="footref" href="#fn.14" role="doc-backlink">14</a></sup>, and so on. 
 </p>
 
 <p>
-What really defined my skill level was my ability to perform tech patterns, <i>conditioned upon what equipment I was using</i>. Pads have tradeoffs<sup><a id="fnr.15" class="footref" href="#fn.15">15</a></sup>, and what made me <b>me</b> as a player was my ability to <i>navigate</i> those tradeoffs, rather than a simple immutable skill level at some particular sequence of arrows. I wasn’t bad at bursts, I was bad at doing bursts on the ltek. I’m not sure this has useful implications for other people, but for me it was a key psychological moment in my personal little ITL journey: I started hammering away at charts which I was avoiding because I thought there was no way I’d get points on a burst chart. I felt frustrated about not being as good at footswitches, but I knew that I was capable of hitting them because I had been able to on another pad and it was more about translating my ability to the hardware rather than a fundamental human limitation or something.
+What really defined my skill level was my ability to perform tech patterns, <i>conditioned upon what equipment I was using</i>. Pads have tradeoffs<sup><a id="fnr.15" class="footref" href="#fn.15" role="doc-backlink">15</a></sup>, and what made me <b>me</b> as a player was my ability to <i>navigate</i> those tradeoffs, rather than a simple immutable skill level at some particular sequence of arrows. I wasn’t bad at bursts, I was bad at doing bursts on the ltek. I’m not sure this has useful implications for other people, but for me it was a key psychological moment in my personal little ITL journey: I started hammering away at charts which I was avoiding because I thought there was no way I’d get points on a burst chart. I felt frustrated about not being as good at footswitches, but I knew that I was capable of hitting them because I had been able to on another pad and it was more about translating my ability to the hardware rather than a fundamental human limitation or something.
 </p>
 
 <p>
@@ -476,9 +430,9 @@ Ultimately I like both pads, and being limited on certain things based on the ha
 </div>
 </div>
 
-<div id="outline-container-org06a0e98" class="outline-3">
-<h3 id="org06a0e98">Into the Future</h3>
-<div class="outline-text-3" id="text-org06a0e98">
+<div id="outline-container-org2acacac" class="outline-3">
+<h3 id="org2acacac">Into the Future</h3>
+<div class="outline-text-3" id="text-org2acacac">
 <p>
 I would push on and hit a few other really awesome milestones. I got my 75th score over 3000, I got a 4k score, I got my first tech 13 (CANDY LAND) and my first tech 14 (SCREW owo SCREW). I reached 250k Ranking Points on Friday, June 16th, and decided I was pretty much done with this year's event.
 </p>
@@ -488,23 +442,23 @@ I would push on and hit a few other really awesome milestones. I got my 75th sco
 </div>
 </div>
 
-<div id="outline-container-org28c27c3" class="outline-2">
-<h2 id="org28c27c3">Conclusion</h2>
-<div class="outline-text-2" id="text-org28c27c3">
+<div id="outline-container-org143b17c" class="outline-2">
+<h2 id="org143b17c">Conclusion</h2>
+<div class="outline-text-2" id="text-org143b17c">
 <p>
-I ended the tournament at 250,023 Ranking Points. At the time of writing, I am 359th, out of 1094<sup><a id="fnr.16" class="footref" href="#fn.16">16</a></sup>. I lost roughly 10 lbs over the course of my participation.
+I ended the tournament at 250,023 Ranking Points. At the time of writing, I am 359th, out of 1094<sup><a id="fnr.16" class="footref" href="#fn.16" role="doc-backlink">16</a></sup>. I lost roughly 10 lbs over the course of my participation.
 </p>
 </div>
 
-<div id="outline-container-orged9ead4" class="outline-3">
-<h3 id="orged9ead4">Did I Meet My Goals?</h3>
-<div class="outline-text-3" id="text-orged9ead4">
+<div id="outline-container-org9a32a1e" class="outline-3">
+<h3 id="org9a32a1e">Did I Meet My Goals?</h3>
+<div class="outline-text-3" id="text-org9a32a1e">
 <p>
 Below is the goals document I had kept in my phone's notes app.
 </p>
 
 
-<div class="figure">
+<div id="orgd5fea9c" class="figure">
 <p><img src="../images/itl2023/goals.jpg" alt="goals.jpg" />
 </p>
 </div>
@@ -523,9 +477,9 @@ Overall, though, I am over the moon with how much of this I managed to cross out
 </div>
 </div>
 
-<div id="outline-container-org39b1979" class="outline-3">
-<h3 id="org39b1979">Do I Have Regrets?</h3>
-<div class="outline-text-3" id="text-org39b1979">
+<div id="outline-container-org768bd65" class="outline-3">
+<h3 id="org768bd65">Do I Have Regrets?</h3>
+<div class="outline-text-3" id="text-org768bd65">
 <p>
 I do not really have too many regrets about this event overall: in general happy with what the event did to my skill level and my body. Two things really jump out at me: starting earlier, and connecting with other people.
 </p>
@@ -540,9 +494,9 @@ The second thing I regret is being so intimidated to try to connect to other pla
 </div>
 </div>
 
-<div id="outline-container-org00e1963" class="outline-3">
-<h3 id="org00e1963">Overall Feelings</h3>
-<div class="outline-text-3" id="text-org00e1963">
+<div id="outline-container-orgec9cdd1" class="outline-3">
+<h3 id="orgec9cdd1">Overall Feelings</h3>
+<div class="outline-text-3" id="text-orgec9cdd1">
 <p>
 I love this game. I still consider myself a beginner-level player &#x2013; both for stamina and now for tech. But I feel like I've gotten far enough at both disciplines to really say that I <i>get</i> it. Playing this game for an ungodly, borderline unhealthy number of hours during the course of this tournament really pushed me to pay attention to my body in a way that no other video game ever has. I wanted to be fitter so I could move faster, so that I could move for longer, so that the fun would never have to end whenever I opened the game. Grinding out full combos, grinding out hard charts, grinding out easy charts, all of it involved pushing my body to move in ways that it could not move before; to move with precision or speed or durations which were simply inaccessible for the version of me that was struggling through DDR X-scale 12s no bar just a few months ago.
 </p>
@@ -558,67 +512,67 @@ You have to scroll past five pages of incredible players to see my gamertag on t
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
 
-<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 I say simple &#x2013; the code is simple, but figuring out how to write it was hard as hell! There's no documentation on how to query the groovestats api to get scores, so what I ended up doing was copying huge chunks of the completely human-unreadable js file on the itl website into chatGPT and asking it "does this text contain a way to query the api for scores?" until it found it for me. From then on it was easy :)
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 I might even go so far as to say I like it better than I like the L-tek, since the width makes it so much more comfortable to play compared to a DDR bar, and I still frequently complain about doing brackets on my L-tek despite penny modding it 
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3">3</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 DayaniXO's scores come to mind as someone who had fewer points than me but whose scores I could not even vaguely imagine approaching at my current skill level. ITL in general seems structured to reward pushing for hard clears, which is fortunate for me as someone whose skillset is pretty well suited for that. In the end I think it's silly to use RP as a metric for calling yourself better or worse than someone else, I'm using it purely as a metric of my own progress over time.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4">4</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Blue Fantastic is a 15ms window, roughly 1 frame at 60 fps. Great is a 103.5ms window, roughly a 6 frame window. In Stepmania's FA+ mode, both of these keep your combo alive, but you get more points for Blue Fantastic than for Great. If you play stamina, usually you only care about whether or not you pass the chart. If you play tech, you want to get as many points as possible, and getting all blue fantastics is extremely challenging even on extremely easy charts. 
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5">5</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 This was maybe the best gaming-related accomplishment of my entire life, so I don't regret it happening. 
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6">6</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6" role="doc-backlink">6</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 I only used 4 strips on the insides of the sensors for this, since it felt conceptually similar to the travel pad. It's possible getting more copper strips would make stuff like brackets even easier but honestly it works perfectly fine.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.7" class="footnum" href="#fnr.7">7</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.7" class="footnum" href="#fnr.7" role="doc-backlink">7</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Well, except for Amazing Mighty. I don't really think I understand why that's in the stamina chain to begin with, it feels more like a footspeed chart. 
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.8" class="footnum" href="#fnr.8">8</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.8" class="footnum" href="#fnr.8" role="doc-backlink">8</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 As you can see from the data visualization, my adherence to this was sort of a mixed bag. I had a few days where I was super strict about only playing 7-8 block charts but after a few days I would mix in a bunch of 9-10 block charts also, which felt easy still but less dull to play. The more salient point is just that I didn't grind for points, which is what I did for a large proportion of the rest of the event.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.9" class="footnum" href="#fnr.9">9</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.9" class="footnum" href="#fnr.9" role="doc-backlink">9</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 And by this I mean: I'm running a bit where I am drinking huel instead of eating normal dinners, and I'm eating relatively healthy lunches at work.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.10" class="footnum" href="#fnr.10">10</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.10" class="footnum" href="#fnr.10" role="doc-backlink">10</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 There are "Ranking Point Clubs" in the ITL discord which correspond to milestone average scores. 75k is 75 scores of average 1k points, 150k is 75 scores of average 2k points, 225k is 75 scores of average 3k points, etc up to 450k. 
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.11" class="footnum" href="#fnr.11">11</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.11" class="footnum" href="#fnr.11" role="doc-backlink">11</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 sorry guys (gender neutral)
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.12" class="footnum" href="#fnr.12">12</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.12" class="footnum" href="#fnr.12" role="doc-backlink">12</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 6 days prior to that I was going around being like "I can't believe I played for 2 hours today" which is funny in hindsight.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.13" class="footnum" href="#fnr.13">13</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.13" class="footnum" href="#fnr.13" role="doc-backlink">13</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 I also FC Max 300 during this session, the only documented time I have ever hit jacks in my life. 
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.14" class="footnum" href="#fnr.14">14</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.14" class="footnum" href="#fnr.14" role="doc-backlink">14</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 I didn't think about this, but my score on Eternity [14] is probably my best score on a 14 ever: 85 EX / 89.76% with very comfortable lifebar the entire time is a world removed from 81% on Katamari on the Rocks [14] which put me out of commission for three days afterwards.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.15" class="footnum" href="#fnr.15">15</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.15" class="footnum" href="#fnr.15" role="doc-backlink">15</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 The two big variables that seem to stick out here are sensitivity and panel shape (square vs standard). I don't think you need to have multiple types of pads or anything; top players certainly show that you can be amazing at everything with most common viable types of pads (cmmf on ltek, chunka/iamchris4life on arcade pads, dimo on smx, etc). But just speaking as a relatively low level player it's interesting having played on a variety of different pads seeing what kind of hurdles need to specifically be overcome to perform well.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.16" class="footnum" href="#fnr.16">16</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.16" class="footnum" href="#fnr.16" role="doc-backlink">16</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 I'm sure some people will pass me in the coming weekend but I'm not going to wait to post this just for this single relatively unimportant number to be right.
 </p></div></div>
 
@@ -627,20 +581,6 @@ I'm sure some people will pass me in the coming weekend but I'm not going to wai
 </div></div>
 <div id="postamble" class="status">
 <a href="#top">Back to Top</a>
-<div id="comments">
-    <p></p>
-    <hr />
-       <div id="disqus_thread">
-           <script>
-(function() {
-var d = document, s = d.createElement('script');
-s.src = 'https://planetbanatt.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
 </div>
 </body>
 </html>

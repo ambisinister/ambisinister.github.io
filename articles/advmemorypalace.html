@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-05-26 Sun 20:56 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Advanced Memory Palaces</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="./css/default.css" />
+<link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<h1 class="title">Advanced Memory Palaces</h1>
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org4b02b4f">Memorizing a Double Elimination Tournament</a>
+<ul>
+<li><a href="#org05ea8d7">Context</a></li>
+<li><a href="#org0a17f57">GENESIS 1</a>
+<ul>
+<li><a href="#org8c17143">An Array of Pointers</a></li>
+<li><a href="#orgfb33f73">Class Structure</a></li>
+<li><a href="#orga9bae03">Result</a>
+<ul>
+<li><a href="#org4d8b7c9">Thoughts on using a Peg Tree</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org06d1a2a">Thoughts on "More Fun" Memory Contests</a></li>
+<li><a href="#orgb24f90b">Unsorted notes</a></li>
+<li><a href="#org70239bb">Appendix A: Mini-Experiment LLM-Augmented Links</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org4b02b4f" class="outline-1">
+<h1 id="org4b02b4f">Memorizing a Double Elimination Tournament</h1>
+<div class="outline-text-1" id="text-org4b02b4f">
+<p>
+I recently read Joe Reddington's <i>Advanced Memory Palaces</i>. I thought this was a really thought provoking read &#x2013; as a machine learning researcher by trade and a relatively beginner <i>memorist</i>, it was nice to see some intersection between concepts I think about every day with concepts I have been thinking about a lot lately.
+</p>
+
+<p>
+To jump to the good part: 
+</p>
+
+<p>
+<a id="org7aee62e"></a>
+</p>
+</div>
+
+<div id="outline-container-org05ea8d7" class="outline-2">
+<h2 id="org05ea8d7">Context</h2>
+<div class="outline-text-2" id="text-org05ea8d7">
+<p>
+On the back of this book, there is a paragraph which leads with the following:
+</p>
+
+<p>
+<i>This should be the second book you read on memory techniques. It doesn't matter which other book you read first, but you'll find it easier if you've had some practice of both using memory techniques well and discovering their limitations.</i>
+</p>
+
+<p>
+Before reading this book, I had read Joshua Foer's <i>Moonwalking with Einstein</i>, Jerry Lucas &amp; Harry Lorayne's <i>The Memory Book</i>, and Lynne Kelly's <i><a href="https://planetbanatt.net/articles/memorycraft.html">Memory Craft</a></i>. For better or worse, I'd consider all of these books to be aimed at the layperson with no experience doing this sort of thing before. In comparison, this book is explicitly about avoiding some of the more annoying components of actually <i>using</i> these techniques: how to fit more items in a single location, how to organize the flow of information, and all sorts of engineering-type concerns which are notably absent in other books on the topic<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>. 
+</p>
+
+<p>
+Likewise, the book seemed to be about making analogies between data structures and mnemonics, which is a topic I had been doing in unscripted rants to my computer-knowing friends for the last several weeks. For all intents and purposes, I seemed like the ideal target for this specific book, and so I purchased it.
+</p>
+
+<p>
+What really got me engaged was the back half of this book, which is an experimental look at using uncommon data structures for memorizing types of data uncommon to find in memory competitions<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>. The most interesting to me was the section on tree-shaped data: I deal with this sort of data all the time! 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0a17f57" class="outline-2">
+<h2 id="org0a17f57">GENESIS 1</h2>
+<div class="outline-text-2" id="text-org0a17f57">
+<p>
+I often joke with my friends that GENESIS is my favorite movie. I'll often put on <a href="https://www.youtube.com/playlist?app=desktop&amp;list=PL58139A3DEBBA2224">the playlist of recorded sets</a> from that tournament and watch the story of Armada's journey, and his cinematic clash with America's champion in grand finals. Off the top of my head, I can probably remember a good handful of the most important things about this tournament: Scar's run to winners top 8, Armada's path starting from Lunin, Mango's path starting from Hungrybox, and maybe a few other really important sets like Axe vs Jman. There may be some more big ones I can remember if you really press me on it, but it's mostly winners bracket recorded sets.
+</p>
+
+<p>
+I am going to attempt to memorize the entire bracket phase of this tournament. After several rounds of pools, the surviving players were dumped into a double-elimination bracket starting from the round of 128<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>. Double elimination is not a very common format in most competitions<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>, so I'll need to make some adaptations to what is in the book.
+</p>
+</div>
+
+<div id="outline-container-org8c17143" class="outline-3">
+<h3 id="org8c17143">An Array of Pointers</h3>
+<div class="outline-text-3" id="text-org8c17143">
+<p>
+One thing I was surprised to not see discussed in this book were <a href="https://en.wikipedia.org/wiki/Pointer_(computer_programming)">pointers</a>, which are objects which serve as maps which reference locations in memory, rather than values themselves. Locations are our whole thing, as memory technique people! It was really daunting to remember such a large list of events, but one modification I made was to remember blocks of the bracket, and store those blocks in an array<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>.
+</p>
+
+<p>
+The way that I tackled memorizing the winners bracket of such a large, tree-like structure of information was to use something similar in spirit to the <a href="https://en.wikipedia.org/wiki/Skip_list">skip list</a> segment of this book: rather than "raw" memorizing a full Ro128 bracket, I would remember a much smaller tree where each node has 8 children, and each node's value is a "root" match which spreads out three more rounds to a local "round of 16". Here's a crude simplified drawing which does this to four leaf nodes rather than 8<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
+</p>
+
+
+<div id="org8941b75" class="figure">
+<p><img src="../images/from_clipboard/20240117_105159.png" alt="20240117_105159.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfb33f73" class="outline-3">
+<h3 id="orgfb33f73">Class Structure</h3>
+<div class="outline-text-3" id="text-orgfb33f73">
+<div class="org-src-container">
+<pre class="src src-python">class BracketMatch():
+  def __init__(self, location, upper, lower, winner,
+	       u_prev, l_prev):
+    self.story = f"{upper} and {lower} are fighting because they want to eat {location}.\
+		  {winner} wins their fight and decides to eat {loser} along with {location}."
+    self.up = f"{upper} and {u_prev} are riding on {Related(location)}"
+    self.down = f"{lower} and {l_prev} are being ridden on by {Related(location)}"
+</pre>
+</div>
+
+<p>
+It's a little precarious, since we don't keep track of which of upper and u<sub>prev</sub> is the higher seed in the class structure. Since that is handled in the next link, I should hopefully be able to keep track of everything except for the very lowest children. As long as I get all the matches and their winners correct, hopefully that still counts as a correct answer.
+</p>
+
+<p>
+Likewise, an interesting aspect here is that the use of a "related" function: as long as the location is memorable, we can synthesize similar arbitrary "locations" (e.g. Pidgey -&gt; Toucan Sam, Pidgey -&gt; Big Bird). I would be worried about the links being harmed by overly similar locations and preventing my access to the full list, but since I'm using the skip-tree I only need to remember a "link" of 15 per location, it shouldn't be so bad in theory. I'm not going to write these all out here for the entire bracket, but I'll include the links for one "location block" in the footnotes for those curious about how this looks, with lower detail as it gets closer to the leaf nodes.<sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></sup> <sup>, </sup><sup><a id="fnr.8" class="footref" href="#fn.8" role="doc-backlink">8</a></sup> <sup>, </sup><sup><a id="fnr.9" class="footref" href="#fn.9" role="doc-backlink">9</a></sup> <sup>, </sup><sup><a id="fnr.10" class="footref" href="#fn.10" role="doc-backlink">10</a></sup> <sup>, </sup><sup><a id="fnr.11" class="footref" href="#fn.11" role="doc-backlink">11</a></sup> <sup>, </sup><sup><a id="fnr.12" class="footref" href="#fn.12" role="doc-backlink">12</a></sup> <sup>, </sup><sup><a id="fnr.13" class="footref" href="#fn.13" role="doc-backlink">13</a></sup> <sup>, </sup><sup><a id="fnr.14" class="footref" href="#fn.14" role="doc-backlink">14</a></sup> <sup>, </sup><sup><a id="fnr.15" class="footref" href="#fn.15" role="doc-backlink">15</a></sup> <sup>, </sup><sup><a id="fnr.16" class="footref" href="#fn.16" role="doc-backlink">16</a></sup> <sup>, </sup><sup><a id="fnr.17" class="footref" href="#fn.17" role="doc-backlink">17</a></sup> <sup>, </sup><sup><a id="fnr.18" class="footref" href="#fn.18" role="doc-backlink">18</a></sup> <sup>, </sup><sup><a id="fnr.19" class="footref" href="#fn.19" role="doc-backlink">19</a></sup> <sup>, </sup><sup><a id="fnr.20" class="footref" href="#fn.20" role="doc-backlink">20</a></sup> <sup>, </sup><sup><a id="fnr.21" class="footref" href="#fn.21" role="doc-backlink">21</a></sup> 
+</p>
+
+
+<div id="org247d3b9" class="figure">
+<p><img src="../images/from_clipboard/20240117_100543.png" alt="20240117_100543.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga9bae03" class="outline-3">
+<h3 id="orga9bae03">Result</h3>
+<div class="outline-text-3" id="text-orga9bae03">
+<p>
+The big thing here is that all of the mental images, as far as memory techniques go, are very busy. It's not really so bad, but the images take kind of a long time to encode and doing this quickly seems very challenging. 
+</p>
+</div>
+
+<div id="outline-container-org4d8b7c9" class="outline-4">
+<h4 id="org4d8b7c9">Thoughts on using a Peg Tree</h4>
+<div class="outline-text-4" id="text-org4d8b7c9">
+<p>
+<a id="orgb5e7188"></a>
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org06d1a2a" class="outline-2">
+<h2 id="org06d1a2a">Thoughts on "More Fun" Memory Contests</h2>
+<div class="outline-text-2" id="text-org06d1a2a">
+<p>
+The more I do this sort of thing, the more I think it's no fun to just bring an a priori system into a competition to remember one particular type of thing very well. All of the really interesting stuff I read about mnemonics is about people who design clever systems to remember weird stuff; as fun as memorizing cards is, I think it would be really interesting to hold a competition where you don't know ahead of time what events you will be doing.
+</p>
+
+<p>
+This whole exercise being vaguely different, yet fundamentally similar to more traditional events like numbers or random words really makes me think that the memory sports scene is being really held back by pigeonholing itself into specialized list-memory. It would be really cool to arrive at one of these contests and to on-the-fly have to come up with memory systems to remember <a href="https://drive.google.com/file/d/1-kf9bSQwUEMFOkyuCuLZj9XNQLzkuk_L/view">Rubik's Cube Last Layer Algorithms</a>, <a href="https://liquipedia.net/fighters/Evolution_Championship_Series/2023/T7/Round_3_Pools">Round 3 Pools of Tekken EVO 2023</a>, and a random set of <a href="https://en.wikipedia.org/wiki/Transcendental_Studies_(Sorabji)">Sorabji's 100 Transcendental Studies for Piano</a><sup><a id="fnr.22" class="footref" href="#fn.22" role="doc-backlink">22</a></sup>.  I feel like we would learn so much about memory if we used this sort of wacky format, rather than tunnelling on increasingly large systems for 3- and 4-digit number pegs. I think it would do a lot of good in making the sport feel more "useful", and it would be super interesting to talk to the winners and figure out what sorts of things they came up with. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb24f90b" class="outline-2">
+<h2 id="orgb24f90b">Unsorted notes</h2>
+<div class="outline-text-2" id="text-orgb24f90b">
+<p>
+The two types of links: natural links (strong) artificial links (fade)
+</p>
+
+<p>
+Use wikipedia pages for numbers
+</p>
+
+<p>
+redundancy, over time the details in your image will deteriorate. There's two ways claimed to prevent total loss: adding more vivid details (colors, noises, scents), and adding redundant links (e.g. instead of just "dinosaur" and "goblin", also make the dinosaur "gobbling up" something, so there's two links between the images in case one of them breaks.
+</p>
+
+<p>
+Major encoder app is a cool idea but the links are broken and if I was going to clone the repo I would just code it myself
+</p>
+
+<p>
+When doing links don't fall into the trap of saying the words in the order through some sort of story, each image needs to really directly involve the two adjacent things.
+</p>
+
+<p>
+directionality in links is important (teapot -&gt; godzilla -&gt; cheese) if godzilla destroys the teapot then godzilla can't do something to cheese, cheese has to do something to godzilla otherwise the directions will be confusing
+</p>
+
+<p>
+Remembering the start of a linked list is really critical
+</p>
+
+<p>
+skip list data structure: like a linked list but with an additional next which goes n spots forward rather than just one, similar functionality to making every 5 locations memorable in a memory palace
+</p>
+
+<p>
+Unknown and M. Bison, huh, fgc players.
+</p>
+
+<p>
+Array: two lists where the target list is linked to by at least one element of the source list, where the source list is ordered. Usually this is the list of integers, in computers, but we can use locations, letter pairs, first-letter-mnemonics, etc.
+</p>
+
+<p>
+Key rule: never link one word with two others, or you will mix up what the links refer to. If you want to do this, you can create a <i>class</i> where you refer to info type A (e.g. name) with image part A (e.g. face) and info type B (e.g. job) with image part B (e.g. hands). This requires some more planning, and should be done when you want to memorize a lot of info with a similar structure.
+</p>
+
+<p>
+Polymorphism: you want your parentclass._<sub>init</sub>_<sub>(self)</sub> -&gt; link, as well as your new types. Put another way, you just have &lt;class&gt; -&gt; image, rather than like invention -&gt; image, etc.
+</p>
+
+<p>
+Memory Feat for review: Memorize and Recite GENESIS 1 top 128 bracket both winners and losers
+</p>
+
+<p>
+Each block of 16 has 15 items in it (x8 = 120), plus 8 for winners + grands do the end (128 sets in winners) plus 112 matches in the losers bracket. It makes sense to memorize this backwards for winners and forwards for losers (to help with placing players in the losers bracket progression rather than just having them appear from thin air.
+</p>
+
+<p>
+Tree-to-Tree Array
+</p>
+</div>
+</div>
+
+<div id="outline-container-org70239bb" class="outline-2">
+<h2 id="org70239bb">Appendix A: Mini-Experiment LLM-Augmented Links</h2>
+<div class="outline-text-2" id="text-org70239bb">
+<p>
+The nice thing about formalizing a class structure, as recommended in this particular book, is that all of the stories follow a very simple natural language template, and there's a simple "related object" task associated with it. As such, I thought it seemed likely that an LLM like chatGPT could pretty quickly generate stories in the format associated with a class format. Since you input most of the "structure" by making the template, the task for each pair is mostly just imputing the details and coming up with related words.
+</p>
+
+<p>
+GPT-4 is not good enough to understand something this convoluted zero-shot; the task of coming up with related words, propagating them to earlier bracket matches, and repeating this process is a lot of variable-shuffling to keep track of. Very quickly, it starts making up new players.
+</p>
+
+
+<div id="org9d10e52" class="figure">
+<p><img src="../images/from_clipboard/20240119_161837.png" alt="20240119_161837.png" />
+</p>
+</div>
+
+<p>
+As a result, I needed to come up with the list of keywords to use the template myself, like this:
+</p>
+
+<ul class="org-ul">
+<li>m2k, kage, blunted object, lovage, butterfly beach (winner: m2k)</li>
+<li>m2k, blunted object, hitsuyaga, kira, roaches (winner: m2k)</li>
+<li>kage, lovage, bladewise, hax, big beach ball (winner: kage)</li>
+<li>m2k, hitsugaya, bye, connor, zerg (winner: m2k)</li>
+<li>kira, blunted object, alukard, falcomist, city (winner: blunted object)</li>
+<li>bladewise, kage, festizzo, choknater, the sun (winner: kage)</li>
+<li>hax, lovage, eggz, darksonic, volleyball (winner: lovage)</li>
+<li>m2k, bye, protoss (winner: m2k)</li>
+<li>hitsugaya, connor, terran (winner: hitsugaya)</li>
+<li>kira, alukard, skyscraper (winner: kira)</li>
+<li>falcomist, blunted object, subway (winner: blunted object)</li>
+<li>bladewise, festizzo, the moon (winner: bladewise)</li>
+<li>kage, choknater, mars (winner: kage)</li>
+<li>hax, eggz, baseball (winner: hax)</li>
+<li>darksonic, lovage, brazil (winner: lovage)</li>
+</ul>
+
+<p>
+After this point, it started to almost-work. I think with a less convoluted setup, it would work okay, but with so many key words it started to struggle with making sure "up" was riding and "down" was being ridden, and other such nuances. I maintain this would probably work okay for normal memory palace stuff, and I might revisit it in the future. However, for this particular project it's probably quicker to just use images I think of myself.
+</p>
+
+
+<div id="orgc970bf6" class="figure">
+<p><img src="../images/from_clipboard/20240119_163736.png" alt="20240119_163736.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Namely, a lot of these books are written in a way which genuinely seems to suggest they are teaching you some sort of arcane, magical power. They are extremely powerful, to be sure! But this book can be relatively frank about it's cynicism for using these strategies for remembering specific classes of information, something <i>The Memory Book</i> certainly would never dare to do.  
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Put another way, this book makes an implicit argument that this is <i>because</i> techniques for them are not developed, and that memory competitions are <i>competitions about using the techniques</i> and not <i>competitions about memorizing things</i>.  
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+There were actually 126 players and two byes, because 2009 was before smashers discovered how powers of 2 worked.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+A double elimination tournament in a sport seems like a good way to get yourself injured as fast as possible.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I'm sure the term for this is <i>chunking</i> in a memory palace, but using the terminology presented in the book is kind of fun.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6" role="doc-backlink">6</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+There's two purposes here: first, that I don't want to use hundreds of locations on this little stunt testing tree-data mnemonics. Second, I want to relatively quickly keep track of specific players' runs somewhat close to on command, which would just be too annoying to do if I did this entirely from links.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.7" class="footnum" href="#fnr.7" role="doc-backlink">7</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Mango vs Hungrybox, location: Doduo. Mango and Hbox starving on an island, and there's a big tasty looking Doduo running away from them in a panic, making it's trademark squawking noises. I'm sure roasted Doduo tastes just like chicken, but Mango eats Hungrybox Raw out of rage. Pointers: Mango riding on top of toucan sam, his legs off to the side riding his big colorful bill like he's an anime schoolgirl, and he's holding a gigantic smirnoff ice. Hungrybox is bring letting a three headed hydra ride on his back. He is getting crushed by the weight, but he tries to hold up the V for victory sign to make everyone think he's doing okay.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.8" class="footnum" href="#fnr.8" role="doc-backlink">8</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Mango Uberice, location: Toucan Sam. Mango is hunting for some toucans to eat. He catches toucan sam, who begs to be spared, but Mango cuts his head off. Mango cooks the toucan meat with smirnoff ice, using it like wine in a sauce. It tastes disgusting, so Mango drinks the rest of the smirnoff ice by itself. Pointers: Mango carrying a Doriyaki, heroically riding upon the bee mascot for Honey Nut Cheerios. The wacky cinnamon toast crunch mascots are riding upon a rocket where the thrusters are a bottle of vodka and a bottle of smirnoff ice.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.9" class="footnum" href="#fnr.9" role="doc-backlink">9</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Hungrybox Vwins, location: Three-headed hydra. Hungrybox is fighting the "victory twins", two cartoonish superheroes with "V" on their chests. Hungrybox has his back to the wall, but clutches it out by releasing the three headed hydra, killing both of them at once, devouring their heads like saturn devouring his own children. The weakened hydra is easy pickings for the mighty clutchbox, who makes a delicious hydra stew from it. Pointers: Hungrybox and Phil are riding godzilla, phil is cracking jokes about razing the city and hungrybox is awkwardly trying to follow along. King Arthur is riding upon the victory twins's shoulders, who can only carry his heavy armor because they are powered up by KFC fried chicken.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.10" class="footnum" href="#fnr.10" role="doc-backlink">10</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Mango Doraki, location: Honey Nut Cheerios. Mango wants to eat a Dorayaki, but it's not sweet enough, so he wants to put honey on it. He doesn't know what honey is, so he just tries to squeeze bee juice onto it thinking it's honey. Doraki -&gt; Dorayaki. Pointers: Mango riding Jerry Seinfeld's shoulders as he delivers lines for the Bee Movie, Beekeeper in his suit riding a Doriyaki on his way to work. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.11" class="footnum" href="#fnr.11" role="doc-backlink">11</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+PKMVodka Uberice, location: Cinnamon Toast Crunch. Vodka + Smirnoff Ice. Pointers: Doing The Cinnamon Challenge after chugging a fifth of vodka, Captain Crunch dramatically standing upon a smirnoff ice like an anime character on a light post.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.12" class="footnum" href="#fnr.12" role="doc-backlink">12</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Hungrybox Phil, location: godzilla. Press one, episode 2, this time on top of Godzilla as he destroys the city. Hungrybox artfully dodges any questionable jokes somehow &#x2013; maybe Phil is afraid of heights, he's getting eaten alive. Pointers: Hungrybox leaps off godzilla onto Mothra, Mechagodzilla abducts phil.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.13" class="footnum" href="#fnr.13" role="doc-backlink">13</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Vwins KFC, location: King Arthur. Vwins -&gt; Victory Twins. Pointers: Wizard, Lady of the Lake
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.14" class="footnum" href="#fnr.14" role="doc-backlink">14</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Mango has a Bye, location: Jerry Seinfeld. It's a show about nothing!
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.15" class="footnum" href="#fnr.15" role="doc-backlink">15</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+everlasting yayuhzz Doraki, location: Beekeeper. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.16" class="footnum" href="#fnr.16" role="doc-backlink">16</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+PKMVodka DJ Nintendo, location: The Cinnamon Challenge. A beautiful mental image springs forth.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.17" class="footnum" href="#fnr.17" role="doc-backlink">17</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Uberice Ky, location: Captain Crunch. Ky -&gt; KYS.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.18" class="footnum" href="#fnr.18" role="doc-backlink">18</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Hungrybox Psychomidget, location: Mothra
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.19" class="footnum" href="#fnr.19" role="doc-backlink">19</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Warriorknight Phil, location: Mechagodzilla.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.20" class="footnum" href="#fnr.20" role="doc-backlink">20</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Vwins A Rookie, location: Wizard. The victory twins club the wizard and A Rookie over the head, as they are distracted arguing about whether occult magic is blasphemous. They each eat half of both. A successful outing.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.21" class="footnum" href="#fnr.21" role="doc-backlink">21</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Jmoan KFC, location: Lady of the Lake. Jmoan is an insane tag. The long lost J Sheik.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.22" class="footnum" href="#fnr.22" role="doc-backlink">22</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<a href="https://twitter.com/MarioBrothBlog/status/1747308342924460156">Supper Mario Broth</a> posted a very fun tweet linking to a UofT <a href="https://www.researchgate.net/publication/366008656_Sound-meaning_mapping_Verbal_imitation_of_Super_Mario">Music + Linguistics paper</a> which talks about how Yoruban language can encode melody into words. In the study they give examples of the underground theme from SMB1 encoding to "You are going to die here, I don't think you will get home" for the iconic 12 note melody. I would love to see this sort of thing more often! Creative encodings are much more interesting than other parts of the competitive memory space.
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+</div>
+</body>
+</html>

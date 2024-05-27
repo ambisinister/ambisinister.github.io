@@ -3,12 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-05-10 Wed 20:18 -->
+<!-- 2024-05-26 Sun 20:56 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Rating ITG Charts with ML</title>
-<meta name="generator" content="Org mode" />
-<meta name="author" content="Lain-Navi" />
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,52 +50,6 @@ $(function() {
 
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
 <link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
-<script type="text/javascript">
-/*
-@licstart  The following is the entire license notice for the
-JavaScript code in this tag.
-
-Copyright (C) 2012-2020 Free Software Foundation, Inc.
-
-The JavaScript code in this tag is free software: you can
-redistribute it and/or modify it under the terms of the GNU
-General Public License (GNU GPL) as published by the Free Software
-Foundation, either version 3 of the License, or (at your option)
-any later version.  The code is distributed WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
-
-As additional permission under GNU GPL version 3 section 7, you
-may distribute non-source (e.g., minimized or compacted) forms of
-that code without the copy of the GNU GPL normally required by
-section 4, provided you include this license notice and a URL
-through which recipients can access the Corresponding Source.
-
-
-@licend  The above is the entire license notice
-for the JavaScript code in this tag.
-*/
-<!--/*--><![CDATA[/*><!--*/
- function CodeHighlightOn(elem, id)
- {
-   var target = document.getElementById(id);
-   if(null != target) {
-     elem.cacheClassElem = elem.className;
-     elem.cacheClassTarget = target.className;
-     target.className = "code-highlighted";
-     elem.className   = "code-highlighted";
-   }
- }
- function CodeHighlightOff(elem, id)
- {
-   var target = document.getElementById(id);
-   if(elem.cacheClassElem)
-     elem.className = elem.cacheClassElem;
-   if(elem.cacheClassTarget)
-     target.className = elem.cacheClassTarget;
- }
-/*]]>*///-->
-</script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -127,50 +81,50 @@ for the JavaScript code in this tag.
         </div><!--/.nav-collapse -->
     </nav>
 </div>
-<div id="content">
+<div id="content" class="content">
 <h1 class="title">Rating ITG Charts with ML</h1>
-<div id="table-of-contents">
+<div id="table-of-contents" role="doc-toc">
 <h1>Table of Contents</h1>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgee8ce74">Auto-Rating ITG Stamina Charts with Machine Learning</a>
+<li><a href="#org0a7328b">Auto-Rating ITG Stamina Charts with Machine Learning</a>
 <ul>
-<li><a href="#org5b688b5">Abstract</a></li>
-<li><a href="#orga2ed62a">Introduction</a></li>
-<li><a href="#orgd6bd6f1">Getting Data</a></li>
-<li><a href="#org2d33465">Baselines</a>
+<li><a href="#org5b64562">Abstract</a></li>
+<li><a href="#org12f00fb">Introduction</a></li>
+<li><a href="#org129fc9a">Getting Data</a></li>
+<li><a href="#org75b810f">Baselines</a>
 <ul>
-<li><a href="#orgcbd81fd">Lookup Table with Longest Stream</a></li>
-<li><a href="#org6084fe2">Classification w/ Length and Percent Stream</a></li>
+<li><a href="#orgaed5582">Lookup Table with Longest Stream</a></li>
+<li><a href="#org6496001">Classification w/ Length and Percent Stream</a></li>
 </ul>
 </li>
-<li><a href="#org09734ef">Sequence Models</a>
+<li><a href="#orgd5dda6d">Sequence Models</a>
 <ul>
-<li><a href="#orgd7a7695">Recurrent Neural Network (RNN)</a></li>
+<li><a href="#orga115813">Recurrent Neural Network (RNN)</a></li>
 </ul>
 </li>
-<li><a href="#orgb8b2836">Discussion</a></li>
+<li><a href="#orgd810438">Discussion</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgee8ce74" class="outline-1">
-<h1 id="orgee8ce74">Auto-Rating ITG Stamina Charts with Machine Learning</h1>
-<div class="outline-text-1" id="text-orgee8ce74">
+<div id="outline-container-org0a7328b" class="outline-1">
+<h1 id="org0a7328b">Auto-Rating ITG Stamina Charts with Machine Learning</h1>
+<div class="outline-text-1" id="text-org0a7328b">
 </div>
-<div id="outline-container-org5b688b5" class="outline-2">
-<h2 id="org5b688b5">Abstract</h2>
-<div class="outline-text-2" id="text-org5b688b5">
+<div id="outline-container-org5b64562" class="outline-2">
+<h2 id="org5b64562">Abstract</h2>
+<div class="outline-text-2" id="text-org5b64562">
 <p>
 I use machine learning to automatically rate ITG Stamina charts based on the "measure breakdown" commonly used as shorthand to describe charts. I use classical ML techniques and get fairly strong results, but I play around with sequence-to-one models anyways just for fun. I perform some visualization on how different features affect the rating, and suggest future directions this can go in. Code for this project can be found on <a href="https://github.com/ambisinister/itsa17">github</a>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orga2ed62a" class="outline-2">
-<h2 id="orga2ed62a">Introduction</h2>
-<div class="outline-text-2" id="text-orga2ed62a">
+<div id="outline-container-org12f00fb" class="outline-2">
+<h2 id="org12f00fb">Introduction</h2>
+<div class="outline-text-2" id="text-org12f00fb">
 <p>
 I am a <a href="https://www.youtube.com/watch?v=Kkrlbx6Fp0o&amp;ab_channel=AmbiTraining">novice level ITG Stamina player</a>. If you haven't heard of ITG Stamina, you can briefly refer to <a href="https://planetbanatt.net/articles/dancegames.html">my post</a> on it, or on <a href="https://www.youtube.com/watch?v=q3uaWqtmVwg">Dom's youtube introduction</a> to it. Basically, it's a 4 panel rhythm game where you have to hit a lot of notes with your feet very fast without stopping. Each song you play will have a stepchart, which is the "level" containing all of the arrows you have to hit to pass the song. Some of these stepcharts are harder than others, and you can arbitrarily change the speed of any stepchart to make it easier or harder (e.g. playing it on 1.5x speed).
 </p>
@@ -184,7 +138,7 @@ What separates bouldering grades from stepchart grades is that bouldering is a j
 </p>
 
 <p>
-The basic idea behind breakdown notation is that you can boil down any continuous stream of notes into how many measures long it is. No matter the speed of the song, if you have 10 measures of 16th note stream, you will have to hit exactly 160 notes in a row. This number is less useful for <a href="https://www.youtube.com/watch?v=ZZXxSORSqMk">technical charts</a>, where some patterns are much harder than others, but stamina charts specifically have all of these patterns removed.<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup> You'll often see charts described as something like "7-7-7/32 @ 160" which basically means "three 7 measure streams with small breaks between them, a long break, and a 32 measure stream, at 160 bpm". These breakdowns are often posted completely sans any other context and are usually enough for players to cross-check ratings with one another.
+The basic idea behind breakdown notation is that you can boil down any continuous stream of notes into how many measures long it is. No matter the speed of the song, if you have 10 measures of 16th note stream, you will have to hit exactly 160 notes in a row. This number is less useful for <a href="https://www.youtube.com/watch?v=ZZXxSORSqMk">technical charts</a>, where some patterns are much harder than others, but stamina charts specifically have all of these patterns removed.<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> You'll often see charts described as something like "7-7-7/32 @ 160" which basically means "three 7 measure streams with small breaks between them, a long break, and a 32 measure stream, at 160 bpm". These breakdowns are often posted completely sans any other context and are usually enough for players to cross-check ratings with one another.
 </p>
 
 <p>
@@ -193,11 +147,11 @@ We would like to rate these somehow, automatically. How can we do that?
 </div>
 </div>
 
-<div id="outline-container-orgd6bd6f1" class="outline-2">
-<h2 id="orgd6bd6f1">Getting Data</h2>
-<div class="outline-text-2" id="text-orgd6bd6f1">
+<div id="outline-container-org129fc9a" class="outline-2">
+<h2 id="org129fc9a">Getting Data</h2>
+<div class="outline-text-2" id="text-org129fc9a">
 <p>
-Breakdowns are relatively easy to get directly from a .sm file. The way <a href="https://simplyloveitg.com/">Simply Love</a> does breakdowns is very simple: if a measure has 16 notes in it, it's a stream<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>. For now we will proceed with that, and revisit this heuristic if there are too many songs with 24th/32nd note quantization which throw things off. I also trimmed out leading and trailing break (which shouldn't affect difficulty of the chart at all, since it is just break). 
+Breakdowns are relatively easy to get directly from a .sm file. The way <a href="https://simplyloveitg.com/">Simply Love</a> does breakdowns is very simple: if a measure has 16 notes in it, it's a stream<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>. For now we will proceed with that, and revisit this heuristic if there are too many songs with 24th/32nd note quantization which throw things off. I also trimmed out leading and trailing break (which shouldn't affect difficulty of the chart at all, since it is just break). 
 </p>
 
 <p>
@@ -218,13 +172,13 @@ Test: Stamina RPG 6
 </div>
 </div>
 
-<div id="outline-container-org2d33465" class="outline-2">
-<h2 id="org2d33465">Baselines</h2>
-<div class="outline-text-2" id="text-org2d33465">
+<div id="outline-container-org75b810f" class="outline-2">
+<h2 id="org75b810f">Baselines</h2>
+<div class="outline-text-2" id="text-org75b810f">
 </div>
-<div id="outline-container-orgcbd81fd" class="outline-3">
-<h3 id="orgcbd81fd">Lookup Table with Longest Stream</h3>
-<div class="outline-text-3" id="text-orgcbd81fd">
+<div id="outline-container-orgaed5582" class="outline-3">
+<h3 id="orgaed5582">Lookup Table with Longest Stream</h3>
+<div class="outline-text-3" id="text-orgaed5582">
 <p>
 A very simple heuristic you can use is a table which describes the rating of a song with just one block of stream at a given bpm, and then using your chart's longest stream (or, alternatively, total number of stream). The logic for this is very simple; stream is the hardest part of the chart, so we can lower bound the difficulty by what it would be if the long stream would be by itself, and we can upper bound the difficulty by what it would be if there were no breaks.
 </p>
@@ -234,7 +188,7 @@ This exists, and is a common first-order benchmark used by step artists when rat
 </p>
 
 
-<div class="figure">
+<div id="org14dd3c4" class="figure">
 <p><img src="../images/itsa17/lookup_table.png" alt="lookup_table.png" />
 </p>
 </div>
@@ -249,13 +203,13 @@ Running some this on our SRPG5 set we get a result which makes sense: this serve
 
 
 
-<div class="figure">
+<div id="org7798da8" class="figure">
 <p><img src="../images/itsa17/Lookup Table Interpolation.png" alt="Lookup Table Interpolation.png" />
 </p>
 </div>
 
 
-<div class="figure">
+<div id="org7f24c0c" class="figure">
 <p><img src="../images/itsa17/Lookup Table Interpolation (Sum of Total Stream).png" alt="Lookup Table Interpolation (Sum of Total Stream).png" />
 </p>
 </div>
@@ -263,9 +217,9 @@ Running some this on our SRPG5 set we get a result which makes sense: this serve
 </div>
 
 
-<div id="outline-container-org6084fe2" class="outline-3">
-<h3 id="org6084fe2">Classification w/ Length and Percent Stream</h3>
-<div class="outline-text-3" id="text-org6084fe2">
+<div id="outline-container-org6496001" class="outline-3">
+<h3 id="org6496001">Classification w/ Length and Percent Stream</h3>
+<div class="outline-text-3" id="text-org6496001">
 <p>
 We can leverage our collected data and create a model which uses three features:
 </p>
@@ -281,13 +235,13 @@ and then classifies a value based upon these three. This is still a pretty featu
 </p>
 
 
-<div class="figure">
+<div id="orgf90a0bc" class="figure">
 <p><img src="../images/itsa17/umap_3feat.png" alt="umap_3feat.png" />
 </p>
 </div>
 
 <p>
-Above we have our training data projected onto two dimensions with umap<sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup>. It seems like there's some nice structure here with our features; higher rated songs are generally together, lower rated songs are generally together, etc. Seems like the ideal situation to use machine learning.
+Above we have our training data projected onto two dimensions with umap<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>. It seems like there's some nice structure here with our features; higher rated songs are generally together, lower rated songs are generally together, etc. Seems like the ideal situation to use machine learning.
 </p>
 
 <p>
@@ -299,19 +253,19 @@ Running this on our SRPG5 set, we see that Linear Regression it scores exactly t
 </p>
 
 
-<div class="figure">
+<div id="orga7ae873" class="figure">
 <p><img src="../images/itsa17/Linear Regression.png" alt="Linear Regression.png" />
 </p>
 </div>
 
 
-<div class="figure">
+<div id="orgbda5532" class="figure">
 <p><img src="../images/itsa17/kNN.png" alt="kNN.png" />
 </p>
 </div>
 
 
-<div class="figure">
+<div id="orgcd5f4c1" class="figure">
 <p><img src="../images/itsa17/SVM Classifier.png" alt="SVM Classifier.png" />
 </p>
 </div>
@@ -323,9 +277,9 @@ This isn't bad; it's certainly usable. However, I think we can do better. More i
 </div>
 </div>
 
-<div id="outline-container-org09734ef" class="outline-2">
-<h2 id="org09734ef">Sequence Models</h2>
-<div class="outline-text-2" id="text-org09734ef">
+<div id="outline-container-orgd5dda6d" class="outline-2">
+<h2 id="orgd5dda6d">Sequence Models</h2>
+<div class="outline-text-2" id="text-orgd5dda6d">
 <p>
 What we would like is to take a stepchart, find its breakdown, and directly infer the difficulty based upon the breakdown and bpm. However, unlike the baseline problems, we recognize there is a problem: the breakdowns can by any length, which doesn't play nice with our more standard neural networks which want an input which is a fixed size.
 </p>
@@ -335,15 +289,15 @@ The solution here is to use a sequence model, which can take a variable length i
 </p>
 </div>
 
-<div id="outline-container-orgd7a7695" class="outline-3">
-<h3 id="orgd7a7695">Recurrent Neural Network (RNN)</h3>
-<div class="outline-text-3" id="text-orgd7a7695">
+<div id="outline-container-orga115813" class="outline-3">
+<h3 id="orga115813">Recurrent Neural Network (RNN)</h3>
+<div class="outline-text-3" id="text-orga115813">
 <p>
 I build a simple RNN in pytorch on the above problem, feed it breakdowns, and penalize it based on Mean Squared Error loss. Out of the box, it appears to learn quite well! Just look at this 79% accurate model (when testing on the training data)
 </p>
 
 
-<div class="figure">
+<div id="org921187d" class="figure">
 <p><img src="../images/itsa17/RNN_overfitting.png" alt="RNN_overfitting.png" />
 </p>
 </div>
@@ -353,17 +307,17 @@ However, what is actually happening is that we are horribly overfitting to our t
 </p>
 
 
-<div class="figure">
+<div id="org8743922" class="figure">
 <p><img src="../images/itsa17/RNN_overfitting_val.png" alt="RNN_overfitting_val.png" />
 </p>
 </div>
 
 <p>
-I switched to a more direct implementation of RNNs instead of using the shipped-in-pytorch nn.LSTM, since it doesn't really feel like we need the long-range dependency anyways. If we think about how a chart works, it feels like the hidden state should contain all the information about the chart<sup><a id="fnr.4" class="footref" href="#fn.4">4</a></sup>. It's not possible for more notes later to make a chart <i>easier</i>, and blocks of stream don't really interact in any way with other blocks of stream.
+I switched to a more direct implementation of RNNs instead of using the shipped-in-pytorch nn.LSTM, since it doesn't really feel like we need the long-range dependency anyways. If we think about how a chart works, it feels like the hidden state should contain all the information about the chart<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>. It's not possible for more notes later to make a chart <i>easier</i>, and blocks of stream don't really interact in any way with other blocks of stream.
 </p>
 
 
-<div class="figure">
+<div id="orgd92e4fc" class="figure">
 <p><img src="../images/itsa17/RNN.png" alt="RNN.png" />
 </p>
 </div>
@@ -375,9 +329,9 @@ That's more like it! It's clearly learned something which generalizes to the val
 </div>
 </div>
 
-<div id="outline-container-orgb8b2836" class="outline-2">
-<h2 id="orgb8b2836">Discussion</h2>
-<div class="outline-text-2" id="text-orgb8b2836">
+<div id="outline-container-orgd810438" class="outline-2">
+<h2 id="orgd810438">Discussion</h2>
+<div class="outline-text-2" id="text-orgd810438">
 <p>
 Ultimately, if you want something quick and easy, the Support Vector Classifier is a pretty safe choice. It performs well, it's rarely off by more than a block level, and it doesn't require substantial computational power. If you want to get a rating estimate, and you don't want to bother someone about it, it's a good pick. If people want to play with this, I could probably try serving the model in a browser or something.
 </p>
@@ -416,19 +370,19 @@ Anyone interested in doing this, but in a way sillier way, should consider just 
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
 
-<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 "Patterns do not affect difficulty" is something oft-repeated among stamina players. I'm not sure how much of a meme this is; there are far too many stamina memes for me to really follow as a lowly 180|14 player, but for the purposes of explaining breakdowns it should be fine.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Something to note here is that Stamina RPG calculates these slightly differently, and that this method will "erroneously" count something as stream if, for example, it has a burst and then a short break. This is close enough to the same difficulty as a measure of stream (probably even harder) for me to not care, but it is a nuance which should go mentioned somewhere.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3">3</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 <a href="https://umap-learn.readthedocs.io/en/latest/index.html">https://umap-learn.readthedocs.io/en/latest/index.html</a> - It probably would have made sense to do a 3d scatter plot with colors denoting rating, since we only have 4 dimensions. For a "real" project I would porobably have done so, but I think umap looks cooler and still visually communicates that higher rated songs are similarly grouped with our features.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4">4</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 There's an analogy to be made here to the <a href="https://en.wikipedia.org/wiki/Markov_property">markov property</a>
 </p></div></div>
 
@@ -437,20 +391,6 @@ There's an analogy to be made here to the <a href="https://en.wikipedia.org/wiki
 </div></div>
 <div id="postamble" class="status">
 <a href="#top">Back to Top</a>
-<div id="comments">
-    <p></p>
-    <hr />
-       <div id="disqus_thread">
-           <script>
-(function() {
-var d = document, s = d.createElement('script');
-s.src = 'https://planetbanatt.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
 </div>
 </body>
 </html>

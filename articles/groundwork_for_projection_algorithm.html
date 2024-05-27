@@ -3,12 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-05-10 Wed 20:18 -->
+<!-- 2024-05-26 Sun 20:56 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SSBM Projection Algorithm</title>
-<meta name="generator" content="Org mode" />
-<meta name="author" content="Lain-Navi" />
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,52 +50,6 @@ $(function() {
 
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
 <link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
-<script type="text/javascript">
-/*
-@licstart  The following is the entire license notice for the
-JavaScript code in this tag.
-
-Copyright (C) 2012-2020 Free Software Foundation, Inc.
-
-The JavaScript code in this tag is free software: you can
-redistribute it and/or modify it under the terms of the GNU
-General Public License (GNU GPL) as published by the Free Software
-Foundation, either version 3 of the License, or (at your option)
-any later version.  The code is distributed WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
-
-As additional permission under GNU GPL version 3 section 7, you
-may distribute non-source (e.g., minimized or compacted) forms of
-that code without the copy of the GNU GPL normally required by
-section 4, provided you include this license notice and a URL
-through which recipients can access the Corresponding Source.
-
-
-@licend  The above is the entire license notice
-for the JavaScript code in this tag.
-*/
-<!--/*--><![CDATA[/*><!--*/
- function CodeHighlightOn(elem, id)
- {
-   var target = document.getElementById(id);
-   if(null != target) {
-     elem.cacheClassElem = elem.className;
-     elem.cacheClassTarget = target.className;
-     target.className = "code-highlighted";
-     elem.className   = "code-highlighted";
-   }
- }
- function CodeHighlightOff(elem, id)
- {
-   var target = document.getElementById(id);
-   if(elem.cacheClassElem)
-     elem.className = elem.cacheClassElem;
-   if(elem.cacheClassTarget)
-     target.className = elem.cacheClassTarget;
- }
-/*]]>*///-->
-</script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -127,11 +81,11 @@ for the JavaScript code in this tag.
         </div><!--/.nav-collapse -->
     </nav>
 </div>
-<div id="content">
+<div id="content" class="content">
 <h1 class="title">SSBM Projection Algorithm</h1>
-<div id="table-of-contents">
+<div id="table-of-contents" role="doc-toc">
 <h1>Table of Contents</h1>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="##top">Performance, Projections, and Prediction:</a>
 <ul>
@@ -147,16 +101,16 @@ for the JavaScript code in this tag.
 </ul>
 </div>
 </div>
-<div id="outline-container-org5d998bc" class="outline-1">
+<div id="outline-container-#top" class="outline-1">
 <h1 id="#top">Performance, Projections, and Prediction:</h1>
 <div class="outline-text-1" id="text-#top">
 </div>
 
-<div id="outline-container-org0352160" class="outline-2">
+<div id="outline-container-building-a-basic-projection-algorithm" class="outline-2">
 <h2 id="building-a-basic-projection-algorithm">Building a Basic Projection Algorithm</h2>
 <div class="outline-text-2" id="text-building-a-basic-projection-algorithm">
 
-<div class="figure">
+<div id="org9120c04" class="figure">
 <p><img src="../images/projection/database.png" alt="database.png" />
 </p>
 </div>
@@ -176,7 +130,7 @@ with it?
 </div>
 </div>
 
-<div id="outline-container-org3e7ab71" class="outline-2">
+<div id="outline-container-the-big-picture" class="outline-2">
 <h2 id="the-big-picture">The Big Picture</h2>
 <div class="outline-text-2" id="text-the-big-picture">
 <p>
@@ -251,7 +205,7 @@ of people with access to much more data than me</a>.
 </div>
 </div>
 
-<div id="outline-container-org565be71" class="outline-2">
+<div id="outline-container-obtaining-some-data" class="outline-2">
 <h2 id="obtaining-some-data">Obtaining Some Data</h2>
 <div class="outline-text-2" id="text-obtaining-some-data">
 <p>
@@ -297,7 +251,7 @@ matches.
 </p>
 
 
-<div class="figure">
+<div id="org2f53594" class="figure">
 <p><img src="../images/projection/charuse.png" alt="charuse.png" />
 </p>
 </div>
@@ -401,7 +355,7 @@ that. But what can we do with this?
 </div>
 </div>
 
-<div id="outline-container-orgeadba1a" class="outline-2">
+<div id="outline-container-the-winloss-curve" class="outline-2">
 <h2 id="the-winloss-curve">The Win/Loss Curve</h2>
 <div class="outline-text-2" id="text-the-winloss-curve">
 <p>
@@ -412,7 +366,7 @@ below
 </p>
 
 
-<div class="figure">
+<div id="org0a30d8d" class="figure">
 <p><img src="../images/projection/allvsall.png" alt="allvsall.png" />
 </p>
 </div>
@@ -466,7 +420,7 @@ obviously has plenty of data whereas Yoshi definitely does not.
 </p>
 
 
-<div class="figure">
+<div id="org41685ba" class="figure">
 <p><img src="../images/projection/YoshivsAll.png" alt="YoshivsAll.png" />
 </p>
 </div>
@@ -483,7 +437,7 @@ Numbers vs MacD, etc just to name a few off the top of my head)
 </p>
 
 
-<div class="figure">
+<div id="org7c564e1" class="figure">
 <p><img src="../images/projection/ICsvsAll.png" alt="ICsvsAll.png" />
 </p>
 </div>
@@ -494,7 +448,7 @@ can get that!
 </p>
 
 
-<div class="figure">
+<div id="orgcdc4569" class="figure">
 <p><img src="../images/projection/peachvsfox.png" alt="peachvsfox.png" />
 </p>
 </div>
@@ -529,7 +483,7 @@ learn here?
 </div>
 </div>
 
-<div id="outline-container-org4c14ffe" class="outline-2">
+<div id="outline-container-analysis-at-skill-variations" class="outline-2">
 <h2 id="analysis-at-skill-variations">Analysis at Skill Variations</h2>
 <div class="outline-text-2" id="text-analysis-at-skill-variations">
 <p>
@@ -668,7 +622,7 @@ better accross the board?
 </p>
 
 
-<div class="figure">
+<div id="orgc29ef51" class="figure">
 <p><img src="../images/projection/circle.png" alt="circle.png" />
 </p>
 </div>
@@ -712,7 +666,7 @@ former is objective and the latter is subjective</li>
 </div>
 </div>
 
-<div id="outline-container-org79fb63d" class="outline-2">
+<div id="outline-container-performance" class="outline-2">
 <h2 id="performance">Performance</h2>
 <div class="outline-text-2" id="text-performance">
 <p>
@@ -788,7 +742,7 @@ Overall a pretty cool result for such a simple classifier
 </div>
 </div>
 
-<div id="outline-container-orgf39711f" class="outline-2">
+<div id="outline-container-further-applications" class="outline-2">
 <h2 id="further-applications">Further Applications</h2>
 <div class="outline-text-2" id="text-further-applications">
 <p>
@@ -798,7 +752,7 @@ charts<sup><a href="./projection_notes.html#radar">10</a></sup>.
 </p>
 
 
-<div class="figure">
+<div id="orga1544d4" class="figure">
 <p><img src="../images/projection/radar.png" alt="radar.png" />
 </p>
 </div>
@@ -819,20 +773,6 @@ for one person and I'm pretty content with this project for now.
 </div>
 <div id="postamble" class="status">
 <a href="#top">Back to Top</a>
-<div id="comments">
-    <p></p>
-    <hr />
-       <div id="disqus_thread">
-           <script>
-(function() {
-var d = document, s = d.createElement('script');
-s.src = 'https://planetbanatt.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
 </div>
 </body>
 </html>

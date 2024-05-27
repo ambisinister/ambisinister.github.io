@@ -3,12 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-05-10 Wed 20:02 -->
+<!-- 2024-05-26 Sun 20:56 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Contradictions</title>
-<meta name="generator" content="Org mode" />
-<meta name="author" content="Lain-Navi" />
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,52 +50,6 @@ $(function() {
 
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
 <link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
-<script type="text/javascript">
-/*
-@licstart  The following is the entire license notice for the
-JavaScript code in this tag.
-
-Copyright (C) 2012-2020 Free Software Foundation, Inc.
-
-The JavaScript code in this tag is free software: you can
-redistribute it and/or modify it under the terms of the GNU
-General Public License (GNU GPL) as published by the Free Software
-Foundation, either version 3 of the License, or (at your option)
-any later version.  The code is distributed WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
-
-As additional permission under GNU GPL version 3 section 7, you
-may distribute non-source (e.g., minimized or compacted) forms of
-that code without the copy of the GNU GPL normally required by
-section 4, provided you include this license notice and a URL
-through which recipients can access the Corresponding Source.
-
-
-@licend  The above is the entire license notice
-for the JavaScript code in this tag.
-*/
-<!--/*--><![CDATA[/*><!--*/
- function CodeHighlightOn(elem, id)
- {
-   var target = document.getElementById(id);
-   if(null != target) {
-     elem.cacheClassElem = elem.className;
-     elem.cacheClassTarget = target.className;
-     target.className = "code-highlighted";
-     elem.className   = "code-highlighted";
-   }
- }
- function CodeHighlightOff(elem, id)
- {
-   var target = document.getElementById(id);
-   if(elem.cacheClassElem)
-     elem.className = elem.cacheClassElem;
-   if(elem.cacheClassTarget)
-     target.className = elem.cacheClassTarget;
- }
-/*]]>*///-->
-</script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -127,30 +81,30 @@ for the JavaScript code in this tag.
         </div><!--/.nav-collapse -->
     </nav>
 </div>
-<div id="content">
+<div id="content" class="content">
 <h1 class="title">Contradictions</h1>
-<div id="table-of-contents">
+<div id="table-of-contents" role="doc-toc">
 <h1>Table of Contents</h1>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org36de9c6">Melee Rankings are a Game of Contradictions</a>
+<li><a href="#org0b643e1">Melee Rankings are a Game of Contradictions</a>
 <ul>
-<li><a href="#org33b90ff">Non "Holistic" Methods Punish Success</a>
+<li><a href="#org002ea05">Non "Holistic" Methods Punish Success</a>
 <ul>
-<li><a href="#org8aab260">Goodhart's Law</a></li>
-<li><a href="#org1664ba1">Metrics for Melee</a>
+<li><a href="#org669a2af">Goodhart's Law</a></li>
+<li><a href="#orgfbdaff4">Metrics for Melee</a>
 <ul>
-<li><a href="#orgbe4052a">Placement</a></li>
-<li><a href="#org3344e07">Head-to-Head</a></li>
-<li><a href="#orgfea8fe7">Tournament Victories</a>
+<li><a href="#orga668e61">Placement</a></li>
+<li><a href="#orgca317f3">Head-to-Head</a></li>
+<li><a href="#org0b098d7">Tournament Victories</a>
 <ul>
-<li><a href="#org686929d">Ability to Win</a></li>
-<li><a href="#org44e0e21">Accumulated Prestige</a></li>
+<li><a href="#orgcc0c635">Ability to Win</a></li>
+<li><a href="#org8944831">Accumulated Prestige</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org190a46a">How to Grow a Ballot</a></li>
+<li><a href="#org38b4800">How to Grow a Ballot</a></li>
 </ul>
 </li>
 </ul>
@@ -159,23 +113,23 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-org36de9c6" class="outline-1">
-<h1 id="org36de9c6">Melee Rankings are a Game of Contradictions</h1>
-<div class="outline-text-1" id="text-org36de9c6">
+<div id="outline-container-org0b643e1" class="outline-1">
+<h1 id="org0b643e1">Melee Rankings are a Game of Contradictions</h1>
+<div class="outline-text-1" id="text-org0b643e1">
 <p>
 It's approaching that time of year again: the end of year rankings for SSBM. It's going to be a chaotic year this year &#x2013; the most competitive top 10 the game has ever seen, and an abrupt <a href="https://twitter.com/PracticalTAS/status/1599946396039536640">changing of the guard</a> for the keepers of the ranks. Given that we have such a special year on our hands, I wanted to talk briefly about some concepts worth keeping in mind for evaluating players &#x2013; I think the unusually chaotic landscape of 2022 has generated a fairly large number of useful case studies for clearly understanding why certain ways of thinking have pitfalls you might not expect.
 </p>
 </div>
 
-<div id="outline-container-org33b90ff" class="outline-2">
-<h2 id="org33b90ff">Non "Holistic" Methods Punish Success</h2>
-<div class="outline-text-2" id="text-org33b90ff">
+<div id="outline-container-org002ea05" class="outline-2">
+<h2 id="org002ea05">Non "Holistic" Methods Punish Success</h2>
+<div class="outline-text-2" id="text-org002ea05">
 </div>
-<div id="outline-container-org8aab260" class="outline-3">
-<h3 id="org8aab260">Goodhart's Law</h3>
-<div class="outline-text-3" id="text-org8aab260">
+<div id="outline-container-org669a2af" class="outline-3">
+<h3 id="org669a2af">Goodhart's Law</h3>
+<div class="outline-text-3" id="text-org669a2af">
 <p>
-There is a <a href="https://books.google.no/books?id=iex_WiCGxqwC&amp;pg=PA60&amp;lpg=PA60&amp;dq=soviet+nail+factory&amp;source=bl&amp;ots=l2HABsGALE&amp;sig=ACfU3U2qeQneouPEQpJbCWzUfTp1YL9YNg&amp;hl=en&amp;sa=X&amp;ved=2ahUKEwjrpI3P-qTkAhXD-ioKHY83DdEQ6AEwDnoECAkQAQ#v=onepage&amp;q=soviet%2520nail%2520factory&amp;f=false">famous anecdote</a><sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup> about Soviet factory production, and about how there was an apocryphal problem where factories would produce useless nonsense in order to fit their quotas. From <i>Social Problems in a Free Society: Myths, Absurdities, and Realities</i>:
+There is a <a href="https://books.google.no/books?id=iex_WiCGxqwC&amp;pg=PA60&amp;lpg=PA60&amp;dq=soviet+nail+factory&amp;source=bl&amp;ots=l2HABsGALE&amp;sig=ACfU3U2qeQneouPEQpJbCWzUfTp1YL9YNg&amp;hl=en&amp;sa=X&amp;ved=2ahUKEwjrpI3P-qTkAhXD-ioKHY83DdEQ6AEwDnoECAkQAQ#v=onepage&amp;q=soviet%2520nail%2520factory&amp;f=false">famous anecdote</a><sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> about Soviet factory production, and about how there was an apocryphal problem where factories would produce useless nonsense in order to fit their quotas. From <i>Social Problems in a Free Society: Myths, Absurdities, and Realities</i>:
 </p>
 
 <blockquote>
@@ -185,7 +139,7 @@ Production managers frequently met their output goals in ways that were logical 
 </blockquote>
 
 
-<div class="figure">
+<div id="org8043ca5" class="figure">
 <p><img src="../images/contradictions/sovietnail.png" alt="sovietnail.png" />
 </p>
 </div>
@@ -195,7 +149,7 @@ For a machine learning example, we can point to a common interview question: you
 </p>
 
 <p>
-The problem, of course, is that the vast majority of credit card transactions are, in fact, perfectly legitimate. Since there is a <i>class imbalance</i> of legitimate vs fraudulent, if you just guess "legitimate" every single time, you will be 99% accurate despite having absolutely no ability to detect fraudulent transactions. The problem isn't really your model, it's that you haven't thought about <i>what you are actually measuring</i>, and that your metrics are inappropriate for your task<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>. This is how you get useless fraud detectors, Soviet factories which only produce tiny nails, and confusing discourse around the ranking of Super Smash Bros players. 
+The problem, of course, is that the vast majority of credit card transactions are, in fact, perfectly legitimate. Since there is a <i>class imbalance</i> of legitimate vs fraudulent, if you just guess "legitimate" every single time, you will be 99% accurate despite having absolutely no ability to detect fraudulent transactions. The problem isn't really your model, it's that you haven't thought about <i>what you are actually measuring</i>, and that your metrics are inappropriate for your task<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>. This is how you get useless fraud detectors, Soviet factories which only produce tiny nails, and confusing discourse around the ranking of Super Smash Bros players. 
 </p>
 
 <p>
@@ -208,9 +162,9 @@ Once you have determined this goal, as a panelist, now your job is to figure out
 </div>
 </div>
 
-<div id="outline-container-org1664ba1" class="outline-3">
-<h3 id="org1664ba1">Metrics for Melee</h3>
-<div class="outline-text-3" id="text-org1664ba1">
+<div id="outline-container-orgfbdaff4" class="outline-3">
+<h3 id="orgfbdaff4">Metrics for Melee</h3>
+<div class="outline-text-3" id="text-orgfbdaff4">
 <p>
 Generally speaking, people fall into three camps when it comes to answering this specific question.
 </p>
@@ -226,9 +180,9 @@ All three of these approaches have relative strengths and weaknesses. Broadly sp
 </p>
 </div>
 
-<div id="outline-container-orgbe4052a" class="outline-4">
-<h4 id="orgbe4052a">Placement</h4>
-<div class="outline-text-4" id="text-orgbe4052a">
+<div id="outline-container-orga668e61" class="outline-4">
+<h4 id="orga668e61">Placement</h4>
+<div class="outline-text-4" id="text-orga668e61">
 <p>
 Placement is the most controversial of these: it confers the least information about "difficulty" of a bracket path, it gives higher seeds a much easier path to the same placing, it is the most reliant on luck, and it disproportionately punishes players who end up in the path of a top seed who loses early. The data-minded panelists hate placement; it's seen as a lazy shorthand for a player's performance which skirts the issue of determining the relative value of all of their wins. And yet, there is still something appealing about it. If you look at just a single player, it is strictly better to place higher compared to placing lower. Your opponent in any given part of bracket is unimportant, because the expected reward will go up if you win and it will go down if you lose. In a sense, it is a <a href="https://statisticaloddsandends.wordpress.com/2021/03/27/what-is-a-proper-scoring-rule/">proper scoring rule</a>, where you have no real incentive to "hedge" your prediction, if you are just trying to predict placement. 
 </p>
@@ -239,9 +193,9 @@ Placement, ultimately, is something which I consider to be a generally bad metri
 </div>
 </div>
 
-<div id="outline-container-org3344e07" class="outline-4">
-<h4 id="org3344e07">Head-to-Head</h4>
-<div class="outline-text-4" id="text-org3344e07">
+<div id="outline-container-orgca317f3" class="outline-4">
+<h4 id="orgca317f3">Head-to-Head</h4>
+<div class="outline-text-4" id="text-orgca317f3">
 <p>
 Head-to-head, by comparison, is a generally uncontroversial metric. The logic for head-to-heads is very simple: wins against strong players are very valuable, losses against weaker players are quite bad. If your bracket path involved you beating a bunch of very strong players, then it was good even if your placement wasn't as impressive. If you imagine a relatively stable seeding list and vaguely try to simulate the outcomes of 100 tournaments in your head, you end up having to answer a lot of questions like "how often will Mango beat Hungrybox?" in order to determine how well everybody would do on average. With plentiful data, this seems obviously like the metric to use, and it is therefore usually the metric of choice for people who spend every ranking period looking at spreadsheets.
 </p>
@@ -251,7 +205,7 @@ This is all well and good, but there is unfortunately a slight issue with head-t
 </p>
 
 
-<div class="figure">
+<div id="org570401c" class="figure">
 <p><img src="../images/contradictions/crosstable.png" alt="crosstable.png" />
 </p>
 </div>
@@ -274,11 +228,11 @@ Most people I talk to have an opinion that Hungrybox is the clear fifth this yea
 </div>
 </div>
 
-<div id="outline-container-orgfea8fe7" class="outline-4">
-<h4 id="orgfea8fe7">Tournament Victories</h4>
-<div class="outline-text-4" id="text-orgfea8fe7">
+<div id="outline-container-org0b098d7" class="outline-4">
+<h4 id="org0b098d7">Tournament Victories</h4>
+<div class="outline-text-4" id="text-org0b098d7">
 <p>
-I would be remiss if I did not talk about arguably the most important metric of all - winning the actual tournament. This is something which in my experience usually gets more visibly reflected in the end-of-year list compared to the summer list, but it is one which is important enough such that players often point to this as the biggest source of "incorrectness" about the list<sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup> - specifically that this is not considered important enough by the nerds.
+I would be remiss if I did not talk about arguably the most important metric of all - winning the actual tournament. This is something which in my experience usually gets more visibly reflected in the end-of-year list compared to the summer list, but it is one which is important enough such that players often point to this as the biggest source of "incorrectness" about the list<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup> - specifically that this is not considered important enough by the nerds.
 </p>
 
 <p>
@@ -290,9 +244,9 @@ There are actually two elements to this which I want to briefly outline, since i
 </p>
 </div>
 
-<div id="outline-container-org686929d" class="outline-5">
-<h5 id="org686929d">Ability to Win</h5>
-<div class="outline-text-5" id="text-org686929d">
+<div id="outline-container-orgcc0c635" class="outline-5">
+<h5 id="orgcc0c635">Ability to Win</h5>
+<div class="outline-text-5" id="text-orgcc0c635">
 <p>
 In particular, this was pointed to in MPGR Summer 2022 with respect to Jmook's placement of 3rd in front of Hungrybox and Leffen. For some context: Jmook got 2nd at Genesis, Hungrybox won Get on my Level 2022, and Leffen won Battle of BC 4. All else being equal, most panelists I talked to considered Jmook's run to second place at Genesis to be much more significant than either victory at BoBC or GOML &#x2013; 2nd place at a supermajor tournament with over 1500 entrants being "worth more" than 1st place at a major tournament with 493 and 281 entrants, respectively. 
 </p>
@@ -315,7 +269,7 @@ In practice, however, it's extraordinarily rare to see cases where these two thi
 </ol>
 
 <p>
-with Plup also picking up CEO 2022<sup><a id="fnr.4" class="footref" href="#fn.4">4</a></sup> and aMSa also having The Off-Season<sup><a id="fnr.5" class="footref" href="#fn.5">5</a></sup>. In comparison, 2017 had the following:
+with Plup also picking up CEO 2022<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup> and aMSa also having The Off-Season<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>. In comparison, 2017 had the following:
 </p>
 
 <ol class="org-ol">
@@ -328,20 +282,20 @@ with Plup also picking up CEO 2022<sup><a id="fnr.4" class="footref" href="#fn.4
 </ol>
 
 <p>
-So while there may be a vaguely similar number of players who could win events<sup><a id="fnr.6" class="footref" href="#fn.6">6</a></sup>, virtually every year there's a gigantic drop-off point between "the players who win majors" and "the players who can sometimes win a major or two". That this drop-off is completely non-existent in 2022 is unusual, and exciting! But it also forces us to grapple with weird questions like "if someone gets 2nd at every major but never wins, and 1st place at every major is evenly split between a bunch of different players, can the player with no 1sts be #1?" My gut feeling is that the "right" answer to this question is no, but I think it remains to be seen how the greater community would feel in such a scenario.
+So while there may be a vaguely similar number of players who could win events<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>, virtually every year there's a gigantic drop-off point between "the players who win majors" and "the players who can sometimes win a major or two". That this drop-off is completely non-existent in 2022 is unusual, and exciting! But it also forces us to grapple with weird questions like "if someone gets 2nd at every major but never wins, and 1st place at every major is evenly split between a bunch of different players, can the player with no 1sts be #1?" My gut feeling is that the "right" answer to this question is no, but I think it remains to be seen how the greater community would feel in such a scenario.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org44e0e21" class="outline-5">
-<h5 id="org44e0e21">Accumulated Prestige</h5>
-<div class="outline-text-5" id="text-org44e0e21">
+<div id="outline-container-org8944831" class="outline-5">
+<h5 id="org8944831">Accumulated Prestige</h5>
+<div class="outline-text-5" id="text-org8944831">
 <p>
 I'm going to again kick it back to the cross-table for some head-to-heads:
 </p>
 
 
-<div class="figure">
+<div id="org5fe65df" class="figure">
 <p><img src="../images/contradictions/crosstable.png" alt="crosstable.png" />
 </p>
 </div>
@@ -362,9 +316,9 @@ I've seen some arguments floating around that aMSa deserves to be rank 1 based o
 </div>
 </div>
 
-<div id="outline-container-org190a46a" class="outline-3">
-<h3 id="org190a46a">How to Grow a Ballot</h3>
-<div class="outline-text-3" id="text-org190a46a">
+<div id="outline-container-org38b4800" class="outline-3">
+<h3 id="org38b4800">How to Grow a Ballot</h3>
+<div class="outline-text-3" id="text-org38b4800">
 <p>
 The reality is that taking any of these ideas to their logical extremes leads to obviously incoherent outcomes &#x2013; a holistic approach is the only thing which we have which produces a list which resembles what people in our community consider an accurate picture of the year with respect to how each top player has performed. Too focused on head-to-heads and you overly punish players who defeated the opponents in front of them; too focused on tournament victories and you punish players with stellar head-to-heads. The job of a panelist is a fundamentally impossible one: to assess the relative ordering of players based on metrics which sometimes are directly at odds with each other. It is a game of contradictions: one which forces you to balance results which forecast long-term success with short-term probability of winning a tournament in front of you. 
 </p>
@@ -384,27 +338,27 @@ So, next time you get into an argument about X player being ranked below Y playe
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
 
-<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 via <a href="https://skeptics.stackexchange.com/a/44859">https://skeptics.stackexchange.com/a/44859</a>
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 If you get this question in an interview, some good answers are: Balanced accuracy, Area Under Precision Recall Curve (AUPRC), F1 score, Matthews Correlation Coefficient. Do not fall into the trap of saying ROC (bad for very imbalanced scenarios) 
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3">3</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 This or "attendance" which is an extra dicey can of worms this year given how many players got COVID-19 after traveling many weeks in a row.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4">4</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Not really a major but counted as one so plup would meet attendance requirements for summer rank &#x2013; feels weird to bring up but also feels weird to not mention.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5">5</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Don't do "Is The Off Season a Major" discourse under this post, please.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6">6</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6" role="doc-backlink">6</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Also debateable, fwiw; 2017 had more major events, so who knows how many players pick up one or two with a few extra omicron-free / panda-free majors available.
 </p></div></div>
 
@@ -413,20 +367,6 @@ Also debateable, fwiw; 2017 had more major events, so who knows how many players
 </div></div>
 <div id="postamble" class="status">
 <a href="#top">Back to Top</a>
-<div id="comments">
-    <p></p>
-    <hr />
-       <div id="disqus_thread">
-           <script>
-(function() {
-var d = document, s = d.createElement('script');
-s.src = 'https://planetbanatt.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
 </div>
 </body>
 </html>

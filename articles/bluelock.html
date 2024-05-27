@@ -3,12 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-05-10 Wed 20:14 -->
+<!-- 2024-05-26 Sun 20:56 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Blue Lock Second Selection Math</title>
-<meta name="generator" content="Org mode" />
 <meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,52 +50,6 @@ $(function() {
 
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
 <link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
-<script type="text/javascript">
-/*
-@licstart  The following is the entire license notice for the
-JavaScript code in this tag.
-
-Copyright (C) 2012-2020 Free Software Foundation, Inc.
-
-The JavaScript code in this tag is free software: you can
-redistribute it and/or modify it under the terms of the GNU
-General Public License (GNU GPL) as published by the Free Software
-Foundation, either version 3 of the License, or (at your option)
-any later version.  The code is distributed WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
-
-As additional permission under GNU GPL version 3 section 7, you
-may distribute non-source (e.g., minimized or compacted) forms of
-that code without the copy of the GNU GPL normally required by
-section 4, provided you include this license notice and a URL
-through which recipients can access the Corresponding Source.
-
-
-@licend  The above is the entire license notice
-for the JavaScript code in this tag.
-*/
-<!--/*--><![CDATA[/*><!--*/
- function CodeHighlightOn(elem, id)
- {
-   var target = document.getElementById(id);
-   if(null != target) {
-     elem.cacheClassElem = elem.className;
-     elem.cacheClassTarget = target.className;
-     target.className = "code-highlighted";
-     elem.className   = "code-highlighted";
-   }
- }
- function CodeHighlightOff(elem, id)
- {
-   var target = document.getElementById(id);
-   if(elem.cacheClassElem)
-     elem.className = elem.cacheClassElem;
-   if(elem.cacheClassTarget)
-     target.className = elem.cacheClassTarget;
- }
-/*]]>*///-->
-</script>
 <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
         displayAlign: "center",
@@ -116,8 +70,7 @@ for the JavaScript code in this tag.
              }
 });
 </script>
-<script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -149,33 +102,33 @@ for the JavaScript code in this tag.
         </div><!--/.nav-collapse -->
     </nav>
 </div>
-<div id="content">
+<div id="content" class="content">
 <h1 class="title">Blue Lock Second Selection Math</h1>
-<div id="table-of-contents">
+<div id="table-of-contents" role="doc-toc">
 <h1>Table of Contents</h1>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgc5e81f3">On the Blue Lock Second Selection</a>
+<li><a href="#org8fef78d">On the Blue Lock Second Selection</a>
 <ul>
-<li><a href="#org6d2fdb9">Simulating The Second Selection</a></li>
-<li><a href="#orgc443295">How Many Players Made It Past Blue Lock Man?</a></li>
-<li><a href="#org8f9df79">How Much Does This Affect Skill Distribution?</a></li>
-<li><a href="#orged86fd7">Closing Thoughts</a></li>
+<li><a href="#org6b1bc30">Simulating The Second Selection</a></li>
+<li><a href="#org80a2a3a">How Many Players Made It Past Blue Lock Man?</a></li>
+<li><a href="#orgcbfdc12">How Much Does This Affect Skill Distribution?</a></li>
+<li><a href="#orgdba2300">Closing Thoughts</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgc5e81f3" class="outline-1">
-<h1 id="orgc5e81f3">On the Blue Lock Second Selection</h1>
-<div class="outline-text-1" id="text-orgc5e81f3">
+<div id="outline-container-org8fef78d" class="outline-1">
+<h1 id="org8fef78d">On the Blue Lock Second Selection</h1>
+<div class="outline-text-1" id="text-org8fef78d">
 <p>
 The following contains spoilers for the first season of <b>Blue Lock</b>, or the first 100 or so chapters of the Manga. The show is quite good, so I recommend watching it if you're interested in this post.
 </p>
 
 
-<div class="figure">
+<div id="orge4bde77" class="figure">
 <p><img src="../images/bluelock/bluelock_banner.png" alt="bluelock_banner.png" />
 </p>
 </div>
@@ -203,9 +156,9 @@ One interesting question you can ask about this is: how many players died on the
 </p>
 </div>
 
-<div id="outline-container-org6d2fdb9" class="outline-2">
-<h2 id="org6d2fdb9">Simulating The Second Selection</h2>
-<div class="outline-text-2" id="text-org6d2fdb9">
+<div id="outline-container-org6b1bc30" class="outline-2">
+<h2 id="org6b1bc30">Simulating The Second Selection</h2>
+<div class="outline-text-2" id="text-org6b1bc30">
 <p>
 We are going to start by writing out this process in python. The code for a rough approximation of the second selection can be found below. Some nuances here:
 </p>
@@ -218,140 +171,140 @@ We are going to start by writing out this process in python. The code for a roug
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #F92672;">import</span> random
-<span style="color: #F92672;">from</span> functools <span style="color: #F92672;">import</span> <span style="color: #F92672;">reduce</span>
-<span style="color: #F92672;">from</span> operator <span style="color: #F92672;">import</span> mul
-<span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
-<span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
-<span style="color: #F92672;">import</span> copy
+<pre class="src src-python">import random
+from functools import reduce
+from operator import mul
+import matplotlib.pyplot as plt
+import numpy as np
+import copy
 
-<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">append_bylen</span>(team, all_teams, new_two, new_three, new_four):
-    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(team) == 1:
-      all_teams[<span style="color: #E6DB74;">'dead'</span>].append(team)
-    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(team) == 2:
+def append_bylen(team, all_teams, new_two, new_three, new_four):
+    if len(team) == 1:
+      all_teams['dead'].append(team)
+    if len(team) == 2:
       new_two.append(team)
-    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(team) == 3:
+    if len(team) == 3:
       new_three.append(team)
-    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(team) == 4:
+    if len(team) == 4:
       new_four.append(team)
-    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(team) == 5:
-      all_teams[<span style="color: #E6DB74;">'fives'</span>].append(team)
+    if len(team) == 5:
+      all_teams['fives'].append(team)
 
-    <span style="color: #F92672;">return</span> all_teams, new_two, new_three, new_four
+    return all_teams, new_two, new_three, new_four
 
-<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">play</span>(team1, team2):
-    <span style="color: #FD971F;">product1</span> = <span style="color: #F92672;">reduce</span>(mul, team1)
-    <span style="color: #FD971F;">product2</span> = <span style="color: #F92672;">reduce</span>(mul, team2)
+def play(team1, team2):
+    product1 = reduce(mul, team1)
+    product2 = reduce(mul, team2)
 
-    <span style="color: #F92672;">if</span> product1 &lt; product2:
-        <span style="color: #FD971F;">winner</span>, <span style="color: #FD971F;">loser</span> = team1, team2
-    <span style="color: #F92672;">else</span>:
-        <span style="color: #FD971F;">winner</span>, <span style="color: #FD971F;">loser</span> = team2, team1
+    if product1 &lt; product2:
+	winner, loser = team1, team2
+    else:
+	winner, loser = team2, team1
 
-    <span style="color: #F92672;">return</span> winner, loser
+    return winner, loser
 
-<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">add_subplot</span>(ax, all_teams, days):
-    <span style="color: #FD971F;">list_lengths</span> = [(key, <span style="color: #F92672;">len</span>(lst)) <span style="color: #F92672;">for</span> key, lst <span style="color: #F92672;">in</span> all_teams.items()]
-    <span style="color: #FD971F;">labels</span> = [x[0] <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> list_lengths]
-    <span style="color: #FD971F;">lengths</span> = [x[1] <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> list_lengths]
+def add_subplot(ax, all_teams, days):
+    list_lengths = [(key, len(lst)) for key, lst in all_teams.items()]
+    labels = [x[0] for x in list_lengths]
+    lengths = [x[1] for x in list_lengths]
     ax.bar(labels, lengths)
-    ax.set_ylabel(<span style="color: #E6DB74;">'Teams'</span>)
-    ax.set_title(f<span style="color: #E6DB74;">'Teams after day {days}'</span>)
-    ax.set_xticklabels(labels, rotation=45, ha=<span style="color: #E6DB74;">'right'</span>)
+    ax.set_ylabel('Teams')
+    ax.set_title(f'Teams after day {days}')
+    ax.set_xticklabels(labels, rotation=45, ha='right')
 
-<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">visualize_days</span>(data, days):
-    <span style="color: #FD971F;">num_rows</span> = (days + 2) // 3
-    <span style="color: #FD971F;">fig</span>, <span style="color: #FD971F;">axs</span> = plt.subplots(num_rows, 3, figsize=(15, 5 * num_rows))
+def visualize_days(data, days):
+    num_rows = (days + 2) // 3
+    fig, axs = plt.subplots(num_rows, 3, figsize=(15, 5 * num_rows))
 
-    <span style="color: #F92672;">for</span> i, ax <span style="color: #F92672;">in</span> <span style="color: #F92672;">enumerate</span>(axs.flat):
-        <span style="color: #F92672;">if</span> i &lt; <span style="color: #F92672;">len</span>(data):
-            add_subplot(ax, data[i], i)
-        <span style="color: #F92672;">else</span>:
-            ax.axis(<span style="color: #E6DB74;">'off'</span>)
+    for i, ax in enumerate(axs.flat):
+	if i &lt; len(data):
+	    add_subplot(ax, data[i], i)
+	else:
+	    ax.axis('off')
 
     plt.tight_layout()
     plt.show()
 
-<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">second_selection</span>(numbers, verbose=<span style="color: #AE81FF;">False</span>):
-    <span style="color: #75715E;"># </span><span style="color: #75715E;">Step 1 (Blue Lock Man / People Can't Find Teams)</span>
-    <span style="color: #F92672;">while</span> <span style="color: #F92672;">len</span>(numbers) % 3 != 0:
-        numbers.remove(<span style="color: #F92672;">min</span>(numbers))
+def second_selection(numbers, verbose=False):
+    # Step 1 (Blue Lock Man / People Can't Find Teams)
+    while len(numbers) % 3 != 0:
+	numbers.remove(min(numbers))
 
-    <span style="color: #75715E;"># </span><span style="color: #75715E;">Step 2 (Players form teams of three)</span>
-    <span style="color: #FD971F;">all_teams</span> = { <span style="color: #E6DB74;">'dead'</span>: [], <span style="color: #E6DB74;">'twos'</span>: [],
-                 <span style="color: #E6DB74;">'threes'</span>: [numbers[i:i + 3] <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(0, <span style="color: #F92672;">len</span>(numbers), 3)],
-                 <span style="color: #E6DB74;">'fours'</span>: [], <span style="color: #E6DB74;">'fives'</span>: []
+    # Step 2 (Players form teams of three)
+    all_teams = { 'dead': [], 'twos': [],
+		 'threes': [numbers[i:i + 3] for i in range(0, len(numbers), 3)],
+		 'fours': [], 'fives': []
     }
 
-    <span style="color: #FD971F;">days</span> = 0
-    <span style="color: #FD971F;">matches</span> = 0
+    days = 0
+    matches = 0
 
-    <span style="color: #FD971F;">subplots_data</span> = []
+    subplots_data = []
 
-    <span style="color: #F92672;">if</span> verbose:
-        subplots_data.append(copy.deepcopy(all_teams))
+    if verbose:
+	subplots_data.append(copy.deepcopy(all_teams))
 
-    <span style="color: #75715E;"># </span><span style="color: #75715E;">Step 3 (Players play in selection until no more games can be played)</span>
-    <span style="color: #F92672;">while</span> <span style="color: #F92672;">any</span>([<span style="color: #F92672;">len</span>(x) &gt;= 2 <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> [all_teams[<span style="color: #E6DB74;">'twos'</span>], all_teams[<span style="color: #E6DB74;">'threes'</span>], all_teams[<span style="color: #E6DB74;">'fours'</span>]]]):
-        <span style="color: #75715E;"># </span><span style="color: #75715E;">3a (teams pair up)</span>
-        random.shuffle(all_teams[<span style="color: #E6DB74;">'twos'</span>])
-        random.shuffle(all_teams[<span style="color: #E6DB74;">'threes'</span>])
-        random.shuffle(all_teams[<span style="color: #E6DB74;">'fours'</span>])
+    # Step 3 (Players play in selection until no more games can be played)
+    while any([len(x) &gt;= 2 for x in [all_teams['twos'], all_teams['threes'], all_teams['fours']]]):
+	# 3a (teams pair up)
+	random.shuffle(all_teams['twos'])
+	random.shuffle(all_teams['threes'])
+	random.shuffle(all_teams['fours'])
 
-        <span style="color: #FD971F;">new_two</span> = []
-        <span style="color: #FD971F;">new_three</span> = []
-        <span style="color: #FD971F;">new_four</span> = []
+	new_two = []
+	new_three = []
+	new_four = []
 
-        <span style="color: #FD971F;">paired_teams</span> = []
-        <span style="color: #F92672;">for</span> team_list <span style="color: #F92672;">in</span> [all_teams[<span style="color: #E6DB74;">'twos'</span>], all_teams[<span style="color: #E6DB74;">'threes'</span>], all_teams[<span style="color: #E6DB74;">'fours'</span>]]:
-            <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(0, <span style="color: #F92672;">len</span>(team_list) - 1, 2):
-                paired_teams.append((team_list[i], team_list[i + 1]))
+	paired_teams = []
+	for team_list in [all_teams['twos'], all_teams['threes'], all_teams['fours']]:
+	    for i in range(0, len(team_list) - 1, 2):
+		paired_teams.append((team_list[i], team_list[i + 1]))
 
-        <span style="color: #FD971F;">unpaired_teams</span> = []
-        <span style="color: #F92672;">for</span> team_list <span style="color: #F92672;">in</span> [all_teams[<span style="color: #E6DB74;">'twos'</span>], all_teams[<span style="color: #E6DB74;">'threes'</span>], all_teams[<span style="color: #E6DB74;">'fours'</span>]]:
-            <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(team_list) % 2 != 0:
-                unpaired_teams.append(team_list[-1])
+	unpaired_teams = []
+	for team_list in [all_teams['twos'], all_teams['threes'], all_teams['fours']]:
+	    if len(team_list) % 2 != 0:
+		unpaired_teams.append(team_list[-1])
 
-        <span style="color: #F92672;">for</span> team1, team2 <span style="color: #F92672;">in</span> paired_teams:
-            <span style="color: #75715E;"># </span><span style="color: #75715E;">3b (teams play)</span>
-            <span style="color: #FD971F;">matches</span> += 1
-            <span style="color: #FD971F;">winner</span>, <span style="color: #FD971F;">loser</span> = play(team1, team2)
+	for team1, team2 in paired_teams:
+	    # 3b (teams play)
+	    matches += 1
+	    winner, loser = play(team1, team2)
 
-            <span style="color: #75715E;"># </span><span style="color: #75715E;">3c (winner steals best player of loser)</span>
-            <span style="color: #FD971F;">max_val</span> = <span style="color: #F92672;">max</span>(loser)
-            loser.remove(max_val)
-            winner.append(max_val)
+	    # 3c (winner steals best player of loser)
+	    max_val = max(loser)
+	    loser.remove(max_val)
+	    winner.append(max_val)
 
-            <span style="color: #F92672;">for</span> team <span style="color: #F92672;">in</span> [loser, winner]:
-              <span style="color: #FD971F;">all_teams</span>, <span style="color: #FD971F;">new_two</span>, <span style="color: #FD971F;">new_three</span>, <span style="color: #FD971F;">new_four</span> = append_bylen(team, all_teams, new_two, new_three, new_four)
+	    for team in [loser, winner]:
+	      all_teams, new_two, new_three, new_four = append_bylen(team, all_teams, new_two, new_three, new_four)
 
-        <span style="color: #F92672;">for</span> team <span style="color: #F92672;">in</span> unpaired_teams:
-            <span style="color: #FD971F;">all_teams</span>, <span style="color: #FD971F;">new_two</span>, <span style="color: #FD971F;">new_three</span>, <span style="color: #FD971F;">new_four</span> = append_bylen(team, all_teams, new_two, new_three, new_four)
+	for team in unpaired_teams:
+	    all_teams, new_two, new_three, new_four = append_bylen(team, all_teams, new_two, new_three, new_four)
 
-        <span style="color: #FD971F;">all_teams</span>[<span style="color: #E6DB74;">'twos'</span>] = new_two
-        <span style="color: #FD971F;">all_teams</span>[<span style="color: #E6DB74;">'threes'</span>] = new_three
-        <span style="color: #FD971F;">all_teams</span>[<span style="color: #E6DB74;">'fours'</span>] = new_four
+	all_teams['twos'] = new_two
+	all_teams['threes'] = new_three
+	all_teams['fours'] = new_four
 
-        <span style="color: #75715E;"># </span><span style="color: #75715E;">3d (next day)</span>
-        <span style="color: #F92672;">if</span> verbose:
-          <span style="color: #F92672;">print</span>(f<span style="color: #E6DB74;">"end of day {days}, total matches {matches}"</span>)
-          subplots_data.append(copy.deepcopy(all_teams))
-        <span style="color: #FD971F;">days</span> += 1
+	# 3d (next day)
+	if verbose:
+	  print(f"end of day {days}, total matches {matches}")
+	  subplots_data.append(copy.deepcopy(all_teams))
+	days += 1
 
-    <span style="color: #75715E;"># </span><span style="color: #75715E;">Step 4</span>
-    <span style="color: #F92672;">if</span> verbose:
-      <span style="color: #F92672;">print</span>(f<span style="color: #E6DB74;">"Selection complete: total matches {matches}"</span>)
+    # Step 4
+    if verbose:
+      print(f"Selection complete: total matches {matches}")
       visualize_days(subplots_data, days)
 
-    <span style="color: #F92672;">return</span> all_teams[<span style="color: #E6DB74;">'fives'</span>]
+    return all_teams['fives']
 
-<span style="color: #FD971F;">numbers</span> = [np.random.normal(100, 0.2) <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(51)]
-<span style="color: #FD971F;">selected_teams</span> = second_selection(numbers, verbose=<span style="color: #AE81FF;">True</span>)
+numbers = [np.random.normal(100, 0.2) for _ in range(51)]
+selected_teams = second_selection(numbers, verbose=True)
 </pre>
 </div>
 
 
-<div class="figure">
+<div id="org2c2de0f" class="figure">
 <p><img src="../images/bluelock/teams_days.png" alt="teams_days.png" />
 </p>
 </div>
@@ -359,9 +312,9 @@ We are going to start by writing out this process in python. The code for a roug
 </div>
 
 
-<div id="outline-container-orgc443295" class="outline-2">
-<h2 id="orgc443295">How Many Players Made It Past Blue Lock Man?</h2>
-<div class="outline-text-2" id="text-orgc443295">
+<div id="outline-container-org80a2a3a" class="outline-2">
+<h2 id="org80a2a3a">How Many Players Made It Past Blue Lock Man?</h2>
+<div class="outline-text-2" id="text-org80a2a3a">
 <p>
 If you assume nearly every player makes it past Blue Lock Man, then this process will yield 19 full teams of 5 who survive this selection. That is to say: only 30 players are eliminated in this phase at absolute maximum. A useful thing to keep in mind about this process is that it is symmetrical: teams can only win or lose, so assuming everybody plays each "day", teams will be eliminated and pass at roughly equal rates. 
 </p>
@@ -371,23 +324,23 @@ That is, \(n\) teams (or \(5n\) players) will pass the selection, \(n\) players 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #FD971F;">surviving_teams</span> = []
+<pre class="src src-python">surviving_teams = []
 
-<span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(35,125):
-  <span style="color: #FD971F;">numbers</span> = [np.random.normal(100, 0.2) <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(i)]
-  <span style="color: #FD971F;">selected_teams</span> = second_selection(numbers)
-  surviving_teams.append(<span style="color: #F92672;">len</span>(selected_teams))
+for i in range(35,125):
+  numbers = [np.random.normal(100, 0.2) for _ in range(i)]
+  selected_teams = second_selection(numbers)
+  surviving_teams.append(len(selected_teams))
 
-plt.title(<span style="color: #E6DB74;">"Surviving Teams vs Blue Lock Man Challenge"</span>)
-plt.plot(<span style="color: #F92672;">list</span>(<span style="color: #F92672;">range</span>(35,125)), surviving_teams)
-plt.xlabel(<span style="color: #E6DB74;">"Players Past Blue Lock Man"</span>)
-plt.ylabel(<span style="color: #E6DB74;">"Teams Who Clear Selection"</span>)
+plt.title("Surviving Teams vs Blue Lock Man Challenge")
+plt.plot(list(range(35,125)), surviving_teams)
+plt.xlabel("Players Past Blue Lock Man")
+plt.ylabel("Teams Who Clear Selection")
 plt.show()
 </pre>
 </div>
 
 
-<div class="figure">
+<div id="org2cc719a" class="figure">
 <p><img src="../images/bluelock/surviving_teams_blm.png" alt="surviving_teams_blm.png" />
 </p>
 </div>
@@ -398,9 +351,9 @@ If 35 players survive, and 7 teams of 5 pass the selection, then we most likely 
 </div>
 </div>
 
-<div id="outline-container-org8f9df79" class="outline-2">
-<h2 id="org8f9df79">How Much Does This Affect Skill Distribution?</h2>
-<div class="outline-text-2" id="text-org8f9df79">
+<div id="outline-container-orgcbfdc12" class="outline-2">
+<h2 id="orgcbfdc12">How Much Does This Affect Skill Distribution?</h2>
+<div class="outline-text-2" id="text-orgcbfdc12">
 <p>
 A very funny thing about this is that it is almost entirely useless as a filtration mechanism for the players involved. If we wanted 35 players, then only 18 players die at most, even including the players who get trapped in "purgatory" rather than getting eliminated outright. 
 </p>
@@ -410,25 +363,25 @@ We can run this process a large number of times to see how the distribution shif
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #FD971F;">all_nums</span> = []
-<span style="color: #FD971F;">all_chosen</span> = []
+<pre class="src src-python">all_nums = []
+all_chosen = []
 
-<span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(10000):
-  <span style="color: #FD971F;">numbers</span> = [np.random.normal(100, 15) <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(51)]
-  <span style="color: #FD971F;">selected_teams</span> = second_selection(numbers)
+for x in range(10000):
+  numbers = [np.random.normal(100, 15) for _ in range(51)]
+  selected_teams = second_selection(numbers)
 
-  <span style="color: #F92672;">for</span> n <span style="color: #F92672;">in</span> numbers:
+  for n in numbers:
     all_nums.append(n)
-  <span style="color: #F92672;">for</span> t <span style="color: #F92672;">in</span> selected_teams:
-    <span style="color: #F92672;">for</span> n <span style="color: #F92672;">in</span> t:
+  for t in selected_teams:
+    for n in t:
       all_chosen.append(n)
 
-<span style="color: #F92672;">print</span>(np.mean(all_nums))
-<span style="color: #F92672;">print</span>(np.mean(all_chosen))
+print(np.mean(all_nums))
+print(np.mean(all_chosen))
 
-plt.title(<span style="color: #E6DB74;">"Histogram of 'Skill Level' of Remaining Players"</span>)
-plt.hist(all_nums, label=<span style="color: #E6DB74;">"Pre-Selection"</span>)
-plt.hist(all_chosen, label=<span style="color: #E6DB74;">"Post-Selection"</span>)
+plt.title("Histogram of 'Skill Level' of Remaining Players")
+plt.hist(all_nums, label="Pre-Selection")
+plt.hist(all_chosen, label="Post-Selection")
 plt.legend()
 plt.show()
 </pre>
@@ -439,7 +392,7 @@ Mean: 99.95 -&gt; 101.53
 </p>
 
 
-<div class="figure">
+<div id="orgd27f793" class="figure">
 <p><img src="../images/bluelock/skilllevel.png" alt="skilllevel.png" /> 
 </p>
 </div>
@@ -458,9 +411,9 @@ It's amusing to look at this after reading/watching Blue Lock, and to realize th
 </div>
 </div>
 
-<div id="outline-container-orged86fd7" class="outline-2">
-<h2 id="orged86fd7">Closing Thoughts</h2>
-<div class="outline-text-2" id="text-orged86fd7">
+<div id="outline-container-orgdba2300" class="outline-2">
+<h2 id="orgdba2300">Closing Thoughts</h2>
+<div class="outline-text-2" id="text-orgdba2300">
 <p>
 Two things jump out at me as funny here:
 </p>
@@ -486,20 +439,6 @@ If you play around with the code in this post and come up with any other fun con
 </div>
 <div id="postamble" class="status">
 <a href="#top">Back to Top</a>
-<div id="comments">
-    <p></p>
-    <hr />
-       <div id="disqus_thread">
-           <script>
-(function() {
-var d = document, s = d.createElement('script');
-s.src = 'https://planetbanatt.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
 </div>
 </body>
 </html>

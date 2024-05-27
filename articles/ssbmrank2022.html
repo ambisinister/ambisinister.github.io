@@ -3,12 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-05-10 Wed 20:18 -->
+<!-- 2024-05-26 Sun 20:56 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SSBMRank 2022</title>
-<meta name="generator" content="Org mode" />
-<meta name="author" content="Lain-Navi" />
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,52 +50,6 @@ $(function() {
 
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
 <link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
-<script type="text/javascript">
-/*
-@licstart  The following is the entire license notice for the
-JavaScript code in this tag.
-
-Copyright (C) 2012-2020 Free Software Foundation, Inc.
-
-The JavaScript code in this tag is free software: you can
-redistribute it and/or modify it under the terms of the GNU
-General Public License (GNU GPL) as published by the Free Software
-Foundation, either version 3 of the License, or (at your option)
-any later version.  The code is distributed WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
-
-As additional permission under GNU GPL version 3 section 7, you
-may distribute non-source (e.g., minimized or compacted) forms of
-that code without the copy of the GNU GPL normally required by
-section 4, provided you include this license notice and a URL
-through which recipients can access the Corresponding Source.
-
-
-@licend  The above is the entire license notice
-for the JavaScript code in this tag.
-*/
-<!--/*--><![CDATA[/*><!--*/
- function CodeHighlightOn(elem, id)
- {
-   var target = document.getElementById(id);
-   if(null != target) {
-     elem.cacheClassElem = elem.className;
-     elem.cacheClassTarget = target.className;
-     target.className = "code-highlighted";
-     elem.className   = "code-highlighted";
-   }
- }
- function CodeHighlightOff(elem, id)
- {
-   var target = document.getElementById(id);
-   if(elem.cacheClassElem)
-     elem.className = elem.cacheClassElem;
-   if(elem.cacheClassTarget)
-     target.className = elem.cacheClassTarget;
- }
-/*]]>*///-->
-</script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -127,36 +81,36 @@ for the JavaScript code in this tag.
         </div><!--/.nav-collapse -->
     </nav>
 </div>
-<div id="content">
+<div id="content" class="content">
 <h1 class="title">SSBMRank 2022</h1>
-<div id="table-of-contents">
+<div id="table-of-contents" role="doc-toc">
 <h1>Table of Contents</h1>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org1b02012">Notes on SSBMRank 2022</a>
+<li><a href="#org8f5cf92">Notes on SSBMRank 2022</a>
 <ul>
-<li><a href="#org5030aed">Standard Deviations, and What They Mean</a></li>
-<li><a href="#org9b77177">Point Estimates for Irregular Distributions</a></li>
-<li><a href="#org86bd609">Violin Plots</a></li>
-<li><a href="#orgb289a83">How Close is Close</a></li>
-<li><a href="#orgfc195af">Closing Thoughts</a></li>
+<li><a href="#org888deb9">Standard Deviations, and What They Mean</a></li>
+<li><a href="#org366fb0d">Point Estimates for Irregular Distributions</a></li>
+<li><a href="#org8fba1b1">Violin Plots</a></li>
+<li><a href="#orgb94e709">How Close is Close</a></li>
+<li><a href="#org1715b98">Closing Thoughts</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org1b02012" class="outline-1">
-<h1 id="org1b02012">Notes on SSBMRank 2022</h1>
-<div class="outline-text-1" id="text-org1b02012">
+<div id="outline-container-org8f5cf92" class="outline-1">
+<h1 id="org8f5cf92">Notes on SSBMRank 2022</h1>
+<div class="outline-text-1" id="text-org8f5cf92">
 <p>
 Somehow, I have ended up with the role as <a href="https://blog.start.gg/ssbmrank-2022-750dca52548a">data lead for SSBMRank 2022</a>. This meant I was responsible for stuff like assembling the final list, dealing with outlier votes, normalizing the ballots, and the like. Since I have access to the ballots, I'm going to be posting some more nuanced information about the list beyond simply the point value used to determine the placements. I talk about some things people keep wanting to hear about, with respect to this years ranks.
 </p>
 </div>
 
-<div id="outline-container-org5030aed" class="outline-2">
-<h2 id="org5030aed">Standard Deviations, and What They Mean</h2>
-<div class="outline-text-2" id="text-org5030aed">
+<div id="outline-container-org888deb9" class="outline-2">
+<h2 id="org888deb9">Standard Deviations, and What They Mean</h2>
+<div class="outline-text-2" id="text-org888deb9">
 <p>
 Probably the single ask with the most important implications are for there to be standard deviations published alongside the scores. Below I've provided this information alongside the list, without commentary.
 </p>
@@ -177,7 +131,7 @@ Probably the single ask with the most important implications are for there to be
 <tr>
 <th scope="col" class="org-right">Rank</th>
 <th scope="col" class="org-left">Tag</th>
-<th scope="col" class="org-right">Score<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup></th>
+<th scope="col" class="org-right">Score<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup></th>
 <th scope="col" class="org-right">Stdv</th>
 </tr>
 </thead>
@@ -901,7 +855,7 @@ Roughly speaking, there are two effects you can notice. The first, is that the p
 
 
 
-<div class="figure">
+<div id="orgcc64d13" class="figure">
 <p><img src="../images/ssbmrank22/689599.jpg" alt="689599.jpg" />
 </p>
 </div>
@@ -916,9 +870,9 @@ It's important to appreciate what this tells us about roughly where these player
 </div>
 </div>
 
-<div id="outline-container-org9b77177" class="outline-2">
-<h2 id="org9b77177">Point Estimates for Irregular Distributions</h2>
-<div class="outline-text-2" id="text-org9b77177">
+<div id="outline-container-org366fb0d" class="outline-2">
+<h2 id="org366fb0d">Point Estimates for Irregular Distributions</h2>
+<div class="outline-text-2" id="text-org366fb0d">
 <p>
 That "center" value is actually a somewhat trickier thing to determine than it might appear at first. In fact, sometimes it's simply impossible. 
 </p>
@@ -932,13 +886,13 @@ However, this problem becomes annoying when you have a player for whom you get n
 </p>
 
 
-<div class="figure">
+<div id="org74b6db3" class="figure">
 <p><img src="../images/ssbmrank22/non-normal.png" alt="non-normal.png" />
 </p>
 </div>
 
 <p>
-Our job is to take a distribution which looks like this and to find some sort of point estimate which accurately represents the votes cast by the panel. In the figure<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup> above, you'll have an example of how the different measures of center simply answer different questions: the mean answers a question like "how much are people paid here" whereas the median answers "what is the typical person paid here". One is a statement about the total amount of money in the dataset, the other is a statement about the typical worker. You can't really generate a point estimate which properly conveys everything you need, a point estimate here necessarily answers a specific question instead.
+Our job is to take a distribution which looks like this and to find some sort of point estimate which accurately represents the votes cast by the panel. In the figure<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> above, you'll have an example of how the different measures of center simply answer different questions: the mean answers a question like "how much are people paid here" whereas the median answers "what is the typical person paid here". One is a statement about the total amount of money in the dataset, the other is a statement about the typical worker. You can't really generate a point estimate which properly conveys everything you need, a point estimate here necessarily answers a specific question instead.
 </p>
 
 <p>
@@ -955,15 +909,15 @@ Maybe a detail which could have just been ignored. But that's not really how I d
 </div>
 </div>
 
-<div id="outline-container-org86bd609" class="outline-2">
-<h2 id="org86bd609">Violin Plots</h2>
-<div class="outline-text-2" id="text-org86bd609">
+<div id="outline-container-org8fba1b1" class="outline-2">
+<h2 id="org8fba1b1">Violin Plots</h2>
+<div class="outline-text-2" id="text-org8fba1b1">
 <p>
 Something I did about 5 years ago was generate <a href="https://imgur.com/a/jUfST">violin plots</a> for KayB's <a href="https://www.reddit.com/r/SSBM/comments/7rbxeg/assessing_west_coast_bias_on_ssbmrank_and_why_it/">West Coast Bias in SSBMRank and Why it Doesn't Exist</a>. These were pretty popular for the time, and I think people appreciated the insight they provided to understanding how the panel voted for specific players. Since I have access to the ballots again, I'll do the same as I did then (with outlier votes removed so nobody gets too upset). 
 </p>
 
 
-<div class="figure">
+<div id="org6a862b0" class="figure">
 <p><img src="../images/ssbmrank22/glanceviolin.png" alt="glanceviolin.png" />
 </p>
 </div>
@@ -987,9 +941,9 @@ Notable about these is that Zain's "violin" seems to be invisible. This is becau
 </div>
 </div>
 
-<div id="outline-container-orgb289a83" class="outline-2">
-<h2 id="orgb289a83">How Close is Close</h2>
-<div class="outline-text-2" id="text-orgb289a83">
+<div id="outline-container-orgb94e709" class="outline-2">
+<h2 id="orgb94e709">How Close is Close</h2>
+<div class="outline-text-2" id="text-orgb94e709">
 <p>
 I recognize most of you are probably here about Mango vs aMSa, and I have tricked you into 
 scrolling past a bunch of charts and numbers before getting here. Please understand this is for my own sanity, as I would prefer discussion around this topic to be had among people who are willing to look at lots of charts and numbers before engaging. 
@@ -1000,7 +954,7 @@ First, without any commentary, let's look at a zoomed in violin plot of Mango an
 </p>
 
 
-<div class="figure">
+<div id="org98a7f59" class="figure">
 <p><img src="../images/ssbmrank22/mangovsamsa_violin.png" alt="mangovsamsa_violin.png" />
 </p>
 </div>
@@ -1025,9 +979,9 @@ I'm not privy to the voting distributions of any of the previous top 100 lists, 
 </div>
 </div>
 
-<div id="outline-container-orgfc195af" class="outline-2">
-<h2 id="orgfc195af">Closing Thoughts</h2>
-<div class="outline-text-2" id="text-orgfc195af">
+<div id="outline-container-org1715b98" class="outline-2">
+<h2 id="org1715b98">Closing Thoughts</h2>
+<div class="outline-text-2" id="text-org1715b98">
 <p>
 There's lots I didn't go into in this writeup (normalization, outlier supression, etc), but these were just some thoughts I thought were interesting enough to share with others. With more time, I'm confident this process will grow more sophisticated. However, I'm really just glad we got the list out, and that people generally seemed to like the result. It meant a lot to me to be trusted to fill this important sort of role, and I'm thrilled that the death of Panda was not, in turn, the death of a community-agreed ranking of the top players. We got it all done under severe time crunch (and I had covid during my time working on all of this), so if it went as well as it did I'm sure it will only get better from here.
 </p>
@@ -1038,11 +992,11 @@ There's lots I didn't go into in this writeup (normalization, outlier supression
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
 
-<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Score is displayed to the second decimal point for readability. 
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 via <a href="https://sebastianraschka.com/faq/docs/median-vs-mean.html">https://sebastianraschka.com/faq/docs/median-vs-mean.html</a>
 </p></div></div>
 
@@ -1051,20 +1005,6 @@ via <a href="https://sebastianraschka.com/faq/docs/median-vs-mean.html">https://
 </div></div>
 <div id="postamble" class="status">
 <a href="#top">Back to Top</a>
-<div id="comments">
-    <p></p>
-    <hr />
-       <div id="disqus_thread">
-           <script>
-(function() {
-var d = document, s = d.createElement('script');
-s.src = 'https://planetbanatt.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
 </div>
 </body>
 </html>

@@ -3,12 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-06-16 Fri 13:42 -->
+<!-- 2024-05-26 Sun 20:56 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Free Will</title>
-<meta name="generator" content="Org mode" />
-<meta name="author" content="ambi" />
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,52 +50,6 @@ $(function() {
 
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
 <link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
-<script type="text/javascript">
-/*
-@licstart  The following is the entire license notice for the
-JavaScript code in this tag.
-
-Copyright (C) 2012-2019 Free Software Foundation, Inc.
-
-The JavaScript code in this tag is free software: you can
-redistribute it and/or modify it under the terms of the GNU
-General Public License (GNU GPL) as published by the Free Software
-Foundation, either version 3 of the License, or (at your option)
-any later version.  The code is distributed WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
-
-As additional permission under GNU GPL version 3 section 7, you
-may distribute non-source (e.g., minimized or compacted) forms of
-that code without the copy of the GNU GPL normally required by
-section 4, provided you include this license notice and a URL
-through which recipients can access the Corresponding Source.
-
-
-@licend  The above is the entire license notice
-for the JavaScript code in this tag.
-*/
-<!--/*--><![CDATA[/*><!--*/
- function CodeHighlightOn(elem, id)
- {
-   var target = document.getElementById(id);
-   if(null != target) {
-     elem.cacheClassElem = elem.className;
-     elem.cacheClassTarget = target.className;
-     target.className = "code-highlighted";
-     elem.className   = "code-highlighted";
-   }
- }
- function CodeHighlightOff(elem, id)
- {
-   var target = document.getElementById(id);
-   if(elem.cacheClassElem)
-     elem.className = elem.cacheClassElem;
-   if(elem.cacheClassTarget)
-     target.className = elem.cacheClassTarget;
- }
-/*]]>*///-->
-</script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -127,27 +81,27 @@ for the JavaScript code in this tag.
         </div><!--/.nav-collapse -->
     </nav>
 </div>
-<div id="content">
+<div id="content" class="content">
 <h1 class="title">Free Will</h1>
-<div id="table-of-contents">
+<div id="table-of-contents" role="doc-toc">
 <h1>Table of Contents</h1>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org1e11968">The "Free Will" Test</a>
+<li><a href="#org3e14e65">The "Free Will" Test</a>
 <ul>
-<li><a href="#org261e349">Existing Implementations</a></li>
-<li><a href="#org6f57038">My Implementation</a></li>
-<li><a href="#orga431710">Simple Heuristics for Being More Random</a></li>
-<li><a href="#org1eeb594">Thoughts on "Feeling Random"</a></li>
-<li><a href="#org98cfc9b">Closing Thoughts</a></li>
+<li><a href="#orgec8af87">Existing Implementations</a></li>
+<li><a href="#org4c0db5e">My Implementation</a></li>
+<li><a href="#org11a7531">Simple Heuristics for Being More Random</a></li>
+<li><a href="#orgc9b9941">Thoughts on "Feeling Random"</a></li>
+<li><a href="#orgdf759af">Closing Thoughts</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org1e11968" class="outline-1">
-<h1 id="org1e11968">The "Free Will" Test</h1>
-<div class="outline-text-1" id="text-org1e11968">
+<div id="outline-container-org3e14e65" class="outline-1">
+<h1 id="org3e14e65">The "Free Will" Test</h1>
+<div class="outline-text-1" id="text-org3e14e65">
 <blockquote>
 <p>
 In a class I taught at Berkeley, I did an experiment where I wrote a simple little program that would let people type either “f” or “d” and would predict which key they were going to push next. It’s actually very easy to write a program that will make the right prediction about 70% of the time. Most people don’t really know how to type randomly. They’ll have too many alternations and so on. There will be all sorts of patterns, so you just have to build some sort of probabilistic model. Even a very crude one will do well. I couldn’t even beat my own program, knowing exactly how it worked. I challenged people to try this and the program was getting between 70% and 80% prediction rates. Then, we found one student that the program predicted exactly 50% of the time. We asked him what his secret was and he responded that he “just used his free will.”
@@ -163,7 +117,7 @@ As a general numbers dork and competitive fighting game player, the paragraph ab
 </p>
 
 <p>
-I've always thought I would be pretty good at this compared to the baseline; a combination of my love for games with <a href="https://www.dustloop.com/w/Mixup">mixups</a> where players have to deal with weighted coin flips, and my general completely baseless belief that I am a "truly alive" person, and "totally not an NPC"<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>. 
+I've always thought I would be pretty good at this compared to the baseline; a combination of my love for games with <a href="https://www.dustloop.com/w/Mixup">mixups</a> where players have to deal with weighted coin flips, and my general completely baseless belief that I am a "truly alive" person, and "totally not an NPC"<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>. 
 </p>
 
 <p>
@@ -175,15 +129,15 @@ What I ended up finding out was that I performed better than the reported averag
 </p>
 </div>
 
-<div id="outline-container-org261e349" class="outline-2">
-<h2 id="org261e349">Existing Implementations</h2>
-<div class="outline-text-2" id="text-org261e349">
+<div id="outline-container-orgec8af87" class="outline-2">
+<h2 id="orgec8af87">Existing Implementations</h2>
+<div class="outline-text-2" id="text-orgec8af87">
 <p>
 This was a pretty popular viral meme at one point, so I ended up finding an existing repository implementing it. You can find it <a href="https://people.ischool.berkeley.edu/~nick/aaronson-oracle/">here</a>, and the code describing it <a href="https://github.com/elsehow/aaronson-oracle">here</a>. However, I got the sense that something was a bit off about this implementation, as I immediately crushed it:
 </p>
 
 
-<div class="figure">
+<div id="orgcfd0654" class="figure">
 <p><img src="../images/freewill/oracle.png" alt="oracle.png" />
 </p>
 </div>
@@ -208,7 +162,7 @@ Armed with this knowledge, I dug into their code and found the following
 </p>
 
 
-<div class="figure">
+<div id="orgf9e0ab3" class="figure">
 <p><img src="../images/freewill/oracle_fn.png" alt="oracle_fn.png" />
 </p>
 </div>
@@ -219,66 +173,66 @@ So, if you have a 5-gram which has never been seen before, it will always predic
 </div>
 </div>
 
-<div id="outline-container-org6f57038" class="outline-2">
-<h2 id="org6f57038">My Implementation</h2>
-<div class="outline-text-2" id="text-org6f57038">
+<div id="outline-container-org4c0db5e" class="outline-2">
+<h2 id="org4c0db5e">My Implementation</h2>
+<div class="outline-text-2" id="text-org4c0db5e">
 <p>
 The code here is, as Aaronson says, very simple. The basic implementation is minimally different from elsehow's repository, but I added the random choice part, let you control how big you wanted the n-grams. The random choice means this is no longer deterministic, so I run it a few times to get consistent measurements.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #F92672;">import</span> random
-<span style="color: #F92672;">import</span> itertools
-<span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
+<pre class="src src-python">import random
+import itertools
+import matplotlib.pyplot as plt
 
-<span style="color: #F92672;">class</span> <span style="color: #66D9EF;">Predictor</span>:
-    <span style="color: #F92672;">def</span> <span style="color: #A6E22E;">__init__</span>(<span style="color: #F92672;">self</span>, n):
-        <span style="color: #F92672;">self</span>.n = n
-        <span style="color: #F92672;">self</span>.ngrams = {}
-        <span style="color: #F92672;">self</span>.correct_predictions = 0
-        <span style="color: #F92672;">self</span>.total_predictions = 0
-        <span style="color: #FD971F;">all_combinations</span> = itertools.product([<span style="color: #E6DB74;">'f'</span>, <span style="color: #E6DB74;">'d'</span>], repeat=n)
-        <span style="color: #F92672;">for</span> combination <span style="color: #F92672;">in</span> all_combinations:
-            <span style="color: #F92672;">self</span>.ngrams[<span style="color: #E6DB74;">''</span>.join(combination)] = {<span style="color: #E6DB74;">'f'</span>: 0, <span style="color: #E6DB74;">'d'</span>: 0}
+class Predictor:
+    def __init__(self, n):
+	self.n = n
+	self.ngrams = {}
+	self.correct_predictions = 0
+	self.total_predictions = 0
+	all_combinations = itertools.product(['f', 'd'], repeat=n)
+	for combination in all_combinations:
+	    self.ngrams[''.join(combination)] = {'f': 0, 'd': 0}
 
-    <span style="color: #F92672;">def</span> <span style="color: #A6E22E;">predict</span>(<span style="color: #F92672;">self</span>, sequence):
-        <span style="color: #FD971F;">correct_predictions</span> = 0
-        <span style="color: #FD971F;">total_predictions</span> = 0
-        <span style="color: #FD971F;">history</span> = sequence[:<span style="color: #F92672;">self</span>.n]
-        <span style="color: #F92672;">for</span> next_character <span style="color: #F92672;">in</span> sequence[<span style="color: #F92672;">self</span>.n:]:
-            <span style="color: #FD971F;">prediction</span> = <span style="color: #F92672;">self</span>._make_prediction(history)
-            <span style="color: #FD971F;">history</span> = <span style="color: #F92672;">self</span>._update_history(history, next_character)
-            <span style="color: #FD971F;">total_predictions</span> += 1
-            <span style="color: #F92672;">if</span> prediction == next_character:
-                <span style="color: #FD971F;">correct_predictions</span> += 1
-        <span style="color: #F92672;">self</span>.correct_predictions = correct_predictions
-        <span style="color: #F92672;">self</span>.total_predictions = total_predictions
-        <span style="color: #F92672;">return</span> correct_predictions / total_predictions <span style="color: #F92672;">if</span> total_predictions != 0 <span style="color: #F92672;">else</span> 0
+    def predict(self, sequence):
+	correct_predictions = 0
+	total_predictions = 0
+	history = sequence[:self.n]
+	for next_character in sequence[self.n:]:
+	    prediction = self._make_prediction(history)
+	    history = self._update_history(history, next_character)
+	    total_predictions += 1
+	    if prediction == next_character:
+		correct_predictions += 1
+	self.correct_predictions = correct_predictions
+	self.total_predictions = total_predictions
+	return correct_predictions / total_predictions if total_predictions != 0 else 0
 
-    <span style="color: #F92672;">def</span> <span style="color: #A6E22E;">_make_prediction</span>(<span style="color: #F92672;">self</span>, history):
-        <span style="color: #FD971F;">prediction</span> = <span style="color: #F92672;">self</span>.ngrams[history]
-        <span style="color: #F92672;">if</span> prediction[<span style="color: #E6DB74;">'f'</span>] &gt; prediction[<span style="color: #E6DB74;">'d'</span>]:
-            <span style="color: #F92672;">return</span> <span style="color: #E6DB74;">'f'</span>
-        <span style="color: #F92672;">elif</span> prediction[<span style="color: #E6DB74;">'d'</span>] &gt; prediction[<span style="color: #E6DB74;">'f'</span>]:
-            <span style="color: #F92672;">return</span> <span style="color: #E6DB74;">'d'</span>
-        <span style="color: #F92672;">else</span>:
-            <span style="color: #F92672;">return</span> random.choice([<span style="color: #E6DB74;">'f'</span>, <span style="color: #E6DB74;">'d'</span>])
+    def _make_prediction(self, history):
+	prediction = self.ngrams[history]
+	if prediction['f'] &gt; prediction['d']:
+	    return 'f'
+	elif prediction['d'] &gt; prediction['f']:
+	    return 'd'
+	else:
+	    return random.choice(['f', 'd'])
 
-    <span style="color: #F92672;">def</span> <span style="color: #A6E22E;">_update_history</span>(<span style="color: #F92672;">self</span>, history, next_character):
-        <span style="color: #F92672;">self</span>.ngrams[history][next_character] += 1
-        <span style="color: #FD971F;">history</span> = history[1:] + next_character
-        <span style="color: #F92672;">return</span> history
+    def _update_history(self, history, next_character):
+	self.ngrams[history][next_character] += 1
+	history = history[1:] + next_character
+	return history
 
-<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">plot_predictions</span>(sequence, n=3, runs=100):
-    <span style="color: #FD971F;">percentages</span> = []
-    <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(<span style="color: #F92672;">len</span>(sequence)):
-        <span style="color: #FD971F;">avg_percentage</span> = 0
-        <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(runs):  <span style="color: #75715E;"># </span><span style="color: #75715E;">(break ties random)</span>
-            <span style="color: #FD971F;">this_predictor</span> = Predictor(n)
-            this_predictor.predict(sequence[:i])
-            <span style="color: #FD971F;">avg_percentage</span> += this_predictor.correct_predictions / this_predictor.total_predictions <span style="color: #F92672;">if</span> this_predictor.total_predictions != 0 <span style="color: #F92672;">else</span> 0
-        <span style="color: #FD971F;">avg_percentage</span> /= runs 
-        percentages.append(avg_percentage)    
+def plot_predictions(sequence, n=3, runs=100):
+    percentages = []
+    for i in range(len(sequence)):
+	avg_percentage = 0
+	for _ in range(runs):  # (break ties random)
+	    this_predictor = Predictor(n)
+	    this_predictor.predict(sequence[:i])
+	    avg_percentage += this_predictor.correct_predictions / this_predictor.total_predictions if this_predictor.total_predictions != 0 else 0
+	avg_percentage /= runs 
+	percentages.append(avg_percentage)    
 </pre>
 </div>
 
@@ -291,16 +245,16 @@ Below is my attempt at it, using only general intuition and no heuristics or cou
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #FD971F;">sequence</span> = <span style="color: #E6DB74;">'ffdffdddfffddffddffdddffddfffdfdddffdfddfddfdfddffddfdfffdfddffdffddffddfdffdddddffdfdfffdfddffdddff'</span>
-<span style="color: #F92672;">print</span>(sequence.count(<span style="color: #E6DB74;">'f'</span>))
-<span style="color: #F92672;">print</span>(sequence.count(<span style="color: #E6DB74;">'d'</span>))
-<span style="color: #75715E;"># </span><span style="color: #75715E;">pretty good / lucky distribution for no heuristics</span>
+<pre class="src src-python">sequence = 'ffdffdddfffddffddffdddffddfffdfdddffdfddfddfdfddffddfdfffdfddffdffddffddfdffdddddffdfdfffdfddffdddff'
+print(sequence.count('f'))
+print(sequence.count('d'))
+# pretty good / lucky distribution for no heuristics
 
-<span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(3,6):
-  <span style="color: #FD971F;">predictor</span> = plot_predictions(sequence, n=i)
+for i in range(3,6):
+  predictor = plot_predictions(sequence, n=i)
 
-  <span style="color: #F92672;">for</span> fd <span style="color: #F92672;">in</span> predictor.ngrams:
-    <span style="color: #F92672;">print</span>(fd, predictor.ngrams[fd])
+  for fd in predictor.ngrams:
+    print(fd, predictor.ngrams[fd])
 </pre>
 </div>
 
@@ -331,28 +285,28 @@ This was cool: it exposed a blindspot in some of my decisions (especially near t
 </div>
 </div>
 
-<div id="outline-container-orga431710" class="outline-2">
-<h2 id="orga431710">Simple Heuristics for Being More Random</h2>
-<div class="outline-text-2" id="text-orga431710">
+<div id="outline-container-org11a7531" class="outline-2">
+<h2 id="org11a7531">Simple Heuristics for Being More Random</h2>
+<div class="outline-text-2" id="text-org11a7531">
 <p>
 If you had time to think about it, could you beat this test? I think you could &#x2013; and I will present the only use I've ever heard of for memorizing digits of pi: using digits of an irrational number as a random number generator. Here are 100 digits of pi, and I generate a string for this task by taking 'd' for evens and 'f' for odds.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #F92672;">print</span>(<span style="color: #E6DB74;">"generating using 100 digits of pi"</span>)
+<pre class="src src-python">print("generating using 100 digits of pi")
 
-<span style="color: #75715E;"># </span><span style="color: #75715E;">Generate sequence using digits of pi</span>
-<span style="color: #FD971F;">pi</span> = <span style="color: #E6DB74;">'3141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067'</span>
-<span style="color: #FD971F;">sequence</span> = <span style="color: #E6DB74;">''</span>.join([<span style="color: #E6DB74;">'d'</span> <span style="color: #F92672;">if</span> <span style="color: #F92672;">int</span>(x)%2==0 <span style="color: #F92672;">else</span> <span style="color: #E6DB74;">'f'</span> <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> pi])
-<span style="color: #F92672;">assert</span> sequence == <span style="color: #E6DB74;">'ffdfffddfffdffffdfddddddffdfdfffdddddffffdffffffffdfdddffdfddffdfdfdfddddddddddffdddddfdddffddfffddf'</span>
-<span style="color: #F92672;">print</span>(sequence.count(<span style="color: #E6DB74;">'f'</span>))
-<span style="color: #F92672;">print</span>(sequence.count(<span style="color: #E6DB74;">'d'</span>))
+# Generate sequence using digits of pi
+pi = '3141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067'
+sequence = ''.join(['d' if int(x)%2==0 else 'f' for x in pi])
+assert sequence == 'ffdfffddfffdffffdfddddddffdfdfffdddddffffdffffffffdfdddffdfddffdfdfdfddddddddddffdddddfdddffddfffddf'
+print(sequence.count('f'))
+print(sequence.count('d'))
 
-<span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(3,6):
-  <span style="color: #FD971F;">predictor</span> = plot_predictions(sequence, n=i)
+for i in range(3,6):
+  predictor = plot_predictions(sequence, n=i)
 
-  <span style="color: #F92672;">for</span> fd <span style="color: #F92672;">in</span> predictor.ngrams:
-    <span style="color: #F92672;">print</span>(fd, predictor.ngrams[fd])
+  for fd in predictor.ngrams:
+    print(fd, predictor.ngrams[fd])
 </pre>
 </div>
 
@@ -372,9 +326,9 @@ It should be possible to get random arbitrarily weighted coin flips this way too
 </div>
 </div>
 
-<div id="outline-container-org1eeb594" class="outline-2">
-<h2 id="org1eeb594">Thoughts on "Feeling Random"</h2>
-<div class="outline-text-2" id="text-org1eeb594">
+<div id="outline-container-orgc9b9941" class="outline-2">
+<h2 id="orgc9b9941">Thoughts on "Feeling Random"</h2>
+<div class="outline-text-2" id="text-orgc9b9941">
 <p>
 The pi-generated string made me feel extremely uneasy. It severely outperformed me despite feeling "obviously more patterned". There were many stretches where it generated the same value many times in a row, and I felt worried that my idea of using irrational number digits as a random number generator was actually somehow wrong because of some number theory patterning result I had never heard of before.
 </p>
@@ -398,9 +352,9 @@ I wonder which situations would reward vs punish this behavior &#x2013; if you w
 </div>
 </div>
 
-<div id="outline-container-org98cfc9b" class="outline-2">
-<h2 id="org98cfc9b">Closing Thoughts</h2>
-<div class="outline-text-2" id="text-org98cfc9b">
+<div id="outline-container-orgdf759af" class="outline-2">
+<h2 id="orgdf759af">Closing Thoughts</h2>
+<div class="outline-text-2" id="text-orgdf759af">
 <p>
 I came away from this test feeling affirmed that I possess at least some small quantity of "free will". At the very least, I came away from this thinking that I can make roughly 100 decisions that are relatively random, and that my fighting game training was not for naught. It's possible that if I did 600 keypresses, that this model would slowly build an advantage over me. However, I simply do not have the patience to carefully make 600 keypresses. If I can get a good result in 100, that's good enough for me. 
 </p>
@@ -419,7 +373,7 @@ Doing such a modification to the code above seems like it should be straightforw
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
 
-<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 At the very least &#x2013; I'd like to be a cool NPC. You know, a real memorable one. That feels achievable, at least.
 </p></div></div>
 
@@ -428,20 +382,6 @@ At the very least &#x2013; I'd like to be a cool NPC. You know, a real memorable
 </div></div>
 <div id="postamble" class="status">
 <a href="#top">Back to Top</a>
-<div id="comments">
-    <p></p>
-    <hr />
-       <div id="disqus_thread">
-           <script>
-(function() {
-var d = document, s = d.createElement('script');
-s.src = 'https://planetbanatt.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
 </div>
 </body>
 </html>
