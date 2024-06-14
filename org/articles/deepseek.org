@@ -815,7 +815,7 @@ There are two things DeepSeek wants to address with the RL work here:
 
 To get around this, they introduce this new idea called /Group Relative Policy Optimization/ which leverages the fact that we can sample a group of outputs to avoid training an explicit value model. Think of this like a sort of mix between DPO, PPO, and Rejection Sampling[fn:48]: we sample a group of outputs, split the outputs into $G$ groups, and optimize the PPO objective by calculating $\hat{A_{i,t}}$ by using relative rewards inside each group. The intuition here is that we don't really /need/ a detached value model, we just need to be able to identify that some output is better than other ones in the same batch. If it's a below average output, we want less of those, if it's an above average output, we want more of those.
 
-[[../images/from_clipboard/20240614_144846.png]]
+[[../images/from_clipboard/20240614_162115.png]]
 
 ***** Outcome Supervision
 
