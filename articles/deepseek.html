@@ -1,0 +1,2947 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-06-14 Fri 16:18 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Deepseek</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="./css/default.css" />
+<link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<h1 class="title">Deepseek</h1>
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org6cfb908">Understanding Modern LLMs via DeepSeek</a>
+<ul>
+<li><a href="#org19209d0">Intro</a>
+<ul>
+<li><a href="#org199d370">DeepSeek's Corpus as a Survey of Language Modeling</a></li>
+<li><a href="#orgde287ee">This Document</a></li>
+</ul>
+</li>
+<li><a href="#org0c1ca5a">DeepSeek-LLM</a>
+<ul>
+<li><a href="#orgca6dd9b">Aside A: Understanding Llama 2</a>
+<ul>
+<li><a href="#org778bec0">Llama 2 Training Loop</a></li>
+<li><a href="#org8c3c16c">Llama 2 Architecture Decisions</a></li>
+</ul>
+</li>
+<li><a href="#orgdd58f53">DeepSeek-LLM Pretraining Phase</a></li>
+<li><a href="#org2c47bfb">SFT and Human Preference Alignment</a>
+<ul>
+<li><a href="#org78fa0b7">SFT</a></li>
+<li><a href="#orgc7b3f72">Alignment</a></li>
+</ul>
+</li>
+<li><a href="#org1331ff3">Aside B: Understanding Scaling Laws</a></li>
+<li><a href="#org54df264">DeepSeek Scaling Laws</a>
+<ul>
+<li><a href="#org88cfe47">Scaling Law for Hyperparameters</a></li>
+<li><a href="#org1451ad8">Replacing N with M</a></li>
+<li><a href="#orga6304c4">Scaling Laws Depend on Data</a></li>
+</ul>
+</li>
+<li><a href="#org7007dda">Takeaways, Conclusions</a></li>
+</ul>
+</li>
+<li><a href="#orgd985fa0">DeepSeekMoE</a>
+<ul>
+<li><a href="#orgafe1093">Aside A: Mixture of Experts for Language Models</a>
+<ul>
+<li><a href="#orgc04ecbd">The Mixture of Experts Layer</a></li>
+<li><a href="#org31710f7">GShard</a></li>
+</ul>
+</li>
+<li><a href="#orga1421cf">Expert Segmentation + Shared Experts = DeepSeekMoE</a></li>
+<li><a href="#orgebf5077">Custom Losses / Why Hasn't This Been Done</a></li>
+<li><a href="#org79f73dd">"DeepSeekMoE Aligns Closely with the upper bound of MoE Models"</a></li>
+<li><a href="#org6232f93">Learnings from Experiments / Ablations</a></li>
+<li><a href="#orge2cc97d">Conclusion</a></li>
+</ul>
+</li>
+<li><a href="#org8c07aae">DeepSeek-Coder</a>
+<ul>
+<li><a href="#org58c523c">Aside A: Code Generation LLMs</a>
+<ul>
+<li><a href="#orgef998b5">StarCoder: may the source be with you!</a></li>
+<li><a href="#org2338f11">Code Llama</a></li>
+</ul>
+</li>
+<li><a href="#org329e854">Collecting Data</a></li>
+<li><a href="#orgf7fc9ea">Training</a>
+<ul>
+<li><a href="#org1354934">Long Context</a></li>
+<li><a href="#org076b275">Fill-in-the-Middle Objective</a></li>
+</ul>
+</li>
+<li><a href="#orgd556804">Continued Pretraining from General LLM</a></li>
+</ul>
+</li>
+<li><a href="#org0511fe8">DeepSeek-VL</a>
+<ul>
+<li><a href="#org556e310">The Claim: Open Source VLMs Don't Pass Vibe Check</a></li>
+<li><a href="#orgaa1abbe">Aside A: Vision Language Models</a>
+<ul>
+<li><a href="#org80a874d">LLaVA</a>
+<ul>
+<li><a href="#orgad4dd0d">Pre-training for Feature Alignment</a></li>
+<li><a href="#orge6d66a5">Fine-tuning End-to-End</a></li>
+</ul>
+</li>
+<li><a href="#org787457a">Instruct-BLIP</a></li>
+<li><a href="#org3f7a29a">SigLIP</a></li>
+<li><a href="#org054260d">Segment Anything Model (SAM-B)</a></li>
+</ul>
+</li>
+<li><a href="#org5928085">Data Construction</a></li>
+<li><a href="#org5750ff9">Training</a>
+<ul>
+<li><a href="#orgaedc006">Architecture</a></li>
+<li><a href="#orgbbdea9f">Training Pipeline</a>
+<ul>
+<li><a href="#orgf383b6c">More on Joint Pretraining</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgdb38e89">Results / Conclusion</a></li>
+</ul>
+</li>
+<li><a href="#orgc99d51f">DeepSeekMath</a>
+<ul>
+<li><a href="#org13a452e">Pretraining</a></li>
+<li><a href="#org1df4e5a">SFT</a></li>
+<li><a href="#org582dbfd">Aside A: Policy Optimization</a>
+<ul>
+<li><a href="#org19d7342">Proximal Policy Optimization (PPO)</a>
+<ul>
+<li><a href="#org4e1773b">Policy Gradient Methods</a></li>
+<li><a href="#orgdb20eee">Clipped Surrogate Objective</a></li>
+<li><a href="#org87bbbad">PPO</a></li>
+<li><a href="#org610a2c0">PPO for RLHF</a></li>
+</ul>
+</li>
+<li><a href="#org732fdf1">Rejection Sampling and Rejection Sampling Fine-Tuning (RFT)</a></li>
+<li><a href="#org0b5d136">Direct Preference Optimization (DPO)</a></li>
+</ul>
+</li>
+<li><a href="#orgb18c3ce">Reinforcement Learning</a>
+<ul>
+<li><a href="#org93fb5eb"><span class="todo TODO">TODO</span> Group Relative Policy Optimization</a>
+<ul>
+<li><a href="#org8b210dc">Outcome Supervision</a></li>
+<li><a href="#orgc20ad07">Process Supervision</a></li>
+<li><a href="#orge981d06">Iterative RL</a></li>
+</ul>
+</li>
+<li><a href="#orga89071b">"Towards to a Unified Paradigm"</a></li>
+</ul>
+</li>
+<li><a href="#org1b43748">Conclusions / Takeaways</a>
+<ul>
+<li><a href="#org0f45ebd">Code Training Benefits Mathematical Reaasoning</a></li>
+<li><a href="#org7833152">Arxiv Papers Ineffective for Improving Mathematical Reasoning</a></li>
+<li><a href="#orgdb23924">Why does RL work?</a></li>
+<li><a href="#org5e989ab">Takeaways</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgfd944f0">DeepSeek-V2</a>
+<ul>
+<li><a href="#org57c8c7e">Aside A: RoPE and YaRN</a>
+<ul>
+<li><a href="#org0c698be">RoPE</a></li>
+<li><a href="#orgcd18000">YaRN</a></li>
+</ul>
+</li>
+<li><a href="#org8c18730">Multi-Head Latent Attention</a></li>
+<li><a href="#orgc8840ba">Long context</a></li>
+<li><a href="#orgba25e60">Training</a>
+<ul>
+<li><a href="#orgd2a9273">Reinforcement Learning</a></li>
+</ul>
+</li>
+<li><a href="#org248af68">Conclusions</a></li>
+</ul>
+</li>
+<li><a href="#org4345676">DeepSeek-Prover</a>
+<ul>
+<li><a href="#org8422ffe">Approach</a></li>
+<li><a href="#org737fee3">Quality Filtering</a></li>
+<li><a href="#org2099f3c">Writing Proofs</a></li>
+<li><a href="#orgd19f469">Conclusions</a></li>
+</ul>
+</li>
+<li><a href="#orgcd825d7">Overall Takeaways</a>
+<ul>
+<li><a href="#orgefb0565">Unanswered Questions</a></li>
+</ul>
+</li>
+<li><a href="#org2498e67"><span class="todo TODO">TODO</span> Longterm</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org6cfb908" class="outline-1">
+<h1 id="org6cfb908">Understanding Modern LLMs via DeepSeek</h1>
+<div class="outline-text-1" id="text-org6cfb908">
+</div>
+<div id="outline-container-org19209d0" class="outline-2">
+<h2 id="org19209d0">Intro</h2>
+<div class="outline-text-2" id="text-org19209d0">
+
+<div id="org2eaafce" class="figure">
+<p><img src="../images/from_clipboard/20240613_135442.png" alt="20240613_135442.png" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org199d370" class="outline-3">
+<h3 id="org199d370">DeepSeek's Corpus as a Survey of Language Modeling</h3>
+<div class="outline-text-3" id="text-org199d370">
+<p>
+Modern LLMs provide an interesting technical puzzle to the semi-informed machine learning enthusiast. By and large, they are a scaled-up version of the <a href="https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf">GPT architecture</a> (2018), primarily driven by a technology called <a href="https://arxiv.org/abs/1706.03762">Transformers</a> (2017). There's a lot of <a href="https://www.youtube.com/watch?v=kCc8FmEb1nY">great work</a> on understanding these two things in particular, which I've <a href="https://colab.research.google.com/drive/1oO4wwpnzeOFcnGH93RlngINoF7bFDN9L?usp=sharing">worked through</a> in the past, but there is a slight snag here: these are (extremely useful!) resources for understanding 2017-2019 technology for which toy examples can be run on consumer hardware.
+</p>
+
+<p>
+Putting this a bit more bluntly: there's a great deal of work out there which claims to lay out "how chatGPT works", where you work through some exercises and feel like you have a solid grasp of the fundamental technology at play. However, generally speaking these things will not help you understand <i>how the actual thing works</i>. The toy examples are a vehicle for you to understand the thing that eventually <i>became</i> chatGPT, and in your head you just impute some vague idea that they made it huge and trained it on thousands of GPUs.
+</p>
+
+<p>
+To really <i>get</i> how to go from this sort of technology to a bonafide frontier LLM, you run into two problems. First, a lot of stuff is done by closed AI labs like OpenAI, and important details about their process are deliberately obfuscated. Second, a lot of the work is not connected together: there's an absolute mountain of works about LLMs, and for the precocious reader it can be pretty difficult to assess which papers matter and which are junk or hype<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>.
+</p>
+
+<p>
+In this vein, DeepSeek-AI's body of work stands out as extremely interesting. At the time of writing, it's seven papers long, and roughly covers their company's journey from roughly Llama 2 performance to roughly Llama 3 performance. They release models with every paper, and the overall decision-making is openly laid out to an almost shocking degree.
+</p>
+
+<p>
+I think everybody with serious interest in large language models should read these papers, specifically. DeepSeek has some interesting ideas about architecture, but that's not why I think they're a worthwhile read; it's more that the papers all come from the same place, and build upon each other as they go. As a result they are a bit like an intense survey of state-of-the-art language modeling work <i>in general</i> &#x2013; they discuss future plans, they have to run comparisons on what other teams are doing, and it necessarily covers everything you would need to know to understand the work powering these types of models. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgde287ee" class="outline-3">
+<h3 id="orgde287ee">This Document</h3>
+<div class="outline-text-3" id="text-orgde287ee">
+<p>
+The DeepSeek papers are a worthwhile read on their own, but I'm hoping this document can serve as a single companion reader for the list of works. By virtue of all their papers needing to be standalone, they need to cover a lot of the same ground, which you wouldn't need if you happened to be binging their entire catalogue in a short time period<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>. Additionally, academic works will typically introduce an idea and then assume the reader has appropriate context, and I'm hoping to provide some explanations for "standard" language model stuff that gets mentioned in these works<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>. 
+</p>
+
+<p>
+Simply put, it's a lot of notes. You can call it a personal exercise to learn lots of things about language models beyond <a href="https://arxiv.org/abs/1706.03762">Vaswani et al 2017</a>. I'm imagining this will be somewhat of a living document, and I may add to it as I learn more things / as DeepSeek continues to release works.
+</p>
+
+<p>
+The intended audience of this post, ideally, is someone at the level of having gone through the Karpathy GPT reproduction videos and understood them well. I'm going to assume the reader knows what <a href="https://jalammar.github.io/illustrated-transformer/">transformers are</a>, what multi-headed attention is, etc, but that they probably don't know stuff like scaling laws or grouped query attention. I'm going to go into a lot of detail, and I simply have no illusions that my would-be attempt at explaining from Level 0 would be better than Karpathy's excellent work on this topic already.
+</p>
+
+<p>
+I also am not intending this to replace reading the papers. I will not be including all of the information in all of the papers, and won't be mentioning stuff like number of epochs unless that's a really important detail to understand the big picture. I hope that you could read the companion here and understand the papers well as a result, but if there's an important detail you think I missed or didn't understand properly please tell me (ideally <a href="https://x.com/Ambisinister_">via twitter</a>).
+</p>
+
+<p>
+Briefly as acknowledgements, I leaned on some people to help me understand things here: <a id="org98953da"></a>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0c1ca5a" class="outline-2">
+<h2 id="org0c1ca5a">DeepSeek-LLM</h2>
+<div class="outline-text-2" id="text-org0c1ca5a">
+<p>
+This paper can be found <a href="https://arxiv.org/pdf/2401.02954">here</a>. It came out January 5th 2024.
+</p>
+
+<p>
+Generally speaking, this paper does two things:
+</p>
+
+<ol class="org-ol">
+<li>It roughly reproduces <a href="https://arxiv.org/pdf/2307.09288">Llama 2</a>, but with data more oriented towards Chinese language performance</li>
+<li>It examines <a href="https://arxiv.org/abs/2203.15556">scaling laws</a>, in order to demonstrate that they can predict the expected performance of their models and select good hyperparameters to land at that performance</li>
+</ol>
+
+<p>
+Point 1 here is a relatively heavy one: the architecture differs extremely minimally from Llama 2, and it does generally worse on English language benchmarks than Llama 2 due to being focused on Chinese. As far as their reported results go, they are not really anything special: the purpose of this paper is to create a foundation for the rest of the DeepSeek work, where their improvements will be noticably different from the standard Llama 2 stuff. Consider it like their starting line: a declaration that they can reproduce llama 2.
+</p>
+</div>
+
+<div id="outline-container-orgca6dd9b" class="outline-3">
+<h3 id="orgca6dd9b">Aside A: Understanding Llama 2</h3>
+<div class="outline-text-3" id="text-orgca6dd9b">
+<p>
+<img src="../images/from_clipboard/20240611_222117.png" alt="20240611_222117.png" /><sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>
+</p>
+
+<p>
+<a href="https://arxiv.org/pdf/2307.09288">Meta's Llama 2</a> is a very important paper for language models: they were the first open weights models which were highly performant even at small sizes, and the largest model was much better than anything open-source before it. As a result, it has held extreme influence over the open source community since it's release, with most released models usually hovering around the same parameter counts to facilitate comparisons with Meta's results.
+</p>
+
+<p>
+The Llama 2 paper itself is quite detailed, so lots of information is available on how exactly it works. There's a few things about it which warrant some quick explanation. At a glance, Llama 2 has the following properties:
+</p>
+
+<ul class="org-ul">
+<li>Model sizes of 7B, 13B, 34B, and 70B parameters</li>
+<li>Trained first via pretraining a base model, followed by supervised finetuning to get an instruction tuned model, followed by Reinforcement Learning from Human Feedback to get a more helpful/safe model</li>
+<li>Each trained on 2 Trillion tokens, all with a context length of 4096 tokens</li>
+<li>Uses a Byte Pair Encoding (BPE) Tokenizer with individual letters split up, a total vocabulary size of 32k tokens</li>
+<li>Uses Rotary Positional Encodings (RoPE), RMSNorm for normalization, and SwiGLU activation</li>
+<li>Uses Grouped-Query Attention (GQA) for efficiency in the 34B and 70B parameter models</li>
+</ul>
+
+<p>
+Some of these warrant somewhat more attention, so I'll briefly cover them here. This document is not a super deep dive on Llama 2 (This is just necessary context), so I'll be giving a high-level view which is necessary for what DeepSeek is attempting to reproduce / what will be improved upon in later work. 
+</p>
+</div>
+
+<div id="outline-container-org778bec0" class="outline-4">
+<h4 id="org778bec0">Llama 2 Training Loop</h4>
+<div class="outline-text-4" id="text-org778bec0">
+
+<div id="orgddf3b3f" class="figure">
+<p><img src="../images/from_clipboard/20240611_010614.png" alt="20240611_010614.png" />
+</p>
+</div>
+
+<p>
+Llama 2 is trained in three phases:
+</p>
+<ul class="org-ul">
+<li>Pretraining Phase (Creates Base Model)</li>
+<li>Supervised Finetuning Phase (Creates Chat Model)</li>
+<li>Reinforcement Learning from Human Feedback Phase (Creates Aligned Model)</li>
+</ul>
+
+<p>
+This loop was originally proposed in the <a href="https://arxiv.org/pdf/2203.02155">InstructGPT paper</a>, back in 2022. 
+</p>
+
+<p>
+The <b>pretraining</b> phase is where do most of the heavy lifting, and it's the step most tutorials teach you about when you're learning about language models in a pedagogical setting. The purpose of this phase is to get the model to learn how to predict the next token, given some context of previous tokens. If you train a really big model to do this on a lot of data, it becomes very good at picking plausible continuations to text: you can feed the output back into the context and continue generating tokens based on the previously generated token, and that's called <i>autoregression</i>.
+</p>
+
+<p>
+At this point, the model is not that useful. What is done after this phase is what turns this token prediction model into a chat model: <b>supervised fine tuning</b> (SFT). SFT is a step where you fine-tune the base model on a bunch of data which looks vaguely like this:
+</p>
+
+<blockquote>
+<p>
+### PROMPT
+</p>
+
+<p>
+What is the capital of Mali?
+</p>
+
+<p>
+### ANSWER
+</p>
+
+<p>
+The capital of Mali is Bamako.
+</p>
+</blockquote>
+
+<p>
+It is a lot harder to collect a lot of data in this particular format, so this step usually is a lot smaller (~1% of the size). However, this is what turns the model into something ostensibly useful: it's learning to predict the next token conditional on that token being some sort of <i>reply</i> to some sort of <i>question</i>.
+</p>
+
+<p>
+The last step of this process is <b>reinforcement learning from human feedback</b> (RLHF). This is an iterative step which will attempt to steer the model's responses to be more likely to result in positive feedback from a human rater. Llama 2 uses two strategies for this: <b>Proximal Policy Optimization</b> (PPO) and <b>Rejection Sampling</b>. We will explore these in more detail once we get to DeepSeekMath, but for now think of these as Reinforcement Learning (RL) techniques in order to massage the responses to be a little safer and friendlier (this is the step which produces responses like "sorry, as an AI language model I cannot assist in the spread of misinformation").
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8c3c16c" class="outline-4">
+<h4 id="org8c3c16c">Llama 2 Architecture Decisions</h4>
+<div class="outline-text-4" id="text-org8c3c16c">
+
+<div id="org75694de" class="figure">
+<p><img src="../images/from_clipboard/20240611_010820.png" alt="20240611_010820.png" />
+</p>
+</div>
+
+<p>
+<b>Byte-Level Byte-Pair Encoding (BPE)</b>
+</p>
+
+<p>
+The byte pair encoding tokenizer used for Llama 2 is <a href="https://huggingface.co/learn/nlp-course/en/chapter6/5">fairly standard for language models</a>, and has been used for a fairly long time. Some things to notice relative to DeepSeek-LLM is that they used a vocabulary of 32k, which is a fair bit less than DeepSeek's 102k vocabulary size. The big reason for the difference here is that Llama 2 is made specifically with English in mind, compared to DeepSeek's focus on being performant in both English and Chinese. Llama 2's dataset is comprised of 89.7% English, roughly 8% code, and just 0.13% Chinese, so it's important to note many architecture choices are directly made with the intended language of use in mind.
+</p>
+
+<p>
+<b>Rotary Positional Encoding (RoPE)</b>
+</p>
+
+
+<div id="orgf0f989d" class="figure">
+<p><img src="../images/from_clipboard/20240611_125040.png" alt="20240611_125040.png" />
+</p>
+</div>
+
+<p>
+RoPE was a positional encoding method which came from the <a href="https://arxiv.org/pdf/2104.09864">RoFormer paper</a> back in November 2023. We will talk about this paper in more detail when we get to DeepSeek-V2, because the strategy of using strong relative positional embeddings is what will enable us to eventually get nice long context windows rather than these tiny fixed context windows we are currently using. 
+</p>
+
+<p>
+Probably the best way to get a grasp of RoPE is the <a href="https://blog.eleuther.ai/rotary-embeddings/">Eleuther AI blogpost about it</a>. The idea behind RoPE is very clever: - You have two items q,k at two positions m,n.
+</p>
+<ul class="org-ul">
+<li>You want a function where the dot product is the same provided q and k are the same, and the distance between m and n are the same</li>
+<li>We can represent the tokens as complex numbers, and represent their positions as rotations we apply to them
+<ul class="org-ul">
+<li>if we shift q and k the same amount in positions, their relative rotations will be the same, so the dot product will also be the same</li>
+<li>if we put this in the attention step rather than the embedding step, then we can get relative positional encodings for our tokens using this dot product, which is the same relative to other tokens when shifted over.</li>
+</ul></li>
+</ul>
+
+
+<div id="orgb541b0c" class="figure">
+<p><img src="../images/from_clipboard/20240611_212940.png" alt="20240611_212940.png" />
+</p>
+</div>
+
+<p>
+For now this is enough detail, since DeepSeek-LLM is going to use this exactly the same as Llama 2. The important things to know are: it can handle an indefinite number of positions, it works well, and it's uses the rotation of complex numbers in q and k. Later on in the DeepSeek-V2 sections they will make some changes that impact how this part works, and so in that section we will cover this in more detail.
+</p>
+
+<p>
+<b>SwiGLU Activation</b>
+</p>
+
+
+<div id="org648c627" class="figure">
+<p><img src="../images/from_clipboard/20240611_131452.png" alt="20240611_131452.png" />
+</p>
+</div>
+
+
+<div id="orgb7ea5ac" class="figure">
+<p><img src="../images/from_clipboard/20240611_131526.png" alt="20240611_131526.png" />
+</p>
+</div>
+
+<p>
+SwiGLU is from a very short 5 page paper <a href="https://arxiv.org/pdf/2002.05202v1">GLU Variants Improve Transformer</a><sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>. Gated linear units are a layer where you component-wise multiply two linear transformations of the input, where one is passed through an activation function and the other isn't. The original GLU uses a sigmoid acivation, and SwiGLU uses this <a href="https://arxiv.org/pdf/1710.05941v1">Swish</a> activation function.
+</p>
+
+<p>
+This replaces the ReLU activation function in normal transformers.
+</p>
+
+<p>
+<b>RMSNorm</b>
+</p>
+
+<p>
+The traditional thing to put in transformers is <a href="https://pytorch.org/docs/stable/generated/torch.nn.LayerNorm.html">LayerNorm</a>. <a href="https://arxiv.org/pdf/1910.07467">RMSNorm</a> is a computationally simpler variant compared to LayerNorm:
+</p>
+
+
+<div id="org7486b37" class="figure">
+<p><img src="../images/from_clipboard/20240611_143043.png" alt="20240611_143043.png" />
+</p>
+</div>
+
+<p>
+The difference here is pretty subtle: if your mean is 0 then these two are exactly equal. You can think of RMSNorm being the claim that re-centering the data at 0 in LayerNorm doesn't do anything important, so it's a little more efficient.
+</p>
+
+<p>
+<b>Group Query Attention (GQA)</b>
+</p>
+
+
+<div id="org1761b7d" class="figure">
+<p><img src="../images/from_clipboard/20240611_143501.png" alt="20240611_143501.png" />
+</p>
+</div>
+
+<p>
+We will talk about <a href="https://arxiv.org/pdf/2305.13245">Group Query Attention</a> in a bit more detail when we get to DeepSeek-V2. The basic idea is that you split attention heads into "KV heads" and "query heads", and make the former fewer in number than the latter. This is done as a tradeoff: it's nicer if we can use a separate KV head for each query head, but you save a lot of memory bandwidth using Multi-Query attention (where you only use one shared KV head). Bunching up the queries and using several KV heads is sort of like the halfway between memory efficiency and performance<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdd58f53" class="outline-3">
+<h3 id="orgdd58f53">DeepSeek-LLM Pretraining Phase</h3>
+<div class="outline-text-3" id="text-orgdd58f53">
+<p>
+Bringing it back to DeepSeek, let's start by understanding the pretraining data, and how they collected it. 
+</p>
+
+<p>
+DeepSeek's data collection phase at this stage is three phases:
+</p>
+
+<ol class="org-ol">
+<li>Deduplication: Reduce Redundant Data</li>
+<li>Filtering: Maximize Document Quality</li>
+<li>Remixing: "Increase presence of underrepresented domains"</li>
+</ol>
+
+<p>
+Deduplication is done pretty aggressively here: <a href="https://commoncrawl.org/overview">common crawl</a> is organized into "dumps" which happen at regular intervals, and deduplicating within these dumps is very much not enough. Because documents are often identical in multiple dumps, their strategy of deduplicating across dumps filters out tons of redundant data.
+</p>
+
+
+<div id="org8272faa" class="figure">
+<p><img src="../images/from_clipboard/20240611_153112.png" alt="20240611_153112.png" />
+</p>
+</div>
+
+<p>
+Filtering is done with a relatively vague "linguistic and semantic evaluations", remixing is done to address class imbalance, although both are somewhat unclear from the text (maybe something to look into more deeply later?)
+</p>
+
+<p>
+The same as Llama 2, they train on 2 Trillion tokens collected using the above process. They train 2 models this way: one with 7B params and one with 67B params (roughly, the smallest and the largest llama 2 models).
+</p>
+
+
+<div id="org0b4e2ef" class="figure">
+<p><img src="../images/from_clipboard/20240602_224752.png" alt="20240602_224752.png" />
+</p>
+</div>
+
+<p>
+Generally speaking, DeepSeek-LLM follows Llama 2 very closely: RMSNorm, SwiGLU, RoPE, etc. The 67B model uses GQA, the 7B model does not. The biggest difference in the architecture itself is in the tokenizer: as mentioned a bit ago, it uses a 102k tokenizer, most likely to enable its performance in both English and Chinese.
+</p>
+
+<p>
+To make a long story short, they pretrain this model on this dataset and get good results.
+</p>
+
+<p>
+There are some small differences: Llama 2 7b has 32 layers compared to DeepSeek-LLM's 30 layers, and Llama 2 70B has 80 layers to DeepSeek's 95 layers. They claim this is for model partitioning purposes, but they make an effort to keep the total parameter count roughly the same to enable a fair comparison.
+</p>
+
+
+<div id="org4ee1099" class="figure">
+<p><img src="../images/from_clipboard/20240611_153839.png" alt="20240611_153839.png" />
+</p>
+</div>
+
+<p>
+The learning rate schedule is also different from Llama 2 here. Whereas Llama 2 uses the typical <a href="https://pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.CosineAnnealingLR.html">cosine scheduler</a>, DeepSeek-LLM uses a multi-step scheduler instead. They do an 80%:10%:10% three-stage schedule, where the decreases 31.6% and 10% respectively.
+</p>
+
+<p>
+They don't really get any sort of improved performance with this, but the nicer thing about multi-step schedulers is that you always easily know the learning rate at each checkpoint. With a cosine scheduler, you need to keep track of the exact current time to get the value of the cosine curve at any particular checkpoint, so the multi-step scheduler being good enough is a handy thing for easier checkpoint use.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2c47bfb" class="outline-3">
+<h3 id="org2c47bfb">SFT and Human Preference Alignment</h3>
+<div class="outline-text-3" id="text-org2c47bfb">
+<p>
+Now that we have a performant base model to work with, we need to turn it into a chat model. They do this with two stages: Supervised Fine Tuning (SFT) and Direct Preference Optimization (DPO).
+</p>
+</div>
+
+<div id="outline-container-org78fa0b7" class="outline-4">
+<h4 id="org78fa0b7">SFT</h4>
+<div class="outline-text-4" id="text-org78fa0b7">
+<p>
+DeepSeek-LLM collects a dataset of ~1.5 million instruction data examples in both English and Chinese, most of which are for making the model more helpful (good at code, math, etc). There's an interesting note here about multiple choice data during this phase: they show an experiment where they added 20 million Chinese multiple choice questions in the SFT phase, which boosts the multiple choice performance a lot. This improvement <b>only helps</b> on multiple choice benchmarks; this does not help general capabilities that are not in MC format. Their given reason is that these questions don't only test the model's knowledge, "but also to understand what the option refers to."
+</p>
+
+
+<div id="orgf03e0e3" class="figure">
+<p><img src="../images/from_clipboard/20240603_025156.png" alt="20240603_025156.png" />
+</p>
+</div>
+
+<p>
+They report this result and then state: <b>"Therefore, we have chosen to exclude MC data from both the pre-training and fine-tuning stages, as including it would result in overfitting to benchmarks and would not contribute to achieving true intelligence in the model."</b>
+</p>
+
+<p>
+The above might be some sort of hint to evaluate why certain models seem to overperform on benchmarks and other seem to punch way below their weight relative to reported results &#x2013; there's all sorts of stuff which could potentially constitute implicitly overfitting to benchmarks in this way, and it's worth keeping in mind when evaluating new models.
+</p>
+
+<p>
+There's another interesting note here about including instruction-tuning data in the pretraining set, in order to cook up the base model's performance on benchmarks prior to SFT and DPO. I'll present the below without comment, since it will come in handy later.
+</p>
+
+
+<div id="org785deee" class="figure">
+<p><img src="../images/from_clipboard/20240611_151953.png" alt="20240611_151953.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc7b3f72" class="outline-4">
+<h4 id="orgc7b3f72">Alignment</h4>
+<div class="outline-text-4" id="text-orgc7b3f72">
+
+<div id="org4399cb1" class="figure">
+<p><img src="../images/from_clipboard/20240611_150604.png" alt="20240611_150604.png" />
+</p>
+</div>
+
+<p>
+Deviating from Llama 2 a bit here, DeepSeek-LLM performs the human preference alignment step with a newer technique called <a href="https://arxiv.org/pdf/2305.18290">Direct Preference Optimization</a>. We will be diving into this in a bit more detail once we get to DeepSeekMath, but the gist of it is that instead of training a reward model with preference data and then using reinforcement learning to affect the model's outputs, it implicitly optimizes the same objective without reinforcement learning, making it simpler to implement.
+</p>
+
+
+<div id="org82f0c0a" class="figure">
+<p><img src="../images/from_clipboard/20240611_151636.png" alt="20240611_151636.png" />
+</p>
+</div>
+
+<p>
+"We found out that DPO can strengthen the model’s open-ended generation skill, while engendering little difference in performance among standard benchmarks."
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1331ff3" class="outline-3">
+<h3 id="org1331ff3">Aside B: Understanding Scaling Laws</h3>
+<div class="outline-text-3" id="text-org1331ff3">
+<p>
+Back in the stone age of 2022, we started to see some extremely large dense models pop up: <a href="https://arxiv.org/pdf/2201.11990">Megatron-Turing NLG</a> was 530 billion parameters, which was absolutely massive for a dense model in 2022. The early part of this era was characterized by the belief that we just needed to make the models bigger and bigger.
+</p>
+
+<p>
+That's still sort of true, but a lot changed after <a href="https://arxiv.org/pdf/2203.15556">Chinchilla</a> was released: a DeepMind Paper which found that "compute-optimal training" would scale up model size and training tokens equally (i.e. that 2x data should roughly equal 2x model size). This was a big shift in scaling laws: before then everybody was mostly following the results from <a href="https://arxiv.org/pdf/2001.08361">Scaling Laws for Neural Language Models</a> from 2020, which showed that the model size was much more important (due to being more sample efficient, and needing fewer steps to learn).
+</p>
+
+<p>
+The big result they got was demonstrating that all of these gigantic models were extremely undertrained. Megatron-Turing NLG was trained on a mere 339 billion tokens, which seems almost laughably low for a 530B dense model today<sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></sup>. Their Chinchilla model got similar performance to these huge, 500B+ parameter models with only 70B parameters, by using 1.4 Trillion tokens instead.
+</p>
+
+
+<div id="org5ea1774" class="figure">
+<p><img src="../images/from_clipboard/20240611_225648.png" alt="20240611_225648.png" />
+</p>
+</div>
+
+<p>
+They figured this out by asking: "Given a fixed compute budget, how should you trade off model size and training tokens?" This can be framed like an optimization problem: with a loss \(L\) and compute budget \(C\) which is a function of the training tokens \(N\) and the dataset \(D\), we want to find the argmin \(L(N, D)\) such that \(D\) and \(N\) equal \(C\). If this is nicely described by some sort of power law, we can use this relationship to predict the loss of the model if we scaled up.
+</p>
+
+<p>
+They try three approaches which all turn out roughly equivalent:
+</p>
+
+
+<div id="orge666d07" class="figure">
+<p><img src="../images/from_clipboard/20240611_231544.png" alt="20240611_231544.png" />
+</p>
+</div>
+
+<ol class="org-ol">
+<li>Fix the model size, vary the number of tokens, and try to identify the optimal compute size to get the lowest loss for each number of training tokens</li>
+<li>Vary the model size for a six set of training Floating Point Operation (FLOP) count, plot IsoFLOPs curve to estimate optimal model size with lowest loss for each compute budget.</li>
+<li>They fit a parametric loss function to model all the losses from the experiments in 1 and 2</li>
+</ol>
+
+<p>
+They get a very different result from the original <a href="https://arxiv.org/pdf/2001.08361">scaling laws</a> paper. This could be for a variety of reasons: that paper used much smaller models, didn't adjust the fixed learning rate or number of tokens for each model, and so on.
+</p>
+
+
+<div id="org60fed5a" class="figure">
+<p><img src="../images/from_clipboard/20240611_231920.png" alt="20240611_231920.png" />
+</p>
+</div>
+
+<p>
+This represented a huge shift in how these models were trained, where the metagame was more oriented towards large datasets and modestly large models. <a href="https://ai.meta.com/blog/meta-llama-3/">Llama 3 400B</a> is the conceptually closest thing to what Megatron-Turing NLG was back in 2022, but reaches GPT-4 performance after being trained on <i>15 Trillion tokens</i><sup><a id="fnr.8" class="footref" href="#fn.8" role="doc-backlink">8</a></sup>.
+</p>
+
+<p>
+Scaling laws are <a href="https://gwern.net/scaling-hypothesis">a whole thing</a>. There's <a href="https://en.wikipedia.org/wiki/Neural_scaling_law">more work</a> beyond what I've listed above, and there's much discussion about whether these will eventually level off or if we can just scale our way to artificial general intelligence. That's outside the scope of this article: the important thing here is that we can fairly accurately predict how well our model will perform given data and a compute budget, with some smaller scale experiments.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org54df264" class="outline-3">
+<h3 id="org54df264">DeepSeek Scaling Laws</h3>
+<div class="outline-text-3" id="text-org54df264">
+<p>
+Back to DeepSeek, it's not clear if it would be better to follow the OpenAI scaling laws or the Chinchilla scaling laws. The results seem sort of all over the place, so it ends up being kind of important to run the experiments themselves instead of wasting millions of dollars on a suboptimal training run.
+</p>
+
+<p>
+With respect to scaling they make three contributions in this paper:
+</p>
+
+<ol class="org-ol">
+<li>They show a scaling law for optimal batch size and learning rate</li>
+<li>They change model size parameter \(N\) from Chinchilla to "non-embedding FLOPs per token" \(M\), which is a little more accurate for calculating scaling laws (this will become more obvious when we cover Mixture of Experts)</li>
+<li>They show that the scaling laws you get from these experiments are different depending on the dataset quality, and as your dataset gets better you should allocate more budget to model size.</li>
+</ol>
+</div>
+
+<div id="outline-container-org88cfe47" class="outline-4">
+<h4 id="org88cfe47">Scaling Law for Hyperparameters</h4>
+<div class="outline-text-4" id="text-org88cfe47">
+<p>
+They run some simple experiments to find optimal parameters based on fixed compute budgets, the figures tell the story well:
+</p>
+
+
+<div id="org8623a26" class="figure">
+<p><img src="../images/from_clipboard/20240602_232851.png" alt="20240602_232851.png" />
+</p>
+</div>
+
+
+<div id="orga55da30" class="figure">
+<p><img src="../images/from_clipboard/20240602_232919.png" alt="20240602_232919.png" />
+</p>
+</div>
+
+<p>
+Cool implication: <b>The optimal hyperparameters fall within a broad band</b>, which means that the underlying system here is pretty stable and that tiny parameter changes shouldn't have huge impacts. The results are pretty intuitive: with more compute power you'll want a larger batch size and a lower learning rate. Their parameters for both models are picked according to these laws.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1451ad8" class="outline-4">
+<h4 id="org1451ad8">Replacing N with M</h4>
+<div class="outline-text-4" id="text-org1451ad8">
+<p>
+In this section they replace "model parameters" with an estimate more in line with the transformer architecture, ignoring the vocabulary computation but accounting for the attention operation. They show a table where this more granular value often varies widely from the simpler approximations used in other works.
+</p>
+
+<p>
+<img src="../images/from_clipboard/20240612_000913.png" alt="20240612_000913.png" />
+<img src="../images/from_clipboard/20240612_000925.png" alt="20240612_000925.png" />
+</p>
+
+<p>
+Aside from that, they fit the IsoFLOP curves just like Chinchilla and get results pretty close to theirs:
+</p>
+
+
+<div id="org36bd14e" class="figure">
+<p><img src="../images/from_clipboard/20240612_001057.png" alt="20240612_001057.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga6304c4" class="outline-4">
+<h4 id="orga6304c4">Scaling Laws Depend on Data</h4>
+<div class="outline-text-4" id="text-orga6304c4">
+<p>
+Making their own dataset and ostensibly improving it over time let them do a cool experiment where they were able to show that dataset quality affects the scaling laws that you get from the above process. This seems very intuitive to me, but can partially explain why a lot of the research seems all over the place as far as specific values go.
+</p>
+
+
+<div id="orgf76300e" class="figure">
+<p><img src="../images/from_clipboard/20240612_001313.png" alt="20240612_001313.png" />
+</p>
+</div>
+
+<p>
+It squares away the huge gap between OpenAI's scaling laws work and Chinchilla: OpenWebText2 got crazy scaling laws reflective of it's high quality and small size, whereas Chinchilla got mostly evenhanded ones based on it's substantially larger size (which comes attached with more difficult filtration). Their own data shows that over time the optimal scaling of the model is higher and higher the better the collected data gets, supporting the above conclusions.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7007dda" class="outline-3">
+<h3 id="org7007dda">Takeaways, Conclusions</h3>
+<div class="outline-text-3" id="text-org7007dda">
+<p>
+Generally speaking, DeepSeek-LLM follows Llama 2 very closely, and their result is not terribly unexpected given that they have an open source model of what to do.
+</p>
+
+<p>
+But this is just a baseline: from the text, "Our study aims to lay the groundwork for future scaling of open-source LLMs". They now have a good way to pick hyperparameters, a good way to predict model performance, and a demonstrated ability to build performant LLMs. From this point forwards all the papers will focus in on little areas an make improvements to them. 
+</p>
+
+<p>
+Their stated future work from this paper are:
+</p>
+
+<ul class="org-ul">
+<li>Code intelligence report (high quality data for pre-training) (DeepSeekCoder)</li>
+<li>Mixture-of-Experts (MoE) (Sparse model with dense model performance) (DeepSeekMoE)</li>
+<li>Bigger / better dataset for DeepSeek LLM's second version (DeepSeek-V2)</li>
+<li>Alignment work w/ reinforcement learning to boost complex reasoning ability (DeepSeekMath)</li>
+</ul>
+
+<p>
+Let's get into some of these. 
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd985fa0" class="outline-2">
+<h2 id="orgd985fa0">DeepSeekMoE</h2>
+<div class="outline-text-2" id="text-orgd985fa0">
+<p>
+This paper can be found <a href="https://arxiv.org/pdf/2401.06066">here</a>. It was released January 11, 2024.
+</p>
+
+<p>
+Mixture of Experts (MoE) is a type of model which will directly activate <i>different weights</i>, or "experts", depending on the input. This lets you have a sparsely activated model which lets you scale up the parameter count extremely high, since only a comparatively small number of parameters are active on every forward and backward pass. The Mixture-of-Expert idea has been around since the 90s, but the legendary Noam Shazeer has a lot of work bringing this over to language models, e.g. <a href="https://arxiv.org/pdf/2101.03961">scaling a model to over a trillion parameters back in 2022</a>.
+</p>
+
+<p>
+It has <a href="https://www.semianalysis.com/p/gpt-4-architecture-infrastructure">been known</a> that GPT-4 is <a href="https://152334h.github.io/blog/non-determinism-in-gpt-4/">an MoE model</a>, likely with about 1.8T total parameters. So, it makes sense for DeepSeek to want to learn how to use them. However, it's a little tricky: the Chinchilla paper has a line where it cites <a href="https://arxiv.org/abs/2202.01169">Unified Scaling Laws for Routed Language Models</a> and says "for very large models the computational benefits of routed models seems to diminish".
+</p>
+
+<p>
+DeepSeek does two big things in this paper:
+</p>
+<ol class="org-ol">
+<li>They introduce "Fine-Grained Expert Segmentation": instead of using a few big experts, use a ton of extremely small ones.</li>
+<li>Hopefully this will make it so that each expert has decorrelated expertise, and they don't activate for "common knowledge". Because you still need common knowledge, they introduce "generalist experts", which are shared experts which are always enabled to capture this.</li>
+</ol>
+
+<p>
+Their goal here is to address two annoyances about Mixture of Experts: knowledge hybridity (each expert has to learn lots of different things), and knowledge redundancy (each expert probably knows stuff the other experts know). We are going to read some MoE papers to understand what they're doing here.
+</p>
+</div>
+
+<div id="outline-container-orgafe1093" class="outline-3">
+<h3 id="orgafe1093">Aside A: Mixture of Experts for Language Models</h3>
+<div class="outline-text-3" id="text-orgafe1093">
+<p>
+<img src="../images/from_clipboard/20240612_134155.png" alt="20240612_134155.png" /><sup><a id="fnr.9" class="footref" href="#fn.9" role="doc-backlink">9</a></sup>
+</p>
+
+<p>
+The high level idea behind MoE is that you replace the feedforward network at the end of the attention block with a Mixture of Experts layer, which is basically just like a regular feedforward network but there's a bunch of them, and you only route the input to a few of them on every forward pass. If you imagine each FFN is the same size as the old FFN, and you only pick one of them, then it's simple to see that on each forward and backward pass you basically have something the exact same size as the original network &#x2013; it's a way to scale up parameters without needing every parameter all the time. 
+</p>
+
+<p>
+Formally you can see it below:
+</p>
+
+
+<div id="org94e27e9" class="figure">
+<p><img src="../images/from_clipboard/20240603_131836.png" alt="20240603_131836.png" />
+</p>
+</div>
+
+<p>
+where N is the total number of expert, FFN<sub>i</sub> is the ith expert, g<sub>i,t</sub> is the gate value for the ith expert (i.e. if we turn it on or off)), s<sub>i,t</sub> is token-to-expert affinity (i.e how hard we turn it on), all of the above with layernorm omitted for brevity.
+</p>
+</div>
+
+<div id="outline-container-orgc04ecbd" class="outline-4">
+<h4 id="orgc04ecbd">The Mixture of Experts Layer</h4>
+<div class="outline-text-4" id="text-orgc04ecbd">
+<p>
+Using this in Language models is mostly downstream of a 2017 paper called <a href="https://arxiv.org/pdf/1701.06538">Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer</a>, which is part of <a href="https://scholar.google.com/citations?user=wsGvgA8AAAAJ&amp;hl=en">Noam Shazeer</a>'s extensive body of work on language modeling (and MoE in particular)<sup><a id="fnr.10" class="footref" href="#fn.10" role="doc-backlink">10</a></sup>.
+</p>
+
+
+<div id="org81f8368" class="figure">
+<p><img src="../images/from_clipboard/20240612_163812.png" alt="20240612_163812.png" />
+</p>
+</div>
+
+<p>
+This was done on stacked LSTM layers, by virtue of it being performed in January 2017.
+</p>
+
+<p>
+The output of this layer is \(\sum^{n}_{i=1}G(x)_iE_i(x)\), where G(x) is the amount of weight of each expert's "opinion" (and all the G(x)s sum to 1). To save computation, you squash this to 0 for all except the top couple of experts, that way you don't need to compute the expert's output just for it to be multiplied by a very small number.
+</p>
+
+<p>
+The original way to do gating was to just have a trainable weight matrix \(W_g\) which is multiplied by the input and then softmaxed to sum to 1. This paper's version adds a few extra features: adding a little bit of noise, only keeping the top k, and then softmaxing that output. This introduces a second matrix \(W_{noise}\) which controls the amount of noise to be added.
+</p>
+
+
+<div id="org3362a36" class="figure">
+<p><img src="../images/from_clipboard/20240612_172048.png" alt="20240612_172048.png" />
+</p>
+</div>
+
+<p>
+This can be trained just using normal backpropagation &#x2013; the contribution and gradients of each non-top-k expert is set to 0, which means both the forward and backward passes only affect the sparsely selected experts.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org31710f7" class="outline-4">
+<h4 id="org31710f7">GShard</h4>
+<div class="outline-text-4" id="text-org31710f7">
+<p>
+The main point of comparison for DeepSeekMoE is <a href="https://arxiv.org/pdf/2006.16668">GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding</a>, also featuring Shazeer's name.
+</p>
+
+
+<div id="orgc288a41" class="figure">
+<p><img src="../images/from_clipboard/20240612_162917.png" alt="20240612_162917.png" />
+</p>
+</div>
+
+<p>
+GShard is work which basically does 2 things:
+</p>
+
+<ol class="org-ol">
+<li>It implements a big transformer decoder block which implements a <a href="https://arxiv.org/pdf/1701.06538">Mixture of Experts Layer</a></li>
+<li>Enable you to put each expert on it's own GPU, and allow routing to move across GPUs to the appropriate expert</li>
+</ol>
+
+<p>
+This lets you scale up the effective width of the models substantially. For example, <a href="https://mistral.ai/news/mixtral-8x22b/">Mixtral 8x22B</a> is a strong open Mixture-of-Experts model. You can imagine this as 8 copies of the same stack of decoder blocks, but where all the FFNs are a little different. In this case, your router in the mixture of experts layer can point to an expert which is on a different GPU &#x2013; GShard implements the ability to All-to-All Dispatch (i.e. send something to an expert on another GPU) and All-to-All Combine (i.e. get the outputs of each experts at the end of the FFN step of each decoder block).
+</p>
+
+<p>
+<a href="https://www.youtube.com/watch?v=1VdEw_mGjFk">Yannic Kilcher</a> has a video on the GShard paper which goes into somewhat more detail here, but the general idea is that GShard lets you scale using Mixture of Experts more easily when you have a very large number of devices, by allowing those devices to communicate with each other and assigning them each different tasks ("sharding" the model). [long-term TODO: Go in a bit more detail here, beyond this is mostly hardware-level but I am mostly blind to that level of detail]
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga1421cf" class="outline-3">
+<h3 id="orga1421cf">Expert Segmentation + Shared Experts = DeepSeekMoE</h3>
+<div class="outline-text-3" id="text-orga1421cf">
+
+<div id="org53e215b" class="figure">
+<p><img src="../images/from_clipboard/20240603_132441.png" alt="20240603_132441.png" />
+</p>
+</div>
+
+<p>
+Ideally, we want each expert to be responsible for only an extremely narrow band of knowledge, especially since it's only inferring upon a single token. It is a waste of resources to train multiple FFNs which all have to learn the same things for the model to be performant, which could defeat the purpose of using MoE to scale parameters up.
+</p>
+
+<p>
+<b>Expert Segmentation</b>
+</p>
+
+<p>
+The very simple thing DeepSeekMoE does to get around this is by making all of the experts really, really small. If we want \(M\) experts, we just divide the hidden dimension of the FFN by \(m\), such that all the experts together are the same size as the original FFN. 
+</p>
+
+<p>
+The formulation is the exact same as the previous MoE definition, but substitute \(mN\) for \(N\) and \(mK\) for \(K\). The logic here makes sense: it's N choose K combinations, and increasing the granularity of the experts increases both N and K here (more experts + selecting more experts for the same computational cost).
+</p>
+
+<p>
+<b>Shared Experts</b>
+</p>
+
+<p>
+Okay, but what about stuff we always want to be able to do? What if "all the experts need to know the same stuff" is a strength rather than a weakness, and the larger expert size imbues each expert with some "common knowledge"?
+</p>
+
+<p>
+DeepSeekMoE's solution here is to make those components explicit &#x2013; have some number of experts which are always on and always selected, whose job it is to capture those things which ostensibly all experts should know. The complete formulation is shown below:
+</p>
+
+
+<div id="org155c52c" class="figure">
+<p><img src="../images/from_clipboard/20240603_133347.png" alt="20240603_133347.png" />
+</p>
+</div>
+
+<p>
+Overall this all seems fairly well-motivated, even if the extreme expert segmentation has been somewhat of a barrier to making DeepSeek's MoE models easy to adapt for stuff like <a href="https://github.com/ggerganov/llama.cpp">llama.cpp</a>. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgebf5077" class="outline-3">
+<h3 id="orgebf5077">Custom Losses / Why Hasn't This Been Done</h3>
+<div class="outline-text-3" id="text-orgebf5077">
+<p>
+The problem with many very small, numerous experts is that this reduces the margin of error for the router, and also makes parallelization kind of tricky. One possible mode of failure is similar to <a href="https://arxiv.org/pdf/1807.04015">mode collapse</a>, where the router learns that the top K experts are the most performant, always selects them, and then you effectively just have a normal FFN again, with a bunch of useless parameters that never train and are never used. Another possible mode of failure is if all the most common experts happen to all on the same GPU, and suddenly you have a big bottleneck.
+</p>
+
+<p>
+To try and address this, DeepSeekMoE introduces two additional auxiliary loss terms: <b>Expert-Level Balance Loss</b> which penalizes the model for not evenly selecting the experts, and <b>Device-Level Balance Loss</b> which splits up the experts into partitions and then penalizes the model for selecting a lot of experts from the same partition. 
+</p>
+
+<p>
+<img src="../images/from_clipboard/20240612_143124.png" alt="20240612_143124.png" />
+<img src="../images/from_clipboard/20240612_143150.png" alt="20240612_143150.png" />
+</p>
+
+<p>
+Including this sort of thing in the loss terms is a bit strange, and it probably does not work without them, which probably explains why nobody other than DeepSeek really does this. [TODO: Run some toy experiments yourself here].
+</p>
+</div>
+</div>
+
+<div id="outline-container-org79f73dd" class="outline-3">
+<h3 id="org79f73dd">"DeepSeekMoE Aligns Closely with the upper bound of MoE Models"</h3>
+<div class="outline-text-3" id="text-org79f73dd">
+
+<div id="orga2a8446" class="figure">
+<p><img src="../images/from_clipboard/20240603_135523.png" alt="20240603_135523.png" />
+</p>
+</div>
+
+<p>
+Comparing Mixture of Experts models with non-MoE models is going to be pretty tricky, both here and moving forwards into future works. It doesn't feel quite right to compare it to a dense model with the same number of parameters (where it activates so many fewer parameters each forward pass), and it also doesn't feel quite right to compare it to a dense model with the same number of active parameters (where it literally just has fewer parameters than the MoE model).
+</p>
+
+<p>
+In any case, the absolute ceiling here would be comparing MoE with a dense model with the same number of total parameters, but all activated. It seems directly not realistically possible for turning off a bunch of the parameters to be <i>better</i> than leaving them on, assuming an unlimited compute budget. They run some experiments to show that the performance they get is comparable with this upper bound, despite using way less computation / energy / etc.
+</p>
+
+<p>
+I do not think this observation holds as they continue onwards (I don't think the conclusion "MoE is basically like training a dense model of the same size" is correct or fair), but a healthy takeaway from this is that MoE models are very performant for their activated size. More concretely: they go on to train DeepSeekMoE, a 145B parameter model, and show that it's performance is roughly equivalent to DeepSeek-LLM 67B. This model has more parameters than the latter model, but it's <i>activated size</i> is much smaller.
+</p>
+
+
+<div id="orgc0608d7" class="figure">
+<p><img src="../images/from_clipboard/20240612_150700.png" alt="20240612_150700.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6232f93" class="outline-3">
+<h3 id="org6232f93">Learnings from Experiments / Ablations</h3>
+<div class="outline-text-3" id="text-org6232f93">
+<p>
+You can read through the paper for more concrete examples, but I'll rapid-fire some of the learnings here
+</p>
+
+<p>
+<b>Lower Redundancy among Routed Experts</b> - if you disable the top N of K experts, DeepSeekMoE gets hurt way worse than GShard, suggesting GShard has less concrete expert specialization.
+</p>
+
+<p>
+<b>This does not work without the shared experts</b> - if you add another small routed expert instead of the shared one, this gets way worse.
+</p>
+
+<p>
+<b>More expert segmentation = better performance for fewer parameters</b> - Larger experts (as in GShard) accumulate knowledge much more slowly due to redundancy between experts, smaller experts reach equivalent performance even with fewer parameters.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge2cc97d" class="outline-3">
+<h3 id="orge2cc97d">Conclusion</h3>
+<div class="outline-text-3" id="text-orge2cc97d">
+<p>
+They use the above learnings to train and release DeepSeekMoE 145B, which does about as well as DeepSeek-LLM 67B. They release a chat model that they train the same as in previous papers. They even include some experiments where they halve the number of experts and <i>still</i> get similar performance, suggesting the sparsity could even be pushed even further.
+</p>
+
+<p>
+<img src="../images/from_clipboard/20240603_144138.png" alt="20240603_144138.png" />
+<img src="../images/from_clipboard/20240612_152330.png" alt="20240612_152330.png" />
+</p>
+
+<p>
+Again, the comparison to dense models is a bit unclear &#x2013; there are two primary takeaways:
+</p>
+
+<ol class="org-ol">
+<li>Mixture of Experts is a way to dramatically reduce FLOPs per Token and <i>not parameter count</i>, which is why their scaling laws from the previous papers were about FLOPs per Token and not parameter count.</li>
+<li>DeepSeek sees good success with much smaller / numerous routed experts + shared experts, which is unusual relative to most MoE work which does top-1 or top-2 routing.</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8c07aae" class="outline-2">
+<h2 id="org8c07aae">DeepSeek-Coder</h2>
+<div class="outline-text-2" id="text-org8c07aae">
+<p>
+This paper can be found <a href="https://arxiv.org/pdf/2401.14196">here</a>. This was released on Jan 26 2024.
+</p>
+
+<p>
+<img src="../images/from_clipboard/20240603_115851.png" alt="20240603_115851.png" />
+<img src="../images/from_clipboard/20240612_205723.png" alt="20240612_205723.png" />
+</p>
+
+<p>
+The DeepSeek-Coder paper can be primarily viewed as a data quality exercise, as well as a capabilities project. DeepSeek has shown up to now that they can train large language models that are pretty good &#x2013; can they make one that does <i>a particular thing</i> better? How would they collect data for that? How is that different from a model which is just good at replying to questions in natural language?
+</p>
+
+<p>
+To look into this, they collect a bunch of data from github, go through an extensive data quality filtering process, and arrive at a dataset of 2 trillion tokens. They train this almost exactly the same way as they train DeepSeek-LLM, but focused on code generation capabilities rather than other benchmarks. They produce a model at the time was the state-of-the-art open weights coding model, outperforming 3.5-turbo. They also produce a new benchmark of LeetCode contest problems, which they present alongside some of the more normal benchmarks you see in code generation work.
+</p>
+</div>
+
+<div id="outline-container-org58c523c" class="outline-3">
+<h3 id="org58c523c">Aside A: Code Generation LLMs</h3>
+<div class="outline-text-3" id="text-org58c523c">
+</div>
+<div id="outline-container-orgef998b5" class="outline-4">
+<h4 id="orgef998b5">StarCoder: may the source be with you!</h4>
+<div class="outline-text-4" id="text-orgef998b5">
+<p>
+<a href="https://arxiv.org/pdf/2305.06161">StarCoder</a> is a crazy project from December 2023 from an open source community called <a href="https://www.bigcode-project.org/docs/about/mission/">BigCode</a>. It's a fairly hefty paper with a multitude of authors from all over the place. The fundamental idea here is that they train a 15.5B parameter base model with 8k context window on <a href="https://huggingface.co/datasets/bigcode/the-stack">The Stack</a>, a 1 trillion token dataset which is assembled by filtering code out based on provided licenses + with the ability to opt-out of inclusion. This is further finetuned on 35B python tokens to create StarCoder.
+</p>
+
+<p>
+There's a lot of really nice stuff in here: sections on aggressively filtering out personally identifiable information, ways to convert jupyter notebooks into scripts, even a section on manual visual inspection performed by volunteer human annotators. The bulk of this paper, like DeepSeek-Coder, is about this painstaking data collection process.
+</p>
+
+<p>
+Architecture wise, StarCoder is not particularly novel: it uses the same architecture as <a href="https://arxiv.org/pdf/2301.03988">SantaCoder</a>, it uses <a href="https://arxiv.org/pdf/1911.02150">Multi-Query-Attention</a>, and learned absolute positional embeddings.
+</p>
+
+<p>
+<img src="../images/from_clipboard/20240612_213524.png" alt="20240612_213524.png" />
+<img src="../images/from_clipboard/20240612_213535.png" alt="20240612_213535.png" />
+</p>
+
+<p>
+They train this model and get a good result.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2338f11" class="outline-4">
+<h4 id="org2338f11">Code Llama</h4>
+<div class="outline-text-4" id="text-org2338f11">
+<p>
+<a href="https://arxiv.org/pdf/2308.12950">Code Llama</a> is what it sounds like: Llama for code. It is the same architure as Llama 2, but specialized for coding purposes. This paper is probably conceptually closer to what DeepSeek-Coder does.
+</p>
+
+
+<div id="orgb8981fe" class="figure">
+<p><img src="../images/from_clipboard/20240612_213903.png" alt="20240612_213903.png" />
+</p>
+</div>
+
+<p>
+Code Llama 70B was trained on 1 trillion tokens, the same as StarCoder<sup><a id="fnr.11" class="footref" href="#fn.11" role="doc-backlink">11</a></sup>. It includes 8% natural language about code, and otherwise goes into minimal detail about how it assembles that dataset of 1 trillion tokens. It employs a <i>fill-in-the-middle</i> objective on top of it's normal next token prediction objective in pretraining, which we will talk about in more detail below.
+</p>
+
+<p>
+Something noteworthy that Code Llama does that neither StarCoder nor DeepSeek-Coder do is <i>Long context fine-tuning</i> (LCFT). Code Llama boasts an extremely impressive 100k context window<sup><a id="fnr.12" class="footref" href="#fn.12" role="doc-backlink">12</a></sup>:
+</p>
+
+<p>
+<img src="../images/from_clipboard/20240612_214859.png" alt="20240612_214859.png" />
+<img src="../images/from_clipboard/20240612_215153.png" alt="20240612_215153.png" />
+</p>
+
+<p>
+DeepSeek extends the context window by modifying RoPE as well, using the paper they describe (Position Interpolation), but doing the above is still a ways away for DeepSeek. For now consider this to be a roughly very impressive result from Meta.
+</p>
+
+<p>
+Otherwise, this paper is light on detail and extremely heavy on evaluation: the datasets are proprietary and glossed over, and it mostly is reporting Llama 2 trained on this 1T code dataset, with additional finetuning done for long context and instruction tuning. 
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org329e854" class="outline-3">
+<h3 id="org329e854">Collecting Data</h3>
+<div class="outline-text-3" id="text-org329e854">
+<p>
+Generally speaking, you can think of this paper as "basically doing what Code Llama does, but using the dataset stuff from StarCoder, on a dataset twice as large".
+</p>
+
+<p>
+The meat of this paper is in how they construct their dataset, which is done much like StarCoder without all the conscientious licensing stuff<sup><a id="fnr.13" class="footref" href="#fn.13" role="doc-backlink">13</a></sup>. Overall, the dataset can be described as roughly 87% code, 10% English code-related natural language, and 3% Chinese natural language. Their data collection process follows the below pipeline:
+</p>
+
+
+<div id="org1795404" class="figure">
+<p><img src="../images/from_clipboard/20240603_111920.png" alt="20240603_111920.png" />
+</p>
+</div>
+
+<p>
+<b>Data Crawling and Filtering</b>
+</p>
+
+<p>
+They apply filtering rules similar to StarCoder to filter out low quality code. This process is pretty vicious, reducing total amount of data to only 32.8% of original size.
+</p>
+
+<p>
+Some things they do:
+</p>
+<ul class="org-ul">
+<li>filter out average line length &gt;100 characters, or max line length &gt;1000 characters</li>
+<li>filter out fewer than 25% alphabetic characters</li>
+<li>filter out files with &lt;?xml version= at the start (except for XSLT)</li>
+<li>retain only HTML files where visible text is at least 20% and 100 characters</li>
+<li>filter out small/big json/yaml files which have fewer than or greater than 50/5000 characters.</li>
+</ul>
+
+<p>
+<b>Dependency Parsing</b>
+</p>
+
+<p>
+Most coding LLMs just work on the file-level, which isn't how coding works. Normally you need to import code from other files to use in this file, and there's an entire dependency graph you need to be aware of when you navigate a large project.
+</p>
+
+
+<div id="org2219dd3" class="figure">
+<p><img src="../images/from_clipboard/20240612_211016.png" alt="20240612_211016.png" />
+</p>
+</div>
+
+<p>
+Their solution is to organize the code with topological sort so that the dependencies come first in the input sequence, so it's already seen the files needed to understand the current input. That is to say: they modify the <i>order</i> of the pretraining data, so that the model will hopefully always see files that call functions that they have already seen. 
+</p>
+
+<p>
+<b>Repo Deduplication</b>
+</p>
+
+<p>
+Sometimes two files actually <i>do need to be the same</i>, if they do the same thing in two different projects; in this case deduplication would be disruptive to understanding the code. However, two repos don't ever need to be the same, so sufficiently similar repos should be pruned.
+</p>
+
+<p>
+<b>Quality Screening</b>
+</p>
+
+
+<div id="org1f2ace9" class="figure">
+<p><img src="../images/from_clipboard/20240612_211102.png" alt="20240612_211102.png" />
+</p>
+</div>
+
+<p>
+As with some of the other DeepSeek papers, the quality screening step is somewhat glossed over. What they do provide us with is the following:
+</p>
+
+<ul class="org-ul">
+<li>They use compiler / quality model to filter out low quality data, i.e. syntax errors, poor readability, low modularity</li>
+<li>They filter out data containing docstrings, questions, solutions for any of the benchmarks they are going to be testing against (e.g. exclude any code with a 10-gram or full exact match identical to any in test data)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf7fc9ea" class="outline-3">
+<h3 id="orgf7fc9ea">Training</h3>
+<div class="outline-text-3" id="text-orgf7fc9ea">
+
+<div id="orgd62a6c4" class="figure">
+<p><img src="../images/from_clipboard/20240603_114903.png" alt="20240603_114903.png" />
+</p>
+</div>
+
+<p>
+For the most part, training DeepSeek-Coder is trained the exact same way as DeepSeek-LLM, including the resulting instruction tuning. The above table should tell you almost everything if you've been following up to this point. There are a few minor differences (e.g. tokenizer has a 32k vocab, rather than 102k), the more involved of which I will note below.
+</p>
+</div>
+
+<div id="outline-container-org1354934" class="outline-4">
+<h4 id="org1354934">Long Context</h4>
+<div class="outline-text-4" id="text-org1354934">
+<p>
+RoPE parameters are here changed to extend default context window, such that it can support a context length of 16k rather than the 4096 from DeepSeek-LLM. They do an additional phase of training where they train 1000 steps with a batch size of 512 and a sequence length of 16k<sup><a id="fnr.14" class="footref" href="#fn.14" role="doc-backlink">14</a></sup>. This makes sense for a coder model, where the contents put in context are often much larger than they would be for simple questions.
+</p>
+
+<p>
+From the text, emphasis mine: "Theoretically, these modifications enable our model to process up to 64K tokens in context. However, empirical observations suggest that the model delivers its most reliable outputs within a 16K token range. <b>Future research will continue to refine and evaluate the long-context adaptation methodology</b>, aiming to further enhance DeepSeek-Coder’s efficiency and user-friendliness in processing extended contexts." &#x2013; This step will come in the DeepSeek-V2 paper later; for now, just worth noting that they needed to extend the context length up from 4k to 16k to make it more effective for coding purposes.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org076b275" class="outline-4">
+<h4 id="org076b275">Fill-in-the-Middle Objective</h4>
+<div class="outline-text-4" id="text-org076b275">
+<p>
+Like StarCoder and Code Llama, DeepSeek-Coder does a fill-in-the-middle objective in pretraining, on top of a next-token-prediction objective. "Due to specific dependencies in a programming language, relying solely on next token prediction is insufficient to learn&#x2026; [the necessary capability to] generate corresponding inserted content based on the given context and subsequent text".
+</p>
+
+
+<div id="orgad46a9a" class="figure">
+<p><img src="../images/from_clipboard/20240612_205242.png" alt="20240612_205242.png" />
+</p>
+</div>
+
+<p>
+Interestingly it seems like there's a tradeoff in capability between training for this and training for code completion &#x2013; training on 100% FIM makes the model better at FIM but worse at code completion, and vice versa. They land on 50% as a favorable balance between the two.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd556804" class="outline-3">
+<h3 id="orgd556804">Continued Pretraining from General LLM</h3>
+<div class="outline-text-3" id="text-orgd556804">
+<p>
+One of the more interesting parts of this paper are their results starting from a general purpose LLM rather than from scratch. In this case, they start with DeepSeek-LLM-7B Base, and train it on an additional 2T tokens, just for next token completion, to get DeepSeek-Coder-Base-v1.5. They also instruction tune it, to get DeepSeek-Coder-Instruct-v1.5.
+</p>
+
+<p>
+<img src="../images/from_clipboard/20240612_210121.png" alt="20240612_210121.png" />
+<img src="../images/from_clipboard/20240612_210139.png" alt="20240612_210139.png" />
+</p>
+
+<p>
+Similar in concept to ablations performed in Code Llama, which just show that the performance is better and leave it at that<sup><a id="fnr.15" class="footref" href="#fn.15" role="doc-backlink">15</a></sup>:
+</p>
+
+
+<div id="orgbaea5dd" class="figure">
+<p><img src="../images/from_clipboard/20240612_215620.png" alt="20240612_215620.png" />
+</p>
+</div>
+
+<p>
+The DeepSeek results are fun: in the code-only models, you get very slightly better programming performance, whereas in the language-first models, you get superior reasoning (and of course better natural language capability). Overall this moves us nicely into their concluding remarks: "This advancement underscores our belief that the most effective code-focused Large Language Models are those built upon robust general LLMs. <b>The reason is evident: to effectively interpret and execute coding tasks, these models must models must also possess a deep understanding of human instructions, which often come in various forms of natural language</b>."
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0511fe8" class="outline-2">
+<h2 id="org0511fe8">DeepSeek-VL</h2>
+<div class="outline-text-2" id="text-org0511fe8">
+<p>
+Paper can be found <a href="https://arxiv.org/pdf/2403.05525">here</a>. This was released on March 11, 2024.
+</p>
+
+
+<div id="org3eb1463" class="figure">
+<p><img src="../images/from_clipboard/20240613_005100.png" alt="20240613_005100.png" />
+</p>
+</div>
+
+<p>
+If you've used the big language models at all, you know that most of them let you <a href="https://openai.com/index/gpt-4v-system-card/">upload an image and talk with the LLM about it</a>. How does this work? If we know how to train LLMs, can we figure out a way to create a vision model? How can we make a foray into multimodal?
+</p>
+
+<p>
+In this paper DeepSeek extends their LLMs to support vision. They do this along three main axes:
+</p>
+<ol class="org-ol">
+<li>Data Construction: assembling lots of different types of images</li>
+<li>Model Architectures: vision encoder -&gt; processing the features into tokens which are treated like any other token</li>
+<li>Training Strategy: taking a decidedly language-first approach to Vision Language Model (VLM) training.</li>
+</ol>
+
+<p>
+Basically, let's figure out how GPT-4V works and do something related. For it's size DeepSeek's crack at this is <a href="https://huggingface.co/spaces/WildVision/vision-arena">fairly admirable</a>, it seems to perform about the same as <a href="https://arxiv.org/abs/2304.08485">llava-v1.6-vicuna-7b</a><sup><a id="fnr.16" class="footref" href="#fn.16" role="doc-backlink">16</a></sup>, very competitive with the best open source models<sup><a id="fnr.17" class="footref" href="#fn.17" role="doc-backlink">17</a></sup>.
+</p>
+</div>
+
+<div id="outline-container-org556e310" class="outline-3">
+<h3 id="org556e310">The Claim: Open Source VLMs Don't Pass Vibe Check</h3>
+<div class="outline-text-3" id="text-org556e310">
+<p>
+Open source models sometimes get pretty good results on vision benchmarks. However, these models are generally pretty bad, and the gap between open source and closed source feels much larger for vision models in particular<sup><a id="fnr.18" class="footref" href="#fn.18" role="doc-backlink">18</a></sup>.
+</p>
+
+<p>
+DeepSeek's claim is that this is because open source models are fundamentally focused on <b>instruction tuning</b> instead of pretraining, and that their experience training LLMs would suggest that pretraining is where capabilities are developed and instruction tuning is just where those capabilities get put in a nice format for you.
+</p>
+
+<p>
+Other reasons that the vibes might be bad are adapting a poor resolution vision transformer to a pretrained language model, or not being mindful of the degradation of language capability in the rare cases where models do undergo extensive pretraining.
+</p>
+
+<p>
+DeepSeek's solution to VLMs is as follows:
+</p>
+<ul class="org-ul">
+<li>A hybrid vision encoder where a low-resolution (384x384) module is text-aligned and a high-resolution (1024x1024) module just extracts features. This produces 576 visual tokens containing information from both modules.</li>
+<li>Extensive data collection and subsequent pretraining, 70% of which is language data.</li>
+<li><b>Mix some instruction tuning in pretraining to prevent instruction-following from becoming the bottleneck</b>. This differs from their earlier work on LLMs where this was found mostly to not matter.</li>
+<li>Do scaling experience on a small model and then scale<sup><a id="fnr.19" class="footref" href="#fn.19" role="doc-backlink">19</a></sup>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgaa1abbe" class="outline-3">
+<h3 id="orgaa1abbe">Aside A: Vision Language Models</h3>
+<div class="outline-text-3" id="text-orgaa1abbe">
+</div>
+<div id="outline-container-org80a874d" class="outline-4">
+<h4 id="org80a874d">LLaVA</h4>
+<div class="outline-text-4" id="text-org80a874d">
+
+<div id="org9d6f725" class="figure">
+<p><img src="../images/from_clipboard/20240613_125158.png" alt="20240613_125158.png" />
+</p>
+</div>
+
+<p>
+Large Language and Vision Assistant, or LLaVA, is from the paper <a href="https://arxiv.org/pdf/2304.08485">Visual Instruction Tuning</a>, which was the first openly available attempt to extend instruction tuning to language-image data. This paper actually predates GPT-4V, and was pretty important to Vision-Language work in general: it introduced a multimodal benchmark, a pipeline for converting text-image pairs into instruction tuning data, and it developed a multimodal model based on image encoding + language instruction.
+</p>
+
+<p>
+As far as data goes, they describe a "GPT-assisted Visual Instruction Data Generation" process in this paper to make instruction tuning viable. This sort of data is hard to come by, even though caption data is pretty easy to find everywhere. To get around this, they have a simple synthetic data loop where they take detailed captions for images and ask GPT-4 to generate a conversation between a user and an assistant about the contents of the image, using information available in that caption.
+</p>
+
+<p>
+Now they have a modest image-language dataset (~158k examples) which is suitable in size for the SFT phase of training. They make a model which takes a vision encoder (pretrained CLIP ViT-L) and projects the embeddings to "visual tokens" which are prepended to the input to the language model (they used <a href="https://lmsys.org/blog/2023-03-30-vicuna/">Vicuna</a> for this). 
+</p>
+
+<p>
+They train this model in two phases:
+</p>
+</div>
+
+<div id="outline-container-orgad4dd0d" class="outline-5">
+<h5 id="orgad4dd0d">Pre-training for Feature Alignment</h5>
+<div class="outline-text-5" id="text-orgad4dd0d">
+<p>
+Given that they have a bunch of instruction tuning data from the above, they start by freezing the vision encoder and the language model, and doing pretraining only on the projection matrix which is responsible for converting the embeddings from the vision encoder to "tokens" which will get passed to the model.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge6d66a5" class="outline-5">
+<h5 id="orge6d66a5">Fine-tuning End-to-End</h5>
+<div class="outline-text-5" id="text-orge6d66a5">
+<p>
+After this is completed, they unfreeze the LLM and let the model learn how to use the visual tokens it has learned to create in the first phase. Notably, the vision encoder is still kept frozen here, and the only training that gets performed in instruction tuning (which is why the paper is called "visual instruction tuning").
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org787457a" class="outline-4">
+<h4 id="org787457a">Instruct-BLIP</h4>
+<div class="outline-text-4" id="text-org787457a">
+<p>
+<a href="https://arxiv.org/pdf/2305.06500">Instruct-BLIP</a> is a later attempt to push the boundaries of instruction tuning in vision-language models. Like LLaVA, it uses a vision encoder and an LLM, but it uses a Query Transformer (Q-former) to bridge them together, instead of just a simple linear layer.
+</p>
+
+
+<div id="org49aa087" class="figure">
+<p><img src="../images/from_clipboard/20240613_132213.png" alt="20240613_132213.png" />
+</p>
+</div>
+
+<p>
+The interesting thing about Instruct-BLIP is that the Q-Former gets to see the instruction also, which means it gets to condition on the instruction when projecting the visual features to the language model as tokens. To me this makes sense, it reminds me of the old <a href="https://www.uni-weimar.de/kunst-und-gestaltung/wiki/images/Unexpected_visitor.pdf">Alfted Yarbus eye movement studies</a>, where depending on the task provided to participants, they preferentially looked at different parts of the scene.
+</p>
+
+
+<div id="org0669284" class="figure">
+<p><img src="../images/from_clipboard/20240613_132426.png" alt="20240613_132426.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3f7a29a" class="outline-4">
+<h4 id="org3f7a29a">SigLIP</h4>
+<div class="outline-text-4" id="text-org3f7a29a">
+<p>
+Moving into some architecture stuff DeepSeek-VL is going to use, <a href="https://arxiv.org/pdf/2303.15343">SigLIP</a> is a very popular variant of <a href="https://arxiv.org/pdf/2103.00020">CLIP</a> which implements <i>Sigmoid loss</i>.
+</p>
+
+
+<div id="orgc2aa856" class="figure">
+<p><img src="../images/from_clipboard/20240613_122353.png" alt="20240613_122353.png" />
+</p>
+</div>
+
+<p>
+If you don't already know what CLIP is (first of all, at least <a href="https://openai.com/index/clip/">read the blogpost</a> immediately), it's an image encoder trained with contrastive learning which will attempt to align the representations of a vision encoder and a text encoder, to encourage them to produce similar representations. 
+</p>
+
+
+<div id="orgad10986" class="figure">
+<p><img src="../images/from_clipboard/20240613_122617.png" alt="20240613_122617.png" />
+</p>
+</div>
+
+<p>
+SigLIP, at a super high level, implements a sigmoid-based contrastive loss instead of a softmax-based contrastive loss. They show that the computational simplicity of sigmoid enables larger batch size, and also that this just literally happens to be better anyways. There's lots of really nice stuff in here about making the implementation efficient, but the important thing for our purposes is just that doing this makes the model quite a fair bit better.
+</p>
+
+
+<div id="org2630b8b" class="figure">
+<p><img src="../images/from_clipboard/20240613_123304.png" alt="20240613_123304.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org054260d" class="outline-4">
+<h4 id="org054260d">Segment Anything Model (SAM-B)</h4>
+<div class="outline-text-4" id="text-org054260d">
+<p>
+<a href="https://arxiv.org/pdf/2304.02643">Segment Anything</a> was a hugely influential foundation model for computer vision<sup><a id="fnr.20" class="footref" href="#fn.20" role="doc-backlink">20</a></sup>.
+</p>
+
+
+<div id="org091fef5" class="figure">
+<p><img src="../images/from_clipboard/20240613_123756.png" alt="20240613_123756.png" />
+</p>
+</div>
+
+<p>
+This paper was a real work of art, and you should go read it if you have interest in computer vision in general. The core idea is that they trained a foundation model on 1.1 billion masks, which will:
+</p>
+
+<ol class="org-ol">
+<li>Encode the image to get an embedding (using a masked autoencoder [MAE] trained <a href="https://arxiv.org/abs/2010.11929">Vision Transformer</a>, [ViT])</li>
+<li>Let you input a natural language prompt (and encode it to get text embeddings)</li>
+<li>Decode your embedding with the prompt in mind to produce a segmentation mask over whatever you specified in the prompt (using a two-ways transformer which performs cross attention between both embeddings)</li>
+</ol>
+
+<p>
+For context in the vision-language model DeepSeek is going to train, we don't actually need to go into much detail about this paper at all: they are just going to be using the image encoder here. Specifically, there are three sizes of image encoder in SAM: ViT-B (91M params), ViT-L (308M params), and ViT-H (636M params).  
+</p>
+
+
+<div id="org7246544" class="figure">
+<p><img src="../images/from_clipboard/20240613_124732.png" alt="20240613_124732.png" />
+</p>
+</div>
+
+<p>
+DeepSeek-VL is going to be using the pretrained model of the smallest of these, to get a high resolution image embedding.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5928085" class="outline-3">
+<h3 id="org5928085">Data Construction</h3>
+<div class="outline-text-3" id="text-org5928085">
+<p>
+<img src="../images/from_clipboard/20240613_005353.png" alt="20240613_005353.png" />
+<img src="../images/from_clipboard/20240613_005427.png" alt="20240613_005427.png" />
+<img src="../images/from_clipboard/20240613_005953.png" alt="20240613_005953.png" />
+</p>
+
+<p>
+DeepSeek-VL collects an extensive dataset for both pretraining and instruction tuning, both of which have heavy focus on text-only data. These datasets are very large, the 2T dataset from DeepSeek-LLM is big enough to constitute 70% of the dataset. A lot of this stuff is rendered pdfs and markdown, images with lots of text and figures in them, etc. 
+</p>
+
+<p>
+The in-house SFT data is their attempt to capture data which will make the model generally good at real-world tasks<sup><a id="fnr.21" class="footref" href="#fn.21" role="doc-backlink">21</a></sup>, rather than just at benchmarks.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5750ff9" class="outline-3">
+<h3 id="org5750ff9">Training</h3>
+<div class="outline-text-3" id="text-org5750ff9">
+
+<div id="org5251e71" class="figure">
+<p><img src="../images/from_clipboard/20240613_010526.png" alt="20240613_010526.png" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgaedc006" class="outline-4">
+<h4 id="orgaedc006">Architecture</h4>
+<div class="outline-text-4" id="text-orgaedc006">
+
+<div id="org3c53be4" class="figure">
+<p><img src="../images/from_clipboard/20240604_001854.png" alt="20240604_001854.png" />
+</p>
+</div>
+
+<p>
+There are three main components to DeepSeek-VL:
+</p>
+
+<ol class="org-ol">
+<li>DeepSeek-LLM 7B, which is roughly modeled after Llama 2 7B.</li>
+<li>A hybrid vision encoder which uses SigLIP-L for a low-resolution, text-aligned image encoder; and SAM-B for a high resolution, vision-only encoder.</li>
+<li>A VL Adaptor which will take the outputs of the vision encoder. This uses interpolation -&gt; CNN<sup><a id="fnr.22" class="footref" href="#fn.22" role="doc-backlink">22</a></sup> -&gt; Resize operations upon the SAM-B encodings to get a vector of 576 x 1024, which it then concatenates with the 576 x 1024 feature map from SigLIP-L to yield a 576 x 2048 feature map, which can be interpreted as 576 visual tokens with 2048 dimensions each<sup><a id="fnr.23" class="footref" href="#fn.23" role="doc-backlink">23</a></sup>.</li>
+</ol>
+
+<p>
+Most of the little details are captured above in Table 4, most of which should make sense following the previous DeepSeek works.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbbdea9f" class="outline-4">
+<h4 id="orgbbdea9f">Training Pipeline</h4>
+<div class="outline-text-4" id="text-orgbbdea9f">
+<p>
+There are three stages of training:
+</p>
+
+<ol class="org-ol">
+<li>VL Adaptor Warmup (Everything frozen except for adaptor, to make the tokens something usable by the language model &#x2013; LLaVA and Instruct-BLIP both do this) &#x2013; This is a very short stage, they show some results that show that extending this phase makes the model worse overall.</li>
+<li>Joint Vision-Language Pretraining (Freeze the vision encoder, pretrain the adapter with the LLM unfrozen; this is the bulk of the DeepSeek-VL work)</li>
+<li>Supervised Finetuning (Unfreeze everything for SFT) &#x2013; This stage is pretty much the same as normal, the only caveat here is that SAM-B stays frozen "due to limited GPU memory"<sup><a id="fnr.24" class="footref" href="#fn.24" role="doc-backlink">24</a></sup>.</li>
+</ol>
+</div>
+
+<div id="outline-container-orgf383b6c" class="outline-5">
+<h5 id="orgf383b6c">More on Joint Pretraining</h5>
+<div class="outline-text-5" id="text-orgf383b6c">
+<p>
+A critical thing to note here is that DeepSeek observes a <i>tradeoff</i> between multimodal performance and language understanding<sup><a id="fnr.25" class="footref" href="#fn.25" role="doc-backlink">25</a></sup>. There are two potential reasons to this that they point to: A) that multimodal training data is too simplistic and makes the model dumber (e.g. the prompts are the language equivalent of Q: &lt;dog&gt; what is this? A: It is a dog), and B) there's a "competitive dynamic" between multimodal and language capabilities, and training multimodal causes catastrophic forgetting in language<sup><a id="fnr.26" class="footref" href="#fn.26" role="doc-backlink">26</a></sup>.
+</p>
+
+<p>
+This is why they include <i>so much</i> language data in pretraining. It's not really there to make the model better at language, it's there so that the model doesn't forget it's already-known language capabilities. They find this helps the model not lose too much language while also not harming the vision capabilities too badly<sup><a id="fnr.27" class="footref" href="#fn.27" role="doc-backlink">27</a></sup>.
+</p>
+
+<p>
+Likewise, they get into a bit about why they mixed instruction tuning in pretraining here where they didn't in previous works: it's downstream of the observation that the non-per-token-error-rate metrics during pretraining vary a lot, and it's hard to measure how well the pretraining is going. They run evaluations on benchmarks at regular intervals in pretraining, and the model struggles to generate valid responses to the instructions despite being imbued with the knowledge necessary for answering it correctly.
+</p>
+
+<p>
+This is a nice trick: it helps you measure e.g. MMLU and MMBench accuracy in the pretraining checkpoints to see if the <i>capabilities</i> are improving over time, which gives you more resolution to whether the model is getting better at <i>X</i> but worse at <i>Y</i><sup><a id="fnr.28" class="footref" href="#fn.28" role="doc-backlink">28</a></sup>. This is not terribly necessary in a model with one objective, but in a multimodal model it becomes more important.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdb38e89" class="outline-3">
+<h3 id="orgdb38e89">Results / Conclusion</h3>
+<div class="outline-text-3" id="text-orgdb38e89">
+<p>
+<img src="../images/from_clipboard/20240613_114524.png" alt="20240613_114524.png" />
+<img src="../images/from_clipboard/20240613_121501.png" alt="20240613_121501.png" />
+</p>
+
+<p>
+The benchmarks are pretty strong here, which should by now be a pretty typical story for a DeepSeek model &#x2013; at the frontier of open source, just shy of the closed models. Their MMMU score hovers at around the same performance as most of the other models, but it distinguished itself in the other benchmarks<sup><a id="fnr.29" class="footref" href="#fn.29" role="doc-backlink">29</a></sup>.
+</p>
+
+<p>
+Not all is lost for the true believers in multimodal training for increased performance: they observe that DeepSeek-VL does better on certain benchmarks compared to it's language only 7B counterpart, and suggest it might be a capability-by-capability thing.
+</p>
+
+
+<div id="orgf80a6e6" class="figure">
+<p><img src="../images/from_clipboard/20240613_121726.png" alt="20240613_121726.png" />
+</p>
+</div>
+
+<p>
+But overall we have now observed DeepSeek's initial foray into the multimodal space, where they once again demonstrate they can do roughly what everybody else is doing. The focus on <i>preserving language ability</i> in this paper points to the fact that they are not really trying to "win at multimodal benchmarks", they want to add this capability into a larger and more capable model in the future (i.e. one that still performs on language benchmarks as well). Moving forwards they promise two things:
+</p>
+
+<ol class="org-ol">
+<li>A scaled up version of this model</li>
+<li>A vision model which uses Mixture of Experts</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc99d51f" class="outline-2">
+<h2 id="orgc99d51f">DeepSeekMath</h2>
+<div class="outline-text-2" id="text-orgc99d51f">
+<p>
+This paper can be found <a href="https://arxiv.org/pdf/2402.03300">here</a>. This was released April 27th 2024.
+</p>
+
+<p>
+DeepSeek up to this point has done work on scaling language models, Mixture-of-Experts, coding capability, and some multimodality. If you think of this as "ingredients for modern GPT-4" then there's really only one big ingredient remaining: reinforcement learning. This paper is that ingredient.
+</p>
+
+<p>
+LLMs are generally not great at math. This paper at a high level just finetunes DeepSeek-Coder-Base-v1.5 7B with 120B math tokens and makes better at math. This by itself is not that special &#x2013; a small model finetuned on a task becomes better than a big model not trained on that task &#x2013; but the purpose of this paper is to provide an <i>environment</i> for them to deeply explore policy optimization techniques.
+</p>
+
+<p>
+To wit, they develop this new technique called <i>Group Relative Policy Optimization</i> (GRPO), which is a variant of PPO which doesn't need to train a critic model. They also provide a framework to understand DPO/PPO/RFT/GRPO/etc as all variants slotting in to the same general concept with different components swapped out. 
+</p>
+</div>
+
+<div id="outline-container-org13a452e" class="outline-3">
+<h3 id="org13a452e">Pretraining</h3>
+<div class="outline-text-3" id="text-org13a452e">
+
+<div id="org0552c7f" class="figure">
+<p><img src="../images/from_clipboard/20240613_205522.png" alt="20240613_205522.png" />
+</p>
+</div>
+
+<p>
+With respect to data, they create an iterative FastText-based pipeline which will start with a "seed" of high quality math data, train a model to retrieve similar data, filter it for quality, and then add that data to the seed. They also follow DeepSeek-Coder to filter out pages which contain test set leakage<sup><a id="fnr.30" class="footref" href="#fn.30" role="doc-backlink">30</a></sup>. They show some nice experiments with DeepSeek-LLM 1.3B on this dataset to show it's quality relative to other publicly available math datasets.
+</p>
+
+
+<div id="org8707c36" class="figure">
+<p><img src="../images/from_clipboard/20240613_210818.png" alt="20240613_210818.png" />
+</p>
+</div>
+
+<p>
+They train a 7B model starting from DeepSeek-Coder-Base-v1.5 7B, using this dataset (56%), github code (20%), arXiv (10%), AlgebraicStack (4%), and natural language data in Chinese and English (10%)<sup><a id="fnr.31" class="footref" href="#fn.31" role="doc-backlink">31</a></sup> for a total of 500B tokens. Training details are kept pretty light here compared to other papers, but you should get the picture by now.
+</p>
+
+
+<div id="org71b22f9" class="figure">
+<p><img src="../images/from_clipboard/20240613_211440.png" alt="20240613_211440.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1df4e5a" class="outline-3">
+<h3 id="org1df4e5a">SFT</h3>
+<div class="outline-text-3" id="text-org1df4e5a">
+<p>
+SFT is mostly unremarkable &#x2013; they create 776k examples which are annotated with Chain-of-Thought (CoT) or Program-of-Thought (PoT), as well as a tool-integrated reasoning format. This spans English and Chinese, across a variety of topics in math.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org582dbfd" class="outline-3">
+<h3 id="org582dbfd">Aside A: Policy Optimization</h3>
+<div class="outline-text-3" id="text-org582dbfd">
+</div>
+<div id="outline-container-org19d7342" class="outline-4">
+<h4 id="org19d7342">Proximal Policy Optimization (PPO)</h4>
+<div class="outline-text-4" id="text-org19d7342">
+<p>
+<a href="https://arxiv.org/pdf/1707.06347">Proximal Policy Optimization</a> is a type of reinforcement learning which alternates between two phases: sampling data through interaction with the environment, and optimizing a "surrogate" objective function. This is a technique from Reinforcement Learning, not originally from language modeling, so we need to review a lot of topics.
+</p>
+</div>
+
+<div id="outline-container-org4e1773b" class="outline-5">
+<h5 id="org4e1773b">Policy Gradient Methods</h5>
+<div class="outline-text-5" id="text-org4e1773b">
+<p>
+A <b>Policy Gradient Method</b> is a method that estimates the gradient of the policy, and then plugs that into gradient ascent. Formally:
+</p>
+
+
+<div id="orgeae0571" class="figure">
+<p><img src="../images/from_clipboard/20240613_225849.png" alt="20240613_225849.png" />
+</p>
+</div>
+
+<p>
+Where \(\pi_{\theta}\) is the policy and \(\hat{A}_t\) estimates the advantage function at time <i>t</i>. If we use something like pytorch, we can just estimate the objective function, and differentiating it will give us \(\hat{g}\)
+</p>
+
+
+<div id="org7905f92" class="figure">
+<p><img src="../images/from_clipboard/20240613_230518.png" alt="20240613_230518.png" />
+</p>
+</div>
+
+<p>
+There's something called <b>Trust Region Methods</b> which maximize an objective function, while making sure that the objective function is not that big:
+</p>
+
+
+<div id="org2eb98ac" class="figure">
+<p><img src="../images/from_clipboard/20240613_231003.png" alt="20240613_231003.png" />
+</p>
+</div>
+
+<p>
+Where here you want to maximize the probability ratio between the new policy and the old policy multiplied by the advantage function. That is: maximize the expected gain in reward, but make sure that the <a href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">KL Divergence</a> between the old and new policy stays below some threshold \(\delta\).
+</p>
+
+<p>
+They can combine this into one objective by adding it as a penalty with some hyperparameter \(\beta\):
+</p>
+
+
+<div id="orgd273e8e" class="figure">
+<p><img src="../images/from_clipboard/20240613_231221.png" alt="20240613_231221.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdb20eee" class="outline-5">
+<h5 id="orgdb20eee">Clipped Surrogate Objective</h5>
+<div class="outline-text-5" id="text-orgdb20eee">
+<p>
+Schulman et al 2017 here abbreviates that probability ratio as \(r_t(\theta)\) for convenience, and introduce a new objective where you clip the surrogate objective
+</p>
+
+
+<div id="orgba68a27" class="figure">
+<p><img src="../images/from_clipboard/20240613_232230.png" alt="20240613_232230.png" />
+</p>
+</div>
+
+<p>
+Where \(\epsilon\) is a hyperparameter for example around 0.2. This basically caps the ability to change the probability ratio outside of the range \([1-\epsilon, 1+\epsilon]\). Only taking this value when it's greater than the original probability ratio term means that this term is ignored when it makes the objective improve, and it's included when it makes the objective worse. This is a bit confusing but it basically means that you create a penalty for having a policy update which is too large.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org87bbbad" class="outline-5">
+<h5 id="org87bbbad">PPO</h5>
+<div class="outline-text-5" id="text-org87bbbad">
+<p>
+Now that we've explained the clipped surrogate objective, we can describe the PPO algorithm.
+</p>
+
+<p>
+For this, we need to train two models: a policy model, and a value model. The value model is important because we need to figure out how to get the advantage estimator \(\hat{A}\), specifically such that it doesn't look past the timestep. 
+</p>
+
+
+<div id="org68da9b7" class="figure">
+<p><img src="../images/from_clipboard/20240613_235317.png" alt="20240613_235317.png" />
+</p>
+</div>
+
+<p>
+So, in the end it's extremely similar to policy gradient methods<sup><a id="fnr.32" class="footref" href="#fn.32" role="doc-backlink">32</a></sup>, with a few extra lines of code added. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org610a2c0" class="outline-5">
+<h5 id="org610a2c0">PPO for RLHF</h5>
+<div class="outline-text-5" id="text-org610a2c0">
+<p>
+<a href="https://arxiv.org/pdf/2009.01325">Learning to summarize from human feedback</a> and <a href="https://arxiv.org/pdf/2203.02155">InstructGPT</a> are the two OpenAI papers which introduced PPO to the language modeling landscape.
+</p>
+
+
+<div id="org2b43ff1" class="figure">
+<p><img src="../images/from_clipboard/20240614_000344.png" alt="20240614_000344.png" />
+</p>
+</div>
+
+<p>
+You have the following components:
+</p>
+<ul class="org-ul">
+<li>Policy Model: The Instruct tuned LLM</li>
+<li>Value Model: A model you have to train to predict the human preference</li>
+</ul>
+
+<p>
+Basically, you get the advantage \(A_t\) using <a href="https://arxiv.org/pdf/1506.02438">Generalized Advantage Estimation</a> on the rewards and a learned value function. InstructGPT's objective looked like this:
+</p>
+
+
+<div id="orgb9da119" class="figure">
+<p><img src="../images/from_clipboard/20240614_002045.png" alt="20240614_002045.png" />
+</p>
+</div>
+
+<p>
+Which includes a penalties for getting too far away from the SFT policy and a penalty from output tokens being to dissimilar to data seen in training. This last term isn't used much these days, but the first one often is.
+</p>
+
+<p>
+In summary:
+</p>
+
+
+<div id="orgbe3de36" class="figure">
+<p><img src="../images/from_clipboard/20240614_003547.png" alt="20240614_003547.png" />
+</p>
+</div>
+
+<p>
+Where we sometimes include penalties for deviation from a reference policy like the SFT model.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org732fdf1" class="outline-4">
+<h4 id="org732fdf1">Rejection Sampling and Rejection Sampling Fine-Tuning (RFT)</h4>
+<div class="outline-text-4" id="text-org732fdf1">
+<p>
+<a href="https://arxiv.org/pdf/2204.05862">Rejection Sampling</a> in this context refers to a derivative policy optimization method also used in <a href="https://arxiv.org/pdf/2307.09288">Llama 2</a> which is similar in concept to PPO, but where you generate several examples instead of the single sample from PPO. We get estimated rewards for all of the samples, and we take the highest reward one and discard all of the other ones.
+</p>
+
+<p>
+Essentially, it's like best-of-K PPO, so in general you'll be updating based on higher quality samples in each step.
+</p>
+
+<p>
+Llama 2's strategy to train the 70B model primarily used this for the first four iterations of RLHF, and then did an experiment where they did a 5th iteration where they used normal PPO vs a 5th round of rejection sampling, and saw the PPO one was seemingly better.
+</p>
+
+
+<div id="org393c9be" class="figure">
+<p><img src="../images/from_clipboard/20240614_011515.png" alt="20240614_011515.png" />
+</p>
+</div>
+
+<p>
+It's a tough comparison to not have 4 rounds of PPO and the same experiment, but I imagine that would have been expensive. Their conclusion here is that rejection sampling is more pronounced for breadth, whereas it's unclear what the difference is for depth<sup><a id="fnr.33" class="footref" href="#fn.33" role="doc-backlink">33</a></sup>. They only perform this on Llama 2 70B, with the smaller models just being finetuned on rejection sampled data in a mysterious unmentioned way left to future work<sup><a id="fnr.34" class="footref" href="#fn.34" role="doc-backlink">34</a></sup>.
+</p>
+
+<p>
+<i>Rejection Sampling Fine Tuning</i>, or RFT, is a <i>different</i> concept<sup><a id="fnr.35" class="footref" href="#fn.35" role="doc-backlink">35</a></sup> which was released in <a href="https://arxiv.org/pdf/2308.01825">Scaling Relationship on Learning Mathematical Reasoning with Large Language Models</a>. Whereas Llama 2's rejection sampling was like best-of-K PPO with the reward model, this paper dealt with the case where you can verify the output's correctness to an SFT question (e.g. in a math problem). The idea <i>here</i> is that we can sample a bunch of responses from the LLM for each question, discard everything which was a wrong answer, and do SFT-style fine-tuning on the ones which had the correct answer. The hope here is that finetuning data from the model's correct responses will make those responses more likely to be generated, especially in cases where those responses are not the majority output when the model is sampled multiple times. 
+</p>
+
+
+<div id="org5e9a79d" class="figure">
+<p><img src="../images/from_clipboard/20240614_155746.png" alt="20240614_155746.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0b5d136" class="outline-4">
+<h4 id="org0b5d136">Direct Preference Optimization (DPO)</h4>
+<div class="outline-text-4" id="text-org0b5d136">
+
+<div id="org26a6000" class="figure">
+<p><img src="../images/from_clipboard/20240611_150604.png" alt="20240611_150604.png" />
+</p>
+</div>
+
+<p>
+<a href="https://arxiv.org/pdf/2305.18290">Your Language Model is Secretly a Reward Model</a> introduced Direct Preference Optimization in December 2023. This is billed as a computationally lightweight alternative to PPO which solves the RLHF problem with just a straightforward classification loss instead of doing all this reinforcement learning.
+</p>
+
+<p>
+The key here is to "leverage an analytical mapping from reward functions to optimal policies" which lets them transform a loss function over reward functions directly to a loss function over policies. The nice thing about this is that they don't have to fit a value model! Which saves you from training a model of considerable size, requiring computational overhead.
+</p>
+
+<p>
+Skipping past some algebra<sup><a id="fnr.36" class="footref" href="#fn.36" role="doc-backlink">36</a></sup>, the DPO objective is this:
+</p>
+
+
+<div id="orgd30a365" class="figure">
+<p><img src="../images/from_clipboard/20240614_015715.png" alt="20240614_015715.png" />
+</p>
+</div>
+
+<p>
+Which is just rewighted binary cross entropy loss on the token-level probability ratios<sup><a id="fnr.37" class="footref" href="#fn.37" role="doc-backlink">37</a></sup>. That is: encouraging the model to assign higher probabilities to preferred continuations \(y_w\) and lower probabilities to the wrong ones \(y_l\) subject to some context \(x\) representing the previous tokens.
+</p>
+
+<p>
+They nicely provide a little explanation of the terms. Rather than training a value model to predict which response would be preferred by human raters, we want to increase the likelihood of picking the winner (\(y_w\)), decrease the likelihood of picking the loser (\(y_l\)), and care less in situations where we already do that (\(\hat{r}_{\theta}(x, y)\) will be high if humans pick \(y\) when given \(x\), and low otherwise, so that term will be close to 0 when very correct and close to 1 when very wrong). 
+</p>
+
+
+<div id="orgbb479d0" class="figure">
+<p><img src="../images/from_clipboard/20240614_020508.png" alt="20240614_020508.png" />
+</p>
+</div>
+
+<p>
+The thing that makes this work is that it does everything upon the probabilities of the tokens directly, which means it doesn't need to wait for the end of the sequence to see reward, which would not be differentiable and thus would require. The core thing to remember here is that we can train the model directly, much like we train a value model directly, and perform as well or better than PPO.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb18c3ce" class="outline-3">
+<h3 id="orgb18c3ce">Reinforcement Learning</h3>
+<div class="outline-text-3" id="text-orgb18c3ce">
+
+<div id="org68ea3e3" class="figure">
+<p><img src="../images/from_clipboard/20240613_222214.png" alt="20240613_222214.png" />
+</p>
+</div>
+
+<p>
+DeepSeek is going to train a model on top of DeepSeekMath-Instruct which sees a pretty notable gain in performance, leveraging reinforcement learning to do policy optimization to make it better overall. Up until now, they've just been using DPO whenever they wanted to do this stage. But since this paper is all about Reinforcement Learning, they're instead going to discuss an improvement to PPO that they call <i>Group Relative Policy Optimization</i>.
+</p>
+</div>
+
+<div id="outline-container-org93fb5eb" class="outline-4">
+<h4 id="org93fb5eb"><span class="todo TODO">TODO</span> Group Relative Policy Optimization</h4>
+<div class="outline-text-4" id="text-org93fb5eb">
+
+<div id="org3aee755" class="figure">
+<p><img src="../images/from_clipboard/20240613_211921.png" alt="20240613_211921.png" />
+</p>
+</div>
+
+<p>
+There are two things DeepSeek wants to address with the RL work here:
+</p>
+
+<ol class="org-ol">
+<li>It is expensive computationally to train a value model</li>
+<li>You only get a reward score for the final token in a sequence (i.e. the entire sequence), rather than providing a reward at each step (i.e. at the token level)<sup><a id="fnr.38" class="footref" href="#fn.38" role="doc-backlink">38</a></sup></li>
+</ol>
+
+<p>
+To get around this, they introduce this new idea called <i>Group Relative Policy Optimization</i> which leverages the fact that we can sample a group of outputs to avoid training an explicit value model. Think of this like a sort of mix between DPO, PPO, and Rejection Sampling<sup><a id="fnr.39" class="footref" href="#fn.39" role="doc-backlink">39</a></sup>: we sample a group of outputs, split the outputs into \(G\) groups, and optimize the PPO objective by calculating \(\hat{A_{i,t}}\) by using relative rewards inside each group. The intuition here is that we don't really <i>need</i> a detached value model, we just need to be able to identify that some output is better than other ones in the same batch. If it's a below average output, we want less of those, if it's an above average output, we want more of those.
+</p>
+
+
+<div id="org2738d33" class="figure">
+<p><img src="../images/from_clipboard/20240614_144846.png" alt="20240614_144846.png" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8b210dc" class="outline-5">
+<h5 id="org8b210dc">Outcome Supervision</h5>
+<div class="outline-text-5" id="text-org8b210dc">
+<p>
+For calculating the advantage at the end of the output, we can sample \(G\) outputs, and we can run all all of these outputs to get a list of rewards \(r\). In this case, we can set the advantage to the normalization of the rewards, that is: \(\hat{A}_{i,t} = \tilde{r_i} = \frac{r_i-mean(r)}{std(r)}\). 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc20ad07" class="outline-5">
+<h5 id="orgc20ad07">Process Supervision</h5>
+<div class="outline-text-5" id="text-orgc20ad07">
+<p>
+We also want to reward the model inside the generation process, not just at the end (especially for math problems where we want to reward good chains of thought). <a href="https://arxiv.org/pdf/2312.08935">Math-Shepherd</a> does a nice thing that they adapt here called <i>process supervision</i>. 
+</p>
+
+<p>
+Since we are just using the normalized rewards directly to update our model, there's nothing stopping us from just doing this at the end of every reasoning step, too, i.e. \(\tilde{r^{index(j)}} = \frac{r^{index(j)}-mean(R)}{std(R)}\) where R is the output of a reward model which produces rewards for each step in the chain of reasoning. From here you get the advantage by taking the sum of all the rewards from the following steps.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge981d06" class="outline-5">
+<h5 id="orge981d06">Iterative RL</h5>
+<div class="outline-text-5" id="text-orge981d06">
+
+<div id="orgfc24d6c" class="figure">
+<p><img src="../images/from_clipboard/20240613_211938.png" alt="20240613_211938.png" />
+</p>
+</div>
+
+<p>
+Over time, it's possible that the frozen reward model could stop being able to help the policy improve. As a result, they do an iterative version of this which adds a replay mechanism to continuously train the reward model over time. <a href="https://paperswithcode.com/method/experience-replay">Experience replay</a> in RL keeps a dataset of the last couple of timesteps, and then samples from this buffer randomly at all the training steps to perform updates<sup><a id="fnr.40" class="footref" href="#fn.40" role="doc-backlink">40</a></sup>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga89071b" class="outline-4">
+<h4 id="orga89071b">"Towards to a Unified Paradigm"</h4>
+<div class="outline-text-4" id="text-orga89071b">
+<p>
+<img src="../images/from_clipboard/20240613_212115.png" alt="20240613_212115.png" />
+<img src="../images/from_clipboard/20240613_212131.png" alt="20240613_212131.png" />
+</p>
+
+<p>
+GRPO seems like some sort of midpoint between a bunch of different techniques people already use in RLHF for language models, so much so that there's a section in here about generalizing the RL paradigm for this objective. In all of these methods, there are three primary components:
+</p>
+
+<ol class="org-ol">
+<li>A data source \(D\) with the training data</li>
+<li>Reward functions \(\pi_{rf}\), which provides the training reward signal</li>
+<li>An algorithm \(A\), which processes the training data and the reward signal and creates a gradient coefficient which will then in turn update the model.</li>
+</ol>
+
+<p>
+Data sources come in two flavors: online vs offline. Online sampling uses exploration results from the real-time training policy model, and offline sampling denotes the sampling results from the initial SFT model. There's some noteworthy explanation of the behaviors of these methods as you increase the total steps: offline methods do about the same as online methods early on, since the SFT reference model and the updated policy model are closer together, but as you extend into the future you get farther and farther away from the reference model and therefore the offline sampling will be less representative of the current policy<sup><a id="fnr.41" class="footref" href="#fn.41" role="doc-backlink">41</a></sup>.
+</p>
+
+<p>
+Reward functions also come in two flavors: rewards vs models. A "rule" method uses the correctness of the answer to judge the score, whereas a "model" method will train a reward model and use the value it provides at regular intervals. This is the primary difference, for example, between GRPO and Online RFT, both of which sample a bunch of inputs from the current model and then update the gradients based on that pool of responses. Because GRPO uses a reward model, it can reward and punish individual examples with varying magnitudes, compared to online RFT which just uses 1 for correct and 0 for incorrect<sup><a id="fnr.42" class="footref" href="#fn.42" role="doc-backlink">42</a></sup>.
+</p>
+
+
+<div id="org6b18b22" class="figure">
+<p><img src="../images/from_clipboard/20240614_154749.png" alt="20240614_154749.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1b43748" class="outline-3">
+<h3 id="org1b43748">Conclusions / Takeaways</h3>
+<div class="outline-text-3" id="text-org1b43748">
+</div>
+<div id="outline-container-org0f45ebd" class="outline-4">
+<h4 id="org0f45ebd">Code Training Benefits Mathematical Reaasoning</h4>
+<div class="outline-text-4" id="text-org0f45ebd">
+<p>
+A common unverified claim in training LLMs is that code in pretraining improves reasoning. This provides a halfway point: code in pretraining improves mathematical reasoning.
+</p>
+
+
+<div id="org63dbefb" class="figure">
+<p><img src="../images/from_clipboard/20240613_213308.png" alt="20240613_213308.png" />
+</p>
+</div>
+
+<p>
+They show some different styles of training and their downstream effects on different capabilities. Two-Stage Training does better on the math tasks. One-stage training retains the code performance tasks due to less risk of catastrophic forgetting. If you buy the claim that mathematical reasoning is related to reasoning in general, then this seems to support a phase in training specifically dedicated to code and math related problems, for the purpose of boosting the model's reasoning ability.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7833152" class="outline-4">
+<h4 id="org7833152">Arxiv Papers Ineffective for Improving Mathematical Reasoning<sup><a id="fnr.43" class="footref" href="#fn.43" role="doc-backlink">43</a></sup></h4>
+<div class="outline-text-4" id="text-org7833152">
+<p>
+MathPile and Arxiv-RedPajama are arxiv-driven math datasets. These are (maybe) useless. "When trained on a arXiv-only corpus, both models display no notable improvements or even deterioration across various mathematical benchmarks of different complexities employed in this study"
+</p>
+
+<p>
+It's possible these are not <i>useless</i>. It's possible these become useful again at scale with larger model size, or being paired with some other type of data, or for specific math-specific 
+</p>
+
+<p>
+math-specific tasks / pairing with other data / benefits only manifest at larger model size all possible as well. Lots of potential work here in exploring the interaction effects of this data. For DeepSeekMath, though, it was not very useful.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdb23924" class="outline-4">
+<h4 id="orgdb23924">Why does RL work?</h4>
+<div class="outline-text-4" id="text-orgdb23924">
+
+<div id="org7264a75" class="figure">
+<p><img src="../images/from_clipboard/20240613_215354.png" alt="20240613_215354.png" />
+</p>
+</div>
+
+<p>
+There's a cool experiment in here about how RL boosts the right answer to the Top K, rather than making the model fundamentally better overall. In this setting, pass@K measures how likely any solution among K tries solves the problem, maj@K measures how likely the majority vote among K tries will solve the problem. We can see in the figure that at the extremes, having many attempts helps both maj@K and pass@K for the instruct models, but only helps pass@K for the RL models.
+</p>
+
+<p>
+This suggests that rather than gaining new ability here, RL is allowing the model to be more often surface a particular answer, which is hoperfully more likely to be correct at low K. This is worth thinking about &#x2013; maj@K being flatter and higher seems like a gain in performance in most cases where pass@1 is the more immediate relevant metric, but it's interesting to consider the emergence of a new possible tradeoff if pass@64 starts to deteriorate substantially in exchange for an even flatter maj@k curve. What would that look like? Would that be good or bad?
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5e989ab" class="outline-4">
+<h4 id="org5e989ab">Takeaways</h4>
+<div class="outline-text-4" id="text-org5e989ab">
+<p>
+GRPO is an interesting middle ground in the landscape of alignment techniques: a sort of interpolation between a bunch of existing methods that have been tried and used. I am not well-versed enough at RLHF techniques to give a very opinionated perspective here, but it does provide a novel perspective at the connective tissue between all the different techniques and why/how they work.
+</p>
+
+<p>
+It's cool that DeepSeek trained a model to do math problems really well at only 7B params, but as mentioned before, this was a paper about reinforcement learning. This was the final element of the puzzle missing. Now DeepSeek has demonstrated being good at pretty much every component of a frontier LLM: data pipelines, scaling, multimodal, reasoning, mixture of experts, reinforcement learning, etc. Soon it will become time to put all of these elements together.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfd944f0" class="outline-2">
+<h2 id="orgfd944f0">DeepSeek-V2</h2>
+<div class="outline-text-2" id="text-orgfd944f0">
+<p>
+This paper can be found <a href="https://github.com/deepseek-ai/DeepSeek-V2/blob/main/deepseek-v2-tech-report.pdf">here</a>. This was released May 7, 2024.
+</p>
+
+
+<div id="orgce95055" class="figure">
+<p><img src="../images/from_clipboard/20240607_101002.png" alt="20240607_101002.png" />
+</p>
+</div>
+
+<p>
+The time has come to put this all together. In this technical report, DeepSeek trains up a 128k context, 236B Mixture-of-Experts<sup><a id="fnr.44" class="footref" href="#fn.44" role="doc-backlink">44</a></sup> model where 21B parameters are activated for each token. They assemble a pretraining dataset of 8.1T tokens, collect an SFT dataset of 1.5m chat logs, and then do GRPO for RLHF to arrive at their final model. If DeepSeek-LLM can be thought of as "roughly llama 2", then DeepSeek-V2 can be thought of as "roughly llama 3". They train this thing for cheaper than it took to train DeepSeek-LLM 67B, it has 5x throughput compared to that model, and they served the model for so cheap that it <a href="https://longportapp.com/en/news/206001585">crashed the price per token the in chinese LLM market</a>.
+</p>
+
+<p>
+There are a few new things in this paper:
+</p>
+<ul class="org-ul">
+<li>YaRN for extending context length to 128k</li>
+<li>Multi-Latent Attention, a new type of efficient attention adjacent to GQA which compresses the KV Cache.</li>
+</ul>
+
+<p>
+But generally speaking, this paper just fits together all the puzzle pieces we have seen already: this section should be pretty short. 
+</p>
+</div>
+
+<div id="outline-container-org57c8c7e" class="outline-3">
+<h3 id="org57c8c7e">Aside A: RoPE and YaRN</h3>
+<div class="outline-text-3" id="text-org57c8c7e">
+<p>
+It's time to get a bit deeper<sup><a id="fnr.45" class="footref" href="#fn.45" role="doc-backlink">45</a></sup> about RoPE and how we plan to modify it to extend the context windows with it.
+</p>
+</div>
+
+<div id="outline-container-org0c698be" class="outline-4">
+<h4 id="org0c698be">RoPE</h4>
+<div class="outline-text-4" id="text-org0c698be">
+
+<div id="org0a25ac2" class="figure">
+<p><img src="../images/from_clipboard/20240611_125040.png" alt="20240611_125040.png" />
+</p>
+</div>
+
+<p>
+Like from our brief coverage of RoPE in the DeepSeek-LLM section, RoPE provides a relative positional embedding where we first assume the number of dimensions in the hidden layer is even. If we have two dimensions, it is not too bad to understand:
+</p>
+
+
+<div id="org085c3f8" class="figure">
+<p><img src="../images/from_clipboard/20240613_182711.png" alt="20240613_182711.png" />
+</p>
+</div>
+
+<p>
+We can take our 2D hidden layer and express it as a complex vector. In the middle we apply the matrices which let us get the query and key vectors from this 2D hidden layer. On the left we have the matrix which does the rotation, where \(m\theta\) is the angle we rotate our vector by, where \(m\) is the absolute position in the sequence.
+</p>
+
+<p>
+In the real case where we have many more than 2 dimensions, it's not clear how we scale up from the 2D case. The trick here is that we do not scale up from the 2D case at all. We just break up the hidden layer into little blocks of 2 units and rotate them all this way 2 at a time, which is why we made the assumption earlier that we had an even number.
+</p>
+
+
+<div id="org6ff05d0" class="figure">
+<p><img src="../images/from_clipboard/20240613_183552.png" alt="20240613_183552.png" />
+</p>
+</div>
+
+<p>
+We have this matrix formulation in the paper but you would never actually do it this way, you are just iterating through and doing this 2 at a time, which is works out as equivalent to this operation.
+</p>
+
+<p>
+This ends up having some nice properties like long term decay, etc, which makes it well suited for language modeling tasks. The important thing to note here is that you take a hidden unit \(x_m\), an absolute position \(m\), and you apply a rotation \(m\theta\) based what you get from this big "matrix", with \(\theta\) being a hyperparameter for how much you rotate by.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcd18000" class="outline-4">
+<h4 id="orgcd18000">YaRN</h4>
+<div class="outline-text-4" id="text-orgcd18000">
+<p>
+<a href="https://arxiv.org/pdf/2309.00071">YaRN: Efficient Context Window Extension of Large Language Models</a> is a paper from November 2023 which introduces Yet Another RoPE extensioN method (YaRN<sup><a id="fnr.46" class="footref" href="#fn.46" role="doc-backlink">46</a></sup>). This was some of the early work which exposed us all to 6-figure context windows, and seems to be one of the standard ways to make it work.
+</p>
+
+<p>
+Basically, there are three kinds of ways people extend the context window of RoPE.
+</p>
+<ol class="org-ol">
+<li><a href="https://arxiv.org/pdf/2306.15595">Position Interpolation</a> (requires finetuning on small amount of data)</li>
+<li><a href="https://www.reddit.com/r/LocalLLaMA/comments/14mrgpr/dynamically_scaled_rope_further_increases/">Dynamic Neural Tangent Kernel (NTK)</a> (can be performed without finetuning)</li>
+<li><a href="https://github.com/jquesnelle/yarn/pull/1">NTK-by-parts</a> (performs best when finetuned on some small amount of data)</li>
+</ol>
+
+<p>
+YaRN has two components to it:
+</p>
+
+<ol class="org-ol">
+<li><b>Apply a temperature parameter</b> in the attention weights computation (we can do this without directly modifying the attention operation, since RoPE lives in the attention operation anyways, we can just "length scale" both \(q_m\) and \(k_n\) the same amount \(\sqrt{1/t}\) and it works out to the below)</li>
+</ol>
+
+
+<div id="orgf4b7fdc" class="figure">
+<p><img src="../images/from_clipboard/20240613_172309.png" alt="20240613_172309.png" />
+</p>
+</div>
+
+<ol class="org-ol">
+<li><b>Do NTK-by-parts</b></li>
+</ol>
+
+<p>
+For this we need some extra notation:
+</p>
+
+<p>
+<i>Scale Factor</i>
+</p>
+
+<p>
+We can use \(s\) for the ratio between the extended and original context length.
+</p>
+
+<p>
+<i>Wavelength</i>
+</p>
+
+<p>
+We can use \(\lambda_d\) to represent the <i>wavelength</i> of the RoPE embedding at the <i>d</i>-th hidden dimension. That is, \(\lambda_d = \frac{2\pi}{\theta_d}\) 
+</p>
+
+<p>
+<i>Rewriting RoPE</i>
+</p>
+
+<p>
+RoPE can be considered a function \(f_w(x_m, m, \theta_d)\) where \(x_m\) is a vector at position \(m\), and \(\theta_d\) is the specific frequency assigned by the diagonal matrix \(\theta\). If we want to make a modification to this, we can write this as \(f'_w(x_m, m, \theta_d) = f_x(x_m, g(m), h(\theta_d))\). In plain english here: \(g(m)\) is <i>something that does something to position</i>, and \(h(\theta_d)\) is <i>something that does something to frequency</i>. For vanilla RoPE, we just have both of these things return their inputs. For position encoding, it's the same as RoPE normally, except \(g(m) = m/s\) and \(h\) is the same as normal.
+</p>
+
+<p>
+NTK-by-parts is the below:
+</p>
+
+
+<div id="org7f668be" class="figure">
+<p><img src="../images/from_clipboard/20240613_172724.png" alt="20240613_172724.png" />
+</p>
+</div>
+
+<p>
+Where \(\gamma\) is the "ramp function"
+</p>
+
+
+<div id="orge4c1dec" class="figure">
+<p><img src="../images/from_clipboard/20240613_174824.png" alt="20240613_174824.png" />
+</p>
+</div>
+
+<p>
+with \(\alpha\) and \(\beta\) being hyperparameters, and \(r\) being the ratio between the original context size and the wavelength \(\lambda_d\)<sup><a id="fnr.47" class="footref" href="#fn.47" role="doc-backlink">47</a></sup>. Inutitively, if the wavelength is smaller than the context size, we don't want to interpolate; if the wavelength is bigger than the context size, we want to interpolate; if it's in between, we can do a half and half sort of deal. Good values for the hyperparams seem to be \(\alpha=1\) and \(\beta=32\).
+</p>
+
+<p>
+To make a long story short, if you do this you can extend Llama 2's 4096 context length to 128k context using only 64k context during training, using just around 400 steps. 
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8c18730" class="outline-3">
+<h3 id="org8c18730">Multi-Head Latent Attention</h3>
+<div class="outline-text-3" id="text-org8c18730">
+
+<div id="orgebeff86" class="figure">
+<p><img src="../images/from_clipboard/20240607_101623.png" alt="20240607_101623.png" />
+</p>
+</div>
+
+<p>
+Multi-Head Latent Attention (MLA) is one of the genuinely new things in this paper, and it would be conceptually simple to understand if not for RoPE making it slightly more difficult to formulate. Basically, there are all of these methods whose job it is to emulate multi-head attention, but without the heavy Key-Value cache. All of these methods seem to harm performance, and using them is an explicit tradeoff to boost inference efficiency in exchange for performance. DeepSeek claims with this paper that they have matched/exceeded the performance of Multi-Head Attention with this method which keeps a compressed KV and adds components to project it down and up.
+</p>
+
+
+<div id="org4c31635" class="figure">
+<p><img src="../images/from_clipboard/20240613_152736.png" alt="20240613_152736.png" />
+</p>
+</div>
+
+<p>
+The core of MLA is low-rank joint compression for keys and values to reduce KV cache. Basically, you add a bunch of matrices in here which are responsible for producing the things you normally see in multi-head attention. I have made this handy diagram if you need help following the equations, which are below.
+</p>
+
+<p>
+Basically, instead of doing normal multi-head attention, you introduce five new compression matrices:
+</p>
+
+<ul class="org-ul">
+<li>\(W^{DKV}\): whose job it is to give the compressed KV</li>
+<li>\(W^{UV}\): whose job it is to get the uncompressed V from the compressed KV</li>
+<li>\(W^{UK}\): whose job it is to get the uncompressed K from the compressed KV</li>
+<li>\(W^{DQ}\) and \(W^{UQ}\): whose job it is to compress and decompress Q<sup><a id="fnr.48" class="footref" href="#fn.48" role="doc-backlink">48</a></sup></li>
+</ul>
+
+<p>
+But this introduces a new problem: if we want to use RoPE, that gets put here in this attention step upon Q and K. Unfortunately, we don't even have QKV matrices anymore, everything is trapped inside these compressed latent Qs and KVs. To solve this they introduce some more matrices:
+</p>
+
+<ul class="org-ul">
+<li>\(W^{KR}\): whose job it is to get K for RoPE</li>
+<li>\(W^{QR}\): whose job it is to get Q for RoPE</li>
+</ul>
+
+<p>
+&#x2026;and then we just concat the RoPE information at the end of our uncompressed q and k, where we can proceed as normal. This all unfortunately makes our diagram much uglier to look at, but the point of this is to be able to use RoPE while still being able to compress KV into this latent vector. The full computation is below:
+</p>
+
+<p>
+<img src="../images/from_clipboard/20240607_102735.png" alt="20240607_102735.png" />
+<img src="../images/from_clipboard/20240607_102816.png" alt="20240607_102816.png" />
+<img src="../images/from_clipboard/20240607_103749.png" alt="20240607_103749.png" />
+</p>
+
+
+<div id="org42c9e8e" class="figure">
+<p><img src="../images/from_clipboard/20240613_153002.png" alt="20240613_153002.png" />
+</p>
+</div>
+
+<p>
+If I can speak flatly here it seems a bit too good to be true that this is both more efficient and also better than vanilla multi-head attention, but I could believe that it's a better strategy compared to MQA or GQA. Time will tell if other models start adopting similar techniques.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc8840ba" class="outline-3">
+<h3 id="orgc8840ba">Long context</h3>
+<div class="outline-text-3" id="text-orgc8840ba">
+<p>
+Their pretraining is performed with a 4096 sequence length, and they scale this all the way up to 128k context using YaRN applied to the RoPE shared key.
+</p>
+
+<blockquote>
+<p>
+For YaRN, we set the scale s to 40, alpha to 1, beta to 32, and the target maximum context length to 160K. Under these settings, we can expect the model to respond well for a context length of 128K. Slightly diverging from original YaRN, due to our distinct attention mechanism, we adjust the length scaling factor to modulate the attention entropy. The factor √t is computed as √t = 0.0707 ln s + 1, aiming at minimizing the perplexity.
+</p>
+</blockquote>
+
+<p>
+They also do a 1000-step long context finetuning stage, with a sequence length of 32k and a batch size of 576, which they find increases the ability of the model to actually use that longer context. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgba25e60" class="outline-3">
+<h3 id="orgba25e60">Training</h3>
+<div class="outline-text-3" id="text-orgba25e60">
+<p>
+Pretraining and SFT are done mostly the same as with DeepSeek-LLM 67B, but with a much larger dataset for both steps. Model hyperparameters are selected the same way they were done in DeepSeek-LLM and DeepSeek-MoE.
+</p>
+</div>
+
+<div id="outline-container-orgd2a9273" class="outline-4">
+<h4 id="orgd2a9273">Reinforcement Learning</h4>
+<div class="outline-text-4" id="text-orgd2a9273">
+<p>
+DeepSeek-V2 does the alignment phase using GRPO, as done in DeepSeekMath. Specifically, it does training in two phases:
+</p>
+
+<ol class="org-ol">
+<li>Long Phase where it spends attempts to improve at reasoning by performing RL training upon code and math rasoning tasks, where they train a reward model \(r_i = RM_{reasoning}(o_i)\).</li>
+<li>A shorter phase for human preference alignment, where it uses three models \(RM_{helpful}(o_i)\). \(RM_{safety}(o_i)\). and \(RM_{rule}(o_i)\), each weighted by hyperparameter coefficients and summed together.</li>
+</ol>
+
+<p>
+There are some interesting notes here about the observations from this phase. They noticed something called the "alignment tax" where the alignment process can negatively affect benchmark performance sometimes (e.g. on BBH). This was observed all the way back in the <a href="https://arxiv.org/pdf/2203.02155">InstructGPT</a> paper, and it seems like balancing the alignment and the performance was a challenge for them.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org248af68" class="outline-3">
+<h3 id="org248af68">Conclusions</h3>
+<div class="outline-text-3" id="text-org248af68">
+<p>
+That's pretty much it &#x2013; all the little pieces so far, put into one project, to show substantial gain from their earlier release. Their conclusion says a lot by itself (emphasis mine):
+</p>
+
+
+<div id="org044d993" class="figure">
+<p><img src="../images/from_clipboard/20240613_155625.png" alt="20240613_155625.png" />
+</p>
+</div>
+
+<p>
+Given DeepSeek's track record with delivering on things they promise in their works, I am excited to see this.
+</p>
+
+<p>
+This makes a pretty nice endpoint for the post, in terms of being a survey of modern lanuage modeling. There is one last paper that they have released after this, at the time of writing, which for now I will only cover very briefly &#x2013; it's mostly just adjacent to the main fundamental works covered up to this point. 
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4345676" class="outline-2">
+<h2 id="org4345676">DeepSeek-Prover</h2>
+<div class="outline-text-2" id="text-org4345676">
+<p>
+This paper can be found <a href="https://arxiv.org/pdf/2405.14333">here</a>. This was released May 23, 2024.
+</p>
+
+<p>
+This is a computer theorem proving paper, which seems to be a hot topic in the relatively niche computer-assisted mathematics literature<sup><a id="fnr.49" class="footref" href="#fn.49" role="doc-backlink">49</a></sup>. At it's core, this is a paper which finetunes DeepSeekMath to produce <a href="https://en.wikipedia.org/wiki/Lean_(proof_assistant)">Lean</a> formalizations while taking only informal math problems as inputs.
+</p>
+
+<p>
+Formal theorem proving has been a more lowkey darling of the language modeling literature for a bit now, with works like <a href="https://arxiv.org/pdf/2009.03393">GPT-f</a> back in 2020 and <a href="https://arxiv.org/pdf/2310.10631">Llemma</a> as recently as March 2024. It's common to see these sorts of language model + tree search methods for theorem proving. The tough part is that the search space is very large (i.e. you can try any symbol in any order, and you have an arbitrary number of symbols). Math is hard.
+</p>
+
+<p>
+Some people have also tried finetuning language models to do this, usually interacting with verifiers via a state-action transition program. This will generate a step of a proof, verify correctness, then generate the next step etc. This is high performance but expensive.
+</p>
+
+<p>
+DeepSeek creates a 7B theorem proving LLM which starts from DeepSeekMath and iteratively creates 8 million formal statements, which they then release as a dataset<sup><a id="fnr.50" class="footref" href="#fn.50" role="doc-backlink">50</a></sup>.
+</p>
+</div>
+
+<div id="outline-container-org8422ffe" class="outline-3">
+<h3 id="org8422ffe">Approach</h3>
+<div class="outline-text-3" id="text-org8422ffe">
+
+<div id="orgb5438db" class="figure">
+<p><img src="../images/from_clipboard/20240607_133231.png" alt="20240607_133231.png" />
+</p>
+</div>
+
+<p>
+Basically, they create a dataset of ~860k natural language math problems. They try to convert these from natural language to Lean, which can hen be verified for correctness. 
+</p>
+
+<p>
+To make DeepSeekProver, they first start with DeepSeekMath 7B and finetune upon the MMA dataset which has a bunch of formal statements that were backtranslated into natural language by gpt-4. Then they translate natural language problems into Lean. The trick here is that every time they translate a natural language problem into Lean, they add it back into the finetuning dataset, which will in turn make the model better at future problems which are similar. The formal verifier here is what enables this "recursive self improvement" because it can be an objective judge of whether or not the output is correct. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org737fee3" class="outline-3">
+<h3 id="org737fee3">Quality Filtering</h3>
+<div class="outline-text-3" id="text-org737fee3">
+<p>
+Originally, the quality here is pretty bad, so they added miniF2F-valid examples in the context for few-shot context learning. Then they ask it to classify the quality of the formal statement and then delete it if it's bad<sup><a id="fnr.51" class="footref" href="#fn.51" role="doc-backlink">51</a></sup>.
+</p>
+
+<p>
+The second issue is that if the original hypothesis is false, then you can conclude anything you want from it, it's fundamentally meaningless. This is not helpful for the model, so you have to add a step which does hypothesis rejection. 
+</p>
+
+<p>
+These two together prune to 712,073 formal statements of high quality.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2099f3c" class="outline-3">
+<h3 id="org2099f3c">Writing Proofs</h3>
+<div class="outline-text-3" id="text-org2099f3c">
+<p>
+It's inefficient to just output attempts until it works (or we run out of compute). 20% of the accumulated statements are still incorrect even after filtering. To try to do even more filtering, they attempt to prove both the original + negated statements and terminate as soon as one is found (since the other is now impossible).
+</p>
+
+<p>
+This creates a synthetic data feedback loop: you can generate proofs and statements this way, and then once you get a verified statement, you use it for training. This lets the model "learn new things" once it has successfully solved something inside it's "environment".
+</p>
+
+
+<div id="org2ab7b19" class="figure">
+<p><img src="../images/from_clipboard/20240607_153852.png" alt="20240607_153852.png" />
+</p>
+</div>
+
+<p>
+They are able to outperform GPT-4 at this task with just the finetuned 7B math model, which is not too surprising given it's relatively narrow domain. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd19f469" class="outline-3">
+<h3 id="orgd19f469">Conclusions</h3>
+<div class="outline-text-3" id="text-orgd19f469">
+<p>
+I admittedly had some difficulty seeing how this connects to the other papers in the series &#x2013; my first thought is that maybe this is the early stages of something like <a href="https://arxiv.org/abs/2401.01335">SPIN</a> where they are going to replace the ATP with a stronger model and do some sort of weak-to-strong distillation thing in the future. <a href="https://www.arxiv.org/pdf/2009.03393">GPT-f</a> was an OpenAI paper that came after GPT-3, <a href="https://x.com/gwern/status/1730704242300670376">gwern</a> has mentioned this could be a precursor to the elusive Q* work you hear rumors about sometimes, but I've always viewed this work as being primarily a show of capabilities (i.e. we scale to big model and then previously impossible thing is possible). I've seen some thoughts that this paper is <a href="https://x.com/teortaxesTex/status/1794578898254168336">some sort of collab between Sun Yat-sen and MBZUAI</a>. 
+</p>
+
+<p>
+<a href="https://x.com/teortaxesTex/status/1793902834364400051">doomslide</a> has some interesting thoughts on this, basically as follows:
+</p>
+<ul class="org-ul">
+<li>Informal math is like a halfway point between formal math and natural language</li>
+<li>Machines can verify formal math, humans generally are a probabilistic verifier for informal math</li>
+<li>Once you can translate informal &lt;-&gt; lean, you have a probabilistic verifier for lean</li>
+<li>From here you can set up RL feedback loop between translator, generator, formal verifier</li>
+</ul>
+
+<p>
+Seems plausible enough to me, but I admittedly lack the background to do an automatic theorem proving paper justice. 
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcd825d7" class="outline-2">
+<h2 id="orgcd825d7">Overall Takeaways</h2>
+<div class="outline-text-2" id="text-orgcd825d7">
+<p>
+The DeepSeek corpus touches a lot of topics in LLMs, which is very fun for a body of work which spans January 2024 through May 2024. This work took a pretty significant amount of time just for me to read in enough detail to write this post, and I didn't have to run experiments or buy 10,000 H100s. Very impressive to get this all done in that relatively small window. 
+</p>
+
+<p>
+It's hard to read through this type of thing and not emerge from it rooting for DeepSeek, at least a little bit &#x2013; I liked reading through these, and I appreciated that I could piece together virtually the entire story from beginning to end based on the contents of these papers. I'm not sure something else like this exists, it's unusual even by open source standards. If anyone has anything in mind for some body of work like this please let me know so I can read that as well.
+</p>
+
+<p>
+These papers (and Chinese ML work in general) do not seem to get a lot of attention in the west, and I think that's a bit of a shame even if you think western models are "better". There has even been attempts to <a href="https://x.com/yangzhizheng1/status/1797197104999518306">plagiarize</a> models released from China, and in one prominent example this was proven because the MiniCPM team <a href="https://github.com/OpenBMB/MiniCPM-V/issues/196#issuecomment-2143920646">had a hidden benchmark of obscure Tsinghua Bamboo Characters</a> which served as a canary to demonstrate the model was stolen. In general I came away from reading all of these papers having a much higher opinion of top Chinese ML talent &#x2013; some of these guys really know what they're doing!
+</p>
+
+<p>
+Most frontier labs aren't posting stuff to <a href="https://arxiv.org/">arXiv</a> these days, and as a certified arXiv Enjoyer I am generally going to approve of teams near the frontier that actually tell people about what they are doing. Reading papers is cool! We should reward the people responsible for letting us read them.
+</p>
+</div>
+
+<div id="outline-container-orgefb0565" class="outline-3">
+<h3 id="orgefb0565">Unanswered Questions</h3>
+<div class="outline-text-3" id="text-orgefb0565">
+<p>
+This is a section just for me to reflect on what stuff about available frontier LLMs are not really covered here. 
+</p>
+
+<ul class="org-ul">
+<li><b>How does data quality filtering actually work?</b>: This is kept pretty close to the chest for most places, which I understand but still makes me sad. What is actually going on in this step? How do you do this for an unimaginably huge dataset?</li>
+<li><b>How does Gemini have 1M context?</b>: GPT-4 still has a 128k context window, which I think I understand now. What the heck is Gemini doing? Is it just some sort of hack?</li>
+<li><b>Do you get GPT-4 performance just with more params?</b>: 4o, 4-turbo, Claude Opus etc all have measurably better performance than Llama 3 70b, DeepSeek-V2, etc. Meta claims that they can get GPT-4 performance with a 400B dense model, but there's not much detail out there for that. Is this really it? Does DeepSeek-V3 get there with a 2T param MoE model with no other changes made? What additional snags are there?</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2498e67" class="outline-2">
+<h2 id="org2498e67"><span class="todo TODO">TODO</span> Longterm</h2>
+<div class="outline-text-2" id="text-org2498e67">
+<ul class="org-ul">
+<li>Improve the DeepSeekMath Section (Not great at RL, especially the PPO section)</li>
+<li>Improve the RoPE section (I'm not happy with it)</li>
+<li>Dig around and ask how quality filtering works, this is unclear in all the papers</li>
+<li>Errata section / changelog once I get something I understood wrong shown to me</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+This is one downside to the academic side of things in comparison to the industry side of things: researchers typically have interests or specializations, and following tons of labs is necessary to understand how everything fits together for the people with compute power to use. To make a wizard analogy here, most people in academia are inventing new spells rather than dueling with other wizards, and most dueling wizards are unwilling to reveal their repertoire of spells. Perhaps this would be different if university departments got enough funding to train foundation models, but as of now it's cost prohibitive for non-frontier private labs to do work which isn't derivative or highly specialized. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I imagine this is generally abnormal, but here we are.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+These things will probably be somewhat lower resolution than the main DeepSeek stuff. There's a lot of ground to cover here, and I likely won't be able to explain everything in full detail. My hope is that I can explain the main important things, explain how DeepSeek employs or differs from those things, and link to them so that you can do more of the survey yourself if needed. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+unmodified diagram from <a href="https://www.researchgate.net/figure/Decoder-only-Transformer-architecture-The-input-to-the-decoder-is-tokenized-text-and_fig2_373183262">here</a>
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Famous paper for it's amazing conclusion
+</p>
+
+
+<div id="org4b34b07" class="figure">
+<p><img src="../images/from_clipboard/20240611_132330.png" alt="20240611_132330.png" />
+</p>
+</div></div></div>
+
+<div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6" role="doc-backlink">6</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<a href="https://jalammar.github.io/illustrated-transformer/">The Illustrated Transformer</a> is good if you need a quick review on MHA, which will be necessary later.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.7" class="footnum" href="#fnr.7" role="doc-backlink">7</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+"A mere 339 billion tokens", he says
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.8" class="footnum" href="#fnr.8" role="doc-backlink">8</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I mean, allegedly.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.9" class="footnum" href="#fnr.9" role="doc-backlink">9</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+figure from <a href="https://research.google/blog/mixture-of-experts-with-expert-choice-routing/?m=1">here</a>
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.10" class="footnum" href="#fnr.10" role="doc-backlink">10</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Attention is All You Need, text-to-text transformer, Palm, the sparsely-gated mixture-of-expert layer, GLU variants improve transformer, etc are all work with Shazeer's name on them, among many others.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.11" class="footnum" href="#fnr.11" role="doc-backlink">11</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+The smaller models are all trained on 500B tokens, even less than for 70B.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.12" class="footnum" href="#fnr.12" role="doc-backlink">12</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+For context Anthropic announced the beloved "Clong" 100k context claude in May 2023, and GPT-4 Turbo introduced 128k context window in November 2023. I'm not sure anyone hit 6-figure context before Meta aside from those two, but I'm not sure.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.13" class="footnum" href="#fnr.13" role="doc-backlink">13</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Kind of sad to put it this way, but that's just how it is I suppose.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.14" class="footnum" href="#fnr.14" role="doc-backlink">14</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+This is done quickly using a nice trick from <a href="https://arxiv.org/pdf/2306.15595">Extending Context Window of Large Language Models via Position Interpolation</a>
+</p>
+
+
+<div id="orgc2dc9a2" class="figure">
+<p><img src="../images/from_clipboard/20240612_204343.png" alt="20240612_204343.png" />
+</p>
+</div>
+
+<p class="footpara">
+We will touch on this later when we get to <a href="https://arxiv.org/pdf/2309.00071">YaRN</a> in DeepSeek-V2; it doesn't make too much sense to cover it in detail only to cover it again later.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.15" class="footnum" href="#fnr.15" role="doc-backlink">15</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+"performance on benchmarks" vs "training loss" is an interesting disparity here, where the training loss is mostly derived from next token prediction loss &#x2013; worse "next token prediction" but better programming ability based on exposure to the types of tokens it has seen would be a funny way that the from-scratch models could manifest as worse at natural language benchmarks.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.16" class="footnum" href="#fnr.16" role="doc-backlink">16</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Admittedly not sure how must stock I put into this elo score benchmark considering llava-v1.6-vicuna-7b is above llava-v1.6-vicuna-13b, but it's useful data. MMMU seems like a more sensible ordering to me, but I do need to square away that <a href="https://huggingface.co/BAAI/Bunny-v1_0-3B">bunny-v1<sub>0</sub>-3b</a> is super high on this benchmark by merging weights from bunny-phi-2-siglip-lora. I still need to read their <a href="https://arxiv.org/pdf/2402.11530">paper</a> about it but assessing anything touching phi-2 with respect to benchmarks gives me the heebie jeebies, even if I think the models are more capable than they often get credit for (cooked benchmarks notwithstanding). 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.17" class="footnum" href="#fnr.17" role="doc-backlink">17</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I am not sure how big Reka-Core and Claude 3 Haiku are, due to being closed source. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.18" class="footnum" href="#fnr.18" role="doc-backlink">18</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I often feel like even the closed models are pretty bad, vision seems pretty early still.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.19" class="footnum" href="#fnr.19" role="doc-backlink">19</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Should be a familiar tactic by now
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.20" class="footnum" href="#fnr.20" role="doc-backlink">20</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+To this day I think it's funny that this model singlehandedly killed all the vision startups whose whole job was segmentation labeling weird objects and training models to find them. All those companies whose business model was training little segmentation models to identify all the yellow hard hats in a construction site, vaporized instantaneously. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.21" class="footnum" href="#fnr.21" role="doc-backlink">21</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Including for Chinese 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.22" class="footnum" href="#fnr.22" role="doc-backlink">22</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I recognize we don't really cover Convolutional Neural Networks here and they're sort of outside the scope of language models a little bit, but they're really important for vision and relatively simple to understand, really common beginner resources like <a href="https://www.deeplearning.ai/courses/deep-learning-specialization/">deeplearning.ai's deep learning specialization</a> or <a href="https://course.fast.ai/">Practical Deep Learning for Coders</a> should cover this in sufficient detail if you've somehow managed to get this far without knowing about them.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.23" class="footnum" href="#fnr.23" role="doc-backlink">23</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<a href="https://arxiv.org/pdf/2401.06209">Tong et al</a> does a Mixture-of-Features approach with two encoders also, where they use CLIP and DINO rather than SigLIP and SAM-B &#x2013; they suggest you can get better performance if you concat the visual features along sequence dimension rather than emb dimension, but it doesn't really replicate in the DeepSeek experiments (embedding concat just seems better, and also uses fewer tokens)
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.24" class="footnum" href="#fnr.24" role="doc-backlink">24</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Not sure what this means, maybe some sort of model sharding thing? Potentially that unfreezing this would have necessitated a prohibitively small batch size? 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.25" class="footnum" href="#fnr.25" role="doc-backlink">25</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Wonder if this is related to scale &#x2013; I get the impression most people think these things should synergize, compared to here where capabilities in different modalities seem to be fighting for mindshare in the model.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.26" class="footnum" href="#fnr.26" role="doc-backlink">26</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Interesting note mentioned later in the eval section: they don't include multimodal and pure text in the same batches, since it causes training inefficiency, and they show that mixing them doesn't change the outcome of results even though it dramatically reduces efficiency. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.27" class="footnum" href="#fnr.27" role="doc-backlink">27</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+More specifically they find that more language makes it better at language and more multimodal makes it better at multimodal (shocking), and they settle on a 7:3 ratio between these to optimize for performance at both things.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.28" class="footnum" href="#fnr.28" role="doc-backlink">28</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Recall from Code Llama that they just report training loss when training from chat model base or from scratch, which does <i>not</i> provide this sort of resolution.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.29" class="footnum" href="#fnr.29" role="doc-backlink">29</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+This benchmark seems weird; unusual to me to see pretty much all the open source models yield performance roughly similar to <a href="https://arxiv.org/pdf/2311.16502">GPT-4 without being able to look at the images</a> (34.9 validation 33.8 test). Maybe that's a very load-bearing 3 points? Maybe the models are all just terrible?
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.30" class="footnum" href="#fnr.30" role="doc-backlink">30</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I have seen some concerns that this process is not strict enough, and that the benchmark results are all compromised / the claimed abilities are a mirage in this model and others. As always, public benchmarks need to be taken with a grain of salt.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.31" class="footnum" href="#fnr.31" role="doc-backlink">31</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Recall from DeepSeek-Coder that they still care about language performance after imbuing the model with a specific capability.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.32" class="footnum" href="#fnr.32" role="doc-backlink">32</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Which for the most part I do not know very well
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.33" class="footnum" href="#fnr.33" role="doc-backlink">33</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I am genuinely not really sure what they are saying with this part of the paper
+</p>
+
+
+<div id="orgf6198de" class="figure">
+<p><img src="../images/from_clipboard/20240614_011919.png" alt="20240614_011919.png" />
+</p>
+</div>
+
+<p class="footpara">
+It stops short of having any sort of real conclusion, but it <i>feels</i> like it's suggesting these two methods do slightly different things, despite stopping short of actually saying that. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.34" class="footnum" href="#fnr.34" role="doc-backlink">34</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Not sure if this ever got released, doing this sort of deep dive with all of meta's work seems more daunting than the 7 pages for deepseek.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.35" class="footnum" href="#fnr.35" role="doc-backlink">35</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Definitely extremely confusing that these are distinct concepts.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.36" class="footnum" href="#fnr.36" role="doc-backlink">36</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Here is that algebra. There are too many references to concepts I am not familiar with. 
+</p>
+
+
+<div id="orgddff2db" class="figure">
+<p><img src="../images/from_clipboard/20240614_015748.png" alt="20240614_015748.png" />
+</p>
+</div></div></div>
+
+<div class="footdef"><sup><a id="fn.37" class="footnum" href="#fnr.37" role="doc-backlink">37</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+If this isn't clear then we can walk through it briefly, since it was not clear to me at first:
+</p>
+
+<p class="footpara">
+The DPO objective is \(L_{DPO}(\pi_\theta; \pi_{ref}) = -\mathbb{E}{(x,y_w,y_l) \sim D}\left[\log\sigma\left(\beta \log\frac{\pi\theta(y_w|x)}{\pi_{ref}(y_w|x)} - \beta \log\frac{\pi_\theta(y_l|x)}{\pi_{ref}(y_l|x)}\right)\right]\). You can abbreviate the ratio of policies here to \(r_w(x)\) and \(r_l(x)\). We can also combine the logs together to get \(\beta log \frac{r_w(x)}{r_l(x)}\), which means our entire objective can just be written as \(log\sigma\left(\beta\log\frac{r_w(x)}{r_l(x)}\right)\).
+</p>
+
+<p class="footpara">
+This is a binary outcome (you pick one or the other) so if we define \(\hat{y} = \sigma\left(\beta\log\frac{r_w(x)}{r_l(x)}\right)\), then we can just see this just becomes binary cross entropy \(L_{DPO}(\pi_\theta; \pi_{ref}) = -\mathbb{E}_{(x,y) \sim D}\left[y \log(\hat{y}) + (1-y) \log(1-\hat{y})\right]\). 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.38" class="footnum" href="#fnr.38" role="doc-backlink">38</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+This is the entire reason to use RL for this in the first place; with reward only visible after the sequence is completed, there's no way to do backprop without it. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.39" class="footnum" href="#fnr.39" role="doc-backlink">39</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Lots of interesting discussion <a href="https://arxiv.org/pdf/2406.09279v1">out there</a> about when DPO or PPO is better; I'm not sure if this is quite right but I view GRPO as not too different from the occasionally seen DPO -&gt; PPO training paradigm in the sense that it seems to roughly combine advantages from both things. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.40" class="footnum" href="#fnr.40" role="doc-backlink">40</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I believe this is to fight <a href="https://en.wikipedia.org/wiki/Autocorrelation">unstable training from autocorrelation</a> and makes it more like regular supervised learning.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.41" class="footnum" href="#fnr.41" role="doc-backlink">41</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Good amount of this DPO/RFT/PPO relative superiority misses this nuance, it seems, where methods like DPO are "equivalent to or better than PPO despite being simpler" because the number of steps in the experiment is low enough for the performance to be mostly equivalent. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.42" class="footnum" href="#fnr.42" role="doc-backlink">42</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Maybe a good way to think of GRPO is "Online RFT where 'pretty close' and 'completely wrong' aren't labeled the same thing"
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.43" class="footnum" href="#fnr.43" role="doc-backlink">43</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Bad news for me.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.44" class="footnum" href="#fnr.44" role="doc-backlink">44</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+They actually also introduce a third "communication loss" in addition to the two wonky losses from DeepSeekMoE, which I imagine becomes important as you scale to larger sizes.
+</p>
+
+<p class="footpara">
+<img src="../images/from_clipboard/20240607_105800.png" alt="20240607_105800.png" />
+<img src="../images/from_clipboard/20240607_105816.png" alt="20240607_105816.png" />
+<img src="../images/from_clipboard/20240607_105832.png" alt="20240607_105832.png" />
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.45" class="footnum" href="#fnr.45" role="doc-backlink">45</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+One might say "delve"  
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.46" class="footnum" href="#fnr.46" role="doc-backlink">46</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+ok sure, there's worse backronyms out there.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.47" class="footnum" href="#fnr.47" role="doc-backlink">47</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I never said this was going to be an easy one to understand. I'd be lying to you if I claimed that I fully am internalizing the way YaRN works but basically it's a RoPE modification that cares about the wavelength.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.48" class="footnum" href="#fnr.48" role="doc-backlink">48</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+We are pretty much just doing this for kicks, I suppose &#x2013; it doesn't affect the KV cache at all but we might as well do it for memory purposes.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.49" class="footnum" href="#fnr.49" role="doc-backlink">49</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I once randomly watched a <a href="https://www.youtube.com/watch?v=AayZuuDDKP0">Terence Tao</a> lecture on this so I'm pretty much an expert I'd say.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.50" class="footnum" href="#fnr.50" role="doc-backlink">50</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I think this is supposed to be a really big contribution, since the reason they don't just finetune on millions of formal statements is that there aren't that many in existence yet.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.51" class="footnum" href="#fnr.51" role="doc-backlink">51</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I'm always a little suspect of LLM ratings given that they are RLHF'd to be polite and nice rather than honest, but they have some experiments which show that filtering out bad stuff this way improves the performance.
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+</div>
+</body>
+</html>
