@@ -4,13 +4,13 @@
 
 ** Intro
 
-[[../images/from_clipboard/20240613_135442.png]]
+[[../images/from_clipboard/20240614_213621.png]]
 
 *** DeepSeek's Corpus as a Survey of Language Modeling
 
 Modern LLMs provide an interesting technical puzzle to the semi-informed machine learning enthusiast. By and large, they are a scaled-up version of the [[https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf][GPT architecture]] (2018), primarily driven by a technology called [[https://arxiv.org/abs/1706.03762][Transformers]] (2017). There's a lot of [[https://www.youtube.com/watch?v=kCc8FmEb1nY][great work]] on understanding these two things in particular, which I've [[https://colab.research.google.com/drive/1oO4wwpnzeOFcnGH93RlngINoF7bFDN9L?usp=sharing][worked through]] in the past, but there is a slight snag here: these are (extremely useful!) resources for understanding 2017-2019 technology for which toy examples can be run on consumer hardware.
 
-Putting this a bit more bluntly: there's a great deal of work out there which claims to lay out "how chatGPT works", where you work through some exercises and feel like you have a solid grasp of the fundamental technology at play. However, generally speaking these things will not help you understand /how the actual thing works/. The toy examples are a vehicle for you to understand the thing that eventually /became/ chatGPT, and in your head you just impute some vague idea that they made it huge and trained it on thousands of GPUs.
+Putting this a bit more bluntly: there's a great deal of work out there which claims to lay out "how chatGPT works", where you work through some exercises and feel like you have a solid grasp of the fundamental technology at play. However, generally speaking these things will not help you understand /how the actual thing works/[fn:52]. The toy examples are a vehicle for you to understand the thing that eventually /became/ chatGPT, and in your head you just impute some vague idea that they made it huge and trained it on thousands of GPUs.
 
 To really /get/ how to go from this sort of technology to a bonafide frontier LLM, you run into two problems. First, a lot of stuff is done by closed AI labs like OpenAI, and important details about their process are deliberately obfuscated. Second, a lot of the work is not connected together: there's an absolute mountain of works about LLMs, and for the precocious reader it can be pretty difficult to assess which papers matter and which are junk or hype[fn:2].
 
@@ -24,7 +24,7 @@ The DeepSeek papers are a worthwhile read on their own, but I'm hoping this docu
 
 Simply put, it's a lot of notes. You can call it a personal exercise to learn lots of things about language models beyond [[https://arxiv.org/abs/1706.03762][Vaswani et al 2017]]. I'm imagining this will be somewhat of a living document, and I may add to it as I learn more things / as DeepSeek continues to release works.
 
-The intended audience of this post, ideally, is someone at the level of having gone through the Karpathy GPT reproduction videos and understood them well. I'm going to assume the reader knows what [[https://jalammar.github.io/illustrated-transformer/][transformers are]], what multi-headed attention is, etc, but that they probably don't know stuff like scaling laws or grouped query attention. I'm going to go into a lot of detail, and I simply have no illusions that my would-be attempt at explaining from Level 0 would be better than Karpathy's excellent work on this topic already.
+The intended audience of this post, ideally, is someone at the level of having gone through the [[https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ][Karpathy GPT reproduction videos]] and understood them well. I'm going to assume the reader knows what [[https://jalammar.github.io/illustrated-transformer/][transformers are]], what multi-headed attention is, etc, but that they probably don't know stuff like scaling laws or grouped query attention. I'm going to go into a lot of detail, and I simply have no illusions that my would-be attempt at explaining from Level 0 would be better than Karpathy's excellent work on this topic already.
 
 I also am not intending this to replace reading the papers. I will not be including all of the information in all of the papers, and won't be mentioning stuff like number of epochs unless that's a really important detail to understand the big picture. I hope that you could read the companion here and understand the papers well as a result, but if there's an important detail you think I missed or didn't understand properly please tell me (ideally [[https://x.com/Ambisinister_][via twitter]]).
 
@@ -45,14 +45,14 @@ Point 1 here is a relatively heavy one: the architecture differs extremely minim
 
 [[../images/from_clipboard/20240611_222117.png]][fn:5]
 
-[[https://arxiv.org/pdf/2307.09288][Meta's Llama 2]] is a very important paper for language models: they were the first open weights models which were highly performant even at small sizes, and the largest model was much better than anything open-source before it. As a result, it has held extreme influence over the open source community since it's release, with most released models usually hovering around the same parameter counts to facilitate comparisons with Meta's results.
+[[https://arxiv.org/pdf/2307.09288][Meta's Llama 2]] is a very important paper for language models: they were the first open weights models which were highly performant even at small sizes, and the largest model was much better than anything open-source before it. As a result, it has held extreme influence over the open source community since its release, with most released models usually hovering around the same parameter counts to facilitate comparisons with Meta's results.
 
 The Llama 2 paper itself is quite detailed, so lots of information is available on how exactly it works. There's a few things about it which warrant some quick explanation. At a glance, Llama 2 has the following properties:
 
 - Model sizes of 7B, 13B, 34B, and 70B parameters
 - Trained first via pretraining a base model, followed by supervised finetuning to get an instruction tuned model, followed by Reinforcement Learning from Human Feedback to get a more helpful/safe model
 - Each trained on 2 Trillion tokens, all with a context length of 4096 tokens
-- Uses a Byte Pair Encoding (BPE) Tokenizer with individual letters split up, a total vocabulary size of 32k tokens
+- Uses a Byte Pair Encoding (BPE) Tokenizer with individual numbers split up, a total vocabulary size of 32k tokens
 - Uses Rotary Positional Encodings (RoPE), RMSNorm for normalization, and SwiGLU activation
 - Uses Grouped-Query Attention (GQA) for efficiency in the 34B and 70B parameter models
 
@@ -69,7 +69,7 @@ Llama 2 is trained in three phases:
 
 This loop was originally proposed in the [[https://arxiv.org/pdf/2203.02155][InstructGPT paper]], back in 2022. 
 
-The *pretraining* phase is where do most of the heavy lifting, and it's the step most tutorials teach you about when you're learning about language models in a pedagogical setting. The purpose of this phase is to get the model to learn how to predict the next token, given some context of previous tokens. If you train a really big model to do this on a lot of data, it becomes very good at picking plausible continuations to text: you can feed the output back into the context and continue generating tokens based on the previously generated token, and that's called /autoregression/.
+The *pretraining* phase is where they do most of the heavy lifting, and it's the step most tutorials teach you about when you're learning about language models in a pedagogical setting. The purpose of this phase is to get the model to learn how to predict the next token, given some context of previous tokens. If you train a really big model to do this on a lot of data, it becomes very good at picking plausible continuations to text: you can feed the output back into the context and continue generating tokens based on the previously generated token, and that's called /autoregression/.
 
 At this point, the model is not that useful. What is done after this phase is what turns this token prediction model into a chat model: *supervised fine tuning* (SFT). SFT is a step where you fine-tune the base model on a bunch of data which looks vaguely like this:
 
@@ -101,7 +101,9 @@ The byte pair encoding tokenizer used for Llama 2 is [[https://huggingface.co/le
 
 RoPE was a positional encoding method which came from the [[https://arxiv.org/pdf/2104.09864][RoFormer paper]] back in November 2023. We will talk about this paper in more detail when we get to DeepSeek-V2, because the strategy of using strong relative positional embeddings is what will enable us to eventually get nice long context windows rather than these tiny fixed context windows we are currently using. 
 
-Probably the best way to get a grasp of RoPE is the [[https://blog.eleuther.ai/rotary-embeddings/][Eleuther AI blogpost about it]]. The idea behind RoPE is very clever: - You have two items q,k at two positions m,n.
+Probably the best way to get a grasp of RoPE is the [[https://blog.eleuther.ai/rotary-embeddings/][Eleuther AI blogpost about it]]. The idea behind RoPE is very clever:
+
+- You have two items q,k at two positions m,n.
 - You want a function where the dot product is the same provided q and k are the same, and the distance between m and n are the same
 - We can represent the tokens as complex numbers, and represent their positions as rotations we apply to them
   - if we shift q and k the same amount in positions, their relative rotations will be the same, so the dot product will also be the same
@@ -179,7 +181,7 @@ DeepSeek-LLM collects a dataset of ~1.5 million instruction data examples in bot
 
 They report this result and then state: *"Therefore, we have chosen to exclude MC data from both the pre-training and fine-tuning stages, as including it would result in overfitting to benchmarks and would not contribute to achieving true intelligence in the model."*
 
-The above might be some sort of hint to evaluate why certain models seem to overperform on benchmarks and other seem to punch way below their weight relative to reported results -- there's all sorts of stuff which could potentially constitute implicitly overfitting to benchmarks in this way, and it's worth keeping in mind when evaluating new models.
+The above might be some sort of hint to evaluate why certain models seem to overperform on benchmarks and other seem to punch way above their weight relative to reported results -- there's all sorts of stuff which could potentially constitute implicitly overfitting to benchmarks in this way, and it's worth keeping in mind when evaluating new models.
 
 There's another interesting note here about including instruction-tuning data in the pretraining set, in order to cook up the base model's performance on benchmarks prior to SFT and DPO. I'll present the below without comment, since it will come in handy later.
 
@@ -212,14 +214,14 @@ They try three approaches which all turn out roughly equivalent:
 [[../images/from_clipboard/20240611_231544.png]]
 
 1. Fix the model size, vary the number of tokens, and try to identify the optimal compute size to get the lowest loss for each number of training tokens
-2. Vary the model size for a six set of training Floating Point Operation (FLOP) count, plot IsoFLOPs curve to estimate optimal model size with lowest loss for each compute budget.
+2. Vary the model size for a fixed set of training Floating Point Operation (FLOP) count, plot IsoFLOPs curve to estimate optimal model size with lowest loss for each compute budget.
 3. They fit a parametric loss function to model all the losses from the experiments in 1 and 2
 
 They get a very different result from the original [[https://arxiv.org/pdf/2001.08361][scaling laws]] paper. This could be for a variety of reasons: that paper used much smaller models, didn't adjust the fixed learning rate or number of tokens for each model, and so on.
 
 [[../images/from_clipboard/20240611_231920.png]]
 
-This represented a huge shift in how these models were trained, where the metagame was more oriented towards large datasets and modestly large models. [[https://ai.meta.com/blog/meta-llama-3/][Llama 3 400B]] is the conceptually closest thing to what Megatron-Turing NLG was back in 2022, but reaches GPT-4 performance after being trained on /15 Trillion tokens/[fn:7].
+This represented a huge shift in how these models were trained, where the metagame started to reorient towards large datasets and modestly large models. [[https://ai.meta.com/blog/meta-llama-3/][Llama 3 400B]] is the conceptually closest thing to what Megatron-Turing NLG was back in 2022, but reaches GPT-4 performance after being trained on /15 Trillion tokens/[fn:7].
 
 Scaling laws are [[https://gwern.net/scaling-hypothesis][a whole thing]]. There's [[https://en.wikipedia.org/wiki/Neural_scaling_law][more work]] beyond what I've listed above, and there's much discussion about whether these will eventually level off or if we can just scale our way to artificial general intelligence. That's outside the scope of this article: the important thing here is that we can fairly accurately predict how well our model will perform given data and a compute budget, with some smaller scale experiments.
 
@@ -241,7 +243,7 @@ They run some simple experiments to find optimal parameters based on fixed compu
 
 [[../images/from_clipboard/20240602_232919.png]]
 
-Cool implication: *The optimal hyperparameters fall within a broad band*, which means that the underlying system here is pretty stable and that tiny parameter changes shouldn't have huge impacts. The results are pretty intuitive: with more compute power you'll want a larger batch size and a lower learning rate. Their parameters for both models are picked according to these laws.
+Cool implication: *The optimal hyperparameters fall within a broad band*, which means that the underlying system here is pretty stable and that tiny parameter changes shouldn't have huge impacts[fn:53]. The results are pretty intuitive: with more compute power you'll want a larger batch size and a lower learning rate. Their parameters for both models are picked according to these laws.
 
 **** Replacing N with M
 
@@ -281,7 +283,7 @@ Let's get into some of these.
 
 This paper can be found [[https://arxiv.org/pdf/2401.06066][here]]. It was released January 11, 2024.
 
-Mixture of Experts (MoE) is a type of model which will directly activate /different weights/, or "experts", depending on the input. This lets you have a sparsely activated model which lets you scale up the parameter count extremely high, since only a comparatively small number of parameters are active on every forward and backward pass. The Mixture-of-Expert idea has been around since the 90s, but the legendary Noam Shazeer has a lot of work bringing this over to language models, e.g. [[https://arxiv.org/pdf/2101.03961][scaling a model to over a trillion parameters back in 2022]].
+Mixture of Experts (MoE) is a type of model which will directly activate /different weights/, or "experts", depending on the input. This lets you have a sparsely activated model which lets you scale up the parameter count extremely high, since only a comparatively small number of parameters are active on every forward and backward pass. The Mixture-of-Experts idea has been around since the 90s[fn:54], but Noam Shazeer has a lot of work bringing this over to language models, e.g. [[https://arxiv.org/pdf/2101.03961][scaling a model to over a trillion parameters back in 2022]].
 
 It has [[https://www.semianalysis.com/p/gpt-4-architecture-infrastructure][been known]] that GPT-4 is [[https://152334h.github.io/blog/non-determinism-in-gpt-4/][an MoE model]], likely with about 1.8T total parameters. So, it makes sense for DeepSeek to want to learn how to use them. However, it's a little tricky: the Chinchilla paper has a line where it cites [[https://arxiv.org/abs/2202.01169][Unified Scaling Laws for Routed Language Models]] and says "for very large models the computational benefits of routed models seems to diminish".
 
@@ -301,7 +303,7 @@ Formally you can see it below:
 
 [[../images/from_clipboard/20240603_131836.png]]
 
-where N is the total number of expert, FFN_i is the ith expert, g_{i,t} is the gate value for the ith expert (i.e. if we turn it on or off)), s_{i,t} is token-to-expert affinity (i.e how hard we turn it on), all of the above with layernorm omitted for brevity.
+where N is the total number of experts, FFN_i is the ith expert, g_{i,t} is the gate value for the ith expert (i.e. if we turn it on or off)), s_{i,t} is token-to-expert affinity (i.e how hard we turn it on), all of the above with layernorm omitted for brevity.
 
 **** The Mixture of Experts Layer
 
@@ -311,7 +313,7 @@ Using this in Language models is mostly downstream of a 2017 paper called [[http
 
 This was done on stacked LSTM layers, by virtue of it being performed in January 2017.
 
-The output of this layer is $\sum^{n}_{i=1}G(x)_iE_i(x)$, where G(x) is the amount of weight of each expert's "opinion" (and all the G(x)s sum to 1). To save computation, you squash this to 0 for all except the top couple of experts, that way you don't need to compute the expert's output just for it to be multiplied by a very small number.
+The output of this layer is $\sum^{n}_{i=1}G(x)_iE_i(x)$, where G(x) is the weight of each expert's "opinion" (and all the G(x)s sum to 1). To save computation, you squash this to 0 for all except the top couple of experts, that way you don't need to compute the expert's output just for it to be multiplied by a very small number.
 
 The original way to do gating was to just have a trainable weight matrix $W_g$ which is multiplied by the input and then softmaxed to sum to 1. This paper's version adds a few extra features: adding a little bit of noise, only keeping the top k, and then softmaxing that output. This introduces a second matrix $W_{noise}$ which controls the amount of noise to be added.
 
@@ -330,9 +332,9 @@ GShard is work which basically does 2 things:
 1. It implements a big transformer decoder block which implements a [[https://arxiv.org/pdf/1701.06538][Mixture of Experts Layer]]
 2. Enable you to put each expert on it's own GPU, and allow routing to move across GPUs to the appropriate expert
 
-This lets you scale up the effective width of the models substantially. For example, [[https://mistral.ai/news/mixtral-8x22b/][Mixtral 8x22B]] is a strong open Mixture-of-Experts model. You can imagine this as 8 copies of the same stack of decoder blocks, but where all the FFNs are a little different. In this case, your router in the mixture of experts layer can point to an expert which is on a different GPU -- GShard implements the ability to All-to-All Dispatch (i.e. send something to an expert on another GPU) and All-to-All Combine (i.e. get the outputs of each experts at the end of the FFN step of each decoder block).
+This lets you scale up the effective width of the models substantially. For example, [[https://mistral.ai/news/mixtral-8x22b/][Mixtral 8x22B]] is a strong open Mixture-of-Experts model. You can imagine this as 8 copies of the same stack of decoder blocks, but where all the FFNs are a little different. In this case, your router in the mixture of experts layer can point to an expert which is on a different GPU -- GShard implements the ability to All-to-All Dispatch (i.e. send something to an expert on another GPU) and All-to-All Combine (i.e. get the outputs of all experts at the end of the FFN step of each decoder block).
 
-[[https://www.youtube.com/watch?v=1VdEw_mGjFk][Yannic Kilcher]] has a video on the GShard paper which goes into somewhat more detail here, but the general idea is that GShard lets you scale using Mixture of Experts more easily when you have a very large number of devices, by allowing those devices to communicate with each other and assigning them each different tasks ("sharding" the model). [long-term TODO: Go in a bit more detail here, beyond this is mostly hardware-level but I am mostly blind to that level of detail]
+[[https://www.youtube.com/watch?v=1VdEw_mGjFk][Yannic Kilcher]] has a video on the GShard paper which goes into somewhat more detail here, but the general idea is that GShard lets you scale using Mixture of Experts more easily when you have a very large number of devices, by allowing those devices to communicate with each other and assigning them each different tasks ("sharding" the model).
 
 *** Expert Segmentation + Shared Experts = DeepSeekMoE
 
@@ -359,7 +361,7 @@ Overall this all seems fairly well-motivated, even if the extreme expert segment
 
 *** Custom Losses / Why Hasn't This Been Done
 
-The problem with many very small, numerous experts is that this reduces the margin of error for the router, and also makes parallelization kind of tricky. One possible mode of failure is similar to [[https://arxiv.org/pdf/1807.04015][mode collapse]], where the router learns that the top K experts are the most performant, always selects them, and then you effectively just have a normal FFN again, with a bunch of useless parameters that never train and are never used. Another possible mode of failure is if all the most common experts happen to all on the same GPU, and suddenly you have a big bottleneck.
+The problem with many very small, numerous experts is that this reduces the margin of error for the router, and also makes parallelization kind of tricky. One possible mode of failure is similar to [[https://arxiv.org/pdf/1807.04015][mode collapse]], where the router learns that the top K experts are the most performant, always selects them, and then you effectively just have a normal FFN again, with a bunch of useless parameters that never train and are never used. Another possible mode of failure is if all the most common experts happen to be on the same GPU, suddenly giving you a big bottleneck.
 
 To try and address this, DeepSeekMoE introduces two additional auxiliary loss terms: *Expert-Level Balance Loss* which penalizes the model for not evenly selecting the experts, and *Device-Level Balance Loss* which splits up the experts into partitions and then penalizes the model for selecting a lot of experts from the same partition. 
 
@@ -411,7 +413,7 @@ This paper can be found [[https://arxiv.org/pdf/2401.14196][here]]. This was rel
 
 The DeepSeek-Coder paper can be primarily viewed as a data quality exercise, as well as a capabilities project. DeepSeek has shown up to now that they can train large language models that are pretty good -- can they make one that does /a particular thing/ better? How would they collect data for that? How is that different from a model which is just good at replying to questions in natural language?
 
-To look into this, they collect a bunch of data from github, go through an extensive data quality filtering process, and arrive at a dataset of 2 trillion tokens. They train this almost exactly the same way as they train DeepSeek-LLM, but focused on code generation capabilities rather than other benchmarks. They produce a model at the time was the state-of-the-art open weights coding model, outperforming 3.5-turbo. They also produce a new benchmark of LeetCode contest problems, which they present alongside some of the more normal benchmarks you see in code generation work.
+To look into this, they collect a bunch of data from github, go through an extensive data quality filtering process, and arrive at a dataset of 2 trillion tokens. They train this almost exactly the same way as they train DeepSeek-LLM, but focused on code generation capabilities rather than other benchmarks. They produce a model which at the time was the state-of-the-art open weights coding model, outperforming 3.5-turbo. They also produce a new benchmark of LeetCode contest problems, which they present alongside some of the more normal benchmarks you see in code generation work.
 
 *** Aside A: Code Generation LLMs
 **** StarCoder: may the source be with you!
@@ -429,7 +431,7 @@ They train this model and get a good result.
 
 **** Code Llama
 
-[[https://arxiv.org/pdf/2308.12950][Code Llama]] is what it sounds like: Llama for code. It is the same architure as Llama 2, but specialized for coding purposes. This paper is probably conceptually closer to what DeepSeek-Coder does.
+[[https://arxiv.org/pdf/2308.12950][Code Llama]] is what it sounds like: Llama for code. It is the same architecture as Llama 2, but specialized for coding purposes. This paper is probably conceptually closer to what DeepSeek-Coder does.
 
 [[../images/from_clipboard/20240612_213903.png]]
 
@@ -488,7 +490,7 @@ As with some of the other DeepSeek papers, the quality screening step is somewha
 
 [[../images/from_clipboard/20240603_114903.png]]
 
-For the most part, training DeepSeek-Coder is trained the exact same way as DeepSeek-LLM, including the resulting instruction tuning. The above table should tell you almost everything if you've been following up to this point. There are a few minor differences (e.g. tokenizer has a 32k vocab, rather than 102k), the more involved of which I will note below.
+For the most part, DeepSeek-Coder is trained the exact same way as DeepSeek-LLM, including the resulting instruction tuning. The above table should tell you almost everything if you've been following up to this point. There are a few minor differences (e.g. tokenizer has a 32k vocab, rather than 102k), the more involved of which I will note below.
 
 **** Long Context
 
@@ -544,7 +546,7 @@ DeepSeek's solution to VLMs is as follows:
 - A hybrid vision encoder where a low-resolution (384x384) module is text-aligned and a high-resolution (1024x1024) module just extracts features. This produces 576 visual tokens containing information from both modules.
 - Extensive data collection and subsequent pretraining, 70% of which is language data.
 - *Mix some instruction tuning in pretraining to prevent instruction-following from becoming the bottleneck*. This differs from their earlier work on LLMs where this was found mostly to not matter.
-- Do scaling experience on a small model and then scale[fn:18].
+- Do scaling experiments on a small model and then scale[fn:18].
   
 *** Aside A: Vision Language Models
 
@@ -566,7 +568,7 @@ Given that they have a bunch of instruction tuning data from the above, they sta
 
 ***** Fine-tuning End-to-End
 
-After this is completed, they unfreeze the LLM and let the model learn how to use the visual tokens it has learned to create in the first phase. Notably, the vision encoder is still kept frozen here, and the only training that gets performed in instruction tuning (which is why the paper is called "visual instruction tuning").
+After this is completed, they unfreeze the LLM and let the model learn how to use the visual tokens it has learned to create in the first phase. Notably, the vision encoder is still kept frozen here, and the only training that gets performed is instruction tuning (which is why the paper is called "visual instruction tuning").
 
 **** Instruct-BLIP
 
@@ -661,7 +663,7 @@ This is a nice trick: it helps you measure e.g. MMLU and MMBench accuracy in the
 
 The benchmarks are pretty strong here, which should by now be a pretty typical story for a DeepSeek model -- at the frontier of open source, just shy of the closed models. Their MMMU score hovers at around the same performance as most of the other models, but it distinguished itself in the other benchmarks[fn:27].
 
-Not all is lost for the true believers in multimodal training for increased performance: they observe that DeepSeek-VL does better on certain benchmarks compared to it's language only 7B counterpart, and suggest it might be a capability-by-capability thing.
+Not all is lost for the true believers in multimodal training for increased performance: they observe that DeepSeek-VL does better on certain benchmarks compared to its language only 7B counterpart, and suggest it might be a capability-by-capability thing.
 
 [[../images/from_clipboard/20240613_121726.png]]
 
@@ -676,7 +678,7 @@ This paper can be found [[https://arxiv.org/pdf/2402.03300][here]]. This was rel
 
 DeepSeek up to this point has done work on scaling language models, Mixture-of-Experts, coding capability, and some multimodality. If you think of this as "ingredients for modern GPT-4" then there's really only one big ingredient remaining: reinforcement learning. This paper is that ingredient.
 
-LLMs are generally not great at math. This paper at a high level just finetunes DeepSeek-Coder-Base-v1.5 7B with 120B math tokens and makes better at math. This by itself is not that special -- a small model finetuned on a task becomes better than a big model not trained on that task -- but the purpose of this paper is to provide an /environment/ for them to deeply explore policy optimization techniques.
+LLMs are generally not great at math. This paper at a high level just finetunes DeepSeek-Coder-Base-v1.5 7B with 120B math tokens and makes it better at math. This by itself is not that special -- a small model finetuned on a task becomes better than a big model not trained on that task -- but the purpose of this paper is to provide an /environment/ for them to deeply explore policy optimization techniques.
 
 To wit, they develop this new technique called /Group Relative Policy Optimization/ (GRPO), which is a variant of PPO which doesn't need to train a critic model. They also provide a framework to understand DPO/PPO/RFT/GRPO/etc as all variants slotting in to the same general concept with different components swapped out. 
 
@@ -790,13 +792,13 @@ Skipping past some algebra[fn:44], the DPO objective is this:
 
 [[../images/from_clipboard/20240614_015715.png]]
 
-Which is just rewighted binary cross entropy loss on the token-level probability ratios[fn:46]. That is: encouraging the model to assign higher probabilities to preferred continuations $y_w$ and lower probabilities to the wrong ones $y_l$ subject to some context $x$ representing the previous tokens.
+Which is just reweighted binary cross entropy loss on the token-level probability ratios[fn:46]. That is: encouraging the model to assign higher probabilities to preferred continuations $y_w$ and lower probabilities to the wrong ones $y_l$ subject to some context $x$ representing the previous tokens.
 
 They nicely provide a little explanation of the terms. Rather than training a value model to predict which response would be preferred by human raters, we want to increase the likelihood of picking the winner ($y_w$), decrease the likelihood of picking the loser ($y_l$), and care less in situations where we already do that ($\hat{r}_{\theta}(x, y)$ will be high if humans pick $y$ when given $x$, and low otherwise, so that term will be close to 0 when very correct and close to 1 when very wrong). 
 
 [[../images/from_clipboard/20240614_020508.png]]
 
-The thing that makes this work is that it does everything upon the probabilities of the tokens directly, which means it doesn't need to wait for the end of the sequence to see reward, which would not be differentiable and thus would require. The core thing to remember here is that we can train the model directly, much like we train a value model directly, and perform as well or better than PPO.
+The thing that makes this work is that it does everything upon the probabilities of the tokens directly, which means it doesn't need to wait for the end of the sequence to see reward, which would not be differentiable and thus would require Reinforcement Learning. The core thing to remember here is that we can train the model directly, much like we train a value model directly, and perform as well or better than PPO[fn:55].
 
 *** Reinforcement Learning
 
@@ -813,19 +815,19 @@ There are two things DeepSeek wants to address with the RL work here:
 1. It is expensive computationally to train a value model
 2. You only get a reward score for the final token in a sequence (i.e. the entire sequence), rather than providing a reward at each step (i.e. at the token level)[fn:45]
 
-To get around this, they introduce this new idea called /Group Relative Policy Optimization/ which leverages the fact that we can sample a group of outputs to avoid training an explicit value model. Think of this like a sort of mix between DPO, PPO, and Rejection Sampling[fn:48]: we sample a group of outputs, split the outputs into $G$ groups, and optimize the PPO objective by calculating $\hat{A_{i,t}}$ by using relative rewards inside each group. The intuition here is that we don't really /need/ a detached value model, we just need to be able to identify that some output is better than other ones in the same batch. If it's a below average output, we want less of those, if it's an above average output, we want more of those.
+To get around this, they introduce this new idea called /Group Relative Policy Optimization/ which leverages the fact that we can sample a group of outputs to avoid training an explicit value model. Think of this like a sort of mix between DPO, PPO, and Rejection Sampling[fn:48]: we sample a group of outputs, split the outputs into $G$ groups, and optimize the PPO objective by calculating $\hat{A}_{i,t}$ by using relative rewards inside each group. The intuition here is that we don't really /need/ a detached value model, we just need to be able to identify that some output is better than other ones in the same batch. If it's a below average output, we want less of those, if it's an above average output, we want more of those.
 
 [[../images/from_clipboard/20240614_162115.png]]
 
 ***** Outcome Supervision
 
-For calculating the advantage at the end of the output, we can sample $G$ outputs, and we can run all all of these outputs to get a list of rewards $r$. In this case, we can set the advantage to the normalization of the rewards, that is: $\hat{A}_{i,t} = \tilde{r_i} = \frac{r_i-mean(r)}{std(r)}$. 
+For calculating the advantage at the end of the output, we can sample $G$ outputs, and run all of these outputs through the reward model to get a list of rewards $r$. In this case, we can set the advantage to the normalization of the rewards, that is: $\hat{A}_{i,t} = \tilde{r_i} = \frac{r_i-mean(r)}{std(r)}$. 
 
 ***** Process Supervision
 
-We also want to reward the model inside the generation process, not just at the end (especially for math problems where we want to reward good chains of thought). [[https://arxiv.org/pdf/2312.08935][Math-Shepherd]] does a nice thing that they adapt here called /process supervision/. 
+We also want to reward the model inside the generation process, not just at the end (especially for math problems where we want to reward good chains of thought). [[https://arxiv.org/pdf/2312.08935][Math-Shepherd]] does a nice thing that DeepSeek adapts here called /process supervision/. 
 
-Since we are just using the normalized rewards directly to update our model, there's nothing stopping us from just doing this at the end of every reasoning step, too, i.e. $\tilde{r^{index(j)}} = \frac{r^{index(j)}-mean(R)}{std(R)}$ where R is the output of a reward model which produces rewards for each step in the chain of reasoning. From here you get the advantage by taking the sum of all the rewards from the following steps.
+Since we are just using the normalized rewards directly to update our model, there's nothing stopping us from just doing this at the end of every reasoning step, too, i.e. $\tilde{r}^{index(j)} = \frac{r^{index(j)}-mean(R)}{std(R)}$ where R is the output of a reward model which produces rewards for each step in the chain of reasoning. From here you get the advantage by taking the sum of all the rewards from the following steps.
 
 ***** Iterative RL
 
@@ -844,7 +846,7 @@ GRPO seems like some sort of midpoint between a bunch of different techniques pe
 2. Reward functions $\pi_{rf}$, which provides the training reward signal
 3. An algorithm $A$, which processes the training data and the reward signal and creates a gradient coefficient which will then in turn update the model.
 
-Data sources come in two flavors: online vs offline. Online sampling uses exploration results from the real-time training policy model, and offline sampling denotes the sampling results from the initial SFT model. There's some noteworthy explanation of the behaviors of these methods as you increase the total steps: offline methods do about the same as online methods early on, since the SFT reference model and the updated policy model are closer together, but as you extend into the future you get farther and farther away from the reference model and therefore the offline sampling will be less representative of the current policy[fn:49].
+Data sources come in two flavors: online vs offline. Online sampling uses exploration results from the real-time training policy model, and offline sampling denotes the sampling comes from the initial SFT reference model. There's some noteworthy explanation of the behaviors of these methods as you increase the total steps: offline methods do about the same as online methods early on, since the SFT reference model and the updated policy model are closer together, but as you extend into the future you get farther and farther away from the reference model and therefore the offline sampling will be less representative of the current policy[fn:49].
 
 Reward functions also come in two flavors: rewards vs models. A "rule" method uses the correctness of the answer to judge the score, whereas a "model" method will train a reward model and use the value it provides at regular intervals. This is the primary difference, for example, between GRPO and Online RFT, both of which sample a bunch of inputs from the current model and then update the gradients based on that pool of responses. Because GRPO uses a reward model, it can reward and punish individual examples with varying magnitudes, compared to online RFT which just uses 1 for correct and 0 for incorrect[fn:50].
 
@@ -854,7 +856,7 @@ Reward functions also come in two flavors: rewards vs models. A "rule" method us
 
 **** Code Training Benefits Mathematical Reaasoning
 
-A common unverified claim in training LLMs is that code in pretraining improves reasoning. This provides a halfway point: code in pretraining improves mathematical reasoning.
+A common unverified claim in training LLMs is that code in pretraining improves reasoning. This paper provides a halfway point: code in pretraining improves mathematical reasoning.
 
 [[../images/from_clipboard/20240613_213308.png]]
 
@@ -864,9 +866,7 @@ They show some different styles of training and their downstream effects on diff
 
 MathPile and Arxiv-RedPajama are arxiv-driven math datasets. These are (maybe) useless. "When trained on a arXiv-only corpus, both models display no notable improvements or even deterioration across various mathematical benchmarks of different complexities employed in this study"
 
-It's possible these are not /useless/. It's possible these become useful again at scale with larger model size, or being paired with some other type of data, or for specific math-specific 
-
-math-specific tasks / pairing with other data / benefits only manifest at larger model size all possible as well. Lots of potential work here in exploring the interaction effects of this data. For DeepSeekMath, though, it was not very useful.
+It's possible these are not /useless/. It's possible these become useful again at scale with larger model size, or being paired with some other type of data, or for certain niche math-specific tasks not measured in the benchmarks. Lots of potential work here in exploring the interaction effects of this data. For DeepSeekMath, though, it was not very useful.
 
 **** Why does RL work?
 
@@ -947,7 +947,7 @@ We can use $\lambda_d$ to represent the /wavelength/ of the RoPE embedding at th
 
 /Rewriting RoPE/
 
-RoPE can be considered a function $f_w(x_m, m, \theta_d)$ where $x_m$ is a vector at position $m$, and $\theta_d$ is the specific frequency assigned by the diagonal matrix $\theta$. If we want to make a modification to this, we can write this as $f'_w(x_m, m, \theta_d) = f_x(x_m, g(m), h(\theta_d))$. In plain english here: $g(m)$ is /something that does something to position/, and $h(\theta_d)$ is /something that does something to frequency/. For vanilla RoPE, we just have both of these things return their inputs. For position encoding, it's the same as RoPE normally, except $g(m) = m/s$ and $h$ is the same as normal.
+RoPE can be considered a function $f_w(x_m, m, \theta_d)$ where $x_m$ is a vector at position $m$, and $\theta_d$ is the specific frequency assigned by the diagonal matrix $\theta$. If we want to make a modification to this, we can write this as $f'_w(x_m, m, \theta_d) = f_w(x_m, g(m), h(\theta_d))$. In plain english here: $g(m)$ is /something that does something to position/, and $h(\theta_d)$ is /something that does something to frequency/. For vanilla RoPE, we just have both of these things return their inputs. For position encoding, it's the same as RoPE normally, except $g(m) = m/s$ and $h$ is the same as normal.
 
 NTK-by-parts is the below:
 
@@ -1011,7 +1011,7 @@ Pretraining and SFT are done mostly the same as with DeepSeek-LLM 67B, but with 
 
 DeepSeek-V2 does the alignment phase using GRPO, as done in DeepSeekMath. Specifically, it does training in two phases:
 
-1. Long Phase where it spends attempts to improve at reasoning by performing RL training upon code and math rasoning tasks, where they train a reward model $r_i = RM_{reasoning}(o_i)$.
+1. Long Phase where it attempts to improve at reasoning by performing RL training upon code and math reasoning tasks, where they train a reward model $r_i = RM_{reasoning}(o_i)$.
 2. A shorter phase for human preference alignment, where it uses three models $RM_{helpful}(o_i)$. $RM_{safety}(o_i)$. and $RM_{rule}(o_i)$, each weighted by hyperparameter coefficients and summed together.
 
 There are some interesting notes here about the observations from this phase. They noticed something called the "alignment tax" where the alignment process can negatively affect benchmark performance sometimes (e.g. on BBH). This was observed all the way back in the [[https://arxiv.org/pdf/2203.02155][InstructGPT]] paper, and it seems like balancing the alignment and the performance was a challenge for them.
@@ -1024,13 +1024,13 @@ That's pretty much it -- all the little pieces so far, put into one project, to 
 
 Given DeepSeek's track record with delivering on things they promise in their works, I am excited to see this.
 
-This makes a pretty nice endpoint for the post, in terms of being a survey of modern lanuage modeling. There is one last paper that they have released after this, at the time of writing, which for now I will only cover very briefly -- it's mostly just adjacent to the main fundamental works covered up to this point. 
+This makes a pretty nice endpoint for the post, in terms of being a survey of modern language modeling. There is one last paper that they have released after this, at the time of writing, which for now I will only cover very briefly -- it's mostly just adjacent to the main fundamental works covered up to this point. 
 
 ** DeepSeek-Prover
 
 This paper can be found [[https://arxiv.org/pdf/2405.14333][here]]. This was released May 23, 2024.
 
-This is a computer theorem proving paper, which seems to be a hot topic in the relatively niche computer-assisted mathematics literature[fn:33]. At it's core, this is a paper which finetunes DeepSeekMath to produce [[https://en.wikipedia.org/wiki/Lean_(proof_assistant)][Lean]] formalizations while taking only informal math problems as inputs.
+This is a computer theorem proving paper, which seems to be a hot topic in the relatively niche computer-assisted mathematics literature[fn:33]. At its core, this is a paper which finetunes DeepSeekMath to produce [[https://en.wikipedia.org/wiki/Lean_(proof_assistant)][Lean]] formalizations while taking only informal math problems as inputs.
 
 Formal theorem proving has been a more lowkey darling of the language modeling literature for a bit now, with works like [[https://arxiv.org/pdf/2009.03393][GPT-f]] back in 2020 and [[https://arxiv.org/pdf/2310.10631][Llemma]] as recently as March 2024. It's common to see these sorts of language model + tree search methods for theorem proving. The tough part is that the search space is very large (i.e. you can try any symbol in any order, and you have an arbitrary number of symbols). Math is hard.
 
@@ -1042,7 +1042,7 @@ DeepSeek creates a 7B theorem proving LLM which starts from DeepSeekMath and ite
 
 [[../images/from_clipboard/20240607_133231.png]]
 
-Basically, they create a dataset of ~860k natural language math problems. They try to convert these from natural language to Lean, which can hen be verified for correctness. 
+Basically, they create a dataset of ~860k natural language math problems. They try to convert these from natural language to Lean, which can then be verified for correctness. 
 
 To make DeepSeekProver, they first start with DeepSeekMath 7B and finetune upon the MMA dataset which has a bunch of formal statements that were backtranslated into natural language by gpt-4. Then they translate natural language problems into Lean. The trick here is that every time they translate a natural language problem into Lean, they add it back into the finetuning dataset, which will in turn make the model better at future problems which are similar. The formal verifier here is what enables this "recursive self improvement" because it can be an objective judge of whether or not the output is correct. 
 
@@ -1062,7 +1062,7 @@ This creates a synthetic data feedback loop: you can generate proofs and stateme
 
 [[../images/from_clipboard/20240607_153852.png]]
 
-They are able to outperform GPT-4 at this task with just the finetuned 7B math model, which is not too surprising given it's relatively narrow domain. 
+They are able to outperform GPT-4 at this task with just the finetuned 7B math model, which is not too surprising given its relatively narrow domain. 
 
 *** Conclusions
 
@@ -1100,8 +1100,17 @@ This is a section just for me to reflect on what stuff about available frontier 
 - Improve the RoPE section (I'm not happy with it)
 - Dig around and ask how quality filtering works, this is unclear in all the papers
 - Errata section / changelog once I get something I understood wrong shown to me
+- Improve the GShard section, hardware stuff in generally more detail since it's a level of understanding I'm mostly blind to
 
 * Footnotes
+
+[fn:55] Not necessarily 100% true but that's the claim.
+
+[fn:54] Potentially earlier, but I'm referring to [[https://www.cs.toronto.edu/~fritz/absps/jjnh91.pdf][Adaptive Mixtures of Local Experts]] from 1991.
+
+[fn:53] Different from, for example, old school reinforcement learning, where random seed was treated as a hyperparameter.
+
+[fn:52] I get that this is a marketing thing but to be pedantic most of these tutorials are about "how large language models work", where chatGPT is this very involved version of what they're actually learning about.
 
 [fn:51] Definitely extremely confusing that these are distinct concepts.
 
