@@ -115,9 +115,9 @@ For now this is enough detail, since DeepSeek-LLM is going to use this exactly t
 
 *SwiGLU Activation*
 
-[[../images/from_clipboard/20240611_131452.png]]
+[[../images/from_clipboard/20240614_214329.png]]
 
-[[../images/from_clipboard/20240611_131526.png]]
+[[../images/from_clipboard/20240614_214425.png]]
 
 SwiGLU is from a very short 5 page paper [[https://arxiv.org/pdf/2002.05202v1][GLU Variants Improve Transformer]][fn:3]. Gated linear units are a layer where you component-wise multiply two linear transformations of the input, where one is passed through an activation function and the other isn't. The original GLU uses a sigmoid acivation, and SwiGLU uses this [[https://arxiv.org/pdf/1710.05941v1][Swish]] activation function.
 
@@ -588,7 +588,7 @@ Moving into some architecture stuff DeepSeek-VL is going to use, [[https://arxiv
 
 If you don't already know what CLIP is (first of all, at least [[https://openai.com/index/clip/][read the blogpost]] immediately), it's an image encoder trained with contrastive learning which will attempt to align the representations of a vision encoder and a text encoder, to encourage them to produce similar representations. 
 
-[[../images/from_clipboard/20240613_122617.png]]
+[[../images/from_clipboard/20240614_214630.png]]
 
 SigLIP, at a super high level, implements a sigmoid-based contrastive loss instead of a softmax-based contrastive loss. They show that the computational simplicity of sigmoid enables larger batch size, and also that this just literally happens to be better anyways. There's lots of really nice stuff in here about making the implementation efficient, but the important thing for our purposes is just that doing this makes the model quite a fair bit better.
 
