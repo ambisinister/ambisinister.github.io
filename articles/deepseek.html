@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-06-14 Fri 22:08 -->
+<!-- 2024-06-14 Fri 22:34 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Deepseek</title>
@@ -48,15 +48,7 @@ $(function() {
 });
 </script>
 
-<style>
-.nav {
-    max-height: 90vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-</style>
-
-<link rel="stylesheet" type="text/css" href="./css/default.css" />
+<link rel="stylesheet" type="text/css" href="./css/default_20240614.css" />
 <link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
 <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
@@ -135,7 +127,7 @@ $(function() {
 <li><a href="#orgdd58f53">DeepSeek-LLM Pretraining Phase</a></li>
 <li><a href="#org2c47bfb">SFT and Human Preference Alignment</a>
 <ul>
-<li><a href="#orgff604d0">SFT</a></li>
+<li><a href="#org4e1b305">SFT</a></li>
 <li><a href="#orgc7b3f72">Alignment</a></li>
 </ul>
 </li>
@@ -174,7 +166,7 @@ $(function() {
 </ul>
 </li>
 <li><a href="#org329e854">Collecting Data</a></li>
-<li><a href="#orgab8dd6a">Training</a>
+<li><a href="#org832e056">Training</a>
 <ul>
 <li><a href="#org1354934">Long Context</a></li>
 <li><a href="#org076b275">Fill-in-the-Middle Objective</a></li>
@@ -200,7 +192,7 @@ $(function() {
 </ul>
 </li>
 <li><a href="#org5928085">Data Construction</a></li>
-<li><a href="#org1dd24f8">Training</a>
+<li><a href="#orge3bcf2c">Training</a>
 <ul>
 <li><a href="#orgaedc006">Architecture</a></li>
 <li><a href="#orgbbdea9f">Training Pipeline</a>
@@ -216,7 +208,7 @@ $(function() {
 <li><a href="#orgc99d51f">DeepSeekMath</a>
 <ul>
 <li><a href="#org13a452e">Pretraining</a></li>
-<li><a href="#org8241155">SFT</a></li>
+<li><a href="#orgdea37e3">SFT</a></li>
 <li><a href="#org582dbfd">Aside A: Policy Optimization</a>
 <ul>
 <li><a href="#org19d7342">Proximal Policy Optimization (PPO)</a>
@@ -231,7 +223,7 @@ $(function() {
 <li><a href="#org0b5d136">Direct Preference Optimization (DPO)</a></li>
 </ul>
 </li>
-<li><a href="#org6b21372">Reinforcement Learning</a>
+<li><a href="#orgf4c5a32">Reinforcement Learning</a>
 <ul>
 <li><a href="#org93fb5eb">Group Relative Policy Optimization</a>
 <ul>
@@ -263,12 +255,12 @@ $(function() {
 </li>
 <li><a href="#org8c18730">Multi-Head Latent Attention</a></li>
 <li><a href="#orgc8840ba">Long context</a></li>
-<li><a href="#org621d041">Training</a>
+<li><a href="#org6113e48">Training</a>
 <ul>
-<li><a href="#orge4354d0">Reinforcement Learning</a></li>
+<li><a href="#orgadcc3b0">Reinforcement Learning</a></li>
 </ul>
 </li>
-<li><a href="#orgb570f6c">Conclusions</a></li>
+<li><a href="#org93eb75c">Conclusions</a></li>
 </ul>
 </li>
 <li><a href="#org4345676">DeepSeek-Prover</a>
@@ -276,7 +268,7 @@ $(function() {
 <li><a href="#org8422ffe">Approach</a></li>
 <li><a href="#org737fee3">Quality Filtering</a></li>
 <li><a href="#org2099f3c">Writing Proofs</a></li>
-<li><a href="#org1e1fb32">Conclusions</a></li>
+<li><a href="#org3bafa4f">Conclusions</a></li>
 </ul>
 </li>
 <li><a href="#orgcd825d7">Overall Takeaways</a>
@@ -299,7 +291,7 @@ $(function() {
 <h2 id="org19209d0">Intro</h2>
 <div class="outline-text-2" id="text-org19209d0">
 
-<div id="orge695b24" class="figure">
+<div id="org954aab1" class="figure">
 <p><img src="../images/from_clipboard/20240614_213621.png" alt="20240614_213621.png" />
 </p>
 </div>
@@ -410,7 +402,7 @@ Some of these warrant somewhat more attention, so I'll briefly cover them here. 
 <h4 id="org778bec0">Llama 2 Training Loop</h4>
 <div class="outline-text-4" id="text-org778bec0">
 
-<div id="org7c791ad" class="figure">
+<div id="org8e9db5d" class="figure">
 <p><img src="../images/from_clipboard/20240611_010614.png" alt="20240611_010614.png" />
 </p>
 </div>
@@ -468,7 +460,7 @@ The last step of this process is <b>reinforcement learning from human feedback</
 <h4 id="org8c3c16c">Llama 2 Architecture Decisions</h4>
 <div class="outline-text-4" id="text-org8c3c16c">
 
-<div id="orgfb40e55" class="figure">
+<div id="orgc9c4a2c" class="figure">
 <p><img src="../images/from_clipboard/20240611_010820.png" alt="20240611_010820.png" />
 </p>
 </div>
@@ -486,7 +478,7 @@ The byte pair encoding tokenizer used for Llama 2 is <a href="https://huggingfac
 </p>
 
 
-<div id="orge44ef56" class="figure">
+<div id="orgaeddeda" class="figure">
 <p><img src="../images/from_clipboard/20240611_125040.png" alt="20240611_125040.png" />
 </p>
 </div>
@@ -510,7 +502,7 @@ Probably the best way to get a grasp of RoPE is the <a href="https://blog.eleuth
 </ul>
 
 
-<div id="orgdb322bc" class="figure">
+<div id="orgc346da3" class="figure">
 <p><img src="../images/from_clipboard/20240611_212940.png" alt="20240611_212940.png" />
 </p>
 </div>
@@ -524,13 +516,13 @@ For now this is enough detail, since DeepSeek-LLM is going to use this exactly t
 </p>
 
 
-<div id="org48a46ba" class="figure">
+<div id="org0a0c6a8" class="figure">
 <p><img src="../images/from_clipboard/20240614_215341.png" alt="20240614_215341.png" />
 </p>
 </div>
 
 
-<div id="org6c537a0" class="figure">
+<div id="orga5340c7" class="figure">
 <p><img src="../images/from_clipboard/20240614_215233.png" alt="20240614_215233.png" />
 </p>
 </div>
@@ -552,7 +544,7 @@ The traditional thing to put in transformers is <a href="https://pytorch.org/doc
 </p>
 
 
-<div id="org0d5832a" class="figure">
+<div id="org733b582" class="figure">
 <p><img src="../images/from_clipboard/20240611_143043.png" alt="20240611_143043.png" />
 </p>
 </div>
@@ -566,7 +558,7 @@ The difference here is pretty subtle: if your mean is 0 then these two are exact
 </p>
 
 
-<div id="org1c1c5f0" class="figure">
+<div id="orgd4f0ac5" class="figure">
 <p><img src="../images/from_clipboard/20240611_143501.png" alt="20240611_143501.png" />
 </p>
 </div>
@@ -600,7 +592,7 @@ Deduplication is done pretty aggressively here: <a href="https://commoncrawl.org
 </p>
 
 
-<div id="org8982d12" class="figure">
+<div id="org71ac1d5" class="figure">
 <p><img src="../images/from_clipboard/20240611_153112.png" alt="20240611_153112.png" />
 </p>
 </div>
@@ -614,7 +606,7 @@ The same as Llama 2, they train on 2 Trillion tokens collected using the above p
 </p>
 
 
-<div id="org094903f" class="figure">
+<div id="org1fb14ff" class="figure">
 <p><img src="../images/from_clipboard/20240602_224752.png" alt="20240602_224752.png" />
 </p>
 </div>
@@ -632,7 +624,7 @@ There are some small differences: Llama 2 7b has 32 layers compared to DeepSeek-
 </p>
 
 
-<div id="orge0129ae" class="figure">
+<div id="org02db65a" class="figure">
 <p><img src="../images/from_clipboard/20240611_153839.png" alt="20240611_153839.png" />
 </p>
 </div>
@@ -655,15 +647,15 @@ Now that we have a performant base model to work with, we need to turn it into a
 </p>
 </div>
 
-<div id="outline-container-orgff604d0" class="outline-4">
-<h4 id="orgff604d0">SFT</h4>
-<div class="outline-text-4" id="text-orgff604d0">
+<div id="outline-container-org4e1b305" class="outline-4">
+<h4 id="org4e1b305">SFT</h4>
+<div class="outline-text-4" id="text-org4e1b305">
 <p>
 DeepSeek-LLM collects a dataset of ~1.5 million instruction data examples in both English and Chinese, most of which are for making the model more helpful (good at code, math, etc). There's an interesting note here about multiple choice data during this phase: they show an experiment where they added 20 million Chinese multiple choice questions in the SFT phase, which boosts the multiple choice performance a lot. This improvement <b>only helps</b> on multiple choice benchmarks; this does not help general capabilities that are not in MC format. Their given reason is that these questions don't only test the model's knowledge, "but also to understand what the option refers to."
 </p>
 
 
-<div id="org0c66f1e" class="figure">
+<div id="orgc1acd89" class="figure">
 <p><img src="../images/from_clipboard/20240603_025156.png" alt="20240603_025156.png" />
 </p>
 </div>
@@ -681,7 +673,7 @@ There's another interesting note here about including instruction-tuning data in
 </p>
 
 
-<div id="org2a2e3e1" class="figure">
+<div id="org9a93da8" class="figure">
 <p><img src="../images/from_clipboard/20240611_151953.png" alt="20240611_151953.png" />
 </p>
 </div>
@@ -692,7 +684,7 @@ There's another interesting note here about including instruction-tuning data in
 <h4 id="orgc7b3f72">Alignment</h4>
 <div class="outline-text-4" id="text-orgc7b3f72">
 
-<div id="orgbb9dc82" class="figure">
+<div id="orga214a23" class="figure">
 <p><img src="../images/from_clipboard/20240611_150604.png" alt="20240611_150604.png" />
 </p>
 </div>
@@ -702,7 +694,7 @@ Deviating from Llama 2 a bit here, DeepSeek-LLM performs the human preference al
 </p>
 
 
-<div id="orgbfb2020" class="figure">
+<div id="org9fd8cfd" class="figure">
 <p><img src="../images/from_clipboard/20240611_151636.png" alt="20240611_151636.png" />
 </p>
 </div>
@@ -730,7 +722,7 @@ The big result they got was demonstrating that all of these gigantic models were
 </p>
 
 
-<div id="orga0528e9" class="figure">
+<div id="org017cc0d" class="figure">
 <p><img src="../images/from_clipboard/20240611_225648.png" alt="20240611_225648.png" />
 </p>
 </div>
@@ -744,7 +736,7 @@ They try three approaches which all turn out roughly equivalent:
 </p>
 
 
-<div id="org2b0196d" class="figure">
+<div id="org44ecb2c" class="figure">
 <p><img src="../images/from_clipboard/20240611_231544.png" alt="20240611_231544.png" />
 </p>
 </div>
@@ -760,7 +752,7 @@ They get a very different result from the original <a href="https://arxiv.org/pd
 </p>
 
 
-<div id="org94ac286" class="figure">
+<div id="org1b283f1" class="figure">
 <p><img src="../images/from_clipboard/20240611_231920.png" alt="20240611_231920.png" />
 </p>
 </div>
@@ -801,13 +793,13 @@ They run some simple experiments to find optimal parameters based on fixed compu
 </p>
 
 
-<div id="org4821d12" class="figure">
+<div id="org3ee7469" class="figure">
 <p><img src="../images/from_clipboard/20240602_232851.png" alt="20240602_232851.png" />
 </p>
 </div>
 
 
-<div id="org9c187eb" class="figure">
+<div id="org7b727af" class="figure">
 <p><img src="../images/from_clipboard/20240602_232919.png" alt="20240602_232919.png" />
 </p>
 </div>
@@ -835,7 +827,7 @@ Aside from that, they fit the IsoFLOP curves just like Chinchilla and get result
 </p>
 
 
-<div id="org7a87018" class="figure">
+<div id="org3928041" class="figure">
 <p><img src="../images/from_clipboard/20240612_001057.png" alt="20240612_001057.png" />
 </p>
 </div>
@@ -850,7 +842,7 @@ Making their own dataset and ostensibly improving it over time let them do a coo
 </p>
 
 
-<div id="org56195d4" class="figure">
+<div id="org084a0e4" class="figure">
 <p><img src="../images/from_clipboard/20240612_001313.png" alt="20240612_001313.png" />
 </p>
 </div>
@@ -935,7 +927,7 @@ Formally you can see it below:
 </p>
 
 
-<div id="org70760dd" class="figure">
+<div id="orgad1b838" class="figure">
 <p><img src="../images/from_clipboard/20240603_131836.png" alt="20240603_131836.png" />
 </p>
 </div>
@@ -953,7 +945,7 @@ Using this in Language models is mostly downstream of a 2017 paper called <a hre
 </p>
 
 
-<div id="org33b30f6" class="figure">
+<div id="orgc7e8f45" class="figure">
 <p><img src="../images/from_clipboard/20240612_163812.png" alt="20240612_163812.png" />
 </p>
 </div>
@@ -971,7 +963,7 @@ The original way to do gating was to just have a trainable weight matrix \(W_g\)
 </p>
 
 
-<div id="orgdcfa859" class="figure">
+<div id="org1ce30a1" class="figure">
 <p><img src="../images/from_clipboard/20240612_172048.png" alt="20240612_172048.png" />
 </p>
 </div>
@@ -990,7 +982,7 @@ The main point of comparison for DeepSeekMoE is <a href="https://arxiv.org/pdf/2
 </p>
 
 
-<div id="org2c448d4" class="figure">
+<div id="org67259b7" class="figure">
 <p><img src="../images/from_clipboard/20240612_162917.png" alt="20240612_162917.png" />
 </p>
 </div>
@@ -1019,7 +1011,7 @@ This lets you scale up the effective width of the models substantially. For exam
 <h3 id="orga1421cf">Expert Segmentation + Shared Experts = DeepSeekMoE</h3>
 <div class="outline-text-3" id="text-orga1421cf">
 
-<div id="org4e3eda7" class="figure">
+<div id="org30bf36b" class="figure">
 <p><img src="../images/from_clipboard/20240603_132441.png" alt="20240603_132441.png" />
 </p>
 </div>
@@ -1053,7 +1045,7 @@ DeepSeekMoE's solution here is to make those components explicit &#x2013; have s
 </p>
 
 
-<div id="org096af4f" class="figure">
+<div id="org60ff2f9" class="figure">
 <p><img src="../images/from_clipboard/20240603_133347.png" alt="20240603_133347.png" />
 </p>
 </div>
@@ -1090,7 +1082,7 @@ Including this sort of thing in the loss terms is a bit strange, and it probably
 <h3 id="org79f73dd">"DeepSeekMoE Aligns Closely with the upper bound of MoE Models"</h3>
 <div class="outline-text-3" id="text-org79f73dd">
 
-<div id="org5d2fbb7" class="figure">
+<div id="org2655c0b" class="figure">
 <p><img src="../images/from_clipboard/20240603_135523.png" alt="20240603_135523.png" />
 </p>
 </div>
@@ -1108,7 +1100,7 @@ I do not think this observation holds as they continue onwards (I don't think th
 </p>
 
 
-<div id="org106e60b" class="figure">
+<div id="org7633aed" class="figure">
 <p><img src="../images/from_clipboard/20240612_150700.png" alt="20240612_150700.png" />
 </p>
 </div>
@@ -1219,7 +1211,7 @@ They train this model and get a good result.
 </p>
 
 
-<div id="org3a6c32e" class="figure">
+<div id="orge84ac3d" class="figure">
 <p><img src="../images/from_clipboard/20240612_213903.png" alt="20240612_213903.png" />
 </p>
 </div>
@@ -1260,7 +1252,7 @@ The meat of this paper is in how they construct their dataset, which is done muc
 </p>
 
 
-<div id="org1fc9d2b" class="figure">
+<div id="org9131b90" class="figure">
 <p><img src="../images/from_clipboard/20240603_111920.png" alt="20240603_111920.png" />
 </p>
 </div>
@@ -1293,7 +1285,7 @@ Most coding LLMs just work on the file-level, which isn't how coding works. Norm
 </p>
 
 
-<div id="org498a01a" class="figure">
+<div id="org3d689b5" class="figure">
 <p><img src="../images/from_clipboard/20240612_211016.png" alt="20240612_211016.png" />
 </p>
 </div>
@@ -1315,7 +1307,7 @@ Sometimes two files actually <i>do need to be the same</i>, if they do the same 
 </p>
 
 
-<div id="org0435fcb" class="figure">
+<div id="org14ca4fb" class="figure">
 <p><img src="../images/from_clipboard/20240612_211102.png" alt="20240612_211102.png" />
 </p>
 </div>
@@ -1331,11 +1323,11 @@ As with some of the other DeepSeek papers, the quality screening step is somewha
 </div>
 </div>
 
-<div id="outline-container-orgab8dd6a" class="outline-3">
-<h3 id="orgab8dd6a">Training</h3>
-<div class="outline-text-3" id="text-orgab8dd6a">
+<div id="outline-container-org832e056" class="outline-3">
+<h3 id="org832e056">Training</h3>
+<div class="outline-text-3" id="text-org832e056">
 
-<div id="org5a16380" class="figure">
+<div id="orgae5f5b6" class="figure">
 <p><img src="../images/from_clipboard/20240603_114903.png" alt="20240603_114903.png" />
 </p>
 </div>
@@ -1366,7 +1358,7 @@ Like StarCoder and Code Llama, DeepSeek-Coder does a fill-in-the-middle objectiv
 </p>
 
 
-<div id="org6627cda" class="figure">
+<div id="org0c16a89" class="figure">
 <p><img src="../images/from_clipboard/20240612_205242.png" alt="20240612_205242.png" />
 </p>
 </div>
@@ -1395,7 +1387,7 @@ Similar in concept to ablations performed in Code Llama, which just show that th
 </p>
 
 
-<div id="org38d483b" class="figure">
+<div id="org8b4e074" class="figure">
 <p><img src="../images/from_clipboard/20240612_215620.png" alt="20240612_215620.png" />
 </p>
 </div>
@@ -1415,7 +1407,7 @@ Paper can be found <a href="https://arxiv.org/pdf/2403.05525">here</a>. This was
 </p>
 
 
-<div id="orge8541da" class="figure">
+<div id="org0753d97" class="figure">
 <p><img src="../images/from_clipboard/20240613_005100.png" alt="20240613_005100.png" />
 </p>
 </div>
@@ -1473,7 +1465,7 @@ DeepSeek's solution to VLMs is as follows:
 <h4 id="org80a874d">LLaVA</h4>
 <div class="outline-text-4" id="text-org80a874d">
 
-<div id="orgf63d8be" class="figure">
+<div id="org40eb7f1" class="figure">
 <p><img src="../images/from_clipboard/20240613_125158.png" alt="20240613_125158.png" />
 </p>
 </div>
@@ -1522,7 +1514,7 @@ After this is completed, they unfreeze the LLM and let the model learn how to us
 </p>
 
 
-<div id="org3161793" class="figure">
+<div id="orgda130bb" class="figure">
 <p><img src="../images/from_clipboard/20240613_132213.png" alt="20240613_132213.png" />
 </p>
 </div>
@@ -1532,7 +1524,7 @@ The interesting thing about Instruct-BLIP is that the Q-Former gets to see the i
 </p>
 
 
-<div id="org078f034" class="figure">
+<div id="orge6549f0" class="figure">
 <p><img src="../images/from_clipboard/20240613_132426.png" alt="20240613_132426.png" />
 </p>
 </div>
@@ -1547,7 +1539,7 @@ Moving into some architecture stuff DeepSeek-VL is going to use, <a href="https:
 </p>
 
 
-<div id="orgc32b052" class="figure">
+<div id="org4bac5b9" class="figure">
 <p><img src="../images/from_clipboard/20240613_122353.png" alt="20240613_122353.png" />
 </p>
 </div>
@@ -1557,7 +1549,7 @@ If you don't already know what CLIP is (first of all, at least <a href="https://
 </p>
 
 
-<div id="org4d43d5b" class="figure">
+<div id="org4ade6ff" class="figure">
 <p><img src="../images/from_clipboard/20240614_214630.png" alt="20240614_214630.png" />
 </p>
 </div>
@@ -1567,7 +1559,7 @@ SigLIP, at a super high level, implements a sigmoid-based contrastive loss inste
 </p>
 
 
-<div id="orgf13e79d" class="figure">
+<div id="orgb410b69" class="figure">
 <p><img src="../images/from_clipboard/20240613_123304.png" alt="20240613_123304.png" />
 </p>
 </div>
@@ -1582,7 +1574,7 @@ SigLIP, at a super high level, implements a sigmoid-based contrastive loss inste
 </p>
 
 
-<div id="org3a1fec0" class="figure">
+<div id="org9bba07f" class="figure">
 <p><img src="../images/from_clipboard/20240613_123756.png" alt="20240613_123756.png" />
 </p>
 </div>
@@ -1602,7 +1594,7 @@ For context in the vision-language model DeepSeek is going to train, we don't ac
 </p>
 
 
-<div id="org0cadafc" class="figure">
+<div id="org9a1461a" class="figure">
 <p><img src="../images/from_clipboard/20240613_124732.png" alt="20240613_124732.png" />
 </p>
 </div>
@@ -1633,11 +1625,11 @@ The in-house SFT data is their attempt to capture data which will make the model
 </div>
 </div>
 
-<div id="outline-container-org1dd24f8" class="outline-3">
-<h3 id="org1dd24f8">Training</h3>
-<div class="outline-text-3" id="text-org1dd24f8">
+<div id="outline-container-orge3bcf2c" class="outline-3">
+<h3 id="orge3bcf2c">Training</h3>
+<div class="outline-text-3" id="text-orge3bcf2c">
 
-<div id="orgd338976" class="figure">
+<div id="org836668d" class="figure">
 <p><img src="../images/from_clipboard/20240613_010526.png" alt="20240613_010526.png" />
 </p>
 </div>
@@ -1647,7 +1639,7 @@ The in-house SFT data is their attempt to capture data which will make the model
 <h4 id="orgaedc006">Architecture</h4>
 <div class="outline-text-4" id="text-orgaedc006">
 
-<div id="org67921e1" class="figure">
+<div id="orgc35f27f" class="figure">
 <p><img src="../images/from_clipboard/20240604_001854.png" alt="20240604_001854.png" />
 </p>
 </div>
@@ -1722,7 +1714,7 @@ Not all is lost for the true believers in multimodal training for increased perf
 </p>
 
 
-<div id="org040ee5b" class="figure">
+<div id="orgc59e046" class="figure">
 <p><img src="../images/from_clipboard/20240613_121726.png" alt="20240613_121726.png" />
 </p>
 </div>
@@ -1763,7 +1755,7 @@ To wit, they develop this new technique called <i>Group Relative Policy Optimiza
 <h3 id="org13a452e">Pretraining</h3>
 <div class="outline-text-3" id="text-org13a452e">
 
-<div id="org83402fd" class="figure">
+<div id="org255ae74" class="figure">
 <p><img src="../images/from_clipboard/20240613_205522.png" alt="20240613_205522.png" />
 </p>
 </div>
@@ -1773,7 +1765,7 @@ With respect to data, they create an iterative FastText-based pipeline which wil
 </p>
 
 
-<div id="org8207079" class="figure">
+<div id="org66f597a" class="figure">
 <p><img src="../images/from_clipboard/20240613_210818.png" alt="20240613_210818.png" />
 </p>
 </div>
@@ -1783,16 +1775,16 @@ They train a 7B model starting from DeepSeek-Coder-Base-v1.5 7B, using this data
 </p>
 
 
-<div id="org92d85b9" class="figure">
+<div id="orgc3795b1" class="figure">
 <p><img src="../images/from_clipboard/20240613_211440.png" alt="20240613_211440.png" />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org8241155" class="outline-3">
-<h3 id="org8241155">SFT</h3>
-<div class="outline-text-3" id="text-org8241155">
+<div id="outline-container-orgdea37e3" class="outline-3">
+<h3 id="orgdea37e3">SFT</h3>
+<div class="outline-text-3" id="text-orgdea37e3">
 <p>
 SFT is mostly unremarkable &#x2013; they create 776k examples which are annotated with Chain-of-Thought (CoT) or Program-of-Thought (PoT), as well as a tool-integrated reasoning format. This spans English and Chinese, across a variety of topics in math.
 </p>
@@ -1819,7 +1811,7 @@ A <b>Policy Gradient Method</b> is a method that estimates the gradient of the p
 </p>
 
 
-<div id="org0d161a8" class="figure">
+<div id="orge230a67" class="figure">
 <p><img src="../images/from_clipboard/20240613_225849.png" alt="20240613_225849.png" />
 </p>
 </div>
@@ -1829,7 +1821,7 @@ Where \(\pi_{\theta}\) is the policy and \(\hat{A}_t\) estimates the advantage f
 </p>
 
 
-<div id="org22044d6" class="figure">
+<div id="org4b3bd91" class="figure">
 <p><img src="../images/from_clipboard/20240613_230518.png" alt="20240613_230518.png" />
 </p>
 </div>
@@ -1839,7 +1831,7 @@ There's something called <b>Trust Region Methods</b> which maximize an objective
 </p>
 
 
-<div id="org7941453" class="figure">
+<div id="org0b2239d" class="figure">
 <p><img src="../images/from_clipboard/20240613_231003.png" alt="20240613_231003.png" />
 </p>
 </div>
@@ -1853,7 +1845,7 @@ They can combine this into one objective by adding it as a penalty with some hyp
 </p>
 
 
-<div id="orgb03a7e4" class="figure">
+<div id="org1e265f4" class="figure">
 <p><img src="../images/from_clipboard/20240613_231221.png" alt="20240613_231221.png" />
 </p>
 </div>
@@ -1868,7 +1860,7 @@ Schulman et al 2017 here abbreviates that probability ratio as \(r_t(\theta)\) f
 </p>
 
 
-<div id="orgf96436d" class="figure">
+<div id="org3a9c498" class="figure">
 <p><img src="../images/from_clipboard/20240613_232230.png" alt="20240613_232230.png" />
 </p>
 </div>
@@ -1891,7 +1883,7 @@ For this, we need to train two models: a policy model, and a value model. The va
 </p>
 
 
-<div id="orgf4e6833" class="figure">
+<div id="org90e3329" class="figure">
 <p><img src="../images/from_clipboard/20240613_235317.png" alt="20240613_235317.png" />
 </p>
 </div>
@@ -1910,7 +1902,7 @@ So, in the end it's extremely similar to policy gradient methods<sup><a id="fnr.
 </p>
 
 
-<div id="org2250ede" class="figure">
+<div id="orgb492a23" class="figure">
 <p><img src="../images/from_clipboard/20240614_000344.png" alt="20240614_000344.png" />
 </p>
 </div>
@@ -1928,7 +1920,7 @@ Basically, you get the advantage \(A_t\) using <a href="https://arxiv.org/pdf/15
 </p>
 
 
-<div id="orgcf37dc4" class="figure">
+<div id="orgefdfb9b" class="figure">
 <p><img src="../images/from_clipboard/20240614_002045.png" alt="20240614_002045.png" />
 </p>
 </div>
@@ -1942,7 +1934,7 @@ In summary:
 </p>
 
 
-<div id="org72aba97" class="figure">
+<div id="org3715faf" class="figure">
 <p><img src="../images/from_clipboard/20240614_003547.png" alt="20240614_003547.png" />
 </p>
 </div>
@@ -1970,7 +1962,7 @@ Llama 2's strategy to train the 70B model primarily used this for the first four
 </p>
 
 
-<div id="orgcf48dc9" class="figure">
+<div id="org8d854a4" class="figure">
 <p><img src="../images/from_clipboard/20240614_011515.png" alt="20240614_011515.png" />
 </p>
 </div>
@@ -1984,7 +1976,7 @@ It's a tough comparison to not have 4 rounds of PPO and the same experiment, but
 </p>
 
 
-<div id="orgc5a683f" class="figure">
+<div id="orgdea9eed" class="figure">
 <p><img src="../images/from_clipboard/20240614_155746.png" alt="20240614_155746.png" />
 </p>
 </div>
@@ -1995,7 +1987,7 @@ It's a tough comparison to not have 4 rounds of PPO and the same experiment, but
 <h4 id="org0b5d136">Direct Preference Optimization (DPO)</h4>
 <div class="outline-text-4" id="text-org0b5d136">
 
-<div id="orgcd7784c" class="figure">
+<div id="org08a3316" class="figure">
 <p><img src="../images/from_clipboard/20240611_150604.png" alt="20240611_150604.png" />
 </p>
 </div>
@@ -2013,7 +2005,7 @@ Skipping past some algebra<sup><a id="fnr.39" class="footref" href="#fn.39" role
 </p>
 
 
-<div id="org29a8c92" class="figure">
+<div id="org0bfaaaa" class="figure">
 <p><img src="../images/from_clipboard/20240614_015715.png" alt="20240614_015715.png" />
 </p>
 </div>
@@ -2027,7 +2019,7 @@ They nicely provide a little explanation of the terms. Rather than training a va
 </p>
 
 
-<div id="org78e954a" class="figure">
+<div id="org92d9b51" class="figure">
 <p><img src="../images/from_clipboard/20240614_020508.png" alt="20240614_020508.png" />
 </p>
 </div>
@@ -2039,11 +2031,11 @@ The thing that makes this work is that it does everything upon the probabilities
 </div>
 </div>
 
-<div id="outline-container-org6b21372" class="outline-3">
-<h3 id="org6b21372">Reinforcement Learning</h3>
-<div class="outline-text-3" id="text-org6b21372">
+<div id="outline-container-orgf4c5a32" class="outline-3">
+<h3 id="orgf4c5a32">Reinforcement Learning</h3>
+<div class="outline-text-3" id="text-orgf4c5a32">
 
-<div id="org213994f" class="figure">
+<div id="org4e08829" class="figure">
 <p><img src="../images/from_clipboard/20240613_222214.png" alt="20240613_222214.png" />
 </p>
 </div>
@@ -2057,7 +2049,7 @@ DeepSeek is going to train a model on top of DeepSeekMath-Instruct which sees a 
 <h4 id="org93fb5eb">Group Relative Policy Optimization</h4>
 <div class="outline-text-4" id="text-org93fb5eb">
 
-<div id="orga22f2df" class="figure">
+<div id="orgcde25b4" class="figure">
 <p><img src="../images/from_clipboard/20240613_211921.png" alt="20240613_211921.png" />
 </p>
 </div>
@@ -2076,7 +2068,7 @@ To get around this, they introduce this new idea called <i>Group Relative Policy
 </p>
 
 
-<div id="org047dff5" class="figure">
+<div id="org800d7ad" class="figure">
 <p><img src="../images/from_clipboard/20240614_213940.png" alt="20240614_213940.png" />
 </p>
 </div>
@@ -2108,7 +2100,7 @@ Since we are just using the normalized rewards directly to update our model, the
 <h5 id="orge981d06">Iterative RL</h5>
 <div class="outline-text-5" id="text-orge981d06">
 
-<div id="org53ddac2" class="figure">
+<div id="orga0ffcf4" class="figure">
 <p><img src="../images/from_clipboard/20240613_211938.png" alt="20240613_211938.png" />
 </p>
 </div>
@@ -2147,7 +2139,7 @@ Reward functions also come in two flavors: rewards vs models. A "rule" method us
 </p>
 
 
-<div id="orga704b2c" class="figure">
+<div id="orga1d9b3c" class="figure">
 <p><img src="../images/from_clipboard/20240614_214150.png" alt="20240614_214150.png" />
 </p>
 </div>
@@ -2167,7 +2159,7 @@ A common unverified claim in training LLMs is that code in pretraining improves 
 </p>
 
 
-<div id="orgd08f609" class="figure">
+<div id="org53968f4" class="figure">
 <p><img src="../images/from_clipboard/20240613_213308.png" alt="20240613_213308.png" />
 </p>
 </div>
@@ -2195,7 +2187,7 @@ It's possible these are not <i>useless</i>. It's possible these become useful ag
 <h4 id="orgdb23924">Why does RL work?</h4>
 <div class="outline-text-4" id="text-orgdb23924">
 
-<div id="orgc29737d" class="figure">
+<div id="org509f96c" class="figure">
 <p><img src="../images/from_clipboard/20240613_215354.png" alt="20240613_215354.png" />
 </p>
 </div>
@@ -2233,7 +2225,7 @@ This paper can be found <a href="https://github.com/deepseek-ai/DeepSeek-V2/blob
 </p>
 
 
-<div id="orgefcd322" class="figure">
+<div id="org18d9c07" class="figure">
 <p><img src="../images/from_clipboard/20240607_101002.png" alt="20240607_101002.png" />
 </p>
 </div>
@@ -2267,7 +2259,7 @@ It's time to get a bit deeper<sup><a id="fnr.49" class="footref" href="#fn.49" r
 <h4 id="org0c698be">RoPE</h4>
 <div class="outline-text-4" id="text-org0c698be">
 
-<div id="org9c6906a" class="figure">
+<div id="orgca5c5f6" class="figure">
 <p><img src="../images/from_clipboard/20240611_125040.png" alt="20240611_125040.png" />
 </p>
 </div>
@@ -2277,7 +2269,7 @@ Like from our brief coverage of RoPE in the DeepSeek-LLM section, RoPE provides 
 </p>
 
 
-<div id="org5a3d2b5" class="figure">
+<div id="orgeb82e19" class="figure">
 <p><img src="../images/from_clipboard/20240613_182711.png" alt="20240613_182711.png" />
 </p>
 </div>
@@ -2291,7 +2283,7 @@ In the real case where we have many more than 2 dimensions, it's not clear how w
 </p>
 
 
-<div id="orgcf4e532" class="figure">
+<div id="org24df27d" class="figure">
 <p><img src="../images/from_clipboard/20240613_183552.png" alt="20240613_183552.png" />
 </p>
 </div>
@@ -2331,7 +2323,7 @@ YaRN has two components to it:
 </ol>
 
 
-<div id="orgbc263dd" class="figure">
+<div id="org6aec2da" class="figure">
 <p><img src="../images/from_clipboard/20240613_172309.png" alt="20240613_172309.png" />
 </p>
 </div>
@@ -2373,7 +2365,7 @@ NTK-by-parts is the below:
 </p>
 
 
-<div id="orgd58a4bb" class="figure">
+<div id="org113a50e" class="figure">
 <p><img src="../images/from_clipboard/20240613_172724.png" alt="20240613_172724.png" />
 </p>
 </div>
@@ -2383,7 +2375,7 @@ Where \(\gamma\) is the "ramp function"
 </p>
 
 
-<div id="orgc7432d1" class="figure">
+<div id="orga3a0018" class="figure">
 <p><img src="../images/from_clipboard/20240613_174824.png" alt="20240613_174824.png" />
 </p>
 </div>
@@ -2403,7 +2395,7 @@ To make a long story short, if you do this you can extend Llama 2's 4096 context
 <h3 id="org8c18730">Multi-Head Latent Attention</h3>
 <div class="outline-text-3" id="text-org8c18730">
 
-<div id="orga9be2f5" class="figure">
+<div id="org4532420" class="figure">
 <p><img src="../images/from_clipboard/20240607_101623.png" alt="20240607_101623.png" />
 </p>
 </div>
@@ -2413,7 +2405,7 @@ Multi-Head Latent Attention (MLA) is one of the genuinely new things in this pap
 </p>
 
 
-<div id="org3aaf5b6" class="figure">
+<div id="org4136688" class="figure">
 <p><img src="../images/from_clipboard/20240614_214043.png" alt="20240614_214043.png" />
 </p>
 </div>
@@ -2453,7 +2445,7 @@ But this introduces a new problem: if we want to use RoPE, that gets put here in
 </p>
 
 
-<div id="orgfbd066b" class="figure">
+<div id="org7390158" class="figure">
 <p><img src="../images/from_clipboard/20240613_153002.png" alt="20240613_153002.png" />
 </p>
 </div>
@@ -2483,17 +2475,17 @@ They also do a 1000-step long context finetuning stage, with a sequence length o
 </div>
 </div>
 
-<div id="outline-container-org621d041" class="outline-3">
-<h3 id="org621d041">Training</h3>
-<div class="outline-text-3" id="text-org621d041">
+<div id="outline-container-org6113e48" class="outline-3">
+<h3 id="org6113e48">Training</h3>
+<div class="outline-text-3" id="text-org6113e48">
 <p>
 Pretraining and SFT are done mostly the same as with DeepSeek-LLM 67B, but with a much larger dataset for both steps. Model hyperparameters are selected the same way they were done in DeepSeek-LLM and DeepSeek-MoE.
 </p>
 </div>
 
-<div id="outline-container-orge4354d0" class="outline-4">
-<h4 id="orge4354d0">Reinforcement Learning</h4>
-<div class="outline-text-4" id="text-orge4354d0">
+<div id="outline-container-orgadcc3b0" class="outline-4">
+<h4 id="orgadcc3b0">Reinforcement Learning</h4>
+<div class="outline-text-4" id="text-orgadcc3b0">
 <p>
 DeepSeek-V2 does the alignment phase using GRPO, as done in DeepSeekMath. Specifically, it does training in two phases:
 </p>
@@ -2510,15 +2502,15 @@ There are some interesting notes here about the observations from this phase. Th
 </div>
 </div>
 
-<div id="outline-container-orgb570f6c" class="outline-3">
-<h3 id="orgb570f6c">Conclusions</h3>
-<div class="outline-text-3" id="text-orgb570f6c">
+<div id="outline-container-org93eb75c" class="outline-3">
+<h3 id="org93eb75c">Conclusions</h3>
+<div class="outline-text-3" id="text-org93eb75c">
 <p>
 That's pretty much it &#x2013; all the little pieces so far, put into one project, to show substantial gain from their earlier release. Their conclusion says a lot by itself (emphasis mine):
 </p>
 
 
-<div id="orgcbea1d3" class="figure">
+<div id="org1864ae9" class="figure">
 <p><img src="../images/from_clipboard/20240613_155625.png" alt="20240613_155625.png" />
 </p>
 </div>
@@ -2562,7 +2554,7 @@ DeepSeek creates a 7B theorem proving LLM which starts from DeepSeekMath and ite
 <h3 id="org8422ffe">Approach</h3>
 <div class="outline-text-3" id="text-org8422ffe">
 
-<div id="org955a9a1" class="figure">
+<div id="org32ab595" class="figure">
 <p><img src="../images/from_clipboard/20240607_133231.png" alt="20240607_133231.png" />
 </p>
 </div>
@@ -2606,7 +2598,7 @@ This creates a synthetic data feedback loop: you can generate proofs and stateme
 </p>
 
 
-<div id="org56904a3" class="figure">
+<div id="org5f55d51" class="figure">
 <p><img src="../images/from_clipboard/20240607_153852.png" alt="20240607_153852.png" />
 </p>
 </div>
@@ -2617,9 +2609,9 @@ They are able to outperform GPT-4 at this task with just the finetuned 7B math m
 </div>
 </div>
 
-<div id="outline-container-org1e1fb32" class="outline-3">
-<h3 id="org1e1fb32">Conclusions</h3>
-<div class="outline-text-3" id="text-org1e1fb32">
+<div id="outline-container-org3bafa4f" class="outline-3">
+<h3 id="org3bafa4f">Conclusions</h3>
+<div class="outline-text-3" id="text-org3bafa4f">
 <p>
 I admittedly had some difficulty seeing how this connects to the other papers in the series &#x2013; my first thought is that maybe this is the early stages of something like <a href="https://arxiv.org/abs/2401.01335">SPIN</a> where they are going to replace the ATP with a stronger model and do some sort of weak-to-strong distillation thing in the future. <a href="https://www.arxiv.org/pdf/2009.03393">GPT-f</a> was an OpenAI paper that came after GPT-3, <a href="https://x.com/gwern/status/1730704242300670376">gwern</a> has mentioned this could be a precursor to the elusive Q* work you hear rumors about sometimes, but I've always viewed this work as being primarily a show of capabilities (i.e. we scale to big model and then previously impossible thing is possible). I've seen some thoughts that this paper is <a href="https://x.com/teortaxesTex/status/1794578898254168336">some sort of collab between Sun Yat-sen and MBZUAI</a>. 
 </p>
@@ -2715,11 +2707,11 @@ unmodified diagram from <a href="https://www.researchgate.net/figure/Decoder-onl
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6" role="doc-backlink">6</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-Famous paper for it's amazing conclusion
+Famous paper for it's amazing conclusion:
 </p>
 
 
-<div id="org383043c" class="figure">
+<div id="orge9748dd" class="figure">
 <p><img src="../images/from_clipboard/20240611_132330.png" alt="20240611_132330.png" />
 </p>
 </div></div></div>
@@ -2729,7 +2721,7 @@ Famous paper for it's amazing conclusion
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.8" class="footnum" href="#fnr.8" role="doc-backlink">8</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-"A mere 339 billion tokens", he says
+"A mere 339 billion tokens", he says.
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.9" class="footnum" href="#fnr.9" role="doc-backlink">9</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
@@ -2769,7 +2761,7 @@ This is done quickly using a nice trick from <a href="https://arxiv.org/pdf/2306
 </p>
 
 
-<div id="orgf63dead" class="figure">
+<div id="orga68dd9e" class="figure">
 <p><img src="../images/from_clipboard/20240612_204343.png" alt="20240612_204343.png" />
 </p>
 </div>
@@ -2855,7 +2847,7 @@ I am genuinely not really sure what they are saying with this part of the paper
 </p>
 
 
-<div id="orgd855773" class="figure">
+<div id="org2008c94" class="figure">
 <p><img src="../images/from_clipboard/20240614_011919.png" alt="20240614_011919.png" />
 </p>
 </div>
@@ -2877,7 +2869,7 @@ Here is that algebra. There are too many references to concepts I am not familia
 </p>
 
 
-<div id="org474645e" class="figure">
+<div id="org38ab900" class="figure">
 <p><img src="../images/from_clipboard/20240614_015748.png" alt="20240614_015748.png" />
 </p>
 </div></div></div>
