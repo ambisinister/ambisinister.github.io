@@ -852,7 +852,7 @@ Reward functions also come in two flavors: rewards vs models. A "rule" method us
 
 *** Conclusions / Takeaways
 
-**** Code Training Benefits Mathematical Reaasoning
+**** Code Training Benefits Mathematical Reasoning
 
 A common unverified claim in training LLMs is that code in pretraining improves reasoning. This paper provides a halfway point: code in pretraining improves mathematical reasoning.
 
@@ -1022,7 +1022,7 @@ That's pretty much it -- all the little pieces so far, put into one project, to 
 
 Given DeepSeek's track record with delivering on things they promise in their works, I am excited to see this.
 
-This makes a pretty nice endpoint for the post, in terms of being a survey of modern language modeling. There is one last paper that they have released after this, at the time of writing, which for now I will only cover very briefly -- it's mostly just adjacent to the main fundamental works covered up to this point. 
+This makes a pretty nice endpoint for the post, in terms of being a survey of modern language modeling. +There is one last paper that they have released after this, at the time of writing, which for now I will only cover very briefly -- it's mostly just adjacent to the main fundamental works covered up to this point.+ **Update 6/17/2024: The above is no longer true, so consider everything below this an extension to the original goal of the post.** 
 
 ** DeepSeek-Prover
 
@@ -1074,6 +1074,40 @@ I admittedly had some difficulty seeing how this connects to the other papers in
 
 Seems plausible enough to me, but I admittedly lack the background to do an automatic theorem proving paper justice. 
 
+** DeepSeek-Coder-V2
+
+This paper can be found [[https://github.com/deepseek-ai/DeepSeek-Coder-V2/blob/main/paper.pdf][here]]. It was released on June 17, 2024.
+
+This paper, as you might expect, is the intersection between DeepSeek-Coder and DeepSeek-V2, where they scale up a capable chat model (DeepSeek-V2) to be strong at a particular capability (DeepSeek-Coder). The main thing about this paper is the result: a 236B (21B active) open source MoE code completion model which performs on the level of GPT4-Turbo / Claude Opus / Gemini 1.5 Pro. They additionally release a 16B (2.4B active) Lite model which can be run on a single GPU with ~16GB VRAM with 8-bit quantization.
+
+[[../images/from_clipboard/20240617_104532.png]]
+
+As far as details go, there is minimal in here we haven't already discussed. Unlike the DeepSeek-V2 paper where there were some additional contributions like MLA, there is pretty much nothing in this paper that you haven't seen up to now. We will briefly cover it below. 
+
+*** Building It
+
+For data, they use a 60% code / 10% math / 30% NLP mix, and they start from a checkpoint of DeepSeek-V2. Specifically, they get ~1.1T code tokens from github and common crawl[fn:56], ~221B math tokens[fn:57], and sample from the same corpus as use in DeepSeek-V2 for natural language. In total, if you include the tokens used to train the original checkpoint, DeepSeek-Coder-V2 has seen about 10.2T tokens.
+
+For the small model they keep the same objectives as DeepSeek-Coder (next-token and Fill-in-middle), whereas they only use next-token for the 236B model. The architecture and hyperparameters are the same as they are in DeepSeek-V2. They extend the context to 128k, again the same as DeepSeek-V2. They do DFT and RLHF the same as is done in DeepSeek-V2[fn:58].
+
+*** Results
+
+[[../images/from_clipboard/20240617_110703.png]]
+
+The benchmark performances are really exceptional, which is the main point here: an open weights, GPT-4 level coding model right at the frontier[fn:59]. The lite model is pretty impressive too, generally outperforming stuff like Llama-3. They show some other benchmarks as well, like the leetcode benchmark from DeepSeek-Coder, where the story is mostly the same as the above[fn:60].
+
+With respect to natural language benchmarks, this is another point in favor of the "code reasoning helps reasoning" hypothesis, where DeepSeek-Coder-V2 generally seems to outperform DeepSeek-V2 Chat on reasoning benchmarks like Arena-Hard, while retaining most of its performance on other benchmarks. The biggest falloff seems to be in stuff like TriviaQA, which makes enough sense considering each model's intended purpose. 
+
+*** Conclusion
+
+As mentioned, this was an easy one: they put the building blocks together and trained an extremely strong code generation model. This seems to be the early phases of achieving "GPT-4 level performance", where they are slowly encroaching upon the frontier starting with code generation performance. I expect there will be a number of these little papers: eventually the promised DeepSeek-VL-V2 MoE vision model, and maybe another Math model as well, which I expect will largely be similarly easy to understand to this paper.
+
+As usual their conclusion ends with clear declarations of future work:
+
+[[../images/from_clipboard/20240617_112551.png]]
+
+which is exciting, since we can add "improved instruction tuning" to the list of projects on the DeepSeek horizon.
+
 ** Overall Takeaways
 
 The DeepSeek corpus touches a lot of topics in LLMs, which is very fun for a body of work which spans January 2024 through May 2024. This work took a pretty significant amount of time just for me to read in enough detail to write this post, and I didn't have to run experiments or buy 10,000 H100s. Very impressive to get this all done in that relatively small window. 
@@ -1101,6 +1135,16 @@ This is a section just for me to reflect on what stuff about available frontier 
 - Improve the GShard section, hardware stuff in generally more detail since it's a level of understanding I'm mostly blind to
 
 * Footnotes
+
+[fn:60] The inclusion of SWE-Bench is really cool in my opinion, since I feel like I mostly see that used in agent papers -- DeepSeek-Coder-V2 gets 12.7% on this whereas OpenDevin reports 21.0% on the Lite split. GPT-4o by itself seemingly lands at 26.7% now; wonder which results need to be updated wrt agents / how OpenDevin performs with 4o vs DeepSeek-Coder-V2.  
+
+[fn:59] The python performance is imo super noteworthy, within a point of 4o is crazy.
+
+[fn:58] I was not kidding about this not being very different from DeepSeek-V2, like I said the important contribution here is the successful result. There is an interesting note here about how they didn't really need to train with a reward model because they can use 0-1 signal from generated code passing the test cases, but they go out of their way to do it anyways because this can be potentially noisy if there are not many test cases for a particular problem. 
+
+[fn:57] Collected the same way as DeepSeek-Math
+
+[fn:56] Collected the same way as DeepSeek-Coder
 
 [fn:55] Not necessarily 100% true but that's the claim.
 
