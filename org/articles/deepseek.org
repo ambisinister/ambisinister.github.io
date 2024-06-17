@@ -1086,7 +1086,7 @@ As far as details go, there is minimal in here we haven't already discussed. Unl
 
 *** Building It
 
-For data, they use a 60% code / 10% math / 30% NLP mix, and they start from a checkpoint of DeepSeek-V2. Specifically, they get ~1.1T code tokens from github and common crawl[fn:56], ~221B math tokens[fn:57], and sample from the same corpus as use in DeepSeek-V2 for natural language. In total, if you include the tokens used to train the original checkpoint, DeepSeek-Coder-V2 has seen about 10.2T tokens.
+For data, they use a 60% code / 10% math / 30% NLP mix, and they start from a checkpoint of DeepSeek-V2. Specifically, they get ~1.1T code tokens from github and common crawl[fn:56], ~221B math tokens[fn:57], and sample from the same corpus as used in DeepSeek-V2 for natural language. In total, if you include the tokens used to train the original checkpoint, DeepSeek-Coder-V2 has seen about 10.2T tokens.
 
 For the small model they keep the same objectives as DeepSeek-Coder (next-token and Fill-in-middle), whereas they only use next-token for the 236B model. The architecture and hyperparameters are the same as they are in DeepSeek-V2. They extend the context to 128k, again the same as DeepSeek-V2. They do SFT and RLHF the same as is done in DeepSeek-V2[fn:58].
 
