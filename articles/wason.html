@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-06-23 Sun 01:49 -->
+<!-- 2024-06-23 Sun 02:39 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>WILT Benchmark</title>
@@ -197,7 +197,7 @@ Here we introduce the Wason Inductive Logic Test (WILT) which is a procedurally 
 </p>
 
 <p>
-The value of this benchmark is easy to understand: to get a good score the model must successfully model what it does and does not know, it must be able to generate plausible hypotheses, it must be able to pursue refuting those hypotheses, and is must make a judgement call on when it's degree of support for a hypothesis is sufficient to guess the rule.
+The value of this benchmark is easy to understand: to get a good score the model must successfully model what it does and does not know, it must be able to generate plausible hypotheses, it must be able to pursue refuting those hypotheses, and is must make a judgement call on when its degree of support for a hypothesis is sufficient to guess the rule.
 </p>
 
 <p>
@@ -212,17 +212,24 @@ Scoring the benchmark is straightforward. We report three values: Accuracy, Aver
 The default prompt used for this is as follows:
 </p>
 
-<pre class="example">
+<blockquote>
+<p>
 You are an AI tasked with discovering a hidden rule that takes three numbers as input and returns a boolean. These numbers can be any float or integer number that can be typed in 3 or fewer digits, not including signs and decimal characters (e.g. -11.3 is a valid value). In each response, you will take one of two actions:
+</p>
 
-1. Provide a test case to observe the output of a rule (e.g. "Test Case: (1, 2, 3)" which corresponds to x=1, y=2, z=3.
-2. Provide a final "guess" in the form of a python lambda function (e.g. "Final Guess: lambda x,y,z: x &lt; y &lt; z").
+<ol class="org-ol">
+<li>Provide a test case to observe the output of a rule (e.g. "Test Case: (1, 2, 3)" which corresponds to x=1, y=2, z=3.</li>
+<li>Provide a final "guess" in the form of a python lambda function (e.g. "Final Guess: lambda x,y,z: x &lt; y &lt; z").</li>
+</ol>
 
+<p>
 You will have up to 30 attempts at test cases, and you will have exactly one attempt at guessing the final function. You should prioritize getting the rule as correct as possible, since an incorrect answer will get no points. You should therefore not guess the function unless you are quite confident, or if you are very close to running out of attempts.
+</p>
 
-You must return your responses in the format laid out above at the very bottom of your message. For example, if you want to submit a test case, you must conclude with the string "Test Case: ```(x,y,z)```", where x,y,z are replaced with your guesses. If you want to submit a final guess, you must conclude with the string "Final Guess: ```&lt;function&gt;```" where &lt;function&gt; is replaced with a python lambda function. Do not include any comments or additional text on the same lines as these two things. If it's helpful to include reasoning about your thought process, or reflections upon previous outcomes, feel free to do so, since your test case and final guess will be parsed out of your response as long as they follow the above formats. 
-
-</pre>
+<p>
+You must return your responses in the format laid out above at the very bottom of your message. For example, if you want to submit a test case, you must conclude with the string "Test Case: ```(x,y,z)```", where x,y,z are replaced with your guesses. If you want to submit a final guess, you must conclude with the string "Final Guess: ```&lt;function&gt;```" where &lt;function&gt; is replaced with a python lambda function. Do not include any comments or additional text on the same lines as these two things. If its helpful to include reasoning about your thought process, or reflections upon previous outcomes, feel free to do so, since your test case and final guess will be parsed out of your response as long as they follow the above formats. 
+</p>
+</blockquote>
 
 <p>
 and at each step the result of the test + the number of attempts remaining is provided back to the model. I expect better performance could be eked out by improving this prompt, but the only important bit is that it gets a limited number of attempts and only one guess per rule.
@@ -255,7 +262,7 @@ Starting this out we will just show the results of several models on 10 very eas
 </div>
 
 <p>
-Here we test some models on this task. Llama 3, Mixtral, and Gemma were done via the <a href="https://console.groq.com/docs/quickstart">groq</a> api. OpenAI models are called via the OpenAI api. DeepSeek is called via the DeepSeek API using the openai client.
+Here we test some models on this task. Llama 3, Mixtral, and Gemma were done via the <a href="https://console.groq.com/docs/quickstart">groq</a> api. OpenAI models are called via the OpenAI api. DeepSeek is called via the DeepSeek API using the openai client. Anthropic is called via the anthropic API.
 </p>
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
@@ -361,7 +368,7 @@ In general, almost all of the failure points tracks with one of three things:
 </p>
 
 <ol class="org-ol">
-<li>Never encountering any evidence (e.g. no Trues or Falses)</li>
+<li>Never encountering any evidence (e.g. no Trues or Falses, usually from selecting poor tests)</li>
 <li>Overcomplicating the Rule and not eliminating hypotheses well</li>
 <li>Tunnelling down test cases for things it already knows are true or false (confirmation bias)</li>
 </ol>
@@ -375,7 +382,7 @@ A lot of the individual "character" of each of the LLMs comes out when you test 
 <h3 id="orga298428">Claude 3.5 Sonnet</h3>
 <div class="outline-text-3" id="text-orga298428">
 <p>
-This model is the real deal, it's the only one which got the multiplication rule which imo is very impressive.
+This model is the real deal, it's the only one which got the multiplication rule which in my opinion is very impressive.
 </p>
 
 <p>
@@ -383,7 +390,7 @@ One very funny thing this model flubbed on is the "all numbers negative" test, w
 </p>
 
 
-<div id="org5537338" class="figure">
+<div id="org5e9f1e5" class="figure">
 <p><img src="../images/from_clipboard/20240623_011848.png" alt="20240623_011848.png" />
 </p>
 </div>
@@ -402,7 +409,7 @@ This one below stuck out to me in the early phases of testing Llama 3 70B on it.
 </p>
 
 
-<div id="org3c7e71d" class="figure">
+<div id="orge9f6d94" class="figure">
 <p><img src="../images/from_clipboard/20240622_200739.png" alt="20240622_200739.png" />
 </p>
 </div>
@@ -412,7 +419,7 @@ This one even more striking, where it identifies that it created a test case it 
 </p>
 
 
-<div id="orgea78015" class="figure">
+<div id="org5356b9d" class="figure">
 <p><img src="../images/from_clipboard/20240622_210916.png" alt="20240622_210916.png" />
 </p>
 </div>
@@ -431,7 +438,7 @@ This one also, where it took tokens to "think". I don't even think it got the an
 </p>
 
 
-<div id="orgc5698c7" class="figure">
+<div id="org95fc124" class="figure">
 <p><img src="../images/from_clipboard/20240622_202111.png" alt="20240622_202111.png" />
 </p>
 </div>
@@ -451,7 +458,7 @@ These two models did this funny thing where they started to provide their own im
 </p>
 
 
-<div id="org6e668f0" class="figure">
+<div id="orgc830b8f" class="figure">
 <p><img src="../images/from_clipboard/20240622_230123.png" alt="20240622_230123.png" />
 </p>
 </div>
@@ -467,7 +474,7 @@ GPT-4-turbo did quite well on this task, at least for these examples. It would o
 </p>
 
 
-<div id="org4f4608c" class="figure">
+<div id="org8327dbe" class="figure">
 <p><img src="../images/from_clipboard/20240622_235707.png" alt="20240622_235707.png" />
 </p>
 </div>
@@ -478,7 +485,7 @@ GPT-4-turbo did quite well on this task, at least for these examples. It would o
 <h3 id="org15d085a">gpt-3.5-turbo</h3>
 <div class="outline-text-3" id="text-org15d085a">
 <p>
-I had a lot of difficulty getting 3.5-turbo to follow instructions well enough to make serious attempts at most of the tests, even if I changed formatting things around for it. It was also often assume it had seen examples already, overall very unusual behaviors overall.
+I had a lot of difficulty getting 3.5-turbo to follow instructions well enough to make serious attempts at most of the tests, even if I changed formatting things around for it. It would also often assume it had seen examples already, overall very unusual behaviors overall.
 </p>
 
 <p>
@@ -491,7 +498,7 @@ I imagine it's probably possible to steer this model to a better result, but I'm
 <h3 id="org45d6ec5">DeepSeek-V2-Chat</h3>
 <div class="outline-text-3" id="text-org45d6ec5">
 <p>
-DeepSeek-V2-Chat struggled with the equality cases despite testing for them, and very rarely added thoughts before the test cases unless there was some specific reason to do so. This was pretty harmful, I think, it would reuse tests a lot more than the other models would, and didn't seem to have any explicit reasoning behind a lot of it's choices. It would almost always dutifully use all of its available attempts, unless it seemed extremely confident.
+DeepSeek-V2-Chat struggled with the equality cases despite testing for them, and very rarely added thoughts before the test cases unless there was some specific reason to do so. This was pretty harmful, I think, it would reuse tests a lot more than the other models would, and didn't seem to have any explicit reasoning behind a lot of its choices. It would almost always dutifully use all of its available attempts, unless it seemed extremely confident.
 </p>
 
 <p>
@@ -508,7 +515,7 @@ DeepSeek-coder behaved really similar to DeepSeek-V2 as far as general behaviors
 </p>
 
 
-<div id="org0e1a378" class="figure">
+<div id="orgec2f7f0" class="figure">
 <p><img src="../images/from_clipboard/20240623_003733.png" alt="20240623_003733.png" />
 </p>
 </div>
@@ -532,7 +539,11 @@ First, I think that cracking this is going to be a really important capability i
 </p>
 
 <p>
-Second, I think that <i>vibe evals</i> are underrated in general. This was roughly 20-30 API calls each across 10 tests that produced an almost exactly expected full ordering of all the models I tried. You could argue this list could be shifted around based on better prompt engineering, more test examples, harder tests, easier tests, etc. But it's important to remember that this is a weekend project's worth of evaluation and not a full academic paper<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>. 
+Second, I think that <i>vibe evals</i> are underrated in general. This was roughly 20-30 API calls each across 10 tests that produced an almost exactly expected full ordering of all the models I tried. You could argue this list could be shifted around based on better prompt engineering, more test examples, harder tests, easier tests, etc. But it's important to remember that this is a weekend project's worth of evaluation and not a full academic paper<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>.
+</p>
+
+<p>
+Overall I am hopeful that these sorts of models will be someday able to identify highly plausible hypotheses and select effective tests for evaluating them. I think if we get there, it's not that much further away for models to generate "good ideas". I think that would be a sight to see.
 </p>
 </div>
 </div>

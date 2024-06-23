@@ -28,7 +28,7 @@ What is nice about this task is that you have to optimize your final response fo
 
 Here we introduce the Wason Inductive Logic Test (WILT) which is a procedurally generated reasoning benchmark modeled after the Wason 2-4-6 task. For each example, the model has up to 30 attempts to maximize the number of correct answers, ideally using the fewest number of test cases necessary. We will include a set of 2 versions: a "canon" version with 100 pre-selected functions, and a way to generate simple functions to create a "procedural" version robust to memorization effects.
 
-The value of this benchmark is easy to understand: to get a good score the model must successfully model what it does and does not know, it must be able to generate plausible hypotheses, it must be able to pursue refuting those hypotheses, and is must make a judgement call on when it's degree of support for a hypothesis is sufficient to guess the rule.
+The value of this benchmark is easy to understand: to get a good score the model must successfully model what it does and does not know, it must be able to generate plausible hypotheses, it must be able to pursue refuting those hypotheses, and is must make a judgement call on when its degree of support for a hypothesis is sufficient to guess the rule.
 
 Scoring the benchmark is straightforward. We report three values: Accuracy, Average Test Count, and Total Points. Points are determined by awarding 1000 points for each correct answer, and $100 * (1 - \frac{X}{M})$ bonus points are awarded for each question, where $X$ is the number of guesses taken on that question, and $M$ is the number of allotted guesses (default 30). This way the model is rewarded for correct answers, but two models with similar accuracy can be differentiated in the event of one having much better test case selection.
 
@@ -36,7 +36,7 @@ Scoring the benchmark is straightforward. We report three values: Accuracy, Aver
 
 The default prompt used for this is as follows:
 
-#+BEGIN_SRC
+#+BEGIN_QUOTE
 You are an AI tasked with discovering a hidden rule that takes three numbers as input and returns a boolean. These numbers can be any float or integer number that can be typed in 3 or fewer digits, not including signs and decimal characters (e.g. -11.3 is a valid value). In each response, you will take one of two actions:
 
 1. Provide a test case to observe the output of a rule (e.g. "Test Case: (1, 2, 3)" which corresponds to x=1, y=2, z=3.
@@ -44,9 +44,8 @@ You are an AI tasked with discovering a hidden rule that takes three numbers as 
 
 You will have up to 30 attempts at test cases, and you will have exactly one attempt at guessing the final function. You should prioritize getting the rule as correct as possible, since an incorrect answer will get no points. You should therefore not guess the function unless you are quite confident, or if you are very close to running out of attempts.
 
-You must return your responses in the format laid out above at the very bottom of your message. For example, if you want to submit a test case, you must conclude with the string "Test Case: ```(x,y,z)```", where x,y,z are replaced with your guesses. If you want to submit a final guess, you must conclude with the string "Final Guess: ```<function>```" where <function> is replaced with a python lambda function. Do not include any comments or additional text on the same lines as these two things. If it's helpful to include reasoning about your thought process, or reflections upon previous outcomes, feel free to do so, since your test case and final guess will be parsed out of your response as long as they follow the above formats. 
-
-#+END_SRC
+You must return your responses in the format laid out above at the very bottom of your message. For example, if you want to submit a test case, you must conclude with the string "Test Case: ```(x,y,z)```", where x,y,z are replaced with your guesses. If you want to submit a final guess, you must conclude with the string "Final Guess: ```<function>```" where <function> is replaced with a python lambda function. Do not include any comments or additional text on the same lines as these two things. If its helpful to include reasoning about your thought process, or reflections upon previous outcomes, feel free to do so, since your test case and final guess will be parsed out of your response as long as they follow the above formats. 
+#+END_QUOTE
 
 and at each step the result of the test + the number of attempts remaining is provided back to the model. I expect better performance could be eked out by improving this prompt, but the only important bit is that it gets a limited number of attempts and only one guess per rule.
 
@@ -69,7 +68,7 @@ TESTS = {
 }
 #+END_SRC
 
-Here we test some models on this task. Llama 3, Mixtral, and Gemma were done via the [[https://console.groq.com/docs/quickstart][groq]] api. OpenAI models are called via the OpenAI api. DeepSeek is called via the DeepSeek API using the openai client.
+Here we test some models on this task. Llama 3, Mixtral, and Gemma were done via the [[https://console.groq.com/docs/quickstart][groq]] api. OpenAI models are called via the OpenAI api. DeepSeek is called via the DeepSeek API using the openai client. Anthropic is called via the anthropic API.
 
 | Model             | Accuracy | Average # Tests |  Points |
 |-------------------+----------+-----------------+---------|
@@ -88,7 +87,7 @@ Here we test some models on this task. Llama 3, Mixtral, and Gemma were done via
 
 In general, almost all of the failure points tracks with one of three things:
 
-1. Never encountering any evidence (e.g. no Trues or Falses)
+1. Never encountering any evidence (e.g. no Trues or Falses, usually from selecting poor tests)
 2. Overcomplicating the Rule and not eliminating hypotheses well
 3. Tunnelling down test cases for things it already knows are true or false (confirmation bias)
 
@@ -96,7 +95,7 @@ A lot of the individual "character" of each of the LLMs comes out when you test 
 
 *** Claude 3.5 Sonnet
 
-This model is the real deal, it's the only one which got the multiplication rule which imo is very impressive.
+This model is the real deal, it's the only one which got the multiplication rule which in my opinion is very impressive.
 
 One very funny thing this model flubbed on is the "all numbers negative" test, which it got extremely close to solving but fell short in a very amusing way.
 
@@ -138,13 +137,13 @@ GPT-4-turbo did quite well on this task, at least for these examples. It would o
 
 *** gpt-3.5-turbo
 
-I had a lot of difficulty getting 3.5-turbo to follow instructions well enough to make serious attempts at most of the tests, even if I changed formatting things around for it. It was also often assume it had seen examples already, overall very unusual behaviors overall.
+I had a lot of difficulty getting 3.5-turbo to follow instructions well enough to make serious attempts at most of the tests, even if I changed formatting things around for it. It would also often assume it had seen examples already, overall very unusual behaviors overall.
 
 I imagine it's probably possible to steer this model to a better result, but I'm not the guy for it, it seems.
 
 *** DeepSeek-V2-Chat
 
-DeepSeek-V2-Chat struggled with the equality cases despite testing for them, and very rarely added thoughts before the test cases unless there was some specific reason to do so. This was pretty harmful, I think, it would reuse tests a lot more than the other models would, and didn't seem to have any explicit reasoning behind a lot of it's choices. It would almost always dutifully use all of its available attempts, unless it seemed extremely confident.
+DeepSeek-V2-Chat struggled with the equality cases despite testing for them, and very rarely added thoughts before the test cases unless there was some specific reason to do so. This was pretty harmful, I think, it would reuse tests a lot more than the other models would, and didn't seem to have any explicit reasoning behind a lot of its choices. It would almost always dutifully use all of its available attempts, unless it seemed extremely confident.
 
 I imagine this model would probably more directly need to be paired with instructions deliberately forcing it to provide justifications for each move, since it seems hesitant to do so. I may rerun this test with that explicit instruction since otherwise it will not do so. 
 
@@ -162,7 +161,9 @@ A very funny thing I'm noticing about all of these models is that a common point
 
 First, I think that cracking this is going to be a really important capability if these models are supposed to be able to actually perform meaningful scientific tasks. I think doing productive work in the sciences is often about this sort of hypothesis rejection, and identifying this as a capability models specifically struggle with is a valuable barometer for how "intelligent" the models are.
 
-Second, I think that /vibe evals/ are underrated in general. This was roughly 20-30 API calls each across 10 tests that produced an almost exactly expected full ordering of all the models I tried. You could argue this list could be shifted around based on better prompt engineering, more test examples, harder tests, easier tests, etc. But it's important to remember that this is a weekend project's worth of evaluation and not a full academic paper[fn:2]. 
+Second, I think that /vibe evals/ are underrated in general. This was roughly 20-30 API calls each across 10 tests that produced an almost exactly expected full ordering of all the models I tried. You could argue this list could be shifted around based on better prompt engineering, more test examples, harder tests, easier tests, etc. But it's important to remember that this is a weekend project's worth of evaluation and not a full academic paper[fn:2].
+
+Overall I am hopeful that these sorts of models will be someday able to identify highly plausible hypotheses and select effective tests for evaluating them. I think if we get there, it's not that much further away for models to generate "good ideas". I think that would be a sight to see.
 
 * Footnotes
 
