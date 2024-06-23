@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-06-23 Sun 01:45 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>WILT Benchmark</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="./css/default_20240614.css" />
+<link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<h1 class="title">WILT Benchmark</h1>
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org14feb33">WILT: Wason Inductive Logic Test for LLMs</a>
+<ul>
+<li><a href="#orgdc0b5e9">Introduction</a></li>
+<li><a href="#orgbca469e">On the Impossibility of the Wason 2-4-6 Task</a></li>
+<li><a href="#org02297fa">WILT</a>
+<ul>
+<li><a href="#orgac9f946">Default Prompt</a></li>
+</ul>
+</li>
+<li><a href="#orgd694c9d">Initial Results</a></li>
+<li><a href="#org1f4ed08">Interesting Observations</a>
+<ul>
+<li><a href="#orga298428">Claude 3.5 Sonnet</a></li>
+<li><a href="#org04f3253">Llama 3 70B</a>
+<ul>
+<li><a href="#org6ef4740">Berating itself / recovering mistakes</a></li>
+<li><a href="#orgd93b6ed">Spending time "thinking"</a></li>
+</ul>
+</li>
+<li><a href="#org4963c8b">Mixtral-8x7b / Gemma-7b-it</a>
+<ul>
+<li><a href="#orgf878075">Hallucinating Successful Tests</a></li>
+</ul>
+</li>
+<li><a href="#org094ed9b">gpt-4-turbo</a></li>
+<li><a href="#org15d085a">gpt-3.5-turbo</a></li>
+<li><a href="#org45d6ec5">DeepSeek-V2-Chat</a></li>
+<li><a href="#org0988d06">DeepSeek-V2-Coder</a></li>
+</ul>
+</li>
+<li><a href="#orgc1ae845">Conclusions</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org14feb33" class="outline-1">
+<h1 id="org14feb33">WILT: Wason Inductive Logic Test for LLMs</h1>
+<div class="outline-text-1" id="text-org14feb33">
+</div>
+<div id="outline-container-orgdc0b5e9" class="outline-2">
+<h2 id="orgdc0b5e9">Introduction</h2>
+<div class="outline-text-2" id="text-orgdc0b5e9">
+<p>
+The <a href="https://journals.sagepub.com/doi/10.1080/17470216008416717">Wason 2-4-6 Task</a> is a famous reasoning test used to demonstrate confirmation bias. The goal of this task is to infer the hidden rule, which will take three ordered numbers and return either True or False. They are told that the test case (2,4,6) is True, and that they can submit any number of test cases in order to test the output of the rule. Participants often seek to submit tests which confirm their initial suspicions about the rule (e.g. (4,6,8) -&gt; (10,12,14) -&gt; The rule is "numbers ascending separated by two"), despite the true rule being "any three numbers in ascending order".
+</p>
+
+<p>
+To be good at the Wason 2-4-6 Task, you need to be able to form hypotheses and then specifically target the edges of that hypothesis, in order to falsify your own suspicions. As a result, it's a nice shorthand for testing <a href="https://plato.stanford.edu/entries/logic-inductive/">inductive logic</a> &#x2013; I find that this test is an effective way to teach younger people about what kind of mindset is useful for research work<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>. I have been wanting to design a super-simple reasoning metric for LLMs which is resistant to memorizing lots of solutions, and landed upon this as a potential solution. Code for this project can be found <a href="https://github.com/ambisinister/wilt">on github here</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbca469e" class="outline-2">
+<h2 id="orgbca469e">On the Impossibility of the Wason 2-4-6 Task</h2>
+<div class="outline-text-2" id="text-orgbca469e">
+<p>
+It is not possible to "confirm" the rule in the Wason 2-4-6 Task. This is the most important property of the task.
+</p>
+
+<p>
+At nearly any stage in the process of the task, there always remains an arbitrarily higher resolution which could be disproven. Take the canonical "any three values ascending" rule used in the original task. Even in the ideal situation where you quickly catch on to the general rule, there are many variants of the simple rule which could disprove your hypothesis. For example:
+</p>
+
+<ul class="org-ul">
+<li>Any three natural numbers, ascending ((-1, 0, 1) fails)</li>
+<li>Any three integers, ascending ((1, 2, 3.5) fails)</li>
+<li>Any three rational numbers, ascending ((1, 2, pi) fails)</li>
+<li>Any three numbers, ascending, where none of the values are 0 ((0, 3, 5) fails)</li>
+<li>Any three numbers, ascending, where the first number does not equal 30</li>
+<li>Any three numbers, ascending, where the first number does not equal 31</li>
+<li>&#x2026;</li>
+</ul>
+
+<p>
+What is nice about this task is that you have to optimize your final response for how well it explains your observations vs how reasonable the rule is. You are <i>probabilistically</i> arriving at a conclusion which <i>describes</i> the function, rather than somehow being able to completely uncover it using only black-box observations. To arrive at a probability of 1, you would need an infinite amount of evidence, but to simply arrive at a very high probability, you need to seek out high-information test examples. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org02297fa" class="outline-2">
+<h2 id="org02297fa">WILT</h2>
+<div class="outline-text-2" id="text-org02297fa">
+<p>
+Here we introduce the Wilson Inductive Logic Test (WILT) which is a procedurally generated reasoning benchmark modeled after the Wason 2-4-6 task. For each example, the model has up to 30 attempts to maximize the number of correct answers, ideally using the fewest number of test cases necessary. We will include a set of 2 versions: a "canon" version with 100 pre-selected functions, and a way to generate simple functions to create a "procedural" version robust to memorization effects.
+</p>
+
+<p>
+The value of this benchmark is easy to understand: to get a good score the model must successfully model what it does and does not know, it must be able to generate plausibly hypotheses, it must be able to pursue refuting those hypotheses, and is must make a judgement call on when it's degree of support for a hypothesis is sufficient to guess the rule.
+</p>
+
+<p>
+Scoring the benchmark is straightforward. We report three values: Accuracy, Average Test Count, and Total Points. Points are determined by awarding 1000 points for each correct answer, and \(100 * (1 - \frac{X}{M})\) bonus points are awarded for each question, where \(X\) is the number of guesses taken on that question, and \(M\) is the number of allotted guesses (default 30). This way the model is rewarded for correct answers, but two models with similar accuracy can be differentiated in the event of one having much better test case selection.
+</p>
+</div>
+
+<div id="outline-container-orgac9f946" class="outline-3">
+<h3 id="orgac9f946">Default Prompt</h3>
+<div class="outline-text-3" id="text-orgac9f946">
+<p>
+The default prompt used for this is as follows:
+</p>
+
+<pre class="example">
+You are an AI tasked with discovering a hidden rule that takes three numbers as input and returns a boolean. These numbers can be any float or integer number that can be typed in 3 or fewer digits, not including signs and decimal characters (e.g. -11.3 is a valid value). In each response, you will take one of two actions:
+
+1. Provide a test case to observe the output of a rule (e.g. "Test Case: (1, 2, 3)" which corresponds to x=1, y=2, z=3.
+2. Provide a final "guess" in the form of a python lambda function (e.g. "Final Guess: lambda x,y,z: x &lt; y &lt; z").
+
+You will have up to 30 attempts at test cases, and you will have exactly one attempt at guessing the final function. You should prioritize getting the rule as correct as possible, since an incorrect answer will get no points. You should therefore not guess the function unless you are quite confident, or if you are very close to running out of attempts.
+
+You must return your responses in the format laid out above at the very bottom of your message. For example, if you want to submit a test case, you must conclude with the string "Test Case: ```(x,y,z)```", where x,y,z are replaced with your guesses. If you want to submit a final guess, you must conclude with the string "Final Guess: ```&lt;function&gt;```" where &lt;function&gt; is replaced with a python lambda function. Do not include any comments or additional text on the same lines as these two things. If it's helpful to include reasoning about your thought process, or reflections upon previous outcomes, feel free to do so, since your test case and final guess will be parsed out of your response as long as they follow the above formats. 
+
+</pre>
+
+<p>
+and at each step the result of the test + the number of attempts remaining is provided back to the model. I expect better performance could be eked out by improving this prompt, but the only important bit is that it gets a limited number of attempts and only one guess per rule.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd694c9d" class="outline-2">
+<h2 id="orgd694c9d">Initial Results</h2>
+<div class="outline-text-2" id="text-orgd694c9d">
+<p>
+Starting this out we will just show the results of several models on 10 very easy tests, and update this with a scaled up longer run on more tests later. Here's the very easy mini version of this benchmark:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">TESTS = {
+    '1': lambda x, y, z: x &gt; y &gt; z,
+    '2': lambda x, y, z: x &lt; y &lt; z,
+    '3': lambda x, y, z: x &gt;= y &gt;= z,
+    '4': lambda x, y, z: x &lt;= y &lt;= z,
+    '5': lambda x, y, z: x == y and y == z,
+    '6': lambda x, y, z: x != y and y != z, and x != z,
+    '7': lambda x, y, z: x &lt; 0 and y &lt; 0 and z &lt; 0,
+    '8': lambda x, y, z: x + y == z,
+    '9': lambda x, y, z: x * y == z,
+    '10': lambda x, y, z: x &lt; y and y &gt; z
+}
+</pre>
+</div>
+
+<p>
+Here we test some models on this task. Llama 3, Mixtral, and Gemma were done via the <a href="https://console.groq.com/docs/quickstart">groq</a> api. OpenAI models are called via the OpenAI api. DeepSeek is called via the DeepSeek API using the openai client.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Model</th>
+<th scope="col" class="org-left">Accuracy</th>
+<th scope="col" class="org-right">Average # Tests</th>
+<th scope="col" class="org-right">Points</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Claude-3.5-Sonnet</td>
+<td class="org-left">8/10</td>
+<td class="org-right">13.6</td>
+<td class="org-right">8483.33</td>
+</tr>
+
+<tr>
+<td class="org-left">GPT-4-Turbo</td>
+<td class="org-left">7/10</td>
+<td class="org-right">12.4</td>
+<td class="org-right">7446.67</td>
+</tr>
+
+<tr>
+<td class="org-left">GPT-4o</td>
+<td class="org-left">6/10</td>
+<td class="org-right">13.8</td>
+<td class="org-right">6423.33</td>
+</tr>
+
+<tr>
+<td class="org-left">DeepSeek-V2-Coder</td>
+<td class="org-left">6/10</td>
+<td class="org-right">23.4</td>
+<td class="org-right">6210.00</td>
+</tr>
+
+<tr>
+<td class="org-left">Llama 3 70B</td>
+<td class="org-left">4/10</td>
+<td class="org-right">15.6</td>
+<td class="org-right">4216.66</td>
+</tr>
+
+<tr>
+<td class="org-left">DeepSeek-V2-Chat</td>
+<td class="org-left">2/10</td>
+<td class="org-right">24.8</td>
+<td class="org-right">2033.33</td>
+</tr>
+
+<tr>
+<td class="org-left">Llama 3 8B</td>
+<td class="org-left">1/10</td>
+<td class="org-right">24.0</td>
+<td class="org-right">1020.00</td>
+</tr>
+
+<tr>
+<td class="org-left">GPT-3.5-Turbo</td>
+<td class="org-left">1/10</td>
+<td class="org-right">2.9</td>
+<td class="org-right">1076.67</td>
+</tr>
+
+<tr>
+<td class="org-left">Gemma 7B</td>
+<td class="org-left">0/10</td>
+<td class="org-right">n/a</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">Mixtral 8x7b</td>
+<td class="org-left">0/10</td>
+<td class="org-right">n/a</td>
+<td class="org-right">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org1f4ed08" class="outline-2">
+<h2 id="org1f4ed08">Interesting Observations</h2>
+<div class="outline-text-2" id="text-org1f4ed08">
+<p>
+In general, almost all of the failure points tracks with one of three things:
+</p>
+
+<ol class="org-ol">
+<li>Never encountering any evidence (e.g. no Trues or Falses)</li>
+<li>Overcomplicating the Rule and not eliminating hypotheses well</li>
+<li>Tunnelling down test cases for things it already knows are true or false (confirmation bias)</li>
+</ol>
+
+<p>
+A lot of the individual "character" of each of the LLMs comes out when you test them this way. The behaviors that pop out are really interesting. 
+</p>
+</div>
+
+<div id="outline-container-orga298428" class="outline-3">
+<h3 id="orga298428">Claude 3.5 Sonnet</h3>
+<div class="outline-text-3" id="text-orga298428">
+<p>
+This model is the real deal, it's the only one which got the multiplication rule which imo is very impressive.
+</p>
+
+<p>
+One very funny thing this model flubbed on is the "all numbers negative" test, which it got extremely close to solving but fell short in a very amusing way.
+</p>
+
+
+<div id="org2782bd6" class="figure">
+<p><img src="../images/from_clipboard/20240623_011848.png" alt="20240623_011848.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org04f3253" class="outline-3">
+<h3 id="org04f3253">Llama 3 70B</h3>
+<div class="outline-text-3" id="text-org04f3253">
+</div>
+<div id="outline-container-org6ef4740" class="outline-4">
+<h4 id="org6ef4740">Berating itself / recovering mistakes</h4>
+<div class="outline-text-4" id="text-org6ef4740">
+<p>
+This one below stuck out to me in the early phases of testing Llama 3 70B on it.
+</p>
+
+
+<div id="org814f082" class="figure">
+<p><img src="../images/from_clipboard/20240622_200739.png" alt="20240622_200739.png" />
+</p>
+</div>
+
+<p>
+This one even more striking, where it identifies that it created a test case it already used and saves it:
+</p>
+
+
+<div id="org1fc6ba5" class="figure">
+<p><img src="../images/from_clipboard/20240622_210916.png" alt="20240622_210916.png" />
+</p>
+</div>
+
+<p>
+I think this has a lot of personality! I've seen other people observe that Llama 3 can recover after getting <a href="https://x.com/teortaxesTex/status/1782573352630050832">trapped out of distribution</a> which I think is maybe related here. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd93b6ed" class="outline-4">
+<h4 id="orgd93b6ed">Spending time "thinking"</h4>
+<div class="outline-text-4" id="text-orgd93b6ed">
+<p>
+This one also, where it took tokens to "think". I don't even think it got the answer correct here, but it's a very interesting behavior to see.
+</p>
+
+
+<div id="org89e74f7" class="figure">
+<p><img src="../images/from_clipboard/20240622_202111.png" alt="20240622_202111.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4963c8b" class="outline-3">
+<h3 id="org4963c8b">Mixtral-8x7b / Gemma-7b-it</h3>
+<div class="outline-text-3" id="text-org4963c8b">
+</div>
+<div id="outline-container-orgf878075" class="outline-4">
+<h4 id="orgf878075">Hallucinating Successful Tests</h4>
+<div class="outline-text-4" id="text-orgf878075">
+<p>
+These two models did this funny thing where they started to provide their own imagined results to the test cases in an attempt to confirm their own biases, which then flooded the context with confusing nonsense / rate limited the test.
+</p>
+
+
+<div id="orgd0aab8b" class="figure">
+<p><img src="../images/from_clipboard/20240622_230123.png" alt="20240622_230123.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org094ed9b" class="outline-3">
+<h3 id="org094ed9b">gpt-4-turbo</h3>
+<div class="outline-text-3" id="text-org094ed9b">
+<p>
+GPT-4-turbo did quite well on this task, at least for these examples. It would occasionally return results with weird uppercase/lowercase issues, which I thought was very unusual.
+</p>
+
+
+<div id="org754a2b4" class="figure">
+<p><img src="../images/from_clipboard/20240622_235707.png" alt="20240622_235707.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org15d085a" class="outline-3">
+<h3 id="org15d085a">gpt-3.5-turbo</h3>
+<div class="outline-text-3" id="text-org15d085a">
+<p>
+I had a lot of difficulty getting 3.5-turbo to follow instructions well enough to make serious attempts at most of the tests, even if I changed formatting things around for it. It was also often assume it had seen examples already, overall very unusual behaviors overall.
+</p>
+
+<p>
+I imagine it's probably possible to steer this model to a better result, but I'm not the guy for it, it seems.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org45d6ec5" class="outline-3">
+<h3 id="org45d6ec5">DeepSeek-V2-Chat</h3>
+<div class="outline-text-3" id="text-org45d6ec5">
+<p>
+DeepSeek-V2-Chat struggled with the equality cases despite testing for them, and very rarely added thoughts before the test cases unless there was some specific reason to do so. This was pretty harmful, I think, it would reuse tests a lot more than the other models would, and didn't seem to have any explicit reasoning behind a lot of it's choices. It would almost always dutifully use all of its available attempts, unless it seemed extremely confident.
+</p>
+
+<p>
+I imagine this model would probably more directly need to be paired with instructions deliberately forcing it to provide justifications for each move, since it seems hesitant to do so. I may rerun this test with that explicit instruction since otherwise it will not do so. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0988d06" class="outline-3">
+<h3 id="org0988d06">DeepSeek-V2-Coder</h3>
+<div class="outline-text-3" id="text-org0988d06">
+<p>
+DeepSeek-coder behaved really similar to DeepSeek-V2 as far as general behaviors go. One funny thing about this model is that it started outputting runaway whitespace before every test case, gradually more each time.
+</p>
+
+
+<div id="orgfa12abc" class="figure">
+<p><img src="../images/from_clipboard/20240623_003733.png" alt="20240623_003733.png" />
+</p>
+</div>
+
+<p>
+This model was funny overall. It would test the same things for the same stated reasons over and over again (e.g. all combinations of 1,2,3, over and over) and this would occasionally still result in the correct answer. It certainly saw minimal value in submitting a guess early. This model also did the thing mixtral did, and would occasionally hallucinate the answer to its tests. I feel like this model probably ought to have scored 7/10 &#x2013; on the last question it successfully identified that it's true when the middle value is the greatest regardless of the other two values, but then ran around in circles for 15 questions and confused itself. A slightly different mode of failure.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc1ae845" class="outline-2">
+<h2 id="orgc1ae845">Conclusions</h2>
+<div class="outline-text-2" id="text-orgc1ae845">
+<p>
+A very funny thing I'm noticing about all of these models is that a common point of failure for all of them is <a href="https://en.wikipedia.org/wiki/Occam%27s_razor">Occam's Razor</a>, and that I think a lot of them struggle to identify what "the simplest hypothesis that fits the data" means in the context of the observed data. I think there's a lot of noteworthy things here:
+</p>
+
+<p>
+First, I think that cracking this is going to be a really important capability if these models are supposed to be able to actually perform meaningful scientific tasks. I think doing productive work in the sciences is often about this sort of hypothesis rejection, and identifying this as a capability models specifically struggle with is a valuable barometer for how "intelligent" the models are.
+</p>
+
+<p>
+Second, I think that <i>vibe evals</i> are underrated in general. This was roughly 20-30 API calls each across 10 tests that produced an almost exactly expected full ordering of all the models I tried. You could argue this list could be shifted around based on better prompt engineering, more test examples, harder tests, easier tests, etc. But it's important to remember that this is a weekend project's worth of evaluation and not a full academic paper<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>. 
+</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Insofar as I can be considered not a "younger people", I suppose. This has been the fastest path for me to explain to a lot of people / new interns / etc that seeking to confirm hypotheses is an easy way to speedrun being wrong, and that good scientists will be paranoid almost to the point of obsession about proving themselves wrong when possible. I used to ask my employers to let me use this as an interview question but they shot me down thinking it would take too long.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+At least for now &#x2013; we will see how this idea holds up as I scale to more tests / if there's a way to make a model overfit to this benchmark, but I could see this becoming a paper. I could also see it having already been done before; I did not do an extensive lit review, like I mentioned this was just a not-too-dedicated weekend messing around a little bit with all the APIs.
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+</div>
+</body>
+</html>
