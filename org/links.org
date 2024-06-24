@@ -8,6 +8,20 @@ next month, and should be end up being in reverse chronological order
 *** June 2024
 **** Things I Made
      - [[https://planetbanatt.net/articles/deepseek.html][Understanding Modern LLMs via DeepSeek]] worked really hard on this for some reason
+     - [[https://planetbanatt.net/articles/wason.html][WILT: Wason Inductive Logic Test for LLMs]] this was cool, got to see a lot of the character of each of the models
+**** Things I Consumed
+     - [[https://research.character.ai/optimizing-inference/][Optimizing AI Inference at Character.AI]] MQA, longformer attention for 5/6 layers, [[https://arxiv.org/abs/2405.12981?ref=research.character.ai][sharing KV cache]] across multiple layers, inter-turn caching, int8 quantization. I have a negative opinion on how almost all of this interacts with performance but given that they are getting 20% of Google's request volume (???) I certainly see the value.
+     - [[https://blog.alexalemi.com/kl-is-all-you-need.html][KL is all you need]] KL Divergence can be framed as how quickly you can tell apart P and Q if P were true. Most objectives in ML can be reframed as minimizing this, where P is the real world and Q is our world model. This post rederives a bunch of common objectives starting from graphical models of the task and KL divergence between P and Q, very neat. "Simply draw an accurate causal model of the world, then augment it with anything you wish and finally draw a second diagram in the same random variables that corresponds to your marker of success. Take the KL between the two and you've got yourself a reasonable objective."
+     - [[https://github.com/google-research/tuning_playbook][Deep Learning Tuning Playbook]] start with stuff that works / hyperparams that are popular, have clear goals for experiments, use bayesian optimization tools after initial tests, optimize input pipeline, run eval at larger batch than training, save checkpoints often, etc. Lots of little tricks for bigger projects, worth revisiting. 
+     - [[http://www.topology.org/tex/conc/mathlearn.html][How to learn mathematics - the asterisk method]] waste little time on things you don't understand.
+     - [[https://www.anthropic.com/research/claude-character][Claude's Character]] Claude 3 has a phase in RLHF where it uses synthetic data and self-ratings to move itself towards a prewritten "character" that has some set of values. Wonder if this could be reproduced in a small model, details are scarce here since it's not a paper.
+     - [[https://moultano.wordpress.com/2023/06/28/the-many-ways-that-digital-minds-can-know/][The Many Ways that Digital Minds Can Know]] interesting thoughts on "integration vs coverage", analogies to search engines
+     - [[https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/][Neural Networks, Manifolds, and Topology]] wish I knew more topology
+     - [[https://github.com/google-research/google-research/blob/master/memory_efficient_attention/memory_efficient_attention.ipynb][Memory Efficient Attention: Attention does not need O(n^2) memory]] jax still confusing to me but straightforward that you can save memory by chunking the operation and combining everything.
+     - [[https://x.com/jacob_pfau/status/1801747928601510022][gpt-4o understands ascii art but can't read it]]
+     - [[https://x.com/alz_zyd_/status/1801707610158010842][Fashion Design High School student gets 12th at Alibaba Math Contest]] This seems insane
+     - [[https://x.com/nl3v_/status/1789491474188403148][quant rules of thumb for param size]] keep losing this
+     - [[https://x.com/airkatakana/status/1778732265436283217][RATTATA]] 
 *** May 2024
 **** Updates
      - *[[https://x.com/Ambisinister_/status/1792712314841637154][ITG Doubles 12 #1]]* This was so crazy
