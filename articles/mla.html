@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-07-25 Thu 20:28 -->
+<!-- 2024-07-26 Fri 11:59 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>On MLA</title>
@@ -164,17 +164,17 @@ Multi-head Latent Attention (MLA) is a variant of multi-head attention which was
 </p>
 
 <p>
-In comparison, MLA accomplishes this by using a low-rank factorized projection matrix, operating a bit like multi-query attention where instead of repeating a single head several times, you decompress a latent vector to yield a unique, appropriate KV for each particular head. DeepSeek claims this not only helps the memory overhead, but also <i>improves</i> the model rather than suffering for its inclusion. The basic idea is as follows:
+In comparison, MLA accomplishes this by using a low-rank factorized projection matrix, operating a bit like multi-query attention where instead of repeating a single head several times, you decompress a latent vector to yield a unique, appropriate corresponding K and V head for each Q head. DeepSeek claims this not only helps the memory overhead, but also <i>improves</i> the model rather than suffering for its inclusion. The basic idea is as follows:
 </p>
 
 <ol class="org-ol">
-<li>Replace the QKV computation by using low rank factorization to turn one matrix of dim \((in, out)\) to two matrices of \((in, rank)\) and \((rank, out)\).</li>
+<li>Replace the QKV computation by using low rank factorization to turn one matrix of dim \((in, out)\) to two matrices of \((in, rank)\) and \((rank, out)\)</li>
 <li>Project the compressed KV latent vector for each head to get the full K and V head corresponding to each Q head.</li>
 <li>Cache the compressed latent KV vector instead of each of the KV heads, and compute the KV heads on the fly from the latent vector.</li>
 </ol>
 
 <p>
-There is also an additional component of MLA which outlines <i>decoupled RoPE</i>. In this component, they make MLA compatible with RoPE by designating a specific part of each Q and K head to specifically carry RoPE, calculate this directly from the compressed KV vector, and then duplicate this across all Q and K heads to avoid each head redundantly learning the significance of position embeddings. For simplicity's sake, we start with a version which only uses the low-rank factorization, and then add this decoupled RoPE back in later. Code for this project can be found on <a href="https://github.com/ambisinister/mla-experiments">github</a>.
+There is also an additional component of MLA which outlines <i>decoupled RoPE</i>. In this component, they make MLA compatible with RoPE by extracting two types of "sub-heads" for Q and K from the compressed latent vectors: one which will not contain position encoding information, and one whose purpose is to carry RoPE. They stitch these "sub-heads" together to create full-sized heads, allowing a finer degree of control over how much of each head is responsible for position encoding information. For simplicity's sake, we start with a version which only uses the low-rank factorization, and then add this decoupled RoPE back in later. Code for this project can be found on <a href="https://github.com/ambisinister/mla-experiments">github</a>.
 </p>
 </div>
 
@@ -182,7 +182,7 @@ There is also an additional component of MLA which outlines <i>decoupled RoPE</i
 <h2 id="orge7c8cef">Why Low-Rank Factorization?</h2>
 <div class="outline-text-2" id="text-orge7c8cef">
 <p>
-Using two matrices instead of one, in theory, has some tradeoffs. The practice of factorizing a matrix (in this case the Q and KV matrices) into a product of matrices (in this case the compression and decompression matrices) is called <i>matrix decomposition</i>. The case here, where we are decomposing a matrix \((a, b)\) into two matrices \((a, r)\), \((r, b)\), is called <i>rank factorization</i>. A matrix of any shape can be decomposed into two matrices this way, but the lower the value of \(r\) the lower the space of possible matrices that can be perfectly reconstructed.
+Using two matrices instead of one, in theory, has some tradeoffs. The practice of factorizing a matrix (in this case the Q and KV matrices) into a product of matrices (in this case the compression and decompression matrices) is called <i>matrix decomposition</i>. The case here, where we are decomposing a matrix \((a, b)\) into two matrices \((a, r)\), \((r, b)\), is called <i>rank factorization</i>. A matrix of any shape can be decomposed into two matrices this way, but the lower the value of \(r\) the smaller the space of possible matrices that can be perfectly reconstructed<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>.
 </p>
 
 <div style="display: flex; justify-content: center; padding: 2em 0;">
@@ -193,7 +193,7 @@ Using two matrices instead of one, in theory, has some tradeoffs. The practice o
 </div>
 
 <p>
-When using low-rank factorization for layers in a neural network, the good things are that the compressed matrices use fewer parameters<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>, and are somewhat more expressive (by virtue of having two layers sometimes separated by a nonlinearity like a layernorm or activation). They can end up roughly approximate or equivalent to one larger matrix, so in theory you could multiply the weights of these matrices together to retrieve an approximation of your original matrix.
+When using low-rank factorization for layers in a neural network, the good things are that the compressed matrices use fewer parameters<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>, and are somewhat more expressive (by virtue of having two layers sometimes separated by a nonlinearity like a layernorm or activation). They can end up roughly approximate or equivalent to one larger matrix, so in theory you could multiply the weights of these matrices together to retrieve an approximation of your original matrix.
 </p>
 
 <p>
@@ -209,7 +209,7 @@ In our case, we are hoping that we can preserve the functionality of \(W_{qkv}\)
 <h3 id="org8f21af5">Aside: Perturbations in Low-Rank Decomposition</h3>
 <div class="outline-text-3" id="text-org8f21af5">
 <p>
-When we apply gradient updates to these decomposed matrices, it's mathematically a little different from perturbing the full size matrix. Specifically, when you make a gradient update perturbation to the decomposed matrix, their composition will remain of rank \(r\) no matter what &#x2013; you are only able to travel from rank \(r\) matrix to rank \(r\) matrix, and this is immutable because of the shape of the matrices. This contrasts with a regular, non-decomposed matrix, where our perturbation can move us in any direction, even if that increases the rank.
+When we apply gradient updates to these decomposed matrices, it's mathematically a little different from perturbing the full size matrix. Specifically, when you make a gradient update perturbation to the decomposed matrix, their composition will remain of rank \(r\) no matter what &#x2013; you are only able to travel from rank \(r\) matrix to rank \(r\) matrix, and this is immutable because of the shape of the matrices. This contrasts with a regular, non-decomposed matrix, where our perturbation can move us in any direction, even if that increases the rank. To be a little more precise, if you have a rank \(r\) \((n, n)\) matrix, and you assume a uniform distribution of possible perturbation directions, applying a randomly sampled perturbation will turn your matrix from rank \(r\) to rank \(n\) with probability 1<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>. This is really different behavior! It's useful to spend some time thinking about what perturbations inside the low-rank decomposition space actually do. 
 </p>
 
 <p>
@@ -217,7 +217,7 @@ In this case, are creating a <i>manifold</i> inside the space of all matrices. I
 </p>
 
 <p>
-<img src="../images/mla/manifold_perturbation.png" alt="manifold_perturbation.png" /><sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>
+<img src="../images/mla/manifold_perturbation.png" alt="manifold_perturbation.png" /><sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>
 </p>
 
 <p>
@@ -243,11 +243,11 @@ It would be much preferable if we could just input the most recent token and the
 </p>
 
 <p>
-<img src="../images/mla/kv_cache.png" alt="kv_cache.png" /><sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>
+<img src="../images/mla/kv_cache.png" alt="kv_cache.png" /><sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>
 </p>
 
 <p>
-Scaling these models to very large sizes with very large context windows means that the subsequent KV cache will be prohibitively large, making scaling while maintaining this KV caching strategy prohibitively expensive. To tackle this newly emerged problem, many have proposed variants to the original Multi-head attention formulation.
+Scaling these models to very large sizes with very large context windows means that the subsequent KV cache will be prohibitively large, making scaling while maintaining this KV caching strategy prohibitively expensive. To tackle this newly emerged problem, many have proposed variants to the original multi-head attention formulation.
 </p>
 </div>
 </div>
@@ -256,15 +256,15 @@ Scaling these models to very large sizes with very large context windows means t
 <h3 id="org3997496">MHA Variants</h3>
 <div class="outline-text-3" id="text-org3997496">
 <p>
-There are many MHA variants which use fewer K and V heads in an attempt to reduce the size of the KV cache. The most prominent of these are Multi-Query Attention<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> (MQA), which uses a single shared K head and V head for each attention computation, and Grouped-Query Attention<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup> (GQA), which uses a number of heads greater than 1 and less than the number of Q heads, and makes adjacent Q heads share the same K and V heads. Both of these reduce the KV cache burden by explicitly reducing the amount of performed computation altogether, which makes them common staples in architecture design. However, all of these explicitly underperform regular multi-head attention, and their use in large language models can be thought of as acknowledging an explicit performance tradeoff in exchange for their caching benefits.
+There are many MHA variants which use fewer K and V heads in an attempt to reduce the size of the KV cache. The most prominent of these are Multi-Query Attention<sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></sup> (MQA), which uses a single shared K head and V head for each attention computation, and Grouped-Query Attention<sup><a id="fnr.8" class="footref" href="#fn.8" role="doc-backlink">8</a></sup> (GQA), which uses a number of heads greater than 1 and less than the number of Q heads, and makes adjacent Q heads share the same K and V heads. Both of these reduce the KV cache burden by explicitly reducing the amount of performed computation altogether, which makes them common staples in architecture design. However, all of these explicitly underperform regular multi-head attention, and their use in large language models can be thought of as acknowledging an explicit performance tradeoff in exchange for their caching benefits.
 </p>
 
 <p>
-In comparison, Multi-head Latent Attention<sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></sup> (MLA) is an attention variant introduced by the DeepSeek-V2 paper. Rather than reducing the number of heads, MLA will instead replace the \(W_{KV}\) matrix with a low-rank matrix decomposition which first compresses down to a latent KV vector, caches that instead, and then decompresses back up to a full-size K and V. This allows it, in theory, to enjoy the benefits of the full expressive power of distinct K and V heads for each Q head, while compressing the KV cache to a similar degree as MQA. 
+In comparison, Multi-head Latent Attention<sup><a id="fnr.9" class="footref" href="#fn.9" role="doc-backlink">9</a></sup> (MLA) is an attention variant introduced by the DeepSeek-V2 paper. Rather than reducing the number of heads, MLA will instead replace the \(W_{KV}\) matrix with a low-rank matrix decomposition which first compresses down to a latent KV vector, caches that instead, and then decompresses back up to a full-size K and V. This allows it, in theory, to enjoy the benefits of the full expressive power of distinct K and V heads for each Q head, while compressing the KV cache to a similar degree as MQA. 
 </p>
 
 <p>
-MLA is comparatively very understudied. Some work exists for exploring the properties of MLA, but a lot of it is Chinese-language blogs<sup><a id="fnr.8" class="footref" href="#fn.8" role="doc-backlink">8</a></sup>. The hope with this work is a straightforward, pedagogical implementation of MLA to aid in understanding the costs and benefits.
+MLA is comparatively very understudied. Some work exists for exploring the properties of MLA, but a lot of it is Chinese-language blogs<sup><a id="fnr.10" class="footref" href="#fn.10" role="doc-backlink">10</a></sup>. The hope with this work is a straightforward, pedagogical implementation of MLA to aid in understanding the costs and benefits.
 </p>
 </div>
 </div>
@@ -307,7 +307,7 @@ Where q and k are the q and k heads of shape \((B, n_{heads}, S, dim_{head})\), 
 </p>
 
 <p>
-Compared to standard position encodings, RoPE is extremely powerful. However, in MLA our KV vector is compressed, which means our K heads are inaccessible at the time we would want to apply RoPE to them<sup><a id="fnr.9" class="footref" href="#fn.9" role="doc-backlink">9</a></sup>. Because RoPE is <i>so powerful</i>, we need to take extra steps to figure out a way to make them compatible with the otherwise straightforward MLA mechanism, otherwise even outperforming normal MHA will be of minimal benefit.
+Compared to standard position encodings, RoPE is extremely powerful. However, in MLA our KV vector is compressed, which means our K heads are inaccessible at the time we would want to apply RoPE to them<sup><a id="fnr.11" class="footref" href="#fn.11" role="doc-backlink">11</a></sup>. Because RoPE is <i>so powerful</i>, we need to take extra steps to figure out a way to make it compatible with the otherwise straightforward MLA mechanism, otherwise even outperforming normal MHA will be of minimal benefit.
 </p>
 
 <div style="display: flex; justify-content: center; padding: 2em 0;">
@@ -318,7 +318,7 @@ Compared to standard position encodings, RoPE is extremely powerful. However, in
 </div>
 
 <p>
-Luckily, MLA uniquely offers us an interesting trick. In the RoPE-less case, we just compress down and decompress back up from and to full size. However, theoretically this need not be the case. For example, consider the case where you have a head dimension of 128. You can project up such that your "heads" are instead a head dimension of 64. Simultaneously, you can extract a chunk of Q and K from the compressed vector whose purpose is to carry the RoPE position encodings, also of size 64, and apply RoPE just to those "heads". Then you can concat a copy of this to each of our shrunken heads in order to arrive back at our original head dimension of 128, with a specific part of each head designated for positioning vs non-positioning information. In this case, we save some parameters decompressing up to a smaller size, and we can reuse the same position-encoded RoPE Q and K for each head, saving some redundant computation.
+Luckily, MLA uniquely offers us an interesting trick. In the RoPE-less case, we just compress down and decompress back up from and to full size. However, theoretically this need not be the case. For example, consider the case where you have a head dimension of 128. You can project up such that your "heads" are instead a head dimension of 64. Simultaneously, you can extract a chunk of Q and K from the compressed vectors whose purpose is to carry the RoPE position encodings, also of size 64, and apply RoPE just to those "heads". Then you can concatenate these two types of heads together in order to arrive back at our original head dimension of 128, with a specific part of each head designated for positioning vs non-positioning information. In this case, we save some parameters decompressing up to a smaller size, and we can reuse the same position-encoded RoPE K for each head, saving some redundant computation<sup><a id="fnr.12" class="footref" href="#fn.12" role="doc-backlink">12</a></sup>.
 </p>
 
 <p>
@@ -460,37 +460,37 @@ We also see below our training curves for each of these experiments, which seem 
 </p>
 
 
-<div id="orgc2a1370" class="figure">
+<div id="org5d752b2" class="figure">
 <p><img src="../images/mla/mha_rope_training_curve.png" alt="mha_rope_training_curve.png" />
 </p>
 </div>
 
 
-<div id="orgdd5cacd" class="figure">
+<div id="org95078c0" class="figure">
 <p><img src="../images/mla/mla_rope_training_curve.png" alt="mla_rope_training_curve.png" />
 </p>
 </div>
 
 
-<div id="orga106258" class="figure">
+<div id="orgc99190b" class="figure">
 <p><img src="../images/mla/mqa_rope_training_curve.png" alt="mqa_rope_training_curve.png" />
 </p>
 </div>
 
 
-<div id="org0e39f34" class="figure">
+<div id="orgf9713ba" class="figure">
 <p><img src="../images/mla/mla_training_curve.png" alt="mla_training_curve.png" />
 </p>
 </div>
 
 
-<div id="org5c41ba8" class="figure">
+<div id="org821f6f7" class="figure">
 <p><img src="../images/mla/mha_training_curve.png" alt="mha_training_curve.png" />
 </p>
 </div>
 
 
-<div id="org309ad1d" class="figure">
+<div id="org6665e12" class="figure">
 <p><img src="../images/mla/mqa_training_curve.png" alt="mqa_training_curve.png" />
 </p>
 </div>
@@ -538,7 +538,7 @@ Below we scale the above experiment to a ~300M parameter model.
 </table>
 
 <p>
-An interesting artifact of storing the intermediate kv vector is that this will reduce the KV cache burden even if this operation does not necessarily constitute compression. With no RoPE, at a kv<sub>proj</sub><sub>dim</sub> \(r = \frac{2}{3d_{model}}\), two layers \((X, r) \rightarrow (r, 2X)\) have the same number of parameters as one layer \((X, 2X)\), and likewise \(r = 0.5 d_{model}\) for q<sub>proj</sub><sub>dim</sub>. What this means is that these two models will have equal parameter counts, and these two matrices can be multiplied together to yield a matrix which is the same size as the original \(W_{kv}\) matrix. <i>Despite that</i>, you can still store the intermediate vector of \((B, len_k, 0.33 d_{model})\) instead of the resulting vector of \((B, len_k, d_{model})\), which constitutes a 66% reduction in KV cache burden without the need for any compression<sup><a id="fnr.10" class="footref" href="#fn.10" role="doc-backlink">10</a></sup>.
+An interesting artifact of storing the intermediate kv vector is that this will reduce the KV cache burden even if this operation does not necessarily constitute compression. With no RoPE, at a kv<sub>proj</sub><sub>dim</sub> \(r = \frac{2}{3d_{model}}\), two layers \((X, r) \rightarrow (r, 2X)\) have the same number of parameters as one layer \((X, 2X)\), and likewise \(r = 0.5 d_{model}\) for q<sub>proj</sub><sub>dim</sub>. What this means is that these two models will have equal parameter counts, and these two matrices can be multiplied together to yield a matrix which is the same size as the original \(W_{kv}\) matrix. <i>Despite that</i>, you can still store the intermediate vector of \((B, len_k, 0.33 d_{model})\) instead of the resulting vector of \((B, len_k, d_{model})\), which constitutes a 66% reduction in KV cache burden without the need for any compression<sup><a id="fnr.13" class="footref" href="#fn.13" role="doc-backlink">13</a></sup>.
 </p>
 
 <p>
@@ -563,13 +563,13 @@ You may ask: how different is the performance between compressed caching and ful
 </p>
 
 
-<div id="org6abcd29" class="figure">
+<div id="org3a09d0c" class="figure">
 <p><img src="../images/mla/inference_100_in.png" alt="inference_100_in.png" />
 </p>
 </div>
 
 
-<div id="org7ce7e78" class="figure">
+<div id="org6ed04f7" class="figure">
 <p><img src="../images/mla/inference_100_out.png" alt="inference_100_out.png" />
 </p>
 </div>
@@ -609,7 +609,7 @@ Overall, MLA's claimed equivalent-or-superior performance over MHA from the Deep
 <li>The superior performance of MLA could potentially shine at larger scales, where both the model and the input sequences are much larger. It's possible our modest experiments are a poor environment for illustrating the gap between these methods.</li>
 <li>MHA and MLA could perform differently when dealing with actual measured capabilities, rather than simply training data perplexity &#x2013; it could be that perplexity values do not capture how well the representations learned by these models could be transformed into downstream capabilities, which are all that was reported in the original DeepSeek-V2 paper.</li>
 <li>MLA may be extra synergistic with DeepSeek-V2's Mixture-of-Experts architecture, rather than being a general improvement.</li>
-<li>Small implementation details could be affecting performance. Neural networks want to work<sup><a id="fnr.11" class="footref" href="#fn.11" role="doc-backlink">11</a></sup>, and often fail silently by working slightly less well &#x2013; the close performance between MLA and MHA could be more impressive than it seems.</li>
+<li>Small implementation details could be affecting performance. Neural networks want to work<sup><a id="fnr.14" class="footref" href="#fn.14" role="doc-backlink">14</a></sup>, and often fail silently by working slightly less well &#x2013; the close performance between MLA and MHA could be more impressive than it seems.</li>
 </ol>
 
 <p>
@@ -671,42 +671,54 @@ Fighting through understanding RoPE led me to learn about <a href="https://discu
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-For our toy 8 layer model it's (1536(5120 + 24576) &lt; 5120 * 24576)) or (4.5e7 vs 1.2e8) for each example.
+More clearly: a matrix can be perfectly decomposed / reconstructed from a low-rank factorization of rank \(r\) if the <a href="https://en.wikipedia.org/wiki/Rank_(linear_algebra)">rank</a> of the matrix is \(r\) or lower. This is an alternative definition for the concept of rank, called <a href="https://en.wikipedia.org/wiki/Rank_(linear_algebra)#Decomposition_rank">decomposition rank</a>. 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-Figure source: <a href="https://x.com/anne_churchland/status/1147499753535619073/photo/1">https://x.com/anne_churchland/status/1147499753535619073/photo/1</a>, which saved me the trouble of poorly drawing this exact drawing.
+In practice, that is. The comparison here is just \(ar + br < ab\) which is true for any value of \(r\) such that \(r < \frac{ab}{a+b}\), which is most cases you would be using this in a neural network.
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-Figure source: <a href="https://developer.nvidia.com/blog/mastering-llm-techniques-inference-optimization/">https://developer.nvidia.com/blog/mastering-llm-techniques-inference-optimization/</a>
+Because rank \(r\) matrices form a <a href="https://en.wikipedia.org/wiki/Null_set">measure zero subset</a> for each \(r\), so picking a matrix "at random" will be rank \(n\) with probability 1. If you have a large enough (non-infinitesimal) perturbation these are pretty much the same.
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-<a href="https://arxiv.org/pdf/1911.02150">https://arxiv.org/pdf/1911.02150</a> 
+Figure source: <a href="https://x.com/anne_churchland/status/1147499753535619073/photo/1">https://x.com/anne_churchland/status/1147499753535619073/photo/1</a>, which saved me the trouble of poorly drawing this exact drawing.
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6" role="doc-backlink">6</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-<a href="https://arxiv.org/pdf/2305.13245">https://arxiv.org/pdf/2305.13245</a> 
+Figure source: <a href="https://developer.nvidia.com/blog/mastering-llm-techniques-inference-optimization/">https://developer.nvidia.com/blog/mastering-llm-techniques-inference-optimization/</a>
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.7" class="footnum" href="#fnr.7" role="doc-backlink">7</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-<a href="https://arxiv.org/abs/2405.04434">https://arxiv.org/abs/2405.04434</a>
+<a href="https://arxiv.org/pdf/1911.02150">https://arxiv.org/pdf/1911.02150</a> 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.8" class="footnum" href="#fnr.8" role="doc-backlink">8</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-<a href="https://github.com/madsys-dev/deepseekv2-profile/blob/924174cb5dc11fad24bdaad3fd820ebf87506368/workspace/blog/optimizing-mla.md">https://github.com/madsys-dev/deepseekv2-profile/blob/924174cb5dc11fad24bdaad3fd820ebf87506368/workspace/blog/optimizing-mla.md</a> 
+<a href="https://arxiv.org/pdf/2305.13245">https://arxiv.org/pdf/2305.13245</a> 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.9" class="footnum" href="#fnr.9" role="doc-backlink">9</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-Based on our implementation, you might ask why we can't just uncompress the KV vector to full size and then apply RoPE to it. The reason is because during inference, DeepSeek-V2 absorbs the uncompression matrix into the matrix which follows it, because there's no intermediate nonlinearity preventing us from doing so. This is a speedup, but it motivates the need for RoPE applied from the compressed vectors.
+<a href="https://arxiv.org/abs/2405.04434">https://arxiv.org/abs/2405.04434</a>
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.10" class="footnum" href="#fnr.10" role="doc-backlink">10</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-It's possible that you could compress this much, much further and see minimal loss in performance, but this was satisfactory for me as far as this post goes, to demonstrate that it works fairly well.
+<a href="https://github.com/madsys-dev/deepseekv2-profile/blob/924174cb5dc11fad24bdaad3fd820ebf87506368/workspace/blog/optimizing-mla.md">https://github.com/madsys-dev/deepseekv2-profile/blob/924174cb5dc11fad24bdaad3fd820ebf87506368/workspace/blog/optimizing-mla.md</a> 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.11" class="footnum" href="#fnr.11" role="doc-backlink">11</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Based on our implementation, you might ask why we can't just uncompress the KV vector to full size and then apply RoPE to it. The reason is because during inference, DeepSeek-V2 absorbs the uncompression matrix into the matrix which follows it, because there's no intermediate nonlinearity preventing us from doing so. This is a speedup, but it motivates the need for RoPE applied from the compressed vectors.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.12" class="footnum" href="#fnr.12" role="doc-backlink">12</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Subtle but worth noting here is that each Q head gets it's own little section to apply RoPE to, but the RoPE part of the K heads is just a single sub-head which is copied and concatenated to every K head, MQA-style. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.13" class="footnum" href="#fnr.13" role="doc-backlink">13</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+It's possible that you could compress this much, much further and see minimal loss in performance, but this was satisfactory for me as far as this post goes, to demonstrate that it works fairly well.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.14" class="footnum" href="#fnr.14" role="doc-backlink">14</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 I've seen this referred to as Karpathy's Law <a href="https://karpathy.github.io/2019/04/25/recipe/">https://karpathy.github.io/2019/04/25/recipe/</a> 
 </p></div></div>
 
