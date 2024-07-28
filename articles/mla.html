@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-07-26 Fri 11:59 -->
+<!-- 2024-07-27 Sat 22:47 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>On MLA</title>
@@ -322,7 +322,7 @@ Luckily, MLA uniquely offers us an interesting trick. In the RoPE-less case, we 
 </p>
 
 <p>
-It's unclear if a decoupled RoPE strategy would make sense for normal vanilla MHA &#x2013; future work here remains to be done.
+In principle, it is possible to do this type of decoupling for vanilla multi-head attention as well. This would allow us a similar degree of control over which parts of the heads are responsible for RoPE, although it lacks the advantage of extracting this component from the full compressed vectors, so it's likely that this would underperform compared to using this same strategy in MLA.
 </p>
 </div>
 </div>
@@ -370,6 +370,10 @@ We use a sequence length of 1024, and a batch size of 12. For all models we trai
 <div class="outline-text-3" id="text-org383698e">
 <p>
 With experiment 1 in mind, we re-introduce Rotary Position Embeddings (RoPE) for MLA, MQA, and MHA. RoPE yields substantial performance gains in most language modeling tasks, and the important ablation from experiment 1 will tell us a substantial degree about why MLA performs the way it does. 
+</p>
+
+<p>
+In addition, we implement a variant of MHA which uses a decoupled RoPE strategy, similar in spirit to the strategy used by MLA. Hopefully, we can use this as evidence to determine if the decoupled RoPE strategy is a completely superior strategy for applying RoPE to attention mechanisms, or if the usefulness of this strategy depends on the vectors being compressed first.
 </p>
 </div>
 </div>
@@ -426,6 +430,12 @@ Likewise, we invert the previous test and use a variable prompt of between 20 an
 </tr>
 
 <tr>
+<td class="org-left">MHA 35M Decoupled RoPE</td>
+<td class="org-right">98.76</td>
+<td class="org-right">8192</td>
+</tr>
+
+<tr>
 <td class="org-left">MQA 32M RoPE</td>
 <td class="org-right">102.18</td>
 <td class="org-right">512</td>
@@ -452,7 +462,7 @@ Likewise, we invert the previous test and use a variable prompt of between 20 an
 </table>
 
 <p>
-In the above table we see training perplexity results for experiments 1 and 2 (lower is better). Specifically, we see slightly better results for MLA in the case where no RoPE embeddings are used. In the case where we use RoPE, there's a bit of additional parameter search necessary, but the results are pretty similar to MHA despite KV cache reduction.
+In the above table we see training perplexity results for experiments 1 and 2 (lower is better). Specifically, we see slightly better results for MLA in the case where no RoPE embeddings are used. In the case where we use RoPE, there's a bit of additional parameter search necessary, so MHA outperforms MLA. However, the results are pretty similar to MHA despite KV cache reduction. Notably, we see MHA decoupled RoPE underperforming MLA (and MHA with normal RoPE), which suggests that the combination of matrix decompositions and decoupling RoPE has an advantage over simply decoupling RoPE (and harms normal MHA).
 </p>
 
 <p>
@@ -460,37 +470,43 @@ We also see below our training curves for each of these experiments, which seem 
 </p>
 
 
-<div id="org5d752b2" class="figure">
+<div id="orgf0b88ce" class="figure">
 <p><img src="../images/mla/mha_rope_training_curve.png" alt="mha_rope_training_curve.png" />
 </p>
 </div>
 
 
-<div id="org95078c0" class="figure">
+<div id="org19cbc94" class="figure">
 <p><img src="../images/mla/mla_rope_training_curve.png" alt="mla_rope_training_curve.png" />
 </p>
 </div>
 
 
-<div id="orgc99190b" class="figure">
+<div id="orgf1f5216" class="figure">
+<p><img src="../images/mla/mha_decoupled_rope_training_curve.png" alt="mha_decoupled_rope_training_curve.png" />
+</p>
+</div>
+
+
+<div id="org75a2470" class="figure">
 <p><img src="../images/mla/mqa_rope_training_curve.png" alt="mqa_rope_training_curve.png" />
 </p>
 </div>
 
 
-<div id="orgf9713ba" class="figure">
+<div id="org498d7bd" class="figure">
 <p><img src="../images/mla/mla_training_curve.png" alt="mla_training_curve.png" />
 </p>
 </div>
 
 
-<div id="org821f6f7" class="figure">
+<div id="orgbe6c5a9" class="figure">
 <p><img src="../images/mla/mha_training_curve.png" alt="mha_training_curve.png" />
 </p>
 </div>
 
 
-<div id="org6665e12" class="figure">
+<div id="org94123c9" class="figure">
 <p><img src="../images/mla/mqa_training_curve.png" alt="mqa_training_curve.png" />
 </p>
 </div>
@@ -563,13 +579,13 @@ You may ask: how different is the performance between compressed caching and ful
 </p>
 
 
-<div id="org3a09d0c" class="figure">
+<div id="orgfcb3b38" class="figure">
 <p><img src="../images/mla/inference_100_in.png" alt="inference_100_in.png" />
 </p>
 </div>
 
 
-<div id="org6ed04f7" class="figure">
+<div id="orgbba4219" class="figure">
 <p><img src="../images/mla/inference_100_out.png" alt="inference_100_out.png" />
 </p>
 </div>
