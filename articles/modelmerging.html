@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-07-31 Wed 16:39 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Model Merging</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="./css/default_20240614.css" />
+<link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<h1 class="title">Model Merging</h1>
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org8ed27b3">Model Merging and You</a>
+<ul>
+<li><a href="#orgbb3bd15">Actually Doing The Merging</a></li>
+<li><a href="#org48ae10a">Papers</a></li>
+<li><a href="#org9bba2ea">Convergent Learning: Do Different Neural Networks Learn the Same Representations?</a></li>
+<li><a href="#org82f9a08">(SLERP) Sampling Generative Networks</a></li>
+<li><a href="#org7742a88">Model Soups: averaging weights of multiple fine-tuned models improves accuracy without increasing inference time</a></li>
+<li><a href="#org35bb97b"><span class="todo TODO">TODO</span> Merging Models with Fisher-Weighted Averaging</a></li>
+<li><a href="#org70f8b25">Editing Models with Task Arithmetic</a></li>
+<li><a href="#orgfdaf940">TIES-MERGING</a></li>
+<li><a href="#orga3478e5"><span class="todo TODO">TODO</span> (DARE) Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch</a></li>
+<li><a href="#org3120d32">Evolutionary Optimization of Model Merging Recipes</a></li>
+<li><a href="#orgbc78e10">Appendix: Other Papers</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8ed27b3" class="outline-1">
+<h1 id="org8ed27b3">Model Merging and You</h1>
+<div class="outline-text-1" id="text-org8ed27b3">
+<p>
+Model Merging is a weird and experimental technique which lets you take two models and combine them together to get a new model. This is primarily used in Large Language Models, where the likely convergent representations allow this technique to work somewhat better than you might expect, given the concept. Model merging techniques are interesting since they allow researchers to create new models which are somehow performant in new ways despite not doing any additional training. I think this is really weird, so I need to know about it.
+</p>
+
+<p>
+There is some work applying these sorts of merges to vision models, too, like Stable Diffusion. People will often train several adapters (e.g. one for style, one for subject, etc) and then combine them all upon the base model to get something which is performant on all the sub-tasks that were trained. We are going to read a lot of papers and try to get some sense for why this works. 
+</p>
+
+<p>
+There are many good <a href="https://huggingface.co/blog/mlabonne/merge-models">resources</a> out there for understanding how to apply mergekit to large language models. I am interested in building some intuition upon how and why these methods work, and specifically if there's any room for applying these techniques to other types of models, or other problems.
+</p>
+</div>
+
+<div id="outline-container-orgbb3bd15" class="outline-2">
+<h2 id="orgbb3bd15">Actually Doing The Merging</h2>
+<div class="outline-text-2" id="text-orgbb3bd15">
+<p>
+<a href="https://github.com/arcee-ai/mergekit?tab=readme-ov-file#merge-methods">mergekit</a> is popular for this. It has a bunch of different methods.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org48ae10a" class="outline-2">
+<h2 id="org48ae10a">Papers</h2>
+<div class="outline-text-2" id="text-org48ae10a">
+<p>
+<a href="https://huggingface.co/collections/osanseviero/model-merging-65097893623330a3a51ead66">Model Merging Collections</a>
+</p>
+
+<p>
+Here's a <a href="https://arxiv.org/pdf/2309.15698">survey paper</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9bba2ea" class="outline-2">
+<h2 id="org9bba2ea">Convergent Learning: Do Different Neural Networks Learn the Same Representations?</h2>
+<div class="outline-text-2" id="text-org9bba2ea">
+<p>
+Paper can be found <a href="https://arxiv.org/abs/1511.07543">here</a>. This is an old paper from 2016, but we're starting with it because it was an early paper which explored the idea that two independent networks trained on similar data could converge upon similar features, even if they happen to be permuted.
+</p>
+
+<p>
+This paper trained a number of AlexNet models on ImageNet data, and then compared how similar the filters were to the closest matches in the corresponding other model. They make 5 main observations:
+</p>
+
+<ol class="org-ol">
+<li>The core representation is the same, but rare features sometimes appear in one model and not the other.</li>
+<li>One-to-one alignment of neurons holds even if you use different measures of similarity (i.e. it's not some weird artifact of the metric)</li>
+<li>We can create a transformation which converts one model's representation into the other's (!!!)</li>
+<li>We can see many-to-many mappings between clusters of neurons as well, on top of just at the neuron level</li>
+<li>The activation statistics between matching neurons are mostly similar as well</li>
+</ol>
+
+<p>
+To run these experiments, they do multiple training runs with the same architecture on the same data. This makes it pretty likely that the features it would learn would be roughly the same, but in different spots due to random initialization. They then use bipartite semi-matching<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> to pair each filter with it's most likely counterpart in the network. A good number of these are almost perfect matches, but the worst matches suggest that each network has some set of "rare features" that it learned, departing from the other network<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>. 
+</p>
+
+
+<div id="org8be5860" class="figure">
+<p><img src="../images/from_clipboard/20240731_101104.png" alt="20240731_101104.png" />
+</p>
+</div>
+
+<p>
+To really show how the two are related, they learn a single "mapping" layer (a LASSO model, with an L1 penalty) which will predict one network's representation when provided the other. They can use the sparse prediction loss for this layer as a metric for how similar the representations are (i.e. if the loss is very low, the representations are likely to be more like a permutation, but if it's high there's probably lots of different features which don't match). 
+</p>
+
+
+<div id="orgd5d004c" class="figure">
+<p><img src="../images/from_clipboard/20240731_102448.png" alt="20240731_102448.png" />
+</p>
+</div>
+
+<p>
+There's some good discussion here about <i>local</i> vs <i>distributed</i> representations, i.e. ones which can be directly matched one-to-one and ones which are still easy to predict by the mapping layer despite not mapping one-to-one. The result here is interesting because it suggests a pretty high degree of local mapping, suggesting that the neurons are learning important specific vectors individually rather than just being a collection of essentially random basis vectors which describe some specific subspace<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>. 
+</p>
+
+<p>
+Okay: how does this help us with model merging? Here's some takeaways:
+</p>
+
+<ul class="org-ul">
+<li>Similar features learned between networks trained on similar / the same task</li>
+<li>Possible to create a mapping transforming one model's representation to the other's</li>
+<li>From the future work section: "Model Combination: Can multipled models be combined by concatenating their featurs, deleting those with high overlap, and then fine-tuning?"</li>
+</ul>
+
+<p>
+Also probably the biggest takeaway: these models are start from unique initializations, and as a result of the random initialization they don't share the same initial optimization trajectories, meaning all of these shared features are somewhere in the model but in a random arrangement. If we finetune some sort of source model and then "break off" from there, it's really likely that the features are all going to be in the same spots, with the differences then being about the subsequent differences from different data / hyperparameters / whatever. Indeed this was exactly what was later shown in <a href="https://arxiv.org/pdf/1912.05671">Linear Mode Connectivity and the Lottery Ticket Hypothesis</a>. This informs a lot of the methods which follow from here!
+</p>
+</div>
+</div>
+
+<div id="outline-container-org82f9a08" class="outline-2">
+<h2 id="org82f9a08">(SLERP) Sampling Generative Networks</h2>
+<div class="outline-text-2" id="text-org82f9a08">
+<p>
+Paper can be found <a href="https://arxiv.org/pdf/1609.04468">here</a>. This paper is also an older one, from 2016.
+</p>
+
+<p>
+This paper is specifically about sampling from generative networks, but the core idea of the paper was later applied to model merging. Say you want to sample between two points from a generative model (e.g. interpolate between a human and a tiger). One naive thing you could do is simple linear interpolation, where you take the weights which generated the first image, the weights that generated the second image, and take a straight line between these two points and sample along the way at regular intervals. This will, in principle, get you a series of images which start and end with your images.
+</p>
+
+<p>
+However, latent spaces are high dimensional, and traveling along linear paths like this are extremely unlikely given the gaussian / uniform priors these models typically have. What would be better if you could interpolate along the <a href="https://en.wikipedia.org/wiki/Geodesic">geodesic</a> in that high-dimensional space, which is more in line with what you want (a "straight line" between both points &#x2013; in a curved space this isn't a linear interpolation).
+</p>
+
+<p>
+They propose using <i>SLERP</i>, which is a spherical linear interpolation along an n-dimensional hypersphere. This seems to do better.
+</p>
+
+
+<div id="orgdd82490" class="figure">
+<p><img src="../images/from_clipboard/20240731_110449.png" alt="20240731_110449.png" />
+</p>
+</div>
+
+<p>
+Stable Diffusion finetunes are commonly SLERPed together like this &#x2013; often the more popular models aren't base model but rather models with a bunch of these community finetunes SLERPED on top of each other in the weight space<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7742a88" class="outline-2">
+<h2 id="org7742a88">Model Soups: averaging weights of multiple fine-tuned models improves accuracy without increasing inference time</h2>
+<div class="outline-text-2" id="text-org7742a88">
+<p>
+Paper can be found <a href="https://arxiv.org/abs/2203.05482">here</a>. This paper is from 2022, and was one of the early modern "model merging" works<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>.
+</p>
+
+<p>
+The core idea here is that if instead of selecting the best-performing model training run, or making an ensemble from all the trained models, we can just literally average together the weights and get the benefits of an ensemble with only one model's worth of inference and memory costs. This is a pretty interesting result: the averaged weights of multiple models yield a model which outperforms any individual model! They used this to break state-of-the-art on ImageNet. Core to this is that they're all the same architecture and trained on the same data (just with varying hyperparameters).
+</p>
+
+<p>
+A lot of this relies on an <a href="https://arxiv.org/pdf/2008.11687">earlier result</a> which showed that "fine-tuned models optimized independently from the same pre-trained initialization lie in the same basin of the error landscape". There was also some earlier work averaging the weights of a single model along a single training run (maintaining a sort of moving average), but this work extended it to combining several models trained independently. They actually show this in figure 2 directly:
+</p>
+
+
+<div id="orgac3e8b2" class="figure">
+<p><img src="../images/from_clipboard/20240731_131554.png" alt="20240731_131554.png" />
+</p>
+</div>
+
+<p>
+Specifically they find that using held-out data and taking a greedy approach to averaging in new models (adding them if they increase performance on held-out data) is the best way to do this. They find that this seems slightly worse than ensembles on test, and slightly better than ensembles under distribution shift. They use CLIP ViT-L, ViT-G, ALIGN (uses efficientnet for vision encoder), BASIC, a big variety of models of different types.
+</p>
+
+<p>
+The related work has some interesting caveats: <a href="https://arxiv.org/pdf/1912.05671">Linear Mode Connectivity and the Lottery Ticket Hypothesis</a> showed different data order makes simple weight averaging ineffective (i.e. equivalent to random), but that if the two models share some part of their optimization trajectory, that suddenly averaging them works well again. In <a href="https://arxiv.org/pdf/2008.11687">What is being transferred in transfer learning?</a> it was shown that interpolating between two finetunes will have at least the accuracy of the endpoints. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org35bb97b" class="outline-2">
+<h2 id="org35bb97b"><span class="todo TODO">TODO</span> Merging Models with Fisher-Weighted Averaging</h2>
+<div class="outline-text-2" id="text-org35bb97b">
+<p>
+<a href="https://arxiv.org/pdf/2111.09832">paper</a>
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org70f8b25" class="outline-2">
+<h2 id="org70f8b25">Editing Models with Task Arithmetic</h2>
+<div class="outline-text-2" id="text-org70f8b25">
+<p>
+Paper can be found <a href="https://arxiv.org/pdf/2212.04089">here</a>. 
+</p>
+
+<p>
+<i>Task Arithmetic</i> builds task vectors by subtracting pre-trained weights from fine-tuned model weights. What you get as a result is a vector where if you apply it to the base model, you improve it at that task. If you build a bunch of task vectors, you can do interesting vector arithmetic with them: negating the vector will make you worse at that task, adding task vectors together will make your model better at both things, etc. You can even improve performance through task analogies, e.g. <i>A is to B as C is to D</i>, where adding A, B, and C to the model as task vectors will improve D even with no data or training directly on that task.
+</p>
+
+<p>
+This is interesting because we can <i>remove</i> things by training models which <i>do</i> those things. For example, if we train a toxic model and then add the negated toxic task vector, we get a less toxic model. We can <i>learn via addition</i> or <i>forget via negation</i>. Task analogies work a similar way: for example, we can approximate a task vector for "Yelp Sentiment Classification" by starting from "Amazon Sentiment Classification", adding "Yelp Language Modeling" and subtracting "Amazon Language Modeling". 
+</p>
+
+
+<div id="org7c9eee6" class="figure">
+<p><img src="../images/from_clipboard/20240731_145513.png" alt="20240731_145513.png" />
+</p>
+</div>
+
+<p>
+The above is essentially the entire content of the paper, it's very simple. The rest after this figure is formalization (\(\theta_{new} = \theta + \lambda\tau\) where \(\tau = \theta_{ft} - \theta_{pre}\), and this is equivalent to a full finetune when \(\lambda = 1\)) and experiments on a variety of image and natural language processing models/tasks.
+</p>
+
+<p>
+The discussion section has a lot of really interesting points. One big finding they see is that vectors from different tasks are close to orthogonal, which is what you would expect if the different tasks are essentially random vectors (which are likely to be close to orthogonal in high dimension). This likely helps explain why adding them together seems to cause minimal interference with each task. Likewise, intermediate task vectors seem to converge very quickly to the appropriate direction, suggesting that you could even potentially do crazy things like halt training early and just modify the magnitude of the task vector instead. They also reference the <a href="https://arxiv.org/pdf/2209.04836">git re-basin</a> paper as potential work where the merging could occur between models which are not derivatives of the same base model.
+</p>
+
+<p>
+Overall this seems like a promising merging direction, and in general seems like a cool step towards making models more generally interpretable in the first place. One could imagine a model with tons of these little task vectors applied to it, where you can visibly modify specific behaviors this way. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfdaf940" class="outline-2">
+<h2 id="orgfdaf940">TIES-MERGING</h2>
+<div class="outline-text-2" id="text-orgfdaf940">
+<p>
+The paper can be found <a href="https://papers.nips.cc/paper_files/paper/2023/file/1644c9af28ab7916874f6fd6228a9bcf-Paper-Conference.pdf">here</a>. 
+</p>
+
+<p>
+Existing merging methods tend to ignore interference between parameters of different models, and this is what the authors claim is the source of performance drops during merges. The two major sources of said interference are 1: redundant parameter values, and 2: disagreement on the sign of a parameter's value.
+</p>
+
+<p>
+TIES-MERGING stands for&#x2026; TrIm, Elect Sign and MERGE<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>. This, appropriately, has three steps. First, clip parameters that only changed a little bit during training. Second, resolve the sign conflicts. Third, merge only the parameters that are in alignment with agreed-upon sign. This seems to help!
+</p>
+
+
+<div id="org9ce3942" class="figure">
+<p><img src="../images/from_clipboard/20240731_154456.png" alt="20240731_154456.png" />
+</p>
+</div>
+
+
+<div id="org4a69a18" class="figure">
+<p><img src="../images/from_clipboard/20240731_155253.png" alt="20240731_155253.png" />
+</p>
+</div>
+
+<p>
+This is considered one of the more sophisticated methods despite still being just a pretty simple modification to task arithmetic. This outperforms vanilla Task Arithmetic, RegMean, Fisher Merging, and Model Soups, but obviously it doesn't really do anything different from task arithmetic if you're only merging one task vector to the base model.
+</p>
+
+<p>
+Why does this work? Don't we need the little updates too, given that the gradient updates we got from training produced them? Turns out no, you really don't &#x2013; most of the difference in performance comes from the parameter changes which are really big, and literally zeroing out 80% of the task vector will usually do almost nothing to the performance.
+</p>
+
+
+<div id="orgb87d84c" class="figure">
+<p><img src="../images/from_clipboard/20240731_161638.png" alt="20240731_161638.png" />
+</p>
+</div>
+
+<p>
+So it's empirically well-motivated<sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></sup> to trim out the activations which are small, leaving us a task vector which is mostly sparse and mostly does the same thing, but is less likely to cause problems with the model merge process, especially if the values would cause sign disagreements.
+</p>
+
+<p>
+For sign disagreements, they pick the one with the highest total magnitude across all the models (i.e. sum of all the + values vs sum of all the - values). They "disjoint merge" means you set everything which is the wrong sign to 0, and then from there it's a normal merge<sup><a id="fnr.8" class="footref" href="#fn.8" role="doc-backlink">8</a></sup>. This seems to perform pretty well, usually outperforming other methods on most tasks, and performing worse if any of the steps are ablated (i.e. making it more similar to vanilla task arithmetic).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga3478e5" class="outline-2">
+<h2 id="orga3478e5"><span class="todo TODO">TODO</span> (DARE) Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch</h2>
+<div class="outline-text-2" id="text-orga3478e5">
+<p>
+<a href="https://arxiv.org/pdf/2311.03099">paper</a> EXTREMELY funny framing
+</p>
+
+<p>
+DARE is another one which zeros out small differences, and boosting big differences. This is often combined with other methods.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3120d32" class="outline-2">
+<h2 id="org3120d32">Evolutionary Optimization of Model Merging Recipes</h2>
+<div class="outline-text-2" id="text-org3120d32">
+<p>
+<a href="https://arxiv.org/pdf/2403.13187">Paper</a>. <a href="https://github.com/SakanaAI/evolutionary-model-merge">code</a>. Sakana AI's thing, which is exciting because they used it on a diffusion model and it worked well. 
+</p>
+
+<p>
+The central claim of this paper is that model merging techniques are cost-effective and promising, but rely on human intuition and domain knowledge to perform well. To get around this, they do a bunch of stuff to automatically discover ths best way to combine models.
+</p>
+
+<p>
+This work is extra significant because it features Cross-Domain Merging, i.e. it's a model merging technique which can merge models even if they aren't just two models trained to do the exact same thing on the same data, with minor differences (e.g. what a lot of people think makes merging work for LLMs)
+</p>
+
+<p>
+The last technique is <i>Frankenmerging</i> which just puts different layers from different models into one model. Who knows how this works, or if it's useful for non language problems.
+</p>
+
+<p>
+The evo work is like NAS but using transformer blocks instead of neurons, and doesn't need to train the model (it's usable immediately). Layer stacking models do not have the constraint where they need to come from the same base model, which is an interesting property
+</p>
+
+<p>
+They merge both in parameter space (combine layers together) and data flow space (connect blocks together in different ways). 
+</p>
+
+<p>
+Maybe some potential here for a funny mixture of agents thing?
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbc78e10" class="outline-2">
+<h2 id="orgbc78e10">Appendix: Other Papers</h2>
+<div class="outline-text-2" id="text-orgbc78e10">
+<p>
+<a href="https://arxiv.org/pdf/2204.03044">fusing finetuned models for better pretraining</a> 2022 model averaging paper: averaging different fine tunes is better than using pretrained models.
+</p>
+
+<p>
+<a href="https://openreview.net/pdf?id=FCnohuR6AnM">dataless knowledge fusion by merging weights of language models</a> 2023 ICLR paper, RegMean, sort of a combination of fisher merging and simple linear merging, which minimizes l2 distance to individual model predictions on the training sets.
+</p>
+
+<p>
+Methods for finding permutations to merge unrelated models:
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2209.04836">git re-basin</a> mering models modulo permuation symmetries. I'm definitely going to read this and graduate it to the main part of this but I'm scared.
+</p>
+
+<p>
+<a href="https://arxiv.org/pdf/1910.05653">Model Fusion via Optimal Transport</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/pdf/2002.06440">Federated Learning with Matched Averaging</a>
+</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+That is, you can match multiple filters to the same filter. More useful than strict matching because if you have e.g. 6 filters for faces in network A and 5 filters for faces in network B, it's annoying to match the left-out filter from network A to some random filter elsewhere.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Very interesting: Does seem to suggest that there are useful features left to be learned for each network. Intuitively feels like an ensemble of nearly identical networks could somehow be useful if you could somehow "trim out" the shared core between the two of them. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I vaguely remember some paper from a long time ago about permuting the weights of a neural network and still doing well, potentially related. Could just be making this up, though, since I can't find it now.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Need to find an example of this, this was just something mentioned in the Sakana AI Evo-merging paper.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+They really lean into this "soup" analogy
+</p>
+
+
+<div id="org4be53c5" class="figure">
+<p><img src="../images/from_clipboard/20240731_112528.png" alt="20240731_112528.png" />
+</p>
+</div></div></div>
+
+<div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6" role="doc-backlink">6</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I feel like we just get worse at naming as time goes on.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.7" class="footnum" href="#fnr.7" role="doc-backlink">7</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I think theoretically it seems strange to me that these little values don't do anything but can't argue with a figure like that I suppose. Wonder if it's task-dependent.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.8" class="footnum" href="#fnr.8" role="doc-backlink">8</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Maybe worth noting: the averaging process ignores zeros, both from trimmed vectors and from sign-election. This method wouldn't be worth much if setting the values to 0 could drag the average towards 0. 
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+</div>
+</body>
+</html>
