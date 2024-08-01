@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-07-31 Wed 17:20 -->
+<!-- 2024-07-31 Wed 17:39 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Model Merging</title>
@@ -115,7 +115,7 @@ $(function() {
 <li><a href="#org9bba2ea">Convergent Learning: Do Different Neural Networks Learn the Same Representations?</a></li>
 <li><a href="#org82f9a08">(SLERP) Sampling Generative Networks</a></li>
 <li><a href="#org7742a88">Model Soups: averaging weights of multiple fine-tuned models improves accuracy without increasing inference time</a></li>
-<li><a href="#org35bb97b"><span class="todo TODO">TODO</span> Merging Models with Fisher-Weighted Averaging</a></li>
+<li><a href="#org35bb97b">Merging Models with Fisher-Weighted Averaging</a></li>
 <li><a href="#org70f8b25">Editing Models with Task Arithmetic</a></li>
 <li><a href="#orgfdaf940">TIES-MERGING</a></li>
 <li><a href="#orga3478e5">(DARE) Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch</a></li>
@@ -189,7 +189,7 @@ To run these experiments, they do multiple training runs with the same architect
 </p>
 
 
-<div id="org4b7e56a" class="figure">
+<div id="org83842a4" class="figure">
 <p><img src="../images/from_clipboard/20240731_101104.png" alt="20240731_101104.png" />
 </p>
 </div>
@@ -199,7 +199,7 @@ To really show how the two are related, they learn a single "mapping" layer (a L
 </p>
 
 
-<div id="orge2f3553" class="figure">
+<div id="org76cb6ba" class="figure">
 <p><img src="../images/from_clipboard/20240731_102448.png" alt="20240731_102448.png" />
 </p>
 </div>
@@ -244,7 +244,7 @@ They propose using <i>SLERP</i>, which is a spherical linear interpolation along
 </p>
 
 
-<div id="org1ed9d89" class="figure">
+<div id="orge2c076e" class="figure">
 <p><img src="../images/from_clipboard/20240731_110449.png" alt="20240731_110449.png" />
 </p>
 </div>
@@ -271,7 +271,7 @@ A lot of this relies on an <a href="https://arxiv.org/pdf/2008.11687">earlier re
 </p>
 
 
-<div id="org928b43c" class="figure">
+<div id="orgfca3c62" class="figure">
 <p><img src="../images/from_clipboard/20240731_131554.png" alt="20240731_131554.png" />
 </p>
 </div>
@@ -287,14 +287,37 @@ The related work has some interesting caveats: <a href="https://arxiv.org/pdf/19
 </div>
 
 <div id="outline-container-org35bb97b" class="outline-2">
-<h2 id="org35bb97b"><span class="todo TODO">TODO</span> Merging Models with Fisher-Weighted Averaging</h2>
+<h2 id="org35bb97b">Merging Models with Fisher-Weighted Averaging</h2>
 <div class="outline-text-2" id="text-org35bb97b">
 <p>
-<a href="https://arxiv.org/pdf/2111.09832">paper</a>
+The paper can be found <a href="https://arxiv.org/pdf/2111.09832">here</a>.
+</p>
+
+<p>
+Up to this point, averaging models' weights together is generally only feasible if the models share initialization and architecture. This paper frames the model merging process as approximately maximizing the joint likelihood of the models' posterior distribution over parameters, and that if you use an isotropic gaussian distribution to approximate the posterior, maximizing this joint likelihood is equivalent to just averaging the weights. They call this <i>isotropic merging</i> as a result.
+</p>
+
+<p>
+In contrast, they think a better way to approximate this posterior would yield a better result. So, use the Laplace approximation instead, by taking the diagonal of each model's <a href="https://en.wikipedia.org/wiki/Fisher_information">Fisher information matrix</a> as the precision matrix for that model's posterior. They call this <i>Fisher merging</i> to distinguish it from isotropic merging, and they show that it's often a bit better.
+</p>
+
+
+<div id="orgcd9c43c" class="figure">
+<p><img src="../images/from_clipboard/20240731_173548.png" alt="20240731_173548.png" />
+</p>
+</div>
+
+
+<div id="orgb7351ad" class="figure">
+<p><img src="../images/from_clipboard/20240731_173631.png" alt="20240731_173631.png" />
+</p>
+</div>
+
+<p>
+The difference here is pretty subtle, but it does seem a little bit better than normal averaging<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>. 
 </p>
 </div>
 </div>
-
 
 <div id="outline-container-org70f8b25" class="outline-2">
 <h2 id="org70f8b25">Editing Models with Task Arithmetic</h2>
@@ -312,7 +335,7 @@ This is interesting because we can <i>remove</i> things by training models which
 </p>
 
 
-<div id="orgff785a5" class="figure">
+<div id="org1275ba5" class="figure">
 <p><img src="../images/from_clipboard/20240731_145513.png" alt="20240731_145513.png" />
 </p>
 </div>
@@ -343,17 +366,17 @@ Existing merging methods tend to ignore interference between parameters of diffe
 </p>
 
 <p>
-TIES-MERGING stands for&#x2026; TrIm, Elect Sign and MERGE<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>. This, appropriately, has three steps. First, clip parameters that only changed a little bit during training. Second, resolve the sign conflicts. Third, merge only the parameters that are in alignment with agreed-upon sign. This seems to help!
+TIES-MERGING stands for&#x2026; TrIm, Elect Sign and MERGE<sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></sup>. This, appropriately, has three steps. First, clip parameters that only changed a little bit during training. Second, resolve the sign conflicts. Third, merge only the parameters that are in alignment with agreed-upon sign. This seems to help!
 </p>
 
 
-<div id="org4854fa3" class="figure">
+<div id="orgbf6712f" class="figure">
 <p><img src="../images/from_clipboard/20240731_154456.png" alt="20240731_154456.png" />
 </p>
 </div>
 
 
-<div id="org817f30f" class="figure">
+<div id="org0f30337" class="figure">
 <p><img src="../images/from_clipboard/20240731_155253.png" alt="20240731_155253.png" />
 </p>
 </div>
@@ -367,17 +390,17 @@ Why does this work? Don't we need the little updates too, given that the gradien
 </p>
 
 
-<div id="orge70bf27" class="figure">
+<div id="org3f43d16" class="figure">
 <p><img src="../images/from_clipboard/20240731_161638.png" alt="20240731_161638.png" />
 </p>
 </div>
 
 <p>
-So it's empirically well-motivated<sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></sup> to trim out the activations which are small, leaving us a task vector which is mostly sparse and mostly does the same thing, but is less likely to cause problems with the model merge process, especially if the values would cause sign disagreements.
+So it's empirically well-motivated<sup><a id="fnr.8" class="footref" href="#fn.8" role="doc-backlink">8</a></sup> to trim out the activations which are small, leaving us a task vector which is mostly sparse and mostly does the same thing, but is less likely to cause problems with the model merge process, especially if the values would cause sign disagreements.
 </p>
 
 <p>
-For sign disagreements, they pick the one with the highest total magnitude across all the models (i.e. sum of all the + values vs sum of all the - values). They "disjoint merge" means you set everything which is the wrong sign to 0, and then from there it's a normal merge<sup><a id="fnr.8" class="footref" href="#fn.8" role="doc-backlink">8</a></sup>. This seems to perform pretty well, usually outperforming other methods on most tasks, and performing worse if any of the steps are ablated (i.e. making it more similar to vanilla task arithmetic).
+For sign disagreements, they pick the one with the highest total magnitude across all the models (i.e. sum of all the + values vs sum of all the - values). They "disjoint merge" means you set everything which is the wrong sign to 0, and then from there it's a normal merge<sup><a id="fnr.9" class="footref" href="#fn.9" role="doc-backlink">9</a></sup>. This seems to perform pretty well, usually outperforming other methods on most tasks, and performing worse if any of the steps are ablated (i.e. making it more similar to vanilla task arithmetic).
 </p>
 </div>
 </div>
@@ -394,7 +417,7 @@ DARE is another method which zeros out small differences, it stands for Drop And
 </p>
 
 
-<div id="orge2751e3" class="figure">
+<div id="orgb19f70b" class="figure">
 <p><img src="../images/from_clipboard/20240731_165605.png" alt="20240731_165605.png" />
 </p>
 </div>
@@ -404,7 +427,7 @@ This has the most unnavigable figure I've ever seen in a paper, ever. Check this
 </p>
 
 
-<div id="org91742a6" class="figure">
+<div id="org098ad9d" class="figure">
 <p><img src="../images/from_clipboard/20240731_165912.png" alt="20240731_165912.png" />
 </p>
 </div>
@@ -510,20 +533,24 @@ They really lean into this "soup" analogy
 </p>
 
 
-<div id="org54f0d7a" class="figure">
+<div id="org9e01f24" class="figure">
 <p><img src="../images/from_clipboard/20240731_112528.png" alt="20240731_112528.png" />
 </p>
 </div></div></div>
 
 <div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6" role="doc-backlink">6</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-I feel like we just get worse at naming as time goes on.
+I don't have that much to say on this paper &#x2013; it's important and gets brought up a lot, but it's mostly just a slightly more interesting averaging vs normal averaging. 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.7" class="footnum" href="#fnr.7" role="doc-backlink">7</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-I think theoretically it seems strange to me that these little values don't do anything but can't argue with a figure like that I suppose. Wonder if it's task-dependent.
+I feel like we just get worse at naming as time goes on.
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.8" class="footnum" href="#fnr.8" role="doc-backlink">8</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I think theoretically it seems strange to me that these little values don't do anything but can't argue with a figure like that I suppose. Wonder if it's task-dependent.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.9" class="footnum" href="#fnr.9" role="doc-backlink">9</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Maybe worth noting: the averaging process ignores zeros, both from trimmed vectors and from sign-election. This method wouldn't be worth much if setting the values to 0 could drag the average towards 0. 
 </p></div></div>
 
