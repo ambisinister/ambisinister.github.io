@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-07-31 Wed 16:39 -->
+<!-- 2024-07-31 Wed 17:20 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Model Merging</title>
@@ -118,7 +118,7 @@ $(function() {
 <li><a href="#org35bb97b"><span class="todo TODO">TODO</span> Merging Models with Fisher-Weighted Averaging</a></li>
 <li><a href="#org70f8b25">Editing Models with Task Arithmetic</a></li>
 <li><a href="#orgfdaf940">TIES-MERGING</a></li>
-<li><a href="#orga3478e5"><span class="todo TODO">TODO</span> (DARE) Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch</a></li>
+<li><a href="#orga3478e5">(DARE) Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch</a></li>
 <li><a href="#org3120d32">Evolutionary Optimization of Model Merging Recipes</a></li>
 <li><a href="#orgbc78e10">Appendix: Other Papers</a></li>
 </ul>
@@ -189,7 +189,7 @@ To run these experiments, they do multiple training runs with the same architect
 </p>
 
 
-<div id="org8be5860" class="figure">
+<div id="org4b7e56a" class="figure">
 <p><img src="../images/from_clipboard/20240731_101104.png" alt="20240731_101104.png" />
 </p>
 </div>
@@ -199,7 +199,7 @@ To really show how the two are related, they learn a single "mapping" layer (a L
 </p>
 
 
-<div id="orgd5d004c" class="figure">
+<div id="orge2f3553" class="figure">
 <p><img src="../images/from_clipboard/20240731_102448.png" alt="20240731_102448.png" />
 </p>
 </div>
@@ -244,7 +244,7 @@ They propose using <i>SLERP</i>, which is a spherical linear interpolation along
 </p>
 
 
-<div id="orgdd82490" class="figure">
+<div id="org1ed9d89" class="figure">
 <p><img src="../images/from_clipboard/20240731_110449.png" alt="20240731_110449.png" />
 </p>
 </div>
@@ -271,7 +271,7 @@ A lot of this relies on an <a href="https://arxiv.org/pdf/2008.11687">earlier re
 </p>
 
 
-<div id="orgac3e8b2" class="figure">
+<div id="org928b43c" class="figure">
 <p><img src="../images/from_clipboard/20240731_131554.png" alt="20240731_131554.png" />
 </p>
 </div>
@@ -312,7 +312,7 @@ This is interesting because we can <i>remove</i> things by training models which
 </p>
 
 
-<div id="org7c9eee6" class="figure">
+<div id="orgff785a5" class="figure">
 <p><img src="../images/from_clipboard/20240731_145513.png" alt="20240731_145513.png" />
 </p>
 </div>
@@ -347,13 +347,13 @@ TIES-MERGING stands for&#x2026; TrIm, Elect Sign and MERGE<sup><a id="fnr.6" cla
 </p>
 
 
-<div id="org9ce3942" class="figure">
+<div id="org4854fa3" class="figure">
 <p><img src="../images/from_clipboard/20240731_154456.png" alt="20240731_154456.png" />
 </p>
 </div>
 
 
-<div id="org4a69a18" class="figure">
+<div id="org817f30f" class="figure">
 <p><img src="../images/from_clipboard/20240731_155253.png" alt="20240731_155253.png" />
 </p>
 </div>
@@ -367,7 +367,7 @@ Why does this work? Don't we need the little updates too, given that the gradien
 </p>
 
 
-<div id="orgb87d84c" class="figure">
+<div id="orge70bf27" class="figure">
 <p><img src="../images/from_clipboard/20240731_161638.png" alt="20240731_161638.png" />
 </p>
 </div>
@@ -383,14 +383,42 @@ For sign disagreements, they pick the one with the highest total magnitude acros
 </div>
 
 <div id="outline-container-orga3478e5" class="outline-2">
-<h2 id="orga3478e5"><span class="todo TODO">TODO</span> (DARE) Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch</h2>
+<h2 id="orga3478e5">(DARE) Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch</h2>
 <div class="outline-text-2" id="text-orga3478e5">
 <p>
-<a href="https://arxiv.org/pdf/2311.03099">paper</a> EXTREMELY funny framing
+This paper can be found <a href="https://arxiv.org/pdf/2311.03099">here</a>. The framing of this paper is EXTREMELY funny. Language models are Super Mario! You know, because they absorb, uh, items.
 </p>
 
 <p>
-DARE is another one which zeros out small differences, and boosting big differences. This is often combined with other methods.
+DARE is another method which zeros out small differences, it stands for Drop And REscale. This is often combined with other methods in practice. The step which most differentiates this from TIES-MERGING is this final rescaling step &#x2013; on top of dropping parameters, they also scale the remaining ones by \(1 / (1 - p)\) where \(p\) is the random drop rate. With this addition, they find they're able to drop 90-99% of the delta parameters, which means you can add lots of different vectors for very minimal cost. This paper, relative to other ones we've seen, is pretty explicitly only about language models, so it's unclear if this holds for all types of models.
+</p>
+
+
+<div id="orge2751e3" class="figure">
+<p><img src="../images/from_clipboard/20240731_165605.png" alt="20240731_165605.png" />
+</p>
+</div>
+
+<p>
+This has the most unnavigable figure I've ever seen in a paper, ever. Check this out:
+</p>
+
+
+<div id="org91742a6" class="figure">
+<p><img src="../images/from_clipboard/20240731_165912.png" alt="20240731_165912.png" />
+</p>
+</div>
+
+<p>
+This tolerance depends on the size of the language model, i.e. one with a ton of parameters can withstand up to a 99% drop rate. Notably this is a <i>random</i> drop, not a top-k drop as seen in TIES-MERGE. This makes the scaling factor really important, because without the highest magnitude features (which are most likely dropped), we very likely need to scale whatever parameters are left by a large value to the task vector roughly the same magnitude.
+</p>
+
+<p>
+The delta pruning operation is not very novel but the real contribution of this paper is the comparison of this random drop strategy with the more common magnitude-based pruning. They find that if you rescale the non-dropped parameters, the random drop does much better, and you can drop even more parameters than you would be able to with magnitude-based pruning. This is sort of counterintuitive, but it's seemingly because some signal actually does exist in the small activations after all.
+</p>
+
+<p>
+This is definitely the most hacky of the papers so far &#x2013; there's even a whole section on if this works if you drop the entire fine-tuned parameter instead of the delta (it, uh, doesn't work). But definitely an interesting takeaway that, at least for language problems, pruning the task vectors randomly and rescaling might be a better try than pruning based on magnitude.  
 </p>
 </div>
 </div>
@@ -482,7 +510,7 @@ They really lean into this "soup" analogy
 </p>
 
 
-<div id="org4be53c5" class="figure">
+<div id="org54f0d7a" class="figure">
 <p><img src="../images/from_clipboard/20240731_112528.png" alt="20240731_112528.png" />
 </p>
 </div></div></div>

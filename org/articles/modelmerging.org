@@ -119,11 +119,23 @@ So it's empirically well-motivated[fn:7] to trim out the activations which are s
 
 For sign disagreements, they pick the one with the highest total magnitude across all the models (i.e. sum of all the + values vs sum of all the - values). They "disjoint merge" means you set everything which is the wrong sign to 0, and then from there it's a normal merge[fn:8]. This seems to perform pretty well, usually outperforming other methods on most tasks, and performing worse if any of the steps are ablated (i.e. making it more similar to vanilla task arithmetic).
 
-** TODO (DARE) Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch
+** (DARE) Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch
 
-[[https://arxiv.org/pdf/2311.03099][paper]] EXTREMELY funny framing
+This paper can be found [[https://arxiv.org/pdf/2311.03099][here]]. The framing of this paper is EXTREMELY funny. Language models are Super Mario! You know, because they absorb, uh, items.
 
-DARE is another one which zeros out small differences, and boosting big differences. This is often combined with other methods.
+DARE is another method which zeros out small differences, it stands for Drop And REscale. This is often combined with other methods in practice. The step which most differentiates this from TIES-MERGING is this final rescaling step -- on top of dropping parameters, they also scale the remaining ones by $1 / (1 - p)$ where $p$ is the random drop rate. With this addition, they find they're able to drop 90-99% of the delta parameters, which means you can add lots of different vectors for very minimal cost. This paper, relative to other ones we've seen, is pretty explicitly only about language models, so it's unclear if this holds for all types of models.
+
+[[../images/from_clipboard/20240731_165605.png]]
+
+This has the most unnavigable figure I've ever seen in a paper, ever. Check this out:
+
+[[../images/from_clipboard/20240731_165912.png]]
+
+This tolerance depends on the size of the language model, i.e. one with a ton of parameters can withstand up to a 99% drop rate. Notably this is a /random/ drop, not a top-k drop as seen in TIES-MERGE. This makes the scaling factor really important, because without the highest magnitude features (which are most likely dropped), we very likely need to scale whatever parameters are left by a large value to the task vector roughly the same magnitude.
+
+The delta pruning operation is not very novel but the real contribution of this paper is the comparison of this random drop strategy with the more common magnitude-based pruning. They find that if you rescale the non-dropped parameters, the random drop does much better, and you can drop even more parameters than you would be able to with magnitude-based pruning. This is sort of counterintuitive, but it's seemingly because some signal actually does exist in the small activations after all.
+
+This is definitely the most hacky of the papers so far -- there's even a whole section on if this works if you drop the entire fine-tuned parameter instead of the delta (it, uh, doesn't work). But definitely an interesting takeaway that, at least for language problems, pruning the task vectors randomly and rescaling might be a better try than pruning based on magnitude.  
 
 ** Evolutionary Optimization of Model Merging Recipes
 
