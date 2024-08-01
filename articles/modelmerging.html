@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-07-31 Wed 17:40 -->
+<!-- 2024-07-31 Wed 22:10 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Model Merging</title>
@@ -116,6 +116,7 @@ $(function() {
 <li><a href="#org82f9a08">(SLERP) Sampling Generative Networks</a></li>
 <li><a href="#org7742a88">Model Soups: averaging weights of multiple fine-tuned models improves accuracy without increasing inference time</a></li>
 <li><a href="#org35bb97b">Merging Models with Fisher-Weighted Averaging</a></li>
+<li><a href="#org79b97ec">Git Re-Basin</a></li>
 <li><a href="#org70f8b25">Editing Models with Task Arithmetic</a></li>
 <li><a href="#orgfdaf940">TIES-MERGING</a></li>
 <li><a href="#orga3478e5">(DARE) Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch</a></li>
@@ -189,7 +190,7 @@ To run these experiments, they do multiple training runs with the same architect
 </p>
 
 
-<div id="orgc548f80" class="figure">
+<div id="org2693c26" class="figure">
 <p><img src="../images/from_clipboard/20240731_101104.png" alt="20240731_101104.png" />
 </p>
 </div>
@@ -199,7 +200,7 @@ To really show how the two are related, they learn a single "mapping" layer (a L
 </p>
 
 
-<div id="org7a1abff" class="figure">
+<div id="org3978d46" class="figure">
 <p><img src="../images/from_clipboard/20240731_102448.png" alt="20240731_102448.png" />
 </p>
 </div>
@@ -213,9 +214,9 @@ Okay: how does this help us with model merging? Here's some takeaways:
 </p>
 
 <ul class="org-ul">
-<li>Similar features learned between networks trained on similar / the same task</li>
+<li>Similar features learned between networks trained on similar / the same tasks</li>
 <li>Possible to create a mapping transforming one model's representation to the other's</li>
-<li>From the future work section: "Model Combination: Can multipled models be combined by concatenating their featurs, deleting those with high overlap, and then fine-tuning?"</li>
+<li>From the future work section: "Model Combination: Can multiple models be combined by concatenating their features, deleting those with high overlap, and then fine-tuning?"</li>
 </ul>
 
 <p>
@@ -244,7 +245,7 @@ They propose using <i>SLERP</i>, which is a spherical linear interpolation along
 </p>
 
 
-<div id="orged2cbdb" class="figure">
+<div id="orgb1e8d4d" class="figure">
 <p><img src="../images/from_clipboard/20240731_110449.png" alt="20240731_110449.png" />
 </p>
 </div>
@@ -271,7 +272,7 @@ A lot of this relies on an <a href="https://arxiv.org/pdf/2008.11687">earlier re
 </p>
 
 
-<div id="org1c4b229" class="figure">
+<div id="org78eeb82" class="figure">
 <p><img src="../images/from_clipboard/20240731_131554.png" alt="20240731_131554.png" />
 </p>
 </div>
@@ -302,19 +303,70 @@ In contrast, they think a better way to approximate this posterior would yield a
 </p>
 
 
-<div id="org4dabf40" class="figure">
+<div id="orged76313" class="figure">
 <p><img src="../images/from_clipboard/20240731_173548.png" alt="20240731_173548.png" />
 </p>
 </div>
 
 
-<div id="orga749ceb" class="figure">
+<div id="org453a803" class="figure">
 <p><img src="../images/from_clipboard/20240731_173631.png" alt="20240731_173631.png" />
 </p>
 </div>
 
 <p>
 The difference here is pretty subtle, but it does seem a little bit better than normal averaging<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org79b97ec" class="outline-2">
+<h2 id="org79b97ec">Git Re-Basin</h2>
+<div class="outline-text-2" id="text-org79b97ec">
+<p>
+This paper can be found <a href="https://arxiv.org/abs/2209.04836">here</a>. 
+</p>
+
+<p>
+This paper's thesis is very interesting. The core idea is that there's usually a single optimal basin in the loss landscape once you account for all the possible permutations (which are all essentially the same solution, just permuted to be in a different location). This means if we can figure out how to permute two models to have the same arrangement of hidden units, we should pretty much always be able to merge the two models.
+</p>
+
+<p>
+Basically, this paper tries to solve the permutation problem we saw in the convergent learning paper.
+</p>
+
+
+<div id="org117c4e4" class="figure">
+<p><img src="../images/from_clipboard/20240731_211709.png" alt="20240731_211709.png" />
+</p>
+</div>
+
+<p>
+They provide three methods for matching units between two different models.
+</p>
+
+<ol class="org-ol">
+<li>Match the activations by performing Ordinary Least Squares (OLS) regression to solve a linear assignment problem (LAP), which is an old and well-studied problem which has lots of efficient solutions.</li>
+<li>Match the weights by solving a "sum of bilinear assignments problem" (SOBLAP) (unlike 1 this is NP hard, but can be solved via approximation and ignores the data distribution completely)</li>
+<li>Learn a straight-through estimator which specifically learns a correct permutation</li>
+</ol>
+
+
+<div id="orga42de01" class="figure">
+<p><img src="../images/from_clipboard/20240731_215742.png" alt="20240731_215742.png" />
+</p>
+</div>
+
+<p>
+Straight-through estimator performs the best, but the other methods are almost as good and much cheaper &#x2013; especially algorithm 1, which runs in a few seconds and doesn't require access to data. Unlike the other papers in here this paper is pretty dense, quite theoretical rather than being hacky. They don't always get zero-barrier (i.e. in the same loss basin) but usually they get a big reduction which enables some sort of merge to be possible.
+</p>
+
+<p>
+Thankfully they have <a href="https://github.com/samuela/git-re-basin">code</a>, actually code for the actual methods, see <a href="https://github.com/samuela/git-re-basin/blob/main/src/weight_matching.py">weight<sub>matching.py</sub></a> which actually does algorithm 1 in there. It's in Jax though.
+</p>
+
+<p>
+This isn't used that much in the papers which follow, which mostly deal with merging finetunes together. It seems like it should be necessary for language models in particular (note that this is a general model merging paper), since those often don't even have the same architecture, but for some reason they seem unnecessary there. 
 </p>
 </div>
 </div>
@@ -335,7 +387,7 @@ This is interesting because we can <i>remove</i> things by training models which
 </p>
 
 
-<div id="org942d519" class="figure">
+<div id="org9346042" class="figure">
 <p><img src="../images/from_clipboard/20240731_145513.png" alt="20240731_145513.png" />
 </p>
 </div>
@@ -370,13 +422,13 @@ TIES-MERGING stands for&#x2026; TrIm, Elect Sign and MERGE<sup><a id="fnr.7" cla
 </p>
 
 
-<div id="orgbc43824" class="figure">
+<div id="org5b41098" class="figure">
 <p><img src="../images/from_clipboard/20240731_154456.png" alt="20240731_154456.png" />
 </p>
 </div>
 
 
-<div id="org0f808f1" class="figure">
+<div id="orgd165ac0" class="figure">
 <p><img src="../images/from_clipboard/20240731_155253.png" alt="20240731_155253.png" />
 </p>
 </div>
@@ -390,7 +442,7 @@ Why does this work? Don't we need the little updates too, given that the gradien
 </p>
 
 
-<div id="orge57c5ad" class="figure">
+<div id="org03f4380" class="figure">
 <p><img src="../images/from_clipboard/20240731_161638.png" alt="20240731_161638.png" />
 </p>
 </div>
@@ -417,7 +469,7 @@ DARE is another method which zeros out small differences, it stands for Drop And
 </p>
 
 
-<div id="org10e334b" class="figure">
+<div id="org1f7fa92" class="figure">
 <p><img src="../images/from_clipboard/20240731_165605.png" alt="20240731_165605.png" />
 </p>
 </div>
@@ -427,7 +479,7 @@ This has the most unnavigable figure I've ever seen in a paper, ever. Check this
 </p>
 
 
-<div id="org7165c68" class="figure">
+<div id="orgf7e60ed" class="figure">
 <p><img src="../images/from_clipboard/20240731_165912.png" alt="20240731_165912.png" />
 </p>
 </div>
@@ -491,11 +543,7 @@ Maybe some potential here for a funny mixture of agents thing?
 </p>
 
 <p>
-Methods for finding permutations to merge unrelated models:
-</p>
-
-<p>
-<a href="https://arxiv.org/abs/2209.04836">git re-basin</a> mering models modulo permuation symmetries. I'm definitely going to read this and graduate it to the main part of this but I'm scared.
+Other methods for finding permutations to merge unrelated models:
 </p>
 
 <p>
@@ -533,7 +581,7 @@ They really lean into this "soup" analogy
 </p>
 
 
-<div id="orge759d7a" class="figure">
+<div id="org96a1859" class="figure">
 <p><img src="../images/from_clipboard/20240731_112528.png" alt="20240731_112528.png" />
 </p>
 </div></div></div>

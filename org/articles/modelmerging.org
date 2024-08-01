@@ -42,9 +42,9 @@ There's some good discussion here about /local/ vs /distributed/ representations
 
 Okay: how does this help us with model merging? Here's some takeaways:
 
-- Similar features learned between networks trained on similar / the same task
+- Similar features learned between networks trained on similar / the same tasks
 - Possible to create a mapping transforming one model's representation to the other's
-- From the future work section: "Model Combination: Can multipled models be combined by concatenating their featurs, deleting those with high overlap, and then fine-tuning?"
+- From the future work section: "Model Combination: Can multiple models be combined by concatenating their features, deleting those with high overlap, and then fine-tuning?"
 
 Also probably the biggest takeaway: these models are start from unique initializations, and as a result of the random initialization they don't share the same initial optimization trajectories, meaning all of these shared features are somewhere in the model but in a random arrangement. If we finetune some sort of source model and then "break off" from there, it's really likely that the features are all going to be in the same spots, with the differences then being about the subsequent differences from different data / hyperparameters / whatever. Indeed this was exactly what was later shown in [[https://arxiv.org/pdf/1912.05671][Linear Mode Connectivity and the Lottery Ticket Hypothesis]]. This informs a lot of the methods which follow from here!
 
@@ -89,6 +89,30 @@ In contrast, they think a better way to approximate this posterior would yield a
 [[../images/from_clipboard/20240731_173631.png]]
 
 The difference here is pretty subtle, but it does seem a little bit better than normal averaging[fn:9]. 
+
+** Git Re-Basin
+
+This paper can be found [[https://arxiv.org/abs/2209.04836][here]]. 
+
+This paper's thesis is very interesting. The core idea is that there's usually a single optimal basin in the loss landscape once you account for all the possible permutations (which are all essentially the same solution, just permuted to be in a different location). This means if we can figure out how to permute two models to have the same arrangement of hidden units, we should pretty much always be able to merge the two models.
+
+Basically, this paper tries to solve the permutation problem we saw in the convergent learning paper.
+
+[[../images/from_clipboard/20240731_211709.png]]
+
+They provide three methods for matching units between two different models.
+
+1. Match the activations by performing Ordinary Least Squares (OLS) regression to solve a linear assignment problem (LAP), which is an old and well-studied problem which has lots of efficient solutions.
+2. Match the weights by solving a "sum of bilinear assignments problem" (SOBLAP) (unlike 1 this is NP hard, but can be solved via approximation and ignores the data distribution completely)
+3. Learn a straight-through estimator which specifically learns a correct permutation
+
+[[../images/from_clipboard/20240731_215742.png]]
+
+Straight-through estimator performs the best, but the other methods are almost as good and much cheaper -- especially algorithm 1, which runs in a few seconds and doesn't require access to data. Unlike the other papers in here this paper is pretty dense, quite theoretical rather than being hacky. They don't always get zero-barrier (i.e. in the same loss basin) but usually they get a big reduction which enables some sort of merge to be possible.
+
+Thankfully they have [[https://github.com/samuela/git-re-basin][code]], actually code for the actual methods, see [[https://github.com/samuela/git-re-basin/blob/main/src/weight_matching.py][weight_matching.py]] which actually does algorithm 1 in there. It's in Jax though.
+
+This isn't used that much in the papers which follow, which mostly deal with merging finetunes together. It seems like it should be necessary for language models in particular (note that this is a general model merging paper), since those often don't even have the same architecture, but for some reason they seem unnecessary there. 
 
 ** Editing Models with Task Arithmetic
 
@@ -168,9 +192,7 @@ Maybe some potential here for a funny mixture of agents thing?
 
 [[https://openreview.net/pdf?id=FCnohuR6AnM][dataless knowledge fusion by merging weights of language models]] 2023 ICLR paper, RegMean, sort of a combination of fisher merging and simple linear merging, which minimizes l2 distance to individual model predictions on the training sets.
 
-Methods for finding permutations to merge unrelated models:
-
-[[https://arxiv.org/abs/2209.04836][git re-basin]] mering models modulo permuation symmetries. I'm definitely going to read this and graduate it to the main part of this but I'm scared.
+Other methods for finding permutations to merge unrelated models:
 
 [[https://arxiv.org/pdf/1910.05653][Model Fusion via Optimal Transport]]
 
