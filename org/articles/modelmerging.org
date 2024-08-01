@@ -8,15 +8,13 @@ There is some work applying these sorts of merges to vision models, too, like St
 
 There are many good [[https://huggingface.co/blog/mlabonne/merge-models][resources]] out there for understanding how to apply mergekit to large language models. I am interested in building some intuition upon how and why these methods work, and specifically if there's any room for applying these techniques to other types of models, or other problems.
 
-** Actually Doing The Merging
+** Some Prerequisite Info
 
-[[https://github.com/arcee-ai/mergekit?tab=readme-ov-file#merge-methods][mergekit]] is popular for this. It has a bunch of different methods.
+For actually performing the merging, at least for LLMs, [[https://github.com/arcee-ai/mergekit?tab=readme-ov-file#merge-methods][mergekit]] is a popular repo. It has a bunch of different methods, as well as it's own [[https://arxiv.org/pdf/2403.13257][paper]] which I'll include for completeness.
 
-** Papers
+A lot of these papers come from [[https://huggingface.co/collections/osanseviero/model-merging-65097893623330a3a51ead66][osanseviero's model merging collection]], where I followed rabbit holes in specific papers when they appeared. 
 
-[[https://huggingface.co/collections/osanseviero/model-merging-65097893623330a3a51ead66][Model Merging Collections]]
-
-Here's a [[https://arxiv.org/pdf/2309.15698][survey paper]]
+If you want a more comprehensive summary, here's a [[https://arxiv.org/pdf/2309.15698][survey paper]] which covers non-frankenmerging topics in model merging. 
 
 ** Convergent Learning: Do Different Neural Networks Learn the Same Representations?
 
@@ -170,21 +168,76 @@ The delta pruning operation is not very novel but the real contribution of this 
 
 This is definitely the most hacky of the papers so far -- there's even a whole section on if this works if you drop the entire fine-tuned parameter instead of the delta (it, uh, doesn't work). But definitely an interesting takeaway that, at least for language problems, pruning the task vectors randomly and rescaling might be a better try than pruning based on magnitude.  
 
+** Model Breadcrumbs: Scaling Multi-Task Model Merging with Sparse Masks
+
+This paper can be found [[https://arxiv.org/pdf/2312.06795][here]].
+
+This paper might help us answer the question of why random drop in DARE seems to work better than top k dropping in TIES-MERGING. Specifically, this method /masks outliers/ in the task vectors, meaning it's like TIES-MERGING except instead of dropping the lowest k, we drop the lowest and highest k. The lowest and the highest values are both /outliers/, and it improves performance to drop them both. Otherwise, this is the same.
+
+[[../images/from_clipboard/20240731_231314.png]]
+
+There's not much to say past that -- it's DARES with top masking too.
+
+[[../images/from_clipboard/20240731_232108.png]]
+
+
+** Model Stock: All we need is just a few fine-tuned models
+
+This paper can be found [[https://arxiv.org/pdf/2403.19522][here]].
+
+It's model stock because it's like model soup, but you don't need to add much to get soup (?)[fn:11]. Specifically, that we can perform about the same as model soup (which trains like 24 finetunes) with just 3 models (2 finetunes and the base model).
+
+This can be done by observing that model weights finetuned from different random seeds like on a thin shell in the weight space, and also observing that closer proximity to the center of this shell usually means better performance.
+
+Using this, you can do some /math/. And this math lets you infer the location of the result of merging 50 models with just 3 points, based on these assumptions about the geometry of the weight space. This is a bit too dense to survive my initial skims but it's in mergekit so I'm assuming it works roughly as described. 
+
+<<TODO: Read this more closely>> 
+
+** DELLA-Merging: Reducing Interference in Model Merging through Magnitude-Based Sampling
+
+This paper can be found [[https://arxiv.org/pdf/2406.11617][here]].
+
+If you are like me, and you read the DARE paper and thought "random drop seems like a stupid strategy, it seems like you'd do much better if you sampled points with a multinomial weighted by how big the magnitudes were", then I have bad news, this exact thought has been thought before, and it's this paper. It works better than DARE, so at least take comfort in your solid intuition! 
+
+[[../images/from_clipboard/20240731_233451.png]]
+
+Otherwise this is functionally identical to DARE. They generalize the rescale factor to $\gamma$ but then they just set $\gamma = 1 / (1 - p_i)$ the same as DARE so other than the sampling strategy it's functionally the same. This allows for the kept parameters to preferentially not be useless ones, while maintaining a similar sort of outlier supression that made DARE more effective than TIES-MERGING (and further validated by Model Breadcrumbs)
+
 ** Evolutionary Optimization of Model Merging Recipes
 
-[[https://arxiv.org/pdf/2403.13187][Paper]]. [[https://github.com/SakanaAI/evolutionary-model-merge][code]]. Sakana AI's thing, which is exciting because they used it on a diffusion model and it worked well. 
+This paper can be found [[https://arxiv.org/pdf/2403.13187][here]]. Here's their [[https://github.com/SakanaAI/evolutionary-model-merge][repo]] which doesn't have the actual code for the method...
+
+This is [[https://asia.nikkei.com/Business/Technology/Artificial-intelligence/Japan-s-Sakana-AI-by-Google-alums-to-become-unicorn-in-under-a-year][Sakana AI]]'s big offering so far, it's the basis for their "nature inspired AI" which they're using for a variety of things here and there. There's a few interesting things about this work, most notably that it seems to be possible even when there's some sort of task gap between the models (e.g. merging a Japanese LLM with a math LLM, applying it to [[https://sakana.ai/evo-ukiyoe/][a diffusion model for ukiyo-e colorization]] and having it work well, etc). This offers some promise that techniques to "evolve" model merges via "natural selection" have some merit in improving the results.
 
 The central claim of this paper is that model merging techniques are cost-effective and promising, but rely on human intuition and domain knowledge to perform well. To get around this, they do a bunch of stuff to automatically discover ths best way to combine models.
 
-This work is extra significant because it features Cross-Domain Merging, i.e. it's a model merging technique which can merge models even if they aren't just two models trained to do the exact same thing on the same data, with minor differences (e.g. what a lot of people think makes merging work for LLMs)
+This work is extra significant because it features Cross-Domain Merging, i.e. it's a model merging technique which can merge models even if they aren't just two models trained to do the exact same thing on the same data, with minor differences (e.g. what a lot of people think makes merging work for LLMs, why there's so much focus in work thus far about multiple training runs on the same data and the same model, etc).
 
-The last technique is /Frankenmerging/ which just puts different layers from different models into one model. Who knows how this works, or if it's useful for non language problems.
+There are two ways models can be evolved:
+1. Merging parameters, which is similar to all the work we've seen so far
+2. /Frankenmerging/ which just randomly puts different layers from different models into one model[fn:10]. Who knows how this works, or if it's useful for non language problems.
 
-The evo work is like NAS but using transformer blocks instead of neurons, and doesn't need to train the model (it's usable immediately). Layer stacking models do not have the constraint where they need to come from the same base model, which is an interesting property
+That is: we can modify the weights, or we can modify the shape of the model, and we have several models' worth of weights and layers to work with.
 
-They merge both in parameter space (combine layers together) and data flow space (connect blocks together in different ways). 
+*** Merging Parameters
 
-Maybe some potential here for a funny mixture of agents thing?
+Merging parameters between layers is done with DARE + TIES-Merging, which is not too surprising. The configurations are optimized using "an evolutionary algorithm, such as [[https://en.wikipedia.org/wiki/CMA-ES][CMA-ES]]" which I suppose means they're using some custom thing which they don't want to release.
+
+*** Merging Data Flow
+
+Basically this is the frankenmerging component, where you can add or remove layers from various models, verbatim, and stitch them together. This part is pretty similar in spirit to earlier work by David Ha [[https://arxiv.org/pdf/1906.04358][Weight Agnostic Neural Networks]] where this is performed at the neuron-to-neuron level. Instead of connecting together neurons and activation functions, this step just adds one of the available transformer layers. It's likely this also uses something like CMA-ES (WANNs used NEAT, but mentions CMA-ES as a footnote being potentially better)
+
+*** Thoughts
+
+Like other methods for model merging, we don't have to do any training after this, the models are just usable immediately. Merging data flow is really weird -- we can merge any layer from any model, and often we seem to want to just combine random pieces of different models together. I don't think conceptually I understand how this doesn't completely destroy the output.
+
+Maybe there's some funny space here for some sort of evolved [[https://arxiv.org/pdf/2406.04692][mixture-of-agents]] work, where instead of evolving a single model we evolve a sort of community of models whose aggregate performance is better than other aggregates. I think this sort of thing might help clarify for me if there's any meaningful way to steer the frankenmodels to be meaningfully different from each other, rather than just randomly happening to work. 
+
+** Angry Ranting About Frankenmerging
+
+There is no citation in the Evolutionary Optimization paper with respect to Frankenmerging. It is not included at all in the [[https://arxiv.org/pdf/2309.15698][survey paper]] I read on the topic, which only examines mode connectivity, alignment, weight averaging, and ensemble learning. As far as I'm aware nobody has any idea why this would even vaguely work, and there's no published work on it at all.
+
+If this works I don't think I really understand why we are training these models so deeply at all. If we can arbitrarily repeat layers like this then why aren't we just training a single layer and feeding it back into itself like an RNN? We can even think more deeply by asking the model to arbitrarily use more layers for a particular forward pass. Surely this would not work, right? Surely this would be a crazy thing to do.  
 
 ** Appendix: Other Papers
 
@@ -199,6 +252,10 @@ Other methods for finding permutations to merge unrelated models:
 [[https://arxiv.org/pdf/2002.06440][Federated Learning with Matched Averaging]]
 
 * Footnotes
+
+[fn:11] Very hungry researchers working in this field, huh
+
+[fn:10] 1) what 
 
 [fn:9] I don't have that much to say on this paper -- it's important and gets brought up a lot, but it's mostly just a slightly more interesting averaging vs normal averaging. 
 
