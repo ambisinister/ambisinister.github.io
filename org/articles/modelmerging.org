@@ -76,10 +76,19 @@ Specifically they find that using held-out data and taking a greedy approach to 
 
 The related work has some interesting caveats: [[https://arxiv.org/pdf/1912.05671][Linear Mode Connectivity and the Lottery Ticket Hypothesis]] showed different data order makes simple weight averaging ineffective (i.e. equivalent to random), but that if the two models share some part of their optimization trajectory, that suddenly averaging them works well again. In [[https://arxiv.org/pdf/2008.11687][What is being transferred in transfer learning?]] it was shown that interpolating between two finetunes will have at least the accuracy of the endpoints. 
 
-** TODO Merging Models with Fisher-Weighted Averaging
+** Merging Models with Fisher-Weighted Averaging
 
-[[https://arxiv.org/pdf/2111.09832][paper]]
+The paper can be found [[https://arxiv.org/pdf/2111.09832][here]].
 
+Up to this point, averaging models' weights together is generally only feasible if the models share initialization and architecture. This paper frames the model merging process as approximately maximizing the joint likelihood of the models' posterior distribution over parameters, and that if you use an isotropic gaussian distribution to approximate the posterior, maximizing this joint likelihood is equivalent to just averaging the weights. They call this /isotropic merging/ as a result.
+
+In contrast, they think a better way to approximate this posterior would yield a better result. So, use the Laplace approximation instead, by taking the diagonal of each model's [[https://en.wikipedia.org/wiki/Fisher_information][Fisher information matrix]] as the precision matrix for that model's posterior. They call this /Fisher merging/ to distinguish it from isotropic merging, and they show that it's often a bit better.
+
+[[../images/from_clipboard/20240731_173548.png]]
+
+[[../images/from_clipboard/20240731_173631.png]]
+
+The difference here is pretty subtle, but it does seem a little bit better than normal averaging[fn:9]. 
 
 ** Editing Models with Task Arithmetic
 
@@ -168,6 +177,8 @@ Methods for finding permutations to merge unrelated models:
 [[https://arxiv.org/pdf/2002.06440][Federated Learning with Matched Averaging]]
 
 * Footnotes
+
+[fn:9] I don't have that much to say on this paper -- it's important and gets brought up a lot, but it's mostly just a slightly more interesting averaging vs normal averaging. 
 
 [fn:8] Maybe worth noting: the averaging process ignores zeros, both from trimmed vectors and from sign-election. This method wouldn't be worth much if setting the values to 0 could drag the average towards 0. 
 
