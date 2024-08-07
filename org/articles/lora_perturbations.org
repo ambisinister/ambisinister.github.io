@@ -4,9 +4,16 @@
 
 I wrote [[https://planetbanatt.net/articles/mla.html#org8f21af5][briefly]] about what gradient updates inside decomposed matrices do, semantically, compared to gradient updates in full-dimension matrices. The core idea I alluded to in that post was that a perturbation inside the low-rank decomposition matrices corresponds to a perturbation along a manifold inside the full matrix. We can define a subspace of dimension $r$ inside the full space, and a perturbation in the decomposed matrix can only ever travel along that subspace, compared to a random perturbation in the full matrix which can go in any direction. This was mostly sufficient for weakly understanding Multi-Head Latent Attention: we limit the types of legal transformations to ones able to be written via a certain rank, and we hope those are sufficient for good results. 
 
-I wanted to understand this a little better, so I wrote a little tool which will help visualize what is actually happening. You can play with this tool [[https://www.planetbanatt.net/articles/cube.html][here]], but I wanted to include some notes on the linear algebra here. 
+I wanted to understand this a little better, so I wrote a very simple little piece of code which will help visualize what is actually happening. I wanted to include some notes on the linear algebra here.
 
-[[../images/from_clipboard/20240729_014320.png]]
+#+BEGIN_EXPORT html
+<div style="display: flex; justify-content: center; padding: 2em 0;">
+  <video style="width: 80%; max-width: 640px;" controls autoplay loop muted>
+    <source src="../images/misc/lora_walking.mp4" type="video/mp4">
+    Your browser does not support videos
+  </video>
+</div>
+#+END_EXPORT
 
 ** Illegal Transformations
 
@@ -16,4 +23,10 @@ In this case, we decompose this 3x3 matrix into a 3x2 matrix followed by a 2x3 m
 
 If you think of what these decomposed matrices are doing individually, we first project from 3 dimensions onto a plane in 2 dimensions, and then we project from the plane back up to 3 dimensions. This is, in effect, a 3 dimension to 3 dimension transformation. However, we have to travel through this 3 dimensional bottleneck first, which means that a bunch of transformations become impossible to represent this way. One super simple one to understand is the identity matrix: [[1,0,0],[0,1,0],[0,0,1]] cannot be decomposed into a low-rank bottleneck like this, the best we can manage is an approximation.
 
-In general, any rank 3 transformation becomes "illegal", and we lose the ability to transform the unit cube according to any rank 3 transformation. This seems to me to suggest we will always have some sort of plane, but that doesn't seem to be what I'm seeing. That's why this is a WIP page! Wtf is going on here.
+In general, any rank 3 transformation becomes "illegal", and we lose the ability to transform the unit cube according to any rank 3 transformation. As a result, no matter what values we choose, we will always land back at the cube being "squished" into some sort of plane in 3D space. This is what we mean when we say that certain types of transformations are no longer legal under this sort of defactorization. We can't transform this cube into anything other than some sort of plane, meaning that the space of all planes is the /subspace/ we can represent with these matrices.
+
+(Sometimes, the cube will still look three dimensional from certain angles, which is why we need two angles, to confirm this is just illusory depth and that from another angle it's clearly still a plane.)
+
+** High Dimensions
+
+WIP

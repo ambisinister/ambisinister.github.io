@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-07-29 Mon 02:07 -->
+<!-- 2024-08-07 Wed 15:35 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Low Rank Pertrubations</title>
@@ -111,6 +111,7 @@ $(function() {
 <li><a href="#org38f621e">Perturbations in Low-Rank Decomposition</a>
 <ul>
 <li><a href="#org617954b">Illegal Transformations</a></li>
+<li><a href="#orgd5c9a57">High Dimensions</a></li>
 </ul>
 </li>
 </ul>
@@ -125,13 +126,14 @@ I wrote <a href="https://planetbanatt.net/articles/mla.html#org8f21af5">briefly<
 </p>
 
 <p>
-I wanted to understand this a little better, so I wrote a little tool which will help visualize what is actually happening. You can play with this tool <a href="https://www.planetbanatt.net/articles/cube.html">here</a>, but I wanted to include some notes on the linear algebra here. 
+I wanted to understand this a little better, so I wrote a very simple little piece of code which will help visualize what is actually happening. I wanted to include some notes on the linear algebra here.
 </p>
 
-
-<div id="org685bc50" class="figure">
-<p><img src="../images/from_clipboard/20240729_014320.png" alt="20240729_014320.png" />
-</p>
+<div style="display: flex; justify-content: center; padding: 2em 0;">
+  <video style="width: 80%; max-width: 640px;" controls autoplay loop muted>
+    <source src="../images/misc/lora_walking.mp4" type="video/mp4">
+    Your browser does not support videos
+  </video>
 </div>
 </div>
 
@@ -151,7 +153,20 @@ If you think of what these decomposed matrices are doing individually, we first 
 </p>
 
 <p>
-In general, any rank 3 transformation becomes "illegal", and we lose the ability to transform the unit cube according to any rank 3 transformation. This seems to me to suggest we will always have some sort of plane, but that doesn't seem to be what I'm seeing. That's why this is a WIP page! Wtf is going on here.
+In general, any rank 3 transformation becomes "illegal", and we lose the ability to transform the unit cube according to any rank 3 transformation. As a result, no matter what values we choose, we will always land back at the cube being "squished" into some sort of plane in 3D space. This is what we mean when we say that certain types of transformations are no longer legal under this sort of defactorization. We can't transform this cube into anything other than some sort of plane, meaning that the space of all planes is the <i>subspace</i> we can represent with these matrices.
+</p>
+
+<p>
+(Sometimes, the cube will still look three dimensional from certain angles, which is why we need two angles, to confirm this is just illusory depth and that from another angle it's clearly still a plane.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd5c9a57" class="outline-2">
+<h2 id="orgd5c9a57">High Dimensions</h2>
+<div class="outline-text-2" id="text-orgd5c9a57">
+<p>
+WIP
 </p>
 </div>
 </div>
