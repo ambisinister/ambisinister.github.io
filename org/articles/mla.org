@@ -52,6 +52,8 @@ In this case, are creating a /manifold/ inside the space of all matrices. It's a
 
 Using this in the attention mechanism is interesting -- it can be thought of as restricting the space of the possible $W_{QKV}$ matrices to only ones which are below a certain rank (that is, $r$). The bet with multi-head latent attention is that this does not harm downstream performance too much. If obtaining Q, K, and V from the hidden states is possible with a low-rank matrix (alternatively, if the matrix you would get training normally can be closely approximated by a low-rank matrix), then we can compress substantially for theoretically minimal performance loss.
 
+For more information on this particular rabbit hole, I've spun this off into it's own post [[https://planetbanatt.net/articles/lora_perturbations.html][here]].
+
 ** Related Work
 
 *** KV Cache
