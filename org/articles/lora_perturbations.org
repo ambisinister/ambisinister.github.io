@@ -4,7 +4,7 @@
 
 I wrote [[https://planetbanatt.net/articles/mla.html#org8f21af5][briefly]] about what gradient updates inside decomposed matrices do, semantically, compared to gradient updates in full-dimension matrices. The core idea I alluded to in that post was that a perturbation inside the low-rank decomposition matrices corresponds to a perturbation along a manifold inside the full matrix. We can define a subspace of dimension $r$ inside the full space, and a perturbation in the decomposed matrix can only ever travel along that subspace, compared to a random perturbation in the full matrix which can go in any direction. This was mostly sufficient for weakly understanding Multi-Head Latent Attention: we limit the types of legal transformations to ones able to be written via a certain rank, and we hope those are sufficient for good results. 
 
-I wanted to understand this a little better, so I wrote a very simple little piece of code which will help visualize what is actually happening. I wanted to include some notes on the linear algebra here.
+I wanted to understand this a little better, so I wrote a very simple [[https://gist.github.com/ambisinister/f5a1132a5b24dbbf4080a61dd3bf79ac][little piece of code]] which will help visualize what is actually happening. I wanted to include some notes on the linear algebra here.
 
 #+BEGIN_EXPORT html
 <div style="display: flex; justify-content: center; padding: 2em 0;">
@@ -35,4 +35,10 @@ To deal with hyperplanes in a 14-dimensional space, visualize a 3D space and say
 - [[https://x.com/videodrome/status/1005887240407379969][Geoff Hinton]]
 #+END_QUOTE
 
+High dimensional spaces are really weird. While it's helpful for us to talk about how our rank $r$ transformation "flattens" into a subspace, there are a few things which are important to note about how high dimensional spaces act a bit differently from regular low-dimensional ones we're used to thinking about.
 
+One useful one to mention is that the majority of the volume in a high dimensional cube is concentrated near the corners. Our basic ideas of "lost space" are worth examining when we think about what happens when we "flatten" to a lower dimensionality. For example, here below we have the ratio between the volume of a hypersphere vs a hypercube as we increase the dimensionality.
+
+[[../images/misc/hypercube_dim.png]]
+
+We can see that as we increase the dimensionality, the hypersphere slowly shrinks to a relatively insignificant proportion of the volume of the space, which matches the result we mentioned earlier. If we take an object in high dimensions and "flatten" it to a smaller dimension, what we can think of here is that we are dramatically increasing the influence of the hypersphere relative to the hypercube, i.e. that most of the lost area comes out of the corners. For example, if we flatten from 10D to 9D, we increase the relative sphere volume by 997%.  
