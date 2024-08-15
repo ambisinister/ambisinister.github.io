@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-08-08 Thu 15:50 -->
+<!-- 2024-08-15 Thu 00:16 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Low Rank Pertrubations</title>
@@ -112,6 +112,7 @@ $(function() {
 <ul>
 <li><a href="#org617954b">Illegal Transformations</a></li>
 <li><a href="#orgd5c9a57">High Dimensions</a></li>
+<li><a href="#orgdce788a">More Things</a></li>
 </ul>
 </li>
 </ul>
@@ -149,11 +150,11 @@ In this case, we decompose this 3x3 matrix into a 3x2 matrix followed by a 2x3 m
 </p>
 
 <p>
-If you think of what these decomposed matrices are doing individually, we first project from 3 dimensions onto a plane in 2 dimensions, and then we project from the plane back up to 3 dimensions. This is, in effect, a 3 dimension to 3 dimension transformation. However, we have to travel through this 3 dimensional bottleneck first, which means that a bunch of transformations become impossible to represent this way. One super simple one to understand is the identity matrix: [[1,0,0],[0,1,0],[0,0,1]] cannot be decomposed into a low-rank bottleneck like this, the best we can manage is an approximation.
+If you think of what these decomposed matrices are doing individually, we first project from 3 dimensions onto a plane in 2 dimensions, and then we project from the plane back up to 3 dimensions. This is, in effect, a 3 dimension to 3 dimension transformation. However, we have to travel through this 2 dimensional bottleneck first, which means that a bunch of transformations become impossible to represent this way. One super simple one to understand is the identity matrix: [[1,0,0],[0,1,0],[0,0,1]] cannot be decomposed into a low-rank bottleneck like this, the best we can manage is an approximation where we flatten to a plane first.
 </p>
 
 <p>
-In general, any rank 3 transformation becomes "illegal", and we lose the ability to transform the unit cube according to any rank 3 transformation. As a result, no matter what values we choose, we will always land back at the cube being "squished" into some sort of plane in 3D space. This is what we mean when we say that certain types of transformations are no longer legal under this sort of defactorization. We can't transform this cube into anything other than some sort of plane, meaning that the space of all planes is the <i>subspace</i> we can represent with these matrices.
+In general, any rank 3 transformation becomes "illegal", and we lose the ability to transform the unit cube according to any rank 3 transformation. As a result, no matter what values we choose, we will always land back at the cube being "squished" into some sort of plane in 3D space. We can't transform this cube into anything other than some sort of plane, meaning that the space of all planes is the <i>subspace</i> we can represent with these matrices.
 </p>
 
 <p>
@@ -184,13 +185,34 @@ One useful one to mention is that the majority of the volume in a high dimension
 </p>
 
 
-<div id="org81e9764" class="figure">
+<div id="org69faf3f" class="figure">
 <p><img src="../images/misc/hypercube_dim.png" alt="hypercube_dim.png" />
 </p>
 </div>
 
 <p>
 We can see that as we increase the dimensionality, the hypersphere slowly shrinks to a relatively insignificant proportion of the volume of the space, which matches the result we mentioned earlier. If we take an object in high dimensions and "flatten" it to a smaller dimension, what we can think of here is that we are dramatically increasing the influence of the hypersphere relative to the hypercube, i.e. that most of the lost area comes out of the corners. For example, if we flatten from 10D to 9D, we increase the relative sphere volume by 997%.  
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdce788a" class="outline-2">
+<h2 id="orgdce788a">More Things</h2>
+<div class="outline-text-2" id="text-orgdce788a">
+<p>
+I may continue to update this sub-post as I continue thinking about low-rank stuff. For now here's some further reading.
+</p>
+
+<p>
+<a href="https://en.wikipedia.org/wiki/Johnson%E2%80%93Lindenstrauss_lemma">Johnson-Lindenstrauss lemma</a>
+</p>
+
+<p>
+<a href="https://en.wikipedia.org/wiki/Concentration_of_measure">Concentration of Measure</a>
+</p>
+
+<p>
+<a href="https://en.wikipedia.org/wiki/Curse_of_dimensionality">Curse of Dimensionality</a>
 </p>
 </div>
 </div>
