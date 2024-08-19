@@ -28,7 +28,7 @@ This paper trained a number of AlexNet models on ImageNet data, and then compare
 4. We can see many-to-many mappings between clusters of neurons as well, on top of just at the neuron level
 5. The activation statistics between matching neurons are mostly similar as well
 
-To run these experiments, they do multiple training runs with the same architecture on the same data. This makes it pretty likely that the features it would learn would be roughly the same, but in different spots due to random initialization. They then use bipartite semi-matching[fn:2] to pair each filter with it's most likely counterpart in the network. A good number of these are almost perfect matches, but the worst matches suggest that each network has some set of "rare features" that it learned, departing from the other network[fn:1]. 
+To run these experiments, they do multiple training runs with the same architecture upon the same data. This makes it pretty likely that the features it would learn would be roughly the same, but in different spots due to random initialization. They then use bipartite semi-matching[fn:2] to pair each filter with its most likely counterpart in the network. A good number of these are almost perfect matches, but the worst matches suggest that each network has some set of "rare features" that it learned, departing from the other network[fn:1]. 
 
 [[../images/from_clipboard/20240731_101104.png]]
 
@@ -64,7 +64,7 @@ Stable Diffusion finetunes are commonly SLERPed together like this -- often the 
 
 Paper can be found [[https://arxiv.org/abs/2203.05482][here]]. This paper is from 2022, and was one of the early modern "model merging" works[fn:5].
 
-The core idea here is that if instead of selecting the best-performing model training run, or making an ensemble from all the trained models, we can just literally average together the weights and get the benefits of an ensemble with only one model's worth of inference and memory costs. This is a pretty interesting result: the averaged weights of multiple models yield a model which outperforms any individual model! They used this to break state-of-the-art on ImageNet. Core to this is that they're all the same architecture and trained on the same data (just with varying hyperparameters).
+The core idea here is that instead of selecting the best-performing model training run, or making an ensemble from all the trained models, we can just literally average together the weights and get the benefits of an ensemble with only one model's worth of inference and memory costs. This is a pretty interesting result: the averaged weights of multiple models yield a model which outperforms any individual model! They used this to break state-of-the-art on ImageNet. Core to this is that they're all the same architecture and trained on the same data (just with varying hyperparameters).
 
 A lot of this relies on an [[https://arxiv.org/pdf/2008.11687][earlier result]] which showed that "fine-tuned models optimized independently from the same pre-trained initialization lie in the same basin of the error landscape". There was also some earlier work averaging the weights of a single model along a single training run (maintaining a sort of moving average), but this work extended it to combining several models trained independently. They actually show this in figure 2 directly:
 
@@ -78,7 +78,7 @@ The related work has some interesting caveats: [[https://arxiv.org/pdf/1912.0567
 
 The paper can be found [[https://arxiv.org/pdf/2111.09832][here]]. 
 
-Up to this point, averaging models' weights together is generally only feasible if the models share initialization and architecture. This paper frames the model merging process as approximately maximizing the joint likelihood of the models' posterior distribution over parameters, and that if you use an isotropic gaussian distribution to approximate the posterior, maximizing this joint likelihood is equivalent to just averaging the weights. They call this /isotropic merging/ as a result.
+This paper frames the model merging process as approximately maximizing the joint likelihood of the models' posterior distribution over parameters, and that if you use an isotropic gaussian distribution to approximate the posterior, maximizing this joint likelihood is equivalent to just averaging the weights. They call this /isotropic merging/ as a result.
 
 In contrast, they think a better way to approximate this posterior would yield a better result. So, use the Laplace approximation instead, by taking the diagonal of each model's [[https://en.wikipedia.org/wiki/Fisher_information][Fisher information matrix]] as the precision matrix for that model's posterior. They call this /Fisher merging/ to distinguish it from isotropic merging, and they show that it's often a bit better.
 
@@ -108,7 +108,7 @@ They provide three methods for matching units between two different models.
 
 Straight-through estimator performs the best, but the other methods are almost as good and much cheaper -- especially algorithm 1, which runs in a few seconds and doesn't require access to data. Unlike the other papers in here this paper is pretty dense, quite theoretical rather than being hacky. They don't always get zero-barrier (i.e. in the same loss basin) but usually they get a big reduction which enables some sort of merge to be possible.
 
-Thankfully they have [[https://github.com/samuela/git-re-basin][code]], actually code for the actual methods, see [[https://github.com/samuela/git-re-basin/blob/main/src/weight_matching.py][weight_matching.py]] which actually does algorithm 1 in there. It's in Jax though.
+Thankfully they have [[https://github.com/samuela/git-re-basin][code]], actually code for the actual methods, see [[https://github.com/samuela/git-re-basin/blob/main/src/weight_matching.py][weight-matching.py]] which actually does algorithm 1 in there. It's in Jax though.
 
 This isn't used that much in the papers which follow, which mostly deal with merging finetunes together. It seems like it should be necessary for language models in particular (note that this is a general model merging paper), since those often don't even have the same architecture, but for some reason they seem unnecessary there. 
 

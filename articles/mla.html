@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-08-15 Thu 00:07 -->
+<!-- 2024-08-19 Mon 15:42 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>On MLA</title>
@@ -482,43 +482,43 @@ We also see below our training curves for each of these experiments, which seem 
 </p>
 
 
-<div id="org22695a7" class="figure">
+<div id="org775f670" class="figure">
 <p><img src="../images/mla/mha_rope_training_curve.png" alt="mha_rope_training_curve.png" />
 </p>
 </div>
 
 
-<div id="orgb25893e" class="figure">
+<div id="orgebf3af1" class="figure">
 <p><img src="../images/mla/mla_rope_training_curve.png" alt="mla_rope_training_curve.png" />
 </p>
 </div>
 
 
-<div id="orgb2158e0" class="figure">
+<div id="org399d7f2" class="figure">
 <p><img src="../images/mla/mha_decoupled_rope_training_curve.png" alt="mha_decoupled_rope_training_curve.png" />
 </p>
 </div>
 
 
-<div id="org566387e" class="figure">
+<div id="org779068c" class="figure">
 <p><img src="../images/mla/mqa_rope_training_curve.png" alt="mqa_rope_training_curve.png" />
 </p>
 </div>
 
 
-<div id="orgfc4fd39" class="figure">
+<div id="orgd193ffa" class="figure">
 <p><img src="../images/mla/mla_training_curve.png" alt="mla_training_curve.png" />
 </p>
 </div>
 
 
-<div id="org03fa689" class="figure">
+<div id="org9dab069" class="figure">
 <p><img src="../images/mla/mha_training_curve.png" alt="mha_training_curve.png" />
 </p>
 </div>
 
 
-<div id="orgb5ba97f" class="figure">
+<div id="orgcd5f0d2" class="figure">
 <p><img src="../images/mla/mqa_training_curve.png" alt="mqa_training_curve.png" />
 </p>
 </div>
@@ -566,7 +566,7 @@ Below we scale the above experiment to a ~300M parameter model<sup><a id="fnr.17
 </table>
 
 <p>
-An interesting artifact of storing the intermediate KVyu vector is that this will reduce the KV cache burden even if this operation does not necessarily constitute compression. With no RoPE, at a kv<sub>proj</sub><sub>dim</sub> \(r = \frac{2}{3d_{model}}\), two layers \((X, r) \rightarrow (r, 2X)\) have the same number of parameters as one layer \((X, 2X)\), and likewise \(r = 0.5 d_{model}\) for q<sub>proj</sub><sub>dim</sub>. What this means is that these two models will have equal parameter counts, and these two matrices can be multiplied together to yield a matrix which is the same size as the original \(W_{kv}\) matrix. <i>Despite that</i>, you can still store the intermediate vector of \((B, len_k, 0.33 d_{model})\) instead of the resulting vector of \((B, len_k, d_{model})\), which constitutes a 66% reduction in KV cache burden without the need for any compression<sup><a id="fnr.18" class="footref" href="#fn.18" role="doc-backlink">18</a></sup>.
+An interesting artifact of storing the intermediate KV vector is that this will reduce the KV cache burden even if this operation does not necessarily constitute compression. With no RoPE, at a kv<sub>proj</sub><sub>dim</sub> \(r = \frac{2}{3d_{model}}\), two layers \((X, r) \rightarrow (r, 2X)\) have the same number of parameters as one layer \((X, 2X)\), and likewise \(r = 0.5 d_{model}\) for q<sub>proj</sub><sub>dim</sub>. What this means is that these two models will have equal parameter counts, and these two matrices can be multiplied together to yield a matrix which is the same size as the original \(W_{kv}\) matrix. <i>Despite that</i>, you can still store the intermediate vector of \((B, len_k, 0.33 d_{model})\) instead of the resulting vector of \((B, len_k, d_{model})\), which constitutes a 66% reduction in KV cache burden without the need for any compression<sup><a id="fnr.18" class="footref" href="#fn.18" role="doc-backlink">18</a></sup>.
 </p>
 
 <p>
@@ -591,13 +591,13 @@ You may ask: how different is the performance between compressed caching and ful
 </p>
 
 
-<div id="org5d450b6" class="figure">
+<div id="orga8b521b" class="figure">
 <p><img src="../images/mla/inference_100_in.png" alt="inference_100_in.png" />
 </p>
 </div>
 
 
-<div id="org8428681" class="figure">
+<div id="org2e25beb" class="figure">
 <p><img src="../images/mla/inference_100_out.png" alt="inference_100_out.png" />
 </p>
 </div>

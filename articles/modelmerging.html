@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-07-31 Wed 23:42 -->
+<!-- 2024-08-19 Mon 15:55 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Model Merging</title>
@@ -190,11 +190,11 @@ This paper trained a number of AlexNet models on ImageNet data, and then compare
 </ol>
 
 <p>
-To run these experiments, they do multiple training runs with the same architecture on the same data. This makes it pretty likely that the features it would learn would be roughly the same, but in different spots due to random initialization. They then use bipartite semi-matching<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> to pair each filter with it's most likely counterpart in the network. A good number of these are almost perfect matches, but the worst matches suggest that each network has some set of "rare features" that it learned, departing from the other network<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>. 
+To run these experiments, they do multiple training runs with the same architecture upon the same data. This makes it pretty likely that the features it would learn would be roughly the same, but in different spots due to random initialization. They then use bipartite semi-matching<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> to pair each filter with its most likely counterpart in the network. A good number of these are almost perfect matches, but the worst matches suggest that each network has some set of "rare features" that it learned, departing from the other network<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>. 
 </p>
 
 
-<div id="orgc60bec7" class="figure">
+<div id="org3d695e2" class="figure">
 <p><img src="../images/from_clipboard/20240731_101104.png" alt="20240731_101104.png" />
 </p>
 </div>
@@ -204,7 +204,7 @@ To really show how the two are related, they learn a single "mapping" layer (a L
 </p>
 
 
-<div id="org9bdd8dc" class="figure">
+<div id="org00c14ed" class="figure">
 <p><img src="../images/from_clipboard/20240731_102448.png" alt="20240731_102448.png" />
 </p>
 </div>
@@ -249,7 +249,7 @@ They propose using <i>SLERP</i>, which is a spherical linear interpolation along
 </p>
 
 
-<div id="org35beae7" class="figure">
+<div id="org1a97fe4" class="figure">
 <p><img src="../images/from_clipboard/20240731_110449.png" alt="20240731_110449.png" />
 </p>
 </div>
@@ -268,7 +268,7 @@ Paper can be found <a href="https://arxiv.org/abs/2203.05482">here</a>. This pap
 </p>
 
 <p>
-The core idea here is that if instead of selecting the best-performing model training run, or making an ensemble from all the trained models, we can just literally average together the weights and get the benefits of an ensemble with only one model's worth of inference and memory costs. This is a pretty interesting result: the averaged weights of multiple models yield a model which outperforms any individual model! They used this to break state-of-the-art on ImageNet. Core to this is that they're all the same architecture and trained on the same data (just with varying hyperparameters).
+The core idea here is that instead of selecting the best-performing model training run, or making an ensemble from all the trained models, we can just literally average together the weights and get the benefits of an ensemble with only one model's worth of inference and memory costs. This is a pretty interesting result: the averaged weights of multiple models yield a model which outperforms any individual model! They used this to break state-of-the-art on ImageNet. Core to this is that they're all the same architecture and trained on the same data (just with varying hyperparameters).
 </p>
 
 <p>
@@ -276,7 +276,7 @@ A lot of this relies on an <a href="https://arxiv.org/pdf/2008.11687">earlier re
 </p>
 
 
-<div id="org8a5b3bf" class="figure">
+<div id="org09f613b" class="figure">
 <p><img src="../images/from_clipboard/20240731_131554.png" alt="20240731_131554.png" />
 </p>
 </div>
@@ -299,7 +299,7 @@ The paper can be found <a href="https://arxiv.org/pdf/2111.09832">here</a>.
 </p>
 
 <p>
-Up to this point, averaging models' weights together is generally only feasible if the models share initialization and architecture. This paper frames the model merging process as approximately maximizing the joint likelihood of the models' posterior distribution over parameters, and that if you use an isotropic gaussian distribution to approximate the posterior, maximizing this joint likelihood is equivalent to just averaging the weights. They call this <i>isotropic merging</i> as a result.
+This paper frames the model merging process as approximately maximizing the joint likelihood of the models' posterior distribution over parameters, and that if you use an isotropic gaussian distribution to approximate the posterior, maximizing this joint likelihood is equivalent to just averaging the weights. They call this <i>isotropic merging</i> as a result.
 </p>
 
 <p>
@@ -307,13 +307,13 @@ In contrast, they think a better way to approximate this posterior would yield a
 </p>
 
 
-<div id="orgdcd94d5" class="figure">
+<div id="org857c976" class="figure">
 <p><img src="../images/from_clipboard/20240731_173548.png" alt="20240731_173548.png" />
 </p>
 </div>
 
 
-<div id="orgd8205a0" class="figure">
+<div id="org8f34bf6" class="figure">
 <p><img src="../images/from_clipboard/20240731_173631.png" alt="20240731_173631.png" />
 </p>
 </div>
@@ -340,7 +340,7 @@ Basically, this paper tries to solve the permutation problem we saw in the conve
 </p>
 
 
-<div id="org0fe60a1" class="figure">
+<div id="org064ec05" class="figure">
 <p><img src="../images/from_clipboard/20240731_211709.png" alt="20240731_211709.png" />
 </p>
 </div>
@@ -356,7 +356,7 @@ They provide three methods for matching units between two different models.
 </ol>
 
 
-<div id="orgf817f48" class="figure">
+<div id="org09f6eb0" class="figure">
 <p><img src="../images/from_clipboard/20240731_215742.png" alt="20240731_215742.png" />
 </p>
 </div>
@@ -366,7 +366,7 @@ Straight-through estimator performs the best, but the other methods are almost a
 </p>
 
 <p>
-Thankfully they have <a href="https://github.com/samuela/git-re-basin">code</a>, actually code for the actual methods, see <a href="https://github.com/samuela/git-re-basin/blob/main/src/weight_matching.py">weight<sub>matching.py</sub></a> which actually does algorithm 1 in there. It's in Jax though.
+Thankfully they have <a href="https://github.com/samuela/git-re-basin">code</a>, actually code for the actual methods, see <a href="https://github.com/samuela/git-re-basin/blob/main/src/weight_matching.py">weight-matching.py</a> which actually does algorithm 1 in there. It's in Jax though.
 </p>
 
 <p>
@@ -391,7 +391,7 @@ This is interesting because we can <i>remove</i> things by training models which
 </p>
 
 
-<div id="org95fe845" class="figure">
+<div id="orgc119b5c" class="figure">
 <p><img src="../images/from_clipboard/20240731_145513.png" alt="20240731_145513.png" />
 </p>
 </div>
@@ -426,13 +426,13 @@ TIES-MERGING stands for&#x2026; TrIm, Elect Sign and MERGE<sup><a id="fnr.7" cla
 </p>
 
 
-<div id="orgf12a8d5" class="figure">
+<div id="org632a01e" class="figure">
 <p><img src="../images/from_clipboard/20240731_154456.png" alt="20240731_154456.png" />
 </p>
 </div>
 
 
-<div id="orgd25d0ed" class="figure">
+<div id="org9dcdc5e" class="figure">
 <p><img src="../images/from_clipboard/20240731_155253.png" alt="20240731_155253.png" />
 </p>
 </div>
@@ -446,7 +446,7 @@ Why does this work? Don't we need the little updates too, given that the gradien
 </p>
 
 
-<div id="org47d6c0f" class="figure">
+<div id="org2adea3b" class="figure">
 <p><img src="../images/from_clipboard/20240731_161638.png" alt="20240731_161638.png" />
 </p>
 </div>
@@ -473,7 +473,7 @@ DARE is another method which zeros out small differences, it stands for Drop And
 </p>
 
 
-<div id="org7f61e3e" class="figure">
+<div id="org2399812" class="figure">
 <p><img src="../images/from_clipboard/20240731_165605.png" alt="20240731_165605.png" />
 </p>
 </div>
@@ -483,7 +483,7 @@ This has the most unnavigable figure I've ever seen in a paper, ever. Check this
 </p>
 
 
-<div id="org5d3e968" class="figure">
+<div id="orgc07ffab" class="figure">
 <p><img src="../images/from_clipboard/20240731_165912.png" alt="20240731_165912.png" />
 </p>
 </div>
@@ -514,7 +514,7 @@ This paper might help us answer the question of why random drop in DARE seems to
 </p>
 
 
-<div id="org4e90aeb" class="figure">
+<div id="org659b2e3" class="figure">
 <p><img src="../images/from_clipboard/20240731_231314.png" alt="20240731_231314.png" />
 </p>
 </div>
@@ -524,7 +524,7 @@ There's not much to say past that &#x2013; it's DARES with top masking too.
 </p>
 
 
-<div id="org6d9bba5" class="figure">
+<div id="org181bc91" class="figure">
 <p><img src="../images/from_clipboard/20240731_232108.png" alt="20240731_232108.png" />
 </p>
 </div>
@@ -569,7 +569,7 @@ If you are like me, and you read the DARE paper and thought "random drop seems l
 </p>
 
 
-<div id="org814caca" class="figure">
+<div id="org28f8efb" class="figure">
 <p><img src="../images/from_clipboard/20240731_233451.png" alt="20240731_233451.png" />
 </p>
 </div>
@@ -707,7 +707,7 @@ They really lean into this "soup" analogy
 </p>
 
 
-<div id="org9359772" class="figure">
+<div id="org62b500a" class="figure">
 <p><img src="../images/from_clipboard/20240731_112528.png" alt="20240731_112528.png" />
 </p>
 </div></div></div>
