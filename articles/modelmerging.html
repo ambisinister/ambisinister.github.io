@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-08-19 Mon 15:55 -->
+<!-- 2024-08-19 Mon 17:42 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Model Merging</title>
@@ -114,6 +114,7 @@ $(function() {
 <li><a href="#org9bba2ea">Convergent Learning: Do Different Neural Networks Learn the Same Representations?</a></li>
 <li><a href="#org82f9a08">(SLERP) Sampling Generative Networks</a></li>
 <li><a href="#org7742a88">Model Soups: averaging weights of multiple fine-tuned models improves accuracy without increasing inference time</a></li>
+<li><a href="#org8a3180c">Fusing Finetuned Models for Better Pretraining</a></li>
 <li><a href="#org35bb97b">Merging Models with Fisher-Weighted Averaging</a></li>
 <li><a href="#org79b97ec">Git Re-Basin</a></li>
 <li><a href="#org70f8b25">Editing Models with Task Arithmetic</a></li>
@@ -129,8 +130,13 @@ $(function() {
 <li><a href="#orgb7b6d62">Thoughts</a></li>
 </ul>
 </li>
-<li><a href="#org75967f6">Angry Ranting About Frankenmerging</a></li>
-<li><a href="#orgbc78e10">Appendix: Other Papers</a></li>
+<li><a href="#org73e063c">Appendix A: Angry Ranting About Frankenmerging</a></li>
+<li><a href="#orgb9c6379">Appendix B: Other Papers</a>
+<ul>
+<li><a href="#org30c3264">Dataless Knowledge Fusion by Merging Weights of Language Models</a></li>
+<li><a href="#orgc0a56fa">Reading List</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -150,6 +156,10 @@ There is some work applying these sorts of merges to vision models, too, like St
 
 <p>
 There are many good <a href="https://huggingface.co/blog/mlabonne/merge-models">resources</a> out there for understanding how to apply mergekit to large language models. I am interested in building some intuition upon how and why these methods work, and specifically if there's any room for applying these techniques to other types of models, or other problems.
+</p>
+
+<p>
+This document is a work in progress: I will be spending some cycles on model merging and will periodically update this page as I continue to read about it.
 </p>
 </div>
 
@@ -194,7 +204,7 @@ To run these experiments, they do multiple training runs with the same architect
 </p>
 
 
-<div id="org3d695e2" class="figure">
+<div id="org43b1fdf" class="figure">
 <p><img src="../images/from_clipboard/20240731_101104.png" alt="20240731_101104.png" />
 </p>
 </div>
@@ -204,7 +214,7 @@ To really show how the two are related, they learn a single "mapping" layer (a L
 </p>
 
 
-<div id="org00c14ed" class="figure">
+<div id="org8d09203" class="figure">
 <p><img src="../images/from_clipboard/20240731_102448.png" alt="20240731_102448.png" />
 </p>
 </div>
@@ -249,7 +259,7 @@ They propose using <i>SLERP</i>, which is a spherical linear interpolation along
 </p>
 
 
-<div id="org1a97fe4" class="figure">
+<div id="org495ca83" class="figure">
 <p><img src="../images/from_clipboard/20240731_110449.png" alt="20240731_110449.png" />
 </p>
 </div>
@@ -276,7 +286,7 @@ A lot of this relies on an <a href="https://arxiv.org/pdf/2008.11687">earlier re
 </p>
 
 
-<div id="org09f613b" class="figure">
+<div id="org91b351a" class="figure">
 <p><img src="../images/from_clipboard/20240731_131554.png" alt="20240731_131554.png" />
 </p>
 </div>
@@ -286,10 +296,38 @@ Specifically they find that using held-out data and taking a greedy approach to 
 </p>
 
 <p>
-The related work has some interesting caveats: <a href="https://arxiv.org/pdf/1912.05671">Linear Mode Connectivity and the Lottery Ticket Hypothesis</a> showed different data order makes simple weight averaging ineffective (i.e. equivalent to random), but that if the two models share some part of their optimization trajectory, that suddenly averaging them works well again. In <a href="https://arxiv.org/pdf/2008.11687">What is being transferred in transfer learning?</a> it was shown that interpolating between two finetunes will have at least the accuracy of the endpoints. 
+The related work has some interesting caveats: <a href="https://arxiv.org/pdf/1912.05671">Linear Mode Connectivity and the Lottery Ticket Hypothesis</a> showed different data order makes simple weight averaging ineffective (i.e. equivalent to random), but that if the two models share some part of their optimization trajectory, that suddenly averaging them works well again. In <a href="https://arxiv.org/pdf/2008.11687">What is being transferred in transfer learning?</a> it was shown that interpolating between two finetunes will have at least the accuracy of the endpoints.
 </p>
 </div>
 </div>
+
+<div id="outline-container-org8a3180c" class="outline-2">
+<h2 id="org8a3180c">Fusing Finetuned Models for Better Pretraining</h2>
+<div class="outline-text-2" id="text-org8a3180c">
+<p>
+<a href="https://arxiv.org/pdf/2204.03044">Paper can be found here</a>. This is a 2022 model averaging paper which concludes that for adapting a model to a new task, it's often better to average together different finetunes compared to using pretrained models.
+</p>
+
+
+<div id="org9257179" class="figure">
+<p><img src="../images/from_clipboard/20240819_170843.png" alt="20240819_170843.png" />
+</p>
+</div>
+
+<p>
+Conceptually this paper is a bit like the model soups paper, but instead of many random finetuning runs upon the same data, it first merges together several models which were finetuned from the same base model for different tasks. For example, consider a base model for which three finetunes have been produced: one for text classification, one for natural language inference, and one for twitter irony detection. If you wanted to train this model on a fourth task, your instinct might be to start from the base model and do another finetune, but this paper claims that first merging finetunes for other tasks may result in superior pretraining for the new task.
+</p>
+
+<p>
+This paper has some significance for us here because it's one of the few papers in here which is explicitly about <i>further training</i> the resulting merged model, rather than simply edging out the best performance at test time. Conceptually their results are easy to grasp: you want to pick the checkpoint which is already closest to your target task, and if your task is conceptually "between" two existing pretrained models, it might be closer to the solution to use a merged pretraining start point compared to using one of the finetunes (or the base model).
+</p>
+
+<p>
+There's also some notes in here about how weight decay empirically destroys the benefits of starting with one of the finetunes, but doesn't seem to do that for merged models. This isn't supported by anything other than experiment, but it's interesting to note.
+</p>
+</div>
+</div>
+
 
 <div id="outline-container-org35bb97b" class="outline-2">
 <h2 id="org35bb97b">Merging Models with Fisher-Weighted Averaging</h2>
@@ -307,13 +345,13 @@ In contrast, they think a better way to approximate this posterior would yield a
 </p>
 
 
-<div id="org857c976" class="figure">
+<div id="orgebc555d" class="figure">
 <p><img src="../images/from_clipboard/20240731_173548.png" alt="20240731_173548.png" />
 </p>
 </div>
 
 
-<div id="org8f34bf6" class="figure">
+<div id="orgded2e4f" class="figure">
 <p><img src="../images/from_clipboard/20240731_173631.png" alt="20240731_173631.png" />
 </p>
 </div>
@@ -340,7 +378,7 @@ Basically, this paper tries to solve the permutation problem we saw in the conve
 </p>
 
 
-<div id="org064ec05" class="figure">
+<div id="org88b57a6" class="figure">
 <p><img src="../images/from_clipboard/20240731_211709.png" alt="20240731_211709.png" />
 </p>
 </div>
@@ -356,7 +394,7 @@ They provide three methods for matching units between two different models.
 </ol>
 
 
-<div id="org09f6eb0" class="figure">
+<div id="org29b270a" class="figure">
 <p><img src="../images/from_clipboard/20240731_215742.png" alt="20240731_215742.png" />
 </p>
 </div>
@@ -391,7 +429,7 @@ This is interesting because we can <i>remove</i> things by training models which
 </p>
 
 
-<div id="orgc119b5c" class="figure">
+<div id="org44b5f9d" class="figure">
 <p><img src="../images/from_clipboard/20240731_145513.png" alt="20240731_145513.png" />
 </p>
 </div>
@@ -426,13 +464,13 @@ TIES-MERGING stands for&#x2026; TrIm, Elect Sign and MERGE<sup><a id="fnr.7" cla
 </p>
 
 
-<div id="org632a01e" class="figure">
+<div id="org2733554" class="figure">
 <p><img src="../images/from_clipboard/20240731_154456.png" alt="20240731_154456.png" />
 </p>
 </div>
 
 
-<div id="org9dcdc5e" class="figure">
+<div id="org8767310" class="figure">
 <p><img src="../images/from_clipboard/20240731_155253.png" alt="20240731_155253.png" />
 </p>
 </div>
@@ -446,7 +484,7 @@ Why does this work? Don't we need the little updates too, given that the gradien
 </p>
 
 
-<div id="org2adea3b" class="figure">
+<div id="org145e258" class="figure">
 <p><img src="../images/from_clipboard/20240731_161638.png" alt="20240731_161638.png" />
 </p>
 </div>
@@ -473,7 +511,7 @@ DARE is another method which zeros out small differences, it stands for Drop And
 </p>
 
 
-<div id="org2399812" class="figure">
+<div id="orgd63c3b3" class="figure">
 <p><img src="../images/from_clipboard/20240731_165605.png" alt="20240731_165605.png" />
 </p>
 </div>
@@ -483,7 +521,7 @@ This has the most unnavigable figure I've ever seen in a paper, ever. Check this
 </p>
 
 
-<div id="orgc07ffab" class="figure">
+<div id="orgd86d048" class="figure">
 <p><img src="../images/from_clipboard/20240731_165912.png" alt="20240731_165912.png" />
 </p>
 </div>
@@ -514,7 +552,7 @@ This paper might help us answer the question of why random drop in DARE seems to
 </p>
 
 
-<div id="org659b2e3" class="figure">
+<div id="orgdabe515" class="figure">
 <p><img src="../images/from_clipboard/20240731_231314.png" alt="20240731_231314.png" />
 </p>
 </div>
@@ -524,7 +562,7 @@ There's not much to say past that &#x2013; it's DARES with top masking too.
 </p>
 
 
-<div id="org181bc91" class="figure">
+<div id="orgb3b7a7d" class="figure">
 <p><img src="../images/from_clipboard/20240731_232108.png" alt="20240731_232108.png" />
 </p>
 </div>
@@ -569,7 +607,7 @@ If you are like me, and you read the DARE paper and thought "random drop seems l
 </p>
 
 
-<div id="org28f8efb" class="figure">
+<div id="org4d249b8" class="figure">
 <p><img src="../images/from_clipboard/20240731_233451.png" alt="20240731_233451.png" />
 </p>
 </div>
@@ -644,9 +682,9 @@ Maybe there's some funny space here for some sort of evolved <a href="https://ar
 </div>
 </div>
 
-<div id="outline-container-org75967f6" class="outline-2">
-<h2 id="org75967f6">Angry Ranting About Frankenmerging</h2>
-<div class="outline-text-2" id="text-org75967f6">
+<div id="outline-container-org73e063c" class="outline-2">
+<h2 id="org73e063c">Appendix A: Angry Ranting About Frankenmerging</h2>
+<div class="outline-text-2" id="text-org73e063c">
 <p>
 There is no citation in the Evolutionary Optimization paper with respect to Frankenmerging. It is not included at all in the <a href="https://arxiv.org/pdf/2309.15698">survey paper</a> I read on the topic, which only examines mode connectivity, alignment, weight averaging, and ensemble learning. As far as I'm aware nobody has any idea why this would even vaguely work, and there's no published work on it at all.
 </p>
@@ -657,19 +695,44 @@ If this works I don't think I really understand why we are training these models
 </div>
 </div>
 
-<div id="outline-container-orgbc78e10" class="outline-2">
-<h2 id="orgbc78e10">Appendix: Other Papers</h2>
-<div class="outline-text-2" id="text-orgbc78e10">
+<div id="outline-container-orgb9c6379" class="outline-2">
+<h2 id="orgb9c6379">Appendix B: Other Papers</h2>
+<div class="outline-text-2" id="text-orgb9c6379">
 <p>
-<a href="https://arxiv.org/pdf/2204.03044">fusing finetuned models for better pretraining</a> 2022 model averaging paper: averaging different fine tunes is better than using pretrained models.
+By default, papers will be put in here as I read them, and they will remain here if they seem unimportant enough to graduate above to the level of "paper necessary to understand the model merging space".
+</p>
+</div>
+
+<div id="outline-container-org30c3264" class="outline-3">
+<h3 id="org30c3264">Dataless Knowledge Fusion by Merging Weights of Language Models</h3>
+<div class="outline-text-3" id="text-org30c3264">
+<p>
+<a href="https://openreview.net/pdf?id=FCnohuR6AnM">Paper can be found here</a>. This paper from 2023 introduced <i>RegMean</i> (Regression Mean), sort of a combination of fisher merging and simple linear merging, which minimizes l2 distance to individual model predictions on the training sets.
 </p>
 
 <p>
-<a href="https://openreview.net/pdf?id=FCnohuR6AnM">dataless knowledge fusion by merging weights of language models</a> 2023 ICLR paper, RegMean, sort of a combination of fisher merging and simple linear merging, which minimizes l2 distance to individual model predictions on the training sets.
+The justification for model merging here is that we need data to do multi-task learning, we need a lot of memory to do ensembling of large models, and we need multiple rounds to do federated learning. In comparison, model merging is data and training-free, and results in a single model in a single round.
 </p>
 
 <p>
-Other methods for finding permutations to merge unrelated models:
+As you would expect, the underlying assumption is that the model architectures here are all identical. "Dataless" is also a bit of a misnomer here &#x2013; RegMean compared to other methods here is moreso <i>data aware</i> in the sense that it tries to find the optimal interpolation point between two models which maximizes the performance on some training data. It's called "dataless" because access to the training data used for each model is not necessary.
+</p>
+
+<p>
+RegMean seems to perform quite well, but as mentioned requires you to run the models on some training data in order to find the optimal merge point.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc0a56fa" class="outline-3">
+<h3 id="orgc0a56fa">Reading List</h3>
+<div class="outline-text-3" id="text-orgc0a56fa">
+<p>
+Here's papers yet to be read.
+</p>
+
+<p>
+I will need to learn some Optimal Transport + Federated Learning concepts in order to properly do the next two papers justice, so they're slightly larger projects than the other papers. Unclear that they're very important for understanding the space.
 </p>
 
 <p>
@@ -679,6 +742,7 @@ Other methods for finding permutations to merge unrelated models:
 <p>
 <a href="https://arxiv.org/pdf/2002.06440">Federated Learning with Matched Averaging</a>
 </p>
+</div>
 </div>
 </div>
 </div>
@@ -707,7 +771,7 @@ They really lean into this "soup" analogy
 </p>
 
 
-<div id="org62b500a" class="figure">
+<div id="org32755a0" class="figure">
 <p><img src="../images/from_clipboard/20240731_112528.png" alt="20240731_112528.png" />
 </p>
 </div></div></div>

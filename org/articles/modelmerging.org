@@ -8,6 +8,8 @@ There is some work applying these sorts of merges to vision models, too, like St
 
 There are many good [[https://huggingface.co/blog/mlabonne/merge-models][resources]] out there for understanding how to apply mergekit to large language models. I am interested in building some intuition upon how and why these methods work, and specifically if there's any room for applying these techniques to other types of models, or other problems.
 
+This document is a work in progress: I will be spending some cycles on model merging and will periodically update this page as I continue to read about it.
+
 ** Some Prerequisite Info
 
 For actually performing the merging, at least for LLMs, [[https://github.com/arcee-ai/mergekit?tab=readme-ov-file#merge-methods][mergekit]] is a popular repo. It has a bunch of different methods, as well as it's own [[https://arxiv.org/pdf/2403.13257][paper]] which I'll include for completeness.
@@ -72,7 +74,20 @@ A lot of this relies on an [[https://arxiv.org/pdf/2008.11687][earlier result]] 
 
 Specifically they find that using held-out data and taking a greedy approach to averaging in new models (adding them if they increase performance on held-out data) is the best way to do this. They find that this seems slightly worse than ensembles on test, and slightly better than ensembles under distribution shift. They use CLIP ViT-L, ViT-G, ALIGN (uses efficientnet for vision encoder), BASIC, a big variety of models of different types.
 
-The related work has some interesting caveats: [[https://arxiv.org/pdf/1912.05671][Linear Mode Connectivity and the Lottery Ticket Hypothesis]] showed different data order makes simple weight averaging ineffective (i.e. equivalent to random), but that if the two models share some part of their optimization trajectory, that suddenly averaging them works well again. In [[https://arxiv.org/pdf/2008.11687][What is being transferred in transfer learning?]] it was shown that interpolating between two finetunes will have at least the accuracy of the endpoints. 
+The related work has some interesting caveats: [[https://arxiv.org/pdf/1912.05671][Linear Mode Connectivity and the Lottery Ticket Hypothesis]] showed different data order makes simple weight averaging ineffective (i.e. equivalent to random), but that if the two models share some part of their optimization trajectory, that suddenly averaging them works well again. In [[https://arxiv.org/pdf/2008.11687][What is being transferred in transfer learning?]] it was shown that interpolating between two finetunes will have at least the accuracy of the endpoints.
+
+** Fusing Finetuned Models for Better Pretraining
+
+[[https://arxiv.org/pdf/2204.03044][Paper can be found here]]. This is a 2022 model averaging paper which concludes that for adapting a model to a new task, it's often better to average together different finetunes compared to using pretrained models.
+
+[[../images/from_clipboard/20240819_170843.png]]
+
+Conceptually this paper is a bit like the model soups paper, but instead of many random finetuning runs upon the same data, it first merges together several models which were finetuned from the same base model for different tasks. For example, consider a base model for which three finetunes have been produced: one for text classification, one for natural language inference, and one for twitter irony detection. If you wanted to train this model on a fourth task, your instinct might be to start from the base model and do another finetune, but this paper claims that first merging finetunes for other tasks may result in superior pretraining for the new task.
+
+This paper has some significance for us here because it's one of the few papers in here which is explicitly about /further training/ the resulting merged model, rather than simply edging out the best performance at test time. Conceptually their results are easy to grasp: you want to pick the checkpoint which is already closest to your target task, and if your task is conceptually "between" two existing pretrained models, it might be closer to the solution to use a merged pretraining start point compared to using one of the finetunes (or the base model).
+
+There's also some notes in here about how weight decay empirically destroys the benefits of starting with one of the finetunes, but doesn't seem to do that for merged models. This isn't supported by anything other than experiment, but it's interesting to note.
+
 
 ** Merging Models with Fisher-Weighted Averaging
 
@@ -233,19 +248,31 @@ Like other methods for model merging, we don't have to do any training after thi
 
 Maybe there's some funny space here for some sort of evolved [[https://arxiv.org/pdf/2406.04692][mixture-of-agents]] work, where instead of evolving a single model we evolve a sort of community of models whose aggregate performance is better than other aggregates. I think this sort of thing might help clarify for me if there's any meaningful way to steer the frankenmodels to be meaningfully different from each other, rather than just randomly happening to work. 
 
-** Angry Ranting About Frankenmerging
+** Appendix A: Angry Ranting About Frankenmerging
 
 There is no citation in the Evolutionary Optimization paper with respect to Frankenmerging. It is not included at all in the [[https://arxiv.org/pdf/2309.15698][survey paper]] I read on the topic, which only examines mode connectivity, alignment, weight averaging, and ensemble learning. As far as I'm aware nobody has any idea why this would even vaguely work, and there's no published work on it at all.
 
 If this works I don't think I really understand why we are training these models so deeply at all. If we can arbitrarily repeat layers like this then why aren't we just training a single layer and feeding it back into itself like an RNN? We can even think more deeply by asking the model to arbitrarily use more layers for a particular forward pass. Surely this would not work, right? Surely this would be a crazy thing to do.  
 
-** Appendix: Other Papers
+** Appendix B: Other Papers
 
-[[https://arxiv.org/pdf/2204.03044][fusing finetuned models for better pretraining]] 2022 model averaging paper: averaging different fine tunes is better than using pretrained models.
+By default, papers will be put in here as I read them, and they will remain here if they seem unimportant enough to graduate above to the level of "paper necessary to understand the model merging space".
 
-[[https://openreview.net/pdf?id=FCnohuR6AnM][dataless knowledge fusion by merging weights of language models]] 2023 ICLR paper, RegMean, sort of a combination of fisher merging and simple linear merging, which minimizes l2 distance to individual model predictions on the training sets.
+*** Dataless Knowledge Fusion by Merging Weights of Language Models
 
-Other methods for finding permutations to merge unrelated models:
+[[https://openreview.net/pdf?id=FCnohuR6AnM][Paper can be found here]]. This paper from 2023 introduced /RegMean/ (Regression Mean), sort of a combination of fisher merging and simple linear merging, which minimizes l2 distance to individual model predictions on the training sets.
+
+The justification for model merging here is that we need data to do multi-task learning, we need a lot of memory to do ensembling of large models, and we need multiple rounds to do federated learning. In comparison, model merging is data and training-free, and results in a single model in a single round.
+
+As you would expect, the underlying assumption is that the model architectures here are all identical. "Dataless" is also a bit of a misnomer here -- RegMean compared to other methods here is moreso /data aware/ in the sense that it tries to find the optimal interpolation point between two models which maximizes the performance on some training data. It's called "dataless" because access to the training data used for each model is not necessary.
+
+RegMean seems to perform quite well, but as mentioned requires you to run the models on some training data in order to find the optimal merge point.
+
+*** Reading List
+
+Here's papers yet to be read.
+
+I will need to learn some Optimal Transport + Federated Learning concepts in order to properly do the next two papers justice, so they're slightly larger projects than the other papers. Unclear that they're very important for understanding the space.
 
 [[https://arxiv.org/pdf/1910.05653][Model Fusion via Optimal Transport]]
 
