@@ -255,6 +255,18 @@ Frankenmerging is really understudied, especially relative to how often it gets 
 
 This section is slightly different from the section above in that it's going to be less "papers about model (franken) merging" and more "papers which help understand where and why frankenmerging might be useful".
 
+*** Understanding Robustness of Transformers for Image Classification
+
+A hint for why frankenmerging works can be found in [[https://arxiv.org/pdf/2103.14586][this paper]] from 2021, which looked at imagenet classification performance in ViT. Specifically, section 4 /Robustness to Model Perturbations/ has two results which are of interest to us. First, that the hidden features of each transformer block, ignoring the first (few) layers, are generally highly correlated. Second, that removing transformer blocks, self-attention layers, or MLPs will only degrade performance a relatively small amount, rather than destroying performance.
+
+[[../images/from_clipboard/20240820_154435.png]]
+
+[[../images/from_clipboard/20240820_154452.png]]
+
+There's other work which suggests that residual networks in general show a large amount of redundancy, and you can remove almost any individual layer in a residual network without hurting performance too much. Indeed that's what they found here: the network is pretty robust to these sorts of "lesions" with the notable exception of the first layer being too important to delete.
+
+One point of interest here: this paper finds that more training data leads to increasingly harmed performance of lesions, potentially implying higher model utilization. Unclear to me if this is problem (e.g. vision) specific or meaningfully implies similar conclusions with language models.
+
 *** Transformer Layers as Painters
 
 This paper can be found [[https://arxiv.org/pdf/2407.09298][here]]. This is another Sakana AI work, and is likely the most directly related to frankenmerging: they show that intermediate transformer layers (i.e. not the first and last layers) are relatively uniform, and are often robust to being skipped, repeated, or reordered. They use the analogy of "an assembly line of painters" where each layer is responsible for painting something upon the canvas, and reordering the painters will often not catastrophically destroy the final image.
@@ -279,6 +291,24 @@ The remainder of this paper is a pretty easy read, a rapid-fire question-answer 
 - Which variants are the least harmful? Repeating a single layer is the worst, randomizing the layer order and looped-parallel do the least damage.
 
 A funny downstream potential application of this paper is to use additional vram to accelerate inference of very small models; for example, running the layers of llama2-7b in parallel is about twice as fast as normal llama2-7b, but requires much more memory (since all the layers need to be run at once). There may be a very bitter lesson at the end of this approach, once you scale to a very very large model size[fn:12]. Also some hints for potential architecture improvements[fn:13].
+
+How do these properties help us understand frankenmerging? Well since they are residual networks, we can think of each block being some sort of "small addition to the canvas", rather than being a complete transformation of the existing representation. As a result, merging middle layers from other models is like adding "new painters" who "add a new object to the canvas". At best, it adds something useful; at worst, it adds some noise which shouldn't be such a huge cost. 
+
+[[../images/from_clipboard/20240820_155907.png]]
+
+*** SOLAR 10.7B: Scaling Large Language Models with Simple yet Effective Depth Up-Scaling
+
+Adjacent to frankenmerging is this paper on /Depth Upscaling/ (DUS). This paper essentially adapts frankenmerging as the starting point for continued pretraining of a larger language model starting from a pair of smaller language models: creating a base for a bigger model by stacking layers from two models offset from one another.
+
+[[../images/from_clipboard/20240820_145254.png]]
+
+They reference this [[https://huggingface.co/Undi95/Mistral-11B-v0.1][Mistral 11B frankenmerge]] as being the same as step 1, but they go on to continue pretraining it and show it getting good results. They mention that the initial merge has slightly worse performance than the original 7B model, but that this lost performance is recovered very fast with minimal continued pretraining[fn:14].
+
+There is actually a connection here to [[https://arxiv.org/pdf/1905.11946][efficientnet]], which does depth scaling in a similar way to how these frankenmerges work. I don't believe there's any assessment on the baseline performance after scaling depth like this, but before continued pretraining (why would there be), but in principle it's a similar starting point.
+
+[[../images/from_clipboard/20240820_150549.png]]
+
+This ends up working quite well -- this paper can be thought of as an interesting companion piece to [[https://arxiv.org/pdf/2212.05055][Sparse Upcycling: Training Mixture-of-Experts from Dense Checkpoints]], which similarly scales width via MoE rather than depth via frankenmerging.
 
 ** Appendix: Other Papers
 
@@ -305,6 +335,8 @@ I will need to learn some Optimal Transport + Federated Learning concepts in ord
 [[https://arxiv.org/pdf/2002.06440][Federated Learning with Matched Averaging]]
 
 * Footnotes
+
+[fn:14] This makes sense to me, since it just needs to patch the "seam" where the two connect whereupon it becomes two blocks known to perform at the original level -- from there it can find slightly new purposes for one of the two merged blocks.
 
 [fn:13] Mixture of Mixture of Experts? Route to parallel layers -> route to experts?
 
