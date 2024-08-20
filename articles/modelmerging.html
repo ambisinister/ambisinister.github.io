@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-08-19 Mon 17:42 -->
+<!-- 2024-08-20 Tue 14:36 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Model Merging</title>
@@ -110,7 +110,7 @@ $(function() {
 <ul>
 <li><a href="#org8ed27b3">Model Merging and You</a>
 <ul>
-<li><a href="#org3c26e39">Some Prerequisite Info</a></li>
+<li><a href="#org9b6353b">Some Prerequisite Info + Acknowledgements</a></li>
 <li><a href="#org9bba2ea">Convergent Learning: Do Different Neural Networks Learn the Same Representations?</a></li>
 <li><a href="#org82f9a08">(SLERP) Sampling Generative Networks</a></li>
 <li><a href="#org7742a88">Model Soups: averaging weights of multiple fine-tuned models improves accuracy without increasing inference time</a></li>
@@ -130,8 +130,12 @@ $(function() {
 <li><a href="#orgb7b6d62">Thoughts</a></li>
 </ul>
 </li>
-<li><a href="#org73e063c">Appendix A: Angry Ranting About Frankenmerging</a></li>
-<li><a href="#orgb9c6379">Appendix B: Other Papers</a>
+<li><a href="#org0d438b8">Frankenmerging</a>
+<ul>
+<li><a href="#orgad6fbef">Transformer Layers as Painters</a></li>
+</ul>
+</li>
+<li><a href="#org85127e9">Appendix: Other Papers</a>
 <ul>
 <li><a href="#org30c3264">Dataless Knowledge Fusion by Merging Weights of Language Models</a></li>
 <li><a href="#orgc0a56fa">Reading List</a></li>
@@ -163,9 +167,9 @@ This document is a work in progress: I will be spending some cycles on model mer
 </p>
 </div>
 
-<div id="outline-container-org3c26e39" class="outline-2">
-<h2 id="org3c26e39">Some Prerequisite Info</h2>
-<div class="outline-text-2" id="text-org3c26e39">
+<div id="outline-container-org9b6353b" class="outline-2">
+<h2 id="org9b6353b">Some Prerequisite Info + Acknowledgements</h2>
+<div class="outline-text-2" id="text-org9b6353b">
 <p>
 For actually performing the merging, at least for LLMs, <a href="https://github.com/arcee-ai/mergekit?tab=readme-ov-file#merge-methods">mergekit</a> is a popular repo. It has a bunch of different methods, as well as it's own <a href="https://arxiv.org/pdf/2403.13257">paper</a> which I'll include for completeness.
 </p>
@@ -175,7 +179,11 @@ A lot of these papers come from <a href="https://huggingface.co/collections/osan
 </p>
 
 <p>
-If you want a more comprehensive summary, here's a <a href="https://arxiv.org/pdf/2309.15698">survey paper</a> which covers non-frankenmerging topics in model merging. 
+If you want a more comprehensive summary, here's a <a href="https://arxiv.org/pdf/2309.15698">survey paper</a> which covers non-frankenmerging topics in model merging.
+</p>
+
+<p>
+Many thanks to the Sakana AI team, specifically Yujin Tang, Takuya Akiba, and Qi Sun for responding to my inquiries about model merging in a friendly and timely fashion.
 </p>
 </div>
 </div>
@@ -204,7 +212,7 @@ To run these experiments, they do multiple training runs with the same architect
 </p>
 
 
-<div id="org43b1fdf" class="figure">
+<div id="org720489e" class="figure">
 <p><img src="../images/from_clipboard/20240731_101104.png" alt="20240731_101104.png" />
 </p>
 </div>
@@ -214,7 +222,7 @@ To really show how the two are related, they learn a single "mapping" layer (a L
 </p>
 
 
-<div id="org8d09203" class="figure">
+<div id="org416f01c" class="figure">
 <p><img src="../images/from_clipboard/20240731_102448.png" alt="20240731_102448.png" />
 </p>
 </div>
@@ -259,7 +267,7 @@ They propose using <i>SLERP</i>, which is a spherical linear interpolation along
 </p>
 
 
-<div id="org495ca83" class="figure">
+<div id="org4793ddb" class="figure">
 <p><img src="../images/from_clipboard/20240731_110449.png" alt="20240731_110449.png" />
 </p>
 </div>
@@ -286,7 +294,7 @@ A lot of this relies on an <a href="https://arxiv.org/pdf/2008.11687">earlier re
 </p>
 
 
-<div id="org91b351a" class="figure">
+<div id="orga415ea7" class="figure">
 <p><img src="../images/from_clipboard/20240731_131554.png" alt="20240731_131554.png" />
 </p>
 </div>
@@ -309,7 +317,7 @@ The related work has some interesting caveats: <a href="https://arxiv.org/pdf/19
 </p>
 
 
-<div id="org9257179" class="figure">
+<div id="org3c56835" class="figure">
 <p><img src="../images/from_clipboard/20240819_170843.png" alt="20240819_170843.png" />
 </p>
 </div>
@@ -328,7 +336,6 @@ There's also some notes in here about how weight decay empirically destroys the 
 </div>
 </div>
 
-
 <div id="outline-container-org35bb97b" class="outline-2">
 <h2 id="org35bb97b">Merging Models with Fisher-Weighted Averaging</h2>
 <div class="outline-text-2" id="text-org35bb97b">
@@ -345,13 +352,13 @@ In contrast, they think a better way to approximate this posterior would yield a
 </p>
 
 
-<div id="orgebc555d" class="figure">
+<div id="org81a98de" class="figure">
 <p><img src="../images/from_clipboard/20240731_173548.png" alt="20240731_173548.png" />
 </p>
 </div>
 
 
-<div id="orgded2e4f" class="figure">
+<div id="org152771f" class="figure">
 <p><img src="../images/from_clipboard/20240731_173631.png" alt="20240731_173631.png" />
 </p>
 </div>
@@ -378,7 +385,7 @@ Basically, this paper tries to solve the permutation problem we saw in the conve
 </p>
 
 
-<div id="org88b57a6" class="figure">
+<div id="org78f3f89" class="figure">
 <p><img src="../images/from_clipboard/20240731_211709.png" alt="20240731_211709.png" />
 </p>
 </div>
@@ -394,7 +401,7 @@ They provide three methods for matching units between two different models.
 </ol>
 
 
-<div id="org29b270a" class="figure">
+<div id="org14378db" class="figure">
 <p><img src="../images/from_clipboard/20240731_215742.png" alt="20240731_215742.png" />
 </p>
 </div>
@@ -429,7 +436,7 @@ This is interesting because we can <i>remove</i> things by training models which
 </p>
 
 
-<div id="org44b5f9d" class="figure">
+<div id="org3f7b0c0" class="figure">
 <p><img src="../images/from_clipboard/20240731_145513.png" alt="20240731_145513.png" />
 </p>
 </div>
@@ -464,13 +471,13 @@ TIES-MERGING stands for&#x2026; TrIm, Elect Sign and MERGE<sup><a id="fnr.7" cla
 </p>
 
 
-<div id="org2733554" class="figure">
+<div id="orgb095cc1" class="figure">
 <p><img src="../images/from_clipboard/20240731_154456.png" alt="20240731_154456.png" />
 </p>
 </div>
 
 
-<div id="org8767310" class="figure">
+<div id="orgdb6ecb5" class="figure">
 <p><img src="../images/from_clipboard/20240731_155253.png" alt="20240731_155253.png" />
 </p>
 </div>
@@ -484,7 +491,7 @@ Why does this work? Don't we need the little updates too, given that the gradien
 </p>
 
 
-<div id="org145e258" class="figure">
+<div id="orgde73cdd" class="figure">
 <p><img src="../images/from_clipboard/20240731_161638.png" alt="20240731_161638.png" />
 </p>
 </div>
@@ -511,7 +518,7 @@ DARE is another method which zeros out small differences, it stands for Drop And
 </p>
 
 
-<div id="orgd63c3b3" class="figure">
+<div id="orgb9c4644" class="figure">
 <p><img src="../images/from_clipboard/20240731_165605.png" alt="20240731_165605.png" />
 </p>
 </div>
@@ -521,7 +528,7 @@ This has the most unnavigable figure I've ever seen in a paper, ever. Check this
 </p>
 
 
-<div id="orgd86d048" class="figure">
+<div id="orgb190897" class="figure">
 <p><img src="../images/from_clipboard/20240731_165912.png" alt="20240731_165912.png" />
 </p>
 </div>
@@ -552,7 +559,7 @@ This paper might help us answer the question of why random drop in DARE seems to
 </p>
 
 
-<div id="orgdabe515" class="figure">
+<div id="org07dbf91" class="figure">
 <p><img src="../images/from_clipboard/20240731_231314.png" alt="20240731_231314.png" />
 </p>
 </div>
@@ -562,7 +569,7 @@ There's not much to say past that &#x2013; it's DARES with top masking too.
 </p>
 
 
-<div id="orgb3b7a7d" class="figure">
+<div id="orgaa4ebfd" class="figure">
 <p><img src="../images/from_clipboard/20240731_232108.png" alt="20240731_232108.png" />
 </p>
 </div>
@@ -607,7 +614,7 @@ If you are like me, and you read the DARE paper and thought "random drop seems l
 </p>
 
 
-<div id="org4d249b8" class="figure">
+<div id="orga66854d" class="figure">
 <p><img src="../images/from_clipboard/20240731_233451.png" alt="20240731_233451.png" />
 </p>
 </div>
@@ -682,22 +689,70 @@ Maybe there's some funny space here for some sort of evolved <a href="https://ar
 </div>
 </div>
 
-<div id="outline-container-org73e063c" class="outline-2">
-<h2 id="org73e063c">Appendix A: Angry Ranting About Frankenmerging</h2>
-<div class="outline-text-2" id="text-org73e063c">
+<div id="outline-container-org0d438b8" class="outline-2">
+<h2 id="org0d438b8">Frankenmerging</h2>
+<div class="outline-text-2" id="text-org0d438b8">
 <p>
-There is no citation in the Evolutionary Optimization paper with respect to Frankenmerging. It is not included at all in the <a href="https://arxiv.org/pdf/2309.15698">survey paper</a> I read on the topic, which only examines mode connectivity, alignment, weight averaging, and ensemble learning. As far as I'm aware nobody has any idea why this would even vaguely work, and there's no published work on it at all.
+Frankenmerging is really understudied, especially relative to how often it gets talked about in the community. There are a bunch of notable frankenmerges, like <a href="https://huggingface.co/alpindale/goliath-120b">Goliath-120b</a>, but there's not much published work which points us towards why this doesn't make the network explode. There's no citation in the Evolutionary Optimization paper with respect tof Frankenmerging, and it is not included at all in the <a href="https://arxiv.org/pdf/2309.15698">survey paper</a> I read on the topic, which only examines mode connectivity, alignment, weight averaging, and ensemble learning.
 </p>
 
 <p>
-If this works I don't think I really understand why we are training these models so deeply at all. If we can arbitrarily repeat layers like this then why aren't we just training a single layer and feeding it back into itself like an RNN? We can even think more deeply by asking the model to arbitrarily use more layers for a particular forward pass. Surely this would not work, right? Surely this would be a crazy thing to do.  
+This section is slightly different from the section above in that it's going to be less "papers about model (franken) merging" and more "papers which help understand where and why frankenmerging might be useful".
+</p>
+</div>
+
+<div id="outline-container-orgad6fbef" class="outline-3">
+<h3 id="orgad6fbef">Transformer Layers as Painters</h3>
+<div class="outline-text-3" id="text-orgad6fbef">
+<p>
+This paper can be found <a href="https://arxiv.org/pdf/2407.09298">here</a>. This is another Sakana AI work, and is likely the most directly related to frankenmerging: they show that intermediate transformer layers (i.e. not the first and last layers) are relatively uniform, and are often robust to being skipped, repeated, or reordered. They use the analogy of "an assembly line of painters" where each layer is responsible for painting something upon the canvas, and reordering the painters will often not catastrophically destroy the final image.
+</p>
+
+
+<div id="org5087093" class="figure">
+<p><img src="../images/from_clipboard/20240820_132805.png" alt="20240820_132805.png" />
+</p>
+</div>
+
+<p>
+Their hypothesis is that this is related to the residual connections during training, which could in theory encourage a shared representation space between layers. Standard MLPs, by comparison, do not have such properties, and reordering them is likely to end in disaster. 
+</p>
+
+<p>
+They show the cosine similarity between hidden states and their results are certainly very hard to argue with: there seem to be distinct "blocks" where layers are generally very similar, which generally excludes the first and last layers. 
+</p>
+
+
+<div id="org787d318" class="figure">
+<p><img src="../images/from_clipboard/20240820_133452.png" alt="20240820_133452.png" />
+</p>
+</div>
+
+<p>
+The remainder of this paper is a pretty easy read, a rapid-fire question-answer of experiments you might want to run based on the above observation:
+</p>
+
+<ul class="org-ul">
+<li>Do layers "speak the same language"? Yes, the middle layers do seem to share a common representation space.</li>
+<li>Are all the layers necessary? No, at least a few middle layers can be dropped without catastophic failure.</li>
+<li>Are the middle layers all doing the same thing? No, sharing weights among middle layers is catastrophic, indicating the middle layers are performing different functions.</li>
+<li>Does the layer order matter? Somewhat. Both randomizing and reversing the middle layer order has graceful degradation.</li>
+<li>Can we run layers in parallel? Yes, except for math-heavy benchmarks.</li>
+<li>Does the order matter for some tasks more than others? Yes! Math and reasoning tasks are more order dependent than "semantic" tasks.</li>
+<li>Does looping help parallelized layers? Yes, with the optimal number of iterations proportional to the number of parallelized layers.</li>
+<li>Which variants are the least harmful? Repeating a single layer is the worst, randomizing the layer order and looped-parallel do the least damage.</li>
+</ul>
+
+<p>
+A funny downstream potential application of this paper is to use additional vram to accelerate inference of very small models; for example, running the layers of llama2-7b in parallel is about twice as fast as normal llama2-7b, but requires much more memory (since all the layers need to be run at once). There may be a very bitter lesson at the end of this approach, once you scale to a very very large model size<sup><a id="fnr.12" class="footref" href="#fn.12" role="doc-backlink">12</a></sup>. Also some hints for potential architecture improvements<sup><a id="fnr.13" class="footref" href="#fn.13" role="doc-backlink">13</a></sup>.
 </p>
 </div>
 </div>
+</div>
 
-<div id="outline-container-orgb9c6379" class="outline-2">
-<h2 id="orgb9c6379">Appendix B: Other Papers</h2>
-<div class="outline-text-2" id="text-orgb9c6379">
+<div id="outline-container-org85127e9" class="outline-2">
+<h2 id="org85127e9">Appendix: Other Papers</h2>
+<div class="outline-text-2" id="text-org85127e9">
 <p>
 By default, papers will be put in here as I read them, and they will remain here if they seem unimportant enough to graduate above to the level of "paper necessary to understand the model merging space".
 </p>
@@ -771,7 +826,7 @@ They really lean into this "soup" analogy
 </p>
 
 
-<div id="org32755a0" class="figure">
+<div id="org60c1a9f" class="figure">
 <p><img src="../images/from_clipboard/20240731_112528.png" alt="20240731_112528.png" />
 </p>
 </div></div></div>
@@ -798,6 +853,14 @@ Very hungry researchers working in this field, huh
 
 <div class="footdef"><sup><a id="fn.11" class="footnum" href="#fnr.11" role="doc-backlink">11</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 1) what 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.12" class="footnum" href="#fnr.12" role="doc-backlink">12</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Easy to imagine an equivalent experiment run on llama-3.1-405B, where serving it with very fast inference requires even more compute than running 405B already does. Could also imagine that the frontier of acceptable latency could require much wider networks than is currently used.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.13" class="footnum" href="#fnr.13" role="doc-backlink">13</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Mixture of Mixture of Experts? Route to parallel layers -&gt; route to experts?
 </p></div></div>
 
 

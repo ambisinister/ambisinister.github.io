@@ -10,13 +10,15 @@ There are many good [[https://huggingface.co/blog/mlabonne/merge-models][resourc
 
 This document is a work in progress: I will be spending some cycles on model merging and will periodically update this page as I continue to read about it.
 
-** Some Prerequisite Info
+** Some Prerequisite Info + Acknowledgements
 
 For actually performing the merging, at least for LLMs, [[https://github.com/arcee-ai/mergekit?tab=readme-ov-file#merge-methods][mergekit]] is a popular repo. It has a bunch of different methods, as well as it's own [[https://arxiv.org/pdf/2403.13257][paper]] which I'll include for completeness.
 
 A lot of these papers come from [[https://huggingface.co/collections/osanseviero/model-merging-65097893623330a3a51ead66][osanseviero's model merging collection]], where I followed rabbit holes in specific papers when they appeared. 
 
-If you want a more comprehensive summary, here's a [[https://arxiv.org/pdf/2309.15698][survey paper]] which covers non-frankenmerging topics in model merging. 
+If you want a more comprehensive summary, here's a [[https://arxiv.org/pdf/2309.15698][survey paper]] which covers non-frankenmerging topics in model merging.
+
+Many thanks to the Sakana AI team, specifically Yujin Tang, Takuya Akiba, and Qi Sun for responding to my inquiries about model merging in a friendly and timely fashion.
 
 ** Convergent Learning: Do Different Neural Networks Learn the Same Representations?
 
@@ -87,7 +89,6 @@ Conceptually this paper is a bit like the model soups paper, but instead of many
 This paper has some significance for us here because it's one of the few papers in here which is explicitly about /further training/ the resulting merged model, rather than simply edging out the best performance at test time. Conceptually their results are easy to grasp: you want to pick the checkpoint which is already closest to your target task, and if your task is conceptually "between" two existing pretrained models, it might be closer to the solution to use a merged pretraining start point compared to using one of the finetunes (or the base model).
 
 There's also some notes in here about how weight decay empirically destroys the benefits of starting with one of the finetunes, but doesn't seem to do that for merged models. This isn't supported by anything other than experiment, but it's interesting to note.
-
 
 ** Merging Models with Fisher-Weighted Averaging
 
@@ -248,13 +249,38 @@ Like other methods for model merging, we don't have to do any training after thi
 
 Maybe there's some funny space here for some sort of evolved [[https://arxiv.org/pdf/2406.04692][mixture-of-agents]] work, where instead of evolving a single model we evolve a sort of community of models whose aggregate performance is better than other aggregates. I think this sort of thing might help clarify for me if there's any meaningful way to steer the frankenmodels to be meaningfully different from each other, rather than just randomly happening to work. 
 
-** Appendix A: Angry Ranting About Frankenmerging
+** Frankenmerging
 
-There is no citation in the Evolutionary Optimization paper with respect to Frankenmerging. It is not included at all in the [[https://arxiv.org/pdf/2309.15698][survey paper]] I read on the topic, which only examines mode connectivity, alignment, weight averaging, and ensemble learning. As far as I'm aware nobody has any idea why this would even vaguely work, and there's no published work on it at all.
+Frankenmerging is really understudied, especially relative to how often it gets talked about in the community. There are a bunch of notable frankenmerges, like [[https://huggingface.co/alpindale/goliath-120b][Goliath-120b]], but there's not much published work which points us towards why this doesn't make the network explode. There's no citation in the Evolutionary Optimization paper with respect tof Frankenmerging, and it is not included at all in the [[https://arxiv.org/pdf/2309.15698][survey paper]] I read on the topic, which only examines mode connectivity, alignment, weight averaging, and ensemble learning.
 
-If this works I don't think I really understand why we are training these models so deeply at all. If we can arbitrarily repeat layers like this then why aren't we just training a single layer and feeding it back into itself like an RNN? We can even think more deeply by asking the model to arbitrarily use more layers for a particular forward pass. Surely this would not work, right? Surely this would be a crazy thing to do.  
+This section is slightly different from the section above in that it's going to be less "papers about model (franken) merging" and more "papers which help understand where and why frankenmerging might be useful".
 
-** Appendix B: Other Papers
+*** Transformer Layers as Painters
+
+This paper can be found [[https://arxiv.org/pdf/2407.09298][here]]. This is another Sakana AI work, and is likely the most directly related to frankenmerging: they show that intermediate transformer layers (i.e. not the first and last layers) are relatively uniform, and are often robust to being skipped, repeated, or reordered. They use the analogy of "an assembly line of painters" where each layer is responsible for painting something upon the canvas, and reordering the painters will often not catastrophically destroy the final image.
+
+[[../images/from_clipboard/20240820_132805.png]]
+
+Their hypothesis is that this is related to the residual connections during training, which could in theory encourage a shared representation space between layers. Standard MLPs, by comparison, do not have such properties, and reordering them is likely to end in disaster. 
+
+They show the cosine similarity between hidden states and their results are certainly very hard to argue with: there seem to be distinct "blocks" where layers are generally very similar, which generally excludes the first and last layers. 
+
+[[../images/from_clipboard/20240820_133452.png]]
+
+The remainder of this paper is a pretty easy read, a rapid-fire question-answer of experiments you might want to run based on the above observation:
+
+- Do layers "speak the same language"? Yes, the middle layers do seem to share a common representation space.
+- Are all the layers necessary? No, at least a few middle layers can be dropped without catastophic failure.
+- Are the middle layers all doing the same thing? No, sharing weights among middle layers is catastrophic, indicating the middle layers are performing different functions.
+- Does the layer order matter? Somewhat. Both randomizing and reversing the middle layer order has graceful degradation.
+- Can we run layers in parallel? Yes, except for math-heavy benchmarks.
+- Does the order matter for some tasks more than others? Yes! Math and reasoning tasks are more order dependent than "semantic" tasks.
+- Does looping help parallelized layers? Yes, with the optimal number of iterations proportional to the number of parallelized layers.
+- Which variants are the least harmful? Repeating a single layer is the worst, randomizing the layer order and looped-parallel do the least damage.
+
+A funny downstream potential application of this paper is to use additional vram to accelerate inference of very small models; for example, running the layers of llama2-7b in parallel is about twice as fast as normal llama2-7b, but requires much more memory (since all the layers need to be run at once). There may be a very bitter lesson at the end of this approach, once you scale to a very very large model size[fn:12]. Also some hints for potential architecture improvements[fn:13].
+
+** Appendix: Other Papers
 
 By default, papers will be put in here as I read them, and they will remain here if they seem unimportant enough to graduate above to the level of "paper necessary to understand the model merging space".
 
@@ -279,6 +305,10 @@ I will need to learn some Optimal Transport + Federated Learning concepts in ord
 [[https://arxiv.org/pdf/2002.06440][Federated Learning with Matched Averaging]]
 
 * Footnotes
+
+[fn:13] Mixture of Mixture of Experts? Route to parallel layers -> route to experts?
+
+[fn:12] Easy to imagine an equivalent experiment run on llama-3.1-405B, where serving it with very fast inference requires even more compute than running 405B already does. Could also imagine that the frontier of acceptable latency could require much wider networks than is currently used.
 
 [fn:11] Very hungry researchers working in this field, huh
 
