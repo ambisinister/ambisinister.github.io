@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-05-26 Sun 20:56 -->
+<!-- 2024-08-21 Wed 23:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>2024 ML Reading</title>
@@ -48,7 +48,7 @@ $(function() {
 });
 </script>
 
-<link rel="stylesheet" type="text/css" href="./css/default.css" />
+<link rel="stylesheet" type="text/css" href="./css/default_20240614.css" />
 <link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
 </head>
 <body>
@@ -89,6 +89,8 @@ $(function() {
 <ul>
 <li><a href="#orgf446e55">2024 Reading in Machine Learning</a>
 <ul>
+<li><a href="#org1ca7951">Rules and Similarity in Concept Learning</a></li>
+<li><a href="#orgabfee34">Generalization, Similarity, and Bayesian inference</a></li>
 <li><a href="#orgb59183d">Self-Play Fine-Tuning Converts Weak Language Models to Strong Language Models</a></li>
 <li><a href="#org8a12908">A Vision Check-up for Language Models</a></li>
 <li><a href="#org23122fb">aMUSEd: An Open MUSE Reproduction</a></li>
@@ -105,6 +107,48 @@ $(function() {
 <h1 id="orgf446e55">2024 Reading in Machine Learning</h1>
 <div class="outline-text-1" id="text-orgf446e55">
 </div>
+<div id="outline-container-org1ca7951" class="outline-2">
+<h2 id="org1ca7951">Rules and Similarity in Concept Learning</h2>
+<div class="outline-text-2" id="text-org1ca7951">
+<p>
+<a href="https://proceedings.neurips.cc/paper/1999/file/86d7c8a08b4aaa1bc7c599473f5dddda-Paper.pdf">link</a>, Josh Tenenbaum
+</p>
+
+<p>
+This paper is from neurips 1999, so it's an old one. There are two specific modes of generalizing concepts: abstracting rules you've inferred and computing similarity to other examples you've seen before.
+</p>
+
+<p>
+This paper introduces the <i>number concept game</i> which is similar to <a href="https://planetbanatt.net/articles/wason.html">my WILT test</a> except using single numbers instead of tuples of three (and using humans instead of LLMs. In the number concept game there are three classes of trials
+</p>
+
+<ol class="org-ol">
+<li>you get one example of the concept (i.e. one <i>True</i> value)</li>
+<li>you get four examples that all adhere to a simple rule (which might not be the right one)</li>
+<li>you get four values which don't adhere to a simple rule (which might not be the right one)</li>
+</ol>
+
+<p>
+and participants had to judge probability that a new example would return true or false. For 1, pariticipants rated numbers "similar to" the number higher. For 2, people tended to assume the simple rule was right and guessed close to 0 or 1. For 3, people tended to just guess higher probability if the magnitudes were similar.
+</p>
+
+<p>
+Tenenbaum fits a bayesian model over people's replies relative to a large generated hypothesis space, and show that this is a unifying framing between these distinct "abstracting rules" and "computing similarity" modes (i.e. that they both emerge from the same process here). 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgabfee34" class="outline-2">
+<h2 id="orgabfee34">Generalization, Similarity, and Bayesian inference</h2>
+<div class="outline-text-2" id="text-orgabfee34">
+<p>
+<a href="https://cocosci.princeton.edu/tom/papers/TGbbs.pdf">link</a>, tenenbaum and griffiths
+</p>
+</div>
+</div>
+
+
+
 <div id="outline-container-orgb59183d" class="outline-2">
 <h2 id="orgb59183d">Self-Play Fine-Tuning Converts Weak Language Models to Strong Language Models</h2>
 <div class="outline-text-2" id="text-orgb59183d">
@@ -121,7 +165,7 @@ Players: new LLM, old LLM. Old LLM generates responses close to real data, new L
 </p>
 
 
-<div id="org6df9fdf" class="figure">
+<div id="org905af47" class="figure">
 <p><img src="../images/from_clipboard/20240104_104317.png" alt="20240104_104317.png" />
 </p>
 </div>
@@ -156,7 +200,7 @@ Core here is outputs of text -&gt; image-rendering code -&gt; image, and likewis
 </p>
 
 
-<div id="org04dc017" class="figure">
+<div id="org9a5a8bc" class="figure">
 <p><img src="../images/from_clipboard/20240104_110255.png" alt="20240104_110255.png" />
 </p>
 </div>
@@ -187,7 +231,7 @@ MUSE originally used a 4.6b text encoder, a 3b base transformer, and a 1b super-
 </p>
 
 
-<div id="org704b0e1" class="figure">
+<div id="org28498fb" class="figure">
 <p><img src="../images/from_clipboard/20240104_114430.png" alt="20240104_114430.png" />
 </p>
 </div>
@@ -208,7 +252,7 @@ MUSE originally used a 4.6b text encoder, a 3b base transformer, and a 1b super-
 </ol>
 
 
-<div id="org99e4e19" class="figure">
+<div id="orgbc093c6" class="figure">
 <p><img src="../images/from_clipboard/20240104_121841.png" alt="20240104_121841.png" />
 </p>
 </div>
@@ -235,7 +279,7 @@ A fine-tuned diffusion model which natively accepts multimodal input similar to 
 </p>
 
 
-<div id="orga7cbe41" class="figure">
+<div id="org3f8484c" class="figure">
 <p><img src="../images/from_clipboard/20240105_100548.png" alt="20240105_100548.png" />
 </p>
 </div>
@@ -249,7 +293,7 @@ Their results are fine &#x2013; it is not possible to evaluate image generation 
 </p>
 
 
-<div id="orga13c658" class="figure">
+<div id="orgc510b48" class="figure">
 <p><img src="../images/from_clipboard/20240105_103438.png" alt="20240105_103438.png" />
 </p>
 </div>
@@ -272,7 +316,7 @@ Existing models for 3d perception usually use 3D point clouds, and these models 
 </p>
 
 
-<div id="orgbd867e8" class="figure">
+<div id="org0e16ac4" class="figure">
 <p><img src="../images/from_clipboard/20240105_110916.png" alt="20240105_110916.png" />
 </p>
 </div>

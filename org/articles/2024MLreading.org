@@ -2,6 +2,28 @@
 
 * 2024 Reading in Machine Learning
 
+** Rules and Similarity in Concept Learning
+
+[[https://proceedings.neurips.cc/paper/1999/file/86d7c8a08b4aaa1bc7c599473f5dddda-Paper.pdf][link]], Josh Tenenbaum
+
+This paper is from neurips 1999, so it's an old one. There are two specific modes of generalizing concepts: abstracting rules you've inferred and computing similarity to other examples you've seen before.
+
+This paper introduces the /number concept game/ which is similar to [[https://planetbanatt.net/articles/wason.html][my WILT test]] except using single numbers instead of tuples of three (and using humans instead of LLMs. In the number concept game there are three classes of trials
+
+1. you get one example of the concept (i.e. one /True/ value)
+2. you get four examples that all adhere to a simple rule (which might not be the right one)
+3. you get four values which don't adhere to a simple rule (which might not be the right one)
+
+and participants had to judge probability that a new example would return true or false. For 1, pariticipants rated numbers "similar to" the number higher. For 2, people tended to assume the simple rule was right and guessed close to 0 or 1. For 3, people tended to just guess higher probability if the magnitudes were similar.
+
+Tenenbaum fits a bayesian model over people's replies relative to a large generated hypothesis space, and show that this is a unifying framing between these distinct "abstracting rules" and "computing similarity" modes (i.e. that they both emerge from the same process here). 
+
+** Generalization, Similarity, and Bayesian inference
+
+[[https://cocosci.princeton.edu/tom/papers/TGbbs.pdf][link]], tenenbaum and griffiths
+
+
+
 ** Self-Play Fine-Tuning Converts Weak Language Models to Strong Language Models
 
 [[https://arxiv.org/pdf/2401.01335.pdf][link]], Quanquan Gu and other UCLA staff
