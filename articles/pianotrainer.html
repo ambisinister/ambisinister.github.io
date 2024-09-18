@@ -402,6 +402,8 @@
         const normalizedTargetNote = normalizeNote(targetNoteQueue[0]);
         const normalizedUserNote = note; // User input is always in sharps
 
+	const delayDuration = 500;
+			    
         if (normalizedUserNote === normalizedTargetNote) {
             showFeedback('correct');
             // Remove the first note
@@ -412,7 +414,7 @@
             drawStaff();
             // If in ear training mode, play the next note
             if (currentMode === 'ear') {
-                playEarTrainingNote();
+                setTimeout(() => {playEarTrainingNote();}, delayDuration)
             }
         } else {
             showFeedback('incorrect');
