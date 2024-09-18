@@ -4,168 +4,168 @@
     <meta charset="UTF-8">
     <title>Piano Trainer</title>
     <style>
-/* General Styles */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-}
+    /* General Styles */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+    }
 
-#game-container {
-    text-align: center;
-    margin: 20px auto;
-    width: 90%;
-    max-width: 1000px;
-    background-color: #fff;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-}
+    #game-container {
+        text-align: center;
+        margin: 20px auto;
+        width: 90%;
+        max-width: 1000px;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
 
-/* Piano Styles */
-#piano {
-    position: relative;
-    width: 700px;
-    height: 200px;
-    margin: 20px auto;
-}
+    /* Piano Styles */
+    #piano {
+        position: relative;
+        width: 700px;
+        height: 200px;
+        margin: 20px auto;
+    }
 
-.white-key, .black-key {
-    position: absolute;
-    border: 1px solid #000;
-    border-radius: 0 0 5px 5px;
-    cursor: pointer;
-    user-select: none;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    padding-bottom: 5px;
-    font-size: 14px;
-    color: #000;
-}
+    .white-key, .black-key {
+        position: absolute;
+        border: 1px solid #000;
+        border-radius: 0 0 5px 5px;
+        cursor: pointer;
+        user-select: none;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding-bottom: 5px;
+        font-size: 14px;
+        color: #000;
+    }
 
-.white-key {
-    width: 50px;
-    height: 200px;
-    background: white;
-    z-index: 1;
-}
+    .white-key {
+        width: 50px;
+        height: 200px;
+        background: white;
+        z-index: 1;
+    }
 
-.black-key {
-    width: 30px;
-    height: 120px;
-    background: black;
-    color: white;
-    z-index: 2;
-}
+    .black-key {
+        width: 30px;
+        height: 120px;
+        background: black;
+        color: white;
+        z-index: 2;
+    }
 
-/* Positioning White Keys */
-.white-key:nth-child(1) { left: 0px; }
-.white-key:nth-child(3) { left: 50px; }
-.white-key:nth-child(5) { left: 100px; }
-.white-key:nth-child(6) { left: 150px; }
-.white-key:nth-child(8) { left: 200px; }
-.white-key:nth-child(10) { left: 250px; }
-.white-key:nth-child(12) { left: 300px; }
+    /* Positioning White Keys */
+    .white-key:nth-child(1) { left: 0px; }
+    .white-key:nth-child(3) { left: 50px; }
+    .white-key:nth-child(5) { left: 100px; }
+    .white-key:nth-child(6) { left: 150px; }
+    .white-key:nth-child(8) { left: 200px; }
+    .white-key:nth-child(10) { left: 250px; }
+    .white-key:nth-child(12) { left: 300px; }
 
-/* Positioning Black Keys */
-.black-key:nth-child(2) { left: 35px; }
-.black-key:nth-child(4) { left: 85px; }
-.black-key:nth-child(7) { left: 185px; }
-.black-key:nth-child(9) { left: 235px; }
-.black-key:nth-child(11) { left: 285px; }
+    /* Positioning Black Keys */
+    .black-key:nth-child(2) { left: 35px; }
+    .black-key:nth-child(4) { left: 85px; }
+    .black-key:nth-child(7) { left: 185px; }
+    .black-key:nth-child(9) { left: 235px; }
+    .black-key:nth-child(11) { left: 285px; }
 
-/* Highlighting Keys */
-.white-key.active {
-    background: #ffd700;
-}
+    /* Highlighting Keys */
+    .white-key.active {
+        background: #ffd700;
+    }
 
-.black-key.active {
-    background: #ff8c00;
-}
+    .black-key.active {
+        background: #ff8c00;
+    }
 
-/* Feedback Display */
-#feedback {
-    width: 800px;
-    height: 50px;
-    margin: 20px auto;
-    transition: background-color 0.5s;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+    /* Feedback Display */
+    #feedback {
+        width: 800px;
+        height: 50px;
+        margin: 20px auto;
+        transition: background-color 0.5s;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
 
-/* Mode Buttons */
-#mode-buttons button {
-    margin: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-}
+    /* Mode Buttons */
+    #mode-buttons button {
+        margin: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
 
-/* Waveform Selection */
-#waveform-selection {
-    margin: 20px auto;
-}
+    /* Waveform Selection */
+    #waveform-selection {
+        margin: 20px auto;
+    }
 
-#waveform-selection label {
-    margin-right: 10px;
-    font-size: 16px;
-}
+    #waveform-selection label {
+        margin-right: 10px;
+        font-size: 16px;
+    }
 
-#waveform-selection select {
-    padding: 5px;
-    font-size: 16px;
-}
+    #waveform-selection select {
+        padding: 5px;
+        font-size: 16px;
+    }
 
-/* Metronome Controls */
-#metronome-controls {
-    margin: 20px auto;
-}
+    /* Metronome Controls */
+    #metronome-controls {
+        margin: 20px auto;
+    }
 
-#metronome-controls h3 {
-    margin-bottom: 10px;
-}
+    #metronome-controls h3 {
+        margin-bottom: 10px;
+    }
 
-#metronome-controls button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-}
+    #metronome-controls button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
 
-#metronome-controls input {
-    width: 60px;
-    padding: 5px;
-    font-size: 16px;
-    margin-left: 10px;
-}
+    #metronome-controls input {
+        width: 60px;
+        padding: 5px;
+        font-size: 16px;
+        margin-left: 10px;
+    }
 
-/* Chord Generator */
-#chord-generator {
-    margin: 20px auto;
-}
+    /* Chord Generator */
+    #chord-generator {
+        margin: 20px auto;
+    }
 
-#chord-generator h3 {
-    margin-bottom: 10px;
-}
+    #chord-generator h3 {
+        margin-bottom: 10px;
+    }
 
-#chord-generator select {
-    padding: 5px;
-    font-size: 16px;
-    margin-right: 10px;
-}
+    #chord-generator select {
+        padding: 5px;
+        font-size: 16px;
+        margin-right: 10px;
+    }
 
-#chord-generator button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-}
+    #chord-generator button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
 
-/* Staff Canvas */
-#staff {
-    margin-top: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-      
+    /* Staff Canvas */
+    #staff {
+        margin-top: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+          
     </style>
     <!-- Include VexFlow Library -->
     <script src="https://unpkg.com/vexflow/releases/vexflow-min.js"></script>
@@ -238,135 +238,289 @@ body {
     </div>
 
     <script>
-// ====================
-// Piano Trainer Script
-// ====================
+    // ====================
+    // Piano Trainer Script
+    // ====================
 
-// Key Mappings
-const keyMappings = {
-    'a': 'C4',
-    'w': 'C#4',
-    's': 'D4',
-    'e': 'D#4',
-    'd': 'E4',
-    'f': 'F4',
-    't': 'F#4',
-    'g': 'G4',
-    'y': 'G#4',
-    'h': 'A4',
-    'u': 'A#4',
-    'j': 'B4'
-};
-
-// Reverse Mapping for Piano Keys
-const noteToKey = {
-    'C4': 'a',
-    'C#4': 'w',
-    'D4': 's',
-    'D#4': 'e',
-    'E4': 'd',
-    'F4': 'f',
-    'F#4': 't',
-    'G4': 'g',
-    'G#4': 'y',
-    'A4': 'h',
-    'A#4': 'u',
-    'B4': 'j'
-};
-
-// Initialize Audio Context
-const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-// Variables
-let currentMode = null;          // 'treble', 'bass', 'ear'
-let previousMode = null;         // To store mode before 'chord'
-let targetNote = null;           // Canonical note (always sharp or natural)
-let displayNote = null;          // Note to display (sharp or flat)
-let waveform = 'sine';           // Default waveform
-let metronomeInterval = null;
-let bpm = 120;                   // Default BPM
-let chordSize = 1;               // Default chord size
-let activeChords = [];           // Currently active chord notes
-
-const notes = ['C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4'];
-
-// Note Frequencies
-const noteFrequencies = {
-    'C4': 261.63,
-    'C#4': 277.18,
-    'Db4': 277.18,
-    'D4': 293.66,
-    'D#4': 311.13,
-    'Eb4': 311.13,
-    'E4': 329.63,
-    'F4': 349.23,
-    'F#4': 369.99,
-    'Gb4': 369.99,
-    'G4': 392.00,
-    'G#4': 415.30,
-    'Ab4': 415.30,
-    'A4': 440.00,
-    'A#4': 466.16,
-    'Bb4': 466.16,
-    'B4': 493.88
-};
-
-// Normalize Note (Map Flats to Sharps)
-function normalizeNote(note) {
-    const flatToSharpMap = {
-        'Db4': 'C#4',
-        'Eb4': 'D#4',
-        'Gb4': 'F#4',
-        'Ab4': 'G#4',
-        'Bb4': 'A#4'
+    // Key Mappings
+    const keyMappings = {
+        'a': 'C4',
+        'w': 'C#4',
+        's': 'D4',
+        'e': 'D#4',
+        'd': 'E4',
+        'f': 'F4',
+        't': 'F#4',
+        'g': 'G4',
+        'y': 'G#4',
+        'h': 'A4',
+        'u': 'A#4',
+        'j': 'B4'
     };
-    return flatToSharpMap[note] || note;
-}
 
-// Decide Display Note (Sharp or Flat)
-function getDisplayNote(note) {
-    const sharpToFlatMap = {
-        'C#4': 'Db4',
-        'D#4': 'Eb4',
-        'F#4': 'Gb4',
-        'G#4': 'Ab4',
-        'A#4': 'Bb4'
+    // Reverse Mapping for Piano Keys
+    const noteToKey = {
+        'C4': 'a',
+        'C#4': 'w',
+        'D4': 's',
+        'D#4': 'e',
+        'E4': 'd',
+        'F4': 'f',
+        'F#4': 't',
+        'G4': 'g',
+        'G#4': 'y',
+        'A4': 'h',
+        'A#4': 'u',
+        'B4': 'j'
     };
-    if (sharpToFlatMap[note] && Math.random() > 0.5) {
-        return sharpToFlatMap[note];
+
+    // Initialize Audio Context
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+    // Variables
+    let currentMode = null;          // 'treble', 'bass', 'ear'
+    let previousMode = null;         // To store mode before 'chord'
+    let targetNoteQueue = [];        // Queue of target notes
+    let waveform = 'sine';           // Default waveform
+    let metronomeInterval = null;
+    let bpm = 120;                   // Default BPM
+    let chordSize = 1;               // Default chord size
+    let activeChords = [];           // Currently active chord notes
+
+    const notes = ['C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4'];
+    const QUEUE_LENGTH = 8;           // Desired queue length
+
+    // Note Frequencies
+    const noteFrequencies = {
+        'C4': 261.63,
+        'C#4': 277.18,
+        'Db4': 277.18,
+        'D4': 293.66,
+        'D#4': 311.13,
+        'Eb4': 311.13,
+        'E4': 329.63,
+        'F4': 349.23,
+        'F#4': 369.99,
+        'Gb4': 369.99,
+        'G4': 392.00,
+        'G#4': 415.30,
+        'Ab4': 415.30,
+        'A4': 440.00,
+        'A#4': 466.16,
+        'Bb4': 466.16,
+        'B4': 493.88
+    };
+
+    // Normalize Note (Map Flats to Sharps)
+    function normalizeNote(note) {
+        const flatToSharpMap = {
+            'Db4': 'C#4',
+            'Eb4': 'D#4',
+            'Gb4': 'F#4',
+            'Ab4': 'G#4',
+            'Bb4': 'A#4'
+        };
+        return flatToSharpMap[note] || note;
     }
-    return note;
-}
 
-// Play a Single Note
-function playNote(note) {
-    const frequency = noteFrequencies[note];
-    if (!frequency) return;
+    // Decide Display Note (Sharp or Flat)
+    function getDisplayNote(note) {
+        const sharpToFlatMap = {
+            'C#4': 'Db4',
+            'D#4': 'Eb4',
+            'F#4': 'Gb4',
+            'G#4': 'Ab4',
+            'A#4': 'Bb4'
+        };
+        if (sharpToFlatMap[note] && Math.random() > 0.5) {
+            return sharpToFlatMap[note];
+        }
+        return note;
+    }
 
-    const oscillator = audioContext.createOscillator();
-    oscillator.type = waveform;
-    oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-
-    const envelope = audioContext.createGain();
-    envelope.gain.setValueAtTime(0, audioContext.currentTime);
-    envelope.gain.linearRampToValueAtTime(1, audioContext.currentTime + 0.001);
-    envelope.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1);
-
-    oscillator.connect(envelope);
-    envelope.connect(audioContext.destination);
-
-    oscillator.start();
-    oscillator.stop(audioContext.currentTime + 1);
-}
-
-// Play Multiple Notes (Chords)
-function playNotes(notesArray, customWaveform = waveform) {
-    notesArray.forEach(note => {
+    // Play a Single Note
+    function playNote(note) {
         const frequency = noteFrequencies[note];
         if (!frequency) return;
 
         const oscillator = audioContext.createOscillator();
-        oscillator.type = customWaveform;
+        oscillator.type = waveform;
+        oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+
+        const envelope = audioContext.createGain();
+        envelope.gain.setValueAtTime(0, audioContext.currentTime);
+        envelope.gain.linearRampToValueAtTime(1, audioContext.currentTime + 0.001);
+        envelope.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1);
+
+        oscillator.connect(envelope);
+        envelope.connect(audioContext.destination);
+
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 1);
+    }
+
+    // Play Multiple Notes (Chords)
+    function playNotes(notesArray, customWaveform = waveform) {
+        notesArray.forEach(note => {
+            const frequency = noteFrequencies[note];
+            if (!frequency) return;
+
+            const oscillator = audioContext.createOscillator();
+            oscillator.type = customWaveform;
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+
+            const envelope = audioContext.createGain();
+            envelope.gain.setValueAtTime(0, audioContext.currentTime);
+            envelope.gain.linearRampToValueAtTime(1, audioContext.currentTime + 0.001);
+            envelope.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1.5);
+
+            oscillator.connect(envelope);
+            envelope.connect(audioContext.destination);
+
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 1.5);
+        });
+    }
+
+    // Initialize Note Queue with 8 Notes
+    function initializeNoteQueue() {
+        targetNoteQueue = [];
+        for (let i = 0; i < QUEUE_LENGTH; i++) {
+            targetNoteQueue.push(getRandomNote());
+        }
+        drawStaff();
+        // Optionally, play the first note to indicate the start
+        if (currentMode === 'ear') {
+            playEarTrainingNote();
+        }
+    }
+
+    // Handle User Input
+    function handleUserInput(note) {
+        if (targetNoteQueue.length === 0) return;
+
+        const normalizedTargetNote = normalizeNote(targetNoteQueue[0]);
+        const normalizedUserNote = note; // User input is always in sharps
+
+        if (normalizedUserNote === normalizedTargetNote) {
+            showFeedback('correct');
+            // Remove the first note
+            targetNoteQueue.shift();
+            // Add a new note at the end
+            targetNoteQueue.push(getRandomNote());
+            // Update the staff display
+            drawStaff();
+            // If in ear training mode, play the next note
+            if (currentMode === 'ear') {
+                playEarTrainingNote();
+            }
+        } else {
+            showFeedback('incorrect');
+        }
+    }
+
+    // Set Game Mode
+    function setMode(mode) {
+        currentMode = mode;
+        initializeNoteQueue();
+    }
+
+    // Get Random Single Note
+    function getRandomNote() {
+        const randomIndex = Math.floor(Math.random() * notes.length);
+        let note = notes[randomIndex]; // Always a sharp or natural note
+        return note;
+    }
+
+    // Convert Note to VexFlow Key Format
+    function noteToVexflowKey(note) {
+        // Use regex to parse the note into name, accidental, and octave
+        const regex = /^([A-Ga-g])([#b]?)(\d)$/;
+        const match = note.match(regex);
+        if (match) {
+            const noteName = match[1].toLowerCase();
+            const accidental = match[2];
+            const octave = match[3];
+            return {
+                key: noteName + '/' + octave,
+                accidental: accidental
+            };
+        } else {
+            console.error('Invalid note format:', note);
+            return { key: 'c/4', accidental: null };
+        }
+    }
+
+    // Draw Staff with Note Queue
+    function drawStaff() {
+        const canvas = document.getElementById('staff');
+        const renderer = new Vex.Flow.Renderer(canvas, Vex.Flow.Renderer.Backends.CANVAS);
+        const context = renderer.getContext();
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Create a single stave
+        const stave = new Vex.Flow.Stave(10, 40, 700);
+        stave.addClef(currentMode === 'bass' ? 'bass' : 'treble');
+        stave.setContext(context).draw();
+
+        // Create VexFlow StaveNotes from the queue
+        const vfNotes = targetNoteQueue.map(note => {
+            const noteData = noteToVexflowKey(note);
+            const staveNote = new Vex.Flow.StaveNote({ 
+                clef: currentMode === 'bass' ? 'bass' : 'treble', 
+                keys: [noteData.key], 
+                duration: "q" 
+            });
+            if (noteData.accidental) {
+                staveNote.addAccidental(0, new Vex.Flow.Accidental(noteData.accidental));
+            }
+            return staveNote;
+        });
+
+        // Create a single voice with all 8 quarter notes
+        const voice = new Vex.Flow.Voice({
+            num_beats: QUEUE_LENGTH, // 8 beats
+            beat_value: 4,           // Quarter note
+            resolution: Vex.Flow.RESOLUTION
+        });
+
+        voice.addTickables(vfNotes);
+
+        // Create a formatter and format the voice
+        const formatter = new Vex.Flow.Formatter()
+            .joinVoices([voice])
+            .format([voice], 680); // Slightly less than stave width to accommodate measure lines
+
+        // Draw the voice
+        voice.draw(context, stave);
+
+        // Draw measure lines after every 4 notes (every 4 beats)
+        const measureInterval = 4; // Every 4 beats
+        const staveStartX = stave.getX();
+        const staveWidth = stave.getWidth();
+        const noteSpacing = staveWidth / QUEUE_LENGTH;
+        for (let i = 1; i < QUEUE_LENGTH / measureInterval; i++) {
+            const x = staveStartX + (i * measureInterval * noteSpacing);
+            context.beginPath();
+            context.moveTo(x, stave.getYForLine(0) - 20); // Adjust vertical position as needed
+            context.lineTo(x, stave.getYForLine(4) + 20); // Adjust vertical position as needed
+            context.strokeStyle = '#000';
+            context.lineWidth = 1;
+            context.stroke();
+        }
+    }
+
+    // Play Ear Training Note
+    function playEarTrainingNote() {
+        if (targetNoteQueue.length === 0) return;
+        const frequency = noteFrequencies[normalizeNote(targetNoteQueue[0])];
+        if (!frequency) return;
+
+        // Use a different waveform for ear training (e.g., triangle)
+        const earTrainingWaveform = 'triangle';
+
+        const oscillator = audioContext.createOscillator();
+        oscillator.type = earTrainingWaveform;
         oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
 
         const envelope = audioContext.createGain();
@@ -380,296 +534,159 @@ function playNotes(notesArray, customWaveform = waveform) {
 
         oscillator.start();
         oscillator.stop(audioContext.currentTime + 1.5);
-    });
-}
+    }
 
-// Handle User Input
-function handleUserInput(note) {
-    if (!targetNote && activeChords.length === 0) return;
-
-    if (currentMode === 'chord') {
-        // Handle Chord Mode
-        if (activeChords.includes(note)) {
-            showFeedback('correct');
-            activeChords = activeChords.filter(n => n !== note);
-            if (activeChords.length === 0) {
-                setTimeout(generateNewNote, 500);
-            }
-        } else {
-            showFeedback('incorrect');
+    // Show Feedback
+    function showFeedback(status) {
+        const feedback = document.getElementById('feedback');
+        if (status === 'correct') {
+            feedback.style.backgroundColor = 'green';
+        } else if (status === 'incorrect') {
+            feedback.style.backgroundColor = 'red';
         }
-    } else {
-        // Handle Single Note Mode
-        const normalizedTargetNote = normalizeNote(targetNote);
-        const normalizedUserNote = note; // User input is always in sharps
-
-        if (normalizedUserNote === normalizedTargetNote) {
-            showFeedback('correct');
-            setTimeout(generateNewNote, 500);
-        } else {
-            showFeedback('incorrect');
-        }
-    }
-}
-
-// Set Game Mode
-function setMode(mode) {
-    currentMode = mode;
-    generateNewNote();
-}
-
-// Generate New Note or Chord
-function generateNewNote() {
-    targetNote = getRandomNote();
-    displayNote = getDisplayNote(targetNote);
-
-    if (currentMode === 'treble' || currentMode === 'bass') {
-        drawStaff(displayNote, currentMode === 'treble' ? 'treble' : 'bass');
-    } else if (currentMode === 'ear') {
-        playEarTrainingNote();
-    }
-}
-
-// Get Random Single Note
-function getRandomNote() {
-    const randomIndex = Math.floor(Math.random() * notes.length);
-    let note = notes[randomIndex]; // Always a sharp or natural note
-    return note;
-}
-
-// Generate Random Chord Notes
-function generateChordNotes() {
-    const size = chordSize;
-    const possibleNotes = [...notes]; // Clone the array
-
-    const chordNotes = [];
-    for (let i = 0; i < size; i++) {
-        if (possibleNotes.length === 0) break; // Prevent infinite loop
-        const randomIndex = Math.floor(Math.random() * possibleNotes.length);
-        const note = possibleNotes.splice(randomIndex, 1)[0]; // Remove selected note
-        chordNotes.push(note);
-    }
-
-    activeChords = chordNotes;
-    playNotes(chordNotes);
-
-    // Display the chord on the staff
-    drawStaff(chordNotes, currentMode === 'treble' ? 'treble' : 'bass');
-
-    // Reset currentMode after chord is displayed
-    setTimeout(() => {
-        currentMode = previousMode;
-        previousMode = null;
-    }, 2000);
-}
-
-// Updated noteToVexflowKey function
-function noteToVexflowKey(note) {
-    // Use regex to parse the note into name, accidental, and octave
-    const regex = /^([A-Ga-g])([#b]?)(\d)$/;
-    const match = note.match(regex);
-    if (match) {
-        const noteName = match[1].toLowerCase();
-        const accidental = match[2];
-        const octave = match[3];
-        return {
-            key: noteName + '/' + octave,
-            accidental: accidental
-        };
-    } else {
-        console.error('Invalid note format:', note);
-        return { key: 'c/4', accidental: null };
-    }
-}
-
-// Updated drawStaff function
-function drawStaff(note, clef) {
-    const canvas = document.getElementById('staff');
-    const renderer = new Vex.Flow.Renderer(canvas, Vex.Flow.Renderer.Backends.CANVAS);
-    const context = renderer.getContext();
-    context.clearRect(0, 0, canvas.width, canvas.height);
-
-    const stave = new Vex.Flow.Stave(10, 40, 700);
-    stave.addClef(clef);
-    stave.setContext(context).draw();
-
-    // Get the parsed note data
-    const noteData = noteToVexflowKey(note);
-    const key = noteData.key;
-    const accidental = noteData.accidental;
-
-    const staveNote = new Vex.Flow.StaveNote({ 
-        clef: clef, 
-        keys: [key], 
-        duration: "q" 
-    });
-
-    if (accidental) {
-        staveNote.addAccidental(0, new Vex.Flow.Accidental(accidental));
-    }
-
-    Vex.Flow.Formatter.FormatAndDraw(context, stave, [staveNote]);
-}	
-
-// Play Ear Training Note
-function playEarTrainingNote() {
-    const frequency = noteFrequencies[targetNote];
-    if (!frequency) return;
-
-    // Use a different waveform for ear training (e.g., triangle)
-    const earTrainingWaveform = 'triangle';
-
-    const oscillator = audioContext.createOscillator();
-    oscillator.type = earTrainingWaveform;
-    oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-
-    const envelope = audioContext.createGain();
-    envelope.gain.setValueAtTime(0, audioContext.currentTime);
-    // Reduced attack time to minimize delay
-    envelope.gain.linearRampToValueAtTime(1, audioContext.currentTime + 0.001);
-    envelope.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1.5);
-
-    oscillator.connect(envelope);
-    envelope.connect(audioContext.destination);
-
-    oscillator.start();
-    oscillator.stop(audioContext.currentTime + 1.5);
-}
-
-// Show Feedback
-function showFeedback(status) {
-    const feedback = document.getElementById('feedback');
-    if (status === 'correct') {
-        feedback.style.backgroundColor = 'green';
-    } else if (status === 'incorrect') {
-        feedback.style.backgroundColor = 'red';
-    }
-    setTimeout(() => {
-        feedback.style.backgroundColor = 'transparent';
-    }, 500);
-}
-
-// Set Waveform
-function setWaveform(wave) {
-    waveform = wave;
-}
-
-// ====================
-// Piano Keyboard Visual
-// ====================
-
-// Function to highlight key
-function highlightKey(note) {
-    const keyElement = document.querySelector(`[data-note="${note}"]`);
-    if (keyElement) {
-        keyElement.classList.add('active');
         setTimeout(() => {
-            keyElement.classList.remove('active');
-        }, 300);
+            feedback.style.backgroundColor = 'transparent';
+        }, 500);
     }
-}
 
-// Event Listeners for Piano Clicks
-document.querySelectorAll('.white-key, .black-key').forEach(key => {
-    key.addEventListener('mousedown', () => {
-        const note = key.getAttribute('data-note');
-        playNote(note);
-        handleUserInput(note);
-        highlightKey(note);
+    // Set Waveform
+    function setWaveform(wave) {
+        waveform = wave;
+    }
+
+    // ====================
+    // Piano Keyboard Visual
+    // ====================
+
+    // Function to highlight key
+    function highlightKey(note) {
+        const keyElement = document.querySelector(`[data-note="${note}"]`);
+        if (keyElement) {
+            keyElement.classList.add('active');
+            setTimeout(() => {
+                keyElement.classList.remove('active');
+            }, 300);
+        }
+    }
+
+    // Event Listeners for Piano Clicks
+    document.querySelectorAll('.white-key, .black-key').forEach(key => {
+        key.addEventListener('mousedown', () => {
+            const note = key.getAttribute('data-note');
+            playNote(note);
+            handleUserInput(note);
+            highlightKey(note);
+        });
     });
-});
 
-// ====================
-// Metronome Functionality
-// ====================
+    // ====================
+    // Metronome Functionality
+    // ====================
 
-// Toggle Metronome On/Off
-function toggleMetronome() {
-    if (metronomeInterval) {
-        clearInterval(metronomeInterval);
-        metronomeInterval = null;
-        document.getElementById('metronome-status').innerText = 'Start';
-    } else {
-        startMetronome();
-        document.getElementById('metronome-status').innerText = 'Stop';
+    // Toggle Metronome On/Off
+    function toggleMetronome() {
+        if (metronomeInterval) {
+            clearInterval(metronomeInterval);
+            metronomeInterval = null;
+            document.getElementById('metronome-status').innerText = 'Start';
+        } else {
+            startMetronome();
+            document.getElementById('metronome-status').innerText = 'Stop';
+        }
     }
-}
 
-// Start Metronome
-function startMetronome() {
-    const interval = (60 / bpm) * 1000; // BPM to milliseconds
-    metronomeInterval = setInterval(() => {
-        playMetronomeTick();
-    }, interval);
-}
-
-// Play Metronome Tick
-function playMetronomeTick() {
-    const oscillator = audioContext.createOscillator();
-    oscillator.type = 'square';
-    oscillator.frequency.setValueAtTime(1000, audioContext.currentTime); // High pitch tick
-
-    const envelope = audioContext.createGain();
-    envelope.gain.setValueAtTime(0, audioContext.currentTime);
-    envelope.gain.linearRampToValueAtTime(1, audioContext.currentTime + 0.001);
-    envelope.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.2);
-
-    oscillator.connect(envelope);
-    envelope.connect(audioContext.destination);
-
-    oscillator.start();
-    oscillator.stop(audioContext.currentTime + 0.2);
-}
-
-// Set BPM
-function setBPM(value) {
-    bpm = parseInt(value);
-    if (metronomeInterval) {
-        clearInterval(metronomeInterval);
-        startMetronome();
+    // Start Metronome
+    function startMetronome() {
+        const interval = (60 / bpm) * 1000; // BPM to milliseconds
+        metronomeInterval = setInterval(() => {
+            playMetronomeTick();
+        }, interval);
     }
-}
 
-// ====================
-// Chord Generator Functionality
-// ====================
+    // Play Metronome Tick
+    function playMetronomeTick() {
+        const oscillator = audioContext.createOscillator();
+        oscillator.type = 'square';
+        oscillator.frequency.setValueAtTime(1000, audioContext.currentTime); // High pitch tick
 
-// Set Chord Size
-function setChordSize(value) {
-    chordSize = parseInt(value);
-    if (chordSize < 1) chordSize = 1;
-    if (chordSize > 5) chordSize = 5; // Limit to 5 notes
-}
+        const envelope = audioContext.createGain();
+        envelope.gain.setValueAtTime(0, audioContext.currentTime);
+        envelope.gain.linearRampToValueAtTime(1, audioContext.currentTime + 0.001);
+        envelope.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.2);
 
-// Generate Chord Button
-function generateChord() {
-    previousMode = currentMode; // Store the current mode
-    currentMode = 'chord';
-    generateNewNote();
-}
+        oscillator.connect(envelope);
+        envelope.connect(audioContext.destination);
 
-// ====================
-// Keyboard Event Handling with Debouncing
-// ====================
-
-const pressedKeys = {};
-
-document.addEventListener('keydown', (event) => {
-    const note = keyMappings[event.key];
-    if (note && !pressedKeys[event.key]) {
-        pressedKeys[event.key] = true;
-        playNote(note);
-        handleUserInput(note);
-        highlightKey(note);
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.2);
     }
-});
 
-document.addEventListener('keyup', (event) => {
-    if (pressedKeys[event.key]) {
-        pressedKeys[event.key] = false;
+    // Set BPM
+    function setBPM(value) {
+        bpm = parseInt(value);
+        if (metronomeInterval) {
+            clearInterval(metronomeInterval);
+            startMetronome();
+        }
     }
-});
-      
+
+    // ====================
+    // Chord Generator Functionality
+    // ====================
+
+    // Set Chord Size
+    function setChordSize(value) {
+        chordSize = parseInt(value);
+        if (chordSize < 1) chordSize = 1;
+        if (chordSize > 5) chordSize = 5; // Limit to 5 notes
+    }
+
+    // Generate Chord Button
+    function generateChord() {
+        previousMode = currentMode; // Store the current mode
+        currentMode = 'chord';
+        // In chord mode, we'll play a chord of 'chordSize' notes
+        const chordNotes = [];
+        for (let i = 0; i < chordSize; i++) {
+            chordNotes.push(getRandomNote());
+        }
+        activeChords = chordNotes;
+        playNotes(chordNotes);
+        // Insert the chord at the beginning of the queue
+        targetNoteQueue = [...chordNotes, ...targetNoteQueue.slice(0, QUEUE_LENGTH - chordNotes.length)];
+        drawStaff();
+        // Reset currentMode after chord is displayed
+        setTimeout(() => {
+            currentMode = previousMode;
+        }, 2000);
+    }
+
+    // ====================
+    // Keyboard Event Handling with Debouncing
+    // ====================
+
+    const pressedKeys = {};
+
+    document.addEventListener('keydown', (event) => {
+        const note = keyMappings[event.key];
+        if (note && !pressedKeys[event.key]) {
+            pressedKeys[event.key] = true;
+            playNote(note);
+            handleUserInput(note);
+            highlightKey(note);
+        }
+    });
+
+    document.addEventListener('keyup', (event) => {
+        if (pressedKeys[event.key]) {
+            pressedKeys[event.key] = false;
+        }
+    });
+
+    // Initialize the note queue when the page loads
+    window.onload = () => {
+        initializeNoteQueue();
+    };
     </script>
 </body>
 </html>
