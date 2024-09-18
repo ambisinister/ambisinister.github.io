@@ -24,7 +24,7 @@
     /* Piano Styles */
     #piano {
         position: relative;
-        width: 700px;
+        width: 600px; /* Adjusted width after removing two keys */
         height: 200px;
         margin: 20px auto;
     }
@@ -138,25 +138,19 @@
         margin-left: 10px;
     }
 
-    /* Chord Generator */
-    #chord-generator {
+    /* Chord Settings */
+    #chord-settings {
         margin: 20px auto;
     }
 
-    #chord-generator h3 {
+    #chord-settings h3 {
         margin-bottom: 10px;
     }
 
-    #chord-generator select {
+    #chord-settings select {
         padding: 5px;
         font-size: 16px;
         margin-right: 10px;
-    }
-
-    #chord-generator button {
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
     }
 
     /* Staff Canvas */
@@ -220,17 +214,17 @@
             <input type="number" id="bpm" value="120" min="40" max="240" onchange="setBPM(this.value)">
         </div>
 
-        <!-- Chord Generator -->
-        <div id="chord-generator">
-            <h3>Chord Generator</h3>
+        <!-- Chord Settings -->
+        <div id="chord-settings">
+            <h3>Chord Settings</h3>
             <label for="chord-size">Number of Notes:</label>
             <select id="chord-size" onchange="setChordSize(this.value)">
                 <option value="1">Single Note</option>
                 <option value="2">2 Notes</option>
                 <option value="3">3 Notes</option>
                 <option value="4">4 Notes</option>
+                <option value="5">5 Notes</option>
             </select>
-            <button onclick="generateChord()">Generate Chord</button>
         </div>
 
         <!-- Staff Canvas -->
@@ -280,12 +274,13 @@
     // Variables
     let currentMode = null;          // 'treble', 'bass', 'ear'
     let previousMode = null;         // To store mode before 'chord'
-    let targetNoteQueue = [];        // Queue of target notes
+    let targetNoteQueue = [];        // Queue of target notes or chords
     let waveform = 'sine';           // Default waveform
     let metronomeInterval = null;
     let bpm = 120;                   // Default BPM
     let chordSize = 1;               // Default chord size
     let activeChords = [];           // Currently active chord notes
+    let requiredNotes = new Set();   // Notes required for current chord input
 
     const notes = ['C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4'];
     const QUEUE_LENGTH = 8;           // Desired queue length
@@ -294,20 +289,15 @@
     const noteFrequencies = {
         'C4': 261.63,
         'C#4': 277.18,
-        'Db4': 277.18,
         'D4': 293.66,
         'D#4': 311.13,
-        'Eb4': 311.13,
         'E4': 329.63,
         'F4': 349.23,
         'F#4': 369.99,
-        'Gb4': 369.99,
         'G4': 392.00,
         'G#4': 415.30,
-        'Ab4': 415.30,
         'A4': 440.00,
         'A#4': 466.16,
-        'Bb4': 466.16,
         'B4': 493.88
     };
 
@@ -321,21 +311,6 @@
             'Bb4': 'A#4'
         };
         return flatToSharpMap[note] || note;
-    }
-
-    // Decide Display Note (Sharp or Flat)
-    function getDisplayNote(note) {
-        const sharpToFlatMap = {
-            'C#4': 'Db4',
-            'D#4': 'Eb4',
-            'F#4': 'Gb4',
-            'G#4': 'Ab4',
-            'A#4': 'Bb4'
-        };
-        if (sharpToFlatMap[note] && Math.random() > 0.5) {
-            return sharpToFlatMap[note];
-        }
-        return note;
     }
 
     // Play a Single Note
@@ -382,14 +357,24 @@
         });
     }
 
-    // Initialize Note Queue with 8 Notes
+    // Initialize Note Queue with 8 Notes or Chords
     function initializeNoteQueue() {
         targetNoteQueue = [];
         for (let i = 0; i < QUEUE_LENGTH; i++) {
-            targetNoteQueue.push(getRandomNote());
+            if (chordSize === 1) {
+                targetNoteQueue.push(getRandomNote());
+            } else {
+                const chord = getRandomChord(chordSize);
+                if (chord.length === chordSize) { // Ensure full chord size
+                    targetNoteQueue.push(chord);
+                } else {
+                    // If unable to generate full chord, fallback to single notes
+                    targetNoteQueue.push(getRandomNote());
+                }
+            }
         }
         drawStaff();
-        // Optionally, play the first note to indicate the start
+        // Optionally, play the first note or chord to indicate the start
         if (currentMode === 'ear') {
             playEarTrainingNote();
         }
@@ -399,25 +384,56 @@
     function handleUserInput(note) {
         if (targetNoteQueue.length === 0) return;
 
-        const normalizedTargetNote = normalizeNote(targetNoteQueue[0]);
-        const normalizedUserNote = note; // User input is always in sharps
+        const currentTarget = targetNoteQueue[0];
+        if (Array.isArray(currentTarget)) {
+            // Chord Input
+            requiredNotes.add(note);
+            highlightKey(note);
+            const normalizedTarget = currentTarget.map(normalizeNote);
+            const normalizedUser = Array.from(requiredNotes).map(normalizeNote);
 
-	const delayDuration = 500;
-			    
-        if (normalizedUserNote === normalizedTargetNote) {
-            showFeedback('correct');
-            // Remove the first note
-            targetNoteQueue.shift();
-            // Add a new note at the end
-            targetNoteQueue.push(getRandomNote());
-            // Update the staff display
-            drawStaff();
-            // If in ear training mode, play the next note
-            if (currentMode === 'ear') {
-                setTimeout(() => {playEarTrainingNote();}, delayDuration)
+            // Check if all required notes are pressed
+            const isCorrect = currentTarget.every(targetNote => normalizedUser.includes(normalizeNote(targetNote)));
+            if (isCorrect) {
+                showFeedback('correct');
+                // Remove the first chord
+                targetNoteQueue.shift();
+                // Add a new chord at the end
+                targetNoteQueue.push(getRandomChord(chordSize));
+                // Update the staff display
+                drawStaff();
+                // Reset required notes
+                requiredNotes.clear();
+                // If in ear training mode, play the next note or chord
+                if (currentMode === 'ear') {
+                    setTimeout(() => {playEarTrainingNote();}, 500);
+                }
+            } else {
+                // Not all required notes pressed yet
+                // Optionally, provide partial feedback or do nothing
             }
         } else {
-            showFeedback('incorrect');
+            // Single Note Input
+            const normalizedTargetNote = normalizeNote(currentTarget);
+            const normalizedUserNote = normalizeNote(note);
+
+            const delayDuration = 500;
+
+            if (normalizedUserNote === normalizedTargetNote) {
+                showFeedback('correct');
+                // Remove the first note
+                targetNoteQueue.shift();
+                // Add a new note at the end
+                targetNoteQueue.push(getRandomNote());
+                // Update the staff display
+                drawStaff();
+                // If in ear training mode, play the next note
+                if (currentMode === 'ear') {
+                    setTimeout(() => {playEarTrainingNote();}, delayDuration)
+                }
+            } else {
+                showFeedback('incorrect');
+            }
         }
     }
 
@@ -432,6 +448,34 @@
         const randomIndex = Math.floor(Math.random() * notes.length);
         let note = notes[randomIndex]; // Always a sharp or natural note
         return note;
+    }
+
+    // Get Random Chord of specified size with notes at least 2 half-steps apart
+    function getRandomChord(size) {
+        const chord = [];
+        let availableNotes = [...notes]; // Clone the notes array to avoid duplicates
+
+        while (chord.length < size && availableNotes.length > 0) {
+            const randomIndex = Math.floor(Math.random() * availableNotes.length);
+            const selectedNote = availableNotes[randomIndex];
+            chord.push(selectedNote);
+
+            // Remove the selected note and its adjacent half-step notes
+            availableNotes = availableNotes.filter(note => {
+                const semitoneDifference = getSemitoneDifference(selectedNote, note);
+                return semitoneDifference > 1;
+            });
+        }
+
+        return chord;
+    }
+
+    // Helper Function to Calculate Semitone Difference
+    function getSemitoneDifference(note1, note2) {
+        const noteOrder = ['C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4'];
+        const index1 = noteOrder.indexOf(note1);
+        const index2 = noteOrder.indexOf(note2);
+        return Math.abs(index1 - index2);
     }
 
     // Convert Note to VexFlow Key Format
@@ -465,9 +509,89 @@
         stave.addClef(currentMode === 'bass' ? 'bass' : 'treble');
         stave.setContext(context).draw();
 
-        // Create VexFlow StaveNotes from the queue
-        const vfNotes = targetNoteQueue.map(note => {
-            const noteData = noteToVexflowKey(note);
+        // Prepare StaveNotes
+        const vfNotes = targetNoteQueue.map(item => {
+            if (Array.isArray(item)) {
+		
+		const sortedItem = item.slice().sort((a, b) => noteFrequencies[a] - noteFrequencies[b]);
+		
+                // Chord
+                const keys = sortedItem.map(note => {
+                    const noteData = noteToVexflowKey(note);
+                    return noteData.key;
+                });
+		
+                const staveNote = new Vex.Flow.StaveNote({ 
+                    clef: currentMode === 'bass' ? 'bass' : 'treble', 
+                    keys: keys, 
+                    duration: "q" 
+                });
+		
+                // Add accidentals if necessary
+                sortedItem.forEach((note, index) => {
+                    const noteData = noteToVexflowKey(note);
+                    if (noteData.accidental) {
+                        staveNote.addAccidental(index, new Vex.Flow.Accidental(noteData.accidental));
+                    }
+                });
+                return staveNote;
+		
+            } else {
+                // Single Note
+                const noteData = noteToVexflowKey(item);
+                const staveNote = new Vex.Flow.StaveNote({ 
+                    clef: currentMode === 'bass' ? 'bass' : 'treble', 
+                    keys: [noteData.key], 
+                    duration: "q" 
+                });
+                if (noteData.accidental) {
+                    staveNote.addAccidental(0, new Vex.Flow.Accidental(noteData.accidental));
+                }
+                return staveNote;
+            }
+        });
+
+// Draw Staff with Note Queue
+function drawStaff() {
+    const canvas = document.getElementById('staff');
+    const renderer = new Vex.Flow.Renderer(canvas, Vex.Flow.Renderer.Backends.CANVAS);
+    const context = renderer.getContext();
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Create a single stave
+    const stave = new Vex.Flow.Stave(10, 40, 700);
+    stave.addClef(currentMode === 'bass' ? 'bass' : 'treble');
+    stave.setContext(context).draw();
+
+    // Prepare StaveNotes
+    const vfNotes = targetNoteQueue.map(item => {
+        if (Array.isArray(item)) {
+            // Chord - Sort the notes in ascending order based on frequency
+            const sortedItem = item.slice().sort((a, b) => noteFrequencies[a] - noteFrequencies[b]);
+
+            const keys = sortedItem.map(note => {
+                const noteData = noteToVexflowKey(note);
+                return noteData.key;
+            });
+
+            const staveNote = new Vex.Flow.StaveNote({ 
+                clef: currentMode === 'bass' ? 'bass' : 'treble', 
+                keys: keys, 
+                duration: "q" 
+            });
+
+            // Add accidentals if necessary
+            sortedItem.forEach((note, index) => {
+                const noteData = noteToVexflowKey(note);
+                if (noteData.accidental) {
+                    staveNote.addAccidental(index, new Vex.Flow.Accidental(noteData.accidental));
+                }
+            });
+
+            return staveNote;
+        } else {
+            // Single Note
+            const noteData = noteToVexflowKey(item);
             const staveNote = new Vex.Flow.StaveNote({ 
                 clef: currentMode === 'bass' ? 'bass' : 'treble', 
                 keys: [noteData.key], 
@@ -477,9 +601,44 @@
                 staveNote.addAccidental(0, new Vex.Flow.Accidental(noteData.accidental));
             }
             return staveNote;
-        });
+        }
+    });
 
-        // Create a single voice with all 8 quarter notes
+    // Create a single voice with all quarter notes
+    const voice = new Vex.Flow.Voice({
+        num_beats: QUEUE_LENGTH, // 8 beats
+        beat_value: 4,           // Quarter note
+        resolution: Vex.Flow.RESOLUTION
+    });
+
+    voice.addTickables(vfNotes);
+
+    // Create a formatter and format the voice
+    const formatter = new Vex.Flow.Formatter()
+        .joinVoices([voice])
+        .format([voice], 680); // Slightly less than stave width to accommodate measure lines
+
+    // Draw the voice
+    voice.draw(context, stave);
+
+    // Draw measure lines after every 4 notes (every 4 beats)
+    const measureInterval = 4; // Every 4 beats
+    const staveStartX = stave.getX();
+    const staveWidth = stave.getWidth();
+    const noteSpacing = staveWidth / QUEUE_LENGTH;
+    for (let i = 1; i < QUEUE_LENGTH / measureInterval; i++) {
+        const x = staveStartX + (i * measureInterval * noteSpacing);
+        context.beginPath();
+        context.moveTo(x, stave.getYForLine(0) - 20); // Adjust vertical position as needed
+        context.lineTo(x, stave.getYForLine(4) + 20); // Adjust vertical position as needed
+        context.strokeStyle = '#000';
+        context.lineWidth = 1;
+        context.stroke();
+    }
+}
+	
+
+        // Create a single voice with all quarter notes
         const voice = new Vex.Flow.Voice({
             num_beats: QUEUE_LENGTH, // 8 beats
             beat_value: 4,           // Quarter note
@@ -512,30 +671,15 @@
         }
     }
 
-    // Play Ear Training Note
+    // Play Ear Training Note or Chord
     function playEarTrainingNote() {
         if (targetNoteQueue.length === 0) return;
-        const frequency = noteFrequencies[normalizeNote(targetNoteQueue[0])];
-        if (!frequency) return;
-
-        // Use a different waveform for ear training (e.g., triangle)
-        const earTrainingWaveform = 'triangle';
-
-        const oscillator = audioContext.createOscillator();
-        oscillator.type = earTrainingWaveform;
-        oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-
-        const envelope = audioContext.createGain();
-        envelope.gain.setValueAtTime(0, audioContext.currentTime);
-        // Reduced attack time to minimize delay
-        envelope.gain.linearRampToValueAtTime(1, audioContext.currentTime + 0.001);
-        envelope.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1.5);
-
-        oscillator.connect(envelope);
-        envelope.connect(audioContext.destination);
-
-        oscillator.start();
-        oscillator.stop(audioContext.currentTime + 1.5);
+        const currentTarget = targetNoteQueue[0];
+        if (Array.isArray(currentTarget)) {
+            playNotes(currentTarget);
+        } else {
+            playNote(currentTarget);
+        }
     }
 
     // Show Feedback
@@ -633,7 +777,7 @@
     }
 
     // ====================
-    // Chord Generator Functionality
+    // Chord Settings Functionality
     // ====================
 
     // Set Chord Size
@@ -641,26 +785,7 @@
         chordSize = parseInt(value);
         if (chordSize < 1) chordSize = 1;
         if (chordSize > 5) chordSize = 5; // Limit to 5 notes
-    }
-
-    // Generate Chord Button
-    function generateChord() {
-        previousMode = currentMode; // Store the current mode
-        currentMode = 'chord';
-        // In chord mode, we'll play a chord of 'chordSize' notes
-        const chordNotes = [];
-        for (let i = 0; i < chordSize; i++) {
-            chordNotes.push(getRandomNote());
-        }
-        activeChords = chordNotes;
-        playNotes(chordNotes);
-        // Insert the chord at the beginning of the queue
-        targetNoteQueue = [...chordNotes, ...targetNoteQueue.slice(0, QUEUE_LENGTH - chordNotes.length)];
-        drawStaff();
-        // Reset currentMode after chord is displayed
-        setTimeout(() => {
-            currentMode = previousMode;
-        }, 2000);
+        initializeNoteQueue();
     }
 
     // ====================
