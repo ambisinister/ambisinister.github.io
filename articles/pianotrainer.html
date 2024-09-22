@@ -509,11 +509,15 @@
     function getRandomNote() {
         // Define the base notes without octave
         const baseNotes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-        const randomIndex = Math.floor(Math.random() * baseNotes.length);
-        let note = baseNotes[randomIndex];
+        const baseOctaves = [3, 4, 5];
+        const randomNoteIndex = Math.floor(Math.random() * baseNotes.length);
+        const randomOctaveIndex = Math.floor(Math.random() * baseOctaves.length);
+        let note = baseNotes[randomNoteIndex];
+        let octave = baseOctaves[randomOctaveIndex];
 
         // Apply octave shift
-        let octave = 4 + currentOctaveShift;
+        octave += currentOctaveShift;
+
         // Ensure octave stays within 3 to 5
         if (octave < 3) octave = 3;
         if (octave > 5) octave = 5;
@@ -732,13 +736,13 @@
             // Apply octave shift
             if (baseNote.length === 3) { // e.g., C#4
                 const noteName = baseNote.slice(0, -1);
-                const octave = parseInt(baseNote.slice(-1)) + currentOctaveShift;
+                let octave = parseInt(baseNote.slice(-1)) + currentOctaveShift;
                 // Ensure octave stays within 3 to 5
                 const finalOctave = Math.min(Math.max(octave, 3), 5);
                 note = noteName + finalOctave;
             } else if (baseNote.length === 2) { // e.g., C4
                 const noteName = baseNote.slice(0, -1);
-                const octave = parseInt(baseNote.slice(-1)) + currentOctaveShift;
+                let octave = parseInt(baseNote.slice(-1)) + currentOctaveShift;
                 // Ensure octave stays within 3 to 5
                 const finalOctave = Math.min(Math.max(octave, 3), 5);
                 note = noteName + finalOctave;
