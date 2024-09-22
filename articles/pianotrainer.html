@@ -368,7 +368,7 @@
     let targetNoteQueue = [];        // Queue of target notes or chords
     let waveform = 'sine';           // Default waveform
     let metronomeInterval = null;
-    let bpm = 120;                   // Default BPM
+    let bpm = 75;                   // Default BPM
     let chordSize = 1;               // Default chord size
     let requiredNotes = new Set();   // Notes required for current chord input
     let currentOctaveShift = 0;      // 0: No shift, -1: Down 1, -2: Down 2, +1: Up 1, +2: Up 2
@@ -572,9 +572,6 @@
 
         const randomIndex = Math.floor(Math.random() * availableNotes.length);
         let note = availableNotes[randomIndex];
-
-        // Apply octave shift
-        // note = applyOctaveShift(note);
 
         return note;
     }
@@ -1091,8 +1088,8 @@
         });
 
         // Set default selections
-        lowNote = 'C3';
-        highNote = 'B5';
+        lowNote = 'C4';
+        highNote = 'B4';
 
         lowNoteSelect.value = lowNote;
         highNoteSelect.value = highNote;
