@@ -818,6 +818,23 @@
         }, 500);
     }
 
+    // Function to highlight a piano key
+    function highlightKey(note) {
+	// Select the key element based on the data-note attribute
+	const keyElement = document.querySelector(`[data-note="${note}"]`);
+
+	if (keyElement) {
+	    // Add the 'active' class to highlight the key
+	    keyElement.classList.add('active');
+
+	    // Remove the 'active' class after 200 milliseconds to remove the highlight
+	    setTimeout(() => {
+		keyElement.classList.remove('active');
+	    }, 200);
+	}
+    }
+
+
     // Set Waveform
     function setWaveform(wave) {
         waveform = wave;
