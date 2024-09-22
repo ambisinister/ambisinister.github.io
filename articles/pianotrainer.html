@@ -197,6 +197,22 @@
         font-size: 16px;
     }
 
+    /* Note Range Selection */
+    #note-range-selection {
+        margin: 20px auto;
+    }
+
+    #note-range-selection label {
+        margin-right: 10px;
+        font-size: 16px;
+    }
+
+    #note-range-selection select {
+        padding: 5px;
+        font-size: 16px;
+        margin-right: 20px;
+    }
+
     </style>
     <!-- Include VexFlow Library -->
     <script src="https://unpkg.com/vexflow/releases/vexflow-min.js"></script>
@@ -229,8 +245,18 @@
                     - Use the keyboard or a MIDI controller to play notes.<br>
                     - Press <strong>'x'</strong> to shift all notes down by one octave.<br>
                     - Press <strong>'c'</strong> to shift all notes up by one octave.<br>
+                    - Use the "Low Note" and "High Note" dropdowns to set the note range.<br>
                 </p>
             </div>
+        </div>
+
+        <!-- Note Range Selection -->
+        <div id="note-range-selection">
+            <label for="low-note">Low Note:</label>
+            <select id="low-note"></select>
+
+            <label for="high-note">High Note:</label>
+            <select id="high-note"></select>
         </div>
 
         <!-- Feedback Display -->
@@ -332,7 +358,7 @@
         'B4': 'j'
     };
 
-    // Initialize Audio Context
+    // Initialize Audio Context (Declared Only Once)
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
     // Variables
@@ -349,13 +375,13 @@
     let midiAccess = null;
     let midiInput = null;
 
-    // Define notes across three octaves
-    const notes = [
-        'C3', 'C#3', 'Db3', 'D3', 'D#3', 'Eb3', 'E3', 'F3', 'F#3', 'Gb3', 
+    // Define all possible notes from C3 to B5
+    const allNotes = [
+        'C3', 'C#3', 'Db3', 'D3', 'D#3', 'Eb3', 'E3', 'F3', 'F#3', 'Gb3',
         'G3', 'G#3', 'Ab3', 'A3', 'A#3', 'Bb3', 'B3',
-        'C4', 'C#4', 'Db4', 'D4', 'D#4', 'Eb4', 'E4', 'F4', 'F#4', 'Gb4', 
+        'C4', 'C#4', 'Db4', 'D4', 'D#4', 'Eb4', 'E4', 'F4', 'F#4', 'Gb4',
         'G4', 'G#4', 'Ab4', 'A4', 'A#4', 'Bb4', 'B4',
-        'C5', 'C#5', 'Db5', 'D5', 'D#5', 'Eb5', 'E5', 'F5', 'F#5', 'Gb5', 
+        'C5', 'C#5', 'Db5', 'D5', 'D#5', 'Eb5', 'E5', 'F5', 'F#5', 'Gb5',
         'G5', 'G#5', 'Ab5', 'A5', 'A#5', 'Bb5', 'B5'
     ];
     const QUEUE_LENGTH = 8;           // Desired queue length
@@ -435,50 +461,6 @@
             'Bb5': 'A#5'
         };
         return flatToSharpMap[note] || note;
-    }
-
-    // Play a Single Note
-    function playNote(note) {
-        const frequency = noteFrequencies[note];
-        if (!frequency) return;
-
-        const oscillator = audioContext.createOscillator();
-        oscillator.type = waveform;
-        oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-
-        const envelope = audioContext.createGain();
-        envelope.gain.setValueAtTime(0, audioContext.currentTime);
-        envelope.gain.linearRampToValueAtTime(1, audioContext.currentTime + 0.001);
-        envelope.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1);
-
-        oscillator.connect(envelope);
-        envelope.connect(audioContext.destination);
-
-        oscillator.start();
-        oscillator.stop(audioContext.currentTime + 1);
-    }
-
-    // Play Multiple Notes (Chords)
-    function playNotes(notesArray, customWaveform = waveform) {
-        notesArray.forEach(note => {
-            const frequency = noteFrequencies[note];
-            if (!frequency) return;
-
-            const oscillator = audioContext.createOscillator();
-            oscillator.type = customWaveform;
-            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-
-            const envelope = audioContext.createGain();
-            envelope.gain.setValueAtTime(0, audioContext.currentTime);
-            envelope.gain.linearRampToValueAtTime(1, audioContext.currentTime + 0.001);
-            envelope.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1.5);
-
-            oscillator.connect(envelope);
-            envelope.connect(audioContext.destination);
-
-            oscillator.start();
-            oscillator.stop(audioContext.currentTime + 1.5);
-        });
     }
 
     // Initialize Note Queue with 8 Notes or Chords
@@ -567,86 +549,94 @@
         initializeNoteQueue();
     }
 
-    // Get Random Single Note with Octave Shift and Flats
+    // Get Random Single Note within the selected range with Octave Shift and Flats
     function getRandomNote() {
-        // Define the base notes without octave
-        const baseNotes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-        const baseOctaves = [3, 4, 5];
-        const randomNoteIndex = Math.floor(Math.random() * baseNotes.length);
-        const randomOctaveIndex = Math.floor(Math.random() * baseOctaves.length);
-        let note = baseNotes[randomNoteIndex];
-        let octave = baseOctaves[randomOctaveIndex];
+        const availableNotes = getNotesInRange(lowNote, highNote);
+        if (availableNotes.length === 0) return null;
+
+        const randomIndex = Math.floor(Math.random() * availableNotes.length);
+        let note = availableNotes[randomIndex];
 
         // Apply octave shift
-        octave += currentOctaveShift;
+        note = applyOctaveShift(note);
 
-        // Ensure octave stays within 3 to 5
-        if (octave < 3) octave = 3;
-        if (octave > 5) octave = 5;
-
-        let fullNote = note + octave;
-
-        // If the note is a sharp, randomly choose to display it as sharp or flat
-        if (note.includes('#')) {
-            if (Math.random() < 0.5) {
-                // Convert to flat equivalent
-                const sharpToFlatMap = {
-                    'C#': 'Db',
-                    'D#': 'Eb',
-                    'F#': 'Gb',
-                    'G#': 'Ab',
-                    'A#': 'Bb'
-                };
-                const flatNote = sharpToFlatMap[note] + octave;
-                return flatNote;
-            }
-        }
-
-        return fullNote;
+        return note;
     }
 
-    // Get Random Chord of specified size with notes at least 2 half-steps apart
+    // Get Random Chord of specified size within the selected range with notes at least 2 half-steps apart
     function getRandomChord(size) {
+        const availableNotes = getNotesInRange(lowNote, highNote);
+        if (availableNotes.length === 0) return [];
+
+        // Sort availableNotes based on frequency to facilitate semitone difference
+        const sortedNotes = availableNotes.slice().sort((a, b) => noteFrequencies[a] - noteFrequencies[b]);
+
         const chord = [];
-        let accidentalType = Math.random() < 0.5 ? 'sharp' : 'flat';
+        const usedIndices = new Set();
 
-        // Define target octave with currentOctaveShift, clamped between 3 and 5
-        let baseOctave = 4 + currentOctaveShift;
-        if (baseOctave < 3) baseOctave = 3;
-        if (baseOctave > 5) baseOctave = 5;
+        for (let attempt = 0; attempt < 100; attempt++) { // Limit attempts to prevent infinite loops
+            chord.length = 0;
+            usedIndices.clear();
 
-        // Define natural and accidental notes based on accidentalType
-        const naturalNotes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-        const sharpNotes = ['C#', 'D#', 'F#', 'G#', 'A#'];
-        const flatNotes = ['Db', 'Eb', 'Gb', 'Ab', 'Bb'];
+            while (chord.length < size) {
+                const randIdx = Math.floor(Math.random() * sortedNotes.length);
+                if (usedIndices.has(randIdx)) continue;
 
-        let notePool = [...naturalNotes];
+                const candidateNote = sortedNotes[randIdx];
 
-        if (accidentalType === 'sharp') {
-            notePool = notePool.concat(sharpNotes);
-        } else if (accidentalType === 'flat') {
-            notePool = notePool.concat(flatNotes);
-        }
+                // Check semitone difference with existing chord notes
+                let isValid = true;
+                for (let existingNote of chord) {
+                    const diff = getSemitoneDifference(existingNote, candidateNote);
+                    if (diff < 2) {
+                        isValid = false;
+                        break;
+                    }
+                }
 
-        // Convert to full note names with octave
-        notePool = notePool.map(note => note + baseOctave);
+                if (isValid) {
+                    chord.push(candidateNote);
+                    usedIndices.add(randIdx);
+                }
 
-        // Now, generate chord notes ensuring at least two semitone difference
-        let availableNotes = [...notePool];
+                if (usedIndices.size === sortedNotes.length) break;
+            }
 
-        while (chord.length < size && availableNotes.length > 0) {
-            const randomIndex = Math.floor(Math.random() * availableNotes.length);
-            const selectedNote = availableNotes[randomIndex];
-            chord.push(selectedNote);
-
-            // Remove selected note and its adjacent semitone notes
-            availableNotes = availableNotes.filter(note => {
-                const semitoneDifference = getSemitoneDifference(selectedNote, note);
-                return semitoneDifference > 1;
-            });
+            if (chord.length === size) break;
         }
 
         return chord;
+    }
+
+    // Helper Function to Get Notes within the selected range
+    function getNotesInRange(low, high) {
+        const lowIndex = allNotes.indexOf(low);
+        const highIndex = allNotes.indexOf(high);
+
+        if (lowIndex === -1 || highIndex === -1 || lowIndex > highIndex) {
+            return [];
+        }
+
+        return allNotes.slice(lowIndex, highIndex + 1);
+    }
+
+    // Helper Function to Apply Octave Shift
+    function applyOctaveShift(note) {
+        let shiftedNote = note;
+        if (note.length === 3) { // e.g., C#4
+            const noteName = note.slice(0, -1);
+            let octave = parseInt(note.slice(-1)) + currentOctaveShift;
+            // Ensure octave stays within 3 to 5
+            octave = Math.min(Math.max(octave, 3), 5);
+            shiftedNote = noteName + octave;
+        } else if (note.length === 2) { // e.g., C4
+            const noteName = note.slice(0, -1);
+            let octave = parseInt(note.slice(-1)) + currentOctaveShift;
+            // Ensure octave stays within 3 to 5
+            octave = Math.min(Math.max(octave, 3), 5);
+            shiftedNote = noteName + octave;
+        }
+        return shiftedNote;
     }
 
     // Helper Function to Calculate Semitone Difference
@@ -1056,8 +1046,70 @@
         return fullNote;
     }
 
-    // Initialize MIDI on Page Load
+    // Initialize Note Range Dropdowns
+    function initializeNoteRangeDropdowns() {
+        const lowNoteSelect = document.getElementById('low-note');
+        const highNoteSelect = document.getElementById('high-note');
+
+        // Populate the dropdowns with allNotes, removing duplicates (e.g., Db3 is same as C#3)
+        const uniqueNotes = allNotes.filter((note, index, self) => self.indexOf(note) === index);
+
+        uniqueNotes.forEach(note => {
+            const option1 = document.createElement('option');
+            option1.value = note;
+            option1.text = note;
+            lowNoteSelect.appendChild(option1);
+
+            const option2 = document.createElement('option');
+            option2.value = note;
+            option2.text = note;
+            highNoteSelect.appendChild(option2);
+        });
+
+        // Set default selections
+        lowNote = 'C3';
+        highNote = 'B5';
+
+        lowNoteSelect.value = lowNote;
+        highNoteSelect.value = highNote;
+
+        // Add event listeners
+        lowNoteSelect.addEventListener('change', () => {
+            const selectedLow = lowNoteSelect.value;
+            const selectedHigh = highNoteSelect.value;
+            if (allNotes.indexOf(selectedLow) > allNotes.indexOf(selectedHigh)) {
+                alert("Low Note cannot be higher than High Note.");
+                lowNoteSelect.value = lowNote;
+            } else {
+                lowNote = selectedLow;
+                initializeNoteQueue();
+            }
+        });
+
+        highNoteSelect.addEventListener('change', () => {
+            const selectedLow = lowNoteSelect.value;
+            const selectedHigh = highNoteSelect.value;
+            if (allNotes.indexOf(selectedLow) > allNotes.indexOf(selectedHigh)) {
+                alert("High Note cannot be lower than Low Note.");
+                highNoteSelect.value = highNote;
+            } else {
+                highNote = selectedHigh;
+                initializeNoteQueue();
+            }
+        });
+    }
+
+    // Set Waveform
+    function setWaveform(wave) {
+        waveform = wave;
+    }
+
+    // ====================
+    // Initialize Note Range and MIDI on Page Load
+    // ====================
+
     window.addEventListener('load', () => {
+        initializeNoteRangeDropdowns();
         initMIDI();
         initializeNoteQueue();
     });
@@ -1123,6 +1175,54 @@
             pressedKeys[key] = false;
         }
     });
+
+    // ====================
+    // Audio Playback Functions
+    // ====================
+
+    // Play a Single Note
+    function playNote(note) {
+        const frequency = noteFrequencies[note];
+        if (!frequency) return;
+
+        const oscillator = audioContext.createOscillator();
+        oscillator.type = waveform;
+        oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+
+        const envelope = audioContext.createGain();
+        envelope.gain.setValueAtTime(0, audioContext.currentTime);
+        envelope.gain.linearRampToValueAtTime(1, audioContext.currentTime + 0.001);
+        envelope.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1);
+
+        oscillator.connect(envelope);
+        envelope.connect(audioContext.destination);
+
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 1);
+    }
+
+    // Play Multiple Notes (Chords)
+    function playNotes(notesArray, customWaveform = waveform) {
+        notesArray.forEach(note => {
+            const frequency = noteFrequencies[note];
+            if (!frequency) return;
+
+            const oscillator = audioContext.createOscillator();
+            oscillator.type = customWaveform;
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+
+            const envelope = audioContext.createGain();
+            envelope.gain.setValueAtTime(0, audioContext.currentTime);
+            envelope.gain.linearRampToValueAtTime(1, audioContext.currentTime + 0.001);
+            envelope.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1.5);
+
+            oscillator.connect(envelope);
+            envelope.connect(audioContext.destination);
+
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 1.5);
+        });
+    }
 
     </script>
 </body>
