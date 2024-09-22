@@ -278,16 +278,15 @@
 
     // Variables
     let currentMode = null;          // 'treble', 'bass', 'ear'
-    let previousMode = null;         // To store mode before 'chord'
     let targetNoteQueue = [];        // Queue of target notes or chords
     let waveform = 'sine';           // Default waveform
     let metronomeInterval = null;
     let bpm = 120;                   // Default BPM
     let chordSize = 1;               // Default chord size
-    let activeChords = [];           // Currently active chord notes
     let requiredNotes = new Set();   // Notes required for current chord input
     let currentOctaveShift = 0;      // 0: No shift, -1: Down, +1: Up
 
+    // Define notes across three octaves
     const notes = [
         'C3', 'C#3', 'Db3', 'D3', 'D#3', 'Eb3', 'E3', 'F3', 'F#3', 'Gb3', 
         'G3', 'G#3', 'Ab3', 'A3', 'A#3', 'Bb3', 'B3',
@@ -353,7 +352,7 @@
         'B5': 987.77
     };
 
-    // Normalize Note (Map Flats to Sharps)
+    // Normalize Note (Map Flats to Sharps for frequency and logic)
     function normalizeNote(note) {
         const flatToSharpMap = {
             'Db3': 'C#3',
@@ -546,14 +545,38 @@
     // Get Random Chord of specified size with notes at least 2 half-steps apart
     function getRandomChord(size) {
         const chord = [];
-        let availableNotes = [...notes]; // Clone the notes array to avoid duplicates
+        let accidentalType = Math.random() < 0.5 ? 'sharp' : 'flat';
+
+        // Define target octave with currentOctaveShift, clamped between 3 and 5
+        let baseOctave = 4 + currentOctaveShift;
+        if (baseOctave < 3) baseOctave = 3;
+        if (baseOctave > 5) baseOctave = 5;
+
+        // Define natural and accidental notes based on accidentalType
+        const naturalNotes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+        const sharpNotes = ['C#', 'D#', 'F#', 'G#', 'A#'];
+        const flatNotes = ['Db', 'Eb', 'Gb', 'Ab', 'Bb'];
+
+        let notePool = [...naturalNotes];
+
+        if (accidentalType === 'sharp') {
+            notePool = notePool.concat(sharpNotes);
+        } else if (accidentalType === 'flat') {
+            notePool = notePool.concat(flatNotes);
+        }
+
+        // Convert to full note names with octave
+        notePool = notePool.map(note => note + baseOctave);
+
+        // Now, generate chord notes ensuring at least two semitone difference
+        let availableNotes = [...notePool];
 
         while (chord.length < size && availableNotes.length > 0) {
             const randomIndex = Math.floor(Math.random() * availableNotes.length);
             const selectedNote = availableNotes[randomIndex];
             chord.push(selectedNote);
 
-            // Remove the selected note and its adjacent half-step notes
+            // Remove selected note and its adjacent semitone notes
             availableNotes = availableNotes.filter(note => {
                 const semitoneDifference = getSemitoneDifference(selectedNote, note);
                 return semitoneDifference > 1;
@@ -822,7 +845,6 @@
     // ====================
 
     const pressedKeys = {};
-    let shiftDown = false; // To track octave shift
 
     document.addEventListener('keydown', (event) => {
         const key = event.key.toLowerCase();
