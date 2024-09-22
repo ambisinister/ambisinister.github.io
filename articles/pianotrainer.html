@@ -14,11 +14,19 @@
         text-align: center;
         margin: 20px auto;
         width: 90%;
-        max-width: 1000px;
+        max-width: 1200px; /* Increased max-width to accommodate side-by-side layout */
         background-color: #fff;
         padding: 20px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         border-radius: 8px;
+    }
+
+    /* Top Section: Piano and Instructions */
+    #top-section {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 20px;
     }
 
     /* Piano Styles */
@@ -26,7 +34,6 @@
         position: relative;
         width: 600px; /* Adjusted width after removing two keys */
         height: 200px;
-        margin: 20px auto;
     }
 
     .white-key, .black-key {
@@ -159,28 +166,71 @@
         border: 1px solid #ccc;
         border-radius: 5px;
     }
-          
+
+    /* MIDI Controls */
+    #midi-controls {
+        margin: 20px auto;
+    }
+
+    #midi-controls label {
+        margin-right: 10px;
+        font-size: 16px;
+    }
+
+    #midi-controls select {
+        padding: 5px;
+        font-size: 16px;
+    }
+
+    /* Instructions Box */
+    #instructions {
+        width: 400px; /* Adjusted width to fit beside piano */
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fafafa;
+        text-align: left;
+    }
+
+    #instructions p {
+        margin: 0;
+        font-size: 16px;
+    }
+
     </style>
     <!-- Include VexFlow Library -->
     <script src="https://unpkg.com/vexflow/releases/vexflow-min.js"></script>
 </head>
 <body>
     <div id="game-container">
-        <!-- Piano Keyboard -->
-        <div id="piano">
-            <!-- White Keys -->
-            <div class="white-key" data-note="C4">A</div>
-            <div class="black-key" data-note="C#4">W</div>
-            <div class="white-key" data-note="D4">S</div>
-            <div class="black-key" data-note="D#4">E</div>
-            <div class="white-key" data-note="E4">D</div>
-            <div class="white-key" data-note="F4">F</div>
-            <div class="black-key" data-note="F#4">T</div>
-            <div class="white-key" data-note="G4">G</div>
-            <div class="black-key" data-note="G#4">Y</div>
-            <div class="white-key" data-note="A4">H</div>
-            <div class="black-key" data-note="A#4">U</div>
-            <div class="white-key" data-note="B4">J</div>
+        <!-- Top Section: Piano and Instructions -->
+        <div id="top-section">
+            <!-- Piano Keyboard -->
+            <div id="piano">
+                <!-- White Keys -->
+                <div class="white-key" data-note="C4">A</div>
+                <div class="black-key" data-note="C#4">W</div>
+                <div class="white-key" data-note="D4">S</div>
+                <div class="black-key" data-note="D#4">E</div>
+                <div class="white-key" data-note="E4">D</div>
+                <div class="white-key" data-note="F4">F</div>
+                <div class="black-key" data-note="F#4">T</div>
+                <div class="white-key" data-note="G4">G</div>
+                <div class="black-key" data-note="G#4">Y</div>
+                <div class="white-key" data-note="A4">H</div>
+                <div class="black-key" data-note="A#4">U</div>
+                <div class="white-key" data-note="B4">J</div>
+            </div>
+
+            <!-- Instructions -->
+            <div id="instructions">
+                <p><strong>Instructions:</strong></p>
+                <p>
+                    - Use the keyboard or a MIDI controller to play notes.<br>
+                    - Press <strong>'x'</strong> to shift all notes down by one octave.<br>
+                    - Press <strong>'c'</strong> to shift all notes up by one octave.<br>
+                </p>
+            </div>
         </div>
 
         <!-- Feedback Display -->
@@ -224,6 +274,15 @@
                 <option value="3">3 Notes</option>
                 <option value="4">4 Notes</option>
                 <option value="5">5 Notes</option>
+            </select>
+        </div>
+
+        <!-- MIDI Controller Selection -->
+        <div id="midi-controls">
+            <label for="midi-select">MIDI Controller:</label>
+            <select id="midi-select">
+                <option value="keyboard">Keyboard</option>
+                <!-- MIDI devices will be populated here -->
             </select>
         </div>
 
@@ -285,6 +344,10 @@
     let chordSize = 1;               // Default chord size
     let requiredNotes = new Set();   // Notes required for current chord input
     let currentOctaveShift = 0;      // 0: No shift, -1: Down, +1: Up
+
+    // MIDI Variables
+    let midiAccess = null;
+    let midiInput = null;
 
     // Define notes across three octaves
     const notes = [
@@ -841,6 +904,165 @@
     }
 
     // ====================
+    // MIDI Support Functionality
+    // ====================
+
+    // Initialize MIDI
+    function initMIDI() {
+        if (navigator.requestMIDIAccess) {
+            navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
+        } else {
+            alert("Web MIDI API is not supported in this browser.");
+        }
+    }
+
+    // Handle MIDI Access Success
+    function onMIDISuccess(midi) {
+        midiAccess = midi;
+        listInputs(midiAccess);
+        midiAccess.onstatechange = () => {
+            listInputs(midiAccess);
+        };
+    }
+
+    // Handle MIDI Access Failure
+    function onMIDIFailure() {
+        alert("Could not access your MIDI devices.");
+    }
+
+    // List MIDI Inputs and Populate Dropdown
+    function listInputs(midiAccess) {
+        const midiSelect = document.getElementById('midi-select');
+        const selectedValue = midiSelect.value;
+        // Remove all options except 'Keyboard'
+        while (midiSelect.options.length > 1) {
+            midiSelect.remove(1);
+        }
+
+        const inputs = midiAccess.inputs.values();
+        for (let input of inputs) {
+            const option = document.createElement('option');
+            option.value = input.id;
+            option.text = input.name;
+            midiSelect.appendChild(option);
+        }
+
+        // If previously selected MIDI controller is disconnected, reset to Keyboard
+        if (selectedValue !== 'keyboard') {
+            const existingOption = Array.from(midiSelect.options).find(option => option.value === selectedValue);
+            if (!existingOption) {
+                midiSelect.value = 'keyboard';
+                disableMIDI();
+            }
+        }
+    }
+
+    // Handle MIDI Selection Change
+    document.getElementById('midi-select').addEventListener('change', function() {
+        if (this.value === 'keyboard') {
+            disableMIDI();
+            enableKeyboard();
+        } else {
+            const selectedInput = midiAccess.inputs.get(this.value);
+            if (selectedInput) {
+                enableMIDI(selectedInput);
+                disableKeyboard();
+            }
+        }
+    });
+
+    // Enable MIDI Input
+    function enableMIDI(input) {
+        midiInput = input;
+        midiInput.onmidimessage = handleMIDIMessage;
+    }
+
+    // Disable MIDI Input
+    function disableMIDI() {
+        if (midiInput) {
+            midiInput.onmidimessage = null;
+            midiInput = null;
+        }
+    }
+
+    // Enable Keyboard Input
+    function enableKeyboard() {
+        // No additional actions needed since keyboard listeners are always active
+    }
+
+    // Disable Keyboard Input
+    function disableKeyboard() {
+        // Optionally, remove keyboard listeners if you want to disable them
+        // For now, we'll keep them active as per user request
+    }
+
+    // Handle MIDI Messages
+    function handleMIDIMessage(message) {
+        const [status, noteNumber, velocity] = message.data;
+        const command = status & 0xF0;
+        const channel = status & 0x0F;
+
+        if (command === 0x90 && velocity > 0) { // Note on
+            const noteName = midiNoteNumberToNoteName(noteNumber);
+            if (noteName) {
+                playNote(noteName);
+                handleUserInput(noteName);
+                highlightKey(noteName);
+            }
+        }
+        // Note off (0x80) can be handled if needed
+    }
+
+    // Convert MIDI Note Number to Note Name
+    function midiNoteNumberToNoteName(noteNumber) {
+        const octave = Math.floor(noteNumber / 12) - 1;
+        const noteIndex = noteNumber % 12;
+        const sharpNoteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+        const flatNoteNames = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
+
+        // Determine if current chord uses sharps or flats
+        let accidentalType = 'sharp';
+        if (targetNoteQueue.length > 0 && Array.isArray(targetNoteQueue[0])) {
+            const firstNote = targetNoteQueue[0][0];
+            accidentalType = firstNote.includes('b') ? 'flat' : 'sharp';
+        }
+
+        const noteName = accidentalType === 'sharp' ? sharpNoteNames[noteIndex] : flatNoteNames[noteIndex];
+        let fullNote = noteName + octave;
+
+        // Apply octave shift
+        let shiftedOctave = octave + currentOctaveShift;
+
+        // Ensure octave stays within 3 to 5
+        shiftedOctave = Math.min(Math.max(shiftedOctave, 3), 5);
+        fullNote = noteName + shiftedOctave;
+
+        // If the note is a sharp, randomly choose to display it as sharp or flat
+        if (noteName.includes('#')) {
+            if (Math.random() < 0.5) {
+                // Convert to flat equivalent
+                const sharpToFlatMap = {
+                    'C#': 'Db',
+                    'D#': 'Eb',
+                    'F#': 'Gb',
+                    'G#': 'Ab',
+                    'A#': 'Bb'
+                };
+                const flatNote = sharpToFlatMap[noteName] + shiftedOctave;
+                return flatNote;
+            }
+        }
+
+        return fullNote;
+    }
+
+    // Initialize MIDI on Page Load
+    window.addEventListener('load', () => {
+        initMIDI();
+        initializeNoteQueue();
+    });
+
+    // ====================
     // Keyboard Event Handling with Debouncing and Octave Shift
     // ====================
 
@@ -860,7 +1082,9 @@
         }
 
         const note = keyMappings[key];
-        if (note && !pressedKeys[key]) {
+        const midiSelect = document.getElementById('midi-select').value;
+
+        if (note && !pressedKeys[key] && midiSelect === 'keyboard') {
             pressedKeys[key] = true;
 
             let fullNote = note;
@@ -900,10 +1124,6 @@
         }
     });
 
-    // Initialize the note queue when the page loads
-    window.onload = () => {
-        initializeNoteQueue();
-    };
     </script>
 </body>
 </html>
