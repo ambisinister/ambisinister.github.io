@@ -14,7 +14,7 @@
         text-align: center;
         margin: 20px auto;
         width: 90%;
-        max-width: 1200px; /* Increased max-width to accommodate side-by-side layout */
+        max-width: 1400px; /* Increased max-width to accommodate extended note range */
         background-color: #fff;
         padding: 20px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -243,8 +243,10 @@
                 <p><strong>Instructions:</strong></p>
                 <p>
                     - Use the keyboard or a MIDI controller to play notes.<br>
+                    - Press <strong>'z'</strong> to shift all notes down by two octaves.<br>
                     - Press <strong>'x'</strong> to shift all notes down by one octave.<br>
                     - Press <strong>'c'</strong> to shift all notes up by one octave.<br>
+                    - Press <strong>'v'</strong> to shift all notes up by two octaves.<br>
                     - Use the "Low Note" and "High Note" dropdowns to set the note range.<br>
                 </p>
             </div>
@@ -369,81 +371,83 @@
     let bpm = 120;                   // Default BPM
     let chordSize = 1;               // Default chord size
     let requiredNotes = new Set();   // Notes required for current chord input
-    let currentOctaveShift = 0;      // 0: No shift, -1: Down, +1: Up
+    let currentOctaveShift = 0;      // 0: No shift, -1: Down 1, -2: Down 2, +1: Up 1, +2: Up 2
 
     // MIDI Variables
     let midiAccess = null;
     let midiInput = null;
 
-    // Define all possible notes from C3 to B5
+    // Define all possible notes from C1 to B7
     const allNotes = [
+        // Octave 1
+        'C1', 'C#1', 'Db1', 'D1', 'D#1', 'Eb1', 'E1', 'F1', 'F#1', 'Gb1',
+        'G1', 'G#1', 'Ab1', 'A1', 'A#1', 'Bb1', 'B1',
+        // Octave 2
+        'C2', 'C#2', 'Db2', 'D2', 'D#2', 'Eb2', 'E2', 'F2', 'F#2', 'Gb2',
+        'G2', 'G#2', 'Ab2', 'A2', 'A#2', 'Bb2', 'B2',
+        // Octave 3
         'C3', 'C#3', 'Db3', 'D3', 'D#3', 'Eb3', 'E3', 'F3', 'F#3', 'Gb3',
         'G3', 'G#3', 'Ab3', 'A3', 'A#3', 'Bb3', 'B3',
+        // Octave 4
         'C4', 'C#4', 'Db4', 'D4', 'D#4', 'Eb4', 'E4', 'F4', 'F#4', 'Gb4',
         'G4', 'G#4', 'Ab4', 'A4', 'A#4', 'Bb4', 'B4',
+        // Octave 5
         'C5', 'C#5', 'Db5', 'D5', 'D#5', 'Eb5', 'E5', 'F5', 'F#5', 'Gb5',
-        'G5', 'G#5', 'Ab5', 'A5', 'A#5', 'Bb5', 'B5'
+        'G5', 'G#5', 'Ab5', 'A5', 'A#5', 'Bb5', 'B5',
+        // Octave 6
+        'C6', 'C#6', 'Db6', 'D6', 'D#6', 'Eb6', 'E6', 'F6', 'F#6', 'Gb6',
+        'G6', 'G#6', 'Ab6', 'A6', 'A#6', 'Bb6', 'B6',
+        // Octave 7
+        'C7', 'C#7', 'Db7', 'D7', 'D#7', 'Eb7', 'E7', 'F7', 'F#7', 'Gb7',
+        'G7', 'G#7', 'Ab7', 'A7', 'A#7', 'Bb7', 'B7'
     ];
     const QUEUE_LENGTH = 8;           // Desired queue length
 
     // Note Frequencies
     const noteFrequencies = {
-        'C3': 130.81,
-        'C#3': 138.59,
-        'Db3': 138.59,
-        'D3': 146.83,
-        'D#3': 155.56,
-        'Eb3': 155.56,
-        'E3': 164.81,
-        'F3': 174.61,
-        'F#3': 185.00,
-        'Gb3': 185.00,
-        'G3': 196.00,
-        'G#3': 207.65,
-        'Ab3': 207.65,
-        'A3': 220.00,
-        'A#3': 233.08,
-        'Bb3': 233.08,
-        'B3': 246.94,
-        'C4': 261.63,
-        'C#4': 277.18,
-        'Db4': 277.18,
-        'D4': 293.66,
-        'D#4': 311.13,
-        'Eb4': 311.13,
-        'E4': 329.63,
-        'F4': 349.23,
-        'F#4': 369.99,
-        'Gb4': 369.99,
-        'G4': 392.00,
-        'G#4': 415.30,
-        'Ab4': 415.30,
-        'A4': 440.00,
-        'A#4': 466.16,
-        'Bb4': 466.16,
-        'B4': 493.88,
-        'C5': 523.25,
-        'C#5': 554.37,
-        'Db5': 554.37,
-        'D5': 587.33,
-        'D#5': 622.25,
-        'Eb5': 622.25,
-        'E5': 659.25,
-        'F5': 698.46,
-        'F#5': 739.99,
-        'Gb5': 739.99,
-        'G5': 783.99,
-        'G#5': 830.61,
-        'Ab5': 830.61,
-        'A5': 880.00,
-        'A#5': 932.33,
-        'Bb5': 932.33,
-        'B5': 987.77
+        // Octave 1
+        'C1': 32.70, 'C#1': 34.65, 'Db1': 34.65, 'D1': 36.71, 'D#1': 38.89, 'Eb1': 38.89, 'E1': 41.20,
+        'F1': 43.65, 'F#1': 46.25, 'Gb1': 46.25, 'G1': 49.00, 'G#1': 51.91, 'Ab1': 51.91,
+        'A1': 55.00, 'A#1': 58.27, 'Bb1': 58.27, 'B1': 61.74,
+        // Octave 2
+        'C2': 65.41, 'C#2': 69.30, 'Db2': 69.30, 'D2': 73.42, 'D#2': 77.78, 'Eb2': 77.78, 'E2': 82.41,
+        'F2': 87.31, 'F#2': 92.50, 'Gb2': 92.50, 'G2': 98.00, 'G#2': 103.83, 'Ab2': 103.83,
+        'A2': 110.00, 'A#2': 116.54, 'Bb2': 116.54, 'B2': 123.47,
+        // Octave 3
+        'C3': 130.81, 'C#3': 138.59, 'Db3': 138.59, 'D3': 146.83, 'D#3': 155.56, 'Eb3': 155.56, 'E3': 164.81,
+        'F3': 174.61, 'F#3': 185.00, 'Gb3': 185.00, 'G3': 196.00, 'G#3': 207.65, 'Ab3': 207.65,
+        'A3': 220.00, 'A#3': 233.08, 'Bb3': 233.08, 'B3': 246.94,
+        // Octave 4
+        'C4': 261.63, 'C#4': 277.18, 'Db4': 277.18, 'D4': 293.66, 'D#4': 311.13, 'Eb4': 311.13, 'E4': 329.63,
+        'F4': 349.23, 'F#4': 369.99, 'Gb4': 369.99, 'G4': 392.00, 'G#4': 415.30, 'Ab4': 415.30,
+        'A4': 440.00, 'A#4': 466.16, 'Bb4': 466.16, 'B4': 493.88,
+        // Octave 5
+        'C5': 523.25, 'C#5': 554.37, 'Db5': 554.37, 'D5': 587.33, 'D#5': 622.25, 'Eb5': 622.25, 'E5': 659.25,
+        'F5': 698.46, 'F#5': 739.99, 'Gb5': 739.99, 'G5': 783.99, 'G#5': 830.61, 'Ab5': 830.61,
+        'A5': 880.00, 'A#5': 932.33, 'Bb5': 932.33, 'B5': 987.77,
+        // Octave 6
+        'C6': 1046.50, 'C#6': 1108.73, 'Db6': 1108.73, 'D6': 1174.66, 'D#6': 1244.51, 'Eb6': 1244.51, 'E6': 1318.51,
+        'F6': 1396.91, 'F#6': 1479.98, 'Gb6': 1479.98, 'G6': 1567.98, 'G#6': 1661.22, 'Ab6': 1661.22,
+        'A6': 1760.00, 'A#6': 1864.66, 'Bb6': 1864.66, 'B6': 1975.53,
+        // Octave 7
+        'C7': 2093.00, 'C#7': 2217.46, 'Db7': 2217.46, 'D7': 2349.32, 'D#7': 2489.02, 'Eb7': 2489.02, 'E7': 2637.02,
+        'F7': 2793.83, 'F#7': 2959.96, 'Gb7': 2959.96, 'G7': 3135.96, 'G#7': 3322.44, 'Ab7': 3322.44,
+        'A7': 3520.00, 'A#7': 3729.31, 'Bb7': 3729.31, 'B7': 3951.07
     };
 
     // Normalize Note (Map Flats to Sharps for frequency and logic)
     function normalizeNote(note) {
         const flatToSharpMap = {
+            'Db1': 'C#1',
+            'Eb1': 'D#1',
+            'Gb1': 'F#1',
+            'Ab1': 'G#1',
+            'Bb1': 'A#1',
+            'Db2': 'C#2',
+            'Eb2': 'D#2',
+            'Gb2': 'F#2',
+            'Ab2': 'G#2',
+            'Bb2': 'A#2',
             'Db3': 'C#3',
             'Eb3': 'D#3',
             'Gb3': 'F#3',
@@ -458,7 +462,17 @@
             'Eb5': 'D#5',
             'Gb5': 'F#5',
             'Ab5': 'G#5',
-            'Bb5': 'A#5'
+            'Bb5': 'A#5',
+            'Db6': 'C#6',
+            'Eb6': 'D#6',
+            'Gb6': 'F#6',
+            'Ab6': 'G#6',
+            'Bb6': 'A#6',
+            'Db7': 'C#7',
+            'Eb7': 'D#7',
+            'Gb7': 'F#7',
+            'Ab7': 'G#7',
+            'Bb7': 'A#7'
         };
         return flatToSharpMap[note] || note;
     }
@@ -468,14 +482,16 @@
         targetNoteQueue = [];
         for (let i = 0; i < QUEUE_LENGTH; i++) {
             if (chordSize === 1) {
-                targetNoteQueue.push(getRandomNote());
+                const note = getRandomNote();
+                if (note) targetNoteQueue.push(note);
             } else {
                 const chord = getRandomChord(chordSize);
                 if (chord.length === chordSize) { // Ensure full chord size
                     targetNoteQueue.push(chord);
                 } else {
                     // If unable to generate full chord, fallback to single notes
-                    targetNoteQueue.push(getRandomNote());
+                    const fallbackNote = getRandomNote();
+                    if (fallbackNote) targetNoteQueue.push(fallbackNote);
                 }
             }
         }
@@ -558,7 +574,7 @@
         let note = availableNotes[randomIndex];
 
         // Apply octave shift
-        note = applyOctaveShift(note);
+        // note = applyOctaveShift(note);
 
         return note;
     }
@@ -626,14 +642,14 @@
         if (note.length === 3) { // e.g., C#4
             const noteName = note.slice(0, -1);
             let octave = parseInt(note.slice(-1)) + currentOctaveShift;
-            // Ensure octave stays within 3 to 5
-            octave = Math.min(Math.max(octave, 3), 5);
+            // Ensure octave stays within 1 to 7
+            octave = Math.min(Math.max(octave, 1), 7);
             shiftedNote = noteName + octave;
         } else if (note.length === 2) { // e.g., C4
             const noteName = note.slice(0, -1);
             let octave = parseInt(note.slice(-1)) + currentOctaveShift;
-            // Ensure octave stays within 3 to 5
-            octave = Math.min(Math.max(octave, 3), 5);
+            // Ensure octave stays within 1 to 7
+            octave = Math.min(Math.max(octave, 1), 7);
             shiftedNote = noteName + octave;
         }
         return shiftedNote;
@@ -642,12 +658,20 @@
     // Helper Function to Calculate Semitone Difference
     function getSemitoneDifference(note1, note2) {
         const noteOrder = [
+            'C1', 'C#1', 'Db1', 'D1', 'D#1', 'Eb1', 'E1', 'F1', 'F#1', 'Gb1',
+            'G1', 'G#1', 'Ab1', 'A1', 'A#1', 'Bb1', 'B1',
+            'C2', 'C#2', 'Db2', 'D2', 'D#2', 'Eb2', 'E2', 'F2', 'F#2', 'Gb2',
+            'G2', 'G#2', 'Ab2', 'A2', 'A#2', 'Bb2', 'B2',
             'C3', 'C#3', 'Db3', 'D3', 'D#3', 'Eb3', 'E3', 'F3', 'F#3', 'Gb3',
             'G3', 'G#3', 'Ab3', 'A3', 'A#3', 'Bb3', 'B3',
             'C4', 'C#4', 'Db4', 'D4', 'D#4', 'Eb4', 'E4', 'F4', 'F#4', 'Gb4',
             'G4', 'G#4', 'Ab4', 'A4', 'A#4', 'Bb4', 'B4',
             'C5', 'C#5', 'Db5', 'D5', 'D#5', 'Eb5', 'E5', 'F5', 'F#5', 'Gb5',
-            'G5', 'G#5', 'Ab5', 'A5', 'A#5', 'Bb5', 'B5'
+            'G5', 'G#5', 'Ab5', 'A5', 'A#5', 'Bb5', 'B5',
+            'C6', 'C#6', 'Db6', 'D6', 'D#6', 'Eb6', 'E6', 'F6', 'F#6', 'Gb6',
+            'G6', 'G#6', 'Ab6', 'A6', 'A#6', 'Bb6', 'B6',
+            'C7', 'C#7', 'Db7', 'D7', 'D#7', 'Eb7', 'E7', 'F7', 'F#7', 'Gb7',
+            'G7', 'G#7', 'Ab7', 'A7', 'A#7', 'Bb7', 'B7'
         ];
         const index1 = noteOrder.indexOf(note1);
         const index2 = noteOrder.indexOf(note2);
@@ -813,15 +837,15 @@
             if (baseNote.length === 3) { // e.g., C#4
                 const noteName = baseNote.slice(0, -1);
                 let octave = parseInt(baseNote.slice(-1)) + currentOctaveShift;
-                // Ensure octave stays within 3 to 5
-                const finalOctave = Math.min(Math.max(octave, 3), 5);
-                note = noteName + finalOctave;
+                // Ensure octave stays within 1 to 7
+                octave = Math.min(Math.max(octave, 1), 7);
+                note = noteName + octave;
             } else if (baseNote.length === 2) { // e.g., C4
                 const noteName = baseNote.slice(0, -1);
                 let octave = parseInt(baseNote.slice(-1)) + currentOctaveShift;
-                // Ensure octave stays within 3 to 5
-                const finalOctave = Math.min(Math.max(octave, 3), 5);
-                note = noteName + finalOctave;
+                // Ensure octave stays within 1 to 7
+                octave = Math.min(Math.max(octave, 1), 7);
+                note = noteName + octave;
             }
 
             playNote(note);
@@ -1023,8 +1047,8 @@
         // Apply octave shift
         let shiftedOctave = octave + currentOctaveShift;
 
-        // Ensure octave stays within 3 to 5
-        shiftedOctave = Math.min(Math.max(shiftedOctave, 3), 5);
+        // Ensure octave stays within 1 to 7
+        shiftedOctave = Math.min(Math.max(shiftedOctave, 1), 7);
         fullNote = noteName + shiftedOctave;
 
         // If the note is a sharp, randomly choose to display it as sharp or flat
@@ -1051,7 +1075,7 @@
         const lowNoteSelect = document.getElementById('low-note');
         const highNoteSelect = document.getElementById('high-note');
 
-        // Populate the dropdowns with allNotes, removing duplicates (e.g., Db3 is same as C#3)
+        // Populate the dropdowns with allNotes, removing duplicates (e.g., Db1 is same as C#1)
         const uniqueNotes = allNotes.filter((note, index, self) => self.indexOf(note) === index);
 
         uniqueNotes.forEach(note => {
@@ -1129,7 +1153,15 @@
             return;
         }
         if (key === 'c') {
-            currentOctaveShift = 1;
+            currentOctaveShift = +1;
+            return;
+        }
+        if (key === 'z') {
+            currentOctaveShift = -2;
+            return;
+        }
+        if (key === 'v') {
+            currentOctaveShift = +2;
             return;
         }
 
@@ -1145,14 +1177,14 @@
             if (note.length === 3) { // e.g., C#4
                 const noteName = note.slice(0, -1);
                 let octave = parseInt(note.slice(-1)) + currentOctaveShift;
-                // Ensure octave stays within 3 to 5
-                octave = Math.min(Math.max(octave, 3), 5);
+                // Ensure octave stays within 1 to 7
+                octave = Math.min(Math.max(octave, 1), 7);
                 fullNote = noteName + octave;
             } else if (note.length === 2) { // e.g., C4
                 const noteName = note.slice(0, -1);
                 let octave = parseInt(note.slice(-1)) + currentOctaveShift;
-                // Ensure octave stays within 3 to 5
-                octave = Math.min(Math.max(octave, 3), 5);
+                // Ensure octave stays within 1 to 7
+                octave = Math.min(Math.max(octave, 1), 7);
                 fullNote = noteName + octave;
             }
 
@@ -1166,7 +1198,7 @@
         const key = event.key.toLowerCase();
 
         // Handle octave shifting
-        if (key === 'x' || key === 'c') {
+        if (key === 'x' || key === 'c' || key === 'z' || key === 'v') {
             currentOctaveShift = 0;
             return;
         }
