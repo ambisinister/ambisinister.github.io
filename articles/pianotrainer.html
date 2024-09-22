@@ -268,7 +268,6 @@
                     - Press <strong>'c'</strong> to shift all notes up by one octave.<br>
                     - Press <strong>'v'</strong> to shift all notes up by two octaves.<br>
                     - Use the dropdowns to set the note range.<br>
-                    - In Scales Mode, make sure your note range covers the scale<br>
                 </p>
             </div>
         </div>
@@ -904,7 +903,7 @@
         }
         intervals.forEach(interval => {
             currentNote = getNoteBySemitoneInterval(currentNote, interval);
-            if (currentNote && isNoteWithinRange(currentNote)) {
+            if (currentNote) {
                 scaleSequence.push(currentNote);
             } else {
                 // Stop if the next note is out of range
@@ -918,7 +917,7 @@
         const descendingIntervals = scaleDefinitions[selectedScaleType].slice().reverse();
         descendingIntervals.forEach(interval => {
             currentNote = getNoteBySemitoneInterval(currentNote, -interval);
-            if (currentNote && isNoteWithinRange(currentNote)) {
+            if (currentNote) {
                 descendingScale.push(currentNote);
             } else {
                 // Stop if the next note is out of range
