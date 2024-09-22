@@ -213,6 +213,26 @@
         margin-right: 20px;
     }
 
+    /* Scale Settings */
+    #scale-settings {
+        margin: 20px auto;
+    }
+
+    #scale-settings h3 {
+        margin-bottom: 10px;
+    }
+
+    #scale-settings label {
+        margin-right: 10px;
+        font-size: 16px;
+    }
+
+    #scale-settings select {
+        padding: 5px;
+        font-size: 16px;
+        margin-right: 10px;
+    }
+
     </style>
     <!-- Include VexFlow Library -->
     <script src="https://unpkg.com/vexflow/releases/vexflow-min.js"></script>
@@ -247,7 +267,8 @@
                     - Press <strong>'x'</strong> to shift all notes down by one octave.<br>
                     - Press <strong>'c'</strong> to shift all notes up by one octave.<br>
                     - Press <strong>'v'</strong> to shift all notes up by two octaves.<br>
-                    - Use the "Low Note" and "High Note" dropdowns to set the note range.<br>
+                    - Use the dropdowns to set the note range.<br>
+                    - In Scales Mode, make sure your note range covers the scale<br>
                 </p>
             </div>
         </div>
@@ -261,6 +282,24 @@
             <select id="high-note"></select>
         </div>
 
+        <!-- Scale Settings -->
+        <div id="scale-settings" style="display: none;">
+            <h3>Scale Settings</h3>
+            <label for="scale-type">Scale Type:</label>
+            <select id="scale-type" onchange="setScaleType(this.value)">
+                <option value="major">Major</option>
+                <option value="natural_minor">Natural Minor</option>
+                <option value="harmonic_minor">Harmonic Minor</option>
+                <option value="melodic_minor">Melodic Minor</option>
+                <!-- Add more scale types as needed -->
+            </select>
+
+            <label for="root-note">Root Note:</label>
+            <select id="root-note" onchange="setRootNote(this.value)">
+                <!-- Root notes will be populated dynamically -->
+            </select>
+        </div>
+
         <!-- Feedback Display -->
         <div id="feedback"></div>
 
@@ -269,6 +308,7 @@
             <button onclick="setMode('treble')">Treble Clef Mode</button>
             <button onclick="setMode('bass')">Bass Clef Mode</button>
             <button onclick="setMode('ear')">Ear Training Mode</button>
+            <button onclick="setMode('scale')">Scales Mode</button> <!-- New Scales Mode Button -->
         </div>
 
         <!-- Waveform Selection -->
@@ -339,24 +379,19 @@
         'j': 'B4'
     };
 
-    // Reverse Mapping for Piano Keys
+    // Reverse Mapping for Piano Keys (Optional if needed)
     const noteToKey = {
         'C4': 'a',
         'C#4': 'w',
-        'Db4': 'w', // Added flat equivalent
         'D4': 's',
         'D#4': 'e',
-        'Eb4': 'e', // Added flat equivalent
         'E4': 'd',
         'F4': 'f',
         'F#4': 't',
-        'Gb4': 't', // Added flat equivalent
         'G4': 'g',
         'G#4': 'y',
-        'Ab4': 'y', // Added flat equivalent
         'A4': 'h',
         'A#4': 'u',
-        'Bb4': 'u', // Added flat equivalent
         'B4': 'j'
     };
 
@@ -364,8 +399,8 @@
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
     // Variables
-    let currentMode = null;          // 'treble', 'bass', 'ear'
-    let targetNoteQueue = [];        // Queue of target notes or chords
+    let currentMode = null;          // 'treble', 'bass', 'ear', 'scale'
+    let targetNoteQueue = [];        // Queue of target notes or chords or scales
     let waveform = 'sine';           // Default waveform
     let metronomeInterval = null;
     let bpm = 75;                   // Default BPM
@@ -377,128 +412,88 @@
     let midiAccess = null;
     let midiInput = null;
 
-    // Define all possible notes from C1 to B7
+    // Define all possible notes from C1 to B7 (only sharps, no flats)
     const allNotes = [
         // Octave 1
-        'C1', 'C#1', 'Db1', 'D1', 'D#1', 'Eb1', 'E1', 'F1', 'F#1', 'Gb1',
-        'G1', 'G#1', 'Ab1', 'A1', 'A#1', 'Bb1', 'B1',
+        'C1', 'C#1', 'D1', 'D#1', 'E1', 'F1', 'F#1', 'G1', 'G#1', 'A1', 'A#1', 'B1',
         // Octave 2
-        'C2', 'C#2', 'Db2', 'D2', 'D#2', 'Eb2', 'E2', 'F2', 'F#2', 'Gb2',
-        'G2', 'G#2', 'Ab2', 'A2', 'A#2', 'Bb2', 'B2',
+        'C2', 'C#2', 'D2', 'D#2', 'E2', 'F2', 'F#2', 'G2', 'G#2', 'A2', 'A#2', 'B2',
         // Octave 3
-        'C3', 'C#3', 'Db3', 'D3', 'D#3', 'Eb3', 'E3', 'F3', 'F#3', 'Gb3',
-        'G3', 'G#3', 'Ab3', 'A3', 'A#3', 'Bb3', 'B3',
+        'C3', 'C#3', 'D3', 'D#3', 'E3', 'F3', 'F#3', 'G3', 'G#3', 'A3', 'A#3', 'B3',
         // Octave 4
-        'C4', 'C#4', 'Db4', 'D4', 'D#4', 'Eb4', 'E4', 'F4', 'F#4', 'Gb4',
-        'G4', 'G#4', 'Ab4', 'A4', 'A#4', 'Bb4', 'B4',
+        'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4',
         // Octave 5
-        'C5', 'C#5', 'Db5', 'D5', 'D#5', 'Eb5', 'E5', 'F5', 'F#5', 'Gb5',
-        'G5', 'G#5', 'Ab5', 'A5', 'A#5', 'Bb5', 'B5',
+        'C5', 'C#5', 'D5', 'D#5', 'E5', 'F5', 'F#5', 'G5', 'G#5', 'A5', 'A#5', 'B5',
         // Octave 6
-        'C6', 'C#6', 'Db6', 'D6', 'D#6', 'Eb6', 'E6', 'F6', 'F#6', 'Gb6',
-        'G6', 'G#6', 'Ab6', 'A6', 'A#6', 'Bb6', 'B6',
+        'C6', 'C#6', 'D6', 'D#6', 'E6', 'F6', 'F#6', 'G6', 'G#6', 'A6', 'A#6', 'B6',
         // Octave 7
-        'C7', 'C#7', 'Db7', 'D7', 'D#7', 'Eb7', 'E7', 'F7', 'F#7', 'Gb7',
-        'G7', 'G#7', 'Ab7', 'A7', 'A#7', 'Bb7', 'B7'
+        'C7', 'C#7', 'D7', 'D#7', 'E7', 'F7', 'F#7', 'G7', 'G#7', 'A7', 'A#7', 'B7'
     ];
     const QUEUE_LENGTH = 8;           // Desired queue length
 
     // Note Frequencies
     const noteFrequencies = {
         // Octave 1
-        'C1': 32.70, 'C#1': 34.65, 'Db1': 34.65, 'D1': 36.71, 'D#1': 38.89, 'Eb1': 38.89, 'E1': 41.20,
-        'F1': 43.65, 'F#1': 46.25, 'Gb1': 46.25, 'G1': 49.00, 'G#1': 51.91, 'Ab1': 51.91,
-        'A1': 55.00, 'A#1': 58.27, 'Bb1': 58.27, 'B1': 61.74,
+        'C1': 32.70, 'C#1': 34.65, 'D1': 36.71, 'D#1': 38.89, 'E1': 41.20,
+        'F1': 43.65, 'F#1': 46.25, 'G1': 49.00, 'G#1': 51.91, 'A1': 55.00,
+        'A#1': 58.27, 'B1': 61.74,
         // Octave 2
-        'C2': 65.41, 'C#2': 69.30, 'Db2': 69.30, 'D2': 73.42, 'D#2': 77.78, 'Eb2': 77.78, 'E2': 82.41,
-        'F2': 87.31, 'F#2': 92.50, 'Gb2': 92.50, 'G2': 98.00, 'G#2': 103.83, 'Ab2': 103.83,
-        'A2': 110.00, 'A#2': 116.54, 'Bb2': 116.54, 'B2': 123.47,
+        'C2': 65.41, 'C#2': 69.30, 'D2': 73.42, 'D#2': 77.78, 'E2': 82.41,
+        'F2': 87.31, 'F#2': 92.50, 'G2': 98.00, 'G#2': 103.83, 'A2': 110.00,
+        'A#2': 116.54, 'B2': 123.47,
         // Octave 3
-        'C3': 130.81, 'C#3': 138.59, 'Db3': 138.59, 'D3': 146.83, 'D#3': 155.56, 'Eb3': 155.56, 'E3': 164.81,
-        'F3': 174.61, 'F#3': 185.00, 'Gb3': 185.00, 'G3': 196.00, 'G#3': 207.65, 'Ab3': 207.65,
-        'A3': 220.00, 'A#3': 233.08, 'Bb3': 233.08, 'B3': 246.94,
+        'C3': 130.81, 'C#3': 138.59, 'D3': 146.83, 'D#3': 155.56, 'E3': 164.81,
+        'F3': 174.61, 'F#3': 185.00, 'G3': 196.00, 'G#3': 207.65, 'A3': 220.00,
+        'A#3': 233.08, 'B3': 246.94,
         // Octave 4
-        'C4': 261.63, 'C#4': 277.18, 'Db4': 277.18, 'D4': 293.66, 'D#4': 311.13, 'Eb4': 311.13, 'E4': 329.63,
-        'F4': 349.23, 'F#4': 369.99, 'Gb4': 369.99, 'G4': 392.00, 'G#4': 415.30, 'Ab4': 415.30,
-        'A4': 440.00, 'A#4': 466.16, 'Bb4': 466.16, 'B4': 493.88,
+        'C4': 261.63, 'C#4': 277.18, 'D4': 293.66, 'D#4': 311.13, 'E4': 329.63,
+        'F4': 349.23, 'F#4': 369.99, 'G4': 392.00, 'G#4': 415.30, 'A4': 440.00,
+        'A#4': 466.16, 'B4': 493.88,
         // Octave 5
-        'C5': 523.25, 'C#5': 554.37, 'Db5': 554.37, 'D5': 587.33, 'D#5': 622.25, 'Eb5': 622.25, 'E5': 659.25,
-        'F5': 698.46, 'F#5': 739.99, 'Gb5': 739.99, 'G5': 783.99, 'G#5': 830.61, 'Ab5': 830.61,
-        'A5': 880.00, 'A#5': 932.33, 'Bb5': 932.33, 'B5': 987.77,
+        'C5': 523.25, 'C#5': 554.37, 'D5': 587.33, 'D#5': 622.25, 'E5': 659.25,
+        'F5': 698.46, 'F#5': 739.99, 'G5': 783.99, 'G#5': 830.61, 'A5': 880.00,
+        'A#5': 932.33, 'B5': 987.77,
         // Octave 6
-        'C6': 1046.50, 'C#6': 1108.73, 'Db6': 1108.73, 'D6': 1174.66, 'D#6': 1244.51, 'Eb6': 1244.51, 'E6': 1318.51,
-        'F6': 1396.91, 'F#6': 1479.98, 'Gb6': 1479.98, 'G6': 1567.98, 'G#6': 1661.22, 'Ab6': 1661.22,
-        'A6': 1760.00, 'A#6': 1864.66, 'Bb6': 1864.66, 'B6': 1975.53,
+        'C6': 1046.50, 'C#6': 1108.73, 'D6': 1174.66, 'D#6': 1244.51, 'E6': 1318.51,
+        'F6': 1396.91, 'F#6': 1479.98, 'G6': 1567.98, 'G#6': 1661.22, 'A6': 1760.00,
+        'A#6': 1864.66, 'B6': 1975.53,
         // Octave 7
-        'C7': 2093.00, 'C#7': 2217.46, 'Db7': 2217.46, 'D7': 2349.32, 'D#7': 2489.02, 'Eb7': 2489.02, 'E7': 2637.02,
-        'F7': 2793.83, 'F#7': 2959.96, 'Gb7': 2959.96, 'G7': 3135.96, 'G#7': 3322.44, 'Ab7': 3322.44,
-        'A7': 3520.00, 'A#7': 3729.31, 'Bb7': 3729.31, 'B7': 3951.07
+        'C7': 2093.00, 'C#7': 2217.46, 'D7': 2349.32, 'D#7': 2489.02, 'E7': 2637.02,
+        'F7': 2793.83, 'F#7': 2959.96, 'G7': 3135.96, 'G#7': 3322.44, 'A7': 3520.00,
+        'A#7': 3729.31, 'B7': 3951.07
     };
 
-    // Normalize Note (Map Flats to Sharps for frequency and logic)
+    // Normalize Note (No longer needed as allNotes contain only sharps)
     function normalizeNote(note) {
-        const flatToSharpMap = {
-            'Db1': 'C#1',
-            'Eb1': 'D#1',
-            'Gb1': 'F#1',
-            'Ab1': 'G#1',
-            'Bb1': 'A#1',
-            'Db2': 'C#2',
-            'Eb2': 'D#2',
-            'Gb2': 'F#2',
-            'Ab2': 'G#2',
-            'Bb2': 'A#2',
-            'Db3': 'C#3',
-            'Eb3': 'D#3',
-            'Gb3': 'F#3',
-            'Ab3': 'G#3',
-            'Bb3': 'A#3',
-            'Db4': 'C#4',
-            'Eb4': 'D#4',
-            'Gb4': 'F#4',
-            'Ab4': 'G#4',
-            'Bb4': 'A#4',
-            'Db5': 'C#5',
-            'Eb5': 'D#5',
-            'Gb5': 'F#5',
-            'Ab5': 'G#5',
-            'Bb5': 'A#5',
-            'Db6': 'C#6',
-            'Eb6': 'D#6',
-            'Gb6': 'F#6',
-            'Ab6': 'G#6',
-            'Bb6': 'A#6',
-            'Db7': 'C#7',
-            'Eb7': 'D#7',
-            'Gb7': 'F#7',
-            'Ab7': 'G#7',
-            'Bb7': 'A#7'
-        };
-        return flatToSharpMap[note] || note;
+        return note;
     }
 
-    // Initialize Note Queue with 8 Notes or Chords
+    // Initialize Note Queue with 8 Notes or Chords or Scales
     function initializeNoteQueue() {
         targetNoteQueue = [];
-        for (let i = 0; i < QUEUE_LENGTH; i++) {
-            if (chordSize === 1) {
-                const note = getRandomNote();
-                if (note) targetNoteQueue.push(note);
-            } else {
-                const chord = getRandomChord(chordSize);
-                if (chord.length === chordSize) { // Ensure full chord size
-                    targetNoteQueue.push(chord);
+        if (currentMode === 'scale') {
+            generateScaleSequence();
+        } else {
+            for (let i = 0; i < QUEUE_LENGTH; i++) {
+                if (chordSize === 1) {
+                    const note = getRandomNote();
+                    if (note) targetNoteQueue.push(note);
                 } else {
-                    // If unable to generate full chord, fallback to single notes
-                    const fallbackNote = getRandomNote();
-                    if (fallbackNote) targetNoteQueue.push(fallbackNote);
+                    const chord = getRandomChord(chordSize);
+                    if (chord.length === chordSize) { // Ensure full chord size
+                        targetNoteQueue.push(chord);
+                    } else {
+                        // If unable to generate full chord, fallback to single notes
+                        const fallbackNote = getRandomNote();
+                        if (fallbackNote) targetNoteQueue.push(fallbackNote);
+                    }
                 }
             }
-        }
-        drawStaff();
-        // Optionally, play the first note or chord to indicate the start
-        if (currentMode === 'ear') {
-            playEarTrainingNote();
+            drawStaff();
+            // Optionally, play the first note or chord to indicate the start
+            if (currentMode === 'ear') {
+                playEarTrainingNote();
+            }
         }
     }
 
@@ -507,7 +502,30 @@
         if (targetNoteQueue.length === 0) return;
 
         const currentTarget = targetNoteQueue[0];
-        if (Array.isArray(currentTarget)) {
+        if (currentMode === 'scale') {
+            // Scale Mode: Check if the played note matches the current scale note
+            const expectedNote = targetNoteQueue[0];
+            const normalizedExpected = normalizeNote(expectedNote);
+            const normalizedUser = normalizeNote(note);
+
+            if (normalizedUser === normalizedExpected) {
+                showFeedback('correct');
+                // Move to the next note in the scale
+                targetNoteQueue.shift();
+                // Update the staff display
+                drawStaff();
+                // If in ear training mode, play the next note or chord
+                if (currentMode === 'ear') {
+                    setTimeout(() => {playEarTrainingNote();}, 500);
+                }
+                // If scale is completed, generate the next scale sequence
+                if (targetNoteQueue.length === 0) {
+                    generateScaleSequence();
+                }
+            } else {
+                showFeedback('incorrect');
+            }
+        } else if (Array.isArray(currentTarget)) {
             // Chord Input
             requiredNotes.add(note);
             highlightKey(note);
@@ -562,10 +580,21 @@
     // Set Game Mode
     function setMode(mode) {
         currentMode = mode;
+        if (mode === 'scale') {
+            document.getElementById('scale-settings').style.display = 'block';
+            document.getElementById('chord-settings').style.display = 'none';
+        } else {
+            document.getElementById('scale-settings').style.display = 'none';
+            if (mode === 'ear') {
+                document.getElementById('chord-settings').style.display = 'none';
+            } else {
+                document.getElementById('chord-settings').style.display = 'block';
+            }
+        }
         initializeNoteQueue();
     }
 
-    // Get Random Single Note within the selected range with Octave Shift and Flats
+    // Get Random Single Note within the selected range with Octave Shift
     function getRandomNote() {
         const availableNotes = getNotesInRange(lowNote, highNote);
         if (availableNotes.length === 0) return null;
@@ -655,20 +684,13 @@
     // Helper Function to Calculate Semitone Difference
     function getSemitoneDifference(note1, note2) {
         const noteOrder = [
-            'C1', 'C#1', 'Db1', 'D1', 'D#1', 'Eb1', 'E1', 'F1', 'F#1', 'Gb1',
-            'G1', 'G#1', 'Ab1', 'A1', 'A#1', 'Bb1', 'B1',
-            'C2', 'C#2', 'Db2', 'D2', 'D#2', 'Eb2', 'E2', 'F2', 'F#2', 'Gb2',
-            'G2', 'G#2', 'Ab2', 'A2', 'A#2', 'Bb2', 'B2',
-            'C3', 'C#3', 'Db3', 'D3', 'D#3', 'Eb3', 'E3', 'F3', 'F#3', 'Gb3',
-            'G3', 'G#3', 'Ab3', 'A3', 'A#3', 'Bb3', 'B3',
-            'C4', 'C#4', 'Db4', 'D4', 'D#4', 'Eb4', 'E4', 'F4', 'F#4', 'Gb4',
-            'G4', 'G#4', 'Ab4', 'A4', 'A#4', 'Bb4', 'B4',
-            'C5', 'C#5', 'Db5', 'D5', 'D#5', 'Eb5', 'E5', 'F5', 'F#5', 'Gb5',
-            'G5', 'G#5', 'Ab5', 'A5', 'A#5', 'Bb5', 'B5',
-            'C6', 'C#6', 'Db6', 'D6', 'D#6', 'Eb6', 'E6', 'F6', 'F#6', 'Gb6',
-            'G6', 'G#6', 'Ab6', 'A6', 'A#6', 'Bb6', 'B6',
-            'C7', 'C#7', 'Db7', 'D7', 'D#7', 'Eb7', 'E7', 'F7', 'F#7', 'Gb7',
-            'G7', 'G#7', 'Ab7', 'A7', 'A#7', 'Bb7', 'B7'
+            'C1', 'C#1', 'D1', 'D#1', 'E1', 'F1', 'F#1', 'G1', 'G#1', 'A1', 'A#1', 'B1',
+            'C2', 'C#2', 'D2', 'D#2', 'E2', 'F2', 'F#2', 'G2', 'G#2', 'A2', 'A#2', 'B2',
+            'C3', 'C#3', 'D3', 'D#3', 'E3', 'F3', 'F#3', 'G3', 'G#3', 'A3', 'A#3', 'B3',
+            'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4',
+            'C5', 'C#5', 'D5', 'D#5', 'E5', 'F5', 'F#5', 'G5', 'G#5', 'A5', 'A#5', 'B5',
+            'C6', 'C#6', 'D6', 'D#6', 'E6', 'F6', 'F#6', 'G6', 'G#6', 'A6', 'A#6', 'B6',
+            'C7', 'C#7', 'D7', 'D#7', 'E7', 'F7', 'F#7', 'G7', 'G#7', 'A7', 'A#7', 'B7'
         ];
         const index1 = noteOrder.indexOf(note1);
         const index2 = noteOrder.indexOf(note2);
@@ -678,7 +700,7 @@
     // Convert Note to VexFlow Key Format
     function noteToVexflowKey(note) {
         // Use regex to parse the note into name, accidental, and octave
-        const regex = /^([A-Ga-g])([#b]?)(\d)$/;
+        const regex = /^([A-Ga-g])([#]?)(\d)$/;
         const match = note.match(regex);
         if (match) {
             const noteName = match[1].toLowerCase();
@@ -747,10 +769,15 @@
             }
         });
 
-        // Create a single voice with all quarter notes
+        if (vfNotes.length === 0) {
+            // No notes to display
+            return;
+        }
+
+        // Create a single voice with dynamic beats
         const voice = new Vex.Flow.Voice({
-            num_beats: QUEUE_LENGTH, // 8 beats
-            beat_value: 4,           // Quarter note
+            num_beats: targetNoteQueue.length, // Dynamic number of beats
+            beat_value: 4,                     // Quarter note
             resolution: Vex.Flow.RESOLUTION
         });
 
@@ -759,32 +786,19 @@
         // Create a formatter and format the voice
         const formatter = new Vex.Flow.Formatter()
             .joinVoices([voice])
-            .format([voice], 680); // Slightly less than stave width to accommodate measure lines
+            .format([voice], 680); // Adjust as needed
 
         // Draw the voice
         voice.draw(context, stave);
-
-        // Draw measure lines after every 4 notes (every 4 beats)
-        const measureInterval = 4; // Every 4 beats
-        const staveStartX = stave.getX();
-        const staveWidth = stave.getWidth();
-        const noteSpacing = staveWidth / QUEUE_LENGTH;
-        for (let i = 1; i < QUEUE_LENGTH / measureInterval; i++) {
-            const x = staveStartX + (i * measureInterval * noteSpacing);
-            context.beginPath();
-            context.moveTo(x, stave.getYForLine(0) - 20); // Adjust vertical position as needed
-            context.lineTo(x, stave.getYForLine(4) + 20); // Adjust vertical position as needed
-            context.strokeStyle = '#000';
-            context.lineWidth = 1;
-            context.stroke();
-        }
     }
 
     // Play Ear Training Note or Chord
     function playEarTrainingNote() {
         if (targetNoteQueue.length === 0) return;
         const currentTarget = targetNoteQueue[0];
-        if (Array.isArray(currentTarget)) {
+        if (currentMode === 'scale') {
+            playNote(currentTarget);
+        } else if (Array.isArray(currentTarget)) {
             playNotes(currentTarget);
         } else {
             playNote(currentTarget);
@@ -810,108 +824,117 @@
     }
 
     // ====================
-    // Piano Keyboard Visual
+    // Scale Mode Functionality
     // ====================
 
-    // Function to highlight key
-    function highlightKey(note) {
-        const keyElement = document.querySelector(`[data-note="${note}"]`);
-        if (keyElement) {
-            keyElement.classList.add('active');
-            setTimeout(() => {
-                keyElement.classList.remove('active');
-            }, 300);
-        }
-    }
+    // Scale Definitions (Intervals in semitones)
+    const scaleDefinitions = {
+        'major': [2, 2, 1, 2, 2, 2, 1],
+        'natural_minor': [2, 1, 2, 2, 1, 2, 2],
+        'harmonic_minor': [2, 1, 2, 2, 1, 3, 1],
+        'melodic_minor': [2, 1, 2, 2, 2, 2, 1],
+        // Add more scale types as needed
+    };
 
-    // Event Listeners for Piano Clicks
-    document.querySelectorAll('.white-key, .black-key').forEach(key => {
-        key.addEventListener('mousedown', () => {
-            const baseNote = key.getAttribute('data-note');
-            let note = baseNote;
+    let selectedScaleType = 'major';
+    let selectedRootNote = 'C4';
+    let scaleSequence = [];
+    let scaleAscending = true;
 
-            // Apply octave shift
-            if (baseNote.length === 3) { // e.g., C#4
-                const noteName = baseNote.slice(0, -1);
-                let octave = parseInt(baseNote.slice(-1)) + currentOctaveShift;
-                // Ensure octave stays within 1 to 7
-                octave = Math.min(Math.max(octave, 1), 7);
-                note = noteName + octave;
-            } else if (baseNote.length === 2) { // e.g., C4
-                const noteName = baseNote.slice(0, -1);
-                let octave = parseInt(baseNote.slice(-1)) + currentOctaveShift;
-                // Ensure octave stays within 1 to 7
-                octave = Math.min(Math.max(octave, 1), 7);
-                note = noteName + octave;
-            }
+    // Initialize Scale Settings Dropdowns
+    function initializeScaleSettings() {
+        const scaleTypeSelect = document.getElementById('scale-type');
+        const rootNoteSelect = document.getElementById('root-note');
 
-            playNote(note);
-            handleUserInput(note);
-            highlightKey(note);
+        // Populate root notes (C1 to B7)
+        allNotes.forEach(note => {
+            const option = document.createElement('option');
+            option.value = note;
+            option.text = note;
+            rootNoteSelect.appendChild(option);
         });
-    });
 
-    // ====================
-    // Metronome Functionality
-    // ====================
+        // Set default root note
+        selectedRootNote = 'C4';
+        rootNoteSelect.value = selectedRootNote;
+    }
 
-    // Toggle Metronome On/Off
-    function toggleMetronome() {
-        if (metronomeInterval) {
-            clearInterval(metronomeInterval);
-            metronomeInterval = null;
-            document.getElementById('metronome-status').innerText = 'Start';
-        } else {
-            startMetronome();
-            document.getElementById('metronome-status').innerText = 'Stop';
+    // Set Scale Type
+    function setScaleType(type) {
+        if (scaleDefinitions[type]) {
+            selectedScaleType = type;
+            generateScaleSequence();
         }
     }
 
-    // Start Metronome
-    function startMetronome() {
-        const interval = (60 / bpm) * 1000; // BPM to milliseconds
-        metronomeInterval = setInterval(() => {
-            playMetronomeTick();
-        }, interval);
+    // Set Root Note
+    function setRootNote(note) {
+        selectedRootNote = note;
+        generateScaleSequence();
     }
 
-    // Play Metronome Tick
-    function playMetronomeTick() {
-        const oscillator = audioContext.createOscillator();
-        oscillator.type = 'square';
-        oscillator.frequency.setValueAtTime(1000, audioContext.currentTime); // High pitch tick
+    // Generate Scale Sequence (Ascending and Descending)
+    function generateScaleSequence() {
+        scaleSequence = [];
+        const root = normalizeNote(selectedRootNote);
+        const intervals = scaleDefinitions[selectedScaleType];
+        if (!intervals) return;
 
-        const envelope = audioContext.createGain();
-        envelope.gain.setValueAtTime(0, audioContext.currentTime);
-        envelope.gain.linearRampToValueAtTime(1, audioContext.currentTime + 0.001);
-        envelope.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.2);
+        // Generate ascending scale
+        let currentNote = root;
+        if (isNoteWithinRange(currentNote)) {
+            scaleSequence.push(currentNote);
+        }
+        intervals.forEach(interval => {
+            currentNote = getNoteBySemitoneInterval(currentNote, interval);
+            if (currentNote && isNoteWithinRange(currentNote)) {
+                scaleSequence.push(currentNote);
+            } else {
+                // Stop if the next note is out of range
+                return;
+            }
+        });
 
-        oscillator.connect(envelope);
-        envelope.connect(audioContext.destination);
+        // Generate descending scale
+        const descendingScale = [];
+        currentNote = scaleSequence[scaleSequence.length -1];
+        const descendingIntervals = scaleDefinitions[selectedScaleType].slice().reverse();
+        descendingIntervals.forEach(interval => {
+            currentNote = getNoteBySemitoneInterval(currentNote, -interval);
+            if (currentNote && isNoteWithinRange(currentNote)) {
+                descendingScale.push(currentNote);
+            } else {
+                // Stop if the next note is out of range
+                return;
+            }
+        });
 
-        oscillator.start();
-        oscillator.stop(audioContext.currentTime + 0.2);
-    }
+        scaleSequence = scaleSequence.concat(descendingScale);
 
-    // Set BPM
-    function setBPM(value) {
-        bpm = parseInt(value);
-        if (metronomeInterval) {
-            clearInterval(metronomeInterval);
-            startMetronome();
+        // Initialize the targetNoteQueue with the scale sequence
+        targetNoteQueue = [...scaleSequence];
+        drawStaff();
+        // Optionally, play the first note
+        if (currentMode === 'ear') {
+            playEarTrainingNote();
         }
     }
 
-    // ====================
-    // Chord Settings Functionality
-    // ====================
+    // Helper Function to Check if Note is Within Selected Range
+    function isNoteWithinRange(note) {
+        const lowIndex = allNotes.indexOf(lowNote);
+        const highIndex = allNotes.indexOf(highNote);
+        const noteIndex = allNotes.indexOf(note);
+        return noteIndex >= lowIndex && noteIndex <= highIndex;
+    }
 
-    // Set Chord Size
-    function setChordSize(value) {
-        chordSize = parseInt(value);
-        if (chordSize < 1) chordSize = 1;
-        if (chordSize > 5) chordSize = 5; // Limit to 5 notes
-        initializeNoteQueue();
+    // Get Note by Semitone Interval
+    function getNoteBySemitoneInterval(note, interval) {
+        const noteIndex = allNotes.indexOf(note);
+        if (noteIndex === -1) return null;
+        const targetIndex = noteIndex + interval;
+        if (targetIndex < 0 || targetIndex >= allNotes.length) return null;
+        return allNotes[targetIndex];
     }
 
     // ====================
@@ -1029,16 +1052,8 @@
         const octave = Math.floor(noteNumber / 12) - 1;
         const noteIndex = noteNumber % 12;
         const sharpNoteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-        const flatNoteNames = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
 
-        // Determine if current chord uses sharps or flats
-        let accidentalType = 'sharp';
-        if (targetNoteQueue.length > 0 && Array.isArray(targetNoteQueue[0])) {
-            const firstNote = targetNoteQueue[0][0];
-            accidentalType = firstNote.includes('b') ? 'flat' : 'sharp';
-        }
-
-        const noteName = accidentalType === 'sharp' ? sharpNoteNames[noteIndex] : flatNoteNames[noteIndex];
+        const noteName = sharpNoteNames[noteIndex];
         let fullNote = noteName + octave;
 
         // Apply octave shift
@@ -1048,22 +1063,6 @@
         shiftedOctave = Math.min(Math.max(shiftedOctave, 1), 7);
         fullNote = noteName + shiftedOctave;
 
-        // If the note is a sharp, randomly choose to display it as sharp or flat
-        if (noteName.includes('#')) {
-            if (Math.random() < 0.5) {
-                // Convert to flat equivalent
-                const sharpToFlatMap = {
-                    'C#': 'Db',
-                    'D#': 'Eb',
-                    'F#': 'Gb',
-                    'G#': 'Ab',
-                    'A#': 'Bb'
-                };
-                const flatNote = sharpToFlatMap[noteName] + shiftedOctave;
-                return flatNote;
-            }
-        }
-
         return fullNote;
     }
 
@@ -1072,10 +1071,8 @@
         const lowNoteSelect = document.getElementById('low-note');
         const highNoteSelect = document.getElementById('high-note');
 
-        // Populate the dropdowns with allNotes, removing duplicates (e.g., Db1 is same as C#1)
-        const uniqueNotes = allNotes.filter((note, index, self) => self.indexOf(note) === index);
-
-        uniqueNotes.forEach(note => {
+        // Populate the dropdowns with allNotes (only sharps, no flats)
+        allNotes.forEach(note => {
             const option1 = document.createElement('option');
             option1.value = note;
             option1.text = note;
@@ -1103,7 +1100,11 @@
                 lowNoteSelect.value = lowNote;
             } else {
                 lowNote = selectedLow;
-                initializeNoteQueue();
+                if (currentMode !== 'scale') {
+                    initializeNoteQueue();
+                } else {
+                    generateScaleSequence();
+                }
             }
         });
 
@@ -1115,7 +1116,11 @@
                 highNoteSelect.value = highNote;
             } else {
                 highNote = selectedHigh;
-                initializeNoteQueue();
+                if (currentMode !== 'scale') {
+                    initializeNoteQueue();
+                } else {
+                    generateScaleSequence();
+                }
             }
         });
     }
@@ -1131,6 +1136,7 @@
 
     window.addEventListener('load', () => {
         initializeNoteRangeDropdowns();
+        initializeScaleSettings();
         initMIDI();
         initializeNoteQueue();
     });
@@ -1145,16 +1151,16 @@
         const key = event.key.toLowerCase();
 
         // Handle octave shifting
+        if (key === 'z') {
+            currentOctaveShift = -2;
+            return;
+        }
         if (key === 'x') {
             currentOctaveShift = -1;
             return;
         }
         if (key === 'c') {
             currentOctaveShift = +1;
-            return;
-        }
-        if (key === 'z') {
-            currentOctaveShift = -2;
             return;
         }
         if (key === 'v') {
@@ -1195,7 +1201,7 @@
         const key = event.key.toLowerCase();
 
         // Handle octave shifting
-        if (key === 'x' || key === 'c' || key === 'z' || key === 'v') {
+        if (key === 'z' || key === 'x' || key === 'c' || key === 'v') {
             currentOctaveShift = 0;
             return;
         }
@@ -1253,6 +1259,69 @@
         });
     }
 
+    // ====================
+    // Metronome Functionality
+    // ====================
+
+    // Toggle Metronome On/Off
+    function toggleMetronome() {
+        if (metronomeInterval) {
+            clearInterval(metronomeInterval);
+            metronomeInterval = null;
+            document.getElementById('metronome-status').innerText = 'Start';
+        } else {
+            startMetronome();
+            document.getElementById('metronome-status').innerText = 'Stop';
+        }
+    }
+
+    // Start Metronome
+    function startMetronome() {
+        const interval = (60 / bpm) * 1000; // BPM to milliseconds
+        metronomeInterval = setInterval(() => {
+            playMetronomeTick();
+        }, interval);
+    }
+
+    // Play Metronome Tick
+    function playMetronomeTick() {
+        const oscillator = audioContext.createOscillator();
+        oscillator.type = 'square';
+        oscillator.frequency.setValueAtTime(1000, audioContext.currentTime); // High pitch tick
+
+        const envelope = audioContext.createGain();
+        envelope.gain.setValueAtTime(0, audioContext.currentTime);
+        envelope.gain.linearRampToValueAtTime(1, audioContext.currentTime + 0.001);
+        envelope.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.2);
+
+        oscillator.connect(envelope);
+        envelope.connect(audioContext.destination);
+
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.2);
+    }
+
+    // Set BPM
+    function setBPM(value) {
+        bpm = parseInt(value);
+        if (metronomeInterval) {
+            clearInterval(metronomeInterval);
+            startMetronome();
+        }
+    }
+
+    // ====================
+    // Chord Settings Functionality
+    // ====================
+
+    // Set Chord Size
+    function setChordSize(value) {
+        chordSize = parseInt(value);
+        if (chordSize < 1) chordSize = 1;
+        if (chordSize > 5) chordSize = 5; // Limit to 5 notes
+        initializeNoteQueue();
+    }
+      
     </script>
 </body>
 </html>
