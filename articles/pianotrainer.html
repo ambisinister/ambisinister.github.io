@@ -470,7 +470,6 @@
 	'A#': 'Bb'
     };
       
-    // Normalize Note (No longer needed as allNotes contain only sharps)
     function normalizeNote(note) {
         return note;
     }
@@ -538,17 +537,22 @@
             // Chord Input
             requiredNotes.add(note);
             highlightKey(note);
-            const normalizedTarget = currentTarget.map(normalizeNote);
+
+            const normalizedTarget = currentTarget.map(n => n.note);
             const normalizedUser = Array.from(requiredNotes).map(normalizeNote);
 
             // Check if all required notes are pressed
-            const isCorrect = currentTarget.every(targetNote => normalizedUser.includes(normalizeNote(targetNote)));
+            const isCorrect = normalizedTarget.every(n => normalizedUser.includes(n));
             if (isCorrect) {
                 showFeedback('correct');
                 // Remove the first chord
                 targetNoteQueue.shift();
                 // Add a new chord at the end
-                targetNoteQueue.push(getRandomChord(chordSize));
+		const chord = getRandomChord(chordSize)
+		const displayAsFlat = Math.random() < 0.5;
+		const chordNoteObjects = chord.map(note => createNoteObject(note, displayAsFlat));
+		console.log(chordNoteObjects);
+		targetNoteQueue.push(chordNoteObjects);
                 // Update the staff display
                 drawStaff();
                 // Reset required notes
@@ -764,35 +768,34 @@
 
         // Prepare StaveNotes
         const vfNotes = targetNoteQueue.map(item => {
-	    let displayFlat = false;
-	    if (currentMode === 'treble' || currentMode === 'bass') {
-		displayFlat = Math.random() < 0.5;
-	    }
-
-            if (Array.isArray(item)) {
-                // Chord - Sort the notes in ascending order based on frequency
-                const sortedItem = item.slice().sort((a, b) => noteFrequencies[a] - noteFrequencies[b]);
-
-                const keys = sortedItem.map(note => {
+	    if (Array.isArray(item)) {
+	    // Chord - Prepare notes with their VexFlow data
+    
+		const chordNotes = item.map(note => {
                     const noteData = noteToVexflowKey(note);
-                    return noteData.key;
-                });
+                    return {
+			key: noteData.key,
+			accidental: noteData.accidental,
+			frequency: noteFrequencies[note]
+                    };
+		});
+		
+            // Sort the chord notes based on frequency
+            chordNotes.sort((a, b) => a.frequency - b.frequency);
+            // Create the StaveNote with sorted keys
+            const staveNote = new Vex.Flow.StaveNote({ 
+                clef: currentMode === 'bass' ? 'bass' : 'treble', 
+                keys: chordNotes.map(n => n.key), 
+                duration: "q"
+            });
+            // Add accidentals to the chord
+            chordNotes.forEach((note, index) => {
+                if (note.accidental) {
+                    staveNote.addAccidental(index, new Vex.Flow.Accidental(note.accidental));
+                }
+            });
+            return staveNote;
 
-                const staveNote = new Vex.Flow.StaveNote({ 
-                    clef: currentMode === 'bass' ? 'bass' : 'treble', 
-                    keys: keys, 
-                    duration: "q" 
-                });
-
-                // Add accidentals if necessary
-                sortedItem.forEach((note, index) => {
-                    const noteData = noteToVexflowKey(note);
-                    if (noteData.accidental) {
-                        staveNote.addAccidental(index, new Vex.Flow.Accidental(noteData.accidental));
-                    }
-                });
-
-                return staveNote;
             } else {
                 // Single Note
                 const noteData = noteToVexflowKey(item);
@@ -834,7 +837,7 @@
     // Play Ear Training Note or Chord
     function playEarTrainingNote() {
         if (targetNoteQueue.length === 0) return;
-        const currentTarget = targetNoteQueue[0];
+        const currentTarget = targetNoteQueue[0].note;
         if (currentMode === 'scale') {
             playNote(currentTarget);
         } else if (Array.isArray(currentTarget)) {
