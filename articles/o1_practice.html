@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-09-24 Tue 23:39 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="./css/default_20240614.css" />
+<link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgac9979a">Building a Piano Training App with o1 Models</a>
+<ul>
+<li><a href="#org88e4d86">The Piano App</a></li>
+<li><a href="#orgac98cf1">Thoughts on o1 models</a></li>
+<li><a href="#orgedc71cc">Thoughts on LLM-driven Coding Projects</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgac9979a" class="outline-1">
+<h1 id="orgac9979a">Building a Piano Training App with o1 Models</h1>
+<div class="outline-text-1" id="text-orgac9979a">
+<p>
+I get a lot of value out of using LLMs for code. I have <a href="https://planetbanatt.net/articles/leetcode.html">written before</a> about my efforts to remain (somewhat) sharp at my ability to write code without assistance, but ultimately there is a certain degree of necessary humility to recognize that frontier language models tend to write cleaner and prettier code than me when provided the same problem. Luckily<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>, something that LLMs are less good at is navigating large code repos. <i>Writing code</i> is a comparatively small<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> part of "being a programmer", so I'm not shy about admitting the machines have eclipsed me at it<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>.
+</p>
+
+<p>
+It feels relatively important to have a clear picture of what these models are capable of accomplishing. After o1-preview and o1-mini were released, I thought it would be useful to build something simple with its help, in order to get a good sense of what it was capable of. I also happened to want to get back into being able to sightread sheet music recently, so I settled on a simple virtual piano app which trains you to read sheet music.
+</p>
+
+<p>
+You can find the resulting application <a href="https://planetbanatt.net/articles/pianotrainer.html">here</a>. For now, I'm fairly comfortable calling something at this level of sophistication roughly the limit of what o1-mini and o1-preview can cook up by themselves, without much human help. It runs about 1300 lines of code, and beyond this it starts to struggle to understand all the plumbing between functions to make effective changes. I think this is pretty good &#x2013; if I have a clear vision of a roughly-1000-LOC-sized subproject, I can mentally expect the o1 models to be useful in helping me figure things out. 
+</p>
+</div>
+
+<div id="outline-container-org88e4d86" class="outline-2">
+<h2 id="org88e4d86">The Piano App</h2>
+<div class="outline-text-2" id="text-org88e4d86">
+<p>
+The app has the following simple features:
+</p>
+
+<ul class="org-ul">
+<li>Completely client-side javascript</li>
+<li>Virtual Piano which can be played via keyboard for 5 octaves</li>
+<li>Ability to change the waveform which generates the sound</li>
+<li>Support for MIDI controllers (!)</li>
+<li>Draws sheet music via the VexFlow library</li>
+<li>Randomly generates notes, including sharps and flats, in an 8-note queue</li>
+<li>Supports both treble clef and bass clef</li>
+<li>A scales trainer for major / natural minor / harmonic minor / melodic minor from any root note</li>
+<li>An ear training mode which will play a note before prompting you to play it</li>
+<li>A metronome with customizable bpm</li>
+<li>Visual feedback for correct / incorrect responses</li>
+</ul>
+
+<p>
+In general I think this is a fairly substantial number of features &#x2013; I didn't do very much "programming" in this particular project beyond prompting, but I did occasionally manually fix bugs when they were simple and easy to understand. The support for MIDI controllers was a nice surprise for me! I bought a cheap one for about $30 and I've been having a good time playing around with it. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgac98cf1" class="outline-2">
+<h2 id="orgac98cf1">Thoughts on o1 models</h2>
+<div class="outline-text-2" id="text-orgac98cf1">
+<p>
+The smaller your code is, the easier it will generally be for LLMs to understand. Overall this took ~20-30 prompts in total from o1-mini and o1-preview (I tended to use the former for coding tasks and the latter for more understanding tasks, since those are what the benchmarks suggested was the most effective way to do things). Overall my impression of these models are that the extra thinking time helps it logically follow through longer files a lot better than other very good coding models (e.g. Sonnet 3.5), but was not that much better on function-level changes.
+</p>
+
+<p>
+For example, I ran into a bug at one point where VexFlow wanted the chords to be presented in sorted order, but sorting the notes would shuffle the randomly generated accidentals around (since those were not shuffled along with the notes). This is not a terribly horrific bug, as far as bugs go, but it was embedded inside a 1300 LOC file. Both the o1 models kept trying to essentially rewrite the entire app in order to solve this, proposing several wonky alternative solutions which all slightly did not work. I ended up relying on Sonnet 3.5 given just that function after it became clear that the task was too confusing.
+</p>
+
+<p>
+I also echo some of the sentiments I've heard online about the o1 models wanting to make you go away with their responses. The o1 models tend to give extremely long, comprehensive outputs with a clear intent to end the conversation after the first turn whenever possible. This makes the pair programming experience a little unpleasant, since it will usually ask you to make several large changes at once in hopes of just fixing it all immediately. I tend to ask it specifically to only do one thing at a time, but I think this is a fair enough tradeoff for the more accurate longer-context understanding these models are capable of.
+</p>
+
+<p>
+Overall I came away from this project with a pretty positive opinion of what the o1 models are capable of, and more importantly, with appreciation that they're good at a different class of things compared to the other existing top coding language models. I think there's a pretty clear ceiling still on what these models can do while in the driver's seat of a software project, but they are pretty impressive if you have some sort of clearly defined "thing" you need done. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgedc71cc" class="outline-2">
+<h2 id="orgedc71cc">Thoughts on LLM-driven Coding Projects</h2>
+<div class="outline-text-2" id="text-orgedc71cc">
+<p>
+Using this as a "I'm not going to code this, I'm going to mostly let the LLM code it and just supervise" sort of project was admittedly just a tad unnerving for me. There were some spots where trying to make changes via natural language was too annoying and I just went in and fixed a bug myself, but for the most part this is a rare sort of project for me where I did it mostly just by asking o1-mini to do things. I could have tried to make it prettier, but I felt like adding as many features as possible was a better way to get a handle on what it was really capable of. 
+</p>
+
+<p>
+I've seen all sorts of these "7 year old child makes a webapp using Cursor" type posts over the last few years, but this was the first time I've genuinely thought that someone with roughly no technical knowledge could make a simple application <i>I would actually use</i> purely by interacting with a language model (or, perhaps, just that I'm now the skill level that passes for "7 year old child"). This is a departure from my previous mental model, which felt more like I was armed with a precocious intern. I don't necessarily think this is going to eat all software engineering jobs (I think there's a good chance it just makes it much easier to make software and as a result significantly increases the amount of software in the world), but I do feel like a lot about the practice of programming feels likely to change relatively soon.
+</p>
+
+<p>
+Maybe I'm wrong and this thing will swallow my field and spit me back out into the job market. But, well, if that happens at least maybe I'll stand a chance at reading bass clef. 
+</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+That is, luckily for me, since I can probably keep my job a bit longer. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+And, arguably, easy.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+This is a story that comes for us all someday, so I've been mentally preparing myself for quite some time now. <a href="https://www.bbc.com/news/technology-50573071">Lee Sedol</a> famously quit Go after losing the match to AlphaGo, saying "There is an entity that cannot be defeated". I am certain that language models will soon achieve skill at programming contests which I couldn't dream of achieving (if they haven't already), so I've been trying to optimize towards not having that crush my self-worth. 
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+</div>
+</body>
+</html>
