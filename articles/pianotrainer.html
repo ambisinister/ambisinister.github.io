@@ -340,7 +340,6 @@
                 <option value="2">2 Notes</option>
                 <option value="3">3 Notes</option>
                 <option value="4">4 Notes</option>
-                <option value="5">5 Notes</option>
             </select>
         </div>
 
@@ -398,7 +397,7 @@
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
     // Variables
-    let currentMode = null;          // 'treble', 'bass', 'ear', 'scale'
+    let currentMode = 'treble';          // 'treble', 'bass', 'ear', 'scale'
     let targetNoteQueue = [];        // Queue of target notes or chords or scales
     let waveform = 'sine';           // Default waveform
     let metronomeInterval = null;
@@ -462,6 +461,15 @@
         'A#7': 3729.31, 'B7': 3951.07
     };
 
+    // Sharps to Flats Mapping
+    const sharpToFlat = {
+	'C#': 'Db',
+	'D#': 'Eb',
+	'F#': 'Gb',
+	'G#': 'Ab',
+	'A#': 'Bb'
+    };
+      
     // Normalize Note (No longer needed as allNotes contain only sharps)
     function normalizeNote(note) {
         return note;
@@ -476,11 +484,13 @@
             for (let i = 0; i < QUEUE_LENGTH; i++) {
                 if (chordSize === 1) {
                     const note = getRandomNote();
-                    if (note) targetNoteQueue.push(note);
+                    if (note) targetNoteQueue.push(createNoteObject(note));
                 } else {
                     const chord = getRandomChord(chordSize);
                     if (chord.length === chordSize) { // Ensure full chord size
-                        targetNoteQueue.push(chord);
+			const displayAsFlat = Math.random() < 0.5;
+			const chordNoteObjects = chord.map(note => createNoteObject(note, displayAsFlat));
+			targetNoteQueue.push(chordNoteObjects);
                     } else {
                         // If unable to generate full chord, fallback to single notes
                         const fallbackNote = getRandomNote();
@@ -503,7 +513,7 @@
         const currentTarget = targetNoteQueue[0];
         if (currentMode === 'scale') {
             // Scale Mode: Check if the played note matches the current scale note
-            const expectedNote = targetNoteQueue[0];
+            const expectedNote = targetNoteQueue[0].note;
             const normalizedExpected = normalizeNote(expectedNote);
             const normalizedUser = normalizeNote(note);
 
@@ -553,7 +563,7 @@
             }
         } else {
             // Single Note Input
-            const normalizedTargetNote = normalizeNote(currentTarget);
+            const normalizedTargetNote = normalizeNote(currentTarget.note);
             const normalizedUserNote = normalizeNote(note);
 
             const delayDuration = 500;
@@ -563,7 +573,7 @@
                 // Remove the first note
                 targetNoteQueue.shift();
                 // Add a new note at the end
-                targetNoteQueue.push(getRandomNote());
+                targetNoteQueue.push(createNoteObject(getRandomNote()));
                 // Update the staff display
                 drawStaff();
                 // If in ear training mode, play the next note
@@ -695,19 +705,44 @@
         const index2 = noteOrder.indexOf(note2);
         return Math.abs(index1 - index2);
     }
+      
+    function createNoteObject(note, displayAsFlat = null) {
+	if (displayAsFlat === null) {
+	    // Decide whether to display as flat or sharp when the note is added
+	    displayAsFlat = Math.random() < 0.5;
+	}
+	return { note: note, displayAsFlat: displayAsFlat };
+    }      
 
     // Convert Note to VexFlow Key Format
-    function noteToVexflowKey(note) {
+    function noteToVexflowKey(noteObject) {
         // Use regex to parse the note into name, accidental, and octave
+	const note = noteObject.note;
+	const displayAsFlat = noteObject.displayAsFlat;
         const regex = /^([A-Ga-g])([#]?)(\d)$/;
         const match = note.match(regex);
         if (match) {
             const noteName = match[1].toLowerCase();
             const accidental = match[2];
             const octave = match[3];
+	    let vexflowKey = noteName + '/' + octave;
+	    let accidentalSymbol = null
+
+	    if (displayAsFlat && accidental === '#') {
+                const flatName = sharpToFlat[noteName.toUpperCase() + '#'];
+                const flatNoteName = flatName[0].toLowerCase();
+                const flatOctave = octave; // Assume same octave
+                vexflowKey = flatNoteName + '/' + flatOctave;
+                accidentalSymbol = 'b';
+            } else {
+                // Display as sharp
+                vexflowKey = noteName + accidental + '/' + octave;
+                accidentalSymbol = accidental;
+            }
+	    
             return {
-                key: noteName + '/' + octave,
-                accidental: accidental
+                key: vexflowKey,
+                accidental: accidentalSymbol
             };
         } else {
             console.error('Invalid note format:', note);
@@ -729,6 +764,11 @@
 
         // Prepare StaveNotes
         const vfNotes = targetNoteQueue.map(item => {
+	    let displayFlat = false;
+	    if (currentMode === 'treble' || currentMode === 'bass') {
+		displayFlat = Math.random() < 0.5;
+	    }
+
             if (Array.isArray(item)) {
                 // Chord - Sort the notes in ascending order based on frequency
                 const sortedItem = item.slice().sort((a, b) => noteFrequencies[a] - noteFrequencies[b]);
@@ -896,15 +936,17 @@
         const intervals = scaleDefinitions[selectedScaleType];
         if (!intervals) return;
 
+	const displayAsFlat = Math.random() < 0.5;
+
         // Generate ascending scale
         let currentNote = root;
         if (isNoteWithinRange(currentNote)) {
-            scaleSequence.push(currentNote);
+            scaleSequence.push(createNoteObject(currentNote, displayAsFlat));
         }
         intervals.forEach(interval => {
             currentNote = getNoteBySemitoneInterval(currentNote, interval);
             if (currentNote) {
-                scaleSequence.push(currentNote);
+                scaleSequence.push(createNoteObject(currentNote, displayAsFlat));
             } else {
                 // Stop if the next note is out of range
                 return;
@@ -913,12 +955,12 @@
 
         // Generate descending scale
         const descendingScale = [];
-        currentNote = scaleSequence[scaleSequence.length -1];
+        currentNote = scaleSequence[scaleSequence.length -1].note;
         const descendingIntervals = scaleDefinitions[selectedScaleType].slice().reverse();
         descendingIntervals.forEach(interval => {
             currentNote = getNoteBySemitoneInterval(currentNote, -interval);
             if (currentNote) {
-                descendingScale.push(currentNote);
+                descendingScale.push(createNoteObject(currentNote, displayAsFlat));
             } else {
                 // Stop if the next note is out of range
                 return;
@@ -1101,8 +1143,8 @@
         });
 
         // Set default selections
-        lowNote = 'C4';
-        highNote = 'B4';
+        lowNote = 'F3';
+        highNote = 'C6';
 
         lowNoteSelect.value = lowNote;
         highNoteSelect.value = highNote;
@@ -1334,7 +1376,7 @@
     function setChordSize(value) {
         chordSize = parseInt(value);
         if (chordSize < 1) chordSize = 1;
-        if (chordSize > 5) chordSize = 5; // Limit to 5 notes
+        if (chordSize > 4) chordSize = 4; // Limit to 4 notes
         initializeNoteQueue();
     }
       
