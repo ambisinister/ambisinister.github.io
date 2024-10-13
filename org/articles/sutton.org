@@ -207,12 +207,12 @@ averages are not a completely satisfactory solution because they may perform poo
 on nonstationary problems. Is it possible to avoid the bias of constant step sizes while
 retaining their advantages on nonstationary problems? One way is to use a step size of
 
-\beta_n \doteq \alpha / \bar{o}_n
+$\beta_n \doteq \alpha / \bar{o}_n$
 
 to process the nth reward for a particular action, where \alpha > 0 is a conventional constant
 step size, and ¯on is a trace of one that starts at 0:
 
-\bar{o}_n \doteq \bar{o}_{n-1} + \alpha (1 - \bar{p_{n-1}}) for n > 0, with \bar{o_0} \doteq 0.
+$\bar{o}_n \doteq \bar{o}_{n-1} + \alpha (1 - \bar{p}_{n-1}) \text{ for } n > 0, \text{ with } \bar{o}_0 \doteq 0$.
 
 Carry out an analysis like that in (2.6) to show that Qn is an exponential recency-weighted
 average without initial bias.
@@ -739,11 +739,11 @@ This was already in the text I think, it's $q_*(s, a) = \sum_{s', r} p(s', r | s
 
 Exercise 3.27 Give an equation for \pi_* in terms of q_*. ⇤
 
-$\pi_*(a | s) = \mathbbm{1}[q_*(s, a) = max_{a \in A}(q_*(s, a))]$
+$\pi_*(a | s) = \mathbb{1}[q_*(s, a) = max_{a \in A}(q_*(s, a))]$
 
 Exercise 3.28 Give an equation for \pi_* in terms of v_* and the four-argument p. ⇤
 
-$\pi_*(a | s) = \mathbbm{1}[\sum_{s', r} p(s', r | s, a) [r + \gamma v_*(s')] = max_{a}(\sum_{s', r} p(s', r | s, a) [r + \gamma v_*(s')])]$
+$\pi_*(a | s) = \mathbb{1}[\sum_{s', r} p(s', r | s, a) [r + \gamma v_*(s')] = max_{a}(\sum_{s', r} p(s', r | s, a) [r + \gamma v_*(s')])]$
 
 Exercise 3.29 Rewrite the four Bellman equations for the four value functions (v_\pi, v_*, q_\pi,
 and q_*) in terms of the three argument function p (3.4) and the two-argument function r
