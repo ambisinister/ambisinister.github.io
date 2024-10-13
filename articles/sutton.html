@@ -1,0 +1,1513 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-10-12 Sat 22:31 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="./css/default_20240614.css" />
+<link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org171e715">Sutton and Barto</a>
+<ul>
+<li><a href="#orgd4dd495">Random Thoughts</a></li>
+<li><a href="#orge2f50e4">Exercises</a>
+<ul>
+<li><a href="#org9a34835">1</a></li>
+<li><a href="#orge2d4d8f">2</a></li>
+<li><a href="#org80d2c0f">3</a></li>
+<li><a href="#org80a59a0">4</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org171e715" class="outline-1">
+<h1 id="org171e715">Sutton and Barto</h1>
+<div class="outline-text-1" id="text-org171e715">
+<p>
+I am anticipating needing to deeply understand Reinforcement Learning to properly do my job. Everybody says that <a href="http://incompleteideas.net/book/RLbook2020.pdf">this book</a> is the way to do that, so I'm working through it and doing the exercises. I'll be putting the exercises in this document along with some random thoughts I may have. I have done this on here <a href="https://planetbanatt.net/articles/probmods.html">before, with the textbook Probabilistic Models of Cognition</a>, so it will largely be the same as that. I am also roughly following <a href="https://www.youtube.com/playlist?list=PLqYmG7hTraZBKeNJ-JE_eyJHZ7XgBoAyb">the DeepMind x UCL Reinforcement Learning Course (2018)</a> which follows this book. I learn much better from reading and practicing compared to from watching and listening, but it doesn't hurt to attack the problem from all fronts.
+</p>
+
+<p>
+I'll be checking my answers to the exercises with LLMs as I work through the book. The majority of these are near the beginning of the book (chapter 3 has almost 30 exercises, most chapters after have about 10, part III has one exercise total). Since my objective is to understand RL well enough to do research, I'm going to make a good faith effort to actually get through the whole book, including these less exercise-heavy ones / ones not covered in the DeepMind course. We will see how well I stick to it, but I have some optimism. 
+</p>
+
+<p>
+Overall I have been finding this book to be very challenging. I really thought my programming background would help me a lot more than it has been, so struggling through the necessary notation has been pretty taxing. 
+</p>
+</div>
+
+<div id="outline-container-orgd4dd495" class="outline-2">
+<h2 id="orgd4dd495">Random Thoughts</h2>
+<div class="outline-text-2" id="text-orgd4dd495">
+<p>
+Arcade culture as multi-arm bandit problem
+</p>
+
+<p>
+Evolutionary RL with parameter model merging crossover operations
+</p>
+
+<p>
+spybots clone might be good environment to implement algos like MCTS
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge2f50e4" class="outline-2">
+<h2 id="orge2f50e4">Exercises</h2>
+<div class="outline-text-2" id="text-orge2f50e4">
+</div>
+<div id="outline-container-org9a34835" class="outline-3">
+<h3 id="org9a34835">1</h3>
+<div class="outline-text-3" id="text-org9a34835">
+<p>
+Exercise 1.1: Self-Play Suppose, instead of playing against a random opponent, the
+reinforcement learning algorithm described above played against itself, with both sides
+learning. What do you think would happen in this case? Would it learn a different policy
+for selecting moves?
+</p>
+
+<p>
+I already know self-play already works for achieving high skill in RL tasks (see: alphago) but I do think it's possible for larger environments that policies learned through self-play to tunnel into behaviors which do not fully explore a very complex environment. I remember seeing some papers exploiting this by <a href="https://arxiv.org/pdf/2211.00241">learning adversarial policies</a> that win by creating out-of-distribution states. But for something simple like tic-tac-toe I doubt it would cause huge problems, in the limit both will explore the space completely. 
+</p>
+
+<p>
+Exercise 1.2: Symmetries Many tic-tac-toe positions appear different but are really
+the same because of symmetries. How might we amend the learning process described
+above to take advantage of this? In what ways would this change improve the learning
+process? Now think again. Suppose the opponent did not take advantage of symmetries.
+In that case, should we? Is it true, then, that symmetrically equivalent positions should
+necessarily have the same value?
+</p>
+
+<p>
+We could take advantage of this via data augmentation in training, applying all the different rotations and mirrors to the game board and having 8 training examples instead of 1 per episode. This would make us equally strong from all angles, since we will have an equal balance of the different versions of the same positions. Taking advantage of the symmetries shouldn't have any different effects whether or not our opponent uses them or not &#x2013; they're literally identical states, and should have identical value functions as a result. One thing which may break this is if we learn that our opponent is worse at one particular rotation of the game board, and seeking to exploit that. If we do augmentation this way, we won't be able to learn that sort of thing, since we will be artificially improving their performance in those spots, but in exchange we get more training examples and better balance subject to symmetry.
+</p>
+
+<p>
+Exercise 1.3: Greedy Play Suppose the reinforcement learning player was greedy, that is,
+it always played the move that brought it to the position that it rated the best. Might it
+learn to play better, or worse, than a nongreedy player? What problems might occur?
+</p>
+
+<p>
+If the player was greedy and never explored, that could lead to lots of problems where states get assigned incorrect value estimations. For example, if you have an action which causes +1 reward 90% of the time and -1 reward 10% of the time, and you happen to get -1 reward the first time you take that option, your estimation for that action is likely to be irrecoverably wrong. The purpose of non-greedy decisions is to make sure that your "rating the best" is actually accurate, since over time you'll get a better picture of more types of states that way. 
+</p>
+
+<p>
+Exercise 1.4: Learning from Exploration Suppose learning updates occurred after all
+moves, including exploratory moves. If the step-size parameter is appropriately reduced
+over time (but not the tendency to explore), then the state values would converge to
+a different set of probabilities. What (conceptually) are the two sets of probabilities
+computed when we do, and when we do not, learn from exploratory moves? Assuming
+that we do continue to make exploratory moves, which set of probabilities might be better
+to learn? Which would result in more wins?
+</p>
+
+<p>
+Consider a case where you have a state which is next to the goal state, and also next to a state which kills you. In the greedy case, you would love to be in this state, because then you can go to the goal state, and you'll get very high reward. But in the exploration-enabled case, this state is kind of risky because there's a change you'll decide to explore in this state, land in the death state, and recieve a big negative reward. If you learn after exploratory moves, you're learning the value of the state including that probability of randomly dying, whereas otherwise you aren't. If you want to keep doing this exploration, you might be better off using these probabilities, since avoiding death is pretty important, but if you plan on turning those moves off then there's no need to avoid this hypothetical state.
+</p>
+
+<p>
+Exercise 1.5: Other Improvements Can you think of other ways to improve the reinforcement learning player? Can you think of any better way to solve the tic-tac-toe problem
+as posed?
+</p>
+
+<p>
+Arming the player with search seems like a good way to get better estimates of the current state.
+</p>
+
+<p>
+<i>status: checked with o1-preview</i>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge2d4d8f" class="outline-3">
+<h3 id="orge2d4d8f">2</h3>
+<div class="outline-text-3" id="text-orge2d4d8f">
+<p>
+Exercise 2.1 In &epsilon; -greedy action selection, for the case of two actions and &epsilon; = 0.5, what is
+the probability that the greedy action is selected?
+</p>
+
+<p>
+.75 (from greedy 0.5, from random 0.5 / 2) 
+</p>
+
+<p>
+Exercise 2.2: Bandit example Consider a k-armed bandit problem with k = 4 actions,
+denoted 1, 2, 3, and 4. Consider applying to this problem a bandit algorithm using
+"-greedy action selection, sample-average action-value estimates, and initial estimates
+of Q1(a) = 0, for all a. Suppose the initial sequence of actions and rewards is A1 = 1,
+R1 = 1, A2 = 2, R2 = 1, A3 = 2, R3 = 2, A4 = 2, R4 = 2, A5 = 3, R5 = 0. On some
+of these time steps the " case may have occurred, causing an action to be selected at
+random. On which time steps did this definitely occur? On which time steps could this
+possibly have occurred? ⇤
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">Step</th>
+<th scope="col" class="org-right">Action</th>
+<th scope="col" class="org-right">Reward</th>
+<th scope="col" class="org-left">Greedy ?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-left">Maybe (all 0)</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">1</td>
+<td class="org-left">No (A1 has 1)</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-left">Maybe (A1 and A2 both with 1)</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-left">Maybe (A2 clearly best now but can still be selected by exploration)</td>
+</tr>
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-left">No (No info on 3 at all)</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Exercise 2.3 In the comparison shown in Figure 2.2, which method will perform best in
+the long run in terms of cumulative reward and probability of selecting the best action?
+How much better will it be? Express your answer quantitatively.
+</p>
+
+<p>
+In the long run. \eps = 0.01 will perform best. \eps = 0.1 learns the
+optimal action the fastest, but is bottlenecked by the fact that it
+must select a random action 10% of the time, meaning it gets optimal
+reward 91% of the time. In comparison, once \eps = 0.01 learns the
+optimal action, it will pick that option 99.5% of the time. You can
+observe this in the slopes of the figure, where 0.01 is initially
+lower but continues to grow.
+</p>
+
+<p>
+Exercise 2.4 If the step-size parameters, &alpha;<sub>n</sub>, are not constant, then the estimate Qn is
+a weighted average of previously received rewards with a weighting different from that
+given by (2.6). What is the weighting on each prior reward for the general case, analogous
+to (2.6), in terms of the sequence of step-size parameters? ⇤
+</p>
+
+<p>
+If you expand out the terms you'll get:
+</p>
+
+<p>
+Q<sub>n+1</sub> = a<sub>1</sub> R<sub>n</sub> + (1 - a<sub>1</sub>)(a<sub>2</sub> R<sub>n-1</sub> + (1 - a<sub>2</sub>)(a<sub>3</sub> R<sub>n-2</sub> + (1 - a<sub>3</sub>)(Q<sub>n-3</sub>)))
+</p>
+
+<p>
+etc
+</p>
+
+<p>
+if we try to break it apart we get
+</p>
+
+<p>
+Q<sub>n+1</sub> = a<sub>1</sub> R<sub>n</sub> + (1 - a<sub>1</sub>)(a<sub>2</sub> R<sub>n-1</sub>) + (1 - a<sub>1</sub>)(1 - a<sub>2</sub>)(a<sub>3</sub> R<sub>n-2</sub>) + (1-a<sub>1</sub>)(1-a<sub>2</sub>)(1 - a<sub>3</sub>)(Q<sub>n-3</sub>)))
+</p>
+
+<p>
+suggesting that in the general case we arrive at a form that looks like this:
+</p>
+
+<p>
+W<sub>n+1</sub> = \Prod{i=1}{n} (1 - a<sub>i</sub>) (a<sub>n</sub> R<sub>n</sub>)
+</p>
+
+<p>
+I think I likely have the notation wrong here but visually it makes sense.
+</p>
+
+<p>
+<i>o1-preview: \(Q_{n+1} = \sum_{k=1}^{n}(\alpha_k \prod_{i=k+1}^{n}(1-\alpha_i))R_k\)</i> 
+</p>
+
+<p>
+Exercise 2.5 (programming) Design and conduct an experiment to demonstrate the
+diculties that sample-average methods have for nonstationary problems. Use a modified
+version of the 10-armed testbed in which all the q<sub>*</sub>(a) start out equal and then take
+independent random walks (say by adding a normally distributed increment with mean 0
+and standard deviation 0.01 to all the q⇤(a) on each step). Prepare plots like Figure 2.2
+for an action-value method using sample averages, incrementally computed, and another
+action-value method using a constant step-size parameter, &alpha; = 0.1. Use &epsilon; = 0.1 and
+longer runs, say of 10,000 steps
+</p>
+
+<div class="EMBED" id="orgee900ff">
+<p>
+import numpy as np
+import matplotlib.pyplot as plt
+</p>
+
+<p>
+k = 10
+q<sub>stars</sub> = [5 for _ in range(k)]
+</p>
+
+<p>
+def run<sub>experiment</sub>(epsilon, method='constant'):
+</p>
+
+<p>
+num<sub>acts</sub> = [0 for _ in q<sub>stars</sub>]
+q<sub>vals</sub> = [0 for _ in q<sub>stars</sub>]
+</p>
+
+<p>
+if method == 'constant':
+    alpha = 0.1
+</p>
+
+<p>
+steps = 10000
+</p>
+
+<p>
+avg<sub>rewards</sub> = []
+pct<sub>optimals</sub> = []
+avg<sub>reward</sub> = 0
+optimal<sub>actions</sub> = 0
+</p>
+
+<p>
+for step in range(steps):
+    if method != 'constant':
+	alpha = 1 / (step + 1)
+</p>
+
+<p>
+for i, bandit in enumerate(q<sub>stars</sub>):
+    q<sub>stars</sub>[i] += np.random.normal(0, 0.01)
+</p>
+
+<p>
+if np.random.random() &lt; epsilon:
+    act = np.random.randint(0, k)
+else:
+    act = np.argmax(q<sub>vals</sub>)
+</p>
+
+<p>
+num<sub>acts</sub>[act] += 1
+q<sub>vals</sub>[act] += alpha * (q<sub>stars</sub>[act] - q<sub>vals</sub>[act])
+</p>
+
+<p>
+avg<sub>reward</sub> += (1 / (step + 1)) * q<sub>stars</sub>[act]
+avg<sub>rewards.append</sub>(avg<sub>reward</sub>)
+</p>
+
+<p>
+if act <code>= np.argmax(q_stars):
+            optimal_actions +</code> 1
+</p>
+
+<p>
+pct<sub>optimal</sub> = optimal<sub>actions</sub> / (step + 1)
+pct<sub>optimals.append</sub>(pct<sub>optimal</sub>)
+</p>
+
+<p>
+return avg<sub>rewards</sub>, pct<sub>optimals</sub>
+</p>
+
+<p>
+const<sub>rewards</sub>, const<sub>optimals</sub> = run<sub>experiment</sub>(0.1, method='constant')
+avg<sub>rewards</sub>, avg<sub>optimals</sub> = run<sub>experiment</sub>(0.1, method='average')
+</p>
+
+<p>
+plt.title("Average rewards")
+plt.plot(const<sub>rewards</sub>, label='constant alpha')
+plt.plot(avg<sub>rewards</sub>, label='averaging')
+plt.legend()
+plt.show()
+</p>
+
+<p>
+plt.title("Optimal actions")
+plt.plot(const<sub>optimals</sub>, label='constant alpha')
+plt.plot(avg<sub>optimals</sub>, label='averaging')
+plt.legend()
+plt.show()
+</p>
+
+</div>
+
+<p>
+Exercise 2.6: Mysterious Spikes The results shown in Figure 2.3 should be quite reliable
+because they are averages over 2000 individual, randomly chosen 10-armed bandit tasks.
+Why, then, are there oscillations and spikes in the early part of the curve for the optimistic
+method? In other words, what might make this method perform particularly better or
+worse, on average, on particular early steps? ⇤
+</p>
+
+<p>
+If the rewards are optimistic, it's very likely that you will pull all the levers once after only a few turns, since you'll be disappointed each time. You should then get a good picture of the best one very quickly, which means you should pick the best option very often very early on. However, you run into a problem &#x2013; greedily picking that option will make your estimate of that state worse, so by picking it you temporarily make it less likely to be selected again. This will continue until the estimates are accurate enough for selecting the best option to not make the estimate worse than the estimates for the other options.
+</p>
+
+<p>
+Exercise 2.7: Unbiased Constant-Step-Size Trick In most of this chapter we have used
+sample averages to estimate action values because sample averages do not produce the
+initial bias that constant step sizes do (see the analysis leading to (2.6)). However, sample
+averages are not a completely satisfactory solution because they may perform poorly
+on nonstationary problems. Is it possible to avoid the bias of constant step sizes while
+retaining their advantages on nonstationary problems? One way is to use a step size of
+</p>
+
+<p>
+&beta;<sub>n</sub> \doteq &alpha; / \bar{o}<sub>n</sub>
+</p>
+
+<p>
+to process the nth reward for a particular action, where &alpha; &gt; 0 is a conventional constant
+step size, and ¯on is a trace of one that starts at 0:
+</p>
+
+<p>
+\bar{o}<sub>n</sub> \doteq \bar{o}<sub>n-1</sub> + &alpha; (1 - \bar{p<sub>n-1</sub>}) for n &gt; 0, with \bar{o_0} \doteq 0.
+</p>
+
+<p>
+Carry out an analysis like that in (2.6) to show that Qn is an exponential recency-weighted
+average without initial bias.
+</p>
+
+<div class="EMBED" id="org05b2f71">
+<p>
+import numpy as np
+import matplotlib.pyplot as plt
+</p>
+
+<p>
+k = 10
+q<sub>stars</sub> = [np.random.normal(0, 1) for _ in range(k)]
+</p>
+
+<p>
+def run<sub>experiment</sub>(epsilon, method='constant'):
+</p>
+
+<p>
+num<sub>acts</sub> = [0 for _ in q<sub>stars</sub>]
+q<sub>vals</sub> = [5 for _ in q<sub>stars</sub>] #optimistic reward
+</p>
+
+<p>
+if method == 'constant':
+    alpha = 0.1
+    o<sub>bar</sub> = 0
+</p>
+
+<p>
+steps = 10000
+</p>
+
+<p>
+avg<sub>rewards</sub> = []
+pct<sub>optimals</sub> = []
+avg<sub>reward</sub> = 0
+optimal<sub>actions</sub> = 0
+</p>
+
+<p>
+for step in range(steps):
+    if method <code>= 'constant':
+            o_bar +</code> alpha * (1 - o<sub>bar</sub>)
+	beta = alpha / o<sub>bar</sub>
+    else:
+	beta = 1 / (step + 1)
+</p>
+
+<p>
+if np.random.random() &lt; epsilon:
+    act = np.random.randint(0, k)
+else:
+    act = np.argmax(q<sub>vals</sub>)
+</p>
+
+<p>
+num<sub>acts</sub>[act] += 1
+q<sub>vals</sub>[act] += beta * (q<sub>stars</sub>[act] - q<sub>vals</sub>[act])
+</p>
+
+<p>
+avg<sub>reward</sub> += (1 / (step + 1)) * q<sub>stars</sub>[act]
+avg<sub>rewards.append</sub>(avg<sub>reward</sub>)
+</p>
+
+<p>
+if act <code>= np.argmax(q_stars):
+            optimal_actions +</code> 1
+</p>
+
+<p>
+pct<sub>optimal</sub> = optimal<sub>actions</sub> / (step + 1)
+pct<sub>optimals.append</sub>(pct<sub>optimal</sub>)
+</p>
+
+<p>
+return avg<sub>rewards</sub>, pct<sub>optimals</sub>
+</p>
+
+<p>
+const<sub>rewards</sub>, const<sub>optimals</sub> = run<sub>experiment</sub>(0.1, method='constant')
+avg<sub>rewards</sub>, avg<sub>optimals</sub> = run<sub>experiment</sub>(0.1, method='average')
+</p>
+
+<p>
+plt.title("Average rewards")
+plt.plot(const<sub>rewards</sub>, label='constant alpha')
+plt.plot(avg<sub>rewards</sub>, label='averaging')
+plt.legend()
+plt.show()
+</p>
+
+<p>
+plt.title("Optimal actions")
+plt.plot(const<sub>optimals</sub>, label='constant alpha')
+plt.plot(avg<sub>optimals</sub>, label='averaging')
+plt.legend()
+plt.show()
+</p>
+
+</div>
+
+<p>
+<i>TODO: I think this question requires me to show that the weights sum to 1, not to implement it</i>
+</p>
+
+<p>
+Exercise 2.8: UCB Spikes In Figure 2.4 the UCB algorithm shows a distinct spike
+in performance on the 11th step. Why is this? Note that for your answer to be fully
+satisfactory it must explain both why the reward increases on the 11th step and why it
+decreases on the subsequent steps. Hint: If c = 1, then the spike is less prominent. ⇤
+</p>
+
+<p>
+If you have 10 bandits after only a few trials, the UCB term will likely dominate for untested bandits, so it will test all the bandits once each in the first ten trials. On the 11th trial, all of the UCB terms will be equal, so it's very likely to pull the bandit which returned the highest value, which is most often the optimal one. However, once you do that, you reduce the UCB term for that bandit, which means that you'll start wanting to pull the other bandits again. This will repeat until the UCB term goes to ~0 after many trials. When c=1, this term is less dominating, so it becomes more possible to select two bandits twice in the first 10 trials, which would diffuse this spike to adjacent timesteps.
+</p>
+
+<p>
+Exercise 2.9 Show that in the case of two actions, the soft-max distribution is the same
+as that given by the logistic, or sigmoid, function often used in statistics and artificial
+neural networks.
+</p>
+
+<p>
+with two actions we have
+</p>
+
+<p>
+e<sup>z<sub>i</sub></sup> / &sum;{j=1}{K} e<sup>z<sub>j</sub></sup>
+</p>
+
+<p>
+e<sup>z<sub>i</sub></sup> / (e<sup>z<sub>1</sub></sup> + e<sup>z<sub>2</sub></sup>)
+</p>
+
+<p>
+p(1) + p(2) = 1
+</p>
+
+<p>
+p(1) = e<sup>z<sub>1</sub></sup> / (e<sup>z<sub>1</sub></sup> + e<sup>z<sub>2</sub></sup>)
+</p>
+
+<p>
+dividing numerator and denomenator by e<sup>z</sup><sub>2</sub> is equivalent to subtraction
+</p>
+
+<p>
+p(1) = e<sup>z<sub>1</sub> - z<sub>2</sub></sup> / (e<sup>z<sub>1</sub> - z<sub>2</sub></sup> + e<sup>z<sub>2</sub> - z<sub>2</sub></sup>)
+</p>
+
+<p>
+p(1) = e<sup>z<sub>1</sub> - z<sub>2</sub></sup> / (1 + e<sup>z<sub>1</sub> - z<sub>2</sub></sup>)
+</p>
+
+<p>
+if x = z<sub>1</sub> - z<sub>2</sub> we now have
+</p>
+
+<p>
+e<sup>x</sup> / (1 + e<sup>x</sup>)
+</p>
+
+<p>
+which is the sigmoid
+</p>
+
+<p>
+Exercise 2.10 Suppose you face a 2-armed bandit task whose true action values change
+randomly from time step to time step. Specifically, suppose that, for any time step,
+the true values of actions 1 and 2 are respectively 10 and 20 with probability 0.5 (case
+A), and 90 and 80 with probability 0.5 (case B). If you are not able to tell which case
+you face at any step, what is the best expected reward you can achieve and how should
+you behave to achieve it? Now suppose that on each step you are told whether you are
+facing case A or case B (although you still don’t know the true action values). This is an
+associative search task. What is the best expected reward you can achieve in this task,
+and how should you behave to achieve it?
+</p>
+
+<p>
+If you don't know the state, you do the same on both cases. picking action A will give you (10 + 90)/2 = 50 and action B will give you (20 + 80)/2 = 50 on average, so you can't do better than random. If you know what state you're in, you will want to select 2 in case A and 1 in case B, which will give you (20 + 90) / 2 = 55 average reward. Once you know the state, you collapse to the normal learning problem in a k-armed bandit, so any of those methods would work once you know the underlying state. 
+</p>
+
+<p>
+Exercise 2.11 (programming) Make a figure analogous to Figure 2.6 for the nonstationary
+case outlined in Exercise 2.5. Include the constant-step-size &epsilon;-greedy algorithm with
+&alpha; = 0.1. Use runs of 200,000 steps and, as a performance measure for each algorithm and
+parameter setting, use the average reward over the last 100,000 steps.
+</p>
+
+<div class="EMBED" id="orga190d6c">
+<p>
+import numpy as np
+import matplotlib.pyplot as plt
+</p>
+
+<p>
+k = 10
+q<sub>stars</sub> = [np.random.normal(0, 1) for _ in range(k)]
+</p>
+
+<p>
+def run<sub>experiment</sub>(epsilon, method='constant'):
+</p>
+
+<p>
+num<sub>acts</sub> = [0 for _ in q<sub>stars</sub>]
+</p>
+
+<p>
+if method == 'optimistic':
+    q<sub>vals</sub> = [5 for _ in q<sub>stars</sub>]
+else:
+    q<sub>vals</sub> = [0 for _ in q<sub>stars</sub>]
+</p>
+
+<p>
+#do they want the unbiased one?
+if method <code>= 'constant' or method =</code> 'optimistic': 
+    alpha = 0.1
+    o<sub>bar</sub> = 0
+</p>
+
+<p>
+steps = 200000
+</p>
+
+<p>
+avg<sub>rewards</sub> = []
+pct<sub>optimals</sub> = []
+avg<sub>reward</sub> = 0
+optimal<sub>actions</sub> = 0
+</p>
+
+<p>
+for step in range(steps):
+    if method <code>= 'constant' or method =</code> 'optimistic':
+	o<sub>bar</sub> += alpha * (1 - o<sub>bar</sub>)
+	beta = alpha / o<sub>bar</sub>
+    else:
+	beta = 1 / (step + 1)
+</p>
+
+<p>
+if method != 'ucb' and np.random.random() &lt; epsilon:
+    act = np.random.randint(0, k)
+elif method == 'ucb':
+    ucbs = [q<sub>vals</sub>[i] + np.sqrt(epsilon * np.log(step+1) / \
+				num<sub>acts</sub>[i]) for i in range(k)]
+    act = np.argmax(ucbs)
+else:
+    act = np.argmax(q<sub>vals</sub>)
+</p>
+
+<p>
+num<sub>acts</sub>[act] += 1
+q<sub>vals</sub>[act] += beta * (q<sub>stars</sub>[act] - q<sub>vals</sub>[act])
+</p>
+
+<p>
+avg<sub>reward</sub> += (1 / (step + 1)) * q<sub>stars</sub>[act]
+avg<sub>rewards.append</sub>(avg<sub>reward</sub>)
+</p>
+
+<p>
+if act <code>= np.argmax(q_stars):
+            optimal_actions +</code> 1
+</p>
+
+<p>
+pct<sub>optimal</sub> = optimal<sub>actions</sub> / (step + 1)
+pct<sub>optimals.append</sub>(pct<sub>optimal</sub>)
+</p>
+
+<p>
+return np.mean(avg<sub>rewards</sub>[:100000])
+</p>
+
+
+<p>
+vals = [1/128, 1/64, 1/32, 1/16, 1/8, 1/4, 1/2, 1, 2, 4]
+</p>
+
+<p>
+const<sub>rewards</sub> = [run<sub>experiment</sub>(x, method='constant') for x in vals]
+optimistic<sub>rewards</sub> = [run<sub>experiment</sub>(x, method='optimistic') for x in vals]
+ucb<sub>rewards</sub> = [run<sub>experiment</sub>(x, method='ucb') for x in vals]
+</p>
+
+<p>
+plt.title("Parameter Study")
+plt.plot(vals, const<sub>rewards</sub>, label='eps-greedy')
+plt.plot(vals, optimistic<sub>rewards</sub>, label='optimistic eps-greedy')
+plt.plot(vals, ucb<sub>rewards</sub>, label='UCB')
+plt.xlabel("epsilon")
+plt.ylabel("Average reward over last 100k steps")
+plt.legend()
+plt.show()
+</p>
+
+</div>
+
+<p>
+<i>status: checked with o1-preview, need to fix 2.7 because code is not the correct deliverable</i>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org80d2c0f" class="outline-3">
+<h3 id="org80d2c0f">3</h3>
+<div class="outline-text-3" id="text-org80d2c0f">
+<p>
+Exercise 3.1 Devise three example tasks of your own that fit into the MDP framework,
+identifying for each its states, actions, and rewards. Make the three examples as different
+from each other as possible. The framework is abstract and flexible and can be applied in
+many different ways. Stretch its limits in some way in at least one of your examples. ⇤
+</p>
+
+<ol class="org-ol">
+<li>Chess can be framed as an MDP, where each state is a board position, each action is the legal moves you can perform in that position, and each reward is the relative value of the position (or just 1 for goal state and -1 for loss state)</li>
+
+<li>Flirting with someone can be framed as an MDP, where each state is the current point in a conversation, each action is what you can say at that point, and the reward is how much you observe they're into what you're saying (can be negative, for example if you start talking about how flirting is a Markov Decision Process)</li>
+
+<li>Doing the exercises in Sutton and Barto can be framed as an MDP. Each state is your current location in the textbook, each action is your letter by letter solving of the problem (e.g. you write answers one letter at a time), and each reward is the feedback from a teacher or LLM about how well you solved an exercise.</li>
+</ol>
+
+<p>
+Exercise 3.2 Is the MDP framework adequate to usefully represent all goal-directed
+learning tasks? Can you think of any clear exceptions? ⇤
+</p>
+
+<p>
+Maybe not usefully; a big component of this is that MDPs have the markov property (where the past sequence of events is priced into the current state, and two identical "states" which would have different local behaviors based on the path required to reach them would get represented as different states). It's possible there are MDPs it's hard to represent the state as being independent of / inclusive of the entire history prior (i.e. it is possible, but the state space is so large that the dynamics can't be learned well). <a href="https://en.wikipedia.org/wiki/AlphaStar_(software)">Starcraft</a> might be one of these? They struggled to reach superhuman play under human constraints and had to rely on imitation learning due to the overly large state space, due to the "exploration problem". 
+</p>
+
+<p>
+Exercise 3.3 Consider the problem of driving. You could define the actions in terms of
+the accelerator, steering wheel, and brake, that is, where your body meets the machine.
+Or you could define them farther out—say, where the rubber meets the road, considering
+your actions to be tire torques. Or you could define them farther in—say, where your
+brain meets your body, the actions being muscle twitches to control your limbs. Or you
+could go to a really high level and say that your actions are your choices of where to drive.
+What is the right level, the right place to draw the line between agent and environment?
+On what basis is one location of the line to be preferred over another? Is there any
+fundamental reason for preferring one location over another, or is it a free choice? ⇤
+</p>
+
+<p>
+I imagine your framing matters a lot here. If you want to build a system which outperforms humans at driving, you'll likely be interested in defining it at the machine level (unless you were building a humanoid robot which drives) because in that case you're able to directly actuate the pedals and stuff. If you're building a gps navigation service which arrives at a location while avoiding the most traffic, you don't actually care about the machine at all. If you're drunk at a bar, you hopefully would carefully consider that your body's condition introduces an additional level of uncertainty to your observations and actions, even though your car in the parking lot didn't change at all. It's not so much that it's a free choice, rather that it depends on the type of problem you are attempting to solve with your agent.
+</p>
+
+<p>
+Exercise 3.4 Give a table analogous to that in Example 3.3, but for p(s', r|s, a). It
+should have columns for s, a, s', r, and p(s', r|s, a), and a row for every 4-tuple for which
+p(s', r|s, a) &gt; 0.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">s</th>
+<th scope="col" class="org-left">a</th>
+<th scope="col" class="org-left">s'</th>
+<th scope="col" class="org-left">r</th>
+<th scope="col" class="org-left">p(s' / s, a)</th>
+<th scope="col" class="org-left">p(s', r / s, a)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">high</td>
+<td class="org-left">search</td>
+<td class="org-left">high</td>
+<td class="org-left">r<sub>search</sub></td>
+<td class="org-left">&alpha;</td>
+<td class="org-left">&alpha; * p(r = R / s, a, s')</td>
+</tr>
+
+<tr>
+<td class="org-left">high</td>
+<td class="org-left">search</td>
+<td class="org-left">low</td>
+<td class="org-left">r<sub>search</sub></td>
+<td class="org-left">1 - &alpha;</td>
+<td class="org-left">(1 - &alpha;) * p(r = R / s, a, s')</td>
+</tr>
+
+<tr>
+<td class="org-left">low</td>
+<td class="org-left">search</td>
+<td class="org-left">high</td>
+<td class="org-left">-3</td>
+<td class="org-left">1 - &beta;</td>
+<td class="org-left">(1 - &beta;) * p(r = R / s, a, s')</td>
+</tr>
+
+<tr>
+<td class="org-left">low</td>
+<td class="org-left">search</td>
+<td class="org-left">low</td>
+<td class="org-left">r<sub>search</sub></td>
+<td class="org-left">&beta;</td>
+<td class="org-left">&beta; * p(r = R / s, a, s')</td>
+</tr>
+
+<tr>
+<td class="org-left">high</td>
+<td class="org-left">wait</td>
+<td class="org-left">high</td>
+<td class="org-left">r<sub>wait</sub></td>
+<td class="org-left">1</td>
+<td class="org-left">1 * p(r = R / s, a, s')</td>
+</tr>
+
+<tr>
+<td class="org-left">low</td>
+<td class="org-left">wait</td>
+<td class="org-left">low</td>
+<td class="org-left">r<sub>wait</sub></td>
+<td class="org-left">1</td>
+<td class="org-left">1 * p(r = R / s, a, s')</td>
+</tr>
+
+<tr>
+<td class="org-left">low</td>
+<td class="org-left">recharge</td>
+<td class="org-left">high</td>
+<td class="org-left">0</td>
+<td class="org-left">1</td>
+<td class="org-left">1 * p(r = R / s, a, s')</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+I am a bit confused by this because it doesn't look like there's anything about the probability of a specific reward, but I guess in concept it should be this right? 
+</p>
+
+<p>
+Exercise 3.5 The equations in Section 3.1 are for the continuing case and need to be
+modified (very slightly) to apply to episodic tasks. Show that you know the modifications
+needed by giving the modified version of (3.3).
+</p>
+
+<p>
+continuing case:
+</p>
+
+<p>
+\(\sum_{s' \in S} \sum_{r \in R} p(s', r | s, a) = 1 \text{ for all } s \in S, a \in A(s)\)
+</p>
+
+<p>
+episodic case:
+</p>
+
+<p>
+\(\sum_{s' \in S \cup T} \sum_{r \in R} p(s', r | s, a) = 1 \text{ for all } s \in S, a \in A(s) \text{ where T is the set of terminal states }\)
+</p>
+
+<p>
+Exercise 3.6 Suppose you treated pole-balancing as an episodic task but also used
+discounting, with all rewards zero except for -1 upon failure. What then would the
+return be at each time? How does this return differ from that in the discounted, continuing
+formulation of this task? ⇤
+</p>
+
+<p>
+\(G_t = \sum_{k=0}^{T} \gamma^k R_{t+k+1}\)
+</p>
+
+<p>
+Since R is always 0 except at the terminal state, we can just write this simply as
+</p>
+
+<p>
+\(G_t = -\gamma^T\)
+</p>
+
+<p>
+This differs from the discounted, continuing formulation of this task because the reward in the continuous case the model will get negative reward every time it's not balancing, but if it falls it can right itself again to resume having no penalty. In the episodic case, it will just reset so that you start again, and you're directly maximizing the time to first failure rather than the minimum number of failures as late as possible.
+</p>
+
+<p>
+Exercise 3.7 Imagine that you are designing a robot to run a maze. You decide to give it a
+reward of +1 for escaping from the maze and a reward of zero at all other times. The task
+seems to break down naturally into episodes—the successive runs through the maze—so
+you decide to treat it as an episodic task, where the goal is to maximize expected total
+reward (3.7). After running the learning agent for a while, you find that it is showing
+no improvement in escaping from the maze. What is going wrong? Have you effectively
+communicated to the agent what you want it to achieve? ⇤
+</p>
+
+<p>
+If you do this, the agent will try to get out of the maze eventually, with no rush at all for how long that takes. As a result, with a long enough time horizon, taking enough random actions will eventually reach the terminal state, and all trials will have the same reward (+1). You aren't making it learn the maze, you're just asking it to exist until the terminal state is reached, and then rewarding it. What you would prefer is punishing -1 for every time step, so that the agent is rewarded for getting out faster, which will incentivize it to actually learn to escape the maze. 
+</p>
+
+<p>
+Exercise 3.8 Suppose &gamma; = 0.5 and the following sequence of rewards is received R1 = 1,
+R2 = 2, R3 = 6, R4 = 3, and R5 = 2, with T = 5. What are G0, G1, &#x2026;, G5? Hint:
+Work backwards. ⇤
+</p>
+
+<p>
+G<sub>0</sub> = r<sub>1</sub> + &gamma; G<sub>1</sub>
+G<sub>1</sub> = r<sub>2</sub> + &gamma; G<sub>2</sub>
+G<sub>2</sub> = r<sub>3</sub> + &gamma; G<sub>3</sub>
+G<sub>3</sub> = r<sub>4</sub> + &gamma; G<sub>4</sub>
+G<sub>4</sub> = r<sub>5</sub> + &gamma; G<sub>5</sub>
+G<sub>5</sub> = 0
+</p>
+
+<p>
+G<sub>4</sub> = 2 + 0 = 2
+G<sub>3</sub> = 3 + 0.5 * 2 = 4
+G<sub>2</sub> = 6 + 0.5 * 4 = 8
+G<sub>1</sub> = 2 + 0.5 * 8 = 6
+G<sub>0</sub> = 1 + 0.5 * 6 = 4
+</p>
+
+<p>
+Exercise 3.9 Suppose &gamma; = 0.9 and the reward sequence is R1 = 2 followed by an infinite
+sequence of 7s. What are G1 and G0? ⇤
+</p>
+
+<p>
+\(G_1 = 7 + \gamma G_2\)
+</p>
+
+<p>
+\(G_2 = 7 \sum_{k=0}^{\infty} \gamma^k = \frac{7}{1 - \gamma} = 70\)
+</p>
+
+<p>
+\(G_1 = 7 + 0.9*70 = 70\)
+</p>
+
+<p>
+\(G_0 = 2 + 0.9*70 = 65\)
+</p>
+
+<p>
+Exercise 3.10 Prove the second equality in (3.10). ⇤
+</p>
+
+<p>
+\(G_0 = \sum_{k=0}^{\infty} \gamma^k\) is the geometric series.
+</p>
+
+<p>
+\(G_0 = \gamma^0 + \gamma^1 + \gamma^2 + \gamma^3 + ... + \gamma^\infty\)
+</p>
+
+<p>
+\(G_0 = 1 + \gamma (1 + \gamma + \gamma^2 + ... + \gamma^\infty)\)
+</p>
+
+<p>
+\(G_0 = 1 + \gamma G_0\)
+</p>
+
+<p>
+\(G_0 = 1 + \gamma G_0\)
+</p>
+
+<p>
+\(G_0 - \gamma G_0 = 1\)
+</p>
+
+<p>
+\(G_0 (1 - \gamma) = 1\)
+</p>
+
+<p>
+\(G_0 = 1 / (1 - \gamma)\)
+</p>
+
+<p>
+Exercise 3.11 If the current state is St, and actions are selected according to a stochastic
+policy &pi;, then what is the expectation of Rt+1 in terms of &pi; and the four-argument
+function p (3.2)? ⇤
+</p>
+
+<p>
+Framing this as an expectation means we need to sum across all possible actions
+</p>
+
+<p>
+\(\sum_{a} \pi(a | S_t) \sum_{s', r} r * p(r| s', a)\)
+</p>
+
+<p>
+Exercise 3.12 Give an equation for v⇡ in terms of q⇡ and &pi;. ⇤
+</p>
+
+<p>
+\(v_\pi(s) \doteq E_\pi[G_t | S_t = s]\)
+</p>
+
+<p>
+\(q_\pi(s, a) \doteq E_\pi[G_t | S_t = s, A_t = a]\)
+</p>
+
+<p>
+&#x2014;
+</p>
+
+<p>
+To write in terms of q we just need to marginalize over all actions
+</p>
+
+<p>
+\(v_\pi(s) \doteq \sum_{a} \pi(a|s) E_\pi[G_t | S_t = s, A_t = a]\)
+</p>
+
+<p>
+that last term is the same as q
+</p>
+
+<p>
+\(v_\pi(s) \doteq \sum_{a} \pi(a|s) q_\pi(s, a)\)
+</p>
+
+<p>
+Exercise 3.13 Give an equation for q⇡ in terms of v⇡ and the four-argument p. ⇤
+</p>
+
+<p>
+\(q_\pi(s, a) \doteq E_\pi[G_t | S_t = s, A_t = a]\)
+</p>
+
+<p>
+Expanding out G<sub>t</sub>
+</p>
+
+<p>
+\(q_\pi(s, a) \doteq E_\pi[R_{t+1} + \gamma G_{t+1} | S_t = s, A_t = a]\)
+</p>
+
+<p>
+Now we can condition on the next state to get v
+</p>
+
+<p>
+\(q_\pi(s, a) \doteq E_\pi[R_{t+1} + \gamma E[G_{t+1} | S_{t+1}] | S_t = s, A_t = a]\)
+</p>
+
+<p>
+\(q_\pi(s, a) \doteq E_\pi[R_{t+1} + \gamma v_\pi(S_{t+1}) | S_t = s, A_t = a]\)
+</p>
+
+<p>
+and now since we have something with the shape (s', r | s, a) we can undo the expectation using the 4 argument p
+</p>
+
+<p>
+\(q_\pi(s, a) \doteq \sum_{s'} \sum_{r} p(s', r | s, a) * [r + \gamma v_\pi(s')]\)
+</p>
+
+<p>
+Exercise 3.14 The Bellman equation (3.14) must hold for each state for the value function
+v⇡ shown in Figure 3.2 (right) of Example 3.5. Show numerically that this equation holds
+for the center state, valued at +0.7, with respect to its four neighboring states, valued at
++2.3, +0.4, 0.4, and +0.7. (These numbers are accurate only to one decimal place.) ⇤
+</p>
+
+<p>
+The four actions are equally likely, discount factor is 0.9
+</p>
+
+<p>
+the discounted other rewards are 2.07, 0.36, 0.36, 0.63
+</p>
+
+<p>
+\(0.7 = \sum_{a} 1/4 \sum_{s, r} 1[r + \text{discounted reward}]\)
+</p>
+
+<p>
+\(0.7 = \frac{1}{4} (0 + 2.07) + \frac{1}{4} (0 + 0.36) + \frac{1}{4} (0 + 0.36) + \frac{1}{4} (0 + 0.63)\)
+</p>
+
+<p>
+\(0.7 = 0.5175 + .009 + .009 + .1575\)
+</p>
+
+<p>
+0.7 = 0.693 (accurate enough to the tenth)
+</p>
+
+<p>
+Exercise 3.15 In the gridworld example, rewards are positive for goals, negative for
+running into the edge of the world, and zero the rest of the time. Are the signs of these
+rewards important, or only the intervals between them? Prove, using (3.8), that adding a
+constant c to all the rewards adds a constant, vc, to the values of all states, and thus
+does not affect the relative values of any states under any policies. What is vc in terms
+of c and ? ⇤
+</p>
+
+<p>
+Only the differences are important if we're trying to maximize it, the signs are mostly useful to semantically describe which are rewards and which are punishments. The advantage of a good state over a bad one exists independent of sign. 
+</p>
+
+<p>
+\(G_t \doteq \sum_{k=0}^{\infty} \gamma^k R_{t+k+1}\)
+</p>
+
+<p>
+\(G_t \doteq \sum_{k=0}^{\infty} \gamma^k (R_{t+k+1} + c)\)
+</p>
+
+<p>
+\(G_t \doteq \sum_{k=0}^{\infty} [\gamma^k R_{t+k+1} + \gamma^k c]\)
+</p>
+
+<p>
+\(G_t \doteq \sum_{k=0}^{\infty} \gamma^k R_{t+k+1} + \sum_{k=0}^{\infty} \gamma^k c\)
+</p>
+
+<p>
+Since it's a constant term (i.e. a sum of constants) We can define \(v_c = \sum_{k=0}^{\infty} \gamma^k c\) so \(G_t \doteq \sum_{k=0}^{\infty} \gamma^k R_{t+k+1} + v_c\)
+</p>
+
+<p>
+Ergo, the relative value of the states will not change, because no matter what you will be adding \(v_c\) to the state, which does not change from state to state.
+</p>
+
+<p>
+Exercise 3.16 Now consider adding a constant c to all the rewards in an episodic task,
+such as maze running. Would this have any e↵ect, or would it leave the task unchanged
+as in the continuing task above? Why or why not? Give an example. ⇤
+</p>
+
+<p>
+In an episodic task, it does cause problems to add a constant to all values. Consider maze running. If you have a negative reward for each non-solved turn, and then a big positive reward at the end, your total reward is maximized by getting out of the maze as fast as possible. If you have a small positive reward for each non-solved turn, and then an even bigger reward at the end, your total reward is now maximized by existing in the maze for all eternity, since eventually you will accumulate more reward by deliberately not finding the exit and bounding your reward. 
+</p>
+
+<p>
+Exercise 3.17 What is the Bellman equation for action values, that
+is, for q<sub>&pi;</sub>? It must give the action value q<sub>&pi;</sub>(s, a) in terms of the action
+values, q<sub>\i</sub>(s', a'), of possible successors to the state–action pair (s, a).
+Hint: The backup diagram to the right corresponds to this equation.
+Show the sequence of equations analogous to (3.14), but for action
+values.
+</p>
+
+<p>
+Well let's start from bellman equation for values
+</p>
+
+<p>
+\(v_\pi(s) \doteq \sum_{a} \pi(a|s) \sum_{s', r} p(s', r | s, a) [r + \gamma v_\pi(s')]\)
+</p>
+
+<p>
+We've already shown we can write v in terms of q
+</p>
+
+<p>
+\(v_\pi(s) \doteq \sum_{a} \pi(a|s) q_\pi(s, a)\)
+</p>
+
+<p>
+so it seems to emerge that we can just do this
+</p>
+
+<p>
+\(q_\pi(s, a) \doteq \sum_{s', r} p(s', r | s, a) [r + \gamma v_\pi(s')]\)
+</p>
+
+<p>
+<i>o1: this might be wrong?</i>
+</p>
+
+<p>
+Exercise 3.18 The value of a state depends on the values of the actions possible in that
+state and on how likely each action is to be taken under the current policy. We can
+think of this in terms of a small backup diagram rooted at the state and considering each
+possible action:
+</p>
+
+<p>
+Give the equation corresponding to this intuition and diagram for the value at the root
+node, v⇡(s), in terms of the value at the expected leaf node, q⇡(s, a), given St = s. This
+equation should include an expectation conditioned on following the policy, ⇡. Then give
+a second equation in which the expected value is written out explicitly in terms of ⇡(a|s)
+such that no expected value notation appears in the equation. ⇤
+</p>
+
+<p>
+\(v_\pi(s) \doteq \mathbb{E}[q_\pi(s, a) | s = S_t]\)
+</p>
+
+<p>
+\(v_\pi(s) \doteq \sum_{a} \pi(a|s) q_\pi(s, a)\)
+</p>
+
+<p>
+Exercise 3.19 The value of an action, q⇡(s, a), depends on the expected next reward and
+the expected sum of the remaining rewards. Again we can think of this in terms of a
+small backup diagram, this one rooted at an action (state–action pair) and branching to
+the possible next states:
+</p>
+
+<p>
+Give the equation corresponding to this intuition and diagram for the action value,
+q⇡(s, a), in terms of the expected next reward, Rt+1, and the expected next state value,
+v⇡(St+1), given that St =s and At =a. This equation should include an expectation but
+not one conditioned on following the policy. Then give a second equation, writing out the
+expected value explicitly in terms of p(s', r|s, a) defined by (3.2), such that no expected
+value notation appears in the equation. ⇤
+</p>
+
+<p>
+\(q_\pi(s, a) \doteq \mathbb{E}[R_{t+1} + \gamma v_\pi(s') | s = S_t, a = A_t]\)
+</p>
+
+<p>
+\(q_\pi(s, a) \doteq \sum_{s', r} p(s' r | s, a) [r + \gamma v_\pi(s')]\) 
+</p>
+
+<p>
+Exercise 3.20 Draw or describe the optimal state-value function for the golf example. ⇤
+</p>
+
+<p>
+In the golf example the optimal state value function is \(max_a \sum_{s', r} p(s' r | s, a)[r + \gamma max_a q_*(s', a')]\)
+</p>
+
+<p>
+As a result, the state-value function should look like the listed q*(s, driver) contours but with the values subtracted by 1, since the cost of the action is -1 
+</p>
+
+<p>
+Exercise 3.21 Draw or describe the contours of the optimal action-value function for
+putting, q⇤(s, putter), for the golf example. ⇤
+</p>
+
+<p>
+it will have the same first contour as v<sub>putt</sub>, but then it will have the contours of v<sub>driver</sub>, until you get to the green, which will entirely be -1 (return to putting)
+</p>
+
+<p>
+Exercise 3.22 Consider the continuing MDP shown to the
+right. The only decision to be made is that in the top state,
+where two actions are available, left and right. The numbers
+show the rewards that are received deterministically after
+each action. There are exactly two deterministic policies,
+⇡left and ⇡right. What policy is optimal if &gamma; = 0? If &gamma; = 0.9?
+If &gamma; = 0.5? ⇤
+</p>
+
+<p>
+if &gamma; is zero, future rewards will be ignored, and you'll prefer &pi;<sub>left</sub> which provides immediate reward. With &gamma; = 0.9, you'll prefer &pi;<sub>right</sub> since you'll care a lot about the resulting +2 after the first state. At &gamma; = 0.5, both policies are equivalent, since left is \(1 + 0.5(0) + 0.25 R_{t+3}\) and right is \(0 + 0.5(2) + 0.25 R_{t+3}\). 
+</p>
+
+<p>
+Exercise 3.23 Give the Bellman equation for q<sub>*</sub> for the recycling robot. ⇤
+</p>
+
+<p>
+Given that v<sub>*</sub> is provided in the text, and v<sub>*</sub>(s) = max q<sub>*</sub>(s, a), we can just say
+</p>
+
+<p>
+\(q_*(s, a) = \sum_{s', r} p(s', r | s, a) [r + \gamma v_*(s')]\)
+</p>
+
+<p>
+where v<sub>*</sub>(s') are the provided optimality equations for the recycling robot from the text.
+</p>
+
+<p>
+I don't really want to write it all out in tex. I can revisit this if necessary.
+</p>
+
+<p>
+Exercise 3.24 Figure 3.5 gives the optimal value of the best state of the gridworld as
+24.4, to one decimal place. Use your knowledge of the optimal policy and (3.8) to express
+this value symbolically, and then to compute it to three decimal places. ⇤
+</p>
+
+<p>
+Recall the bellman equation
+</p>
+
+<p>
+\(v_\pi(s) = \sum_{a} \pi(a|s) \sum_{s, r} p(s' r | s, a) [r + \gamma v_\pi(s')]\)
+</p>
+
+<p>
+In our case, we have a reward of 10, a fixed action, and a certain probability of identical reward and state transition. So:
+</p>
+
+<p>
+\(v_*(s) = 10 + \gamma v_*(s')\)
+</p>
+
+<p>
+We know that v<sub>*</sub>(s') here is 16, and I think it was mentioned that &gamma; was 0.9
+</p>
+
+<p>
+Ergo \(v_*(s) = 10 + 0.9(16) = 24.400\)
+</p>
+
+<p>
+A bit confused about this problem, I guess I could chain it together until I arrive back at v<sub>*</sub> but I don't really feel like doing that at the moment.
+</p>
+
+<p>
+Exercise 3.25 Give an equation for v<sub>*</sub> in terms of q<sub>*</sub>. ⇤
+</p>
+
+<p>
+Isn't this just \(v_* = max_a q_*(s, a)\)
+</p>
+
+<p>
+Exercise 3.26 Give an equation for q⇤ in terms of v⇤ and the four-argument p. ⇤
+</p>
+
+<p>
+This was already in the text I think, it's \(q_*(s, a) = \sum_{s', r} p(s', r | s, a) [r + \gamma v_*(s')]\)
+</p>
+
+<p>
+Exercise 3.27 Give an equation for &pi;<sub>*</sub> in terms of q<sub>*</sub>. ⇤
+</p>
+
+<p>
+\(\pi_*(a | s) = \mathbbm{1}[q_*(s, a) = max_{a \in A}(q_*(s, a))]\)
+</p>
+
+<p>
+Exercise 3.28 Give an equation for &pi;<sub>*</sub> in terms of v<sub>*</sub> and the four-argument p. ⇤
+</p>
+
+<p>
+\(\pi_*(a | s) = \mathbbm{1}[\sum_{s', r} p(s', r | s, a) [r + \gamma v_*(s')] = max_{a}(\sum_{s', r} p(s', r | s, a) [r + \gamma v_*(s')])]\)
+</p>
+
+<p>
+Exercise 3.29 Rewrite the four Bellman equations for the four value functions (v<sub>&pi;</sub>, v<sub>*</sub>, q<sub>&pi;</sub>,
+and q<sub>*</sub>) in terms of the three argument function p (3.4) and the two-argument function r
+(3.5). ⇤
+</p>
+
+<p>
+\(v_\pi(s) = \sum_{a} \pi(a|s) [r(s, a) + \gamma \sum_{s'} p(s' | s, a) v_\pi(s')]\)
+</p>
+
+<p>
+\(v_*(s) = max_{a \in A} [r(s,a) + \gamma \sum_{s'} p(s'|s, a) v_*(s')]\)
+</p>
+
+<p>
+\(q_\pi(s, a) = r(s, a) + \gamma \sum_{s'} p(s' | s, a) \sum_{a'} \pi(a' | s') q_\pi(s', a')\)
+</p>
+
+<p>
+\(q_*(s, a) = r(s, a) + \gamma \sum_{s'} p(s' | s,a) max_{a'}q_*(s', a')\)
+</p>
+
+<p>
+<i>status: kinda rocky, but checked with o1-preview</i>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org80a59a0" class="outline-3">
+<h3 id="org80a59a0">4</h3>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+</div>
+</body>
+</html>
