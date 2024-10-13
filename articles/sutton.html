@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-10-12 Sat 22:31 -->
+<!-- 2024-10-12 Sat 22:38 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>&lrm;</title>
@@ -377,105 +377,72 @@ action-value method using a constant step-size parameter, &alpha; = 0.1. Use &ep
 longer runs, say of 10,000 steps
 </p>
 
-<div class="EMBED" id="orgee900ff">
-<p>
-import numpy as np
+<div class="org-src-container">
+<pre class="src src-python">import numpy as np
 import matplotlib.pyplot as plt
-</p>
 
-<p>
+# define k armed bandit
 k = 10
-q<sub>stars</sub> = [5 for _ in range(k)]
-</p>
+q_stars = [5 for _ in range(k)]
 
-<p>
-def run<sub>experiment</sub>(epsilon, method='constant'):
-</p>
+def run_experiment(epsilon, method='constant'):
 
-<p>
-num<sub>acts</sub> = [0 for _ in q<sub>stars</sub>]
-q<sub>vals</sub> = [0 for _ in q<sub>stars</sub>]
-</p>
+    num_acts = [0 for _ in q_stars]
+    q_vals = [0 for _ in q_stars]
 
-<p>
-if method == 'constant':
-    alpha = 0.1
-</p>
+    if method == 'constant':
+	alpha = 0.1
 
-<p>
-steps = 10000
-</p>
+    steps = 10000
 
-<p>
-avg<sub>rewards</sub> = []
-pct<sub>optimals</sub> = []
-avg<sub>reward</sub> = 0
-optimal<sub>actions</sub> = 0
-</p>
+    avg_rewards = []
+    pct_optimals = []
+    avg_reward = 0
+    optimal_actions = 0
 
-<p>
-for step in range(steps):
-    if method != 'constant':
-	alpha = 1 / (step + 1)
-</p>
+    for step in range(steps):
+	if method != 'constant':
+	    alpha = 1 / (step + 1)
 
-<p>
-for i, bandit in enumerate(q<sub>stars</sub>):
-    q<sub>stars</sub>[i] += np.random.normal(0, 0.01)
-</p>
+	# random walks
+	for i, bandit in enumerate(q_stars):
+	    q_stars[i] += np.random.normal(0, 0.01)
 
-<p>
-if np.random.random() &lt; epsilon:
-    act = np.random.randint(0, k)
-else:
-    act = np.argmax(q<sub>vals</sub>)
-</p>
+	# epsilon-greedy
+	if np.random.random() &lt; epsilon:
+	    act = np.random.randint(0, k)
+	else:
+	    act = np.argmax(q_vals)
 
-<p>
-num<sub>acts</sub>[act] += 1
-q<sub>vals</sub>[act] += alpha * (q<sub>stars</sub>[act] - q<sub>vals</sub>[act])
-</p>
+	num_acts[act] += 1
+	q_vals[act] += alpha * (q_stars[act] - q_vals[act])
 
-<p>
-avg<sub>reward</sub> += (1 / (step + 1)) * q<sub>stars</sub>[act]
-avg<sub>rewards.append</sub>(avg<sub>reward</sub>)
-</p>
+	avg_reward += (1 / (step + 1)) * q_stars[act]
+	avg_rewards.append(avg_reward)
 
-<p>
-if act <code>= np.argmax(q_stars):
-            optimal_actions +</code> 1
-</p>
+	if act == np.argmax(q_stars):
+	    optimal_actions += 1
 
-<p>
-pct<sub>optimal</sub> = optimal<sub>actions</sub> / (step + 1)
-pct<sub>optimals.append</sub>(pct<sub>optimal</sub>)
-</p>
+	pct_optimal = optimal_actions / (step + 1)
+	pct_optimals.append(pct_optimal)
 
-<p>
-return avg<sub>rewards</sub>, pct<sub>optimals</sub>
-</p>
+    return avg_rewards, pct_optimals
 
-<p>
-const<sub>rewards</sub>, const<sub>optimals</sub> = run<sub>experiment</sub>(0.1, method='constant')
-avg<sub>rewards</sub>, avg<sub>optimals</sub> = run<sub>experiment</sub>(0.1, method='average')
-</p>
+const_rewards, const_optimals = run_experiment(0.1, method='constant')
+avg_rewards, avg_optimals = run_experiment(0.1, method='average')
 
-<p>
 plt.title("Average rewards")
-plt.plot(const<sub>rewards</sub>, label='constant alpha')
-plt.plot(avg<sub>rewards</sub>, label='averaging')
+plt.plot(const_rewards, label='constant alpha')
+plt.plot(avg_rewards, label='averaging')
 plt.legend()
 plt.show()
-</p>
 
-<p>
 plt.title("Optimal actions")
-plt.plot(const<sub>optimals</sub>, label='constant alpha')
-plt.plot(avg<sub>optimals</sub>, label='averaging')
+plt.plot(const_optimals, label='constant alpha')
+plt.plot(avg_optimals, label='averaging')
 plt.legend()
 plt.show()
-</p>
-
+</pre>
 </div>
 
 <p>
@@ -517,104 +484,72 @@ Carry out an analysis like that in (2.6) to show that Qn is an exponential recen
 average without initial bias.
 </p>
 
-<div class="EMBED" id="org05b2f71">
-<p>
-import numpy as np
+<div class="org-src-container">
+<pre class="src src-python">import numpy as np
 import matplotlib.pyplot as plt
-</p>
 
-<p>
+# define k armed bandit
 k = 10
-q<sub>stars</sub> = [np.random.normal(0, 1) for _ in range(k)]
-</p>
+q_stars = [np.random.normal(0, 1) for _ in range(k)]
 
-<p>
-def run<sub>experiment</sub>(epsilon, method='constant'):
-</p>
+def run_experiment(epsilon, method='constant'):
 
-<p>
-num<sub>acts</sub> = [0 for _ in q<sub>stars</sub>]
-q<sub>vals</sub> = [5 for _ in q<sub>stars</sub>] #optimistic reward
-</p>
+    num_acts = [0 for _ in q_stars]
+    q_vals = [5 for _ in q_stars] #optimistic reward
 
-<p>
-if method == 'constant':
-    alpha = 0.1
-    o<sub>bar</sub> = 0
-</p>
+    if method == 'constant':
+	alpha = 0.1
+	o_bar = 0
 
-<p>
-steps = 10000
-</p>
+    steps = 10000
 
-<p>
-avg<sub>rewards</sub> = []
-pct<sub>optimals</sub> = []
-avg<sub>reward</sub> = 0
-optimal<sub>actions</sub> = 0
-</p>
+    avg_rewards = []
+    pct_optimals = []
+    avg_reward = 0
+    optimal_actions = 0
 
-<p>
-for step in range(steps):
-    if method <code>= 'constant':
-            o_bar +</code> alpha * (1 - o<sub>bar</sub>)
-	beta = alpha / o<sub>bar</sub>
-    else:
-	beta = 1 / (step + 1)
-</p>
+    for step in range(steps):
+	if method == 'constant':
+	    o_bar += alpha * (1 - o_bar)
+	    beta = alpha / o_bar
+	else:
+	    beta = 1 / (step + 1)
 
-<p>
-if np.random.random() &lt; epsilon:
-    act = np.random.randint(0, k)
-else:
-    act = np.argmax(q<sub>vals</sub>)
-</p>
+	# epsilon-greedy
+	if np.random.random() &lt; epsilon:
+	    act = np.random.randint(0, k)
+	else:
+	    act = np.argmax(q_vals)
 
-<p>
-num<sub>acts</sub>[act] += 1
-q<sub>vals</sub>[act] += beta * (q<sub>stars</sub>[act] - q<sub>vals</sub>[act])
-</p>
+	num_acts[act] += 1
+	q_vals[act] += beta * (q_stars[act] - q_vals[act])
 
-<p>
-avg<sub>reward</sub> += (1 / (step + 1)) * q<sub>stars</sub>[act]
-avg<sub>rewards.append</sub>(avg<sub>reward</sub>)
-</p>
+	avg_reward += (1 / (step + 1)) * q_stars[act]
+	avg_rewards.append(avg_reward)
 
-<p>
-if act <code>= np.argmax(q_stars):
-            optimal_actions +</code> 1
-</p>
+	if act == np.argmax(q_stars):
+	    optimal_actions += 1
 
-<p>
-pct<sub>optimal</sub> = optimal<sub>actions</sub> / (step + 1)
-pct<sub>optimals.append</sub>(pct<sub>optimal</sub>)
-</p>
+	pct_optimal = optimal_actions / (step + 1)
+	pct_optimals.append(pct_optimal)
 
-<p>
-return avg<sub>rewards</sub>, pct<sub>optimals</sub>
-</p>
+    return avg_rewards, pct_optimals
 
-<p>
-const<sub>rewards</sub>, const<sub>optimals</sub> = run<sub>experiment</sub>(0.1, method='constant')
-avg<sub>rewards</sub>, avg<sub>optimals</sub> = run<sub>experiment</sub>(0.1, method='average')
-</p>
+const_rewards, const_optimals = run_experiment(0.1, method='constant')
+avg_rewards, avg_optimals = run_experiment(0.1, method='average')
 
-<p>
 plt.title("Average rewards")
-plt.plot(const<sub>rewards</sub>, label='constant alpha')
-plt.plot(avg<sub>rewards</sub>, label='averaging')
+plt.plot(const_rewards, label='constant alpha')
+plt.plot(avg_rewards, label='averaging')
 plt.legend()
 plt.show()
-</p>
 
-<p>
 plt.title("Optimal actions")
-plt.plot(const<sub>optimals</sub>, label='constant alpha')
-plt.plot(avg<sub>optimals</sub>, label='averaging')
+plt.plot(const_optimals, label='constant alpha')
+plt.plot(avg_optimals, label='averaging')
 plt.legend()
 plt.show()
-</p>
-
+</pre>
 </div>
 
 <p>
@@ -705,116 +640,82 @@ case outlined in Exercise 2.5. Include the constant-step-size &epsilon;-greedy a
 parameter setting, use the average reward over the last 100,000 steps.
 </p>
 
-<div class="EMBED" id="orga190d6c">
-<p>
-import numpy as np
+<div class="org-src-container">
+<pre class="src src-python">import numpy as np
 import matplotlib.pyplot as plt
-</p>
 
-<p>
+# define k armed bandit
 k = 10
-q<sub>stars</sub> = [np.random.normal(0, 1) for _ in range(k)]
-</p>
+q_stars = [np.random.normal(0, 1) for _ in range(k)]
 
-<p>
-def run<sub>experiment</sub>(epsilon, method='constant'):
-</p>
+def run_experiment(epsilon, method='constant'):
 
-<p>
-num<sub>acts</sub> = [0 for _ in q<sub>stars</sub>]
-</p>
+    num_acts = [0 for _ in q_stars]
 
-<p>
-if method == 'optimistic':
-    q<sub>vals</sub> = [5 for _ in q<sub>stars</sub>]
-else:
-    q<sub>vals</sub> = [0 for _ in q<sub>stars</sub>]
-</p>
-
-<p>
-#do they want the unbiased one?
-if method <code>= 'constant' or method =</code> 'optimistic': 
-    alpha = 0.1
-    o<sub>bar</sub> = 0
-</p>
-
-<p>
-steps = 200000
-</p>
-
-<p>
-avg<sub>rewards</sub> = []
-pct<sub>optimals</sub> = []
-avg<sub>reward</sub> = 0
-optimal<sub>actions</sub> = 0
-</p>
-
-<p>
-for step in range(steps):
-    if method <code>= 'constant' or method =</code> 'optimistic':
-	o<sub>bar</sub> += alpha * (1 - o<sub>bar</sub>)
-	beta = alpha / o<sub>bar</sub>
+    if method == 'optimistic':
+	q_vals = [5 for _ in q_stars]
     else:
-	beta = 1 / (step + 1)
-</p>
+	q_vals = [0 for _ in q_stars]
 
-<p>
-if method != 'ucb' and np.random.random() &lt; epsilon:
-    act = np.random.randint(0, k)
-elif method == 'ucb':
-    ucbs = [q<sub>vals</sub>[i] + np.sqrt(epsilon * np.log(step+1) / \
-				num<sub>acts</sub>[i]) for i in range(k)]
-    act = np.argmax(ucbs)
-else:
-    act = np.argmax(q<sub>vals</sub>)
-</p>
+    #do they want the unbiased one?
+    if method == 'constant' or method == 'optimistic': 
+	alpha = 0.1
+	o_bar = 0
 
-<p>
-num<sub>acts</sub>[act] += 1
-q<sub>vals</sub>[act] += beta * (q<sub>stars</sub>[act] - q<sub>vals</sub>[act])
-</p>
+    steps = 200000
 
-<p>
-avg<sub>reward</sub> += (1 / (step + 1)) * q<sub>stars</sub>[act]
-avg<sub>rewards.append</sub>(avg<sub>reward</sub>)
-</p>
+    avg_rewards = []
+    pct_optimals = []
+    avg_reward = 0
+    optimal_actions = 0
 
-<p>
-if act <code>= np.argmax(q_stars):
-            optimal_actions +</code> 1
-</p>
+    for step in range(steps):
+	if method == 'constant' or method == 'optimistic':
+	    o_bar += alpha * (1 - o_bar)
+	    beta = alpha / o_bar
+	else:
+	    beta = 1 / (step + 1)
 
-<p>
-pct<sub>optimal</sub> = optimal<sub>actions</sub> / (step + 1)
-pct<sub>optimals.append</sub>(pct<sub>optimal</sub>)
-</p>
+	# epsilon-greedy
+	if method != 'ucb' and np.random.random() &lt; epsilon:
+	    act = np.random.randint(0, k)
+	elif method == 'ucb':
+	    ucbs = [q_vals[i] + np.sqrt(epsilon * np.log(step+1) / \
+					num_acts[i]) for i in range(k)]
+	    act = np.argmax(ucbs)
+	else:
+	    act = np.argmax(q_vals)
 
-<p>
-return np.mean(avg<sub>rewards</sub>[:100000])
-</p>
+	num_acts[act] += 1
+	q_vals[act] += beta * (q_stars[act] - q_vals[act])
+
+	avg_reward += (1 / (step + 1)) * q_stars[act]
+	avg_rewards.append(avg_reward)
+
+	if act == np.argmax(q_stars):
+	    optimal_actions += 1
+
+	pct_optimal = optimal_actions / (step + 1)
+	pct_optimals.append(pct_optimal)
+
+    return np.mean(avg_rewards[:100000])
 
 
-<p>
 vals = [1/128, 1/64, 1/32, 1/16, 1/8, 1/4, 1/2, 1, 2, 4]
-</p>
 
-<p>
-const<sub>rewards</sub> = [run<sub>experiment</sub>(x, method='constant') for x in vals]
-optimistic<sub>rewards</sub> = [run<sub>experiment</sub>(x, method='optimistic') for x in vals]
-ucb<sub>rewards</sub> = [run<sub>experiment</sub>(x, method='ucb') for x in vals]
-</p>
+const_rewards = [run_experiment(x, method='constant') for x in vals]
+optimistic_rewards = [run_experiment(x, method='optimistic') for x in vals]
+ucb_rewards = [run_experiment(x, method='ucb') for x in vals]
 
-<p>
 plt.title("Parameter Study")
-plt.plot(vals, const<sub>rewards</sub>, label='eps-greedy')
-plt.plot(vals, optimistic<sub>rewards</sub>, label='optimistic eps-greedy')
-plt.plot(vals, ucb<sub>rewards</sub>, label='UCB')
+plt.plot(vals, const_rewards, label='eps-greedy')
+plt.plot(vals, optimistic_rewards, label='optimistic eps-greedy')
+plt.plot(vals, ucb_rewards, label='UCB')
 plt.xlabel("epsilon")
 plt.ylabel("Average reward over last 100k steps")
 plt.legend()
 plt.show()
-</p>
-
+</pre>
 </div>
 
 <p>
@@ -1502,6 +1403,79 @@ and q<sub>*</sub>) in terms of the three argument function p (3.4) and the two-a
 
 <div id="outline-container-org80a59a0" class="outline-3">
 <h3 id="org80a59a0">4</h3>
+<div class="outline-text-3" id="text-org80a59a0">
+<p>
+Exercise 4.1 In Example 4.1, if &pi; is the equiprobable random policy, what is q<sub>&pi;</sub>(11, down)?
+What is q<sub>&pi;</sub>(7, down)?
+</p>
+
+<p>
+Exercise 4.2 In Example 4.1, suppose a new state 15 is added to the gridworld just below
+state 13, and its actions, left, up, right, and down, take the agent to states 12, 13, 14,
+and 15, respectively. Assume that the transitions from the original states are unchanged.
+What, then, is v<sub>&pi;</sub>(15) for the equiprobable random policy? Now suppose the dynamics of
+state 13 are also changed, such that action down from state 13 takes the agent to the new
+state 15. What is v<sub>&pi;</sub>(15) for the equiprobable random policy in this case? ⇤
+</p>
+
+<p>
+Exercise 4.3 What are the equations analogous to (4.3), (4.4), and (4.5), but for actionvalue functions instead of state-value functions?
+</p>
+
+<p>
+Exercise 4.4 The policy iteration algorithm on page 80 has a subtle bug in that it may
+never terminate if the policy continually switches between two or more policies that are
+equally good. This is okay for pedagogy, but not for actual use. Modify the pseudocode
+so that convergence is guaranteed. ⇤
+</p>
+
+<p>
+Exercise 4.5 How would policy iteration be defined for action values? Give a complete
+algorithm for computing q⇤, analogous to that on page 80 for computing v⇤. Please pay
+special attention to this exercise, because the ideas involved will be used throughout the
+rest of the book. ⇤
+</p>
+
+<p>
+Exercise 4.6 Suppose you are restricted to considering only policies that are "-soft,
+meaning that the probability of selecting each action in each state, s, is at least "/|A(s)|.
+Describe qualitatively the changes that would be required in each of the steps 3, 2, and 1,
+in that order, of the policy iteration algorithm for v⇤ on page 80. ⇤
+</p>
+
+<p>
+Exercise 4.7 (programming) Write a program for policy iteration and re-solve Jack’s car
+rental problem with the following changes. One of Jack’s employees at the first location
+rides a bus home each night and lives near the second location. She is happy to shuttle
+one car to the second location for free. Each additional car still costs $2, as do all cars
+moved in the other direction. In addition, Jack has limited parking space at each location.
+If more than 10 cars are kept overnight at a location (after any moving of cars), then an
+additional cost of $4 must be incurred to use a second parking lot (independent of how
+many cars are kept there). These sorts of nonlinearities and arbitrary dynamics often
+occur in real problems and cannot easily be handled by optimization methods other than
+dynamic programming. To check your program, first replicate the results given for the
+original problem.
+</p>
+
+<p>
+Exercise 4.8 Why does the optimal
+policy for the gambler’s problem have such a curious form? In particular, for capital of 50
+it bets it all on one flip, but for capital of 51 it does not. Why is this a good policy? ⇤
+</p>
+
+<p>
+Exercise 4.9 (programming) Implement value iteration for the gambler’s problem and
+solve it for ph = 0.25 and ph = 0.55. In programming, you may find it convenient to
+introduce two dummy states corresponding to termination with capital of 0 and 100,
+giving them values of 0 and 1 respectively. Show your results graphically, as in Figure 4.3.
+Are your results stable as ✓ ! 0? ⇤
+</p>
+
+<p>
+Exercise 4.10 What is the analog of the value iteration update (4.10) for action values,
+qk+1(s, a)? ⇤
+</p>
+</div>
 </div>
 </div>
 </div>

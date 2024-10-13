@@ -125,7 +125,7 @@ for an action-value method using sample averages, incrementally computed, and an
 action-value method using a constant step-size parameter, \alpha = 0.1. Use \epsilon = 0.1 and
 longer runs, say of 10,000 steps
 
-#+BEGIN_EMBED python
+#+BEGIN_SRC python
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -190,7 +190,7 @@ plt.plot(const_optimals, label='constant alpha')
 plt.plot(avg_optimals, label='averaging')
 plt.legend()
 plt.show()
-#+END_EMBED
+#+END_SRC
 
 Exercise 2.6: Mysterious Spikes The results shown in Figure 2.3 should be quite reliable
 because they are averages over 2000 individual, randomly chosen 10-armed bandit tasks.
@@ -217,7 +217,7 @@ step size, and ¯on is a trace of one that starts at 0:
 Carry out an analysis like that in (2.6) to show that Qn is an exponential recency-weighted
 average without initial bias.
 
-#+BEGIN_EMBED python
+#+BEGIN_SRC python
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -282,7 +282,7 @@ plt.plot(const_optimals, label='constant alpha')
 plt.plot(avg_optimals, label='averaging')
 plt.legend()
 plt.show()
-#+END_EMBED
+#+END_SRC
 
 /TODO: I think this question requires me to show that the weights sum to 1, not to implement it/
 
@@ -336,7 +336,7 @@ case outlined in Exercise 2.5. Include the constant-step-size \epsilon-greedy al
 \alpha = 0.1. Use runs of 200,000 steps and, as a performance measure for each algorithm and
 parameter setting, use the average reward over the last 100,000 steps.
 
-#+BEGIN_EMBED python
+#+BEGIN_SRC python
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -411,7 +411,7 @@ plt.xlabel("epsilon")
 plt.ylabel("Average reward over last 100k steps")
 plt.legend()
 plt.show()
-#+END_EMBED
+#+END_SRC
 
 /status: checked with o1-preview, need to fix 2.7 because code is not the correct deliverable/
 
@@ -760,3 +760,55 @@ $q_*(s, a) = r(s, a) + \gamma \sum_{s'} p(s' | s,a) max_{a'}q_*(s', a')$
 /status: kinda rocky, but checked with o1-preview/
 
 *** 4
+
+Exercise 4.1 In Example 4.1, if \pi is the equiprobable random policy, what is q_{\pi}(11, down)?
+What is q_{\pi}(7, down)?
+
+Exercise 4.2 In Example 4.1, suppose a new state 15 is added to the gridworld just below
+state 13, and its actions, left, up, right, and down, take the agent to states 12, 13, 14,
+and 15, respectively. Assume that the transitions from the original states are unchanged.
+What, then, is v_{\pi}(15) for the equiprobable random policy? Now suppose the dynamics of
+state 13 are also changed, such that action down from state 13 takes the agent to the new
+state 15. What is v_{\pi}(15) for the equiprobable random policy in this case? ⇤
+
+Exercise 4.3 What are the equations analogous to (4.3), (4.4), and (4.5), but for actionvalue functions instead of state-value functions?
+
+Exercise 4.4 The policy iteration algorithm on page 80 has a subtle bug in that it may
+never terminate if the policy continually switches between two or more policies that are
+equally good. This is okay for pedagogy, but not for actual use. Modify the pseudocode
+so that convergence is guaranteed. ⇤
+
+Exercise 4.5 How would policy iteration be defined for action values? Give a complete
+algorithm for computing q⇤, analogous to that on page 80 for computing v⇤. Please pay
+special attention to this exercise, because the ideas involved will be used throughout the
+rest of the book. ⇤
+
+Exercise 4.6 Suppose you are restricted to considering only policies that are "-soft,
+meaning that the probability of selecting each action in each state, s, is at least "/|A(s)|.
+Describe qualitatively the changes that would be required in each of the steps 3, 2, and 1,
+in that order, of the policy iteration algorithm for v⇤ on page 80. ⇤
+
+Exercise 4.7 (programming) Write a program for policy iteration and re-solve Jack’s car
+rental problem with the following changes. One of Jack’s employees at the first location
+rides a bus home each night and lives near the second location. She is happy to shuttle
+one car to the second location for free. Each additional car still costs $2, as do all cars
+moved in the other direction. In addition, Jack has limited parking space at each location.
+If more than 10 cars are kept overnight at a location (after any moving of cars), then an
+additional cost of $4 must be incurred to use a second parking lot (independent of how
+many cars are kept there). These sorts of nonlinearities and arbitrary dynamics often
+occur in real problems and cannot easily be handled by optimization methods other than
+dynamic programming. To check your program, first replicate the results given for the
+original problem.
+
+Exercise 4.8 Why does the optimal
+policy for the gambler’s problem have such a curious form? In particular, for capital of 50
+it bets it all on one flip, but for capital of 51 it does not. Why is this a good policy? ⇤
+
+Exercise 4.9 (programming) Implement value iteration for the gambler’s problem and
+solve it for ph = 0.25 and ph = 0.55. In programming, you may find it convenient to
+introduce two dummy states corresponding to termination with capital of 0 and 100,
+giving them values of 0 and 1 respectively. Show your results graphically, as in Figure 4.3.
+Are your results stable as ✓ ! 0? ⇤
+
+Exercise 4.10 What is the analog of the value iteration update (4.10) for action values,
+qk+1(s, a)? ⇤
