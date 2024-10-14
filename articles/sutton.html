@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-10-13 Sun 00:19 -->
+<!-- 2024-10-14 Mon 02:20 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Learning RL</title>
@@ -117,6 +117,7 @@ $(function() {
 <li><a href="#orge2d4d8f">2</a></li>
 <li><a href="#org80d2c0f">3</a></li>
 <li><a href="#org80a59a0">4</a></li>
+<li><a href="#org64378bf">5</a></li>
 </ul>
 </li>
 </ul>
@@ -154,6 +155,10 @@ Evolutionary RL with parameter model merging crossover operations
 
 <p>
 spybots clone might be good environment to implement algos like MCTS
+</p>
+
+<p>
+Need to go back and cloze card all the summary sections after every chapter.
 </p>
 </div>
 </div>
@@ -1368,6 +1373,18 @@ Exercise 3.27 Give an equation for &pi;<sub>*</sub> in terms of q<sub>*</sub>. �
 </p>
 
 <p>
+<i>Note: I am not thrilled with this answer. I feel like it should actually be something like this:</i>
+</p>
+
+<p>
+\(\pi_*(a | s) = \frac{\mathbb{1}[q_*(s, a) = max_{a \in A}(q_*(s, a))]}{\sum \mathbb{1}[q_*(s, a) = max_{a \in A}(q_*(s, a))]}\)
+</p>
+
+<p>
+<i>Because in the case where multiple actions are equally optimal they'll both be 1, which means the total probability will sum to greater than 1 which isn't right, I think. This seems way too wordy but at least conceptually has the right idea.</i>
+</p>
+
+<p>
 Exercise 3.28 Give an equation for &pi;<sub>*</sub> in terms of v<sub>*</sub> and the four-argument p. ⇤
 </p>
 
@@ -1412,6 +1429,34 @@ What is q<sub>&pi;</sub>(7, down)?
 </p>
 
 <p>
+\(q_{\pi}(s,a) \doteq \sum_{s', r} p(s', r | s, a)[r + \gamma v_\pi(s')]\)
+</p>
+
+<p>
+because it's not discounted, and the rewards and state transitions are fixed
+</p>
+
+<p>
+\(q_{\pi}(11, down) \doteq 1[-1 + v_\pi(s')] = -1\)
+</p>
+
+<p>
+&#x2026;since v<sub>&pi;</sub>(s') has to be 0 (it's a terminal state)
+</p>
+
+<p>
+\(q_{\pi}(7,down) \doteq \sum_{s', r} p(s', r | s, a)[r + \gamma v_\pi(s')]\)
+</p>
+
+<p>
+\(q_{\pi}(7,down) \doteq -1 + v_\pi(11)\)
+</p>
+
+<p>
+Which depends on k per the diagram (at initialization v<sub>&pi;</sub>(11) is 0, but eventually it climbs)
+</p>
+
+<p>
 Exercise 4.2 In Example 4.1, suppose a new state 15 is added to the gridworld just below
 state 13, and its actions, left, up, right, and down, take the agent to states 12, 13, 14,
 and 15, respectively. Assume that the transitions from the original states are unchanged.
@@ -1421,7 +1466,63 @@ state 15. What is v<sub>&pi;</sub>(15) for the equiprobable random policy in thi
 </p>
 
 <p>
+\(\sum_{a} 1/4 (-1 + v_\pi(s'))\)
+</p>
+
+<p>
+That is, 1/4 (-1 + v<sub>&pi;</sub>(12)) + 1/4 (-1 + v<sub>&pi;</sub>(13)) + 1/4 (-1 + v<sub>&pi;</sub>(14)) + 1/4 (-1 + v<sub>&pi;</sub>(15))
+</p>
+
+<p>
+or just -1 + 1/4(v<sub>&pi;</sub>(12) + v<sub>&pi;</sub>(13) + v<sub>&pi;</sub>(14) + v<sub>&pi;</sub>(15))
+</p>
+
+<p>
+if down in state 13 moves us to 15 instead of 13, then 13's v values needs to be recalc as
+</p>
+
+<p>
+\(v'_{\pi}(13) = -1 + 1/4(v_\pi(12) + v_\pi(9) + v_\pi(14) + v_\pi(15))\)
+</p>
+
+<p>
+and then v<sub>&pi;</sub>(15) would be
+</p>
+
+<p>
+\(v_\pi(15) = -1 + 1/4(v_\pi(12) + v'_\pi(13) + v_\pi(14) + v_\pi(15))\)
+</p>
+
+<p>
+These can probably be calculated from the listed converged values, but I guess it depends on k.
+</p>
+
+<p>
 Exercise 4.3 What are the equations analogous to (4.3), (4.4), and (4.5), but for actionvalue functions instead of state-value functions?
+</p>
+
+<p>
+(4.3) \(v_\pi(s) \doteq \mathbb{E}_\pi[R_{t+1} + \gamma v_\pi(S_{t+1})]\)
+</p>
+
+<p>
+(4.4) \(v_\pi(s) \doteq \sum_{a} \pi(a|s) \sum_{s', r} p(s', r | s, a) [r + \gamma v_\pi(s')]\)
+</p>
+
+<p>
+(4.5) \(v_{k+1}(s) \doteq \max_{a} \pi(a|s) \sum_{s', r}p(s', r | s, a)[r + \gamma v_k(s')]\)
+</p>
+
+<p>
+(4.3) \(q_\pi(s, a) \doteq \mathbb{E}_\pi[R_{t+1} + \gamma q_\pi(S_{t+1}, A_{t+1}) | s=S_t, a=A_t]\)
+</p>
+
+<p>
+(4.4) \(q_\pi(s, a) \doteq \sum_{s', r} p(s', r | s, a) [r + \gamma \sum_{a'} \pi(a'|s') q_\pi(s', a')]\)
+</p>
+
+<p>
+(4.5) \(q_{k+1}(s, a) \doteq \sum_{s', r}p(s', r | s, a)[r + \gamma max_{a'}q_k(s', a')]\)
 </p>
 
 <p>
@@ -1432,6 +1533,10 @@ so that convergence is guaranteed. ⇤
 </p>
 
 <p>
+The only way it's possible to repeatedly switch between policies that are equally good but not the same are if the resulting rewards from both states are the same. In this code we save the existing action &pi;(s) and then assign the action in that state to the argmax of the new values. All we have to do to avoid this bug is additionally store old-value which is just V(old-action), and then mark policy-stable as false if V(&pi;(s)) != V(old-action). We don't care if the action changes, we care if the policy improves. 
+</p>
+
+<p>
 Exercise 4.5 How would policy iteration be defined for action values? Give a complete
 algorithm for computing q⇤, analogous to that on page 80 for computing v⇤. Please pay
 special attention to this exercise, because the ideas involved will be used throughout the
@@ -1439,10 +1544,58 @@ rest of the book. ⇤
 </p>
 
 <p>
-Exercise 4.6 Suppose you are restricted to considering only policies that are "-soft,
-meaning that the probability of selecting each action in each state, s, is at least "/|A(s)|.
+in policy evaluation you can substitute these lines
+</p>
+
+<p>
+\(v \leftarrow V(s)\)
+</p>
+
+<p>
+\(V(s) \leftarrow \sum_{s', r} p(s', r | s, \pi(s))[r + \gamma V(s')]\)
+</p>
+
+<p>
+\(\Delta \leftarrow max(\Delta, |v - V(s)|)\)
+</p>
+
+<p>
+with this, looping over \(a \in A\):
+</p>
+
+<p>
+\(q \leftarrow Q(s, a)\)
+</p>
+
+<p>
+\(Q(s, a) \leftarrow \sum_{s', r} p(s', r | s, a)[r + \gamma [\sum_{a'}Q(s', a')\pi(a|s')]]\)
+</p>
+
+<p>
+\(\Delta \leftarrow max(\Delta, |q - Q(s)|)\)
+</p>
+
+<p>
+and it should be good from there (plus changing initialization and updating policy with max q instead of v, of course). The important part is that since you're not keeping track of V(s), you have to expand it out in terms of Q, which involves the all the possible actions over the next state.
+</p>
+
+<p>
+Exercise 4.6 Suppose you are restricted to considering only policies that are &epsilon;-soft,
+meaning that the probability of selecting each action in each state, s, is at least &epsilon;/|A(s)|.
 Describe qualitatively the changes that would be required in each of the steps 3, 2, and 1,
 in that order, of the policy iteration algorithm for v⇤ on page 80. ⇤
+</p>
+
+<p>
+In step 3, you would replace the argmax assignment with one which takes the argmax with probability 1 - &epsilon; and takes a random action with probability &epsilon;
+</p>
+
+<p>
+In step 2, you would need to replace the value update step with one which first sums across all actions and multiplies them by the probability \(\pi(a|s)\).
+</p>
+
+<p>
+In step 1, you'll need to declare an epsilon.
 </p>
 
 <p>
@@ -1459,6 +1612,142 @@ dynamic programming. To check your program, first replicate the results given fo
 original problem.
 </p>
 
+<div class="org-src-container">
+<pre class="src src-python">import math
+import numpy as np
+
+def get_proba(n, lam):
+    return ((lam ** n)/(math.factorial(n))) * np.exp(-lam)
+
+lam_rent_l1 = 3
+lam_return_l1 = 3
+lam_rent_l2 = 4
+lam_return_l2 = 2
+
+max_cars = 20
+max_move = 5
+
+gamma = 0.9
+
+## policy iter
+vals = [[0 for _ in range(max_cars+1)] for _ in range(max_cars+1)]
+policy = [[0 for _ in range(max_cars+1)] for _ in range(max_cars+1)]
+
+# poisson gets very small after less than the full range so we can just ignore the tails
+rent_transition_probs_l1 = [get_proba(x, lam_rent_l1) for x in range(11)]
+rent_transition_probs_l2 = [get_proba(x, lam_rent_l2) for x in range(11)]
+ret_transition_probs_l1 = [get_proba(x, lam_return_l1) for x in range(11)]
+ret_transition_probs_l2 = [get_proba(x, lam_return_l2) for x in range(11)]
+
+# make this tractable
+def get_t_probs(a, b, c, d):
+    t_probs = [[[[1 for _ in a] for _ in b] for _ in c] for _ in d]
+
+    for i,x in enumerate(a):
+	for j,y in enumerate(b):
+	    two_prob = x * y
+	    for k,z in enumerate(c):
+		three_prob = two_prob * z
+		for l,zz in enumerate(d):
+		    t_probs[i][j][k][l] = three_prob * zz
+
+    return t_probs
+
+t_probs_table = get_t_probs(rent_transition_probs_l1,
+			    rent_transition_probs_l2,
+			    ret_transition_probs_l1,
+			    ret_transition_probs_l2)
+
+def expected_return(state, action, vals):
+    i,j = state
+    old_val = vals[i][j]
+    move = action
+
+    new_value = 0
+
+    #for all r, s'
+    # employee is willing to move 1 car for free
+    if move &gt; 0:
+	base_reward = -2 * abs(move-1)
+    else:
+	base_reward = -2 * abs(move)
+    table_dims = 11 # hard coded for now
+    for x_sub in range(table_dims):
+	for x_add in range(table_dims):
+	    for y_sub in range(table_dims):
+		for y_add in range(table_dims):
+		    # you cannot rent out more than you have
+		    reward = 10*(min(i, x_sub) + min(j, y_sub))
+		    reward += base_reward
+		    new_i = i - move + x_add - min(i, x_sub)
+		    new_i = min(20, max(0, new_i))
+		    new_j = j + move + y_add - min(j, y_sub)
+		    new_j = min(20, max(0, new_j))
+
+		    # add 2nd parking lot penalty for both locations
+		    if new_i &gt; 10:
+			reward -= 4
+		    if new_j &gt; 10:
+			reward -= 4
+
+		    next_state_value = vals[new_i][new_j]
+		    transition_prob = t_probs_table[x_sub][x_add][y_sub][y_add]
+
+		    new_value += transition_prob * (reward + gamma*next_state_value)
+
+    delta = abs(old_val - new_value)
+    return new_value, delta
+
+def policy_iteration(vals, policy, probs):
+    theta = 1
+    delta = theta+1
+    while delta &gt; theta:
+	print(f"delta: {delta}, theta: {theta}")
+	delta = 0
+	#for all s
+	for i in range(max_cars+1):
+	    print(f"row i {i}")
+	    for j in range(max_cars+1):
+		new_value, obs_delta = expected_return((i,j), policy[i][j], vals)
+		vals[i][j] = new_value
+		delta = max(delta, obs_delta)
+
+    return vals, policy
+
+# policy improvement
+policy_stable = False
+while not policy_stable:
+    policy_stable = True
+    #if policy-stable, stop, else do policy iteration then improvement
+    print(f"doing policy iteration!")
+    vals, policy = policy_iteration(vals, policy, t_probs_table)
+
+    print(f"improving the policy now!")
+    #for all s
+    for i in range(max_cars+1):
+	print(f"Improving row {i}")
+	for j in range(max_cars+1):
+	    old_action = policy[i][j]
+	    new_action = old_action
+	    old_action_value, _ = expected_return((i,j), policy[i][j], vals)
+
+	    for a in range(-max_move, max_move):
+		new_action_value, _ = expected_return((i,j), a, vals)
+
+		if new_action_value &gt; old_action_value:
+		    new_action = a
+		    old_action_value = new_action_value
+		    policy_stable = False
+
+	    policy[i][j] = new_action
+
+</pre>
+</div>
+
+<p>
+Overall I'm not thrilled with this implementation &#x2013; it does recreate everything per the text but I can't shake the feeling there's some substantial optimization improvements I can be doing here.
+</p>
+
 <p>
 Exercise 4.8 Why does the optimal
 policy for the gambler’s problem have such a curious form? In particular, for capital of 50
@@ -1466,16 +1755,210 @@ it bets it all on one flip, but for capital of 51 it does not. Why is this a goo
 </p>
 
 <p>
+If you imagine the all flip at 50 being 0.4 probability to win, betting 1 at 51 means you are adding the probability of getting 50 more points starting with 1 to the fixed probability of 0.4, making it strictly better. Not sure it's intuitive why it's optimal but it definitely does not make sense to bet 51 (because you only need 100).
+</p>
+
+<p>
 Exercise 4.9 (programming) Implement value iteration for the gambler’s problem and
 solve it for ph = 0.25 and ph = 0.55. In programming, you may find it convenient to
 introduce two dummy states corresponding to termination with capital of 0 and 100,
 giving them values of 0 and 1 respectively. Show your results graphically, as in Figure 4.3.
-Are your results stable as ✓ ! 0? ⇤
+Are your results stable as &theta; &rarr; 0? ⇤
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">import math
+import numpy as np
+from matplotlib import pyplot as plt
+
+def value_iteration(vals, actions, theta, ph):
+    iters = 0
+    delta = theta+1
+    while delta &gt; theta or iters &lt; 256:
+	iters += 1
+	delta = 0
+	for s in range(1, 100):
+	    v = vals[s]
+	    max_checkval = None
+	    for bet in range(actions[s]+1):
+		check_val = (ph * vals[min(100, s + bet)]) + ((1-ph) * vals[max(0, s - bet)])
+		if not max_checkval or check_val &gt; max_checkval:
+		    max_checkval = check_val
+	    delta = max(delta, abs(v - max_checkval))
+	    vals[s] = max_checkval
+
+    policy = []
+
+    for s in range(1,100):
+	greedy_act = 0
+	greedy_val = 0
+	for bet in range(1, actions[s]+1):
+	    q = (ph * vals[min(100, s + bet)]) + ((1-ph) * vals[max(0, s - bet)])
+	    if q &gt; greedy_val:
+		greedy_val = q
+		greedy_act = bet
+
+	policy.append(greedy_act)
+
+    return policy, vals
+
+def viz(policy, values):
+    plt.plot(policy)
+    plt.show()
+
+    plt.plot(values)
+    plt.show()
+
+ph = 0.4
+vals = [0 for x in range(101)]
+vals[-1] = 1
+actions = [x for x in range(100)]
+theta = 1e-12
+
+p_4, v_4 = value_iteration(vals, actions, theta, ph)
+viz(p_4, v_4)
+
+ph = 0.2
+vals = [0 for x in range(101)]
+vals[-1] = 1
+actions = [x for x in range(100)]
+theta = 1e-12
+
+p_2, v_2 = value_iteration(vals, actions, theta, ph)
+viz(p_2, v_2)
+
+</pre>
+</div>
+
+<p>
+Honestly, no. The value and policy both do converge, given enough timesteps, but the form they take is pretty unusual. I wonder if there are multiple optimal actions for each state, and the wild behavior of the policy is not preferring one type of state to the other? The code is pretty simple so I imagine this has to do with the problem statement, but I'm definitely left with more questions than answers. 
 </p>
 
 <p>
 Exercise 4.10 What is the analog of the value iteration update (4.10) for action values,
-qk+1(s, a)? ⇤
+q<sub>k+1</sub>(s, a)? ⇤
+</p>
+
+<p>
+(4.10) \(v_{k+1}(s) \doteq max_a \sum_{s', r} p(s', r | s, a) [r + \gamma v_k(s')]\)
+</p>
+
+<p>
+\(q_{k+1}(s, a) \doteq  \sum_{s', r} p(s', r | s, a) [r + \gamma \sum_{a'} \pi(a|s) q_k(s')]\)
+</p>
+
+<p>
+<i>status: checked with o1-preview, but maybe it was a bit much for it</i>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org64378bf" class="outline-3">
+<h3 id="org64378bf">5</h3>
+<div class="outline-text-3" id="text-org64378bf">
+<p>
+Exercise 5.1 Consider the diagrams on the right in Figure 5.1. Why does the estimated
+value function jump up for the last two rows in the rear? Why does it drop o↵ for the
+whole last row on the left? Why are the frontmost values higher in the upper diagrams
+than in the lower? ⇤
+</p>
+
+<p>
+Exercise 5.2 Suppose every-visit MC was used instead of first-visit MC on the blackjack
+task. Would you expect the results to be very di↵erent? Why or why not? ⇤
+</p>
+
+<p>
+Exercise 5.3 What is the backup diagram for Monte Carlo estimation of q⇡? ⇤
+</p>
+
+<p>
+Exercise 5.4 The pseudocode for Monte Carlo ES is inecient because, for each state–
+action pair, it maintains a list of all returns and repeatedly calculates their mean. It would
+be more ecient to use techniques similar to those explained in Section 2.4 to maintain
+just the mean and a count (for each state–action pair) and update them incrementally.
+Describe how the pseudocode would be altered to achieve this. ⇤
+</p>
+
+<p>
+Exercise 5.5 Consider an MDP with a single nonterminal state and a single action
+that transitions back to the nonterminal state with probability p and transitions to the
+terminal state with probability 1p. Let the reward be +1 on all transitions, and let
+ = 1. Suppose you observe one episode that lasts 10 steps, with a return of 10. What
+are the first-visit and every-visit estimators of the value of the nonterminal state? ⇤
+</p>
+
+<p>
+Exercise 5.6 What is the equation analogous to (5.6) for action values Q(s, a) instead of
+state values V (s), again given returns generated using b? ⇤
+</p>
+
+<p>
+Exercise 5.7 In learning curves such as those shown in Figure 5.3 error generally decreases
+with training, as indeed happened for the ordinary importance-sampling method. But for
+the weighted importance-sampling method error first increased and then decreased. Why
+do you think this happened? ⇤
+</p>
+
+<p>
+Exercise 5.8 The results with Example 5.5 and shown in Figure 5.4 used a first-visit MC
+method. Suppose that instead an every-visit MC method was used on the same problem.
+Would the variance of the estimator still be infinite? Why or why not? ⇤
+</p>
+
+<p>
+Exercise 5.9 Modify the algorithm for first-visit MC policy evaluation (Section 5.1) to
+use the incremental implementation for sample averages described in Section 2.4. ⇤
+</p>
+
+<p>
+Exercise 5.10 Derive the weighted-average update rule (5.8) from (5.7). Follow the
+pattern of the derivation of the unweighted rule (2.3). ⇤
+</p>
+
+<p>
+Exercise 5.11 In the boxed algorithm for o↵-policy MC control, you may have been
+expecting the W update to have involved the importance-sampling ratio m(At|St) /
+b(At|St) , but instead it involves 1 / b(At|St) . Why is this nevertheless correct? ⇤
+</p>
+
+<p>
+Exercise 5.12: Racetrack (programming) Consider driving a race car around a turn
+like those shown in Figure 5.5. You want to go as fast as possible, but not so fast as
+to run o↵ the track. In our simplified racetrack, the car is at one of a discrete set of
+grid positions, the cells in the diagram. The velocity is also discrete, a number of grid
+cells moved horizontally and vertically per time step. The actions are increments to the
+velocity components. Each may be changed by +1, 1, or 0 in each step, for a total of
+nine (3 ⇥ 3) actions. Both velocity components are restricted to be nonnegative and less
+than 5, and they cannot both be zero except at the starting line. Each episode begins
+in one of the randomly selected start states with both velocity components zero and
+ends when the car crosses the finish line. The rewards are 1 for each step until the car
+crosses the finish line. If the car hits the track boundary, it is moved back to a random
+position on the starting line, both velocity components are reduced to zero, and the
+episode continues. Before updating the car’s location at each time step, check to see if
+the projected path of the car intersects the track boundary. If it intersects the finish line,
+the episode ends; if it intersects anywhere else, the car is considered to have hit the track
+boundary and is sent back to the starting line. To make the task more challenging, with
+probability 0.1 at each time step the velocity increments are both zero, independently of
+the intended increments. Apply a Monte Carlo control method to this task to compute
+the optimal policy from each starting state. Exhibit several trajectories following the
+optimal policy (but turn the noise o↵ for these trajectories). ⇤
+</p>
+
+<p>
+⇤
+Exercise 5.13 Show the steps to derive (5.14) from (5.12). ⇤
+⇤
+Exercise 5.14 Modify the algorithm for o↵-policy Monte Carlo control (page 111) to use
+the idea of the truncated weighted-average estimator (5.10). Note that you will first need
+to convert this equation to action values. ⇤
+</p>
+
+<p>
+Exercise 5.15 Make new equations analogous to the importance-sampling Monte Carlo
+estimates (5.5) and (5.6), but for action value estimates Q(s, a). You will need new
+notation T(s, a) for the time steps on which the state–action pair s, a is visited on the
+episode. Do these estimates involve more or less importance-sampling correction?
 </p>
 </div>
 </div>
