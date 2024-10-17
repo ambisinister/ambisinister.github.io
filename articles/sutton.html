@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-10-14 Mon 02:20 -->
+<!-- 2024-10-16 Wed 18:47 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Learning RL</title>
@@ -1749,6 +1749,10 @@ Overall I'm not thrilled with this implementation &#x2013; it does recreate ever
 </p>
 
 <p>
+The plots <a href="https://colab.research.google.com/drive/1z22bO2K3tGWaLHA6uEO6xCunwU5Msav_?usp=sharing">look reasonable</a>, though.
+</p>
+
+<p>
 Exercise 4.8 Why does the optimal
 policy for the gambler’s problem have such a curious form? In particular, for capital of 50
 it bets it all on one flip, but for capital of 51 it does not. Why is this a good policy? ⇤
@@ -1858,14 +1862,22 @@ q<sub>k+1</sub>(s, a)? ⇤
 <div class="outline-text-3" id="text-org64378bf">
 <p>
 Exercise 5.1 Consider the diagrams on the right in Figure 5.1. Why does the estimated
-value function jump up for the last two rows in the rear? Why does it drop o↵ for the
+value function jump up for the last two rows in the rear? Why does it drop off for the
 whole last row on the left? Why are the frontmost values higher in the upper diagrams
 than in the lower? ⇤
 </p>
 
 <p>
+It jumps up because those are the ones you stick and often win. It drops off on the left because if the dealer has a usable ace they're more likely to win also. Frontmost values are higher in the upper diagrams because having a useable ace lets you salvage bad hands by going over 21 and looping back to a lower value.
+</p>
+
+<p>
 Exercise 5.2 Suppose every-visit MC was used instead of first-visit MC on the blackjack
-task. Would you expect the results to be very di↵erent? Why or why not? ⇤
+task. Would you expect the results to be very different? Why or why not? ⇤
+</p>
+
+<p>
+Because it also quadratically converges to v<sub>&pi;</sub> I imagine it would largely look the same. Especially because the episode lengths are very short, the only states which would be revisitable are small sums which are looped back upon with the usable ace, otherwise per-episode it should be about the same everywhere. 
 </p>
 
 <p>
@@ -1873,11 +1885,23 @@ Exercise 5.3 What is the backup diagram for Monte Carlo estimation of q⇡? ⇤
 </p>
 
 <p>
-Exercise 5.4 The pseudocode for Monte Carlo ES is inecient because, for each state–
+It should look like the backup diagram on page 95, a single line representing the experience, but starting from an action instead of a state. One episode, no bootstrapping.
+</p>
+
+<p>
+Exercise 5.4 The pseudocode for Monte Carlo ES is inefficient because, for each state–
 action pair, it maintains a list of all returns and repeatedly calculates their mean. It would
 be more ecient to use techniques similar to those explained in Section 2.4 to maintain
 just the mean and a count (for each state–action pair) and update them incrementally.
 Describe how the pseudocode would be altered to achieve this. ⇤
+</p>
+
+<p>
+Initialize returns as a list of tuples (0,0) instead of an empty list.
+</p>
+
+<p>
+Instead of appending, add 1 to the second value and change the first value to the reward + 1 / second value times the old first value. 
 </p>
 
 <p>
@@ -1889,8 +1913,20 @@ are the first-visit and every-visit estimators of the value of the nonterminal s
 </p>
 
 <p>
+The first-visit should be \(V(S) = G_0\) which refers to the episode reward, NOT the immediate reward. So in this case, it would be 10.
+</p>
+
+<p>
+First visit it will be 10 like above. Second visit it will be 9 (since we lose the reward from the first transition). This will get added to returns which will make it [10,9], and the average is 9.5. This will continue [10,9,8,7,6,5,4,3,2,1], and the average of this is 55/10 = 5.5. 
+</p>
+
+<p>
 Exercise 5.6 What is the equation analogous to (5.6) for action values Q(s, a) instead of
 state values V (s), again given returns generated using b? ⇤
+</p>
+
+<p>
+I actually think it should be pretty much the same? We need to change \(t \in T(s)\) to be instead \(t \in T(s, a)\) but p is already in terms of the actions of each policy rather than as states, and we are doing it episode by episode which means its the same episode but in terms of the state-action transitions rather than the states alone. 
 </p>
 
 <p>
@@ -1901,9 +1937,17 @@ do you think this happened? ⇤
 </p>
 
 <p>
+Weighted importance sampling starts from a biased estimation and updates a ratio towards the other policy, compared to ordinary importance sampling which monotonically increases the denominator. With OIS, the variance is high that improving with more samples is much larger than the effect of having only a few samples, but with WIS, you'll likely need a few samples before it starts heading in the right direction, which could lead to a temporary increase in error.
+</p>
+
+<p>
 Exercise 5.8 The results with Example 5.5 and shown in Figure 5.4 used a first-visit MC
 method. Suppose that instead an every-visit MC method was used on the same problem.
 Would the variance of the estimator still be infinite? Why or why not? ⇤
+</p>
+
+<p>
+The variance would definitely still be infinite if we used an every-visit MC method. Because the importance sampling ratio is the same in both cases, each step is still 2<sup>k</sup> which is unbounded and diverging. The every-visit method will sum together averaged versions which will divide the terms by n, but that still diverges in the same way.
 </p>
 
 <p>
@@ -1912,14 +1956,86 @@ use the incremental implementation for sample averages described in Section 2.4.
 </p>
 
 <p>
+This would be done the same way as in exercise 5.4, you just replace the list with a list of tuples, and keep track of N and the running average and do the incremental average instead. 
+</p>
+
+<p>
 Exercise 5.10 Derive the weighted-average update rule (5.8) from (5.7). Follow the
 pattern of the derivation of the unweighted rule (2.3). ⇤
 </p>
 
 <p>
-Exercise 5.11 In the boxed algorithm for o↵-policy MC control, you may have been
+\(V_n = \frac{\sum_{k=1}^{n-1} W_k G_k}{\sum_{k=1}^{n-1} W_k}\)
+</p>
+
+<p>
+\(V_n = \frac{1}{\sum_{k=1}^{n-1} W_k} (W_{n-1} G_{n-1} + \sum_{k=1}^{n-2} W_k G_k )\)
+</p>
+
+<p>
+\(V_n = \frac{1}{\sum_{k=1}^{n-1} W_k} (W_{n-1} G_{n-1} + (\sum_{k=1}^{n-2}W_k) \frac{1}{\sum_{k=1}^{n-2}W_k} \sum_{k=1}^{n-2} W_k G_k )\)
+</p>
+
+<p>
+\(V_n = \frac{1}{\sum_{k=1}^{n-1} W_k} (W_{n-1} G_{n-1} + (\sum_{k=1}^{n-2}W_k) V_{n-1})\)
+</p>
+
+<p>
+\(V_n = \frac{1}{\sum_{k=1}^{n-1} W_k} (W_{n-1} G_{n-1}) + \frac{1}{\sum_{k=1}^{n-1} W_k} \sum_{k=1}^{n-2}W_k V_{n-1})\)
+</p>
+
+<p>
+\(V_n = \frac{1}{\sum_{k=1}^{n-1} W_k} (W_{n-1} G_{n-1}) + \frac{\sum_{k=1}^{n-2} W_k}{\sum_{k=1}^{n-1} W_k} V_{n-1})\)
+</p>
+
+<p>
+\(V_n = \frac{W_{n-1}}{\sum_{k=1}^{n-1} W_k} (G_{n-1}) + \frac{\sum_{k=1}^{n-2} W_k}{\sum_{k=1}^{n-1} W_k} V_{n-1})\)
+</p>
+
+<p>
+Let's introduce \(C_n = \sum_{k=1}^n W_k\)
+</p>
+
+<p>
+\(V_n = \frac{W_{n-1}}{C_{n-1}} (G_{n-1}) + \frac{C_{n-2}}{C_{n-1}} V_{n-1}\)
+</p>
+
+<p>
+\(V_n - V_{n-1} = \frac{W_{n-1}}{C_{n-1}} (G_{n-1}) + \frac{C_{n-2}}{C_{n-1}} V_{n-1} - V_{n-1}\)
+</p>
+
+<p>
+\(V_n - V_{n-1} = \frac{W_{n-1}}{C_{n-1}} (G_{n-1}) + V_{n-1} (\frac{C_{n-2}}{C_{n-1}} - 1)\)
+</p>
+
+<p>
+\(V_n - V_{n-1} = \frac{W_{n-1}}{C_{n-1}} (G_{n-1}) + V_{n-1} (\frac{C_{n-2}}{C_{n-2} + W_{n-1}} - \frac{C_{n-2}+ {W_{n-1}}}{C_{n-2} + {W_{n-1}}})\)
+</p>
+
+<p>
+\(V_n - V_{n-1} = \frac{W_{n-1}}{C_{n-1}} (G_{n-1}) + V_{n-1} (\frac{C_{n-2} - C_{n-2} + {W_{n-1}}}{C_{n-2}{W_{n-1}}})\)
+</p>
+
+<p>
+\(V_n - V_{n-1} = \frac{W_{n-1}}{C_{n-1}} (G_{n-1}) - V_{n-1} (\frac{W_{n-1}}{C_{n-1}})\)
+</p>
+
+<p>
+\(V_n - V_{n-1} = \frac{W_{n-1}}{C_{n-1}} (G_{n-1} - V_{n-1})\)
+</p>
+
+<p>
+\(V_n = V_{n-1} + \frac{W_{n-1}}{C_{n-1}} [G_{n-1} - V_{n-1}]\)
+</p>
+
+<p>
+Exercise 5.11 In the boxed algorithm for off-policy MC control, you may have been
 expecting the W update to have involved the importance-sampling ratio m(At|St) /
 b(At|St) , but instead it involves 1 / b(At|St) . Why is this nevertheless correct? ⇤
+</p>
+
+<p>
+This is because we are using W to incrementally update the importance sampling ratio, and we modify the ratio each Q assignment rather than calculating it from scratch every time.
 </p>
 
 <p>
@@ -1946,12 +2062,7 @@ optimal policy (but turn the noise o↵ for these trajectories). ⇤
 </p>
 
 <p>
-⇤
-Exercise 5.13 Show the steps to derive (5.14) from (5.12). ⇤
-⇤
-Exercise 5.14 Modify the algorithm for o↵-policy Monte Carlo control (page 111) to use
-the idea of the truncated weighted-average estimator (5.10). Note that you will first need
-to convert this equation to action values. ⇤
+TODO
 </p>
 
 <p>
@@ -1959,6 +2070,36 @@ Exercise 5.15 Make new equations analogous to the importance-sampling Monte Carl
 estimates (5.5) and (5.6), but for action value estimates Q(s, a). You will need new
 notation T(s, a) for the time steps on which the state–action pair s, a is visited on the
 episode. Do these estimates involve more or less importance-sampling correction?
+</p>
+
+<p>
+These are pretty close to the same thing:
+</p>
+
+<p>
+\(Q(s,a) = \frac{\sum_{t \in T(s,a)} p_{t:T(t)-1} G_t}{|T(s,a)|}\)
+</p>
+
+<p>
+\(Q(s,a) = \frac{\sum_{t \in T(s,a)} p_{t:T(t)-1} G_t}{\sum_{t \in T(s,a)} p_{t:T(t)-1}}\)
+</p>
+
+<p>
+Because these estimates already specify an action, there should be a step fewer in the total episode length compared to the state version, which should make it a little bit less correction.
+</p>
+
+<p>
+<b><b>These below are asterisked, so come back to them later</b></b>
+</p>
+
+<p>
+Exercise 5.13 Show the steps to derive (5.14) from (5.12). ⇤
+</p>
+
+<p>
+Exercise 5.14 Modify the algorithm for o↵-policy Monte Carlo control (page 111) to use
+the idea of the truncated weighted-average estimator (5.10). Note that you will first need
+to convert this equation to action values. ⇤
 </p>
 </div>
 </div>
