@@ -4,7 +4,7 @@
 
 I am anticipating needing to deeply understand Reinforcement Learning to properly do my job. Everybody says that [[http://incompleteideas.net/book/RLbook2020.pdf][this book]] is the way to do that, so I'm working through it and doing the exercises. I'll be putting the exercises in this document along with some random thoughts I may have. I have done this on here [[https://planetbanatt.net/articles/probmods.html][before, with the textbook Probabilistic Models of Cognition]], so it will largely be the same as that. I am also roughly following [[https://www.youtube.com/playlist?list=PLqYmG7hTraZBKeNJ-JE_eyJHZ7XgBoAyb][the DeepMind x UCL Reinforcement Learning Course (2018)]] which follows this book. I learn much better from reading and practicing compared to from watching and listening, but it doesn't hurt to attack the problem from all fronts.
 
-I'll be checking my answers to the exercises with LLMs as I work through the book. The majority of these are near the beginning of the book (chapter 3 has almost 30 exercises, most chapters after have about 10, part III has one exercise total). Since my objective is to understand RL well enough to do research, I'm going to make a good faith effort to actually get through the whole book, including these less exercise-heavy ones / ones not covered in the DeepMind course. We will see how well I stick to it, but I have some optimism. 
+I'll be checking my answers to the exercises with LLMs as I work through the book. The majority of these are near the beginning of the book (chapter 3 has almost 30 exercises, most chapters after have about 10, part III has one exercise total). Since my objective is to understand RL well enough to do research, I'm going to make a good faith effort to actually get through the whole book, including these less exercise-heavy chapters / ones not covered in the DeepMind course. We will see how well I stick to it, but I have some optimism. *Please Note: I give no guarantee of correctness for these exercises.* This is not an answer key, it's my attempt at fighting through a textbook to learn a new topic. 
 
 Overall I have been finding this book to be very challenging. I really thought my programming background would help me a lot more than it has been, so struggling through the necessary notation has been pretty taxing. 
 
@@ -1698,9 +1698,75 @@ Exercise 7.10 (programming) Devise a small off-policy prediction problem and use
 show that the off-policy learning algorithm using (7.13) and (7.2) is more data efficient
 than the simpler algorithm using (7.1) and (7.9). ⇤
 
-*** 8 - Planning and Learning with Tabular Methods
+*** TODO 8 - Planning and Learning with Tabular Methods
 
-8 exercises: 2 programming
+/status: need to do programming, answers are all pretty vague right now./
+
+**** Exercise 8.1
+
+The nonplanning method looks particularly poor in Figure 8.3 because it is
+a one-step method; a method using multi-step bootstrapping would do better. Do you
+think one of the multi-step bootstrapping methods from Chapter 7 could do as well as
+the Dyna method? Explain why or why not.
+
+It's pretty similar conceptually but probably still worse here since in dyna you don't just get n steps updated, you also update the state closest to the goal n times.
+
+**** Exercise 8.2
+
+Why did the Dyna agent with exploration bonus, Dyna-Q+, perform
+better in the first phase as well as in the second phase of the blocking and shortcut
+experiments?
+
+Encouraging it to explore means it's more likely to correct errors in the model
+
+**** Exercise 8.3
+
+Careful inspection of Figure 8.5 reveals that the di↵erence between Dyna-Q+
+and Dyna-Q narrowed slightly over the first part of the experiment. What is the reason
+for this?
+
+When the models are correct, encouraging it to do extra exploration provides minimal value over doing more exploitation, which is done in Dyna-Q more than Dyna-Q+.
+
+**** TODO Exercise 8.4 (programming)
+
+The exploration bonus described above actually changes
+the estimated values of states and actions. Is this necessary? Suppose the bonus $k \sqrt{t}$
+was used not in updates, but solely in action selection. That is, suppose the action
+selected was always that for which Q(St, a) + $k \sqrt{t(S_t, a)}$ was maximal. Carry out a
+gridworld experiment that tests and illustrates the strengths and weaknesses of this
+alternate approach.
+
+**** Exercise 8.5
+
+How might the tabular Dyna-Q algorithm shown on page 164 be modified
+to handle stochastic environments? How might this modification perform poorly on
+changing environments such as considered in this section? How could the algorithm be
+modified to handle stochastic environments and changing environments?
+
+Replace (e) with a table of state transitions and rewards, and instead of just taking from it you sample from it instead. This might perform poorly because you'll take a long time to notice changes in the environment, since you'll just have to keep updating until the new change dwarfs the old one, so to make it handle changing environments you could keep a sort of running table of the most recent $k$ visits to that state, instead of every one, which will naturally kill off information from older visits.
+
+**** Exercise 8.6
+
+The analysis above assumed that all of the b possible next states were
+equally likely to occur. Suppose instead that the distribution was highly skewed, that
+some of the b states were much more likely to occur than most. Would this strengthen or
+weaken the case for sample updates over expected updates? Support your answer.
+
+Would probably strengthen; in the case where you have a lot of very unlikely successor states you waste a lot of potential calculating expectations compared to sampling, which will more directly explore the more likely trajectories much more often. 
+
+**** Exercise 8.7
+
+Some of the graphs in Figure 8.8 seem to be scalloped in their early portions,
+particularly the upper graph for b = 1 and the uniform distribution. Why do you think
+this is? What aspects of the data shown support your hypothesis?
+
+A very noteworthy thing about the scalloping in the graphs is that they all happen at the same time for each plot, regardless of whether it's using on-policy or uniform. This would suggest that it's not related to which of those it's using, but that it affects the latter much more in evaluation. 
+
+**** TODO Exercise 8.8 (programming)
+
+Replicate the experiment whose results are shown in the
+lower part of Figure 8.8, then try the same experiment but with b = 3. Discuss the
+meaning of your results. 
 
 *** 9 - On-policy Prediction with Approximation
 
