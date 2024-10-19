@@ -26,6 +26,8 @@ Need to go back and cloze card all the summary sections after every chapter.
 
 *** 1 - Introduction
 
+/status: checked with o1-preview/
+
 **** Exercise 1.1: Self-Play
 
 Suppose, instead of playing against a random opponent, the
@@ -72,9 +74,9 @@ Can you think of other ways to improve the reinforcement learning player? Can yo
 
 Arming the player with search seems like a good way to get better estimates of the current state.
 
-/status: checked with o1-preview/
-
 *** 2 - Multi-armed Bandits
+
+/status: checked with o1-preview, need to fix 2.7 because code is not the correct deliverable/
 
 **** Exercise 2.1
 
@@ -452,9 +454,9 @@ plt.legend()
 plt.show()
 #+END_SRC
 
-/status: checked with o1-preview, need to fix 2.7 because code is not the correct deliverable/
-
 *** 3 - Finite Markov Decision Processes
+
+/status: kinda rocky, but checked with o1-preview/
 
 **** Exercise 3.1
 
@@ -858,9 +860,9 @@ $q_\pi(s, a) = r(s, a) + \gamma \sum_{s'} p(s' | s, a) \sum_{a'} \pi(a' | s') q_
 
 $q_*(s, a) = r(s, a) + \gamma \sum_{s'} p(s' | s,a) max_{a'}q_*(s', a')$
 
-/status: kinda rocky, but checked with o1-preview/
-
 *** 4 - Dynamic Programming
+
+/status: checked with o1-preview, but maybe it was a bit much for it/
 
 **** Exercise 4.1
 
@@ -1208,9 +1210,9 @@ q_{k+1}(s, a)? ⇤
 
 $q_{k+1}(s, a) \doteq  \sum_{s', r} p(s', r | s, a) [r + \gamma \sum_{a'} \pi(a|s) q_k(s')]$
 
-/status: checked with o1-preview, but maybe it was a bit much for it/
-
 *** TODO 5 - Monte Carlo Methods
+
+/Status: Need to do programming exercise/
 
 **** Exercise 5.1
 
@@ -1384,9 +1386,10 @@ Exercise 5.14 Modify the algorithm for o↵-policy Monte Carlo control (page 111
 the idea of the truncated weighted-average estimator (5.10). Note that you will first need
 to convert this equation to action values. ⇤
 
-/Status: Need to do programming exercise/
-
 *** TODO 6 - Temporal-Difference Learning
+
+/status: need to do programming exercises/
+
 **** Exercise 6.1
 
 If V changes during the episode, then (6.6) only holds approximately; what
@@ -1542,11 +1545,158 @@ sampling ratio pt:t (5.3).
 Exercise 6.13 What are the update equations for Double Expected Sarsa with an
 \epsilon -greedy target policy?
 
-/status: need to do programming exercises/
+*** TODO 7 - n-step Bootstrapping
 
-*** 7 - n-step Bootstrapping
+/Status: Need to do programming/
 
-11 exercises: 2 programming, 1 starred
+**** Exercise 7.1
+
+In Chapter 6 we noted that the Monte Carlo error can be written as the
+sum of TD errors (6.6) if the value estimates don’t change from step to step. Show that
+the n-step error used in (7.2) can also be written as a sum of TD errors (again if the
+value estimates don’t change) generalizing the earlier result.
+
+Recall the TD Error
+
+$\delta_t \doteq R_{t+1} + \gamma V(S_{t+1}) - V(S_t)$
+
+The n-step error here is the bracketed part of 7.2:
+
+$V_{t+n}(S_t) \doteq V_{t+n-1}(S_t) + \alpha [G_{t:t+n} - V_{t+n-1}(S_t)]$
+
+Since the values won't change we can just write it as V from now on.
+
+The n-step return is:
+
+$G_{t:t+n} = R_{t+1} + \gamma R_{t+2} + ... + \gamma^{n-1} R_{t+n} + \gamma^n V(S_{t+n})$
+
+$G_{t:t+n} - V(S_t) = R_{t+1} + \gamma R_{t+2} + ... + \gamma^{n-1} R_{t+n} + \gamma^n V(S_{t+n}) - V(S_t)$
+
+For this last step, we can add and subtract the same values like so:
+
+$G_{t:t+n} - V(S_t) = R_{t+1} + \gamma R_{t+2} + ... + \gamma^{n-1} R_{t+n} + \gamma^n V(S_{t+n}) + \gamma^{n-1} V(S_{t+n-1}) - \gamma^{n-1} V(S_{t+n-1}) + ... - V(S_t)$
+
+Rearranging we get
+
+$G_{t:t+n} - V(S_t) = R_{t+1} + \gamma V(S_{t+1}) - V(S_t) + R_{t+2} + \gamma^2 V(S_{t+2}) - \gamma V(S_{t+1}) + ... + R_{t+n} + \gamma^n V(S_{t+n}) - \gamma^{n-1} V(S_{t+n-1})$
+
+Which is
+
+$G_{t:t+n} - V(S_t) = \delta_t + \gamma \delta_{t+1} + ... + \gamma^{n-1} \delta_{t+n}$
+
+$G_{t:t+n} - V(S_t) = \sum_{k=t}^{t+n} \gamma^{k-1} \delta_k$
+
+**** TODO Exercise 7.2 (programming)
+
+With an n-step method, the value estimates do change from step to
+step, so an algorithm that used the sum of TD errors (see previous
+exercise) in place of the error in (7.2) would actually be a slightly
+di↵erent algorithm. Would it be a better algorithm or a worse one?
+Devise and program a small experiment to answer this question
+empirically.
+
+**** Exercise 7.3
+
+Why do you think a larger random walk task (19 states instead of 5) was
+used in the examples of this chapter? Would a smaller walk have shifted the advantage
+to a different value of n? How about the change in left-side outcome from 0 to -1 made
+in the larger walk? Do you think that made any difference in the best value of n?
+
+With a shorter random walk task, it takes fewer n for your n-step method to pretty much be a MC method (barring the very unlikely extremes, which are truncated). It seems unlikely that you'd get as interesting separation in this experiment compared to the version with the longer walk. The left-side value being -1 seems unlikely to make too much of a difference, since we initialize halfway between the two values and update towards or away from one of the endpoints in both cases. But since it's higher magnitude in both directions, it might propogate higher values farther for larger values of n? It seems unlikely to change the dynamics much though, as written.
+
+**** Exercise 7.4
+
+Prove that the n-step return of Sarsa (7.4) can be written exactly in terms
+of a novel TD error
+
+$G_{t:t+n} \doteq R_{t+1} + \gamma R_{t+2} ... + \gamma^{n-1} R_{t+n} + \gamma^n Q_{t+n-1}(S_{t+n}, A_{t+n})$
+
+$G_{t:t+n} \doteq \gamma^n Q_{t+n-1}(S_{t+n}, A_{t+n}) + \sum_{k=t}^{t+n} \gamma^{k-t }R_{k+1}$
+
+We use that plus minus trick again
+
+$G_{t:t+n} \doteq \gamma^n Q_{t+n-1}(S_{t+n}, A_{t+n}) + \gamma^{n-1} Q_{t+n-1}(S_{t+n-1}, A_{t+n-1}) - \gamma^{n-1} Q_{t+n-1}(S_{t+n-1}, A_{t+n-1}) + ... + \sum_{k=t}^{t+n} \gamma^{k-t }R_{k+1}$
+
+Then we can pull everything except the last Q_{t-1}(S_t, A_t) into the sum
+
+$G_{t:t+n} = Q_{t-1}(S_t, A_t) + \sum_{k=t}^{min(t+n, T)-1} \gamma^{k-t} [R_{k+1} + \gamma Q_k(S_{k+1}, A_{k+1}) - Q_{k-1}(S_k, A_k)}]$
+
+**** Exercise 7.11
+
+ Show that if the approximate action values are unchanging, then the
+tree-backup return (7.16) can be written as a sum of expectation-based TD errors
+
+$\delta_t \doteq R_{t+1} + \gamma \bar{V}_t(S_{t+1}) - Q(S_t, A_t)$
+
+$\bar{V}_t(s) \doteq \sum_a \pi(a|s)Q_t(s, a)$
+
+(7.16) $G_{t:t+n} \doteq R_{t+1} + \gamma \sum_{a \neq A_{t+1}} \pi(a|S_{t+1})Q(S_{t+1}, a) + \gamma \pi(A_{t+1}|S_{t+1})G_{t+1:t+n}$
+
+let's rewrite $\bar{V}$ in terms of this weird action sum we're doing
+
+$\bar{V}_t(s) \doteq \pi(s, A_{t+1})Q(s,A_{t+1}) + \sum_{a \neq A_{t+1}} \pi(a|s)Q_t(s, a)$
+
+And therefore
+
+$\sum_{a \neq A_{t+1}} \pi(a|s)Q_t(s, a) = \bar{V}_t(s) - \pi(A_{t+1}|s)Q(s,A_{t+1})$
+
+so
+
+$G_{t:t+n} \doteq R_{t+1} + \gamma \bar{V}_t(S_{t+1}) - \gamma \pi(A_{t+1}|S_{t+1})Q(S_{t+1}, A_{t+1}) + \gamma \pi(A_{t+1}|S_{t+1})G_{t+1:t+n}$
+
+Let's observe that
+
+$\delta_t + Q(S_t, A_t) \doteq R_{t+1} + \gamma \bar{V}_t(S_{t+1})$
+
+So we can simplify
+
+$G_{t:t+n} \doteq \delta_t + Q(S_t, A_t) - \gamma \pi(A_{t+1}|S_{t+1})Q(S_{t+1}, A_{t+1}) + \gamma \pi(A_{t+1}|S_{t+1})G_{t+1:t+n}$
+
+$G_{t:t+n} \doteq \delta_t + Q(S_t, A_t) + \gamma \pi(A_{t+1}|S_{t+1})[G_{t+1:t+n} - Q(S_{t+1}, A_{t+1})]$
+
+$G_{t:t+n} \doteq \delta_t + Q(S_t, A_t) + \gamma \pi(A_{t+1}|S_{t+1})[[\delta_{t+1} + Q(S_{t+1}, A_{t+1}) + \gamma \pi(A_{t+2}|S_{t+2})[G_{t+2:t+n} - Q(S_{t+2}, A_{t+2})] - Q(S_{t+1}, A_{t+1})]$
+
+Distribute it back in
+
+$G_{t:t+n} \doteq \delta_t + Q(S_t, A_t) + \gamma \pi(A_{t+1}|S_{t+1})[\delta_{t+1} + Q(S_{t+1}, A_{t+1}) + \gamma \pi(A_{t+2}|S_{t+2})[G_{t+2:t+n} - Q(S_{t+2}, A_{t+2})] - \gamma \pi(A_{t+1}|S_{t+1})Q(S_{t+1}, A_{t+1})]$
+
+$G_{t:t+n} \doteq \delta_t + Q(S_t, A_t) + \gamma \pi(A_{t+1}|S_{t+1})\delta_{t+1} + \gamma \pi(A_{t+1}|S_{t+1})Q(S_{t+1}, A_{t+1}) + \gamma \pi(A_{t+1}|S_{t+1})\gamma \pi(A_{t+2}|S_{t+2})[G_{t+2:t+n} - Q(S_{t+2}, A_{t+2})] - \gamma \pi(A_{t+1}|S_{t+1})Q(S_{t+1}, A_{t+1})$
+
+$G_{t:t+n} \doteq \delta_t + Q(S_t, A_t) + \gamma \pi(A_{t+1}|S_{t+1})\delta_{t+1} + \gamma \pi(A_{t+1}|S_{t+1})\gamma \pi(A_{t+2}|S_{t+2})[G_{t+2:t+n} - Q(S_{t+2}, A_{t+2})]$
+
+Rewrite it, note that the product over an empty index set is 1.
+
+$G_{t:t+n} \doteq Q(S_t, A_t) + \prod_{i=t+1}^{t}\gamma\pi(A_i, S_i)\delta_t + \prod_{i=t+1}^{t+1}\gamma\pi(A_i, S_i) \delta_{t+1} + \prod_{i=t+1}^{t+2}\gamma\pi(A_i, S_i)[Q(S_{t+2}, A_{t+2}) + G_{t+2:t+n}]]$
+
+Expand out until terminal n (or terminal state)
+
+$G_{t:t+n} = Q(S_t, A_t) + \sum_{k=t}^{min(t+n-1, T-1)} \delta_k \prod_{i=t+1}^{k} \gamma \pi(A_i|S_i)$
+
+**** TODO Starred Exercises
+
+This section is a bit odd -- Chapter 7 has 5 exercises in section 7.4, which is a starred section. One of these exercises is starred, the rest are not. I'm treating these exercises as starred, and the starred exercise as double-starred, but that might be wrong?
+
+Exercise 7.5 Write the pseudocode for the off-policy state-value prediction algorithm
+described above. (This one isn't technically starred? But it's in a starred section, so I'll put it here)
+
+Exercise 7.6 Prove that the control variate in the above equations does not change the
+expected value of the return. ⇤
+
+(double-starred) Exercise 7.7 Write the pseudocode for the off-policy action-value prediction algorithm
+described immediately above. Pay particular attention to the termination conditions for
+the recursion upon hitting the horizon or the end of episode. ⇤
+
+Exercise 7.8 Show that the general (off-policy) version of the n-step return (7.13) can
+still be written exactly and compactly as the sum of state-based TD errors (6.5) if the
+approximate state value function does not change. ⇤
+
+Exercise 7.9 Repeat the above exercise for the action version of the off-policy n-step
+return (7.14) and the Expected Sarsa TD error (the quantity in brackets in Equation 6.9).
+⇤
+
+Exercise 7.10 (programming) Devise a small off-policy prediction problem and use it to
+show that the off-policy learning algorithm using (7.13) and (7.2) is more data efficient
+than the simpler algorithm using (7.1) and (7.9). ⇤
 
 *** 8 - Planning and Learning with Tabular Methods
 
