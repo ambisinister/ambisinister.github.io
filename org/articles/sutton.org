@@ -4,7 +4,7 @@
 
 I am anticipating needing to deeply understand Reinforcement Learning to properly do my job. Everybody says that [[http://incompleteideas.net/book/RLbook2020.pdf][this book]] is the way to do that, so I'm working through it and doing the exercises. I'll be putting the exercises in this document along with some random thoughts I may have. I have done this on here [[https://planetbanatt.net/articles/probmods.html][before, with the textbook Probabilistic Models of Cognition]], so it will largely be the same as that. I am also roughly following [[https://www.youtube.com/playlist?list=PLqYmG7hTraZBKeNJ-JE_eyJHZ7XgBoAyb][the DeepMind x UCL Reinforcement Learning Course (2018)]] which follows this book. I learn much better from reading and practicing compared to from watching and listening, but it doesn't hurt to attack the problem from all fronts.
 
-I'll be checking my answers to the exercises with LLMs as I work through the book. The majority of these are near the beginning of the book (chapter 3 has almost 30 exercises, most chapters after have about 10, part III has one exercise total). Since my objective is to understand RL well enough to do research, I'm going to make a good faith effort to actually get through the whole book, including these less exercise-heavy chapters / ones not covered in the DeepMind course. We will see how well I stick to it, but I have some optimism. *Please Note: I give no guarantee of correctness for these exercises.* This is not an answer key, it's my attempt at fighting through a textbook to learn a new topic. 
+I'll be checking my answers to the exercises with LLMs as I work through the book. The majority of these are near the beginning of the book (chapter 3 has almost 30 exercises, most chapters after have about 10, part III has one exercise total). Since my objective is to understand RL well enough to do research, I'm going to make a good faith effort to actually get through the whole book, including these less exercise-heavy chapters / ones not covered in the DeepMind course. We will see how well I stick to it, but I have some optimism. *Please Note: I give no guarantee of correctness for these exercises.* This is not an answer key, it's my attempt at fighting through a textbook to learn a new topic. Likewise, these answers aren't of the quality I would submit as a homework assignment, they're just having passed the threshold where I believe it is clear I understand the solution. 
 
 Overall I have been finding this book to be very challenging. I really thought my programming background would help me a lot more than it has been, so struggling through the necessary notation has been pretty taxing. 
 
@@ -1212,7 +1212,7 @@ $q_{k+1}(s, a) \doteq  \sum_{s', r} p(s', r | s, a) [r + \gamma \sum_{a'} \pi(a|
 
 *** 5 - Monte Carlo Methods
 
-/Status: Need to do programming exercise/
+/status: checked with o1-preview/
 
 **** Exercise 5.1
 
@@ -1336,6 +1336,8 @@ b(At|St) , but instead it involves 1 / b(At|St) . Why is this nevertheless corre
 
 This is because we are using W to incrementally update the importance sampling ratio, and we modify the ratio each Q assignment rather than calculating it from scratch every time.
 
+Specifically, we can observe that after A_t has been selected by \pi, $\pi(A_t|S_t) = 1$, which matches what we have above. W in this case is just repeatedly multiplying this together, which makes it the same as a product of importance sampling ratios. 
+
 **** Exercise 5.12: Racetrack (programming)
 
 Consider driving a race car around a turn
@@ -1374,7 +1376,7 @@ $Q(s,a) = \frac{\sum_{t \in T(s,a)} p_{t:T(t)-1} G_t}{|T(s,a)|}$
 
 $Q(s,a) = \frac{\sum_{t \in T(s,a)} p_{t:T(t)-1} G_t}{\sum_{t \in T(s,a)} p_{t:T(t)-1}}$
 
-Because these estimates already specify an action, there should be a step fewer in the total episode length compared to the state version, which should make it a little bit less correction.
+These are actually likely to require a lot more importance-sampling correction. In general, there are almost always many more state-action pairs than there are states, so you'll likely need to get more samples as you construct these estimates.
 
 **** TODO Asterisked Exercises to Revisit Later
 

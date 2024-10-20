@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-10-19 Sat 19:31 -->
+<!-- 2024-10-19 Sat 19:56 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Learning RL</title>
@@ -262,7 +262,7 @@ I am anticipating needing to deeply understand Reinforcement Learning to properl
 </p>
 
 <p>
-I'll be checking my answers to the exercises with LLMs as I work through the book. The majority of these are near the beginning of the book (chapter 3 has almost 30 exercises, most chapters after have about 10, part III has one exercise total). Since my objective is to understand RL well enough to do research, I'm going to make a good faith effort to actually get through the whole book, including these less exercise-heavy chapters / ones not covered in the DeepMind course. We will see how well I stick to it, but I have some optimism. <b>Please Note: I give no guarantee of correctness for these exercises.</b> This is not an answer key, it's my attempt at fighting through a textbook to learn a new topic. 
+I'll be checking my answers to the exercises with LLMs as I work through the book. The majority of these are near the beginning of the book (chapter 3 has almost 30 exercises, most chapters after have about 10, part III has one exercise total). Since my objective is to understand RL well enough to do research, I'm going to make a good faith effort to actually get through the whole book, including these less exercise-heavy chapters / ones not covered in the DeepMind course. We will see how well I stick to it, but I have some optimism. <b>Please Note: I give no guarantee of correctness for these exercises.</b> This is not an answer key, it's my attempt at fighting through a textbook to learn a new topic. Likewise, these answers aren't of the quality I would submit as a homework assignment, they're just having passed the threshold where I believe it is clear I understand the solution. 
 </p>
 
 <p>
@@ -2266,7 +2266,7 @@ q<sub>k+1</sub>(s, a)? ⇤
 <h3 id="org0fb06e0">5 - Monte Carlo Methods</h3>
 <div class="outline-text-3" id="text-org0fb06e0">
 <p>
-<i>Status: Need to do programming exercise</i>
+<i>status: checked with o1-preview</i>
 </p>
 </div>
 
@@ -2500,6 +2500,10 @@ b(At|St) , but instead it involves 1 / b(At|St) . Why is this nevertheless corre
 <p>
 This is because we are using W to incrementally update the importance sampling ratio, and we modify the ratio each Q assignment rather than calculating it from scratch every time.
 </p>
+
+<p>
+Specifically, we can observe that after A<sub>t</sub> has been selected by &pi;, \(\pi(A_t|S_t) = 1\), which matches what we have above. W in this case is just repeatedly multiplying this together, which makes it the same as a product of importance sampling ratios. 
+</p>
 </div>
 </div>
 
@@ -2558,7 +2562,7 @@ These are pretty close to the same thing:
 </p>
 
 <p>
-Because these estimates already specify an action, there should be a step fewer in the total episode length compared to the state version, which should make it a little bit less correction.
+These are actually likely to require a lot more importance-sampling correction. In general, there are almost always many more state-action pairs than there are states, so you'll likely need to get more samples as you construct these estimates.
 </p>
 </div>
 </div>
