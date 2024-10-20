@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-10-19 Sat 19:56 -->
+<!-- 2024-10-19 Sat 20:56 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Learning RL</title>
@@ -110,6 +110,8 @@ $(function() {
 <ul>
 <li><a href="#org171e715">Sutton and Barto</a>
 <ul>
+<li><a href="#org229574c">How I Am Reading This Book</a></li>
+<li><a href="#orgaea68fd">What I Think About The Book</a></li>
 <li><a href="#orgd4dd495">Random Thoughts</a></li>
 <li><a href="#orge2f50e4">Exercises</a>
 <ul>
@@ -260,27 +262,61 @@ $(function() {
 <p>
 I am anticipating needing to deeply understand Reinforcement Learning to properly do my job. Everybody says that <a href="http://incompleteideas.net/book/RLbook2020.pdf">this book</a> is the way to do that, so I'm working through it and doing the exercises. I'll be putting the exercises in this document along with some random thoughts I may have. I have done this on here <a href="https://planetbanatt.net/articles/probmods.html">before, with the textbook Probabilistic Models of Cognition</a>, so it will largely be the same as that. I am also roughly following <a href="https://www.youtube.com/playlist?list=PLqYmG7hTraZBKeNJ-JE_eyJHZ7XgBoAyb">the DeepMind x UCL Reinforcement Learning Course (2018)</a> which follows this book. I learn much better from reading and practicing compared to from watching and listening, but it doesn't hurt to attack the problem from all fronts.
 </p>
+</div>
 
+<div id="outline-container-org229574c" class="outline-2">
+<h2 id="org229574c">How I Am Reading This Book</h2>
+<div class="outline-text-2" id="text-org229574c">
 <p>
-I'll be checking my answers to the exercises with LLMs as I work through the book. The majority of these are near the beginning of the book (chapter 3 has almost 30 exercises, most chapters after have about 10, part III has one exercise total). Since my objective is to understand RL well enough to do research, I'm going to make a good faith effort to actually get through the whole book, including these less exercise-heavy chapters / ones not covered in the DeepMind course. We will see how well I stick to it, but I have some optimism. <b>Please Note: I give no guarantee of correctness for these exercises.</b> This is not an answer key, it's my attempt at fighting through a textbook to learn a new topic. Likewise, these answers aren't of the quality I would submit as a homework assignment, they're just having passed the threshold where I believe it is clear I understand the solution. 
+My primary objective in reading this book is to understand deep reinforcement learning well enough to make meaningful contributions to research, especially where that intersects with both games and broader machine learning (since I currently work at Riot, and think this is the most interesting application of RL<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>).
 </p>
 
 <p>
-Overall I have been finding this book to be very challenging. I really thought my programming background would help me a lot more than it has been, so struggling through the necessary notation has been pretty taxing. 
+In general, there are two types of learning: let's call them "waow learning" and "ugh learning". In waow learning, you learn a new concept, some good words to say about that concept, and a corpus of other people's thoughts on a topic. In ugh learning, you are running on the treadmill and trying not to die. Since my objective is research, it's of higher relative importance that I do a lot of ugh learning on this topic. I'm not anticipating RL becoming my primary specialty within machine learning, but I need to <i>get it</i> more than I would to read through an RL paper and nod sagely when I see familiar terms. I do my best work when I get really <i>opinionated</i> about a topic, and I can't reliably do that without chaining myself to the treadmill.
 </p>
+
+<p>
+So, I'll be doing all of the exercises in this textbook, barring the ones which are starred or are inside of starred sections. The exception here is chapter 11, which I will be doing since I'm anticipating it being relevant to what I'm aiming to actually do with it. The majority of these are near the beginning of the book (chapter 3 has almost 30 exercises, most chapters after have about 10, part III has one exercise total). I'm going to make a good faith effort to actually get through the whole book, including these less exercise-heavy chapters / ones not covered in the DeepMind course. We will see how well I stick to it, but I have some optimism. Likewise, at the end I'll be making cloze deletion flashcards of the convenient summary sections at the end of every chapter.
+</p>
+
+<p>
+<b>Please Note: I give no guarantee of correctness for my solutions to these exercises.</b> This is not an answer key, it's my attempt at fighting through a textbook to learn a new topic<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>. Likewise, these answers aren't of the quality I would submit as a homework assignment, they're just having passed the threshold where I believe it is clear to myself that I understand the solution<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>. I'll be checking my answers to the exercises with LLMs as I work through the book, which should be noted in the little <i>status</i> line at the start of each subsection.
+</p>
+
+<p>
+In addition, this book is actually pretty surface level on deep RL specifically &#x2013; this book just represents the background necessary for understanding the RL part. I'm hopeful that I already understand the deep part, but it's helpful for me to have a plan of attack for after I complete the book. In particular, I'm planning on reading through the code for important algorithms in <a href="https://docs.cleanrl.dev/">CleanRL</a>, along some important relevant papers. This will probably be it's own post, but I'll link it here once I get to that point.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgaea68fd" class="outline-2">
+<h2 id="orgaea68fd">What I Think About The Book</h2>
+<div class="outline-text-2" id="text-orgaea68fd">
+<p>
+So far I have a few thoughts about this book. In general I consider myself relatively not math-inclined<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>; my strengths mostly lie in my ability to throw borderline obsessive amounts of effort at projects. But I do have a fair bit of good experience in machine learning, programming, artificial intelligence, all that sort of stuff. The jury is probably out on whether I was better-suited for this book compared to a plucky engineering undergraduate, but I figured it should all be within my grasp.
+</p>
+
+<p>
+I found myself able to navigate the exercises in this book with great difficulty. They were very challenging to me, and I expected my background to be of much greater help than it ended up being. I was forced to acknowledge that maybe, just a little bit, I was letting my eyes glaze over a little bit when I read through dense notation in papers. The notation in RL is very intense<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>, and this book does not pull punches. It was all fairly doable, but I was grateful that I worked through it after we invented LLMs / after I landed somewhere with bright colleagues who already know this topic.
+</p>
+
+<p>
+I think the structure of the book is very strong. Almost all the ideas that are introduced feel like very natural extensions of previously introduced topics, and you arrive at a nice unifying framework for why the important techniques make the decisions that they make. This is pretty nice compared to just reading papers about it.
+</p>
+
+<p>
+Overall I think that it makes sense to consider this the canonical book on reinforcement learning. I think it could be more gentle, but it would probably be twice the length. I think it could have more neural networks / deep RL in it, but then the purpose of the book would probably get too muddled, and it runs the risk of more quickly growing dated. This book is probably your best bet if you have access to some sort of teacher, and definitely seems like more of a foundation-building text about the field in general.
+</p>
+
+<p>
+Overall good. 
+</p>
+</div>
 </div>
 
 <div id="outline-container-orgd4dd495" class="outline-2">
 <h2 id="orgd4dd495">Random Thoughts</h2>
 <div class="outline-text-2" id="text-orgd4dd495">
-<p>
-This book is actually pretty surface level on deep RL so I'll probably need to read more papers for that. In particular I'm planning on reading through the code for <a href="https://docs.cleanrl.dev/">CleanRL</a> and some important relevant papers on top of reading this book.
-</p>
-
-<p>
-This book's full content is roughly 2 semesters worth of material. The one semester version stops at chapter 10.
-</p>
-
 <p>
 Arcade culture as multi-arm bandit problem
 </p>
@@ -291,10 +327,6 @@ Evolutionary RL with parameter model merging crossover operations
 
 <p>
 spybots clone might be good environment to implement algos like MCTS
-</p>
-
-<p>
-Need to go back and cloze card all the summary sections after every chapter.
 </p>
 </div>
 </div>
@@ -3349,7 +3381,33 @@ meaning of your results.
 </div>
 </div>
 </div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Language modeling a close second, but loses points when considering that "RL for language models for games" counts as games. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Not to mention fighting through it at a pretty rapid pace, considering it's intended to fill out two full semesters. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+i.e. there's a few in here that are like "this is the same as the previous exercise" which would obviously not fly if I was a student in a course but are fine here. I'm not trying to impress a grader, I am trying to powerlevel exercises and complete this textbook asap so I'll be unblocked on the work I need RL knowledge to perform well.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+This may read as obnoxious to say but I mostly mean relative to my peers in ML research, who typically have a lot more hours spent pen to paper on it. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+This is a bit of a euphemism. 
+</p></div></div>
+
+
 </div>
+</div></div>
 <div id="postamble" class="status">
 <a href="#top">Back to Top</a>
 </div>
