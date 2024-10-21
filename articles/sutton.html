@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-10-20 Sun 18:18 -->
+<!-- 2024-10-21 Mon 02:37 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Learning RL</title>
@@ -229,16 +229,16 @@ $(function() {
 <li><a href="#orgb7752d7"><span class="todo TODO">TODO</span> Starred Exercises</a></li>
 </ul>
 </li>
-<li><a href="#orgd471eea">(In Progress) 8 - Planning and Learning with Tabular Methods</a>
+<li><a href="#org966eafb">8 - Planning and Learning with Tabular Methods</a>
 <ul>
 <li><a href="#org00bd23a">Exercise 8.1</a></li>
 <li><a href="#org714ccf6">Exercise 8.2</a></li>
 <li><a href="#org3ffe98c">Exercise 8.3</a></li>
-<li><a href="#org05ead35"><span class="todo TODO">TODO</span> Exercise 8.4 (programming)</a></li>
+<li><a href="#org05ead35">Exercise 8.4 (programming)</a></li>
 <li><a href="#orgebeb80a">Exercise 8.5</a></li>
 <li><a href="#org83653df">Exercise 8.6</a></li>
 <li><a href="#org2417be7">Exercise 8.7</a></li>
-<li><a href="#org41b5b9f"><span class="todo TODO">TODO</span> Exercise 8.8 (programming)</a></li>
+<li><a href="#org41b5b9f">Exercise 8.8 (programming)</a></li>
 </ul>
 </li>
 <li><a href="#org4d87fb0">9 - On-policy Prediction with Approximation</a></li>
@@ -3535,11 +3535,11 @@ than the simpler algorithm using (7.1) and (7.9). ⇤
 </div>
 </div>
 
-<div id="outline-container-orgd471eea" class="outline-3">
-<h3 id="orgd471eea">(In Progress) 8 - Planning and Learning with Tabular Methods</h3>
-<div class="outline-text-3" id="text-orgd471eea">
+<div id="outline-container-org966eafb" class="outline-3">
+<h3 id="org966eafb">8 - Planning and Learning with Tabular Methods</h3>
+<div class="outline-text-3" id="text-org966eafb">
 <p>
-<i>status: need to do programming, answers are all pretty vague right now.</i>
+<i>status: checked with Claude Sonnet 3.5, provided with the textbook chapter as pdf</i>
 </p>
 </div>
 
@@ -3554,7 +3554,7 @@ the Dyna method? Explain why or why not.
 </p>
 
 <p>
-It's pretty similar conceptually but probably still worse here since in dyna you don't just get n steps updated, you also update the state closest to the goal n times.
+The methods do slightly different things. The dyna method specifically is useful in these cases where the environment doesn't change very much and is deterministic, so you can just replay old experience and continually get useful updates without actually observing them. The multi-step bootstrapping methods are more about propagating information through more states per real update, which might more quickly arrive at a policy which arrives at the goal state from the start state using a completely greedy policy, but would still take longer to correct suboptimal path turns compared to something like dyna.
 </p>
 </div>
 </div>
@@ -3569,7 +3569,7 @@ experiments?
 </p>
 
 <p>
-Encouraging it to explore means it's more likely to correct errors in the model
+Encouraging it to explore means it's more likely to correct errors in the model, which is important because otherwise dyna will fill the Q table with values based on unlikely events it happened to observe.
 </p>
 </div>
 </div>
@@ -3578,19 +3578,19 @@ Encouraging it to explore means it's more likely to correct errors in the model
 <h4 id="org3ffe98c">Exercise 8.3</h4>
 <div class="outline-text-4" id="text-org3ffe98c">
 <p>
-Careful inspection of Figure 8.5 reveals that the di↵erence between Dyna-Q+
+Careful inspection of Figure 8.5 reveals that the difference between Dyna-Q+
 and Dyna-Q narrowed slightly over the first part of the experiment. What is the reason
 for this?
 </p>
 
 <p>
-When the models are correct, encouraging it to do extra exploration provides minimal value over doing more exploitation, which is done in Dyna-Q more than Dyna-Q+.
+When the models are correct, encouraging it to do extra exploration provides minimal value over doing more exploitation, which is done in Dyna-Q more than Dyna-Q+. Once exploration becomes more important, the advantage of Dyna-Q+ widens substantially, but there's a cost associated with that, it's not just always better.
 </p>
 </div>
 </div>
 
 <div id="outline-container-org05ead35" class="outline-4">
-<h4 id="org05ead35"><span class="todo TODO">TODO</span> Exercise 8.4 (programming)</h4>
+<h4 id="org05ead35">Exercise 8.4 (programming)</h4>
 <div class="outline-text-4" id="text-org05ead35">
 <p>
 The exploration bonus described above actually changes
@@ -3599,6 +3599,140 @@ was used not in updates, but solely in action selection. That is, suppose the ac
 selected was always that for which Q(St, a) + \(k \sqrt{t(S_t, a)}\) was maximal. Carry out a
 gridworld experiment that tests and illustrates the strengths and weaknesses of this
 alternate approach.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">import numpy as np
+import random
+
+# hardcoded for now
+def init_gridworld():
+    world = [["-" for _ in range(10)] for _ in range(10)]
+    world[7] = ["x" for _ in range(9)] + ['-']
+    return world
+
+def apply_move(position, action, world):
+    tall = len(world)-1
+    wide = len(world[0])-1
+
+    current_y = position[0]
+    move_y = action[0]
+    current_x = position[1]
+    move_x = action[1]
+
+    new_y = max(0, min(tall, current_y + move_y))
+    new_x = max(0, min(wide, current_x + move_x))
+
+    if world[new_y][new_x] == 'x':
+	new_y = current_y
+	new_x = current_x
+
+    return -1, (new_y, new_x)
+
+# not very efficient just getting working
+def revalue_actions(state, acts, model, k, history):
+    revalued_acts = []
+    for (act, val) in acts:
+	t = 0
+	for h in history[::-1]:
+	    t += 1
+	    if h == (state, act):
+		break
+	revalued_acts.append((act, val + k*np.sqrt(t)))
+    return revalued_acts
+
+def follow_policy(Q, pos, eps=0.1, k=0.1, model=None, history=None):
+    if pos == GOAL_STATE:
+	return (0,0)
+    if np.random.random() &lt; eps:
+	return random.choice(ACTIONS)
+
+    valued_actions = []
+
+    for (a_y, a_x) in ACTIONS:
+	if (pos, (a_y, a_x)) in Q.keys():
+	    valued_actions.append(((a_y, a_x),
+				   Q[(pos, (a_y, a_x))]))
+
+    if len(valued_actions) == 0:
+	return random.choice(ACTIONS)
+    else:
+	if model is None or history is None:
+	    return max(valued_actions, key=lambda x: x[1])[0]
+	else:
+	    return max(revalue_actions(pos, valued_actions, model, k, history), 
+		       key=lambda x: x[1])[0]
+
+def Q_update(Q, alpha, state, action, reward, new_state):
+    best_nextQ = -np.inf
+    for a in ACTIONS:
+	if (new_state, a) in Q:
+	    if Q[(new_state, a)] &gt; best_nextQ:
+		best_nextQ = Q[(new_state, a)]
+    if best_nextQ == -np.inf:
+	best_nextQ = 0
+
+    if (state, action) not in Q:
+	Q[(state, action)] = 0
+
+    Q[(state, action)] += alpha * (reward + gamma * best_nextQ - Q[(state, action)])
+
+    return Q
+
+GOAL_STATE = (0, 4)
+START_STATE = (9, 3)
+
+ACTIONS = []
+for a_y in [-1, 0, 1]:
+    for a_x in [-1, 0, 1]:
+	ACTIONS.append((a_y, a_x))
+
+# Dyna-Q
+world = init_gridworld()
+alpha = 0.1
+eps = 0.1
+gamma = 0.9
+
+n_episodes = 200
+n_steps = 25
+
+Q = {}
+model = {}
+
+for episode in range(n_episodes):
+    steps = 0
+    pos = START_STATE
+
+    if episode == 100:
+	world[7][-1] = 'x'
+	world[7][0] = '-'
+	print("~~~~~~~~~~~~~~~~~")
+
+    history = []
+
+    while pos != GOAL_STATE:
+	action = follow_policy(Q, pos, eps=eps, 
+			       model=model, history=history)
+	reward, new_pos = apply_move(pos, action, world)
+	Q = Q_update(Q, alpha, pos, action, reward, new_pos)
+	model[(pos, action)] = (reward, new_pos)
+	history.append((pos, action))
+
+	for _ in range(n_steps):
+	    (sim_s, sim_a) = random.choice(list(model.keys()))
+	    sim_r, sim_sp = model[(sim_s, sim_a)]
+	    Q = Q_update(Q, alpha, sim_s, sim_a, sim_r, sim_sp)
+
+	pos = new_pos
+
+	steps += 1
+
+    print(f"Completed in {steps} steps")
+</pre>
+</div>
+
+<p>
+In general this seems much slower to learn compared to normal, since it adds a substantial premium to exploring new states. I get the sense that this is building a better Q table compared to the normal way, where the Q values more accurate reflect the actual expected returns (by virtue of not having the values polluted by the exploration bonus), at the cost of slower convergence for the best policy resulting from it.
 </p>
 </div>
 </div>
@@ -3645,18 +3779,26 @@ this is? What aspects of the data shown support your hypothesis?
 </p>
 
 <p>
-A very noteworthy thing about the scalloping in the graphs is that they all happen at the same time for each plot, regardless of whether it's using on-policy or uniform. This would suggest that it's not related to which of those it's using, but that it affects the latter much more in evaluation. 
+A very noteworthy thing about the scalloping in the graphs is that they all happen at the same time for each plot, regardless of whether it's using on-policy or uniform. If we assume that the on-policy and uniform cases make the same number of model updates per real update, it's probably at those cases where the model completes an episode and resets back to the start state. Since both models have done a number of real updates at the beginning of the MDP, it is likely that this update is going to be a pretty moderate change compared to later values which are likely to be more inaccurate (and thus change the overall estimate a lot more).
 </p>
 </div>
 </div>
 
 <div id="outline-container-org41b5b9f" class="outline-4">
-<h4 id="org41b5b9f"><span class="todo TODO">TODO</span> Exercise 8.8 (programming)</h4>
+<h4 id="org41b5b9f">Exercise 8.8 (programming)</h4>
 <div class="outline-text-4" id="text-org41b5b9f">
 <p>
 Replicate the experiment whose results are shown in the
 lower part of Figure 8.8, then try the same experiment but with b = 3. Discuss the
 meaning of your results. 
+</p>
+
+<p>
+This is a bit much to dump here so here's the <a href="https://colab.research.google.com/drive/1tUZr5YmA08Ogfx4YE9fVmdPhmNfZDN_D?usp=sharing">colab</a>.
+</p>
+
+<p>
+I didn't do the smoothing / multiple runs part, and I am worried that my value estimation for the starting state is kind of unstable as a result. However, I did produce a graph which shows what is described (i.e. at branching factor 3 the on-policy method learns faster but the eventual value of the uniform sampling is higher after a longer period of time.) I imagine that as the branching factor grows, 
 </p>
 </div>
 </div>
