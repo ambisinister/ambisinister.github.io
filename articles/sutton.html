@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-10-19 Sat 20:56 -->
+<!-- 2024-10-20 Sun 18:18 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Learning RL</title>
@@ -203,7 +203,7 @@ $(function() {
 <li><a href="#org9486461"><span class="todo TODO">TODO</span> Asterisked Exercises to Revisit Later</a></li>
 </ul>
 </li>
-<li><a href="#org744fddd">(In Progress) 6 - Temporal-Difference Learning</a>
+<li><a href="#org02af711">6 - Temporal-Difference Learning</a>
 <ul>
 <li><a href="#org7796fcd">Exercise 6.1</a></li>
 <li><a href="#orga0e9387">Exercise 6.2</a></li>
@@ -211,18 +211,18 @@ $(function() {
 <li><a href="#org013b032">Exercise 6.4</a></li>
 <li><a href="#org1405b97">Exercise 6.6</a></li>
 <li><a href="#org7070018">Exercise 6.8</a></li>
-<li><a href="#org46277dc"><span class="todo TODO">TODO</span> Exercise 6.9 (programming)</a></li>
-<li><a href="#orgf474859"><span class="todo TODO">TODO</span> Exercise 6.10 (programming)</a></li>
+<li><a href="#org46277dc">Exercise 6.9 (programming)</a></li>
+<li><a href="#orgf474859">Exercise 6.10 (programming)</a></li>
 <li><a href="#org35c1c9c">Exercise 6.11</a></li>
 <li><a href="#org717b4ac">Exercise 6.12</a></li>
 <li><a href="#org82dad7c">Exercise 6.14</a></li>
 <li><a href="#orgb4698ae"><span class="todo TODO">TODO</span> Asterisked Exercises to Return To Later</a></li>
 </ul>
 </li>
-<li><a href="#org52e0396">(In Progress) 7 - n-step Bootstrapping</a>
+<li><a href="#org37326b3">7 - n-step Bootstrapping</a>
 <ul>
 <li><a href="#org068c94f">Exercise 7.1</a></li>
-<li><a href="#org804812f"><span class="todo TODO">TODO</span> Exercise 7.2 (programming)</a></li>
+<li><a href="#org804812f">Exercise 7.2 (programming)</a></li>
 <li><a href="#org566cc49">Exercise 7.3</a></li>
 <li><a href="#org57aef90">Exercise 7.4</a></li>
 <li><a href="#orga652932">Exercise 7.11</a></li>
@@ -2611,7 +2611,7 @@ Exercise 5.13 Show the steps to derive (5.14) from (5.12). ⇤
 </p>
 
 <p>
-Exercise 5.14 Modify the algorithm for o↵-policy Monte Carlo control (page 111) to use
+Exercise 5.14 Modify the algorithm for off-policy Monte Carlo control (page 111) to use
 the idea of the truncated weighted-average estimator (5.10). Note that you will first need
 to convert this equation to action values. ⇤
 </p>
@@ -2619,11 +2619,11 @@ to convert this equation to action values. ⇤
 </div>
 </div>
 
-<div id="outline-container-org744fddd" class="outline-3">
-<h3 id="org744fddd">(In Progress) 6 - Temporal-Difference Learning</h3>
-<div class="outline-text-3" id="text-org744fddd">
+<div id="outline-container-org02af711" class="outline-3">
+<h3 id="org02af711">6 - Temporal-Difference Learning</h3>
+<div class="outline-text-3" id="text-org02af711">
 <p>
-<i>status: need to do programming exercises</i>
+<i>status: checked with o1-preview</i>
 </p>
 </div>
 
@@ -2639,55 +2639,91 @@ in order to equal the Monte Carlo error.
 </p>
 
 <p>
+Definitions
+</p>
+
+<p>
+\(\delta_t = R_{t+1} + \gamma V_t(S_{t+1}) - V_t(S_t)\)
+</p>
+
+<p>
+\(G_t = R_{t+1} + \gamma G_{t+1}\)
+</p>
+
+<p>
+\(V_{t+1}(S_t) = V_t(S_t) + \alpha_t \delta_t\)
+</p>
+
+<p>
+We start with MC return
+</p>
+
+<p>
+\(G_t = R_{t+1} + \gamma G_{t+1}\)
+</p>
+
+<p>
+\(G_t - V_t(S_t) = R_{t+1} + \gamma G_{t+1} - V_t(S_t)\)
+</p>
+
+<p>
+\(G_t - V_t(S_t) = R_{t+1} + \gamma G_{t+1} - V_t(S_t) + \gamma V_t(S_{t+1}) - \gamma V_t(S_{t+1})\)
+</p>
+
+<p>
+\(G_t - V_t(S_t) = \delta_t + \gamma G_{t+1} - \gamma V_t(S_{t+1})\)
+</p>
+
+<p>
+\(G_t - V_t(S_t) = \delta_t + \gamma[G_{t+1} - V_t(S_{t+1})]\)
+</p>
+
+<p>
 We can define a new quantity
 </p>
 
 <p>
-\(V_\Delta(S) = V_t(S) - V_0(S)\)
+\(V_\Delta(S) = V_{t+1}(S) - V_{t}(S)\)
 </p>
 
 <p>
-\(\delta_{t'} \doteq R_{t+1} + \gamma (V_0(S_{t+1}) + V_\Delta(S_{t+1})) - (V_0(S_t) + V_\Delta(S_t))\)
+\(G_{t+1} - V_{t}(S_{t+1}) = G_{t+1} - V_{t}(S_{t+1})\)
 </p>
 
 <p>
-\(\delta_{t'} \doteq R_{t+1} + \gamma V_0(S_{t+1}) + V_0(S_t) + \gamma V_\Delta(S_{t+1}) + V_\Delta(S_t))\)
+\(G_{t+1} - V_{t}(S_{t+1}) = G_{t+1} - [V_{t+1}(S_{t+1}) - V_\Delta(S_{t+1})]\)
 </p>
 
 <p>
-\(\delta_{t'} = \delta_t + \gamma V_\Delta(S_{t+1}) + V_\Delta(S_t)\)
+\(G_{t+1} - V_{t}(S_{t+1}) = G_{t+1} - V_{t+1}(S_{t+1}) + V_\Delta(S_{t+1})\)
 </p>
 
 <p>
-So in turn
+Now we have it written in terms of what we want so we can do the same expansions as in 6.6
 </p>
 
 <p>
-\(= \delta_t + \gamma \delta_{t+1} + \gamma \delta_{t+1} + ... + \gamma^{T-t-1}\delta_{T-1}\)
+\(G_t - V_t(S_t) = \delta_t + \gamma[G_{t+1} - V_{t+1}(S_{t+1})] + \gamma V_\Delta(S_{t+1})\)
 </p>
 
 <p>
-becomes
+\(G_t - V_t(S_t) = \delta_t + \gamma \delta_{t+1} + \gamma^2[G_{t+2} - V_{t+2}(S_{t+2}) + V_\Delta(S_{t+2})] + \gamma V_\Delta(S_{t+1})\)
 </p>
 
 <p>
-\(= (\delta_t + \gamma V_\Delta(S_{t+1}) + V_\Delta(S_t)) + \gamma^2 (\delta_{t+1} + \gamma V_\Delta(S_{t+2}) + V_\Delta(S_{t+1})) + ... + \gamma^{T-t-1} (\delta_{T-1} + \gamma V_\Delta(S_{T-t}) + V_\Delta(S_{T-t-1}))\)
+&#x2026;
 </p>
 
 <p>
-\(= \delta_t + \gamma V_\Delta(S_{t+1}) + V_\Delta(S_t)) + \gamma^2 \delta_{t+1} + \gamma^3 V_\Delta(S_{t+2}) + \gamma^2 V_\Delta(S_{t+1})) + ... + \gamma^{T-t-1} \delta_{T-1} + \gamma^{T-t} V_\Delta(S_{T-t}) + \gamma^{T-t-1} V_\Delta(S_{T-t-1}))\)
+\(= \gamma V_\Delta(S_{t+1}) + \gamma^2 V_\Delta(S_{t+2}) + ... + \sum_{k=t}^{T-1} \gamma^{k-t} \delta_k\)
 </p>
 
 <p>
-\(=V_\Delta(S_t) + \gamma V_\Delta(S_{t+1}) + \gamma^2 V_\Delta(S_{t+2}) + \gamma^3 V_\Delta(S_{t+2}) + ... + \gamma^{T-t-1} V_\Delta(S_{T-t-1}) + \gamma^{T-t} V_\Delta(S_{T-t}) + \sum_{k=t}^{T-1} \gamma^{k-t} \delta_k\)
+\(= \sum_{k=t}^{T-1} \gamma^{k-t} V_\Delta(S_{k}) + \sum_{k=t}^{T-1} \gamma^{k-t} \delta_k\)
 </p>
 
 <p>
-\(= \sum_{k=t}^{T-1} \gamma^{k-t} \delta_k + \sum_{k=t}^{T} \gamma^{k-t} V_\Delta(S_k) + \gamma^{k-t+1} V_\Delta(S_{k+1})\)
-</p>
-
-<p>
-This seems pretty close, there's probably a better way
+\(= \sum_{k=t}^{T-1} \gamma^{k-t} [\delta_k + V_\Delta(S_k)]\)
 </p>
 </div>
 </div>
@@ -2807,7 +2843,7 @@ Thankfully this is the same, since Q(S<sub>T</sub>, A<sub>T</sub>) and G<sub>T</
 </div>
 
 <div id="outline-container-org46277dc" class="outline-4">
-<h4 id="org46277dc"><span class="todo TODO">TODO</span> Exercise 6.9 (programming)</h4>
+<h4 id="org46277dc">Exercise 6.9 (programming)</h4>
 <div class="outline-text-4" id="text-org46277dc">
 <p>
 Re-solve the windy
@@ -2815,11 +2851,100 @@ gridworld assuming eight possible actions, including the diagonal moves, rather 
 How much better can you do with the extra actions? Can you do even better by including
 a ninth action that causes no movement at all other than that caused by the wind?
 </p>
+
+<div class="org-src-container">
+<pre class="src src-python">import numpy as np
+
+# hardcoded for now
+def init_gridworld():
+    world = [["-" for _ in range(10)] for _ in range(6)]
+    winds = [0, 0, 0, 1, 1, 1, 2, 2, 1, 0]
+    return world, winds
+
+def apply_move(position, action, world, winds):
+    tall = len(world)-1
+    wide = len(world[0])-1
+
+    current_y = position[0]
+    move_y = action[0]
+    current_x = position[1] 
+    move_x = action[1]
+
+    # this seems how it works from the figure
+    current_wind = winds[current_x]
+
+    new_y = max(0, min(tall, current_y + move_y - current_wind))
+    new_x = max(0, min(wide, current_x + move_x))
+
+    return -1, (new_y, new_x)
+
+def follow_policy(Q, pos, eps=0.1):
+    if pos == GOAL_STATE:
+	return (0,0)
+    if np.random.random() &lt; eps:
+	return (np.random.choice([-1,0,1]),
+		np.random.choice([-1,0,1]))
+
+    valued_actions = []
+
+    for a_y in [-1, 0, 1]:
+	for a_x in [-1, 0, 1]:
+	    if (pos, (a_y, a_x)) in Q.keys():
+		valued_actions.append(((a_y, a_x),
+				       Q[(pos, (a_y, a_x))]))
+
+    if len(valued_actions) == 0:
+	return (np.random.choice([-1,0,1]),
+		np.random.choice([-1,0,1]))
+    else:
+	return max(valued_actions, key=lambda x: x[1])[0]
+
+
+GOAL_STATE = (3, 7)
+START_STATE = (3, 0)
+
+# sarsa
+world, winds = init_gridworld()
+alpha = 0.1
+eps = 0.1
+gamma = 1
+
+n_episodes = 100
+
+Q = {}
+
+for _ in range(n_episodes):
+    steps = 0
+
+    pos = START_STATE
+    action = follow_policy(Q, pos, eps=eps)
+
+    while pos != GOAL_STATE:
+	steps += 1
+	reward, new_pos = apply_move(pos, action, world, winds)
+	new_action = follow_policy(Q, new_pos, eps=eps)
+
+	sa = (pos, action)
+	spap = (new_pos, new_action)
+
+	if sa not in Q:
+	    Q[sa] = 0
+	if spap not in Q:
+	    Q[spap] = 0
+
+	Q[sa] = Q[sa] + alpha * (reward + gamma * Q[spap] - Q[sa])
+
+	pos = new_pos
+	action = new_action
+
+    print(f"Completed in {steps} steps")
+</pre>
+</div>
 </div>
 </div>
 
 <div id="outline-container-orgf474859" class="outline-4">
-<h4 id="orgf474859"><span class="todo TODO">TODO</span> Exercise 6.10 (programming)</h4>
+<h4 id="orgf474859">Exercise 6.10 (programming)</h4>
 <div class="outline-text-4" id="text-orgf474859">
 <p>
 Exercise 6.10: Stochastic Wind (programming) Re-solve the windy gridworld task with
@@ -2831,6 +2956,97 @@ cell below that. For example, if you are one cell to the right of the goal and y
 left, then one-third of the time you move one cell above the goal, one-third of the time
 you move two cells above the goal, and one-third of the time you move to the goal. ⇤
 </p>
+
+<div class="org-src-container">
+<pre class="src src-python">import numpy as np
+
+# hardcoded for now
+def init_gridworld():
+    world = [["-" for _ in range(10)] for _ in range(6)]
+    winds = [0, 0, 0, 1, 1, 1, 2, 2, 1, 0]
+    return world, winds
+
+def apply_move(position, action, world, winds):
+    tall = len(world)-1
+    wide = len(world[0])-1
+
+    current_y = position[0]
+    move_y = action[0]
+    current_x = position[1] 
+    move_x = action[1]
+
+    # stochastic
+    current_wind = np.random.choice([winds[current_x]-1,
+				     winds[current_x],
+				     winds[current_x]+1])
+
+    new_y = max(0, min(tall, current_y + move_y - current_wind))
+    new_x = max(0, min(wide, current_x + move_x))
+
+    return -1, (new_y, new_x)
+
+def follow_policy(Q, pos, eps=0.1):
+    if pos == GOAL_STATE:
+	return (0,0)
+    if np.random.random() &lt; eps:
+	return (np.random.choice([-1,0,1]),
+		np.random.choice([-1,0,1]))
+
+    valued_actions = []
+
+    for a_y in [-1, 0, 1]:
+	for a_x in [-1, 0, 1]:
+	    if (pos, (a_y, a_x)) in Q.keys():
+		valued_actions.append(((a_y, a_x),
+				       Q[(pos, (a_y, a_x))]))
+
+    if len(valued_actions) == 0:
+	return (np.random.choice([-1,0,1]),
+		np.random.choice([-1,0,1]))
+    else:
+	return max(valued_actions, key=lambda x: x[1])[0]
+
+
+GOAL_STATE = (3, 7)
+START_STATE = (3, 0)
+
+# sarsa
+world, winds = init_gridworld()
+alpha = 0.1
+eps = 0.1
+gamma = 1
+
+n_episodes = 100
+
+Q = {}
+
+for _ in range(n_episodes):
+    steps = 0
+
+    pos = START_STATE
+    action = follow_policy(Q, pos, eps=eps)
+
+    while pos != GOAL_STATE:
+	steps += 1
+	reward, new_pos = apply_move(pos, action, world, winds)
+	new_action = follow_policy(Q, new_pos, eps=eps)
+
+	sa = (pos, action)
+	spap = (new_pos, new_action)
+
+	if sa not in Q:
+	    Q[sa] = 0
+	if spap not in Q:
+	    Q[spap] = 0
+
+	Q[sa] = Q[sa] + alpha * (reward + gamma * Q[spap] - Q[sa])
+
+	pos = new_pos
+	action = new_action
+
+    print(f"Completed in {steps} steps")
+</pre>
+</div>
 </div>
 </div>
 
@@ -2905,11 +3121,11 @@ Exercise 6.13 What are the update equations for Double Expected Sarsa with an
 </div>
 </div>
 
-<div id="outline-container-org52e0396" class="outline-3">
-<h3 id="org52e0396">(In Progress) 7 - n-step Bootstrapping</h3>
-<div class="outline-text-3" id="text-org52e0396">
+<div id="outline-container-org37326b3" class="outline-3">
+<h3 id="org37326b3">7 - n-step Bootstrapping</h3>
+<div class="outline-text-3" id="text-org37326b3">
 <p>
-<i>Status: Need to do programming</i>
+<i>Status: Checked with o1-preview</i>
 </p>
 </div>
 
@@ -2976,26 +3192,146 @@ Which is
 </p>
 
 <p>
-\(G_{t:t+n} - V(S_t) = \delta_t + \gamma \delta_{t+1} + ... + \gamma^{n-1} \delta_{t+n}\)
+\(G_{t:t+n} - V(S_t) = \delta_t + \gamma \delta_{t+1} + ... + \gamma^{n-1} \delta_{t+n-1}\)
 </p>
 
 <p>
-\(G_{t:t+n} - V(S_t) = \sum_{k=t}^{t+n} \gamma^{k-1} \delta_k\)
+\(G_{t:t+n} - V(S_t) = \sum_{k=t}^{t+n-1} \gamma^{k-1} \delta_k\)
 </p>
 </div>
 </div>
 
 <div id="outline-container-org804812f" class="outline-4">
-<h4 id="org804812f"><span class="todo TODO">TODO</span> Exercise 7.2 (programming)</h4>
+<h4 id="org804812f">Exercise 7.2 (programming)</h4>
 <div class="outline-text-4" id="text-org804812f">
 <p>
 With an n-step method, the value estimates do change from step to
 step, so an algorithm that used the sum of TD errors (see previous
 exercise) in place of the error in (7.2) would actually be a slightly
-di↵erent algorithm. Would it be a better algorithm or a worse one?
+different algorithm. Would it be a better algorithm or a worse one?
 Devise and program a small experiment to answer this question
 empirically.
 </p>
+
+<p>
+I am stupid and I tried to do this with n-step sarsa, which doesn't use value estimates at all. I don't really feel like going back and implementing n-step TD and then making this changes, but intuitively I feel like using the TD errors would provide a more biased estimate towards the current values, which might be better in situations where the values have higher variance or change over time. It's probably better or worse depending on the problem.
+</p>
+
+<p>
+I may revisit this later but I at least still got to do some programming in this chapter so we will call it completed even though it's wrong.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">import numpy as np
+
+# hardcoded for now
+def init_gridworld():
+    world = [["-" for _ in range(10)] for _ in range(10)]
+    return world
+
+def apply_move(position, action, world):
+    tall = len(world)-1
+    wide = len(world[0])-1
+
+    current_y = position[0]
+    move_y = action[0]
+    current_x = position[1]
+    move_x = action[1]
+
+    new_y = max(0, min(tall, current_y + move_y))
+    new_x = max(0, min(wide, current_x + move_x))
+
+    return -1, (new_y, new_x)
+
+def follow_policy(Q, pos, eps=0.1):
+    if pos == GOAL_STATE:
+	return (0,0)
+    if np.random.random() &lt; eps:
+	return (np.random.choice([-1,0,1]),
+		np.random.choice([-1,0,1]))
+
+    valued_actions = []
+
+    for a_y in [-1, 0, 1]:
+	for a_x in [-1, 0, 1]:
+	    if (pos, (a_y, a_x)) in Q.keys():
+		valued_actions.append(((a_y, a_x),
+				       Q[(pos, (a_y, a_x))]))
+
+    if len(valued_actions) == 0:
+	return (np.random.choice([-1,0,1]),
+		np.random.choice([-1,0,1]))
+    else:
+	return max(valued_actions, key=lambda x: x[1])[0]
+
+GOAL_STATE = (3, 7)
+#START_STATE = (3, 0)
+
+# n-step sarsa
+world = init_gridworld()
+alpha = 0.1
+eps = 0.1
+gamma = 1
+
+n_episodes = 100
+n_steps = 10
+
+Q = {}
+
+for _ in range(n_episodes):
+    steps = 0
+
+    pos = GOAL_STATE
+    while pos == GOAL_STATE:
+	pos = (np.random.randint(0,9),
+	       np.random.randint(0,9))
+
+    action = follow_policy(Q, pos, eps=eps)
+
+    all_rewards = []
+    all_states = [pos]
+    all_actions = []
+
+    T = np.inf
+
+    while steps &lt; T:
+	update_step = steps - n_steps + 1
+
+	reward, new_pos = apply_move(pos, action, world)
+	all_rewards.append(reward)
+	all_states.append(new_pos)
+	all_actions.append(action)
+
+	if new_pos == GOAL_STATE:
+	    T = steps + 1
+	else:
+	    new_action = follow_policy(Q, new_pos, eps=eps)
+
+	if update_step &gt;= 0:
+	    StnAtn = (all_states[steps], all_actions[steps])
+	    StAt = (all_states[update_step], all_actions[update_step])
+	    if StnAtn not in Q:
+		Q[StnAtn] = 0
+	    if StAt not in Q:
+		Q[StAt] = 0
+
+	    G = 0
+	    for i in range(update_step+1, min(update_step+n_steps, T)):
+		G += gamma**(i-update_step-1) * all_rewards[i]
+
+	    if update_step + n_steps &lt; T:
+		G = G + gamma**n_steps * Q[StnAtn]
+
+	    Q[StAt] += alpha * (G - Q[StAt])
+
+	pos = new_pos
+	action = new_action
+
+	steps += 1
+
+    print(f"Completed in {steps} steps")
+</pre>
+</div>
 </div>
 </div>
 
@@ -3010,7 +3346,11 @@ in the larger walk? Do you think that made any difference in the best value of n
 </p>
 
 <p>
-With a shorter random walk task, it takes fewer n for your n-step method to pretty much be a MC method (barring the very unlikely extremes, which are truncated). It seems unlikely that you'd get as interesting separation in this experiment compared to the version with the longer walk. The left-side value being -1 seems unlikely to make too much of a difference, since we initialize halfway between the two values and update towards or away from one of the endpoints in both cases. But since it's higher magnitude in both directions, it might propogate higher values farther for larger values of n? It seems unlikely to change the dynamics much though, as written.
+With a shorter random walk task, it takes fewer n for your n-step method to pretty much be a MC method (barring the very unlikely extremes, which are truncated). It seems unlikely that you'd get as interesting separation in this experiment compared to the version with the longer walk.
+</p>
+
+<p>
+The left-side value being -1 means that the range of values is twice as large, which means that the variance of the cumulative returns. With higher variance, larger values of n are likely to be better.
 </p>
 </div>
 </div>

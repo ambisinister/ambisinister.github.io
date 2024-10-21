@@ -1398,13 +1398,13 @@ These are actually likely to require a lot more importance-sampling correction. 
 
 Exercise 5.13 Show the steps to derive (5.14) from (5.12). ⇤
 
-Exercise 5.14 Modify the algorithm for o↵-policy Monte Carlo control (page 111) to use
+Exercise 5.14 Modify the algorithm for off-policy Monte Carlo control (page 111) to use
 the idea of the truncated weighted-average estimator (5.10). Note that you will first need
 to convert this equation to action values. ⇤
 
-*** (In Progress) 6 - Temporal-Difference Learning
+*** 6 - Temporal-Difference Learning
 
-/status: need to do programming exercises/
+/status: checked with o1-preview/
 
 **** Exercise 6.1
 
@@ -1414,31 +1414,49 @@ used at time t in the TD error (6.5) and in the TD update (6.2). Redo the deriva
 above to determine the additional amount that must be added to the sum of TD errors
 in order to equal the Monte Carlo error.
 
+Definitions
+
+$\delta_t = R_{t+1} + \gamma V_t(S_{t+1}) - V_t(S_t)$
+
+$G_t = R_{t+1} + \gamma G_{t+1}$
+
+$V_{t+1}(S_t) = V_t(S_t) + \alpha_t \delta_t$
+
+We start with MC return
+
+$G_t = R_{t+1} + \gamma G_{t+1}$
+
+$G_t - V_t(S_t) = R_{t+1} + \gamma G_{t+1} - V_t(S_t)$
+
+$G_t - V_t(S_t) = R_{t+1} + \gamma G_{t+1} - V_t(S_t) + \gamma V_t(S_{t+1}) - \gamma V_t(S_{t+1})$
+
+$G_t - V_t(S_t) = \delta_t + \gamma G_{t+1} - \gamma V_t(S_{t+1})$
+
+$G_t - V_t(S_t) = \delta_t + \gamma[G_{t+1} - V_t(S_{t+1})]$
+
 We can define a new quantity
 
-$V_\Delta(S) = V_t(S) - V_0(S)$
+$V_\Delta(S) = V_{t+1}(S) - V_{t}(S)$
 
-$\delta_{t'} \doteq R_{t+1} + \gamma (V_0(S_{t+1}) + V_\Delta(S_{t+1})) - (V_0(S_t) + V_\Delta(S_t))$
+$G_{t+1} - V_{t}(S_{t+1}) = G_{t+1} - V_{t}(S_{t+1})$
 
-$\delta_{t'} \doteq R_{t+1} + \gamma V_0(S_{t+1}) + V_0(S_t) + \gamma V_\Delta(S_{t+1}) + V_\Delta(S_t))$
+$G_{t+1} - V_{t}(S_{t+1}) = G_{t+1} - [V_{t+1}(S_{t+1}) - V_\Delta(S_{t+1})]$
 
-$\delta_{t'} = \delta_t + \gamma V_\Delta(S_{t+1}) + V_\Delta(S_t)$
+$G_{t+1} - V_{t}(S_{t+1}) = G_{t+1} - V_{t+1}(S_{t+1}) + V_\Delta(S_{t+1})$
 
-So in turn
+Now we have it written in terms of what we want so we can do the same expansions as in 6.6
 
-$= \delta_t + \gamma \delta_{t+1} + \gamma \delta_{t+1} + ... + \gamma^{T-t-1}\delta_{T-1}$
+$G_t - V_t(S_t) = \delta_t + \gamma[G_{t+1} - V_{t+1}(S_{t+1})] + \gamma V_\Delta(S_{t+1})$
 
-becomes
+$G_t - V_t(S_t) = \delta_t + \gamma \delta_{t+1} + \gamma^2[G_{t+2} - V_{t+2}(S_{t+2}) + V_\Delta(S_{t+2})] + \gamma V_\Delta(S_{t+1})$
 
-$= (\delta_t + \gamma V_\Delta(S_{t+1}) + V_\Delta(S_t)) + \gamma^2 (\delta_{t+1} + \gamma V_\Delta(S_{t+2}) + V_\Delta(S_{t+1})) + ... + \gamma^{T-t-1} (\delta_{T-1} + \gamma V_\Delta(S_{T-t}) + V_\Delta(S_{T-t-1}))$
+...
 
-$= \delta_t + \gamma V_\Delta(S_{t+1}) + V_\Delta(S_t)) + \gamma^2 \delta_{t+1} + \gamma^3 V_\Delta(S_{t+2}) + \gamma^2 V_\Delta(S_{t+1})) + ... + \gamma^{T-t-1} \delta_{T-1} + \gamma^{T-t} V_\Delta(S_{T-t}) + \gamma^{T-t-1} V_\Delta(S_{T-t-1}))$
+$= \gamma V_\Delta(S_{t+1}) + \gamma^2 V_\Delta(S_{t+2}) + ... + \sum_{k=t}^{T-1} \gamma^{k-t} \delta_k$
 
-$=V_\Delta(S_t) + \gamma V_\Delta(S_{t+1}) + \gamma^2 V_\Delta(S_{t+2}) + \gamma^3 V_\Delta(S_{t+2}) + ... + \gamma^{T-t-1} V_\Delta(S_{T-t-1}) + \gamma^{T-t} V_\Delta(S_{T-t}) + \sum_{k=t}^{T-1} \gamma^{k-t} \delta_k$
+$= \sum_{k=t}^{T-1} \gamma^{k-t} V_\Delta(S_{k}) + \sum_{k=t}^{T-1} \gamma^{k-t} \delta_k$
 
-$= \sum_{k=t}^{T-1} \gamma^{k-t} \delta_k + \sum_{k=t}^{T} \gamma^{k-t} V_\Delta(S_k) + \gamma^{k-t+1} V_\Delta(S_{k+1})$
-
-This seems pretty close, there's probably a better way
+$= \sum_{k=t}^{T-1} \gamma^{k-t} [\delta_k + V_\Delta(S_k)]$
 
 **** Exercise 6.2
 
@@ -1505,14 +1523,102 @@ $= \sum_{k=t}^{T-1} \gamma^{k-t} \delta_k$
 
 Thankfully this is the same, since Q(S_T, A_T) and G_T are both still 0.
 
-**** TODO Exercise 6.9 (programming)
+**** Exercise 6.9 (programming)
 
 Re-solve the windy
 gridworld assuming eight possible actions, including the diagonal moves, rather than four.
 How much better can you do with the extra actions? Can you do even better by including
 a ninth action that causes no movement at all other than that caused by the wind?
 
-**** TODO Exercise 6.10 (programming)
+#+BEGIN_SRC python
+import numpy as np
+
+# hardcoded for now
+def init_gridworld():
+    world = [["-" for _ in range(10)] for _ in range(6)]
+    winds = [0, 0, 0, 1, 1, 1, 2, 2, 1, 0]
+    return world, winds
+
+def apply_move(position, action, world, winds):
+    tall = len(world)-1
+    wide = len(world[0])-1
+
+    current_y = position[0]
+    move_y = action[0]
+    current_x = position[1] 
+    move_x = action[1]
+
+    # this seems how it works from the figure
+    current_wind = winds[current_x]
+
+    new_y = max(0, min(tall, current_y + move_y - current_wind))
+    new_x = max(0, min(wide, current_x + move_x))
+
+    return -1, (new_y, new_x)
+
+def follow_policy(Q, pos, eps=0.1):
+    if pos == GOAL_STATE:
+        return (0,0)
+    if np.random.random() < eps:
+        return (np.random.choice([-1,0,1]),
+                np.random.choice([-1,0,1]))
+
+    valued_actions = []
+
+    for a_y in [-1, 0, 1]:
+        for a_x in [-1, 0, 1]:
+            if (pos, (a_y, a_x)) in Q.keys():
+                valued_actions.append(((a_y, a_x),
+                                       Q[(pos, (a_y, a_x))]))
+
+    if len(valued_actions) == 0:
+        return (np.random.choice([-1,0,1]),
+                np.random.choice([-1,0,1]))
+    else:
+        return max(valued_actions, key=lambda x: x[1])[0]
+
+
+GOAL_STATE = (3, 7)
+START_STATE = (3, 0)
+
+# sarsa
+world, winds = init_gridworld()
+alpha = 0.1
+eps = 0.1
+gamma = 1
+
+n_episodes = 100
+
+Q = {}
+
+for _ in range(n_episodes):
+    steps = 0
+
+    pos = START_STATE
+    action = follow_policy(Q, pos, eps=eps)
+
+    while pos != GOAL_STATE:
+        steps += 1
+        reward, new_pos = apply_move(pos, action, world, winds)
+        new_action = follow_policy(Q, new_pos, eps=eps)
+
+        sa = (pos, action)
+        spap = (new_pos, new_action)
+    
+        if sa not in Q:
+            Q[sa] = 0
+        if spap not in Q:
+            Q[spap] = 0
+
+        Q[sa] = Q[sa] + alpha * (reward + gamma * Q[spap] - Q[sa])
+
+        pos = new_pos
+        action = new_action
+
+    print(f"Completed in {steps} steps")
+#+END_SRC
+
+**** Exercise 6.10 (programming)
 
 Exercise 6.10: Stochastic Wind (programming) Re-solve the windy gridworld task with
 King’s moves, assuming that the effect of the wind, if there is any, is stochastic, sometimes
@@ -1522,6 +1628,96 @@ of the time you move one cell above that, and another third of the time you move
 cell below that. For example, if you are one cell to the right of the goal and you move
 left, then one-third of the time you move one cell above the goal, one-third of the time
 you move two cells above the goal, and one-third of the time you move to the goal. ⇤
+
+#+BEGIN_SRC python
+import numpy as np
+
+# hardcoded for now
+def init_gridworld():
+    world = [["-" for _ in range(10)] for _ in range(6)]
+    winds = [0, 0, 0, 1, 1, 1, 2, 2, 1, 0]
+    return world, winds
+
+def apply_move(position, action, world, winds):
+    tall = len(world)-1
+    wide = len(world[0])-1
+
+    current_y = position[0]
+    move_y = action[0]
+    current_x = position[1] 
+    move_x = action[1]
+
+    # stochastic
+    current_wind = np.random.choice([winds[current_x]-1,
+                                     winds[current_x],
+                                     winds[current_x]+1])
+
+    new_y = max(0, min(tall, current_y + move_y - current_wind))
+    new_x = max(0, min(wide, current_x + move_x))
+
+    return -1, (new_y, new_x)
+
+def follow_policy(Q, pos, eps=0.1):
+    if pos == GOAL_STATE:
+        return (0,0)
+    if np.random.random() < eps:
+        return (np.random.choice([-1,0,1]),
+                np.random.choice([-1,0,1]))
+
+    valued_actions = []
+
+    for a_y in [-1, 0, 1]:
+        for a_x in [-1, 0, 1]:
+            if (pos, (a_y, a_x)) in Q.keys():
+                valued_actions.append(((a_y, a_x),
+                                       Q[(pos, (a_y, a_x))]))
+
+    if len(valued_actions) == 0:
+        return (np.random.choice([-1,0,1]),
+                np.random.choice([-1,0,1]))
+    else:
+        return max(valued_actions, key=lambda x: x[1])[0]
+
+
+GOAL_STATE = (3, 7)
+START_STATE = (3, 0)
+
+# sarsa
+world, winds = init_gridworld()
+alpha = 0.1
+eps = 0.1
+gamma = 1
+
+n_episodes = 100
+
+Q = {}
+
+for _ in range(n_episodes):
+    steps = 0
+
+    pos = START_STATE
+    action = follow_policy(Q, pos, eps=eps)
+
+    while pos != GOAL_STATE:
+        steps += 1
+        reward, new_pos = apply_move(pos, action, world, winds)
+        new_action = follow_policy(Q, new_pos, eps=eps)
+
+        sa = (pos, action)
+        spap = (new_pos, new_action)
+    
+        if sa not in Q:
+            Q[sa] = 0
+        if spap not in Q:
+            Q[spap] = 0
+
+        Q[sa] = Q[sa] + alpha * (reward + gamma * Q[spap] - Q[sa])
+
+        pos = new_pos
+        action = new_action
+
+    print(f"Completed in {steps} steps")
+#+END_SRC
 
 **** Exercise 6.11
 
@@ -1561,9 +1757,9 @@ sampling ratio pt:t (5.3).
 Exercise 6.13 What are the update equations for Double Expected Sarsa with an
 \epsilon -greedy target policy?
 
-*** (In Progress) 7 - n-step Bootstrapping
+*** 7 - n-step Bootstrapping
 
-/Status: Need to do programming/
+/Status: Checked with o1-preview/
 
 **** Exercise 7.1
 
@@ -1598,18 +1794,133 @@ $G_{t:t+n} - V(S_t) = R_{t+1} + \gamma V(S_{t+1}) - V(S_t) + R_{t+2} + \gamma^2 
 
 Which is
 
-$G_{t:t+n} - V(S_t) = \delta_t + \gamma \delta_{t+1} + ... + \gamma^{n-1} \delta_{t+n}$
+$G_{t:t+n} - V(S_t) = \delta_t + \gamma \delta_{t+1} + ... + \gamma^{n-1} \delta_{t+n-1}$
 
-$G_{t:t+n} - V(S_t) = \sum_{k=t}^{t+n} \gamma^{k-1} \delta_k$
+$G_{t:t+n} - V(S_t) = \sum_{k=t}^{t+n-1} \gamma^{k-1} \delta_k$
 
-**** TODO Exercise 7.2 (programming)
+**** Exercise 7.2 (programming)
 
 With an n-step method, the value estimates do change from step to
 step, so an algorithm that used the sum of TD errors (see previous
 exercise) in place of the error in (7.2) would actually be a slightly
-di↵erent algorithm. Would it be a better algorithm or a worse one?
+different algorithm. Would it be a better algorithm or a worse one?
 Devise and program a small experiment to answer this question
 empirically.
+
+I am stupid and I tried to do this with n-step sarsa, which doesn't use value estimates at all. I don't really feel like going back and implementing n-step TD and then making this changes, but intuitively I feel like using the TD errors would provide a more biased estimate towards the current values, which might be better in situations where the values have higher variance or change over time. It's probably better or worse depending on the problem.
+
+I may revisit this later but I at least still got to do some programming in this chapter so we will call it completed even though it's wrong.
+
+#+BEGIN_SRC python
+import numpy as np
+
+# hardcoded for now
+def init_gridworld():
+    world = [["-" for _ in range(10)] for _ in range(10)]
+    return world
+
+def apply_move(position, action, world):
+    tall = len(world)-1
+    wide = len(world[0])-1
+
+    current_y = position[0]
+    move_y = action[0]
+    current_x = position[1]
+    move_x = action[1]
+
+    new_y = max(0, min(tall, current_y + move_y))
+    new_x = max(0, min(wide, current_x + move_x))
+
+    return -1, (new_y, new_x)
+
+def follow_policy(Q, pos, eps=0.1):
+    if pos == GOAL_STATE:
+        return (0,0)
+    if np.random.random() < eps:
+        return (np.random.choice([-1,0,1]),
+                np.random.choice([-1,0,1]))
+
+    valued_actions = []
+
+    for a_y in [-1, 0, 1]:
+        for a_x in [-1, 0, 1]:
+            if (pos, (a_y, a_x)) in Q.keys():
+                valued_actions.append(((a_y, a_x),
+                                       Q[(pos, (a_y, a_x))]))
+
+    if len(valued_actions) == 0:
+        return (np.random.choice([-1,0,1]),
+                np.random.choice([-1,0,1]))
+    else:
+        return max(valued_actions, key=lambda x: x[1])[0]
+
+GOAL_STATE = (3, 7)
+#START_STATE = (3, 0)
+
+# n-step sarsa
+world = init_gridworld()
+alpha = 0.1
+eps = 0.1
+gamma = 1
+
+n_episodes = 100
+n_steps = 10
+
+Q = {}
+
+for _ in range(n_episodes):
+    steps = 0
+
+    pos = GOAL_STATE
+    while pos == GOAL_STATE:
+        pos = (np.random.randint(0,9),
+               np.random.randint(0,9))
+        
+    action = follow_policy(Q, pos, eps=eps)
+
+    all_rewards = []
+    all_states = [pos]
+    all_actions = []
+    
+    T = np.inf
+
+    while steps < T:
+        update_step = steps - n_steps + 1
+
+        reward, new_pos = apply_move(pos, action, world)
+        all_rewards.append(reward)
+        all_states.append(new_pos)
+        all_actions.append(action)
+
+        if new_pos == GOAL_STATE:
+            T = steps + 1
+        else:
+            new_action = follow_policy(Q, new_pos, eps=eps)
+
+        if update_step >= 0:
+            StnAtn = (all_states[steps], all_actions[steps])
+            StAt = (all_states[update_step], all_actions[update_step])
+            if StnAtn not in Q:
+                Q[StnAtn] = 0
+            if StAt not in Q:
+                Q[StAt] = 0
+
+            G = 0
+            for i in range(update_step+1, min(update_step+n_steps, T)):
+                G += gamma**(i-update_step-1) * all_rewards[i]
+
+            if update_step + n_steps < T:
+                G = G + gamma**n_steps * Q[StnAtn]
+
+            Q[StAt] += alpha * (G - Q[StAt])
+
+        pos = new_pos
+        action = new_action
+
+        steps += 1
+
+    print(f"Completed in {steps} steps")
+#+END_SRC
 
 **** Exercise 7.3
 
@@ -1618,7 +1929,9 @@ used in the examples of this chapter? Would a smaller walk have shifted the adva
 to a different value of n? How about the change in left-side outcome from 0 to -1 made
 in the larger walk? Do you think that made any difference in the best value of n?
 
-With a shorter random walk task, it takes fewer n for your n-step method to pretty much be a MC method (barring the very unlikely extremes, which are truncated). It seems unlikely that you'd get as interesting separation in this experiment compared to the version with the longer walk. The left-side value being -1 seems unlikely to make too much of a difference, since we initialize halfway between the two values and update towards or away from one of the endpoints in both cases. But since it's higher magnitude in both directions, it might propogate higher values farther for larger values of n? It seems unlikely to change the dynamics much though, as written.
+With a shorter random walk task, it takes fewer n for your n-step method to pretty much be a MC method (barring the very unlikely extremes, which are truncated). It seems unlikely that you'd get as interesting separation in this experiment compared to the version with the longer walk.
+
+The left-side value being -1 means that the range of values is twice as large, which means that the variance of the cumulative returns. With higher variance, larger values of n are likely to be better.
 
 **** Exercise 7.4
 
