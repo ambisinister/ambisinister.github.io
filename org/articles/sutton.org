@@ -2234,7 +2234,124 @@ I didn't do the smoothing / multiple runs part, and I am worried that my value e
 
 *** 9 - On-policy Prediction with Approximation
 
-9 exercises: 1 starred
+/Status: Checked with o1-preview/
+
+**** Exercise 9.1
+
+Show that tabular methods such as presented in Part I of this book are a special case of linear function approximation. What would the feature vectors be?
+
+Linear function approximation estimates $\hat{v}$ using the following form:
+
+$\hat{v} \doteq w^T x(s) \doteq \sum_{i=1}^{d} w_ix_i(s)$
+
+It takes this form because in linear function approximation, |w| << |S|. If we relax this assumption such that |w| = |S|, we can have |S| parameters, each with a weight in |w| representing that parameter's estimated v value. The features $x$, as a result, would just be a one-hot vector of size |S| which is 0 in all states except for the single parameter corresponding to that state's estimated value. This makes linear function approximation reduce to keeping estimated v values for each state, as was done in every tabular method in part I.
+
+**** Exercise 9.2
+
+Why does 9.17 define (n+1)^k distinct features for dimension k?
+
+I'm a bit confused by this question -- if you have n features and k dimensions, then this product which includes 0 (i.e. not including the feature) will have (n+1)^k features. For example, take k=1, you have your original n features (plus the null feature) of (n+1). Now take k=2, you have each of your (n+1) features multiplied with each of the other (n+1) features, for (n+1)^2 features. etc. You need the null feature because that way k=2 can have all of the k=1 features (e.g. that feature multiplied by 1).
+
+**** Exercise 9.3
+
+What n and c_{i,j} produce the feature vectors x(s) = (1, s1, s2, s1s2, s1^2, s2^2, s1s2^2, s1^2s2, s1^2s2^2)^T?
+
+This is n=2 c_{i, j} = {0, 1, 2}
+
+**** Exercise 9.4
+
+Suppose we believe that one of two state dimensions is more likely to have
+an effect on the value function than is the other, that generalization should be primarily
+across this dimension rather than along it. What kind of tilings could be used to take
+advantage of this prior knowledge?
+
+It would be more advantageous to use tiling which (comparatively) ignores the second dimension in favor of providing higher granularity along the first dimension. For example, in the horizontal stripes tiling, we care a lot about the vertical axis, but don't differentiate between two examples which have the same vertical coordinate. We could use a much coarser second tiling for the horizontal axis, since we know ahead of time that it if less likely to vary, and we will get superior generalization compared to the case where we consider each axis equally. 
+
+**** Exercise 9.5
+
+Suppose you are using tile coding to transform a seven-dimensional continuous
+state space into binary feature vectors to estimate a state value function vˆ(s,w) ⇡ v⇡(s).
+You believe that the dimensions do not interact strongly, so you decide to use eight tilings
+of each dimension separately (stripe tilings), for 7 x 8 = 56 tilings. In addition, in case
+there are some pairwise interactions between the dimensions, you also take all ${7 \choose 2}$ = 21
+pairs of dimensions and tile each pair conjunctively with rectangular tiles. You make
+two tilings for each pair of dimensions, making a grand total of 21 x 2 + 56 = 98 tilings.
+Given these feature vectors, you suspect that you still have to average out some noise,
+so you decide that you want learning to be gradual, taking about 10 presentations with
+the same feature vector before learning nears its asymptote. What step-size parameter \alpha
+should you use? Why?
+
+per 9.19 you should use $\alpha \doteq (10 \mathbb{E}[x^T x])^{-1}$
+
+In our case, you have 98 tilings. Specifically, you have eight different stripe tilings for each dimension, where for each dimension 1 will be active and the rest will be inactive. Likewise, for the pairwise ones, you have two different pairwise tilings for each dimension pair, for each 1 will be active and the rest will be inactive. This is important because no matter what vector x you take, you should have the same number of 1s and 0s, which means the dot product $x^T x$ is a constant (i.e. 98). Since it's a constant, it's expectation is a constant, so we arrive at just $\alpha \doteq \frac{1}{980}$
+
+**** Exercise 9.6
+
+If $\tau = 1$ and x(St)^T x(St) = E[x^T x], prove that (9.19) together with (9.7)
+and linear function approximation results in the error being reduced to zero in one update.
+
+(9.7) $w_{t+1} = w_t + \alpha [U_t -\hat{v}(S_t, W_t)] \nabla \hat{v}(S_t, w_t)$
+
+(9.19) $\alpha \doteq (\tau \mathbb{E}[x^T x])^{-1}$
+
+Things to note in linear methods:
+
+(9.8) $\hat{v}(s,w) \doteq w^Tx(s)$
+
+$\nabla \hat{v}(s, w) = x(s)$
+
+note that we can also write 9.8 as
+
+$\hat{v}(s,w) \doteq x(s)^T w$ since that's just the same scalar value
+
+substituting everything we get
+
+$w_{t+1} = w_t + (x(S_t)^T x(S_t))^{-1} [U_t - x(S_t)^T w_t] x(S_t)$
+
+$w_{t+1}x(S_t)^T = w_tx(S_t)^T + (x(S_t)^T x(S_t))^{-1} [U_t - x(S_t)^T w_t] x(S_t)x(S_t)^T$
+
+$w_{t+1}x(S_t)^T = w_tx(S_t)^T + U_t - x(S_t)^T w_t$
+
+$w_{t+1}x(S_t)^T = U_t$
+
+$x(S_t)^Tw_{t+1} = \hat{v}(S_t, w_{t+1}) = U_t$ by 9.8
+
+Since U_t is estimating $v_\pi(S_t)$ this means that the estimate and the actual values match, meaning there is zero error.
+
+**** Exercise 9.7
+
+One of the simplest artificial neural networks consists of a single semi-linear
+unit with a logistic nonlinearity. The need to handle approximate value functions of this
+form is common in games that end with either a win or a loss, in which case the value of
+a state can be interpreted as the probability of winning. Derive the learning algorithm
+for this case, from (9.7), such that no gradient notation appears.
+
+(9.7) $w_{t+1} = w_t + \alpha [U_t -\hat{v}(S_t, W_t)] \nabla \hat{v}(S_t, w_t)$
+
+semi-linear unit with logistic nonlinearity:
+
+$\hat{v}(S_t, w_t) = (1 + e^{-(\sum_{i=1}^n w_i s_i)})^{-1}$
+
+We do the chain rule here, because we want to take the derivative of this, which is the derivative of the logistic multiplied by the derivative of this sum
+
+$\nabla \hat{v}(S_t, w_t) = \hat{v}(S_t, w_t)(1-\hat{v}(S_t, w_t))S_t$
+
+so
+
+$w_{t+1} = w_t + \alpha [U_t - \hat{v}(S_t, w_t)] \hat{v}(S_t, w_t)(1-\hat{v}(S_t, w_t))S_t$
+
+I don't know how to move forwards from here
+
+/Claude 3.5 Sonnet: This is the correct answer, and is the final form./ I'm not sure I buy this but I'll mark it as completed since I got the chain rule part.
+
+**** TODO Starred Exercises to Revisit Later
+
+*Exercise 9.8 Arguably, the squared error used to derive (9.7) is inappropriate for the
+case treated in the preceding exercise, and the right error measure is the cross-entropy
+loss (which you can find on Wikipedia). Repeat the derivation in Section 9.3, using the
+cross-entropy loss instead of the squared error in (9.4), all the way to an explicit form
+with no gradient or logarithm notation in it. Is your final form more complex, or simpler,
+than that you obtained in the preceding exercise?
 
 *** 10 - On-policy Control with Approximation
 
