@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-10-22 Tue 20:32 -->
+<!-- 2024-10-23 Wed 17:02 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Learning RL</title>
@@ -252,7 +252,7 @@ $(function() {
 <li><a href="#orgd8d913f"><span class="todo TODO">TODO</span> Starred Exercises to Revisit Later</a></li>
 </ul>
 </li>
-<li><a href="#orgd785452">(In Progress) 10 - On-policy Control with Approximation</a>
+<li><a href="#orgdf0b376">10 - On-policy Control with Approximation</a>
 <ul>
 <li><a href="#org6e29576">Exercise 10.1</a></li>
 <li><a href="#org6dd8151">Exercise 10.2</a></li>
@@ -265,11 +265,11 @@ $(function() {
 <li><a href="#orga3c6fef">Exercise 10.9</a></li>
 </ul>
 </li>
-<li><a href="#orgecf2aae"><span class="todo TODO">TODO</span> 11 - Off-policy Methods with Approximation</a>
+<li><a href="#org0e2c4c2">(In Progress) 11 - Off-policy Methods with Approximation</a>
 <ul>
 <li><a href="#org2f71fd5">Exercise 11.1</a></li>
 <li><a href="#orga019a12">Exercise 11.3</a></li>
-<li><a href="#org8fe4213"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
+<li><a href="#org089a27f"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
 </ul>
 </li>
 <li><a href="#orgd91dc01"><span class="todo TODO">TODO</span> 12 - Eligibility Traces</a></li>
@@ -279,7 +279,7 @@ $(function() {
 <li><a href="#orgddfbd2e">Exercise 13.3</a></li>
 <li><a href="#org12f03b9">Exercise 13.4</a></li>
 <li><a href="#orgfb5dc0a">Exercise 13.5</a></li>
-<li><a href="#org089a27f"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
+<li><a href="#org050cee6"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
 </ul>
 </li>
 <li><a href="#org0577026">14-16: No Exercises</a></li>
@@ -736,7 +736,7 @@ step size, and ¯on is a trace of one that starts at 0:
 </p>
 
 <p>
-\(\bar{o}_n \doteq \bar{o}_{n-1} + \alpha (1 - \bar{p}_{n-1}) \text{ for } n > 0, \text{ with } \bar{o}_0 \doteq 0\).
+\(\bar{o}_n \doteq \bar{o}_{n-1} + \alpha (1 - \bar{o}_{n-1}) \text{ for } n > 0, \text{ with } \bar{o}_0 \doteq 0\).
 </p>
 
 <p>
@@ -4055,10 +4055,14 @@ than that you obtained in the preceding exercise?
 </div>
 </div>
 
-<div id="outline-container-orgd785452" class="outline-3">
-<h3 id="orgd785452">(In Progress) 10 - On-policy Control with Approximation</h3>
-<div class="outline-text-3" id="text-orgd785452">
+<div id="outline-container-orgdf0b376" class="outline-3">
+<h3 id="orgdf0b376">10 - On-policy Control with Approximation</h3>
+<div class="outline-text-3" id="text-orgdf0b376">
+<p>
+<i>Status: Checked with o1-preview</i>
+</p>
 </div>
+
 <div id="outline-container-org6e29576" class="outline-4">
 <h4 id="org6e29576">Exercise 10.1</h4>
 <div class="outline-text-4" id="text-org6e29576">
@@ -4066,6 +4070,10 @@ than that you obtained in the preceding exercise?
 We have not explicitly considered or given pseudocode for any Monte Carlo
 methods in this chapter. What would they be like? Why is it reasonable not to give
 pseudocode for them? How would they perform on the Mountain Car task?
+</p>
+
+<p>
+There would be a step that says "Generate an episode S<sub>0</sub>, A<sub>0</sub>, R<sub>1</sub>, S<sub>1</sub>, A<sub>1</sub> &#x2026; S<sub>T</sub>". The first one of these in an environment like mountain car would take an unfathomably long time to complete, since it would need to solve the task using completely random actions. In these partially observable / huge state space cases, it's much better to be able to learn during episodes.
 </p>
 </div>
 </div>
@@ -4076,6 +4084,19 @@ pseudocode for them? How would they perform on the Mountain Car task?
 <p>
 Give pseudocode for semi-gradient one-step Expected Sarsa for control. ⇤
 </p>
+
+<p>
+This would be the same as the existing method on page 247 with the following changes:
+</p>
+
+<ol class="org-ol">
+<li>We would remove the \(\tau\) line, since it would always just be equal to \(t\).</li>
+<li>We would replace the G sum with \(G = R_{t+1} + \gamma \sum_a \pi(a|S_{t+1}) \hat{q}(S_{t+1}, a)\)</li>
+</ol>
+
+<p>
+The rest should be the same.
+</p>
 </div>
 </div>
 
@@ -4085,6 +4106,10 @@ Give pseudocode for semi-gradient one-step Expected Sarsa for control. ⇤
 <p>
 Why do the results shown in Figure 10.4 have higher standard errors at large n than at small n?
 </p>
+
+<p>
+If the n is too large, the time horizon for updating is too long. As a result, the greater distance between the current state and the state n steps ago creates a larger degree of uncertainty between the two states, which in turn increases the standard error.
+</p>
 </div>
 </div>
 
@@ -4092,7 +4117,14 @@ Why do the results shown in Figure 10.4 have higher standard errors at large n t
 <h4 id="org8fdea06">Exercise 10.4</h4>
 <div class="outline-text-4" id="text-org8fdea06">
 <p>
-Give pseudocode for a di↵erential version of semi-gradient Q-learning
+Give pseudocode for a differential version of semi-gradient Q-learning
+</p>
+
+<p>
+On page 251 they give an example of differential semi-gradient Sarsa. Semi-gradient Q-learning would jus be this algorithm, but replacing
+\(\delta \leftarrow R - \bar{R} + \hat{q}(S', A', w) - \hat{q}(S, A, w)\)
+with
+\(\delta \leftarrow R - \bar{R} + max_a \hat{q}(S', a, w) - \hat{q}(S, A, w)\)
 </p>
 </div>
 </div>
@@ -4104,6 +4136,14 @@ Give pseudocode for a di↵erential version of semi-gradient Q-learning
 What equations are needed (beyond 10.10) to specify the differential
 version of TD(0)?
 </p>
+
+<p>
+We need a differential form of the TD error in terms of values, i.e.
+</p>
+
+<p>
+\(w_{t+1} \doteq w_t + \alpha \delta_t \nabla \hat{v}(S_{t}, w_t)\)
+</p>
 </div>
 </div>
 
@@ -4111,24 +4151,20 @@ version of TD(0)?
 <h4 id="orge4f09fc">Exercise 10.6</h4>
 <div class="outline-text-4" id="text-orge4f09fc">
 <p>
-Suppose there is an MDP that under any policy produces the deterministic
-sequence of rewards +1, 0, +1, 0, +1, 0,&#x2026; going on forever. Technically, this violates
-ergodicity; there is no stationary limiting distribution µ⇡ and the limit (10.7) does not
-exist. Nevertheless, the average reward (10.6) is well defined. What is it? Now consider
-two states in this MDP. From A, the reward sequence is exactly as described above,
-starting with a +1, whereas, from B, the reward sequence starts with a 0 and then
-continues with +1, 0, +1, 0,&#x2026;. We would like to compute the di↵erential values of A and
-B. Unfortunately, the di↵erential return (10.9) is not well defined when starting from
-these states as the implicit limit does not exist. To repair this, one could alternatively
-define the di↵erential value of a state as
+Consider a Markov reward process consisting of a ring of three states A, B,
+and C, with state transitions going deterministically around the ring. A reward of +1 is
+received upon arrival in A and otherwise the reward is 0. What are the differential values
+of the three states?
 </p>
 
 <p>
-(10.3)
+The average reward here is 1/3. The differential reward is the difference between the reward vs the average reward. As a result the rewards are:
 </p>
 
 <p>
-Under this definition, what are the di↵erential values of states A and B?
+A = 2/3
+B = -1/3
+C = -1/3
 </p>
 </div>
 </div>
@@ -4137,10 +4173,63 @@ Under this definition, what are the di↵erential values of states A and B?
 <h4 id="orgb4c116f">Exercise 10.7</h4>
 <div class="outline-text-4" id="text-orgb4c116f">
 <p>
-Consider a Markov reward process consisting of a ring of three states A, B,
-and C, with state transitions going deterministically around the ring. A reward of +1 is
-received upon arrival in A and otherwise the reward is 0. What are the di↵erential values
-of the three states, using (10.13)?
+Suppose there is an MDP that under any policy produces the deterministic
+sequence of rewards +1, 0, +1, 0, +1, 0,&#x2026; going on forever. Technically, this violates
+ergodicity; there is no stationary limiting distribution µ⇡ and the limit (10.7) does not
+exist. Nevertheless, the average reward (10.6) is well defined. What is it?
+</p>
+
+<p>
+Now consider two states in this MDP. From A, the reward sequence is exactly as described above,
+starting with a +1, whereas, from B, the reward sequence starts with a 0 and then
+continues with +1, 0, +1, 0,&#x2026;. We would like to compute the differential values of A and
+B. Unfortunately, the differential return (10.9) is not well defined when starting from
+these states as the implicit limit does not exist. To repair this, one could alternatively
+define the differential value of a state as
+</p>
+
+<p>
+\(v_\pi(s) \doteq lim_{\gamma \rightarrow 1} lim_{h \rightarrow \infty} \sum_{t=0}^{h}\gamma^t (\mathbb{E}_\pi[R_{t+1}|S_0=s] - r(\pi))\)
+</p>
+
+<p>
+Under this definition, what are the differential values of states A and B?
+</p>
+
+<p>
+&#x2013; 
+</p>
+
+<p>
+The average reward is 0.5
+</p>
+
+<p>
+As a result the calculations for these for A are:
+</p>
+
+<p>
+\((1 - 0.5) + \gamma(0 - 0.5) + \gamma^2(1 - 0.5) + etc\)
+</p>
+
+<p>
+\(v(A) = 0.5 - \gamma 0.5 + \gamma^2 0.5 + etc\)
+</p>
+
+<p>
+\(v(A) = 0.5(1 - \gamma + gamma^2 + etc)\)
+</p>
+
+<p>
+\(v(A) = 0.5(1 / (1 + \gamma))\)
+</p>
+
+<p>
+and as lim &gamma; &rarr; 1, A = 0.25
+</p>
+
+<p>
+Likewise the same for B, but now it's -0.5 + &gamma; 0.5 etc, which means it will be -0.25
 </p>
 </div>
 </div>
@@ -4151,12 +4240,60 @@ of the three states, using (10.13)?
 <p>
 The pseudocode in the box on page 251 updates R¯t using &delta;<sub>t</sub> as an error
 rather than simply Rt+1 - R¯t. Both errors work, but using &delta;<sub>t</sub> is better. To see why,
-consider the ring MRP of three states from Exercise 10.7. The estimate of the average
+consider the ring MRP of three states from Exercise 10.6. The estimate of the average
 reward should tend towards its true value of 1/3 . Suppose it was already there and was
 held stuck there. What would the sequence of Rt+1 - R¯t errors be? What would the
 sequence of &delta;<sub>t</sub> errors be (using Equation 10.10)? Which error sequence would produce
 a more stable estimate of the average reward if the estimate were allowed to change in
 response to the errors? Why?
+</p>
+
+<p>
+The sequence of R<sub>t+1</sub> - \bar{R}<sub>t</sub> would be
+</p>
+
+<p>
+2/3, -1/3, -1/3, 2/3, -1/3, -1/3, 2/3, -1/3, -1/3
+</p>
+
+<p>
+We need the V values of each state to do the next part, so we solve using the differential values
+</p>
+
+<p>
+V(A) = 2/3 + V(B)
+</p>
+
+<p>
+V(B) = -1/3 + V(C)
+</p>
+
+<p>
+V(C) = -1/3 + V(A)
+</p>
+
+<p>
+One solution to this is V(A) = 0, V(B) = -2/3, V(C) = -1/3 (<i>note: I actually dunno how to do this very basic step without just setting V(A) to 0. Maybe I should go back to middle school. Claude seems to think it's normal to do this but I don't really get why it works.</i>) 
+</p>
+
+<p>
+the sequence of &delta;<sub>t</sub> errors following \(R_{t+1} - \bar{R}_{t} +\hat{v}(S_{t+1}, w_t) - \hat{v}(S_t, w)\) would be
+</p>
+
+<p>
+(2/3 + 0 - 2/3), (-1/3 + -1/3 - -2/3), (-1/3 + 0 - -1/3)
+</p>
+
+<p>
+or
+</p>
+
+<p>
+0, 0, 0, &#x2026;
+</p>
+
+<p>
+That is, the latter is more stable because if the reward and states are right, it doesn't perform updates at all, whereas the other one will cause oscillations since the updates aren't all 0.
 </p>
 </div>
 </div>
@@ -4177,13 +4314,45 @@ the unbiased constant-step-size trick from Exercise 2.7. Describe the specific c
 needed to the boxed algorithm for differential semi-gradient n-step Sarsa to use this
 trick.
 </p>
+
+<p>
+Per exercise 2.7, the constant-step-size trick is
+</p>
+
+<p>
+\(\beta_n \doteq \alpha \bar{o}_n\)
+</p>
+
+<p>
+where
+</p>
+
+<p>
+\(\bar{o}_n \doteq \bar{o}_{n-1} + \alpha(1 - \bar{o}_{n-1})\)
+</p>
+
+<p>
+So we'd have to make three primary changes to the algorithm for semi-gradient n-step sarsa.
+</p>
+
+<p>
+First, we'd have to initialize \(\bar{o}_0\) at 0
+</p>
+
+<p>
+Second, we'd have to replace \(\bar{R} \leftarrow \bar{R} + \beta\delta\) with \(\bar{R} \leftarrow \bar{R} + \alpha \bar{o}_n \delta\)
+</p>
+
+<p>
+Finally, we'd have to repeatedly update \(\bar{o}_n\) after each action using \(\bar{o}_n \doteq \bar{o}_{n-1} + \alpha(1 - \bar{o}_{n-1})\)
+</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgecf2aae" class="outline-3">
-<h3 id="orgecf2aae"><span class="todo TODO">TODO</span> 11 - Off-policy Methods with Approximation</h3>
-<div class="outline-text-3" id="text-orgecf2aae">
+<div id="outline-container-org0e2c4c2" class="outline-3">
+<h3 id="org0e2c4c2">(In Progress) 11 - Off-policy Methods with Approximation</h3>
+<div class="outline-text-3" id="text-org0e2c4c2">
 </div>
 <div id="outline-container-org2f71fd5" class="outline-4">
 <h4 id="org2f71fd5">Exercise 11.1</h4>
@@ -4204,9 +4373,9 @@ Exercise 11.3 (programming) Apply one-step semi-gradient Q-learning to Baird’s
 </div>
 </div>
 
-<div id="outline-container-org8fe4213" class="outline-4">
-<h4 id="org8fe4213"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
-<div class="outline-text-4" id="text-org8fe4213">
+<div id="outline-container-org089a27f" class="outline-4">
+<h4 id="org089a27f"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
+<div class="outline-text-4" id="text-org089a27f">
 <p>
 *Exercise 11.2 Convert the equations of n-step Q() (7.11 and 7.17) to semi-gradient
 form. Give definitions that cover both the episodic and continuing cases.
@@ -4304,9 +4473,9 @@ the derivative of the logistic function f(x)=1/(1 + ex) is f(x)(1  f(x)).
 </div>
 </div>
 
-<div id="outline-container-org089a27f" class="outline-4">
-<h4 id="org089a27f"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
-<div class="outline-text-4" id="text-org089a27f">
+<div id="outline-container-org050cee6" class="outline-4">
+<h4 id="org050cee6"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
+<div class="outline-text-4" id="text-org050cee6">
 <p>
 *Exercise 13.2 Generalize the box on page 199, the policy gradient theorem (13.5), the
 proof of the policy gradient theorem (page 325), and the steps leading to the REINFORCE

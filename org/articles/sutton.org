@@ -251,7 +251,7 @@ $\beta_n \doteq \alpha / \bar{o}_n$
 to process the nth reward for a particular action, where \alpha > 0 is a conventional constant
 step size, and ¯on is a trace of one that starts at 0:
 
-$\bar{o}_n \doteq \bar{o}_{n-1} + \alpha (1 - \bar{p}_{n-1}) \text{ for } n > 0, \text{ with } \bar{o}_0 \doteq 0$.
+$\bar{o}_n \doteq \bar{o}_{n-1} + \alpha (1 - \bar{o}_{n-1}) \text{ for } n > 0, \text{ with } \bar{o}_0 \doteq 0$.
 
 Carry out an analysis like that in (2.6) to show that Qn is an exponential recency-weighted
 average without initial bias.
@@ -2345,7 +2345,9 @@ cross-entropy loss instead of the squared error in (9.4), all the way to an expl
 with no gradient or logarithm notation in it. Is your final form more complex, or simpler,
 than that you obtained in the preceding exercise?
 
-*** (In Progress) 10 - On-policy Control with Approximation
+*** 10 - On-policy Control with Approximation
+
+/Status: Checked with o1-preview/
 
 **** Exercise 10.1
 
@@ -2353,57 +2355,126 @@ We have not explicitly considered or given pseudocode for any Monte Carlo
 methods in this chapter. What would they be like? Why is it reasonable not to give
 pseudocode for them? How would they perform on the Mountain Car task?
 
+There would be a step that says "Generate an episode S_0, A_0, R_1, S_1, A_1 ... S_T". The first one of these in an environment like mountain car would take an unfathomably long time to complete, since it would need to solve the task using completely random actions. In these partially observable / huge state space cases, it's much better to be able to learn during episodes.
+
 **** Exercise 10.2
 
 Give pseudocode for semi-gradient one-step Expected Sarsa for control. ⇤
 
+This would be the same as the existing method on page 247 with the following changes:
+
+1. We would remove the $\tau$ line, since it would always just be equal to $t$.
+2. We would replace the G sum with $G = R_{t+1} + \gamma \sum_a \pi(a|S_{t+1}) \hat{q}(S_{t+1}, a)$
+
+The rest should be the same.
+   
 **** Exercise 10.3
 
 Why do the results shown in Figure 10.4 have higher standard errors at large n than at small n?
 
+If the n is too large, the time horizon for updating is too long. As a result, the greater distance between the current state and the state n steps ago creates a larger degree of uncertainty between the two states, which in turn increases the standard error.
+
 **** Exercise 10.4
 
-Give pseudocode for a di↵erential version of semi-gradient Q-learning
+Give pseudocode for a differential version of semi-gradient Q-learning
+
+On page 251 they give an example of differential semi-gradient Sarsa. Semi-gradient Q-learning would jus be this algorithm, but replacing
+$\delta \leftarrow R - \bar{R} + \hat{q}(S', A', w) - \hat{q}(S, A, w)$
+with
+$\delta \leftarrow R - \bar{R} + max_a \hat{q}(S', a, w) - \hat{q}(S, A, w)$
 
 **** Exercise 10.5
 
 What equations are needed (beyond 10.10) to specify the differential
 version of TD(0)?
 
+We need a differential form of the TD error in terms of values, i.e.
+
+$w_{t+1} \doteq w_t + \alpha \delta_t \nabla \hat{v}(S_{t}, w_t)$
+
 **** Exercise 10.6
+
+Consider a Markov reward process consisting of a ring of three states A, B,
+and C, with state transitions going deterministically around the ring. A reward of +1 is
+received upon arrival in A and otherwise the reward is 0. What are the differential values
+of the three states?
+
+The average reward here is 1/3. The differential reward is the difference between the reward vs the average reward. As a result the rewards are:
+
+A = 2/3
+B = -1/3
+C = -1/3
+
+**** Exercise 10.7
 
 Suppose there is an MDP that under any policy produces the deterministic
 sequence of rewards +1, 0, +1, 0, +1, 0,... going on forever. Technically, this violates
 ergodicity; there is no stationary limiting distribution µ⇡ and the limit (10.7) does not
-exist. Nevertheless, the average reward (10.6) is well defined. What is it? Now consider
-two states in this MDP. From A, the reward sequence is exactly as described above,
+exist. Nevertheless, the average reward (10.6) is well defined. What is it?
+
+Now consider two states in this MDP. From A, the reward sequence is exactly as described above,
 starting with a +1, whereas, from B, the reward sequence starts with a 0 and then
-continues with +1, 0, +1, 0,.... We would like to compute the di↵erential values of A and
-B. Unfortunately, the di↵erential return (10.9) is not well defined when starting from
+continues with +1, 0, +1, 0,.... We would like to compute the differential values of A and
+B. Unfortunately, the differential return (10.9) is not well defined when starting from
 these states as the implicit limit does not exist. To repair this, one could alternatively
-define the di↵erential value of a state as
+define the differential value of a state as
 
-(10.3)
+$v_\pi(s) \doteq lim_{\gamma \rightarrow 1} lim_{h \rightarrow \infty} \sum_{t=0}^{h}\gamma^t (\mathbb{E}_\pi[R_{t+1}|S_0=s] - r(\pi))$
 
-Under this definition, what are the di↵erential values of states A and B?
+Under this definition, what are the differential values of states A and B?
 
-**** Exercise 10.7
+-- 
 
-Consider a Markov reward process consisting of a ring of three states A, B,
-and C, with state transitions going deterministically around the ring. A reward of +1 is
-received upon arrival in A and otherwise the reward is 0. What are the di↵erential values
-of the three states, using (10.13)?
+The average reward is 0.5
+
+As a result the calculations for these for A are:
+
+$(1 - 0.5) + \gamma(0 - 0.5) + \gamma^2(1 - 0.5) + etc$
+
+$v(A) = 0.5 - \gamma 0.5 + \gamma^2 0.5 + etc$
+
+$v(A) = 0.5(1 - \gamma + gamma^2 + etc)$
+
+$v(A) = 0.5(1 / (1 + \gamma))$
+
+and as lim \gamma \rightarrow 1, A = 0.25
+
+Likewise the same for B, but now it's -0.5 + \gamma 0.5 etc, which means it will be -0.25
 
 **** Exercise 10.8
 
 The pseudocode in the box on page 251 updates R¯t using \delta_t as an error
 rather than simply Rt+1 - R¯t. Both errors work, but using \delta_t is better. To see why,
-consider the ring MRP of three states from Exercise 10.7. The estimate of the average
+consider the ring MRP of three states from Exercise 10.6. The estimate of the average
 reward should tend towards its true value of 1/3 . Suppose it was already there and was
 held stuck there. What would the sequence of Rt+1 - R¯t errors be? What would the
 sequence of \delta_t errors be (using Equation 10.10)? Which error sequence would produce
 a more stable estimate of the average reward if the estimate were allowed to change in
 response to the errors? Why?
+
+The sequence of R_{t+1} - \bar{R}_t would be
+
+2/3, -1/3, -1/3, 2/3, -1/3, -1/3, 2/3, -1/3, -1/3
+
+We need the V values of each state to do the next part, so we solve using the differential values
+
+V(A) = 2/3 + V(B)
+
+V(B) = -1/3 + V(C)
+
+V(C) = -1/3 + V(A)
+
+One solution to this is V(A) = 0, V(B) = -2/3, V(C) = -1/3 (/note: I actually dunno how to do this very basic step without just setting V(A) to 0. Maybe I should go back to middle school. Claude seems to think it's normal to do this but I don't really get why it works./) 
+
+the sequence of \delta_t errors following $R_{t+1} - \bar{R}_{t} +\hat{v}(S_{t+1}, w_t) - \hat{v}(S_t, w)$ would be
+
+(2/3 + 0 - 2/3), (-1/3 + -1/3 - -2/3), (-1/3 + 0 - -1/3)
+
+or
+
+0, 0, 0, ...
+
+That is, the latter is more stable because if the reward and states are right, it doesn't perform updates at all, whereas the other one will cause oscillations since the updates aren't all 0.
 
 **** Exercise 10.9
 
@@ -2419,7 +2490,23 @@ the unbiased constant-step-size trick from Exercise 2.7. Describe the specific c
 needed to the boxed algorithm for differential semi-gradient n-step Sarsa to use this
 trick.
 
-*** TODO 11 - Off-policy Methods with Approximation
+Per exercise 2.7, the constant-step-size trick is
+
+$\beta_n \doteq \alpha \bar{o}_n$
+
+where
+
+$\bar{o}_n \doteq \bar{o}_{n-1} + \alpha(1 - \bar{o}_{n-1})$
+
+So we'd have to make three primary changes to the algorithm for semi-gradient n-step sarsa.
+
+First, we'd have to initialize $\bar{o}_0$ at 0
+
+Second, we'd have to replace $\bar{R} \leftarrow \bar{R} + \beta\delta$ with $\bar{R} \leftarrow \bar{R} + \alpha \bar{o}_n \delta$
+
+Finally, we'd have to repeatedly update $\bar{o}_n$ after each action using $\bar{o}_n \doteq \bar{o}_{n-1} + \alpha(1 - \bar{o}_{n-1})$
+
+*** (In Progress) 11 - Off-policy Methods with Approximation
 
 **** Exercise 11.1
 
