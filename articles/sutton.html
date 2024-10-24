@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-10-23 Wed 17:02 -->
+<!-- 2024-10-23 Wed 23:24 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Learning RL</title>
@@ -268,8 +268,8 @@ $(function() {
 <li><a href="#org0e2c4c2">(In Progress) 11 - Off-policy Methods with Approximation</a>
 <ul>
 <li><a href="#org2f71fd5">Exercise 11.1</a></li>
-<li><a href="#orga019a12">Exercise 11.3</a></li>
-<li><a href="#org089a27f"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
+<li><a href="#orga019a12"><span class="todo TODO">TODO</span> Exercise 11.3</a></li>
+<li><a href="#org050cee6"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
 </ul>
 </li>
 <li><a href="#orgd91dc01"><span class="todo TODO">TODO</span> 12 - Eligibility Traces</a></li>
@@ -279,7 +279,7 @@ $(function() {
 <li><a href="#orgddfbd2e">Exercise 13.3</a></li>
 <li><a href="#org12f03b9">Exercise 13.4</a></li>
 <li><a href="#orgfb5dc0a">Exercise 13.5</a></li>
-<li><a href="#org050cee6"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
+<li><a href="#orgd66dd09"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
 </ul>
 </li>
 <li><a href="#org0577026">14-16: No Exercises</a></li>
@@ -4353,29 +4353,59 @@ Finally, we'd have to repeatedly update \(\bar{o}_n\) after each action using \(
 <div id="outline-container-org0e2c4c2" class="outline-3">
 <h3 id="org0e2c4c2">(In Progress) 11 - Off-policy Methods with Approximation</h3>
 <div class="outline-text-3" id="text-org0e2c4c2">
+<p>
+<i>Status: Need to do programming</i>
+</p>
 </div>
+
 <div id="outline-container-org2f71fd5" class="outline-4">
 <h4 id="org2f71fd5">Exercise 11.1</h4>
 <div class="outline-text-4" id="text-org2f71fd5">
 <p>
-Convert the equation of n-step o↵-policy TD (7.9) to semi-gradient form.
+Convert the equation of n-step off-policy TD (7.9) to semi-gradient form.
 Give accompanying definitions of the return for both the episodic and continuing cases
+</p>
+
+<p>
+(7.9) \(V_{t+n} \doteq V_{t+n-1} + \alpha p_{t:t+n-1}[G_{t:t+n} - V_{t+n-1}(S_t)]\)
+</p>
+
+<p>
+\(\hat{v}_{t+n}(S_t, w_t) \doteq \hat{v}_{t+n-1} + \alpha p_{t:t+n-1}[G_{t:t+n} - \hat{v}_{t+n-1}(S_t, w_t)]\)
+</p>
+
+<p>
+where
+</p>
+
+<p>
+\(w_{t+1} \doteq w_t + \alpha p_{t:t+n-1}[G_{t:t+n} - \hat{v}_{t+n-1}(S_t, w_t)] \nabla \hat{v}_{t+n-1}(S_t, w_t)\)
+</p>
+
+<p>
+Episodic: \(G_{t:t+n} = R_{t+1} + \gamma R_{t+2} + ... + \gamma^{n-1} R_{t+n} + \gamma^n \hat{v}_{t+n-1}(S_{t+n}, w_{t+n-1})\)
+</p>
+
+<p>
+Continuous: \(G_{t:t+n} = R_{t+1} - \bar{R}_t + ... + R_{t+n} - \bar{R}_{t+n-1} + \hat{v}_{t+n-1}(S_{t+n}, w_{t+n-1})\)
 </p>
 </div>
 </div>
 
 <div id="outline-container-orga019a12" class="outline-4">
-<h4 id="orga019a12">Exercise 11.3</h4>
+<h4 id="orga019a12"><span class="todo TODO">TODO</span> Exercise 11.3</h4>
 <div class="outline-text-4" id="text-orga019a12">
 <p>
-Exercise 11.3 (programming) Apply one-step semi-gradient Q-learning to Baird’s counterexample and show empirically that its weights diverge. ⇤
+Exercise 11.3 (programming) Apply one-step semi-gradient Q-learning to Baird’s counterexample and show empirically that its weights diverge.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org089a27f" class="outline-4">
-<h4 id="org089a27f"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
-<div class="outline-text-4" id="text-org089a27f">
+
+
+<div id="outline-container-org050cee6" class="outline-4">
+<h4 id="org050cee6"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
+<div class="outline-text-4" id="text-org050cee6">
 <p>
 *Exercise 11.2 Convert the equations of n-step Q() (7.11 and 7.17) to semi-gradient
 form. Give definitions that cover both the episodic and continuing cases.
@@ -4473,9 +4503,9 @@ the derivative of the logistic function f(x)=1/(1 + ex) is f(x)(1  f(x)).
 </div>
 </div>
 
-<div id="outline-container-org050cee6" class="outline-4">
-<h4 id="org050cee6"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
-<div class="outline-text-4" id="text-org050cee6">
+<div id="outline-container-orgd66dd09" class="outline-4">
+<h4 id="orgd66dd09"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
+<div class="outline-text-4" id="text-orgd66dd09">
 <p>
 *Exercise 13.2 Generalize the box on page 199, the policy gradient theorem (13.5), the
 proof of the policy gradient theorem (page 325), and the steps leading to the REINFORCE

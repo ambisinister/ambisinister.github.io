@@ -2508,14 +2508,30 @@ Finally, we'd have to repeatedly update $\bar{o}_n$ after each action using $\ba
 
 *** (In Progress) 11 - Off-policy Methods with Approximation
 
+/Status: Need to do programming/
+
 **** Exercise 11.1
 
-Convert the equation of n-step o↵-policy TD (7.9) to semi-gradient form.
+Convert the equation of n-step off-policy TD (7.9) to semi-gradient form.
 Give accompanying definitions of the return for both the episodic and continuing cases
 
-**** Exercise 11.3
+(7.9) $V_{t+n} \doteq V_{t+n-1} + \alpha p_{t:t+n-1}[G_{t:t+n} - V_{t+n-1}(S_t)]$
 
-Exercise 11.3 (programming) Apply one-step semi-gradient Q-learning to Baird’s counterexample and show empirically that its weights diverge. ⇤
+$\hat{v}_{t+n}(S_t, w_t) \doteq \hat{v}_{t+n-1} + \alpha p_{t:t+n-1}[G_{t:t+n} - \hat{v}_{t+n-1}(S_t, w_t)]$
+
+where
+
+$w_{t+1} \doteq w_t + \alpha p_{t:t+n-1}[G_{t:t+n} - \hat{v}_{t+n-1}(S_t, w_t)] \nabla \hat{v}_{t+n-1}(S_t, w_t)$
+
+Episodic: $G_{t:t+n} = R_{t+1} + \gamma R_{t+2} + ... + \gamma^{n-1} R_{t+n} + \gamma^n \hat{v}_{t+n-1}(S_{t+n}, w_{t+n-1})$
+
+Continuous: $G_{t:t+n} = R_{t+1} - \bar{R}_t + ... + R_{t+n} - \bar{R}_{t+n-1} + \hat{v}_{t+n-1}(S_{t+n}, w_{t+n-1})$
+
+**** TODO Exercise 11.3
+
+Exercise 11.3 (programming) Apply one-step semi-gradient Q-learning to Baird’s counterexample and show empirically that its weights diverge.
+
+
 
 **** TODO Starred Exercises to Complete Later
 
