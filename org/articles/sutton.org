@@ -2545,9 +2545,235 @@ with the return and the added true value with the estimated value. Then, if you 
 the square, the most complex term will end up being zero, leaving you with (11.24). ⇤
 
 
-*** TODO 12 - Eligibility Traces
+*** 12 - Eligibility Traces
 
-14 exercises: 1 starred
+/Status: Checked with o1-preview/
+
+**** Exercise 12.1
+
+Just as the return can be written recursively in terms of the first reward and
+itself one-step later (3.9), so can the \lambda-return. Derive the analogous recursive relationship
+from (12.2) and (12.1).
+
+(12.1) $G_{t:t+n} = R_{t+1} + \gamma R_{t+2} + ... + \gamma^{n-1} R_{t+n} + \gamma^n \hat{v}(S_{t+n}, w_{t+n-1})$
+
+$G_{t+1:t+n} = R_{t+2} + \gamma R_{t+3} + ... + \gamma^{n-2} R_{t+n} + \gamma^{n-1} \hat{v}(S_{t+n}, w_{t+n-1})$
+
+$\gamma G_{t+1:t+n} = \gamma R_{t+2} + \gamma^2 R_{t+3} + ... + \gamma^{n-1} R_{t+n} + \gamma^n \hat{v}(S_{t+n}, w_{t+n-1})$
+
+$G_{t:t+n} = R_{t+1} + \gamma G_{t+1:t+n}$
+
+(12.2) $G_{t}^{\lambda} \doteq \sum_{n=1}^{\infty} \lambda^{n-1} G_{t:t+n}$
+
+$G_{t}^{\lambda} \doteq \sum_{n=1}^{\infty} \lambda^{n-1} [R_{t+1} + \gamma G_{t+1:t+n}]$
+
+$G_{t}^{\lambda} \doteq \sum_{n=1}^{\infty} \lambda^{n-1} R_{t+1} + \sum_{n=1}^{\infty} \lambda^{n-1} \gamma G_{t+1:t+n}$
+
+geometric series converges to a/(1-r), second term is similar to the next G but we have to pull some terms out
+
+$G_{t}^{\lambda} \doteq \frac{R_{t+1}}{(1 - \lambda)} + \gamma \lambda G_{t+1}^\lambda$
+
+**** Exercise 12.2
+
+Exercise 12.2 The parameter \lambda characterizes how fast the exponential weighting in
+Figure 12.2 falls off, and thus how far into the future the \lambda-return algorithm looks in
+determining its update. But a rate factor such as  is sometimes an awkward way of
+characterizing the speed of the decay. For some purposes it is better to specify a time
+constant, or half-life. What is the equation relating \lambda and the half-life, $\tau_\pi$, the time by
+which the weighting sequence will have fallen to half of its initial value?
+
+If you want to cut things in half, that's ln(2), like the opposite of a tree. In each step, the step has a weight of $\lambda^{t-1}$. If you want to find which time step makes this equal 1/2, that's $\lambda^{\tau_\pi - 1} = 1/2$. 
+
+We can solve for $\tau_\pi$, $ln(\lambda^{\tau_\pi - 1}) = ln(1/2)$
+
+$(\tau_\pi - 1)ln(\lambda) = -ln(2)$
+
+$\tau_\pi = -ln(2) / ln(\lambda) + 1$
+
+**** Exercise 12.3
+
+Some insight into how TD(\lambda) can closely approximate the off-line \lambda-return
+algorithm can be gained by seeing that the latter’s error term (in brackets in (12.4)) can
+be written as the sum of TD errors (12.6) for a single fixed w. Show this, following the
+pattern of (6.6), and using the recursive relationship for the \lambda-return you obtained in
+Exercise 12.1.
+
+error term: $[G_t^\lambda - \hat{v}(S_t, w_t)]$
+
+TD error 12.6: $\delta_t \doteq R_{t+1} + \gamma \hat{v}(S_{t+1}, w_t) - \hat{v}(S_t, w_t)$
+
+Recursive
+
+$G_{t}^{\lambda} \doteq \sum_{n=1}^{\infty} \lambda^{n-1} [R_{t+1} + \gamma G_{t+1:t+n}]$
+
+Rewriting:
+
+$G_t^\lambda - \hat{v}(S_t, w_t) = [\sum_{n=1}^{\infty} \lambda^{n-1} [R_{t+1} + \gamma G_{t+1:t+n}]] - \hat{v}(S_t, w_t)$
+
+$G_t^\lambda - \hat{v}(S_t, w_t) = R_{t+1} + \lambda\gamma R_{t+2} + ... - \hat{v}(S_t, w_t)$
+
+$G_t^\lambda - \hat{v}(S_t, w_t) = R_{t+1} + \lambda\gamma \hat{v}(S_{t+1}, w_t) - \lambda\gamma \hat{v}(S_{t+1}, w_t) + \lambda\gamma R_{t+2} + ... - \hat{v}(S_t, w_t)$
+
+$G_t^\lambda - \hat{v}(S_t, w_t) = \delta_t + \lambda\gamma R_{t+2} + ... - \lambda\gamma \hat{v}(S_{t+1}, w_t)$
+
+etc etc, as done in other exercises
+
+$G_t^\lambda - \hat{v}(S_t, w_t) = \sum_{k=t}^\infty \lambda^{k-t}\gamma^{k-t}\delta_k$
+
+**** Exercise 12.4
+
+Use your result from the preceding exercise to show that, if the weight
+updates over an episode were computed on each step but not actually used to change the
+weights (w remained fixed), then the sum of TD(\lambda)’s weight updates would be the same
+as the sum of the off-line \lambda-return algorithm’s updates
+
+The off-line \lambda-return algorithm is
+
+$w_{t+1} \doteq w_t + \alpha [G_t^\lambda - \hat{v}(S_t, w_t)] \nabla \hat{v}(S_t, w_t)$
+
+which we showed can be written
+
+$w_{t+1} \doteq w_t + \alpha [\sum_{k=t}^{\infty}\gamma^{k-t}\delta_k] \nabla \hat{v}(S_t, w_t)$
+
+For each step in an episode, TD(\lambda) will update according to
+
+$z_t \doteq \gamma \lambda z_{t-1} + \nabla \hat{v}(S, w)$
+
+$w_{t+1} \doteq w_t + \alpha\delta_tz_t$
+
+meaning if we dont change them we can sum across t
+
+$w_{t+1} \doteq w_t + \alpha[\sum_{k=t}^{\infty}\delta_k]z_t$
+
+With respect to z_t
+
+$z_t = \nabla \hat{v}(S_t,w_t)(1 + \gamma\lambda + (\gamma\lambda)^2 + ... )$
+
+$\sum_{k=t}^{\infty}z_k = \sum_{k=t}^{\infty}[\gamma^{k-t}\lambda^{k-t}] \nabla\hat{v}(S_t, w_t)$
+
+z_t here would be updated t times where each time you multiply it by \gamma\lambda and then add the gradient, so we can write this as
+
+$w_{t+1} \doteq w_t + \alpha[\sum_{k=t}^{\infty}\gamma^{k-t}\lambda^{k-t}\delta_k]\nabla\hat{v}(S_t, w_t)$
+
+this is the same as our off-line \lambda-return algorithm.
+
+**** Exercise 12.5
+
+Several times in this book (often in exercises) we have established that
+returns can be written as sums of TD errors if the value function is held constant. Why
+is (12.10) another instance of this? Prove (12.10).
+
+It makes sense, n-step truncated TD(\lambda) is just a weighted sum of n-step TD methods for multiple n, which we have already shown in previous exercises to be a sum of TD errors, so this will be a weighted sum of sum of TD errors, i.e. a sum of TD errors.
+
+$\delta_t^{'} \doteq R_{t+1} + \gamma \hat{v}(S_{t+1}, w_t) - \hat{v}(S_t, w_{t-1})$
+
+We start with the definition of truncated \lambda-return
+
+$G_{t:t+k}^{\lambda} \doteq (1 - \lambda) \sum_{n=1}^{h-t-1} \lambda^{n-1}G_{t:t+n} + \lambda^{h-t-1} G_{t:t+k}$
+
+$G_{t:t+k}^{\lambda} \doteq (1 - \lambda) [G_{t:t+1} + \sum_{n=2}^{h-t-1} \lambda^{n-1}G_{t:t+n} + \lambda^{h-t-1} G_{t:t+k}]$
+
+$G_{t:t+k}^{\lambda} \doteq (1 - \lambda) [R_{t+1} + \gamma \hat{v}(S_{t+1}, w_t) + \sum_{n=2}^{h-t-1} \lambda^{n-1}G_{t:t+n} + \lambda^{h-t-1} G_{t:t+k}]$
+
+$G_{t:t+k}^{\lambda} \doteq (1 - \lambda) [\hat{v}(S_{t}, w_{t-1}) + \delta_t^{'} + \sum_{n=2}^{h-t-1} \lambda^{n-1}G_{t:t+n} + \lambda^{h-t-1} G_{t:t+k}]$
+
+$G_{t:t+k}^{\lambda} \doteq (1 - \lambda) [\hat{v}(S_{t}, w_{t-1}) + \delta_t^{'} + \lambda G_{t:t+2} \sum_{n=3}^{h-t-1} \lambda^{n-1}G_{t:t+n} + \lambda^{h-t-1} G_{t:t+k}]$
+
+$G_{t:t+k}^{\lambda} \doteq (1 - \lambda) [\hat{v}(S_{t}, w_{t-1}) + \delta_t^{'} + \lambda [R_{t+2} + \hat{v}(S_{t+2}, w_t)] \sum_{n=3}^{h-t-1} \lambda^{n-1}G_{t:t+n} + \lambda^{h-t-1} G_{t:t+k}]$
+
+...
+
+$G_{t:t+k}^\lambda = (1 - \lambda) ([\sum_{i=t}^{i+k-1} \lambda^{i-t}][...])$
+
+This first sum is equivalent to 1/(1-r) so that term cancels out the (1-\lambda) term
+
+$G_{t:t+k}^\lambda = \hat{v}(S_t, w_{t-1}) + \delta_t^{'} + \gamma\lambda \delta_{t+1}^{'} + ... + (\gamma\lambda)^{k}\delta_{t+k}$
+
+$G_{t:t+k}^\lambda = \hat{v}(S_t, w_{t-1}) + \sum_{i=t}^{t+k-1} (\lambda \gamma)^{i-t}\delta_i^{'}$
+
+**** Exercise 12.6
+
+Modify the pseudocode for Sarsa(\lambda) to use dutch traces (12.11) without the
+other distinctive features of a true online algorithm. Assume linear function approximation
+and binary features
+
+(12.11) dutch traces $z_t \doteq \gamma\lambda z_{t-1} + (1 - \alpha \gamma \lambda z_{t-1}^T x_t) x_t$
+
+In addition to initializing S, we will need to obtain an initial feature x as we do in True Online TD(\lambda), a feature function from states to vectors. When we take an action, we will need to observe R, S', and now x'.
+
+We will replace the line $z \leftarrow \gamma \lambda z$ with $z \leftarrow \gamma\lambda z + (1 - \alpha \gamma \lambda z^T x) x$
+
+and when we also move $x \leftarrow x'$ 
+
+**** Exercise 12.7
+
+Generalize the three recursive equations above to their truncated versions,
+defining G^{\lambda s}_{t:h} and G^{\lambda \alpha}_{t:h}.
+
+$G_t^{\lambda a} \doteq R_{t+1} + \gamma_{t+1} ((1 - \lambda_{t+1})\hat{q}(S_{t+1}, A_{t+1}, w_t) + \lambda_{t+1}G_{t+1}^{\lambda a})$
+
+$G_t^{\lambda a} \doteq R_{t+1} + \gamma_{t+1} ((1 - \lambda_{t+1})\hat{q}(S_{t+1}, A_{t+1}, w_t) + \lambda_{t+1}[R_{t+2} + \gamma_{t+2} ((1 - \lambda_{t+2})\hat{q}(S_{t+2}, A_{t+2}, w_{t+1}) + \lambda_{t+2}G_{t+2}^{\lambda a})])$
+
+$G_t^{\lambda a} \doteq R_{t+1} + \gamma_{t+1} ((1 - \lambda_{t+1})\hat{q}(S_{t+1}, A_{t+1}, w_t) + \lambda_{t+1}R_{t+2} + \lambda_{t+1}\gamma_{t+2} ((1 - \lambda_{t+2})\hat{q}(S_{t+2}, A_{t+2}, w_{t+1}) + \lambda_{t+1}\lambda_{t+2}G_{t+2}^{\lambda a})])$
+
+$G_t^{\lambda a} \doteq R_{t+1} + \lambda_{t+1}R_{t+2} + \gamma_{t+1} ((1 - \lambda_{t+1})\hat{q}(S_{t+1}, A_{t+1}, w_t) + \lambda_{t+1}\gamma_{t+2} ((1 - \lambda_{t+2})\hat{q}(S_{t+2}, A_{t+2}, w_{t+1}) + \lambda_{t+1}\lambda_{t+2}G_{t+2}^{\lambda a})])$
+
+$G_t^{\lambda a} \doteq R_{t+1} + \lambda_{t+1}R_{t+2} + \gamma_{t+1} ((1 - \lambda_{t+1})\hat{q}(S_{t+1}, A_{t+1}, w_t) + \lambda_{t+1}\gamma_{t+2} ((1 - \lambda_{t+2})\hat{q}(S_{t+2}, A_{t+2}, w_{t+1}) + \lambda_{t+1}\lambda_{t+2}R_{t+3} + \lambda_{t+1}\lambda_{t+2}\gamma_{t+3} ((1 - \lambda_{t+3})\hat{q}(S_{t+3}, A_{t+3}, w_t) + \lambda_{t+1}\lambda_{t+2}\lambda_{t+3}G_{t+3}^{\lambda a})))])$
+
+$G_t^{\lambda a} \doteq R_{t+1} + \lambda_{t+1}R_{t+2} + \lambda_{t+1}\lambda_{t+2}R_{t+3} + \gamma_{t+1} ((1 - \lambda_{t+1})\hat{q}(S_{t+1}, A_{t+1}, w_t) + \lambda_{t+1}\gamma_{t+2} ((1 - \lambda_{t+2})\hat{q}(S_{t+2}, A_{t+2}, w_{t+1}) + \lambda_{t+1}\lambda_{t+2}\gamma_{t+3} ((1 - \lambda_{t+3})\hat{q}(S_{t+3}, A_{t+3}, w_t) + \lambda_{t+1}\lambda_{t+2}\lambda_{t+3}G_{t+3}^{\lambda a})))])$
+
+...
+
+$G_{t:h}^{\lambda a} \doteq \sum_{k=t}^{h-1} \left(\prod_{i=t+1}^k \lambda_i\gamma_i\right)R_{k+1} + \left(\prod_{i=t+1}^k \lambda_i\gamma_i\right)(1-\lambda_{k+1})\hat{q}(S_{k+1}, A_{k+1}, w_k)$
+
+and likewise
+
+$G_{t:h}^{\lambda s} \doteq \sum_{k=t}^{h-1} \left(\prod_{i=t+1}^k \lambda_i\gamma_i\right)R_{k+1} + \left(\prod_{i=t+1}^k \lambda_i\gamma_i\right)(1-\lambda_{k+1})\bar{V}_k(S{k+1})$
+
+**** TODO Starred Exercises to do later
+
+***** Exercise 12.8
+
+Exercise 12.8 Prove that (12.24) becomes exact if the value function does not change.
+To save writing, consider the case of t = 0, and use the notation Vk = \hat{v}(Sk,w). ⇤
+
+***** Exercise 12.9
+
+The truncated version of the general off-policy return is denoted G^{\lambda s}_{t:h}.
+Guess the correct equation, based on (12.24).
+
+
+***** Exercise 12.10
+
+Prove that (12.27) becomes exact if the value function does not change.
+To save writing, consider the case of t = 0, and use the notation Qk = qˆ(Sk, Ak, w). Hint:
+Start by writing out a
+0 and Ga
+0 , then Ga
+0  Q0.
+
+***** Exercise 12.11
+
+The truncated version of the general o↵-policy return is denoted Ga
+t:h.
+Guess the correct equation for it, based on (12.27).
+
+***** Exercise 12.12
+
+Show in detail the steps outlined above for deriving (12.29) from (12.27).
+Start with the update (12.15), substitute Ga
+t from (12.26) for G
+t , then follow similar
+steps as led to (12.25).
+
+***** Exercise 12.13
+
+What are the dutch-trace and replacing-trace versions of o↵-policy
+eligibility traces for state-value and action-value methods?
+
+***** Exercise 12.14
+
+How might Double Expected Sarsa be extended to eligibility traces? ⇤
 
 *** TODO 13 - Policy Gradient Methods
 

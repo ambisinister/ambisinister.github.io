@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-10-23 Wed 23:24 -->
+<!-- 2024-10-24 Thu 17:51 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Learning RL</title>
@@ -269,17 +269,38 @@ $(function() {
 <ul>
 <li><a href="#org2f71fd5">Exercise 11.1</a></li>
 <li><a href="#orga019a12"><span class="todo TODO">TODO</span> Exercise 11.3</a></li>
-<li><a href="#org050cee6"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
+<li><a href="#orgd66dd09"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
 </ul>
 </li>
-<li><a href="#orgd91dc01"><span class="todo TODO">TODO</span> 12 - Eligibility Traces</a></li>
+<li><a href="#orgd91dc01">12 - Eligibility Traces</a>
+<ul>
+<li><a href="#org13becb1">Exercise 12.1</a></li>
+<li><a href="#org0f1e7dd">Exercise 12.2</a></li>
+<li><a href="#org2bbd786">Exercise 12.3</a></li>
+<li><a href="#org8135906">Exercise 12.4</a></li>
+<li><a href="#org31d1d04">Exercise 12.5</a></li>
+<li><a href="#org6618f7a">Exercise 12.6</a></li>
+<li><a href="#org8b82b8e">Exercise 12.7</a></li>
+<li><a href="#org2bd90a7"><span class="todo TODO">TODO</span> Starred Exercises to do later</a>
+<ul>
+<li><a href="#org9a5d0d9">Exercise 12.8</a></li>
+<li><a href="#org9c7c1ac">Exercise 12.9</a></li>
+<li><a href="#org5d59ffa">Exercise 12.10</a></li>
+<li><a href="#org04b16cc">Exercise 12.11</a></li>
+<li><a href="#orgbfdd4e2">Exercise 12.12</a></li>
+<li><a href="#org4b32e93">Exercise 12.13</a></li>
+<li><a href="#orgbeabc1c">Exercise 12.14</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a href="#org4faa107"><span class="todo TODO">TODO</span> 13 - Policy Gradient Methods</a>
 <ul>
 <li><a href="#orgeb21d70">Exercise 13.1</a></li>
 <li><a href="#orgddfbd2e">Exercise 13.3</a></li>
 <li><a href="#org12f03b9">Exercise 13.4</a></li>
 <li><a href="#orgfb5dc0a">Exercise 13.5</a></li>
-<li><a href="#orgd66dd09"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
+<li><a href="#org5b34576"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
 </ul>
 </li>
 <li><a href="#org0577026">14-16: No Exercises</a></li>
@@ -4403,9 +4424,9 @@ Exercise 11.3 (programming) Apply one-step semi-gradient Q-learning to Baird’s
 
 
 
-<div id="outline-container-org050cee6" class="outline-4">
-<h4 id="org050cee6"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
-<div class="outline-text-4" id="text-org050cee6">
+<div id="outline-container-orgd66dd09" class="outline-4">
+<h4 id="orgd66dd09"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
+<div class="outline-text-4" id="text-orgd66dd09">
 <p>
 *Exercise 11.2 Convert the equations of n-step Q() (7.11 and 7.17) to semi-gradient
 form. Give definitions that cover both the episodic and continuing cases.
@@ -4424,11 +4445,444 @@ the square, the most complex term will end up being zero, leaving you with (11.2
 
 
 <div id="outline-container-orgd91dc01" class="outline-3">
-<h3 id="orgd91dc01"><span class="todo TODO">TODO</span> 12 - Eligibility Traces</h3>
+<h3 id="orgd91dc01">12 - Eligibility Traces</h3>
 <div class="outline-text-3" id="text-orgd91dc01">
 <p>
-14 exercises: 1 starred
+<i>Status: Checked with o1-preview</i>
 </p>
+</div>
+
+<div id="outline-container-org13becb1" class="outline-4">
+<h4 id="org13becb1">Exercise 12.1</h4>
+<div class="outline-text-4" id="text-org13becb1">
+<p>
+Just as the return can be written recursively in terms of the first reward and
+itself one-step later (3.9), so can the &lambda;-return. Derive the analogous recursive relationship
+from (12.2) and (12.1).
+</p>
+
+<p>
+(12.1) \(G_{t:t+n} = R_{t+1} + \gamma R_{t+2} + ... + \gamma^{n-1} R_{t+n} + \gamma^n \hat{v}(S_{t+n}, w_{t+n-1})\)
+</p>
+
+<p>
+\(G_{t+1:t+n} = R_{t+2} + \gamma R_{t+3} + ... + \gamma^{n-2} R_{t+n} + \gamma^{n-1} \hat{v}(S_{t+n}, w_{t+n-1})\)
+</p>
+
+<p>
+\(\gamma G_{t+1:t+n} = \gamma R_{t+2} + \gamma^2 R_{t+3} + ... + \gamma^{n-1} R_{t+n} + \gamma^n \hat{v}(S_{t+n}, w_{t+n-1})\)
+</p>
+
+<p>
+\(G_{t:t+n} = R_{t+1} + \gamma G_{t+1:t+n}\)
+</p>
+
+<p>
+(12.2) \(G_{t}^{\lambda} \doteq \sum_{n=1}^{\infty} \lambda^{n-1} G_{t:t+n}\)
+</p>
+
+<p>
+\(G_{t}^{\lambda} \doteq \sum_{n=1}^{\infty} \lambda^{n-1} [R_{t+1} + \gamma G_{t+1:t+n}]\)
+</p>
+
+<p>
+\(G_{t}^{\lambda} \doteq \sum_{n=1}^{\infty} \lambda^{n-1} R_{t+1} + \sum_{n=1}^{\infty} \lambda^{n-1} \gamma G_{t+1:t+n}\)
+</p>
+
+<p>
+geometric series converges to a/(1-r), second term is similar to the next G but we have to pull some terms out
+</p>
+
+<p>
+\(G_{t}^{\lambda} \doteq \frac{R_{t+1}}{(1 - \lambda)} + \gamma \lambda G_{t+1}^\lambda\)
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0f1e7dd" class="outline-4">
+<h4 id="org0f1e7dd">Exercise 12.2</h4>
+<div class="outline-text-4" id="text-org0f1e7dd">
+<p>
+Exercise 12.2 The parameter &lambda; characterizes how fast the exponential weighting in
+Figure 12.2 falls off, and thus how far into the future the &lambda;-return algorithm looks in
+determining its update. But a rate factor such as  is sometimes an awkward way of
+characterizing the speed of the decay. For some purposes it is better to specify a time
+constant, or half-life. What is the equation relating &lambda; and the half-life, \(\tau_\pi\), the time by
+which the weighting sequence will have fallen to half of its initial value?
+</p>
+
+<p>
+If you want to cut things in half, that's ln(2), like the opposite of a tree. In each step, the step has a weight of \(\lambda^{t-1}\). If you want to find which time step makes this equal 1/2, that's \(\lambda^{\tau_\pi - 1} = 1/2\). 
+</p>
+
+<p>
+We can solve for \(\tau_\pi\), \(ln(\lambda^{\tau_\pi - 1}) = ln(1/2)\)
+</p>
+
+<p>
+\((\tau_\pi - 1)ln(\lambda) = -ln(2)\)
+</p>
+
+<p>
+\(\tau_\pi = -ln(2) / ln(\lambda) + 1\)
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2bbd786" class="outline-4">
+<h4 id="org2bbd786">Exercise 12.3</h4>
+<div class="outline-text-4" id="text-org2bbd786">
+<p>
+Some insight into how TD(&lambda;) can closely approximate the off-line &lambda;-return
+algorithm can be gained by seeing that the latter’s error term (in brackets in (12.4)) can
+be written as the sum of TD errors (12.6) for a single fixed w. Show this, following the
+pattern of (6.6), and using the recursive relationship for the &lambda;-return you obtained in
+Exercise 12.1.
+</p>
+
+<p>
+error term: \([G_t^\lambda - \hat{v}(S_t, w_t)]\)
+</p>
+
+<p>
+TD error 12.6: \(\delta_t \doteq R_{t+1} + \gamma \hat{v}(S_{t+1}, w_t) - \hat{v}(S_t, w_t)\)
+</p>
+
+<p>
+Recursive
+</p>
+
+<p>
+\(G_{t}^{\lambda} \doteq \sum_{n=1}^{\infty} \lambda^{n-1} [R_{t+1} + \gamma G_{t+1:t+n}]\)
+</p>
+
+<p>
+Rewriting:
+</p>
+
+<p>
+\(G_t^\lambda - \hat{v}(S_t, w_t) = [\sum_{n=1}^{\infty} \lambda^{n-1} [R_{t+1} + \gamma G_{t+1:t+n}]] - \hat{v}(S_t, w_t)\)
+</p>
+
+<p>
+\(G_t^\lambda - \hat{v}(S_t, w_t) = R_{t+1} + \lambda\gamma R_{t+2} + ... - \hat{v}(S_t, w_t)\)
+</p>
+
+<p>
+\(G_t^\lambda - \hat{v}(S_t, w_t) = R_{t+1} + \lambda\gamma \hat{v}(S_{t+1}, w_t) - \lambda\gamma \hat{v}(S_{t+1}, w_t) + \lambda\gamma R_{t+2} + ... - \hat{v}(S_t, w_t)\)
+</p>
+
+<p>
+\(G_t^\lambda - \hat{v}(S_t, w_t) = \delta_t + \lambda\gamma R_{t+2} + ... - \lambda\gamma \hat{v}(S_{t+1}, w_t)\)
+</p>
+
+<p>
+etc etc, as done in other exercises
+</p>
+
+<p>
+\(G_t^\lambda - \hat{v}(S_t, w_t) = \sum_{k=t}^\infty \lambda^{k-t}\gamma^{k-t}\delta_k\)
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8135906" class="outline-4">
+<h4 id="org8135906">Exercise 12.4</h4>
+<div class="outline-text-4" id="text-org8135906">
+<p>
+Use your result from the preceding exercise to show that, if the weight
+updates over an episode were computed on each step but not actually used to change the
+weights (w remained fixed), then the sum of TD(&lambda;)’s weight updates would be the same
+as the sum of the off-line &lambda;-return algorithm’s updates
+</p>
+
+<p>
+The off-line &lambda;-return algorithm is
+</p>
+
+<p>
+\(w_{t+1} \doteq w_t + \alpha [G_t^\lambda - \hat{v}(S_t, w_t)] \nabla \hat{v}(S_t, w_t)\)
+</p>
+
+<p>
+which we showed can be written
+</p>
+
+<p>
+\(w_{t+1} \doteq w_t + \alpha [\sum_{k=t}^{\infty}\gamma^{k-t}\delta_k] \nabla \hat{v}(S_t, w_t)\)
+</p>
+
+<p>
+For each step in an episode, TD(&lambda;) will update according to
+</p>
+
+<p>
+\(z_t \doteq \gamma \lambda z_{t-1} + \nabla \hat{v}(S, w)\)
+</p>
+
+<p>
+\(w_{t+1} \doteq w_t + \alpha\delta_tz_t\)
+</p>
+
+<p>
+meaning if we dont change them we can sum across t
+</p>
+
+<p>
+\(w_{t+1} \doteq w_t + \alpha[\sum_{k=t}^{\infty}\delta_k]z_t\)
+</p>
+
+<p>
+With respect to z<sub>t</sub>
+</p>
+
+<p>
+\(z_t = \nabla \hat{v}(S_t,w_t)(1 + \gamma\lambda + (\gamma\lambda)^2 + ... )\)
+</p>
+
+<p>
+\(\sum_{k=t}^{\infty}z_k = \sum_{k=t}^{\infty}[\gamma^{k-t}\lambda^{k-t}] \nabla\hat{v}(S_t, w_t)\)
+</p>
+
+<p>
+z<sub>t</sub> here would be updated t times where each time you multiply it by &gamma;&lambda; and then add the gradient, so we can write this as
+</p>
+
+<p>
+\(w_{t+1} \doteq w_t + \alpha[\sum_{k=t}^{\infty}\gamma^{k-t}\lambda^{k-t}\delta_k]\nabla\hat{v}(S_t, w_t)\)
+</p>
+
+<p>
+this is the same as our off-line &lambda;-return algorithm.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org31d1d04" class="outline-4">
+<h4 id="org31d1d04">Exercise 12.5</h4>
+<div class="outline-text-4" id="text-org31d1d04">
+<p>
+Several times in this book (often in exercises) we have established that
+returns can be written as sums of TD errors if the value function is held constant. Why
+is (12.10) another instance of this? Prove (12.10).
+</p>
+
+<p>
+It makes sense, n-step truncated TD(&lambda;) is just a weighted sum of n-step TD methods for multiple n, which we have already shown in previous exercises to be a sum of TD errors, so this will be a weighted sum of sum of TD errors, i.e. a sum of TD errors.
+</p>
+
+<p>
+\(\delta_t^{'} \doteq R_{t+1} + \gamma \hat{v}(S_{t+1}, w_t) - \hat{v}(S_t, w_{t-1})\)
+</p>
+
+<p>
+We start with the definition of truncated &lambda;-return
+</p>
+
+<p>
+\(G_{t:t+k}^{\lambda} \doteq (1 - \lambda) \sum_{n=1}^{h-t-1} \lambda^{n-1}G_{t:t+n} + \lambda^{h-t-1} G_{t:t+k}\)
+</p>
+
+<p>
+\(G_{t:t+k}^{\lambda} \doteq (1 - \lambda) [G_{t:t+1} + \sum_{n=2}^{h-t-1} \lambda^{n-1}G_{t:t+n} + \lambda^{h-t-1} G_{t:t+k}]\)
+</p>
+
+<p>
+\(G_{t:t+k}^{\lambda} \doteq (1 - \lambda) [R_{t+1} + \gamma \hat{v}(S_{t+1}, w_t) + \sum_{n=2}^{h-t-1} \lambda^{n-1}G_{t:t+n} + \lambda^{h-t-1} G_{t:t+k}]\)
+</p>
+
+<p>
+\(G_{t:t+k}^{\lambda} \doteq (1 - \lambda) [\hat{v}(S_{t}, w_{t-1}) + \delta_t^{'} + \sum_{n=2}^{h-t-1} \lambda^{n-1}G_{t:t+n} + \lambda^{h-t-1} G_{t:t+k}]\)
+</p>
+
+<p>
+\(G_{t:t+k}^{\lambda} \doteq (1 - \lambda) [\hat{v}(S_{t}, w_{t-1}) + \delta_t^{'} + \lambda G_{t:t+2} \sum_{n=3}^{h-t-1} \lambda^{n-1}G_{t:t+n} + \lambda^{h-t-1} G_{t:t+k}]\)
+</p>
+
+<p>
+\(G_{t:t+k}^{\lambda} \doteq (1 - \lambda) [\hat{v}(S_{t}, w_{t-1}) + \delta_t^{'} + \lambda [R_{t+2} + \hat{v}(S_{t+2}, w_t)] \sum_{n=3}^{h-t-1} \lambda^{n-1}G_{t:t+n} + \lambda^{h-t-1} G_{t:t+k}]\)
+</p>
+
+<p>
+&#x2026;
+</p>
+
+<p>
+\(G_{t:t+k}^\lambda = (1 - \lambda) ([\sum_{i=t}^{i+k-1} \lambda^{i-t}][...])\)
+</p>
+
+<p>
+This first sum is equivalent to 1/(1-r) so that term cancels out the (1-&lambda;) term
+</p>
+
+<p>
+\(G_{t:t+k}^\lambda = \hat{v}(S_t, w_{t-1}) + \delta_t^{'} + \gamma\lambda \delta_{t+1}^{'} + ... + (\gamma\lambda)^{k}\delta_{t+k}\)
+</p>
+
+<p>
+\(G_{t:t+k}^\lambda = \hat{v}(S_t, w_{t-1}) + \sum_{i=t}^{t+k-1} (\lambda \gamma)^{i-t}\delta_i^{'}\)
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6618f7a" class="outline-4">
+<h4 id="org6618f7a">Exercise 12.6</h4>
+<div class="outline-text-4" id="text-org6618f7a">
+<p>
+Modify the pseudocode for Sarsa(&lambda;) to use dutch traces (12.11) without the
+other distinctive features of a true online algorithm. Assume linear function approximation
+and binary features
+</p>
+
+<p>
+(12.11) dutch traces \(z_t \doteq \gamma\lambda z_{t-1} + (1 - \alpha \gamma \lambda z_{t-1}^T x_t) x_t\)
+</p>
+
+<p>
+In addition to initializing S, we will need to obtain an initial feature x as we do in True Online TD(&lambda;), a feature function from states to vectors. When we take an action, we will need to observe R, S', and now x'.
+</p>
+
+<p>
+We will replace the line \(z \leftarrow \gamma \lambda z\) with \(z \leftarrow \gamma\lambda z + (1 - \alpha \gamma \lambda z^T x) x\)
+</p>
+
+<p>
+and when we also move \(x \leftarrow x'\) 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8b82b8e" class="outline-4">
+<h4 id="org8b82b8e">Exercise 12.7</h4>
+<div class="outline-text-4" id="text-org8b82b8e">
+<p>
+Generalize the three recursive equations above to their truncated versions,
+defining G<sup>&lambda; s</sup><sub>t:h</sub> and G<sup>&lambda; &alpha;</sup><sub>t:h</sub>.
+</p>
+
+<p>
+\(G_t^{\lambda a} \doteq R_{t+1} + \gamma_{t+1} ((1 - \lambda_{t+1})\hat{q}(S_{t+1}, A_{t+1}, w_t) + \lambda_{t+1}G_{t+1}^{\lambda a})\)
+</p>
+
+<p>
+\(G_t^{\lambda a} \doteq R_{t+1} + \gamma_{t+1} ((1 - \lambda_{t+1})\hat{q}(S_{t+1}, A_{t+1}, w_t) + \lambda_{t+1}[R_{t+2} + \gamma_{t+2} ((1 - \lambda_{t+2})\hat{q}(S_{t+2}, A_{t+2}, w_{t+1}) + \lambda_{t+2}G_{t+2}^{\lambda a})])\)
+</p>
+
+<p>
+\(G_t^{\lambda a} \doteq R_{t+1} + \gamma_{t+1} ((1 - \lambda_{t+1})\hat{q}(S_{t+1}, A_{t+1}, w_t) + \lambda_{t+1}R_{t+2} + \lambda_{t+1}\gamma_{t+2} ((1 - \lambda_{t+2})\hat{q}(S_{t+2}, A_{t+2}, w_{t+1}) + \lambda_{t+1}\lambda_{t+2}G_{t+2}^{\lambda a})])\)
+</p>
+
+<p>
+\(G_t^{\lambda a} \doteq R_{t+1} + \lambda_{t+1}R_{t+2} + \gamma_{t+1} ((1 - \lambda_{t+1})\hat{q}(S_{t+1}, A_{t+1}, w_t) + \lambda_{t+1}\gamma_{t+2} ((1 - \lambda_{t+2})\hat{q}(S_{t+2}, A_{t+2}, w_{t+1}) + \lambda_{t+1}\lambda_{t+2}G_{t+2}^{\lambda a})])\)
+</p>
+
+<p>
+\(G_t^{\lambda a} \doteq R_{t+1} + \lambda_{t+1}R_{t+2} + \gamma_{t+1} ((1 - \lambda_{t+1})\hat{q}(S_{t+1}, A_{t+1}, w_t) + \lambda_{t+1}\gamma_{t+2} ((1 - \lambda_{t+2})\hat{q}(S_{t+2}, A_{t+2}, w_{t+1}) + \lambda_{t+1}\lambda_{t+2}R_{t+3} + \lambda_{t+1}\lambda_{t+2}\gamma_{t+3} ((1 - \lambda_{t+3})\hat{q}(S_{t+3}, A_{t+3}, w_t) + \lambda_{t+1}\lambda_{t+2}\lambda_{t+3}G_{t+3}^{\lambda a})))])\)
+</p>
+
+<p>
+\(G_t^{\lambda a} \doteq R_{t+1} + \lambda_{t+1}R_{t+2} + \lambda_{t+1}\lambda_{t+2}R_{t+3} + \gamma_{t+1} ((1 - \lambda_{t+1})\hat{q}(S_{t+1}, A_{t+1}, w_t) + \lambda_{t+1}\gamma_{t+2} ((1 - \lambda_{t+2})\hat{q}(S_{t+2}, A_{t+2}, w_{t+1}) + \lambda_{t+1}\lambda_{t+2}\gamma_{t+3} ((1 - \lambda_{t+3})\hat{q}(S_{t+3}, A_{t+3}, w_t) + \lambda_{t+1}\lambda_{t+2}\lambda_{t+3}G_{t+3}^{\lambda a})))])\)
+</p>
+
+<p>
+&#x2026;
+</p>
+
+<p>
+\(G_{t:h}^{\lambda a} \doteq \sum_{k=t}^{h-1} \left(\prod_{i=t+1}^k \lambda_i\gamma_i\right)R_{k+1} + \left(\prod_{i=t+1}^k \lambda_i\gamma_i\right)(1-\lambda_{k+1})\hat{q}(S_{k+1}, A_{k+1}, w_k)\)
+</p>
+
+<p>
+and likewise
+</p>
+
+<p>
+\(G_{t:h}^{\lambda s} \doteq \sum_{k=t}^{h-1} \left(\prod_{i=t+1}^k \lambda_i\gamma_i\right)R_{k+1} + \left(\prod_{i=t+1}^k \lambda_i\gamma_i\right)(1-\lambda_{k+1})\bar{V}_k(S{k+1})\)
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2bd90a7" class="outline-4">
+<h4 id="org2bd90a7"><span class="todo TODO">TODO</span> Starred Exercises to do later</h4>
+<div class="outline-text-4" id="text-org2bd90a7">
+</div>
+<div id="outline-container-org9a5d0d9" class="outline-5">
+<h5 id="org9a5d0d9">Exercise 12.8</h5>
+<div class="outline-text-5" id="text-org9a5d0d9">
+<p>
+Exercise 12.8 Prove that (12.24) becomes exact if the value function does not change.
+To save writing, consider the case of t = 0, and use the notation Vk = \hat{v}(Sk,w). ⇤
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9c7c1ac" class="outline-5">
+<h5 id="org9c7c1ac">Exercise 12.9</h5>
+<div class="outline-text-5" id="text-org9c7c1ac">
+<p>
+The truncated version of the general off-policy return is denoted G<sup>&lambda; s</sup><sub>t:h</sub>.
+Guess the correct equation, based on (12.24).
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org5d59ffa" class="outline-5">
+<h5 id="org5d59ffa">Exercise 12.10</h5>
+<div class="outline-text-5" id="text-org5d59ffa">
+<p>
+Prove that (12.27) becomes exact if the value function does not change.
+To save writing, consider the case of t = 0, and use the notation Qk = qˆ(Sk, Ak, w). Hint:
+Start by writing out a
+0 and Ga
+0 , then Ga
+0  Q0.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org04b16cc" class="outline-5">
+<h5 id="org04b16cc">Exercise 12.11</h5>
+<div class="outline-text-5" id="text-org04b16cc">
+<p>
+The truncated version of the general o↵-policy return is denoted Ga
+t:h.
+Guess the correct equation for it, based on (12.27).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbfdd4e2" class="outline-5">
+<h5 id="orgbfdd4e2">Exercise 12.12</h5>
+<div class="outline-text-5" id="text-orgbfdd4e2">
+<p>
+Show in detail the steps outlined above for deriving (12.29) from (12.27).
+Start with the update (12.15), substitute Ga
+t from (12.26) for G
+t , then follow similar
+steps as led to (12.25).
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4b32e93" class="outline-5">
+<h5 id="org4b32e93">Exercise 12.13</h5>
+<div class="outline-text-5" id="text-org4b32e93">
+<p>
+What are the dutch-trace and replacing-trace versions of o↵-policy
+eligibility traces for state-value and action-value methods?
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbeabc1c" class="outline-5">
+<h5 id="orgbeabc1c">Exercise 12.14</h5>
+<div class="outline-text-5" id="text-orgbeabc1c">
+<p>
+How might Double Expected Sarsa be extended to eligibility traces? ⇤
+</p>
+</div>
+</div>
 </div>
 </div>
 
@@ -4503,9 +4957,9 @@ the derivative of the logistic function f(x)=1/(1 + ex) is f(x)(1  f(x)).
 </div>
 </div>
 
-<div id="outline-container-orgd66dd09" class="outline-4">
-<h4 id="orgd66dd09"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
-<div class="outline-text-4" id="text-orgd66dd09">
+<div id="outline-container-org5b34576" class="outline-4">
+<h4 id="org5b34576"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
+<div class="outline-text-4" id="text-org5b34576">
 <p>
 *Exercise 13.2 Generalize the box on page 199, the policy gradient theorem (13.5), the
 proof of the policy gradient theorem (page 325), and the steps leading to the REINFORCE
