@@ -2544,7 +2544,6 @@ true value of state s from the error (before squaring), grouping the subtracted 
 with the return and the added true value with the estimated value. Then, if you expand
 the square, the most complex term will end up being zero, leaving you with (11.24). ⇤
 
-
 *** 12 - Eligibility Traces
 
 /Status: Checked with o1-preview/
@@ -2742,7 +2741,6 @@ To save writing, consider the case of t = 0, and use the notation Vk = \hat{v}(S
 The truncated version of the general off-policy return is denoted G^{\lambda s}_{t:h}.
 Guess the correct equation, based on (12.24).
 
-
 ***** Exercise 12.10
 
 Prove that (12.27) becomes exact if the value function does not change.
@@ -2775,7 +2773,9 @@ eligibility traces for state-value and action-value methods?
 
 How might Double Expected Sarsa be extended to eligibility traces? ⇤
 
-*** TODO 13 - Policy Gradient Methods
+*** 13 - Policy Gradient Methods
+
+/Status: Checked with o1-preview/
 
 **** Exercise 13.1
 
@@ -2783,42 +2783,238 @@ Use your knowledge of the gridworld and its dynamics to determine an
 exact symbolic expression for the optimal probability of selecting the right action in
 Example 13.1.
 
+From state 1, you want to select right-left-right for an optimal return of -3
+
+from state 2, you want to select left-right for an optimal return of -2
+
+from state 3, you want to select right for an optimal return of -1
+
+you don't know what state you're in, so the best that you can do is match the optimal first actions with equal probability, i.e. select right 2/3 of the time, select left 1/3 of the time. 
+
 **** Exercise 13.3
 
 In Section 13.1 we considered policy parameterizations using the soft-max in
 action preferences (13.2) with linear action preferences (13.3). For this parameterization,
 prove that the eligibility vector is
 
-(13.9)
+(13.9) $\nabla ln \pi(a|s, \theta) = x(s,a) - \sum_b \pi(b|s, \theta)x(s,b)$
 
 using the definitions and elementary calculus
+
+(13.2) $\pi(a|s, \theta) \doteq \frac{e^{h(s,a,\theta)}}{\sum_b e^{h(s,b,\theta)}}$
+
+(13.3) $h(s,a,\theta) = \theta^T x(s,a)$
+
+start from the eligibility vector
+
+$\nabla \pi(A_t|S_t,\theta_t) / \pi(A_t|S_t,\theta_t)$
+
+which from the text we can write as
+
+$\nabla ln \pi(a|s, \theta)$
+
+so
+
+$\nabla ln \pi(a|s, \theta) = \nabla \pi(a|s,\theta) / \pi(a|s,\theta)$
+
+substitute in 13.2
+
+$\nabla ln \pi(a|s, \theta) = \nabla \frac{e^{h(s,a,\theta)}}{\sum_b e^{h(s,b,\theta)}} / \frac{e^{h(s,a,\theta)}}{\sum_b e^{h(s,b,\theta)}}$
+
+substitute in 13.3
+
+$\nabla ln \pi(a|s, \theta) = \nabla \frac{e^{\theta^T x(s,a)}}{\sum_b e^{\theta^T x(s,a)}} / \frac{e^{\theta^T x(s,a)}}{\sum_b e^{\theta^T x(s,b)}}$
+
+use the same identity
+
+$\nabla ln \pi(a|s, \theta) = \nabla ln ( \frac{e^{\theta^T x(s,a)}}{\sum_b e^{\theta^T x(s,b)}} )$
+
+quotient rule
+
+$\nabla ln \pi(a|s, \theta) = \nabla (ln (e^{\theta^T x(s,a)}) - ln(\sum_b e^{\theta^T x(s,b)}))$
+
+$\nabla ln \pi(a|s, \theta) = \nabla (\theta^T x(s,a) - ln(\sum_b e^{\theta^T x(s,b)}))$
+
+$\nabla ln \pi(a|s, \theta) = \nabla\theta^T x(s,a) - \nabla ln(\sum_b e^{\theta^T x(s,b)}))$
+
+$\nabla ln \pi(a|s, \theta) = x(s,a) - \nabla ln(\sum_b e^{\theta^T x(s,b)}))$
+
+The gradient of ln(f(x)) is f'(x)/f(x) due to chain rule
+
+$\nabla ln \pi(a|s, \theta) = x(s,a) - \frac{\nabla \sum_b e^{\theta^T x(s,b)}}{\sum_b e^{\theta^T x(s,b)}}$
+
+the gradient of the sum of exponentials also using the chain rule
+
+$\nabla ln \pi(a|s, \theta) = x(s,a) - \frac{\nabla(\theta^T x(s,b)) \sum_b e^{\theta^T x(s,b)}}{\sum_b e^{\theta^T x(s,b)}}$
+
+$\nabla ln \pi(a|s, \theta) = x(s,a) - \frac{x(s,b) \sum_b e^{\theta^T x(s,b)}}{\sum_b e^{\theta^T x(s,b)}}$
+
+rather than cancel this upper term we can recognize that we are summing across b the fraction $\frac{e^{\theta_T x(s,a)}}{\sum_b e^{\theta^T x(s,b)}}$ which is 13.2, so we can write this as
+
+$\nabla ln \pi(a|s, \theta) = x(s,a) - \sum_b \pi(b|s, \theta)x(s,b)$
 
 **** Exercise 13.4
 
 Show that for the Gaussian policy parameterization (Equations 13.19 and
 13.20) the eligibility vector has the following two parts:
 
+$\nabla ln \pi(a|s, \theta_\mu) = \frac{1}{\sigma(s, \theta)^2}(\alpha - \mu(s, \theta))x_\mu(s)$
+
+and
+
+$\nabla ln \pi(a|s, \theta_\sigma) = (\frac{(\alpha - \mu(s, \theta))^2}{\sigma(s,\theta)^2}-1)x_\sigma(s)$
+
+--
+
+This seems extremely cumbersome
+
+(13.19) $\pi(a|s, \theta) \doteq \frac{1}{\sigma(s, \theta)\sqrt{2\pi}} exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2})$
+
+(13.20) $\mu(s, \theta) \doteq \theta_\mu^T x_\mu(s)$ and $\sigma(s, \theta) \doteq exp(\theta_\sigma^Tx_\sigma(s))$
+
+so the problem solving necessary here is just substituting and doing more calculus. For each part we will solve the upper term $\nabla \pi (a|s, \theta_x)$ and then divide the result by $\frac{1}{\sigma(s, \theta)\sqrt{2\pi}} exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2})$
+
+part A:
+
+$\nabla \pi (a|s, \theta_\mu) = \nabla(\frac{1}{\sigma(s, \theta)\sqrt{2\pi}} exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}))$
+
+product rule
+
+$\nabla \pi (a|s, \theta_\mu) = \nabla(\frac{1}{\sigma(s, \theta)\sqrt{2\pi}})exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) + (\frac{1}{\sigma(s, \theta)\sqrt{2\pi}}) \nabla(exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}))$
+
+first term goes to zero becasuse the partial is 0, since $\sigma(s, \theta)$ is not using $\theta_\mu$. So
+
+$\nabla \pi (a|s, \theta_\mu) = \frac{1}{\sigma(s, \theta)\sqrt{2\pi}} \nabla(exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}))$
+
+now chain rule
+
+$\nabla \pi (a|s, \theta_\mu) = \frac{1}{\sigma(s, \theta)\sqrt{2\pi}} exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) * \nabla (- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2})$
+
+This first term is cumbersome so let's just write it with 13.19
+
+$\nabla \pi (a|s, \theta_\mu) = \pi(a|s, \theta) * - \nabla (\frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2})$
+
+quotient rule
+
+$\nabla \pi (a|s, \theta_\mu) = \pi(a|s, \theta) * -[(2\sigma(s, \theta)^2)(\nabla ((a - \mu(s,\theta))^2)) - ((a - \mu(s,\theta))^2)(\nabla(2\sigma(s, \theta)^2))]/[(2\sigma(s, \theta)^2)^2]$
+
+because it's a partial the right term goes to 0
+
+$\nabla \pi (a|s, \theta_\mu) = \pi(a|s, \theta) * -[(2\sigma(s, \theta)^2)(\nabla ((a - \mu(s,\theta))^2))] /[(2\sigma(s, \theta)^2)^2]$
+
+$\nabla \pi (a|s, \theta_\mu) = \pi(a|s, \theta) * -[\nabla ((a - \mu(s,\theta))^2)] /[2\sigma(s, \theta)^2]$
+
+we can divide out the policy term to get what we are actually solving for so
+
+$\nabla ln(\pi (a|s, \theta_\mu)) =  -[\nabla ((a - \mu(s,\theta))^2)] /[2\sigma(s, \theta)^2]$
+
+$\nabla ln(\pi (a|s, \theta_\mu)) =  -[-2(a - \mu(s,\theta) (\nabla(a - \mu(s,\theta)))] /[2\sigma(s, \theta)^2]$
+
+$\nabla ln(\pi (a|s, \theta_\mu)) =  [(a - \mu(s,\theta))x_\mu(s)] /[\sigma(s, \theta)^2]$
+
+pull out terms to get what we need
+
+$\nabla ln(\pi (a|s, \theta_\mu)) =  \frac{1}{\sigma(s, \theta)^2} (a - \mu(s,\theta))x_\mu(s)$
+
+**part B**: 
+
+$\nabla \pi (a|s, \theta_\sigma) = \nabla(\frac{1}{\sigma(s, \theta)\sqrt{2\pi}} exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}))$
+
+We do the exact same as above but for the other direction
+
+$\nabla \pi (a|s, \theta_\sigma) = \nabla(\frac{1}{\sigma(s, \theta)\sqrt{2\pi}})exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) + (\frac{1}{\sigma(s, \theta)\sqrt{2\pi}}) \nabla(exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}))$
+
+Let's tackle the nablas separately
+
+chain rule
+
+$\nabla \frac{1}{\sigma(s,\theta)\sqrt{2\pi}} = \frac{\sqrt{2\pi}\nabla(\sigma(s, \theta))}{(\sigma(s, \theta)\sqrt{2\pi})^2}$
+
+$\nabla \frac{1}{\sigma(s,\theta)\sqrt{2\pi}} = \frac{\sigma(s, \theta)\sqrt{2\pi} x_\sigma(s)}{(\sigma(s, \theta)\sqrt{2\pi})^2}$
+
+$\nabla \frac{1}{\sigma(s,\theta)\sqrt{2\pi}} = \frac{x_\sigma(s)}{\sigma(s, \theta)\sqrt{2\pi}}$
+
+ok, now chain rule
+
+$\nabla exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) = exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) \nabla(-\frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2})$
+
+$\nabla(-\frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) = - [(2\sigma(s, \theta)^2)(\nabla((a - \mu(s,\theta))^2)) - ((a - \mu(s,\theta))^2)(\nabla(2\sigma(s, \theta)^2))] / [(2\sigma(s, \theta)^2)^2]$
+
+since it's a partial the mu nabla term goes to 0
+
+$\nabla(-\frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) = ((a - \mu(s,\theta))^2)(2\nabla(\sigma(s, \theta)^2))] / [(2\sigma(s, \theta)^2)^2]$
+
+chain rule again and again
+
+$\nabla(-\frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) = ((a - \mu(s,\theta))^2)(2(2\sigma(s, \theta) \nabla(\sigma(s, \theta))))] / [(2\sigma(s, \theta)^2)^2]$
+
+$\nabla(-\frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) = ((a - \mu(s,\theta))^2)(2(2\sigma(s, \theta) \sigma(s, \theta)(x_\sigma(s))))] / [(2\sigma(s, \theta)^2)^2]$
+
+$\nabla(-\frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) = ((a - \mu(s,\theta))^2)(x_\sigma(s))] / \sigma(s, \theta)^2$
+
+coming back to the original we can factor out numerator from the first nabla and rewrite both terms using policy
+
+$\nabla \pi (a|s, \theta_\sigma) = x_\sigma(s) \frac{1}{\sigma(s, \theta)\sqrt{2\pi}}exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) - (\frac{1}{\sigma(s, \theta)\sqrt{2\pi}}) exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) ((a - \mu(s,\theta))^2)(x_\sigma(s))] / \sigma(s, \theta)^2$
+
+$\nabla \pi (a|s, \theta_\sigma) = x_\sigma(s) \pi(a|s, \theta) - \pi(a|s, \theta) \frac{((a - \mu(s,\theta))^2)(x_\sigma(s))}{\sigma(s, \theta)^2}$
+
+$\nabla ln\pi (a|s, \theta_\sigma) = x_\sigma(s) - \frac{((a - \mu(s,\theta))^2)(x_\sigma(s))}{\sigma(s, \theta)^2}$
+
+$\nabla ln\pi (a|s, \theta_\sigma) = (\frac{(a - \mu(s,\theta))^2}{\sigma(s, \theta)^2} - 1)x_\sigma(s)$
+
 **** Exercise 13.5
 
 A Bernoulli-logistic unit is a stochastic neuron-like unit used in some ANNs
-(Section 9.7). Its input at time t is a feature vector x(St); its output, At, is a random
-variable having two values, 0 and 1, with Pr{At = 1} = Pt and Pr{At = 0} = 1  Pt (the
-Bernoulli distribution). Let h(s, 0, ✓) and h(s, 1, ✓) be the preferences in state s for the
-unit’s two actions given policy parameter ✓. Assume that the di↵erence between the
+(Section 9.7). Its input at time t is a feature vector x(S_t); its output, A_t, is a random
+variable having two values, 0 and 1, with Pr{A_t = 1} = P_t and Pr{At = 0} = 1 - P_t (the
+Bernoulli distribution). Let h(s, 0, \theta) and h(s, 1, \theta) be the preferences in state s for the
+unit’s two actions given policy parameter \theta. Assume that the difference between the
 action preferences is given by a weighted sum of the unit’s input vector, that is, assume
-that h(s, 1, ✓)  h(s, 0, ✓) = ✓>x(s), where ✓ is the unit’s weight vector.
+that h(s, 1, \theta) - h(s, 0, \theta) = \theta^T x(s), where \theta is the unit’s weight vector.
+
 (a) Show that if the exponential soft-max distribution (13.2) is used to convert action
-preferences to policies, then Pt = ⇡(1|St, ✓t)=1/(1 + exp(✓>
-t x(St))) (the logistic
+preferences to policies, then P_t = \pi(1|St, \theta_t)=1/(1 + exp(-\theta_t^T x(S_t))) (the logistic
 function).
-(b) What is the Monte-Carlo REINFORCE update of ✓t to ✓t+1 upon receipt of return
-Gt?
-(c) Express the eligibility r ln ⇡(a|s, ✓) for a Bernoulli-logistic unit, in terms of a, x(s),
-and ⇡(a|s, ✓) by calculating the gradient.
-Hint for part (c): Define P = ⇡(1|s, ✓) and compute the derivative of the logarithm, for
+
+(b) What is the Monte-Carlo REINFORCE update of \theta_t to \theta_{t+1} upon receipt of return
+G_t?
+
+(c) Express the eligibility $\nabla ln \pi(a|s, \theta)$ for a Bernoulli-logistic unit, in terms of a, x(s),
+and \pi(a|s, \theta) by calculating the gradient.
+
+Hint for part (c): Define P = \pi(1|s, \theta) and compute the derivative of the logarithm, for
 each action, using the chain rule on P. Combine the two results into one expression that
-depends on a and P, and then use the chain rule again, this time on ✓>x(s), noting that
-the derivative of the logistic function f(x)=1/(1 + ex) is f(x)(1  f(x)).
+depends on a and P, and then use the chain rule again, this time on \theta^T x(s), noting that
+the derivative of the logistic function f(x)=1/(1 + e^{-x}) is f(x)(1 - f(x)).
+
+--
+
+(a) this would be $\frac{e^{h(s,1,\theta)}}{e^{h(s,1,\theta)} + e^{h(s,0,\theta)}}$
+
+If we multiply top and bottom by $1 / e^{h(s,1,\theta)}$ we get
+
+$\frac{1}{1 + \frac{e^{h(s,0,\theta)}}{e^{h(s,1,\theta)}}}$ which is also
+
+$\frac{1}{1 + e^{h(s,0,\theta) - h(s,1,\theta)}}$
+
+which is in turn the logistic function when using the given definition of \theta^T x(s)
+
+(c)
+
+let's do as they suggest and define $P = \pi(1|s, \theta)$, which means 1 = P and 0 = 1-P
+
+since P is the logistic function we know $\nabla P = P(1-P)$
+
+\nabla ln(P) here is (1-P) P(1-P) x(s) = (1-P) x(s)
+
+\nabla ln(1-P) here is (-1/(1-P)) P(1-P) x(s) = -P x(s)
+
+notice that P corresponds to a=1 and 1-P responds to a=0, meaning both are actually
+
+(a-P) x(s)
+
+(b) $\theta \leftarrow \theta + \alpha \gamma^t G_t (A_t - P_t) x(S_t)$
+
 
 **** TODO Starred Exercises to Complete Later
 
@@ -2828,7 +3024,6 @@ update equation (13.8), so that (13.8) ends up with a factor of t and thus align
 the general algorithm given in the pseudocode.
 
 *** 14-16: No Exercises
-
 *** TODO 17 - Frontiers
 
 **** Exercise 17.1

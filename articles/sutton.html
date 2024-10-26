@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-10-24 Thu 17:51 -->
+<!-- 2024-10-25 Fri 17:29 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Learning RL</title>
@@ -269,7 +269,7 @@ $(function() {
 <ul>
 <li><a href="#org2f71fd5">Exercise 11.1</a></li>
 <li><a href="#orga019a12"><span class="todo TODO">TODO</span> Exercise 11.3</a></li>
-<li><a href="#orgd66dd09"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
+<li><a href="#orgdc0e342"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
 </ul>
 </li>
 <li><a href="#orgd91dc01">12 - Eligibility Traces</a>
@@ -294,13 +294,13 @@ $(function() {
 </li>
 </ul>
 </li>
-<li><a href="#org4faa107"><span class="todo TODO">TODO</span> 13 - Policy Gradient Methods</a>
+<li><a href="#org4faa107">13 - Policy Gradient Methods</a>
 <ul>
 <li><a href="#orgeb21d70">Exercise 13.1</a></li>
 <li><a href="#orgddfbd2e">Exercise 13.3</a></li>
 <li><a href="#org12f03b9">Exercise 13.4</a></li>
 <li><a href="#orgfb5dc0a">Exercise 13.5</a></li>
-<li><a href="#org5b34576"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
+<li><a href="#orga023b2f"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
 </ul>
 </li>
 <li><a href="#org0577026">14-16: No Exercises</a></li>
@@ -4424,9 +4424,9 @@ Exercise 11.3 (programming) Apply one-step semi-gradient Q-learning to Baird’s
 
 
 
-<div id="outline-container-orgd66dd09" class="outline-4">
-<h4 id="orgd66dd09"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
-<div class="outline-text-4" id="text-orgd66dd09">
+<div id="outline-container-orgdc0e342" class="outline-4">
+<h4 id="orgdc0e342"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
+<div class="outline-text-4" id="text-orgdc0e342">
 <p>
 *Exercise 11.2 Convert the equations of n-step Q() (7.11 and 7.17) to semi-gradient
 form. Give definitions that cover both the episodic and continuing cases.
@@ -4442,7 +4442,6 @@ the square, the most complex term will end up being zero, leaving you with (11.2
 </div>
 </div>
 </div>
-
 
 <div id="outline-container-orgd91dc01" class="outline-3">
 <h3 id="orgd91dc01">12 - Eligibility Traces</h3>
@@ -4826,7 +4825,6 @@ Guess the correct equation, based on (12.24).
 </div>
 </div>
 
-
 <div id="outline-container-org5d59ffa" class="outline-5">
 <h5 id="org5d59ffa">Exercise 12.10</h5>
 <div class="outline-text-5" id="text-org5d59ffa">
@@ -4887,9 +4885,13 @@ How might Double Expected Sarsa be extended to eligibility traces? ⇤
 </div>
 
 <div id="outline-container-org4faa107" class="outline-3">
-<h3 id="org4faa107"><span class="todo TODO">TODO</span> 13 - Policy Gradient Methods</h3>
+<h3 id="org4faa107">13 - Policy Gradient Methods</h3>
 <div class="outline-text-3" id="text-org4faa107">
+<p>
+<i>Status: Checked with o1-preview</i>
+</p>
 </div>
+
 <div id="outline-container-orgeb21d70" class="outline-4">
 <h4 id="orgeb21d70">Exercise 13.1</h4>
 <div class="outline-text-4" id="text-orgeb21d70">
@@ -4897,6 +4899,22 @@ How might Double Expected Sarsa be extended to eligibility traces? ⇤
 Use your knowledge of the gridworld and its dynamics to determine an
 exact symbolic expression for the optimal probability of selecting the right action in
 Example 13.1.
+</p>
+
+<p>
+From state 1, you want to select right-left-right for an optimal return of -3
+</p>
+
+<p>
+from state 2, you want to select left-right for an optimal return of -2
+</p>
+
+<p>
+from state 3, you want to select right for an optimal return of -1
+</p>
+
+<p>
+you don't know what state you're in, so the best that you can do is match the optimal first actions with equal probability, i.e. select right 2/3 of the time, select left 1/3 of the time. 
 </p>
 </div>
 </div>
@@ -4911,11 +4929,115 @@ prove that the eligibility vector is
 </p>
 
 <p>
-(13.9)
+(13.9) \(\nabla ln \pi(a|s, \theta) = x(s,a) - \sum_b \pi(b|s, \theta)x(s,b)\)
 </p>
 
 <p>
 using the definitions and elementary calculus
+</p>
+
+<p>
+(13.2) \(\pi(a|s, \theta) \doteq \frac{e^{h(s,a,\theta)}}{\sum_b e^{h(s,b,\theta)}}\)
+</p>
+
+<p>
+(13.3) \(h(s,a,\theta) = \theta^T x(s,a)\)
+</p>
+
+<p>
+start from the eligibility vector
+</p>
+
+<p>
+\(\nabla \pi(A_t|S_t,\theta_t) / \pi(A_t|S_t,\theta_t)\)
+</p>
+
+<p>
+which from the text we can write as
+</p>
+
+<p>
+\(\nabla ln \pi(a|s, \theta)\)
+</p>
+
+<p>
+so
+</p>
+
+<p>
+\(\nabla ln \pi(a|s, \theta) = \nabla \pi(a|s,\theta) / \pi(a|s,\theta)\)
+</p>
+
+<p>
+substitute in 13.2
+</p>
+
+<p>
+\(\nabla ln \pi(a|s, \theta) = \nabla \frac{e^{h(s,a,\theta)}}{\sum_b e^{h(s,b,\theta)}} / \frac{e^{h(s,a,\theta)}}{\sum_b e^{h(s,b,\theta)}}\)
+</p>
+
+<p>
+substitute in 13.3
+</p>
+
+<p>
+\(\nabla ln \pi(a|s, \theta) = \nabla \frac{e^{\theta^T x(s,a)}}{\sum_b e^{\theta^T x(s,a)}} / \frac{e^{\theta^T x(s,a)}}{\sum_b e^{\theta^T x(s,b)}}\)
+</p>
+
+<p>
+use the same identity
+</p>
+
+<p>
+\(\nabla ln \pi(a|s, \theta) = \nabla ln ( \frac{e^{\theta^T x(s,a)}}{\sum_b e^{\theta^T x(s,b)}} )\)
+</p>
+
+<p>
+quotient rule
+</p>
+
+<p>
+\(\nabla ln \pi(a|s, \theta) = \nabla (ln (e^{\theta^T x(s,a)}) - ln(\sum_b e^{\theta^T x(s,b)}))\)
+</p>
+
+<p>
+\(\nabla ln \pi(a|s, \theta) = \nabla (\theta^T x(s,a) - ln(\sum_b e^{\theta^T x(s,b)}))\)
+</p>
+
+<p>
+\(\nabla ln \pi(a|s, \theta) = \nabla\theta^T x(s,a) - \nabla ln(\sum_b e^{\theta^T x(s,b)}))\)
+</p>
+
+<p>
+\(\nabla ln \pi(a|s, \theta) = x(s,a) - \nabla ln(\sum_b e^{\theta^T x(s,b)}))\)
+</p>
+
+<p>
+The gradient of ln(f(x)) is f'(x)/f(x) due to chain rule
+</p>
+
+<p>
+\(\nabla ln \pi(a|s, \theta) = x(s,a) - \frac{\nabla \sum_b e^{\theta^T x(s,b)}}{\sum_b e^{\theta^T x(s,b)}}\)
+</p>
+
+<p>
+the gradient of the sum of exponentials also using the chain rule
+</p>
+
+<p>
+\(\nabla ln \pi(a|s, \theta) = x(s,a) - \frac{\nabla(\theta^T x(s,b)) \sum_b e^{\theta^T x(s,b)}}{\sum_b e^{\theta^T x(s,b)}}\)
+</p>
+
+<p>
+\(\nabla ln \pi(a|s, \theta) = x(s,a) - \frac{x(s,b) \sum_b e^{\theta^T x(s,b)}}{\sum_b e^{\theta^T x(s,b)}}\)
+</p>
+
+<p>
+rather than cancel this upper term we can recognize that we are summing across b the fraction \(\frac{e^{\theta_T x(s,a)}}{\sum_b e^{\theta^T x(s,b)}}\) which is 13.2, so we can write this as
+</p>
+
+<p>
+\(\nabla ln \pi(a|s, \theta) = x(s,a) - \sum_b \pi(b|s, \theta)x(s,b)\)
 </p>
 </div>
 </div>
@@ -4927,6 +5049,214 @@ using the definitions and elementary calculus
 Show that for the Gaussian policy parameterization (Equations 13.19 and
 13.20) the eligibility vector has the following two parts:
 </p>
+
+<p>
+\(\nabla ln \pi(a|s, \theta_\mu) = \frac{1}{\sigma(s, \theta)^2}(\alpha - \mu(s, \theta))x_\mu(s)\)
+</p>
+
+<p>
+and
+</p>
+
+<p>
+\(\nabla ln \pi(a|s, \theta_\sigma) = (\frac{(\alpha - \mu(s, \theta))^2}{\sigma(s,\theta)^2}-1)x_\sigma(s)\)
+</p>
+
+<p>
+&#x2013;
+</p>
+
+<p>
+This seems extremely cumbersome
+</p>
+
+<p>
+(13.19) \(\pi(a|s, \theta) \doteq \frac{1}{\sigma(s, \theta)\sqrt{2\pi}} exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2})\)
+</p>
+
+<p>
+(13.20) \(\mu(s, \theta) \doteq \theta_\mu^T x_\mu(s)\) and \(\sigma(s, \theta) \doteq exp(\theta_\sigma^Tx_\sigma(s))\)
+</p>
+
+<p>
+so the problem solving necessary here is just substituting and doing more calculus. For each part we will solve the upper term \(\nabla \pi (a|s, \theta_x)\) and then divide the result by \(\frac{1}{\sigma(s, \theta)\sqrt{2\pi}} exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2})\)
+</p>
+
+<p>
+part A:
+</p>
+
+<p>
+\(\nabla \pi (a|s, \theta_\mu) = \nabla(\frac{1}{\sigma(s, \theta)\sqrt{2\pi}} exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}))\)
+</p>
+
+<p>
+product rule
+</p>
+
+<p>
+\(\nabla \pi (a|s, \theta_\mu) = \nabla(\frac{1}{\sigma(s, \theta)\sqrt{2\pi}})exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) + (\frac{1}{\sigma(s, \theta)\sqrt{2\pi}}) \nabla(exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}))\)
+</p>
+
+<p>
+first term goes to zero becasuse the partial is 0, since \(\sigma(s, \theta)\) is not using \(\theta_\mu\). So
+</p>
+
+<p>
+\(\nabla \pi (a|s, \theta_\mu) = \frac{1}{\sigma(s, \theta)\sqrt{2\pi}} \nabla(exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}))\)
+</p>
+
+<p>
+now chain rule
+</p>
+
+<p>
+\(\nabla \pi (a|s, \theta_\mu) = \frac{1}{\sigma(s, \theta)\sqrt{2\pi}} exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) * \nabla (- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2})\)
+</p>
+
+<p>
+This first term is cumbersome so let's just write it with 13.19
+</p>
+
+<p>
+\(\nabla \pi (a|s, \theta_\mu) = \pi(a|s, \theta) * - \nabla (\frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2})\)
+</p>
+
+<p>
+quotient rule
+</p>
+
+<p>
+\(\nabla \pi (a|s, \theta_\mu) = \pi(a|s, \theta) * -[(2\sigma(s, \theta)^2)(\nabla ((a - \mu(s,\theta))^2)) - ((a - \mu(s,\theta))^2)(\nabla(2\sigma(s, \theta)^2))]/[(2\sigma(s, \theta)^2)^2]\)
+</p>
+
+<p>
+because it's a partial the right term goes to 0
+</p>
+
+<p>
+\(\nabla \pi (a|s, \theta_\mu) = \pi(a|s, \theta) * -[(2\sigma(s, \theta)^2)(\nabla ((a - \mu(s,\theta))^2))] /[(2\sigma(s, \theta)^2)^2]\)
+</p>
+
+<p>
+\(\nabla \pi (a|s, \theta_\mu) = \pi(a|s, \theta) * -[\nabla ((a - \mu(s,\theta))^2)] /[2\sigma(s, \theta)^2]\)
+</p>
+
+<p>
+we can divide out the policy term to get what we are actually solving for so
+</p>
+
+<p>
+\(\nabla ln(\pi (a|s, \theta_\mu)) =  -[\nabla ((a - \mu(s,\theta))^2)] /[2\sigma(s, \theta)^2]\)
+</p>
+
+<p>
+\(\nabla ln(\pi (a|s, \theta_\mu)) =  -[-2(a - \mu(s,\theta) (\nabla(a - \mu(s,\theta)))] /[2\sigma(s, \theta)^2]\)
+</p>
+
+<p>
+\(\nabla ln(\pi (a|s, \theta_\mu)) =  [(a - \mu(s,\theta))x_\mu(s)] /[\sigma(s, \theta)^2]\)
+</p>
+
+<p>
+pull out terms to get what we need
+</p>
+
+<p>
+\(\nabla ln(\pi (a|s, \theta_\mu)) =  \frac{1}{\sigma(s, \theta)^2} (a - \mu(s,\theta))x_\mu(s)\)
+</p>
+
+<p>
+<b><b>part B</b></b>: 
+</p>
+
+<p>
+\(\nabla \pi (a|s, \theta_\sigma) = \nabla(\frac{1}{\sigma(s, \theta)\sqrt{2\pi}} exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}))\)
+</p>
+
+<p>
+We do the exact same as above but for the other direction
+</p>
+
+<p>
+\(\nabla \pi (a|s, \theta_\sigma) = \nabla(\frac{1}{\sigma(s, \theta)\sqrt{2\pi}})exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) + (\frac{1}{\sigma(s, \theta)\sqrt{2\pi}}) \nabla(exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}))\)
+</p>
+
+<p>
+Let's tackle the nablas separately
+</p>
+
+<p>
+chain rule
+</p>
+
+<p>
+\(\nabla \frac{1}{\sigma(s,\theta)\sqrt{2\pi}} = \frac{\sqrt{2\pi}\nabla(\sigma(s, \theta))}{(\sigma(s, \theta)\sqrt{2\pi})^2}\)
+</p>
+
+<p>
+\(\nabla \frac{1}{\sigma(s,\theta)\sqrt{2\pi}} = \frac{\sigma(s, \theta)\sqrt{2\pi} x_\sigma(s)}{(\sigma(s, \theta)\sqrt{2\pi})^2}\)
+</p>
+
+<p>
+\(\nabla \frac{1}{\sigma(s,\theta)\sqrt{2\pi}} = \frac{x_\sigma(s)}{\sigma(s, \theta)\sqrt{2\pi}}\)
+</p>
+
+<p>
+ok, now chain rule
+</p>
+
+<p>
+\(\nabla exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) = exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) \nabla(-\frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2})\)
+</p>
+
+<p>
+\(\nabla(-\frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) = - [(2\sigma(s, \theta)^2)(\nabla((a - \mu(s,\theta))^2)) - ((a - \mu(s,\theta))^2)(\nabla(2\sigma(s, \theta)^2))] / [(2\sigma(s, \theta)^2)^2]\)
+</p>
+
+<p>
+since it's a partial the mu nabla term goes to 0
+</p>
+
+<p>
+\(\nabla(-\frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) = ((a - \mu(s,\theta))^2)(2\nabla(\sigma(s, \theta)^2))] / [(2\sigma(s, \theta)^2)^2]\)
+</p>
+
+<p>
+chain rule again and again
+</p>
+
+<p>
+\(\nabla(-\frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) = ((a - \mu(s,\theta))^2)(2(2\sigma(s, \theta) \nabla(\sigma(s, \theta))))] / [(2\sigma(s, \theta)^2)^2]\)
+</p>
+
+<p>
+\(\nabla(-\frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) = ((a - \mu(s,\theta))^2)(2(2\sigma(s, \theta) \sigma(s, \theta)(x_\sigma(s))))] / [(2\sigma(s, \theta)^2)^2]\)
+</p>
+
+<p>
+\(\nabla(-\frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) = ((a - \mu(s,\theta))^2)(x_\sigma(s))] / \sigma(s, \theta)^2\)
+</p>
+
+<p>
+coming back to the original we can factor out numerator from the first nabla and rewrite both terms using policy
+</p>
+
+<p>
+\(\nabla \pi (a|s, \theta_\sigma) = x_\sigma(s) \frac{1}{\sigma(s, \theta)\sqrt{2\pi}}exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) - (\frac{1}{\sigma(s, \theta)\sqrt{2\pi}}) exp(- \frac{(a - \mu(s,\theta))^2}{2\sigma(s, \theta)^2}) ((a - \mu(s,\theta))^2)(x_\sigma(s))] / \sigma(s, \theta)^2\)
+</p>
+
+<p>
+\(\nabla \pi (a|s, \theta_\sigma) = x_\sigma(s) \pi(a|s, \theta) - \pi(a|s, \theta) \frac{((a - \mu(s,\theta))^2)(x_\sigma(s))}{\sigma(s, \theta)^2}\)
+</p>
+
+<p>
+\(\nabla ln\pi (a|s, \theta_\sigma) = x_\sigma(s) - \frac{((a - \mu(s,\theta))^2)(x_\sigma(s))}{\sigma(s, \theta)^2}\)
+</p>
+
+<p>
+\(\nabla ln\pi (a|s, \theta_\sigma) = (\frac{(a - \mu(s,\theta))^2}{\sigma(s, \theta)^2} - 1)x_\sigma(s)\)
+</p>
 </div>
 </div>
 
@@ -4935,31 +5265,99 @@ Show that for the Gaussian policy parameterization (Equations 13.19 and
 <div class="outline-text-4" id="text-orgfb5dc0a">
 <p>
 A Bernoulli-logistic unit is a stochastic neuron-like unit used in some ANNs
-(Section 9.7). Its input at time t is a feature vector x(St); its output, At, is a random
-variable having two values, 0 and 1, with Pr{At = 1} = Pt and Pr{At = 0} = 1  Pt (the
-Bernoulli distribution). Let h(s, 0, ✓) and h(s, 1, ✓) be the preferences in state s for the
-unit’s two actions given policy parameter ✓. Assume that the di↵erence between the
+(Section 9.7). Its input at time t is a feature vector x(S<sub>t</sub>); its output, A<sub>t</sub>, is a random
+variable having two values, 0 and 1, with Pr{A<sub>t</sub> = 1} = P<sub>t</sub> and Pr{At = 0} = 1 - P<sub>t</sub> (the
+Bernoulli distribution). Let h(s, 0, &theta;) and h(s, 1, &theta;) be the preferences in state s for the
+unit’s two actions given policy parameter &theta;. Assume that the difference between the
 action preferences is given by a weighted sum of the unit’s input vector, that is, assume
-that h(s, 1, ✓)  h(s, 0, ✓) = ✓&gt;x(s), where ✓ is the unit’s weight vector.
+that h(s, 1, &theta;) - h(s, 0, &theta;) = &theta;<sup>T</sup> x(s), where &theta; is the unit’s weight vector.
+</p>
+
+<p>
 (a) Show that if the exponential soft-max distribution (13.2) is used to convert action
-preferences to policies, then Pt = ⇡(1|St, ✓t)=1/(1 + exp(✓&gt;
-t x(St))) (the logistic
+preferences to policies, then P<sub>t</sub> = &pi;(1|St, &theta;<sub>t</sub>)=1/(1 + exp(-&theta;<sub>t</sub><sup>T</sup> x(S<sub>t</sub>))) (the logistic
 function).
-(b) What is the Monte-Carlo REINFORCE update of ✓t to ✓t+1 upon receipt of return
-Gt?
-(c) Express the eligibility r ln ⇡(a|s, ✓) for a Bernoulli-logistic unit, in terms of a, x(s),
-and ⇡(a|s, ✓) by calculating the gradient.
-Hint for part (c): Define P = ⇡(1|s, ✓) and compute the derivative of the logarithm, for
+</p>
+
+<p>
+(b) What is the Monte-Carlo REINFORCE update of &theta;<sub>t</sub> to &theta;<sub>t+1</sub> upon receipt of return
+G<sub>t</sub>?
+</p>
+
+<p>
+(c) Express the eligibility \(\nabla ln \pi(a|s, \theta)\) for a Bernoulli-logistic unit, in terms of a, x(s),
+and &pi;(a|s, &theta;) by calculating the gradient.
+</p>
+
+<p>
+Hint for part (c): Define P = &pi;(1|s, &theta;) and compute the derivative of the logarithm, for
 each action, using the chain rule on P. Combine the two results into one expression that
-depends on a and P, and then use the chain rule again, this time on ✓&gt;x(s), noting that
-the derivative of the logistic function f(x)=1/(1 + ex) is f(x)(1  f(x)).
+depends on a and P, and then use the chain rule again, this time on &theta;<sup>T</sup> x(s), noting that
+the derivative of the logistic function f(x)=1/(1 + e<sup>-x</sup>) is f(x)(1 - f(x)).
+</p>
+
+<p>
+&#x2013;
+</p>
+
+<p>
+(a) this would be \(\frac{e^{h(s,1,\theta)}}{e^{h(s,1,\theta)} + e^{h(s,0,\theta)}}\)
+</p>
+
+<p>
+If we multiply top and bottom by \(1 / e^{h(s,1,\theta)}\) we get
+</p>
+
+<p>
+\(\frac{1}{1 + \frac{e^{h(s,0,\theta)}}{e^{h(s,1,\theta)}}}\) which is also
+</p>
+
+<p>
+\(\frac{1}{1 + e^{h(s,0,\theta) - h(s,1,\theta)}}\)
+</p>
+
+<p>
+which is in turn the logistic function when using the given definition of &theta;<sup>T</sup> x(s)
+</p>
+
+<p>
+(c)
+</p>
+
+<p>
+let's do as they suggest and define \(P = \pi(1|s, \theta)\), which means 1 = P and 0 = 1-P
+</p>
+
+<p>
+since P is the logistic function we know \(\nabla P = P(1-P)\)
+</p>
+
+<p>
+&nabla; ln(P) here is (1-P) P(1-P) x(s) = (1-P) x(s)
+</p>
+
+<p>
+&nabla; ln(1-P) here is (-1/(1-P)) P(1-P) x(s) = -P x(s)
+</p>
+
+<p>
+notice that P corresponds to a=1 and 1-P responds to a=0, meaning both are actually
+</p>
+
+<p>
+(a-P) x(s)
+</p>
+
+<p>
+(b) \(\theta \leftarrow \theta + \alpha \gamma^t G_t (A_t - P_t) x(S_t)\)
 </p>
 </div>
 </div>
 
-<div id="outline-container-org5b34576" class="outline-4">
-<h4 id="org5b34576"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
-<div class="outline-text-4" id="text-org5b34576">
+
+<div id="outline-container-orga023b2f" class="outline-4">
+<h4 id="orga023b2f"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
+<div class="outline-text-4" id="text-orga023b2f">
 <p>
 *Exercise 13.2 Generalize the box on page 199, the policy gradient theorem (13.5), the
 proof of the policy gradient theorem (page 325), and the steps leading to the REINFORCE
@@ -4973,7 +5371,6 @@ the general algorithm given in the pseudocode.
 <div id="outline-container-org0577026" class="outline-3">
 <h3 id="org0577026">14-16: No Exercises</h3>
 </div>
-
 <div id="outline-container-orgee2c96c" class="outline-3">
 <h3 id="orgee2c96c"><span class="todo TODO">TODO</span> 17 - Frontiers</h3>
 <div class="outline-text-3" id="text-orgee2c96c">
