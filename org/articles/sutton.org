@@ -10,11 +10,13 @@ My primary objective in reading this book is to understand deep reinforcement le
 
 In general, there are two types of learning: let's call them "waow learning" and "ugh learning". In waow learning, you learn a new concept, some good words to say about that concept, and a corpus of other people's thoughts on a topic. In ugh learning, you are running on the treadmill and trying not to die. Since my objective is research, it's of higher relative importance that I do a lot of ugh learning on this topic. I'm not anticipating RL becoming my primary specialty within machine learning, but I need to /get it/ more than I would to read through an RL paper and nod sagely when I see familiar terms. I do my best work when I get really /opinionated/ about a topic, and I can't reliably do that without chaining myself to the treadmill.
 
-So, I'll be doing all of the exercises in this textbook, barring the ones which are starred or are inside of starred sections. The exception here is chapter 11, which I will be doing since I'm anticipating it being relevant to what I'm aiming to actually do with it. The majority of these are near the beginning of the book (chapter 3 has almost 30 exercises, most chapters after have about 10, part III has one exercise total). I'm going to make a good faith effort to actually get through the whole book, including these less exercise-heavy chapters / ones not covered in the DeepMind course. We will see how well I stick to it, but I have some optimism. Likewise, at the end I'll be making cloze deletion flashcards of the convenient summary sections at the end of every chapter.
+So, I'll be doing all of the exercises in this textbook, barring the ones which are starred or are inside of starred sections. The exception here is chapter 11, which I will be doing despite the optional designation since I'm anticipating it being relevant to what I'm aiming to actually do with it. The majority of these are near the beginning of the book (chapter 3 has almost 30 exercises, most chapters after have about 10, part III has one exercise total). I made a good faith effort to actually get through the whole book, including these less exercise-heavy chapters / ones not covered in the DeepMind course. Likewise, at the end I'll be making cloze deletion flashcards of the convenient summary sections at the end of every chapter.
 
 *Please Note: I give no guarantee of correctness for my solutions to these exercises.* This is not an answer key, it's my attempt at fighting through a textbook to learn a new topic[fn:2]. Likewise, these answers aren't of the quality I would submit as a homework assignment, they're just having passed the threshold where I believe it is clear to myself that I understand the solution[fn:3]. I'll be checking my answers to the exercises with LLMs as I work through the book, which should be noted in the little /status/ line at the start of each subsection.
 
 In addition, this book is actually pretty surface level on deep RL specifically -- this book just represents the background necessary for understanding the RL part. I'm hopeful that I already understand the deep part, but it's helpful for me to have a plan of attack for after I complete the book. In particular, I'm planning on reading through the code for important algorithms in [[https://docs.cleanrl.dev/][CleanRL]], along some important relevant papers. This will probably be it's own post, but I'll link it here once I get to that point.
+
+*Update 8-27:* I have completed this book, having read through all the chapters and completed all the exercises aside from ones marked as optional. All in all, it took me just over 2 weeks to get through the whole thing, doing something like roughly 4-7 hours per day of effort. I probably would have learned the topics in this book more deeply had I given myself the recommended two semesters worth of time, but since I had a particular /destination/ in mind I was willing to adhere to this accelerated pace provided I could still complete the exercises[fn:6]. In all likelihood, I probably could have started immediately from deep RL papers given my background, but I think I would have pidgeonholed myself into just being able to get stuff working and not understanding why they worked. 
 
 ** What I Think About The Book
 
@@ -2506,9 +2508,9 @@ Second, we'd have to replace $\bar{R} \leftarrow \bar{R} + \beta\delta$ with $\b
 
 Finally, we'd have to repeatedly update $\bar{o}_n$ after each action using $\bar{o}_n \doteq \bar{o}_{n-1} + \alpha(1 - \bar{o}_{n-1})$
 
-*** (In Progress) 11 - Off-policy Methods with Approximation
+*** 11 - Off-policy Methods with Approximation
 
-/Status: Need to do programming/
+/Status: Checked with Claude Sonnet 3.5/
 
 **** Exercise 11.1
 
@@ -2527,11 +2529,11 @@ Episodic: $G_{t:t+n} = R_{t+1} + \gamma R_{t+2} + ... + \gamma^{n-1} R_{t+n} + \
 
 Continuous: $G_{t:t+n} = R_{t+1} - \bar{R}_t + ... + R_{t+n} - \bar{R}_{t+n-1} + \hat{v}_{t+n-1}(S_{t+n}, w_{t+n-1})$
 
-**** TODO Exercise 11.3
+**** Exercise 11.3
 
 Exercise 11.3 (programming) Apply one-step semi-gradient Q-learning to Baird’s counterexample and show empirically that its weights diverge.
 
-
+Code can be found in this [[https://colab.research.google.com/drive/1LvCqiaKaNvIi2Ky5_BQHTrwpZyF_VRu7?usp=sharing][colab]].
 
 **** TODO Starred Exercises to Complete Later
 
@@ -3024,7 +3026,9 @@ update equation (13.8), so that (13.8) ends up with a factor of t and thus align
 the general algorithm given in the pseudocode.
 
 *** 14-16: No Exercises
-*** TODO 17 - Frontiers
+*** 17 - Frontiers
+
+/Status: Checked with Claude Sonnet 3.5/
 
 **** Exercise 17.1
 
@@ -3034,7 +3038,23 @@ What is the natural Bellman equation for a hierarchical policy, analogous to (17
 for the average reward setting (Section 10.3)? What are the two parts of the option
 model, analogous to (17.2) and (17.3), for the average reward setting? ⇤
 
+(17.4) $v_\pi(s) = \sum_{w \in \Omega(s)} \pi(w|s) [ r(s,w) + \sum_{s'}p(s'|s,w)v_\pi(s')]$
+
+to convert this to average reward we need to remove \gamma and then replace rewards with differences, here specifically for each option which we can denotate r(s,w,\pi)
+
+$v_\pi(s) = \sum_{w \in \Omega(s)} \pi(w|s) [ r(s,w) - r(s,w,\pi) + \sum_{s'}p(s'|s,w)v_\pi(s')]$
+
+the analogy to (17.2) would be
+
+$r(s,w) \doteq \mathbb{E}[R_1 - r(s,w,\pi) + R_2 - r(s,w\pi) + ... + R_\tau - r(s,w,\pi)]$
+
+and the analogy to 17.3 would be
+
+$p(s'|s,w) \doteq \sum_{k=1}^\infty Pr[S_k=s' | S_0 = s, A_{0:k-1} ~ \pi_w]$
+
 * Footnotes
+
+[fn:6] Likewise, I read this book as self-study, so it's possible I just did literally everything wrong and the LLMs have misled me into thinking I would have passed a course based on this book
 
 [fn:5] This is a bit of a euphemism. 
 

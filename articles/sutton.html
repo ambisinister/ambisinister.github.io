@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-10-25 Fri 17:29 -->
+<!-- 2024-10-27 Sun 00:37 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Learning RL</title>
@@ -265,11 +265,11 @@ $(function() {
 <li><a href="#orga3c6fef">Exercise 10.9</a></li>
 </ul>
 </li>
-<li><a href="#org0e2c4c2">(In Progress) 11 - Off-policy Methods with Approximation</a>
+<li><a href="#orge2d110b">11 - Off-policy Methods with Approximation</a>
 <ul>
 <li><a href="#org2f71fd5">Exercise 11.1</a></li>
-<li><a href="#orga019a12"><span class="todo TODO">TODO</span> Exercise 11.3</a></li>
-<li><a href="#orgdc0e342"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
+<li><a href="#orga019a12">Exercise 11.3</a></li>
+<li><a href="#orga023b2f"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
 </ul>
 </li>
 <li><a href="#orgd91dc01">12 - Eligibility Traces</a>
@@ -300,11 +300,11 @@ $(function() {
 <li><a href="#orgddfbd2e">Exercise 13.3</a></li>
 <li><a href="#org12f03b9">Exercise 13.4</a></li>
 <li><a href="#orgfb5dc0a">Exercise 13.5</a></li>
-<li><a href="#orga023b2f"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
+<li><a href="#orgf80d30f"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
 </ul>
 </li>
 <li><a href="#org0577026">14-16: No Exercises</a></li>
-<li><a href="#orgee2c96c"><span class="todo TODO">TODO</span> 17 - Frontiers</a>
+<li><a href="#orgee2c96c">17 - Frontiers</a>
 <ul>
 <li><a href="#orgdc401e4">Exercise 17.1</a></li>
 </ul>
@@ -337,7 +337,7 @@ In general, there are two types of learning: let's call them "waow learning" and
 </p>
 
 <p>
-So, I'll be doing all of the exercises in this textbook, barring the ones which are starred or are inside of starred sections. The exception here is chapter 11, which I will be doing since I'm anticipating it being relevant to what I'm aiming to actually do with it. The majority of these are near the beginning of the book (chapter 3 has almost 30 exercises, most chapters after have about 10, part III has one exercise total). I'm going to make a good faith effort to actually get through the whole book, including these less exercise-heavy chapters / ones not covered in the DeepMind course. We will see how well I stick to it, but I have some optimism. Likewise, at the end I'll be making cloze deletion flashcards of the convenient summary sections at the end of every chapter.
+So, I'll be doing all of the exercises in this textbook, barring the ones which are starred or are inside of starred sections. The exception here is chapter 11, which I will be doing despite the optional designation since I'm anticipating it being relevant to what I'm aiming to actually do with it. The majority of these are near the beginning of the book (chapter 3 has almost 30 exercises, most chapters after have about 10, part III has one exercise total). I made a good faith effort to actually get through the whole book, including these less exercise-heavy chapters / ones not covered in the DeepMind course. Likewise, at the end I'll be making cloze deletion flashcards of the convenient summary sections at the end of every chapter.
 </p>
 
 <p>
@@ -347,6 +347,10 @@ So, I'll be doing all of the exercises in this textbook, barring the ones which 
 <p>
 In addition, this book is actually pretty surface level on deep RL specifically &#x2013; this book just represents the background necessary for understanding the RL part. I'm hopeful that I already understand the deep part, but it's helpful for me to have a plan of attack for after I complete the book. In particular, I'm planning on reading through the code for important algorithms in <a href="https://docs.cleanrl.dev/">CleanRL</a>, along some important relevant papers. This will probably be it's own post, but I'll link it here once I get to that point.
 </p>
+
+<p>
+<b>Update 8-27:</b> I have completed this book, having read through all the chapters and completed all the exercises aside from ones marked as optional. All in all, it took me just over 2 weeks to get through the whole thing, doing something like roughly 4-7 hours per day of effort. I probably would have learned the topics in this book more deeply had I given myself the recommended two semesters worth of time, but since I had a particular <i>destination</i> in mind I was willing to adhere to this accelerated pace provided I could still complete the exercises<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>. In all likelihood, I probably could have started immediately from deep RL papers given my background, but I think I would have pidgeonholed myself into just being able to get stuff working and not understanding why they worked. 
+</p>
 </div>
 </div>
 
@@ -354,11 +358,11 @@ In addition, this book is actually pretty surface level on deep RL specifically 
 <h2 id="orgaea68fd">What I Think About The Book</h2>
 <div class="outline-text-2" id="text-orgaea68fd">
 <p>
-So far I have a few thoughts about this book. In general I consider myself relatively not math-inclined<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>; my strengths mostly lie in my ability to throw borderline obsessive amounts of effort at projects. But I do have a fair bit of good experience in machine learning, programming, artificial intelligence, all that sort of stuff. The jury is probably out on whether I was better-suited for this book compared to a plucky engineering undergraduate, but I figured it should all be within my grasp.
+So far I have a few thoughts about this book. In general I consider myself relatively not math-inclined<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>; my strengths mostly lie in my ability to throw borderline obsessive amounts of effort at projects. But I do have a fair bit of good experience in machine learning, programming, artificial intelligence, all that sort of stuff. The jury is probably out on whether I was better-suited for this book compared to a plucky engineering undergraduate, but I figured it should all be within my grasp.
 </p>
 
 <p>
-I found myself able to navigate the exercises in this book with great difficulty. They were very challenging to me, and I expected my background to be of much greater help than it ended up being. I was forced to acknowledge that maybe, just a little bit, I was letting my eyes glaze over a little bit when I read through dense notation in papers. The notation in RL is very intense<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>, and this book does not pull punches. It was all fairly doable, but I was grateful that I worked through it after we invented LLMs / after I landed somewhere with bright colleagues who already know this topic.
+I found myself able to navigate the exercises in this book with great difficulty. They were very challenging to me, and I expected my background to be of much greater help than it ended up being. I was forced to acknowledge that maybe, just a little bit, I was letting my eyes glaze over a little bit when I read through dense notation in papers. The notation in RL is very intense<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>, and this book does not pull punches. It was all fairly doable, but I was grateful that I worked through it after we invented LLMs / after I landed somewhere with bright colleagues who already know this topic.
 </p>
 
 <p>
@@ -4371,11 +4375,11 @@ Finally, we'd have to repeatedly update \(\bar{o}_n\) after each action using \(
 </div>
 </div>
 
-<div id="outline-container-org0e2c4c2" class="outline-3">
-<h3 id="org0e2c4c2">(In Progress) 11 - Off-policy Methods with Approximation</h3>
-<div class="outline-text-3" id="text-org0e2c4c2">
+<div id="outline-container-orge2d110b" class="outline-3">
+<h3 id="orge2d110b">11 - Off-policy Methods with Approximation</h3>
+<div class="outline-text-3" id="text-orge2d110b">
 <p>
-<i>Status: Need to do programming</i>
+<i>Status: Checked with Claude Sonnet 3.5</i>
 </p>
 </div>
 
@@ -4414,19 +4418,21 @@ Continuous: \(G_{t:t+n} = R_{t+1} - \bar{R}_t + ... + R_{t+n} - \bar{R}_{t+n-1} 
 </div>
 
 <div id="outline-container-orga019a12" class="outline-4">
-<h4 id="orga019a12"><span class="todo TODO">TODO</span> Exercise 11.3</h4>
+<h4 id="orga019a12">Exercise 11.3</h4>
 <div class="outline-text-4" id="text-orga019a12">
 <p>
 Exercise 11.3 (programming) Apply one-step semi-gradient Q-learning to Baird’s counterexample and show empirically that its weights diverge.
 </p>
+
+<p>
+Code can be found in this <a href="https://colab.research.google.com/drive/1LvCqiaKaNvIi2Ky5_BQHTrwpZyF_VRu7?usp=sharing">colab</a>.
+</p>
 </div>
 </div>
 
-
-
-<div id="outline-container-orgdc0e342" class="outline-4">
-<h4 id="orgdc0e342"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
-<div class="outline-text-4" id="text-orgdc0e342">
+<div id="outline-container-orga023b2f" class="outline-4">
+<h4 id="orga023b2f"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
+<div class="outline-text-4" id="text-orga023b2f">
 <p>
 *Exercise 11.2 Convert the equations of n-step Q() (7.11 and 7.17) to semi-gradient
 form. Give definitions that cover both the episodic and continuing cases.
@@ -5355,9 +5361,9 @@ notice that P corresponds to a=1 and 1-P responds to a=0, meaning both are actua
 </div>
 
 
-<div id="outline-container-orga023b2f" class="outline-4">
-<h4 id="orga023b2f"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
-<div class="outline-text-4" id="text-orga023b2f">
+<div id="outline-container-orgf80d30f" class="outline-4">
+<h4 id="orgf80d30f"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
+<div class="outline-text-4" id="text-orgf80d30f">
 <p>
 *Exercise 13.2 Generalize the box on page 199, the policy gradient theorem (13.5), the
 proof of the policy gradient theorem (page 325), and the steps leading to the REINFORCE
@@ -5372,9 +5378,13 @@ the general algorithm given in the pseudocode.
 <h3 id="org0577026">14-16: No Exercises</h3>
 </div>
 <div id="outline-container-orgee2c96c" class="outline-3">
-<h3 id="orgee2c96c"><span class="todo TODO">TODO</span> 17 - Frontiers</h3>
+<h3 id="orgee2c96c">17 - Frontiers</h3>
 <div class="outline-text-3" id="text-orgee2c96c">
+<p>
+<i>Status: Checked with Claude Sonnet 3.5</i>
+</p>
 </div>
+
 <div id="outline-container-orgdc401e4" class="outline-4">
 <h4 id="orgdc401e4">Exercise 17.1</h4>
 <div class="outline-text-4" id="text-orgdc401e4">
@@ -5384,6 +5394,34 @@ is arguably inappropriate for control when using function approximation (Section
 What is the natural Bellman equation for a hierarchical policy, analogous to (17.4), but
 for the average reward setting (Section 10.3)? What are the two parts of the option
 model, analogous to (17.2) and (17.3), for the average reward setting? ⇤
+</p>
+
+<p>
+(17.4) \(v_\pi(s) = \sum_{w \in \Omega(s)} \pi(w|s) [ r(s,w) + \sum_{s'}p(s'|s,w)v_\pi(s')]\)
+</p>
+
+<p>
+to convert this to average reward we need to remove &gamma; and then replace rewards with differences, here specifically for each option which we can denotate r(s,w,&pi;)
+</p>
+
+<p>
+\(v_\pi(s) = \sum_{w \in \Omega(s)} \pi(w|s) [ r(s,w) - r(s,w,\pi) + \sum_{s'}p(s'|s,w)v_\pi(s')]\)
+</p>
+
+<p>
+the analogy to (17.2) would be
+</p>
+
+<p>
+\(r(s,w) \doteq \mathbb{E}[R_1 - r(s,w,\pi) + R_2 - r(s,w\pi) + ... + R_\tau - r(s,w,\pi)]\)
+</p>
+
+<p>
+and the analogy to 17.3 would be
+</p>
+
+<p>
+\(p(s'|s,w) \doteq \sum_{k=1}^\infty Pr[S_k=s' | S_0 = s, A_{0:k-1} ~ \pi_w]\)
 </p>
 </div>
 </div>
@@ -5407,10 +5445,14 @@ i.e. there's a few in here that are like "this is the same as the previous exerc
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-This may read as obnoxious to say but I mostly mean relative to my peers in ML research, who typically have a lot more hours spent pen to paper on it. 
+Likewise, I read this book as self-study, so it's possible I just did literally everything wrong and the LLMs have misled me into thinking I would have passed a course based on this book
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+This may read as obnoxious to say but I mostly mean relative to my peers in ML research, who typically have a lot more hours spent pen to paper on it. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6" role="doc-backlink">6</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 This is a bit of a euphemism. 
 </p></div></div>
 
