@@ -47,6 +47,38 @@ The core thing here is using actor-critic to extend DQN to continuous action spa
 
 They show it working well on a bunch of mujoco environments. 
 
+*** Proximal Policy Optimization Algorithms (PPO)
+
+Paper [[https://arxiv.org/abs/1707.06347][here]]. You could call this, vaguely, sota for deep RL algorithms; it's what was used for stuff like OpenAI Five, it's extremely powerful.
+
+The actual PPO algorithm is super simple:
+
+[[../images/from_clipboard/20241102_210014.png]]
+
+The important things here are the surrograte objective and the advantage estimates. For the former, the one that matters most is the clipped surrogate objective, which takes the following form:
+
+$L^{CLIP}(\theta) = \hat{\mathbb{E}}_t [min(r_t(\theta)\hat{A}_t, clip(r_t, 1-\epsilon, 1+\epsilon) \hat{A}_t)]$
+
+Where $r_t$ is the probability ratio $\frac{\pi_\theta(a_t | s_t)}{\pi_{\theta_{old}}(a_t | s_t)}$.
+
+The first term of this clipped objective is the same objective as Trust Region Policy Optimization. The intuition behind this that we have a metric for how much better or worse than expected our action was (the advantage). We also have the old and new policy, and we can measure how much more or less likely either policy was to take that action. In short, if the action was better than expected, we want our new policy to take that action more than the old policy. If the action was worse than expected, we want our old policy to have taken that action more frequently than the new policy. In effect, maximizing this objective means that we directly try to make advantageous actions more likely under the new policy.
+
+The second part of this clips the value of the probability ratio to be bounded within a specific range. The intuition behind this is that if we optimize the TRPO objective directly, we will want to make a huge update whenever there's a large advantage. But sometimes you'll just get that by chance, for example if the environment is stochastic. What we really want is to make steady changes to the policy to maximize the objective, and hope that through experience we can continue to improve it.
+
+Then we take the minimum of this applied to the advantage function. The probability ratio is going to be positive (it's a ratio of probabilities), so basically this will clip the ratio to 1+\epsilon if the advantage is positive, and clip the ratio to 1-\epsilon if the advantage is negative. This lets us constrain to smaller updates, so that if we want to make big changes, we need to do it over multiple iterations through multiple experiences, rather than all at once (which could be unstable)
+
+The other big component of this is the advantage estimates. This is done via a truncated Generalized Advantage Estimation (GAE), specifically:
+
+$\hat{A}_t = \delta_t + (\gamma\lambda)\delta_{t+1} + ... + (\gamma\lambda)^{T-t+1}\delta_{T-1}$
+
+Where $\delta_t = r_t + \gamma V(s_{t+1}) - V(s_t)$
+
+Since it's an actor-critic method, we have the policy (actor) which makes all the moves, optimized via the surrogate objective, and we have a value model (critic) which is just trained to predict returns from each state (and therefore minimize $(V_\theta(s_t) - V_{target})^2$. In their case they put this all in one network with two heads, and use a combined loss function which optimizes both of these tasks at once. 
+
+Compared to other deep RL algorithms like DQN, A3C, DDPG, etc; PPO is a lot more engineerish. It's extremely simple algorithmically, and doesn't use anything like replay buffers, optimization constraints, replay buffers. It works on continuous and discrete action spaces, it's easy to work in with other networks, and it works super well. But, in exchange, it's on-policy, and the clipping is just something that seems to work rather than something with more concrete theoretical guarantees.
+
+There are some other objectives explored in the paper here but the clipped one is the one which has remained the most important to my knowledge. As mentioned, this method solves DoTA, so you don't need too many other bells and whistles beyond this.
+
 *** Successor Features for Transfer in Reinforcement Learning
 
 Found [[https://arxiv.org/pdf/1606.05312][here]], from 2018.
