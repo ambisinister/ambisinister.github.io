@@ -144,3 +144,38 @@ Likewise implementing this using a frozen "target network" and optimizing a sepa
 
 Specifically, they copy this over to the target network using this soft update mechanism where you essentially have the target network chase the current values of the Q network. I think this comes from the [[https://arxiv.org/pdf/1509.02971][DDPG paper]] in 2016, which from a quick skim-through looks like it is intended to make divergence less likely. I'll give that a closer look when I get to that paper though.
 
+*** CleanRL PPO
+
+Code is [[https://github.com/vwxyzjn/cleanrl/blob/master/cleanrl/ppo.py][here]]. This code just is for cartpole.
+
+**** Core Idea
+
+[[../images/from_clipboard/20241102_235702.png]]
+
+Critic estimates value (regression problem), Actor selects action (here discrete, but optionally so)
+
+[[../images/from_clipboard/20241103_002142.png]]
+
+Get T timesteps from each actor (i.e. one actor)
+
+[[../images/from_clipboard/20241103_003738.png]]
+
+Get advantages
+
+[[../images/from_clipboard/20241103_005013.png]]
+
+[[../images/from_clipboard/20241103_005146.png]]
+
+over epochs and minibatches, optimize clipped surrogate objective + simple regression objective for value network.
+
+**** Implementation Tricks
+
+The layer init using orthogonal initialization + using different std for actor and critic is apparently common practice in PPO
+
+#+BEGIN_SRC python
+def layer_init(layer, std=np.sqrt(2), bias_const=0.0):
+    torch.nn.init.orthogonal_(layer.weight, std)
+    torch.nn.init.constant_(layer.bias, bias_const)
+#+END_SRC
+
+Clipping values, clipping gradients by global norm, and normalizing advantage inside each minibatch are tricks to this not mentioned in the original PPO paper. There's also early stopping if KL divergence gets too high, and learning rate annealing, which seem helpful as well.

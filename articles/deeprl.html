@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-11-02 Sat 23:12 -->
+<!-- 2024-11-03 Sun 01:03 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Deep RL</title>
@@ -123,6 +123,12 @@ $(function() {
 <li><a href="#orgb4af155">Code</a>
 <ul>
 <li><a href="#org9c92a85">CleanRL dqn<sub>atari</sub></a></li>
+<li><a href="#orga1fe5f3">CleanRL PPO</a>
+<ul>
+<li><a href="#orgf97dbb5">Core Idea</a></li>
+<li><a href="#org539e5fa">Implementation Tricks</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -167,7 +173,7 @@ Notable about this paper is the fact that all the games are deterministic, so th
 </p>
 
 
-<div id="orgdac6844" class="figure">
+<div id="org75ebd63" class="figure">
 <p><img src="../images/from_clipboard/20241029_111102.png" alt="20241029_111102.png" />
 </p>
 </div>
@@ -220,7 +226,7 @@ This paper introduces Deep Deterministic Policy Gradient (DDPG) which adds the e
 </p>
 
 
-<div id="org4efe7a0" class="figure">
+<div id="org8204d33" class="figure">
 <p><img src="../images/from_clipboard/20241102_173841.png" alt="20241102_173841.png" />
 </p>
 </div>
@@ -287,7 +293,7 @@ The actual PPO algorithm is super simple:
 </p>
 
 
-<div id="orgd39f911" class="figure">
+<div id="org6620d94" class="figure">
 <p><img src="../images/from_clipboard/20241102_210014.png" alt="20241102_210014.png" />
 </p>
 </div>
@@ -366,7 +372,7 @@ where \(\phi(s, a, s')\) describes features, and \(w\) represents weights which 
 </p>
 
 
-<div id="org7b91f4b" class="figure">
+<div id="org182f8e5" class="figure">
 <p><img src="../images/from_clipboard/20241031_131631.png" alt="20241031_131631.png" />
 </p>
 </div>
@@ -410,7 +416,7 @@ code is <a href="https://github.com/vwxyzjn/cleanrl/blob/master/cleanrl/dqn_atar
 </p>
 
 
-<div id="org171c9f8" class="figure">
+<div id="orgde7154f" class="figure">
 <p><img src="../images/from_clipboard/20241029_114628.png" alt="20241029_114628.png" />
 </p>
 </div>
@@ -424,7 +430,7 @@ Likewise implementing this using a frozen "target network" and optimizing a sepa
 </p>
 
 
-<div id="org8fb5c54" class="figure">
+<div id="orge1268f8" class="figure">
 <p><img src="../images/from_clipboard/20241029_114822.png" alt="20241029_114822.png" />
 </p>
 </div>
@@ -432,6 +438,86 @@ Likewise implementing this using a frozen "target network" and optimizing a sepa
 <p>
 Specifically, they copy this over to the target network using this soft update mechanism where you essentially have the target network chase the current values of the Q network. I think this comes from the <a href="https://arxiv.org/pdf/1509.02971">DDPG paper</a> in 2016, which from a quick skim-through looks like it is intended to make divergence less likely. I'll give that a closer look when I get to that paper though.
 </p>
+</div>
+</div>
+
+<div id="outline-container-orga1fe5f3" class="outline-3">
+<h3 id="orga1fe5f3">CleanRL PPO</h3>
+<div class="outline-text-3" id="text-orga1fe5f3">
+<p>
+Code is <a href="https://github.com/vwxyzjn/cleanrl/blob/master/cleanrl/ppo.py">here</a>. This code just is for cartpole.
+</p>
+</div>
+
+<div id="outline-container-orgf97dbb5" class="outline-4">
+<h4 id="orgf97dbb5">Core Idea</h4>
+<div class="outline-text-4" id="text-orgf97dbb5">
+
+<div id="org5b028b2" class="figure">
+<p><img src="../images/from_clipboard/20241102_235702.png" alt="20241102_235702.png" />
+</p>
+</div>
+
+<p>
+Critic estimates value (regression problem), Actor selects action (here discrete, but optionally so)
+</p>
+
+
+<div id="orgd83dd58" class="figure">
+<p><img src="../images/from_clipboard/20241103_002142.png" alt="20241103_002142.png" />
+</p>
+</div>
+
+<p>
+Get T timesteps from each actor (i.e. one actor)
+</p>
+
+
+<div id="org45428f8" class="figure">
+<p><img src="../images/from_clipboard/20241103_003738.png" alt="20241103_003738.png" />
+</p>
+</div>
+
+<p>
+Get advantages
+</p>
+
+
+<div id="orgbee058e" class="figure">
+<p><img src="../images/from_clipboard/20241103_005013.png" alt="20241103_005013.png" />
+</p>
+</div>
+
+
+<div id="org092ac24" class="figure">
+<p><img src="../images/from_clipboard/20241103_005146.png" alt="20241103_005146.png" />
+</p>
+</div>
+
+<p>
+over epochs and minibatches, optimize clipped surrogate objective + simple regression objective for value network.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org539e5fa" class="outline-4">
+<h4 id="org539e5fa">Implementation Tricks</h4>
+<div class="outline-text-4" id="text-org539e5fa">
+<p>
+The layer init using orthogonal initialization + using different std for actor and critic is apparently common practice in PPO
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">def layer_init(layer, std=np.sqrt(2), bias_const=0.0):
+    torch.nn.init.orthogonal_(layer.weight, std)
+    torch.nn.init.constant_(layer.bias, bias_const)
+</pre>
+</div>
+
+<p>
+Clipping values, clipping gradients by global norm, and normalizing advantage inside each minibatch are tricks to this not mentioned in the original PPO paper. There's also early stopping if KL divergence gets too high, and learning rate annealing, which seem helpful as well.
+</p>
+</div>
 </div>
 </div>
 </div>
