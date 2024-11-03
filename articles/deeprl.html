@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-11-02 Sat 18:03 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="./css/default_20240614.css" />
+<link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org7967382">Deep RL Notes</a>
+<ul>
+<li><a href="#orgd629682">Papers</a>
+<ul>
+<li><a href="#org479d3e5">Playing Atari with Deep Reinforcement Learning (DQN)</a></li>
+<li><a href="#org58664e8">Asynchronous Methods for Deep Reinforcement Learning (A3C)</a></li>
+<li><a href="#org34ea4c4">Continuous Control with Deep Reinforcement Learning (DDPG)</a></li>
+<li><a href="#org0b03c40">Successor Features for Transfer in Reinforcement Learning</a></li>
+</ul>
+</li>
+<li><a href="#orgb4af155">Code</a>
+<ul>
+<li><a href="#org9c92a85">CleanRL dqn<sub>atari</sub></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org7967382" class="outline-1">
+<h1 id="org7967382">Deep RL Notes</h1>
+<div class="outline-text-1" id="text-org7967382">
+<p>
+I have managed to complete Sutton and Barto's <i><a href="https://planetbanatt.net/articles/sutton.html">Reinforcement Learning</a></i>. I would like to now learn enough deep reinforcement learning to do some useful, novel things with it.
+</p>
+
+<p>
+A natural extension step here is OpenAI's <i>Spinning Up in Deep Reinforcement Learning</i> from 2020. This is mostly review for me except for the important subsection <a href="https://spinningup.openai.com/en/latest/spinningup/keypapers.html">Key Papers in Deep RL</a> which contains roughly 100 papers in deep RL. Likewise, there's a nice library called <a href="https://docs.cleanrl.dev/">CleanRL</a> which contains single-file, minimal implementations of popular deep RL algorithms for pedagogy.  
+</p>
+
+<p>
+This page is going to contain two things. It will contain notes on code, and notes on papers. These won't necessarily be from the 100 papers in spinning up / from cleanRL, but a lot of them will be. I'll be reading these with varying level of depth spent on each papers, which I will note how closely I've read each paper.
+</p>
+
+<p>
+I'm going to try to read at least a couple papers each day in deep RL. 
+</p>
+</div>
+
+<div id="outline-container-orgd629682" class="outline-2">
+<h2 id="orgd629682">Papers</h2>
+<div class="outline-text-2" id="text-orgd629682">
+</div>
+<div id="outline-container-org479d3e5" class="outline-3">
+<h3 id="org479d3e5">Playing Atari with Deep Reinforcement Learning (DQN)</h3>
+<div class="outline-text-3" id="text-org479d3e5">
+<p>
+Original DQN paper from 2013, very short (there's a longer Nature version which was released later)
+</p>
+
+<p>
+Notable about this paper is the fact that all the games are deterministic, so they can formalize an MDP by having the state be the complete list of observations+actions starting from the starting state. I think this is kind of silly, since there are sure to be duplicate states this way, and it throws away most of the point of the markov property, but I guess to theoretically justify making it work for RL it's fine, it's mostly just for completeness.
+</p>
+
+
+<div id="orgcf22e38" class="figure">
+<p><img src="../images/from_clipboard/20241029_111102.png" alt="20241029_111102.png" />
+</p>
+</div>
+
+<p>
+Basically, generate a bunch of episodes and store memories of all your states, and rather than updating your single episode just update on a random minibatch drawn from the states in your dataset.
+</p>
+
+<p>
+The claim here is that nonlinear function-approximation Q-learning is likely to diverge because of correlations between consecutive states, and that doing random updates on the last N states is likely to smooth this out and make it work again. In a sense the "Actual Contribution" of this paper is Experience Replay, the rest is just engineering details like using a CNN to understand the frame / using frame skip to make episodes shorter / doing mostly standard Q learning.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org58664e8" class="outline-3">
+<h3 id="org58664e8">Asynchronous Methods for Deep Reinforcement Learning (A3C)</h3>
+<div class="outline-text-3" id="text-org58664e8">
+<p>
+found <a href="https://arxiv.org/abs/1602.01783">here</a>, from 2016.
+</p>
+
+<p>
+The core insight in this paper seems to be this idea of replacing experience replay with multi-threaded episodes running in parallel. This means that the updates are sort of pseudorandom still, since it's likely that multiple agents running async will be in different spots of the environment at any given time.
+</p>
+
+<p>
+The main advantage of doing this is that now we can stablize on-policy methods! Since before off-policy was the only type that would work with experience replay, and without experience replay it was unlikely to be stable with deep methods. The asynchrony is sort of like a faux experience replay since you get updates all over the state space from the multiple runs, but you get to stay on-policy.
+</p>
+
+<p>
+The asynchronous advantage actor-critic (A3C) algorithm in this paper maintains a policy and a value estimation function (as is done in actor-critic), and updates based on \(\nabla_{\theta^{'}} log \pi(a_t|s_t, \theta') A(s_t, a_t; \theta, \theta_v)\) where A is the advantage function
+\(A(s_t, a_t; \theta, \theta_v) = \sum_{i=0}^{k-1}\gamma^i r_{t+i} + \gamma^kV(s_{t+k}; \theta_v) - V(s_t; \theta_v)\).
+</p>
+
+<p>
+Running this does much better than DQN on atari, ~6x better and ~20x faster to reach DQN performance.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org34ea4c4" class="outline-3">
+<h3 id="org34ea4c4">Continuous Control with Deep Reinforcement Learning (DDPG)</h3>
+<div class="outline-text-3" id="text-org34ea4c4">
+<p>
+A notable limitation with DQN is low-dim and discrete action spaces &#x2013; it will fail if either of those is changed.
+</p>
+
+<p>
+This paper introduces Deep Deterministic Policy Gradient (DDPG) which adds the experience replay / target network stuff from DQN (along with batch norm) to DPG. It also introduced the "soft update" for the target network, which updates the weights via exponential moving average rather than all at once.
+</p>
+
+
+<div id="org5059dbc" class="figure">
+<p><img src="../images/from_clipboard/20241102_173841.png" alt="20241102_173841.png" />
+</p>
+</div>
+
+<p>
+The core thing here is using actor-critic to extend DQN to continuous action spaces. The DQN algorithm relies on being able to calculate \(\gamma max_a Q(S_{t+1}, a)\) which cannot be performed if there are an infinite number of actions available. However, the actor-critic formulation takes care of both of these, so it's a fairly natural extension.
+</p>
+
+<p>
+They show it working well on a bunch of mujoco environments. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0b03c40" class="outline-3">
+<h3 id="org0b03c40">Successor Features for Transfer in Reinforcement Learning</h3>
+<div class="outline-text-3" id="text-org0b03c40">
+<p>
+Found <a href="https://arxiv.org/pdf/1606.05312">here</a>, from 2018.
+</p>
+
+<p>
+This paper studies transfer between tasks in RL contexts.
+</p>
+
+<p>
+The formulation here is really elegant. The basic idea is that we can create a model which will calculate expected reward on a task from features, i.e.
+</p>
+
+<p>
+\(r(s, a, s') = \phi(s, a, s')^\intercal w\)
+</p>
+
+<p>
+where \(\phi(s, a, s')\) describes features, and \(w\) represents weights which produce the reward given the features. This way, instead of writing Q(s,a) as the expected discounted sum of rewards, we can write it as the expected discounted sum of features, multiplied by the weights \(w\).
+</p>
+
+
+<div id="orgcd860a6" class="figure">
+<p><img src="../images/from_clipboard/20241031_131631.png" alt="20241031_131631.png" />
+</p>
+</div>
+
+<p>
+\(\psi^\pi(s,a)\) here is the expected discounted sum of features, which they call <i>successor features</i>.
+</p>
+
+<p>
+How do we compute this? Well, we can use any RL method, since it can just be written as a bellman equation where we substitute \(\phi\) for rewards:
+</p>
+
+<p>
+\(\psi^\pi(s,a) = \phi_{t+1} + \gamma E^\pi[\psi^\pi(S_{t+1}, \pi(S_{t+1})) | S_t = s, A_t = a]\)
+</p>
+
+<p>
+WHY THIS IS USEFUL: because in cases where we keep everything the same EXCEPT the reward function, we can completely describe the difference between tasks as the difference in \(w\).
+</p>
+
+<p>
+WHY THIS IS USEFUL 2: If you have a set of policies \(\pi_i\) and their successor features \(\psi^{\pi_i}\), if you're given a new task \(w_{i+1}\) then you can easily evaluate all the policies just by doing \(\psi^{\pi_i}(s,a)^\intercal w_{n+1}\). You can then do <i>generalized policy improvement</i> to construct a new policy based on the old policies (i.e. taking the best Q values for each) and derive a policy at least as good as the best policy you already have.
+</p>
+
+<p>
+There's some additional guarantees here that if the distance between your new task \(w_i\) and the closest old task \(w_j\) is small, that you'll get a bounded error on the new task using this procedure. 
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb4af155" class="outline-2">
+<h2 id="orgb4af155">Code</h2>
+<div class="outline-text-2" id="text-orgb4af155">
+</div>
+<div id="outline-container-org9c92a85" class="outline-3">
+<h3 id="org9c92a85">CleanRL dqn<sub>atari</sub></h3>
+<div class="outline-text-3" id="text-org9c92a85">
+<p>
+code is <a href="https://github.com/vwxyzjn/cleanrl/blob/master/cleanrl/dqn_atari.py">here</a>. This is a ~200 line implementation of the original DQN experiment, using convolutional nns etc. 
+</p>
+
+
+<div id="orgbe6ee31" class="figure">
+<p><img src="../images/from_clipboard/20241029_114628.png" alt="20241029_114628.png" />
+</p>
+</div>
+
+<p>
+learning<sub>starts</sub> is an interesting detail here, I suppose to flood the replay buffer before starting to train. This target<sub>max</sub> * (1 - data.dones.flatten()) part is a one-liner which sets the terminal transition states to just be the reward, per algorithm 1 in the paper.
+</p>
+
+<p>
+Likewise implementing this using a frozen "target network" and optimizing a separate "q network" is interesting. They seem to update this every 1000 steps or so, but it's a nice trick.
+</p>
+
+
+<div id="org2477eb2" class="figure">
+<p><img src="../images/from_clipboard/20241029_114822.png" alt="20241029_114822.png" />
+</p>
+</div>
+
+<p>
+Specifically, they copy this over to the target network using this soft update mechanism where you essentially have the target network chase the current values of the Q network. I think this comes from the <a href="https://arxiv.org/pdf/1509.02971">DDPG paper</a> in 2016, which from a quick skim-through looks like it is intended to make divergence less likely. I'll give that a closer look when I get to that paper though.
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+</div>
+</body>
+</html>

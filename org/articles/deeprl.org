@@ -1,0 +1,91 @@
+* Deep RL Notes
+
+I have managed to complete Sutton and Barto's /[[https://planetbanatt.net/articles/sutton.html][Reinforcement Learning]]/. I would like to now learn enough deep reinforcement learning to do some useful, novel things with it.
+
+A natural extension step here is OpenAI's /Spinning Up in Deep Reinforcement Learning/ from 2020. This is mostly review for me except for the important subsection [[https://spinningup.openai.com/en/latest/spinningup/keypapers.html][Key Papers in Deep RL]] which contains roughly 100 papers in deep RL. Likewise, there's a nice library called [[https://docs.cleanrl.dev/][CleanRL]] which contains single-file, minimal implementations of popular deep RL algorithms for pedagogy.  
+
+This page is going to contain two things. It will contain notes on code, and notes on papers. These won't necessarily be from the 100 papers in spinning up / from cleanRL, but a lot of them will be. I'll be reading these with varying level of depth spent on each papers, which I will note how closely I've read each paper.
+
+I'm going to try to read at least a couple papers each day in deep RL. 
+
+** Papers
+
+*** Playing Atari with Deep Reinforcement Learning (DQN)
+
+Original DQN paper from 2013, very short (there's a longer Nature version which was released later)
+
+Notable about this paper is the fact that all the games are deterministic, so they can formalize an MDP by having the state be the complete list of observations+actions starting from the starting state. I think this is kind of silly, since there are sure to be duplicate states this way, and it throws away most of the point of the markov property, but I guess to theoretically justify making it work for RL it's fine, it's mostly just for completeness.
+
+[[../images/from_clipboard/20241029_111102.png]]
+
+Basically, generate a bunch of episodes and store memories of all your states, and rather than updating your single episode just update on a random minibatch drawn from the states in your dataset.
+
+The claim here is that nonlinear function-approximation Q-learning is likely to diverge because of correlations between consecutive states, and that doing random updates on the last N states is likely to smooth this out and make it work again. In a sense the "Actual Contribution" of this paper is Experience Replay, the rest is just engineering details like using a CNN to understand the frame / using frame skip to make episodes shorter / doing mostly standard Q learning.
+
+*** Asynchronous Methods for Deep Reinforcement Learning (A3C)
+
+found [[https://arxiv.org/abs/1602.01783][here]], from 2016.
+
+The core insight in this paper seems to be this idea of replacing experience replay with multi-threaded episodes running in parallel. This means that the updates are sort of pseudorandom still, since it's likely that multiple agents running async will be in different spots of the environment at any given time.
+
+The main advantage of doing this is that now we can stablize on-policy methods! Since before off-policy was the only type that would work with experience replay, and without experience replay it was unlikely to be stable with deep methods. The asynchrony is sort of like a faux experience replay since you get updates all over the state space from the multiple runs, but you get to stay on-policy.
+
+The asynchronous advantage actor-critic (A3C) algorithm in this paper maintains a policy and a value estimation function (as is done in actor-critic), and updates based on $\nabla_{\theta^{'}} log \pi(a_t|s_t, \theta') A(s_t, a_t; \theta, \theta_v)$ where A is the advantage function
+$A(s_t, a_t; \theta, \theta_v) = \sum_{i=0}^{k-1}\gamma^i r_{t+i} + \gamma^kV(s_{t+k}; \theta_v) - V(s_t; \theta_v)$.
+
+Running this does much better than DQN on atari, ~6x better and ~20x faster to reach DQN performance.
+
+*** Continuous Control with Deep Reinforcement Learning (DDPG)
+
+A notable limitation with DQN is low-dim and discrete action spaces -- it will fail if either of those is changed.
+
+This paper introduces Deep Deterministic Policy Gradient (DDPG) which adds the experience replay / target network stuff from DQN (along with batch norm) to DPG. It also introduced the "soft update" for the target network, which updates the weights via exponential moving average rather than all at once.
+
+[[../images/from_clipboard/20241102_173841.png]]
+
+The core thing here is using actor-critic to extend DQN to continuous action spaces. The DQN algorithm relies on being able to calculate $\gamma max_a Q(S_{t+1}, a)$ which cannot be performed if there are an infinite number of actions available. However, the actor-critic formulation takes care of both of these, so it's a fairly natural extension.
+
+They show it working well on a bunch of mujoco environments. 
+
+*** Successor Features for Transfer in Reinforcement Learning
+
+Found [[https://arxiv.org/pdf/1606.05312][here]], from 2018.
+
+This paper studies transfer between tasks in RL contexts.
+
+The formulation here is really elegant. The basic idea is that we can create a model which will calculate expected reward on a task from features, i.e.
+
+$r(s, a, s') = \phi(s, a, s')^\intercal w$
+
+where $\phi(s, a, s')$ describes features, and $w$ represents weights which produce the reward given the features. This way, instead of writing Q(s,a) as the expected discounted sum of rewards, we can write it as the expected discounted sum of features, multiplied by the weights $w$.
+
+[[../images/from_clipboard/20241031_131631.png]]
+
+$\psi^\pi(s,a)$ here is the expected discounted sum of features, which they call /successor features/.
+
+How do we compute this? Well, we can use any RL method, since it can just be written as a bellman equation where we substitute $\phi$ for rewards:
+
+$\psi^\pi(s,a) = \phi_{t+1} + \gamma E^\pi[\psi^\pi(S_{t+1}, \pi(S_{t+1})) | S_t = s, A_t = a]$
+
+WHY THIS IS USEFUL: because in cases where we keep everything the same EXCEPT the reward function, we can completely describe the difference between tasks as the difference in $w$.
+
+WHY THIS IS USEFUL 2: If you have a set of policies $\pi_i$ and their successor features $\psi^{\pi_i}$, if you're given a new task $w_{i+1}$ then you can easily evaluate all the policies just by doing $\psi^{\pi_i}(s,a)^\intercal w_{n+1}$. You can then do /generalized policy improvement/ to construct a new policy based on the old policies (i.e. taking the best Q values for each) and derive a policy at least as good as the best policy you already have.
+
+There's some additional guarantees here that if the distance between your new task $w_i$ and the closest old task $w_j$ is small, that you'll get a bounded error on the new task using this procedure. 
+
+** Code
+
+*** CleanRL dqn_atari
+
+code is [[https://github.com/vwxyzjn/cleanrl/blob/master/cleanrl/dqn_atari.py][here]]. This is a ~200 line implementation of the original DQN experiment, using convolutional nns etc. 
+
+[[../images/from_clipboard/20241029_114628.png]]
+
+learning_starts is an interesting detail here, I suppose to flood the replay buffer before starting to train. This target_max * (1 - data.dones.flatten()) part is a one-liner which sets the terminal transition states to just be the reward, per algorithm 1 in the paper.
+
+Likewise implementing this using a frozen "target network" and optimizing a separate "q network" is interesting. They seem to update this every 1000 steps or so, but it's a nice trick.
+
+[[../images/from_clipboard/20241029_114822.png]]
+
+Specifically, they copy this over to the target network using this soft update mechanism where you essentially have the target network chase the current values of the Q network. I think this comes from the [[https://arxiv.org/pdf/1509.02971][DDPG paper]] in 2016, which from a quick skim-through looks like it is intended to make divergence less likely. I'll give that a closer look when I get to that paper though.
+
