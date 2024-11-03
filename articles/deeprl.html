@@ -3,10 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-11-02 Sat 21:33 -->
+<!-- 2024-11-02 Sat 23:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>&lrm;</title>
+<title>Deep RL</title>
 <meta name="author" content="Eryk Banatt" />
 <meta name="generator" content="Org Mode" />
 <meta charset="utf-8">
@@ -103,6 +103,7 @@ $(function() {
     </nav>
 </div>
 <div id="content" class="content">
+<h1 class="title">Deep RL</h1>
 <div id="table-of-contents" role="doc-toc">
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
@@ -114,6 +115,7 @@ $(function() {
 <li><a href="#org479d3e5">Playing Atari with Deep Reinforcement Learning (DQN)</a></li>
 <li><a href="#org58664e8">Asynchronous Methods for Deep Reinforcement Learning (A3C)</a></li>
 <li><a href="#org34ea4c4">Continuous Control with Deep Reinforcement Learning (DDPG)</a></li>
+<li><a href="#org38c83bc">High-Dimensional Continuous Control Using Generalized Advantage Estimation (GAE)</a></li>
 <li><a href="#orgdb28ab8">Proximal Policy Optimization Algorithms (PPO)</a></li>
 <li><a href="#org0b03c40">Successor Features for Transfer in Reinforcement Learning</a></li>
 </ul>
@@ -128,6 +130,7 @@ $(function() {
 </ul>
 </div>
 </div>
+
 <div id="outline-container-org7967382" class="outline-1">
 <h1 id="org7967382">Deep RL Notes</h1>
 <div class="outline-text-1" id="text-org7967382">
@@ -164,7 +167,7 @@ Notable about this paper is the fact that all the games are deterministic, so th
 </p>
 
 
-<div id="org87b187d" class="figure">
+<div id="orgdac6844" class="figure">
 <p><img src="../images/from_clipboard/20241029_111102.png" alt="20241029_111102.png" />
 </p>
 </div>
@@ -217,7 +220,7 @@ This paper introduces Deep Deterministic Policy Gradient (DDPG) which adds the e
 </p>
 
 
-<div id="org69c9f33" class="figure">
+<div id="org4efe7a0" class="figure">
 <p><img src="../images/from_clipboard/20241102_173841.png" alt="20241102_173841.png" />
 </p>
 </div>
@@ -232,6 +235,46 @@ They show it working well on a bunch of mujoco environments.
 </div>
 </div>
 
+<div id="outline-container-org38c83bc" class="outline-3">
+<h3 id="org38c83bc">High-Dimensional Continuous Control Using Generalized Advantage Estimation (GAE)</h3>
+<div class="outline-text-3" id="text-org38c83bc">
+<p>
+Paper <a href="https://arxiv.org/pdf/1506.02438">here</a>, from 2015. Two paragraph abstract is kind of a fun curiosity.
+</p>
+
+<p>
+This paper is like TD(&lambda;) for policy gradient / online actor-critic methods. The goal is to reduce variance without adding too much bias, since the high variance prevents previously existing policy gradient methods from learning hard tasks, and high bias is what prevents these methods from converging in the first place.
+</p>
+
+<p>
+The primary contribution of this paper is laying out the Generalized Advantage Estimator, which is an advantage function which is discounted (\(\gamma\)) and also uses an eligibility trace (\(\lambda\)). The derivation is the same telescoping sum of \(\delta\) trick that we had to do like 200 times in Sutton and Barto, so it should be easy to get through for those among us who fought through the exercises.
+</p>
+
+<p>
+<img src="../images/from_clipboard/20241102_225433.png" alt="20241102_225433.png" />
+<img src="../images/from_clipboard/20241102_225444.png" alt="20241102_225444.png" />
+<img src="../images/from_clipboard/20241102_225504.png" alt="20241102_225504.png" />
+</p>
+
+<p>
+that is, it's pretty much Exercise 12.3 in Sutton and Barto, but instead of using the value function (as in TD(&lambda;)), it uses the advantage function (\(Q(s_t, a_t) - V(s_t)\)).
+</p>
+
+<p>
+Lots of theory in this paper which are mostly theoretical fun facts. We can interpret &lambda; in the above as a discounted reward shaping applied to the MDP. Setting &lambda; = 0 has lower variance but introduces bias, &lambda; = 1 has no bias but high variance. As a result, moving it around can be thought of as navigating a bias-variance tradeoff.
+</p>
+
+<p>
+Estimating the value function here is treated like a regular regression problem, and solved with a "trust region method" where they minimize \(\sum_{n=1}^{N}||V_\phi(s_n) - \hat{V}_n||^2\) subject to \(\frac{1}{N} \sum_{n=1}^{N} \frac{||V_\phi(s_n) - \hat{V}_n||^2}{2\sigma^2} \leq \epsilon\). (i.e. average KL divergence between values functions is less than epsilon).
+</p>
+
+<p>
+They applied this variant of advantage function to Trust Region Policy Optimization (TRPO) on various tasks and found that it made them much more useful for more difficult control tasks (e.g. quadrupedal walking).
+</p>
+</div>
+</div>
+
+
 <div id="outline-container-orgdb28ab8" class="outline-3">
 <h3 id="orgdb28ab8">Proximal Policy Optimization Algorithms (PPO)</h3>
 <div class="outline-text-3" id="text-orgdb28ab8">
@@ -244,7 +287,7 @@ The actual PPO algorithm is super simple:
 </p>
 
 
-<div id="org1a939ec" class="figure">
+<div id="orgd39f911" class="figure">
 <p><img src="../images/from_clipboard/20241102_210014.png" alt="20241102_210014.png" />
 </p>
 </div>
@@ -323,7 +366,7 @@ where \(\phi(s, a, s')\) describes features, and \(w\) represents weights which 
 </p>
 
 
-<div id="orgd628861" class="figure">
+<div id="org7b91f4b" class="figure">
 <p><img src="../images/from_clipboard/20241031_131631.png" alt="20241031_131631.png" />
 </p>
 </div>
@@ -367,7 +410,7 @@ code is <a href="https://github.com/vwxyzjn/cleanrl/blob/master/cleanrl/dqn_atar
 </p>
 
 
-<div id="org3cd27be" class="figure">
+<div id="org171c9f8" class="figure">
 <p><img src="../images/from_clipboard/20241029_114628.png" alt="20241029_114628.png" />
 </p>
 </div>
@@ -381,7 +424,7 @@ Likewise implementing this using a frozen "target network" and optimizing a sepa
 </p>
 
 
-<div id="orgaecd4e9" class="figure">
+<div id="org8fb5c54" class="figure">
 <p><img src="../images/from_clipboard/20241029_114822.png" alt="20241029_114822.png" />
 </p>
 </div>

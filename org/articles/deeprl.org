@@ -1,3 +1,5 @@
+#+TITLE: Deep RL
+
 * Deep RL Notes
 
 I have managed to complete Sutton and Barto's /[[https://planetbanatt.net/articles/sutton.html][Reinforcement Learning]]/. I would like to now learn enough deep reinforcement learning to do some useful, novel things with it.
@@ -46,6 +48,27 @@ This paper introduces Deep Deterministic Policy Gradient (DDPG) which adds the e
 The core thing here is using actor-critic to extend DQN to continuous action spaces. The DQN algorithm relies on being able to calculate $\gamma max_a Q(S_{t+1}, a)$ which cannot be performed if there are an infinite number of actions available. However, the actor-critic formulation takes care of both of these, so it's a fairly natural extension.
 
 They show it working well on a bunch of mujoco environments. 
+
+*** High-Dimensional Continuous Control Using Generalized Advantage Estimation (GAE)
+
+Paper [[https://arxiv.org/pdf/1506.02438][here]], from 2015. Two paragraph abstract is kind of a fun curiosity.
+
+This paper is like TD(\lambda) for policy gradient / online actor-critic methods. The goal is to reduce variance without adding too much bias, since the high variance prevents previously existing policy gradient methods from learning hard tasks, and high bias is what prevents these methods from converging in the first place.
+
+The primary contribution of this paper is laying out the Generalized Advantage Estimator, which is an advantage function which is discounted ($\gamma$) and also uses an eligibility trace ($\lambda$). The derivation is the same telescoping sum of $\delta$ trick that we had to do like 200 times in Sutton and Barto, so it should be easy to get through for those among us who fought through the exercises.
+
+[[../images/from_clipboard/20241102_225433.png]]
+[[../images/from_clipboard/20241102_225444.png]]
+[[../images/from_clipboard/20241102_225504.png]]
+
+that is, it's pretty much Exercise 12.3 in Sutton and Barto, but instead of using the value function (as in TD(\lambda)), it uses the advantage function ($Q(s_t, a_t) - V(s_t)$).
+
+Lots of theory in this paper which are mostly theoretical fun facts. We can interpret \lambda in the above as a discounted reward shaping applied to the MDP. Setting \lambda = 0 has lower variance but introduces bias, \lambda = 1 has no bias but high variance. As a result, moving it around can be thought of as navigating a bias-variance tradeoff.
+
+Estimating the value function here is treated like a regular regression problem, and solved with a "trust region method" where they minimize $\sum_{n=1}^{N}||V_\phi(s_n) - \hat{V}_n||^2$ subject to $\frac{1}{N} \sum_{n=1}^{N} \frac{||V_\phi(s_n) - \hat{V}_n||^2}{2\sigma^2} \leq \epsilon$. (i.e. average KL divergence between values functions is less than epsilon).
+
+They applied this variant of advantage function to Trust Region Policy Optimization (TRPO) on various tasks and found that it made them much more useful for more difficult control tasks (e.g. quadrupedal walking).
+
 
 *** Proximal Policy Optimization Algorithms (PPO)
 
