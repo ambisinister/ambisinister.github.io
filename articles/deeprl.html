@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-11-03 Sun 16:15 -->
+<!-- 2024-11-09 Sat 15:54 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Deep RL</title>
@@ -114,12 +114,15 @@ $(function() {
 <ul>
 <li><a href="#org479d3e5">Playing Atari with Deep Reinforcement Learning (DQN)</a></li>
 <li><a href="#org58664e8">Asynchronous Methods for Deep Reinforcement Learning (A3C)</a></li>
+<li><a href="#org23d46d5">Rainbow: Combining Improvements in Deep Reinforcement Learning</a></li>
 <li><a href="#org34ea4c4">Continuous Control with Deep Reinforcement Learning (DDPG)</a></li>
+<li><a href="#org0319125">Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor (SAC)</a></li>
 <li><a href="#org38c83bc">High-Dimensional Continuous Control Using Generalized Advantage Estimation (GAE)</a></li>
 <li><a href="#orgdb28ab8">Proximal Policy Optimization Algorithms (PPO)</a></li>
 <li><a href="#org1576a9b">Dota 2 with Large Scale Deep Reinforcement Learning (OpenAI Five)</a></li>
 <li><a href="#orgd75b37d">Grandmaster level in StarCraft II using multi-agent reinforcement learning (AlphaStar)</a></li>
 <li><a href="#org0b03c40">Successor Features for Transfer in Reinforcement Learning</a></li>
+<li><a href="#org13bd075">Policy Manifold Search for Improving Diversity-based Neuroevolution</a></li>
 </ul>
 </li>
 <li><a href="#orgb4af155">Code</a>
@@ -151,7 +154,7 @@ A natural extension step here is OpenAI's <i>Spinning Up in Deep Reinforcement L
 </p>
 
 <p>
-This page is going to contain two things. It will contain notes on code, and notes on papers. These won't necessarily be from the 100 papers in spinning up / from cleanRL, but a lot of them will be. I'll be reading these with varying level of depth spent on each papers, which I will note how closely I've read each paper.
+This page is going to contain two things. It will contain notes on code, and notes on papers. These won't necessarily be from the 100 papers in spinning up / from cleanRL, but a lot of them will be. I'll be reading these with varying level of depth spent on each paper, so I will try to note how closely I've read each paper.
 </p>
 
 <p>
@@ -175,7 +178,7 @@ Notable about this paper is the fact that all the games are deterministic, so th
 </p>
 
 
-<div id="orga0c4127" class="figure">
+<div id="org8ba53a3" class="figure">
 <p><img src="../images/from_clipboard/20241029_111102.png" alt="20241029_111102.png" />
 </p>
 </div>
@@ -216,6 +219,41 @@ Running this does much better than DQN on atari, ~6x better and ~20x faster to r
 </div>
 </div>
 
+<div id="outline-container-org23d46d5" class="outline-3">
+<h3 id="org23d46d5">Rainbow: Combining Improvements in Deep Reinforcement Learning</h3>
+<div class="outline-text-3" id="text-org23d46d5">
+<p>
+Paper <a href="https://arxiv.org/pdf/1710.02298">here</a>. Basically, there's lots of DQN-compatible algorithms, and most of them are not actually mutually exclusive, so if you just do all of them combined then you get the best results. This is a really nice paper because it directly provides high level summaries of all the stuff between DQN and this paper.
+</p>
+
+<p>
+There are six primary extensions to DQN which are included in Rainbow.
+</p>
+
+<ul class="org-ul">
+<li><b>Double Q Learning</b>: to deal with DQN's tendency to overestimate action values, you separate action selection and action evaluation into two separate Q networks, and you estimate \((R_{t+1} + \gamma_{t+1}q_{\bar{\theta}}(S_{t+1}, argmax_{a'}q_\theta(S_{t+1}, a')) - q_\theta(S_t A_t))^2\). It's sort of like actor critic, but instead of a policy and a Q value critic of that policy, it uses a Q value actor and a Q value critic which eventually converge to the same function.</li>
+<li><b>Prioritized Replay</b>: sampling uniformly from the replay buffer is worse than sampling based on how wrong we were; we want to spend more cycles on samples which were estimated very incorrectly compared to ones that were pretty much perfect. To do this we keep track of the last encountered absolute TD error and sample a distribution based on that.</li>
+<li><b>Dueling Networks</b>: You use two computation streams, one for value and one for advantage. You can estimate the Q values this way, since Q(s,a) is just \(V(s) + (A(s,a) - \frac{1}{n} (\sum_{x ~ a} A(s, x)))\) where n is the number of actions. Basically this decouples learning the effects of each action of the state, you can think of this like an inductive bias where if the actions don't matter much we can just learn the value instead rather than struggle to learn roughly equivalent action-values for every action in the state.</li>
+<li><b>Multi-Step Learning</b>: just using forward-view n-step methods, see sutton.</li>
+<li><b>Distributional RL</b>: Instead of approximating the expected return, we instead try to approximate the <i>distribution</i> of returns. To do this we can create a vector z which creates bins that the value function can fall into, such that we can recover the expected return by summing the element-wise product of z and the values of each bin. Then when we get a reward, we project it onto these atoms (e.g. we see how close it is to one of our existing bins) and do the bellman update for each atom proportionally. To train this we minimize the KL divergence between our distribution and the target distribution, which gives us more resolution beyond just the single value of the expected return.</li>
+<li><b>Noisy Nets</b>: You replace a simple linear layer with this monstrosity: \(y = (b + Wx) + (b_{noisy} \odot \epsilon^b + (W_{noisy} \odot \epsilon^w)x)\). The idea here is that eventually this learns to ignore the noise term, but it does so at different rates for different states, so this allows a sort of self-directed state-dependent exploration control rather than something global like epsilon-greedy. This helps for stuff like Montezuma's Revenge, because with epsilon-greedy it takes an extremely long time to see any reward, but with this it will be a little more directed.</li>
+</ul>
+
+<p>
+<img src="../images/from_clipboard/20241109_134411.png" alt="20241109_134411.png" />
+<img src="../images/from_clipboard/20241109_134346.png" alt="20241109_134346.png" />
+</p>
+
+<p>
+Rainbow, essentially, is just all of these things mixed together. It's it's an n-step, double Q-learning dueling network with a noisy bias term, which uses distributional reward modeling. The notation is pretty gnarly as a result, since there are so many <i>things</i>, but essentially it's just all of the above things smashed together.
+</p>
+
+<p>
+They run this on Atari 2600 games and it does better than anything else by itself. The ablations are kind of interesting too, since they let us see which of the above are most important and which are kind of just window dressing &#x2013; the most important improvements are multi-step learning and prioritized replay. Second tier is distribtional RL, third tier is noisy term, everything else is pretty slight / no effect on average / mostly game-specific improvement deltas.
+</p>
+</div>
+</div>
+
 <div id="outline-container-org34ea4c4" class="outline-3">
 <h3 id="org34ea4c4">Continuous Control with Deep Reinforcement Learning (DDPG)</h3>
 <div class="outline-text-3" id="text-org34ea4c4">
@@ -228,7 +266,7 @@ This paper introduces Deep Deterministic Policy Gradient (DDPG) which adds the e
 </p>
 
 
-<div id="org6dff4bd" class="figure">
+<div id="org5940571" class="figure">
 <p><img src="../images/from_clipboard/20241102_173841.png" alt="20241102_173841.png" />
 </p>
 </div>
@@ -239,6 +277,39 @@ The core thing here is using actor-critic to extend DQN to continuous action spa
 
 <p>
 They show it working well on a bunch of mujoco environments. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0319125" class="outline-3">
+<h3 id="org0319125">Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor (SAC)</h3>
+<div class="outline-text-3" id="text-org0319125">
+<p>
+Paper <a href="https://arxiv.org/pdf/1801.01290">here</a>. My understanding is that this is currently roughly the most popular off-policy method. The basic idea is that the actor has a joint objective: maximize expected reward, and maximize entropy; i.e. maximize the reward while acting as randomly as possible. This has two advantages: A) it is strong, B) it is more stable than other methods.
+</p>
+
+<p>
+This has a similar effect to the noisy nets work; the network is incentivized to explore as widely as possible, but also to give up on unpromising avenues (since the subsequent reward will be low). Likewise, if multiple options are roughly the same, it will weigh them all roughly the same rather than picking one which narrowly eclipses the other. 
+</p>
+
+
+<div id="org536aca4" class="figure">
+<p><img src="../images/from_clipboard/20241109_150359.png" alt="20241109_150359.png" />
+</p>
+</div>
+
+<p>
+They derive a soft version of policy iteration (i.e. a soft policy evaluation + a soft policy improvement, repeated) (Details are maybe a bit beyond me here for now, need to revisit this). The Soft Actor-Critic algorithm basically does actor-critic with a target network + a separate state value model for added stability. 
+</p>
+
+
+<div id="orgd33d2ea" class="figure">
+<p><img src="../images/from_clipboard/20241109_154829.png" alt="20241109_154829.png" />
+</p>
+</div>
+
+<p>
+It's a bit involved since we're optimizing four different sets of parameters, but at its core it's actor-critic with a separate additional reward for more evenly diffused probabilities, resulting in a stochastic actor. They show this working well on a very difficult, high-dimensional continuous action space task (humanoid control) and show that it's very stable across a lot of different hyperparameters.
 </p>
 </div>
 </div>
@@ -294,7 +365,7 @@ The actual PPO algorithm is super simple:
 </p>
 
 
-<div id="org88277dd" class="figure">
+<div id="org76a0715" class="figure">
 <p><img src="../images/from_clipboard/20241102_210014.png" alt="20241102_210014.png" />
 </p>
 </div>
@@ -361,7 +432,7 @@ The majority of this paper deals with the necessary architectural challenges pre
 </p>
 
 
-<div id="org18c3105" class="figure">
+<div id="orgb33d403" class="figure">
 <p><img src="../images/from_clipboard/20241103_114232.png" alt="20241103_114232.png" />
 </p>
 </div>
@@ -371,7 +442,7 @@ They train this such that each hero uses the same network, and the actor-critic 
 </p>
 
 
-<div id="org85fa208" class="figure">
+<div id="org63f9d3e" class="figure">
 <p><img src="../images/from_clipboard/20241103_114809.png" alt="20241103_114809.png" />
 </p>
 </div>
@@ -439,7 +510,7 @@ A core component of starcraft is that there are three races. To be good at starc
 </p>
 
 
-<div id="org3841e25" class="figure">
+<div id="org1087447" class="figure">
 <p><img src="../images/from_clipboard/20241103_155450.png" alt="20241103_155450.png" />
 </p>
 </div>
@@ -478,7 +549,7 @@ where \(\phi(s, a, s')\) describes features, and \(w\) represents weights which 
 </p>
 
 
-<div id="org4b8d9c1" class="figure">
+<div id="orgfc511e3" class="figure">
 <p><img src="../images/from_clipboard/20241031_131631.png" alt="20241031_131631.png" />
 </p>
 </div>
@@ -508,6 +579,43 @@ There's some additional guarantees here that if the distance between your new ta
 </p>
 </div>
 </div>
+
+<div id="outline-container-org13bd075" class="outline-3">
+<h3 id="org13bd075">Policy Manifold Search for Improving Diversity-based Neuroevolution</h3>
+<div class="outline-text-3" id="text-org13bd075">
+
+<div id="org93c9444" class="figure">
+<p><img src="../images/from_clipboard/20241104_143220.png" alt="20241104_143220.png" />
+</p>
+</div>
+
+<p>
+Paper <a href="https://arxiv.org/pdf/2012.08676">here</a>. This paper has an interesting premise: there are often lots of good solutions to a particular problem, but traditional methods usually just tunnel upon a single one. Due to the manifold hypothesis, the authors claim there exists a lower dimensional manifold which contains a high density of different useful policies. So, instead of searching for a policy, they try to learn this manifold, and then search for policies by sampling from it.
+</p>
+
+<p>
+They call this PoMS, or Policy Manifold Search. Basically this takes two phases: first, they use an autoencoder to compress a policy to a small latent, and then reconstruct it. Then, they run <a href="https://arxiv.org/pdf/1504.04909">MAP-Elites</a> to search inside the latent space of the autoencoder in order to find better policies.
+</p>
+
+<p>
+An interesting component of this work is the concept of a <i>Behavior Descriptor</i> (BD) which maps the state trajectory to a fixed-dimensional behavior vector. This is a core component of the MAP-Elites algorithm they use, where they try to populate a fixed-size cell grid \(C_\theta\) with the highest performing policies adhering to a particular BD.
+</p>
+
+
+<div id="orgf9e6c56" class="figure">
+<p><img src="../images/from_clipboard/20241104_150117.png" alt="20241104_150117.png" />
+</p>
+</div>
+
+<p>
+That is, we sample policies from the cell grid, we mutate them, we evaluate them, and we add them to the collection if they beat the policy in their grid cell or if they fill a previously empty grid cell. Then we train an autoencoder to reconstruct these models. Each loop we get new policies in the grid, so the autoencoder gets fresh data every loop.
+</p>
+
+<p>
+There's some other interesting details in here about mutating in the AE latent space using the jacobian, or sometimes searching in original parameter space, etc. It's an interesting work because A: the implication of a dense manifold of diverse solutions is one with interesting implications, and B: the focus upon multiple solutions to the same problem is one I rarely see considered valuable in other works. 
+</p>
+</div>
+</div>
 </div>
 
 <div id="outline-container-orgb4af155" class="outline-2">
@@ -522,7 +630,7 @@ code is <a href="https://github.com/vwxyzjn/cleanrl/blob/master/cleanrl/dqn_atar
 </p>
 
 
-<div id="orge20a27e" class="figure">
+<div id="org9374a26" class="figure">
 <p><img src="../images/from_clipboard/20241029_114628.png" alt="20241029_114628.png" />
 </p>
 </div>
@@ -536,7 +644,7 @@ Likewise implementing this using a frozen "target network" and optimizing a sepa
 </p>
 
 
-<div id="orgca81f12" class="figure">
+<div id="orgbf28467" class="figure">
 <p><img src="../images/from_clipboard/20241029_114822.png" alt="20241029_114822.png" />
 </p>
 </div>
@@ -559,7 +667,7 @@ Code is <a href="https://github.com/vwxyzjn/cleanrl/blob/master/cleanrl/ppo.py">
 <h4 id="orgf97dbb5">Core Idea</h4>
 <div class="outline-text-4" id="text-orgf97dbb5">
 
-<div id="org6b415f3" class="figure">
+<div id="orge1a84d7" class="figure">
 <p><img src="../images/from_clipboard/20241102_235702.png" alt="20241102_235702.png" />
 </p>
 </div>
@@ -569,7 +677,7 @@ Critic estimates value (regression problem), Actor selects action (here discrete
 </p>
 
 
-<div id="org1167ba6" class="figure">
+<div id="orge9c3183" class="figure">
 <p><img src="../images/from_clipboard/20241103_002142.png" alt="20241103_002142.png" />
 </p>
 </div>
@@ -579,7 +687,7 @@ Get T timesteps from each actor (i.e. one actor)
 </p>
 
 
-<div id="org70c3360" class="figure">
+<div id="org409b962" class="figure">
 <p><img src="../images/from_clipboard/20241103_003738.png" alt="20241103_003738.png" />
 </p>
 </div>
@@ -589,13 +697,13 @@ Get advantages
 </p>
 
 
-<div id="orgbb34de1" class="figure">
+<div id="org18dab1f" class="figure">
 <p><img src="../images/from_clipboard/20241103_005013.png" alt="20241103_005013.png" />
 </p>
 </div>
 
 
-<div id="org6ad560d" class="figure">
+<div id="org82b6d56" class="figure">
 <p><img src="../images/from_clipboard/20241103_005146.png" alt="20241103_005146.png" />
 </p>
 </div>
