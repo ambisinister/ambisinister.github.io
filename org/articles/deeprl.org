@@ -184,6 +184,32 @@ The idea here is that you have three different types of agents: main agents (i.e
 
 Why can't they use self-play for this type of thing? Well for one, self-play collapses a bit in these sorts of rock-paper-scissors situations, where they chase in a circle learning strategies which defeat the currently held one. Better to have a population of strategies, and improve at defeating them all. Better yet, they select opponents based on their likely ability to defeat the agent (PFSP), such that almost no games are played between two agents where victory is roughly a sure-thing. The relative balance of PFSP vs normal self-play, how many agents of each type are in the pool, etc are all mentioned in the appendix, giving me the impression that the balance is a bit of an art. 
 
+*** Learning Dextrous In-Hand Manipulation
+
+Paper [[https://arxiv.org/pdf/1808.00177][here]].
+
+[[../images/from_clipboard/20241109_181542.png]]
+
+RL for robotics, uses [[https://arxiv.org/abs/1703.06907][domain randomization]] in simulation to transfer simulated experience to the real world. CNN module is responsible for object pose estimation, LSTM module is responsible for control provided the underlying object pose.
+
+Domain Randomization is the big thing about this work, which is sort of standard fare in computer vision / super important for robotics in particular where training on sim -> transferring to the real world is what allows this to happen in a reasonable amount of time without destroying valuable objects or components.
+
+The core thing about this work are:
+
+1. create a simulator for the task
+2. pick lots of things about the simulations to randomize, model noise + mismeasurement expected in real world transfer
+3. Apply PPO to the problem (i.e. the same as OpenAI Five, using the LSTM)
+
+The critic isn't actually used at inference time so it can leverage information in the simulator that the real world doesn't have. They call this idea /Asymmetric Actor-Critic/, but it's really just giving the policy network only the observations it will have in the real world. They give it discrete, binned actions and reward it for correct rotations (and punish it for dropping).
+
+[[../images/from_clipboard/20241109_183231.png]]
+
+It's trained in the same distributed fashion as OpenAI Five.
+
+As mentioned, first they train a policy in the simulator which can solve the task when provided ground truth object position/rotation information (in the simulator), and then they train a vision model which will estimate that information (in the simulator) from pixels when provided 3 camera angles, until it can perform reasonably well. This way they can transfer the policy to the real world without obtaining information other than pixel-based observations.
+
+As you would expect, there's some degradation in the real world performance compared to the sim performance, which makes sense because there's no explicit component of domain adaptation beyond just using domain randomization in training. Another notable problem is that their policy would commonly destroy the robot, and they would have to keep repairing it. 
+
 *** Successor Features for Transfer in Reinforcement Learning
 
 Found [[https://arxiv.org/pdf/1606.05312][here]], from 2018.

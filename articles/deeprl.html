@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-11-09 Sat 15:54 -->
+<!-- 2024-11-09 Sat 18:52 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Deep RL</title>
@@ -121,6 +121,7 @@ $(function() {
 <li><a href="#orgdb28ab8">Proximal Policy Optimization Algorithms (PPO)</a></li>
 <li><a href="#org1576a9b">Dota 2 with Large Scale Deep Reinforcement Learning (OpenAI Five)</a></li>
 <li><a href="#orgd75b37d">Grandmaster level in StarCraft II using multi-agent reinforcement learning (AlphaStar)</a></li>
+<li><a href="#orgb38a242">Learning Dextrous In-Hand Manipulation</a></li>
 <li><a href="#org0b03c40">Successor Features for Transfer in Reinforcement Learning</a></li>
 <li><a href="#org13bd075">Policy Manifold Search for Improving Diversity-based Neuroevolution</a></li>
 </ul>
@@ -178,7 +179,7 @@ Notable about this paper is the fact that all the games are deterministic, so th
 </p>
 
 
-<div id="org8ba53a3" class="figure">
+<div id="org8f40973" class="figure">
 <p><img src="../images/from_clipboard/20241029_111102.png" alt="20241029_111102.png" />
 </p>
 </div>
@@ -266,7 +267,7 @@ This paper introduces Deep Deterministic Policy Gradient (DDPG) which adds the e
 </p>
 
 
-<div id="org5940571" class="figure">
+<div id="orga46aa83" class="figure">
 <p><img src="../images/from_clipboard/20241102_173841.png" alt="20241102_173841.png" />
 </p>
 </div>
@@ -293,7 +294,7 @@ This has a similar effect to the noisy nets work; the network is incentivized to
 </p>
 
 
-<div id="org536aca4" class="figure">
+<div id="orgfc29ebd" class="figure">
 <p><img src="../images/from_clipboard/20241109_150359.png" alt="20241109_150359.png" />
 </p>
 </div>
@@ -303,7 +304,7 @@ They derive a soft version of policy iteration (i.e. a soft policy evaluation + 
 </p>
 
 
-<div id="orgd33d2ea" class="figure">
+<div id="org8b84502" class="figure">
 <p><img src="../images/from_clipboard/20241109_154829.png" alt="20241109_154829.png" />
 </p>
 </div>
@@ -365,7 +366,7 @@ The actual PPO algorithm is super simple:
 </p>
 
 
-<div id="org76a0715" class="figure">
+<div id="orgadf70c5" class="figure">
 <p><img src="../images/from_clipboard/20241102_210014.png" alt="20241102_210014.png" />
 </p>
 </div>
@@ -432,7 +433,7 @@ The majority of this paper deals with the necessary architectural challenges pre
 </p>
 
 
-<div id="orgb33d403" class="figure">
+<div id="orga5e5fc9" class="figure">
 <p><img src="../images/from_clipboard/20241103_114232.png" alt="20241103_114232.png" />
 </p>
 </div>
@@ -442,7 +443,7 @@ They train this such that each hero uses the same network, and the actor-critic 
 </p>
 
 
-<div id="org63f9d3e" class="figure">
+<div id="org3585d6e" class="figure">
 <p><img src="../images/from_clipboard/20241103_114809.png" alt="20241103_114809.png" />
 </p>
 </div>
@@ -510,7 +511,7 @@ A core component of starcraft is that there are three races. To be good at starc
 </p>
 
 
-<div id="org1087447" class="figure">
+<div id="orgeede9bb" class="figure">
 <p><img src="../images/from_clipboard/20241103_155450.png" alt="20241103_155450.png" />
 </p>
 </div>
@@ -521,6 +522,61 @@ The idea here is that you have three different types of agents: main agents (i.e
 
 <p>
 Why can't they use self-play for this type of thing? Well for one, self-play collapses a bit in these sorts of rock-paper-scissors situations, where they chase in a circle learning strategies which defeat the currently held one. Better to have a population of strategies, and improve at defeating them all. Better yet, they select opponents based on their likely ability to defeat the agent (PFSP), such that almost no games are played between two agents where victory is roughly a sure-thing. The relative balance of PFSP vs normal self-play, how many agents of each type are in the pool, etc are all mentioned in the appendix, giving me the impression that the balance is a bit of an art. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb38a242" class="outline-3">
+<h3 id="orgb38a242">Learning Dextrous In-Hand Manipulation</h3>
+<div class="outline-text-3" id="text-orgb38a242">
+<p>
+Paper <a href="https://arxiv.org/pdf/1808.00177">here</a>.
+</p>
+
+
+<div id="org45d2a84" class="figure">
+<p><img src="../images/from_clipboard/20241109_181542.png" alt="20241109_181542.png" />
+</p>
+</div>
+
+<p>
+RL for robotics, uses <a href="https://arxiv.org/abs/1703.06907">domain randomization</a> in simulation to transfer simulated experience to the real world. CNN module is responsible for object pose estimation, LSTM module is responsible for control provided the underlying object pose.
+</p>
+
+<p>
+Domain Randomization is the big thing about this work, which is sort of standard fare in computer vision / super important for robotics in particular where training on sim -&gt; transferring to the real world is what allows this to happen in a reasonable amount of time without destroying valuable objects or components.
+</p>
+
+<p>
+The core thing about this work are:
+</p>
+
+<ol class="org-ol">
+<li>create a simulator for the task</li>
+<li>pick lots of things about the simulations to randomize, model noise + mismeasurement expected in real world transfer</li>
+<li>Apply PPO to the problem (i.e. the same as OpenAI Five, using the LSTM)</li>
+</ol>
+
+<p>
+The critic isn't actually used at inference time so it can leverage information in the simulator that the real world doesn't have. They call this idea <i>Asymmetric Actor-Critic</i>, but it's really just giving the policy network only the observations it will have in the real world. They give it discrete, binned actions and reward it for correct rotations (and punish it for dropping).
+</p>
+
+
+<div id="orgf820164" class="figure">
+<p><img src="../images/from_clipboard/20241109_183231.png" alt="20241109_183231.png" />
+</p>
+</div>
+
+<p>
+It's trained in the same distributed fashion as OpenAI Five.
+</p>
+
+<p>
+As mentioned, first they train a policy in the simulator which can solve the task when provided ground truth object position/rotation information (in the simulator), and then they train a vision model which will estimate that information (in the simulator) from pixels when provided 3 camera angles, until it can perform reasonably well. This way they can transfer the policy to the real world without obtaining information other than pixel-based observations.
+</p>
+
+<p>
+As you would expect, there's some degradation in the real world performance compared to the sim performance, which makes sense because there's no explicit component of domain adaptation beyond just using domain randomization in training. Another notable problem is that their policy would commonly destroy the robot, and they would have to keep repairing it. 
 </p>
 </div>
 </div>
@@ -549,7 +605,7 @@ where \(\phi(s, a, s')\) describes features, and \(w\) represents weights which 
 </p>
 
 
-<div id="orgfc511e3" class="figure">
+<div id="orgbd33889" class="figure">
 <p><img src="../images/from_clipboard/20241031_131631.png" alt="20241031_131631.png" />
 </p>
 </div>
@@ -584,7 +640,7 @@ There's some additional guarantees here that if the distance between your new ta
 <h3 id="org13bd075">Policy Manifold Search for Improving Diversity-based Neuroevolution</h3>
 <div class="outline-text-3" id="text-org13bd075">
 
-<div id="org93c9444" class="figure">
+<div id="orga391ace" class="figure">
 <p><img src="../images/from_clipboard/20241104_143220.png" alt="20241104_143220.png" />
 </p>
 </div>
@@ -602,7 +658,7 @@ An interesting component of this work is the concept of a <i>Behavior Descriptor
 </p>
 
 
-<div id="orgf9e6c56" class="figure">
+<div id="org75220a4" class="figure">
 <p><img src="../images/from_clipboard/20241104_150117.png" alt="20241104_150117.png" />
 </p>
 </div>
@@ -630,7 +686,7 @@ code is <a href="https://github.com/vwxyzjn/cleanrl/blob/master/cleanrl/dqn_atar
 </p>
 
 
-<div id="org9374a26" class="figure">
+<div id="orgbcd593c" class="figure">
 <p><img src="../images/from_clipboard/20241029_114628.png" alt="20241029_114628.png" />
 </p>
 </div>
@@ -644,7 +700,7 @@ Likewise implementing this using a frozen "target network" and optimizing a sepa
 </p>
 
 
-<div id="orgbf28467" class="figure">
+<div id="org94757cb" class="figure">
 <p><img src="../images/from_clipboard/20241029_114822.png" alt="20241029_114822.png" />
 </p>
 </div>
@@ -667,7 +723,7 @@ Code is <a href="https://github.com/vwxyzjn/cleanrl/blob/master/cleanrl/ppo.py">
 <h4 id="orgf97dbb5">Core Idea</h4>
 <div class="outline-text-4" id="text-orgf97dbb5">
 
-<div id="orge1a84d7" class="figure">
+<div id="orge6f8d0c" class="figure">
 <p><img src="../images/from_clipboard/20241102_235702.png" alt="20241102_235702.png" />
 </p>
 </div>
@@ -677,7 +733,7 @@ Critic estimates value (regression problem), Actor selects action (here discrete
 </p>
 
 
-<div id="orge9c3183" class="figure">
+<div id="org2b1572c" class="figure">
 <p><img src="../images/from_clipboard/20241103_002142.png" alt="20241103_002142.png" />
 </p>
 </div>
@@ -687,7 +743,7 @@ Get T timesteps from each actor (i.e. one actor)
 </p>
 
 
-<div id="org409b962" class="figure">
+<div id="orga650aac" class="figure">
 <p><img src="../images/from_clipboard/20241103_003738.png" alt="20241103_003738.png" />
 </p>
 </div>
@@ -697,13 +753,13 @@ Get advantages
 </p>
 
 
-<div id="org18dab1f" class="figure">
+<div id="org25203e1" class="figure">
 <p><img src="../images/from_clipboard/20241103_005013.png" alt="20241103_005013.png" />
 </p>
 </div>
 
 
-<div id="org82b6d56" class="figure">
+<div id="org12faccc" class="figure">
 <p><img src="../images/from_clipboard/20241103_005146.png" alt="20241103_005146.png" />
 </p>
 </div>
