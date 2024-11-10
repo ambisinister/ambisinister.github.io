@@ -210,6 +210,38 @@ As mentioned, first they train a policy in the simulator which can solve the tas
 
 As you would expect, there's some degradation in the real world performance compared to the sim performance, which makes sense because there's no explicit component of domain adaptation beyond just using domain randomization in training. Another notable problem is that their policy would commonly destroy the robot, and they would have to keep repairing it. 
 
+*** Emergent Tool Use From Multi-Agent Autocurricula (Hide and Seek)
+
+[[../images/from_clipboard/20241109_185336.png]]
+
+I'm sure you remember this paper, it was very famous and there were lots of cute videos about it. Paper is [[https://arxiv.org/pdf/1909.07528][here]]. The central idea here is that in multi-agent settings, competing agents will pose some sort of /problem/ to each other, and then solving that problem "passes the ball" to the other agent to, in turn, solve the resulting problem. This iterated back and forth is referred to as /autocurricula/. The resulting behaviors in this paper (making forts, locking up ramps, box surfing, etc) are clear examples of this.  
+
+Yet again, this is trained with PPO. But this time we get to use self-attention too! They train this for 100 million episodes so I'm sure this cost millions of dollars. 
+
+[[../images/from_clipboard/20241109_190605.png]]
+
+There's also some interesting stuff in here about using finetuning as a measure for identifying how strong behaviors are in each policy. For this they have five non-hide-and-seek tasks: counting objects, lock and return, sequential lock, blueprint construction, and shelter construction. Generally, pretraining in hide and seek is more effective than training from scratch or using count-based intrinsic motivation.
+
+[[../images/from_clipboard/20241109_191307.png]]
+
+*** Human-Level performance in 3D multiplayer games with population-based reinforcement learning (CTF)
+
+[[../images/from_clipboard/20241109_191615.png]]
+
+This is a deepmind paper which was published in /Science/ in 2019, where they trained agents to win Capture the Flag in Quake III Arena using only pixels as input. This is meaningfully different from most other environments because it's competitive and multi-agent.
+
+The way they handle the multi-agent problem is to frame the problem as having two tiers: first, they maximize the agent's future discounted internal rewards; second, they maximize the likelihood of winning, as described by the agent's own internal reward scheme.
+
+[[../images/from_clipboard/20241109_193028.png]]
+
+The inner objective they learn with RL, the outer objective they learn via [[https://arxiv.org/pdf/1711.09846][population-based training]]. The key here is that instead of using self-play, they get to initialize a population of $P$ different agents, which introduces some diversity in the training + doesn't allow the agent's to too closely infer what their teammates or opponents would do. These agents are assigned matchmaking ratings and paired together based on skill so the gameplay isn't lopsided.
+
+More specifically, for the inner loop they used n-step actor-critic with off-policy correction and auxiliary tasks, and the architecture they used was a multi-time scale RNN where they had a fast, low frameskip pathway for observation/action generation, and a slow, high frameskip pathway for longer-term temporal dependencies. They have some vector $w$ for each agent in here which is optimized by the outer loop, which is crossed with the observed points to get that agent's personal rewards.
+
+The outer loop they train 30 agents in parallel, where they would mutate / replace the population based on successful $w$ vectors and hyperparameters. This outer loop maximizes chances to win, which is a sparse signal; the inner loop is regular(ish) actor-critic training. This is kind of neat because they get diverse agent rewards but they aren't hand-crafted reward functions, the agents get to learn their own reward functions and they just get vaporized if they come up with bad ones.
+
+As in alphastar there's lots of tournament-based framing / evaluation in this work. This is useful especially here since the map for CTF is randomly generated in each game. These things outperformed human teams, suggesting they were likely to be better with random teammates on maps none of the players have seen before. There's also some cool stuff actually looking at the feature maps and trying to extract semantic content about the game from the extracted features (e.g. "do I have the flag" simple classifications from frozen features extracted from the policy). 
+
 *** Successor Features for Transfer in Reinforcement Learning
 
 Found [[https://arxiv.org/pdf/1606.05312][here]], from 2018.
