@@ -135,6 +135,30 @@ Compared to other deep RL algorithms like DQN, A3C, DDPG, etc; PPO is a lot more
 
 There are some other objectives explored in the paper here but the clipped one is the one which has remained the most important to my knowledge. As mentioned, this method solves DoTA, so you don't need too many other bells and whistles beyond this.
 
+*** Interpolated Policy Gradient: Merging On-Policy and Off-Policy Gradient Estimation for Deep Reinforcement Learning (IPG)
+
+Paper is [[https://arxiv.org/pdf/1706.00387][here]]. The on-policy and off-policy distinction can be bridged, it's possible for methods to leverage both ideas.
+
+There are two ways these two have been bridged prior: by training an off-policy Q critic (Q-prop), and by mixing on- and off-policy gradient updates according to some ratio. IPG does both of these things. Actor-critic in general can be off-policy in principle, but usually isn't because doing so tends to be less stable. For example, [[https://arxiv.org/pdf/1611.02247][Q-Prop]] uses an off-policy critic, which leverages the first order taylor expansion of the Q critic to obtain "control variates" to reduce variance.
+
+Specifically, for Q-prop we have the following:
+
+[[../images/from_clipboard/20241116_210832.png]]
+
+Where the gradient estimator is essentially just the addition of the standard likelihood raio policy gradient objective (here $\hat{Q}(s_t, a_t) - b(s_t)$ uses $\tilde{Q}_w(s_t, a_t)$ as b, it's just the chosen advantage function), with the addition of the off policy deterministic policy gradient of the taylor expansion $Q_w(s_t, a_t)$. This does clearly combine off policy and on policy methods together, but they're kind of cleaved apart between the terms (i.e. there's an off policy term and an on policy term).
+
+The core contribution in this paper is the notion of interpolating these two terms. That is:
+
+[[../images/from_clipboard/20241116_211600.png]]
+
+Which you'll recognize as the same as the previous objective but with weighted interpolation terms and using just the mean Q value in the state rather than the first order taylor expansion given s_t and a_t. We can introduce control variates by replacing $\hat{A}(s_t, a_t)$ with $(\hat{A}(s_t, a_t) - A_w^\pi(s_t, a_t))$, where the latter is the advantage derived from the off-policy estimate and the former is the advantage derived by the on-policy estimate. This means that this new term (the "residual likelihood ratio gradient") will move up or down based on how aligned the on and off policy estimations are. If the off-policy estimate is accurate, then the left term will go towards 0 and it will be more off-policy-ish. If it's not accurate, it will go up and be more on-policy-ish, which means the overall effect is that it has less variance.
+
+With this framing you can recover lots of the other methods in entirety using special hyperparameter values. For example, setting v to 0 gives you vanilla policy gradient. Setting it to 1 gives you DDPG. So on and so forth. This serves as sort of a unifying framing where you can cleanly interpolate between on- and off-policy methods rather than limiting yourself to the extremes of this tradeoff. Consider the analogy of n-step methods bridging TD learning and MC methods, it's sort of like that but for policy gradient. 
+
+[[../images/from_clipboard/20241116_213623.png]]
+
+Shown on a variety of benchmarks, this seems to improve sample efficiency, in addition to just serving as a unifying framing for the existing methods. Probably important takeaway is: on-policy and off-policy distinction is not a hard boundary, and it's possible to use methods which are both in varying degrees.
+
 *** Dota 2 with Large Scale Deep Reinforcement Learning (OpenAI Five)
 
 Paper [[https://arxiv.org/pdf/1912.06680][here]]. OpenAI defeats world champion DoTA 2 team using a deep RL system trained via PPO.
@@ -336,4 +360,4 @@ def layer_init(layer, std=np.sqrt(2), bias_const=0.0):
 
 Clipping values, clipping gradients by global norm, and normalizing advantage inside each minibatch are tricks to this not mentioned in the original PPO paper. There's also early stopping if KL divergence gets too high, and learning rate annealing, which seem helpful as well.
 
-There's also this [[https://www.youtube.com/watch?v=MEt6rrxH8W4&list=PLD80i8An1OEHhcxclwq8jOMam0m0M9dQ_&index=2][PPO Implementation Deep Dive]] from the CleanRL people as well. I need to watch this more closely, but putting it in here because I'll need to remember it later.
+There's also this [[https://www.youtube.com/watch?v=MEt6rrxH8W4&list=PLD80i8An1OEHhcxclwq8jOMam0m0M9dQ_&index=2][PPO Implementation Deep Dive]] from the mind behind CleanRL, as well, which walks through some of these implementation details.
