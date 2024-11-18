@@ -1,367 +1,439 @@
-import React, { useState } from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Copy } from 'lucide-react';
-
-const WasonTest = () => {
-  const rules = [
-    { id: 1, fn: (x, y, z) => x > y && y > z, desc: "x > y > z" },
-    { id: 2, fn: (x, y, z) => x < y && y < z, desc: "x < y < z" },
-    { id: 3, fn: (x, y, z) => x >= y && y >= z, desc: "x ≥ y ≥ z" },
-    { id: 4, fn: (x, y, z) => x <= y && y <= z, desc: "x ≤ y ≤ z" },
-    { id: 5, fn: (x, y, z) => x === y && y === z, desc: "x = y = z" },
-    { id: 6, fn: (x, y, z) => x !== y && y !== z && x !== z, desc: "x ≠ y ∧ y ≠ z ∧ x ≠ z" },
-    { id: 7, fn: (x, y, z) => x < 0 && y < 0 && z < 0, desc: "x < 0 ∧ y < 0 ∧ z < 0" },
-    { id: 8, fn: (x, y, z) => x + y === z, desc: "x + y = z" },
-    { id: 9, fn: (x, y, z) => x * y === z, desc: "x · y = z" },
-    { id: 10, fn: (x, y, z) => x < y && y > z, desc: "x < y ∧ y > z" }
-  ];
-
-  const [currentRule, setCurrentRule] = useState(null);
-  const [attempts, setAttempts] = useState(30);
-  const [testHistory, setTestHistory] = useState([]);
-  const [input1, setInput1] = useState('');
-  const [input2, setInput2] = useState('');
-  const [input3, setInput3] = useState('');
-  const [finalGuess, setFinalGuess] = useState('');
-  const [gameState, setGameState] = useState('initial'); // initial, playing, finished, complete
-  const [errorMessage, setErrorMessage] = useState('');
-  const [completedTests, setCompletedTests] = useState([]);
-  const [remainingTests, setRemainingTests] = useState([]);
-
-  // Start a new game
-  const startNewGame = () => {
-    if (remainingTests.length === 0) {
-      setRemainingTests([...rules]);
-      setCompletedTests([]);
-      const firstRule = rules[0];
-      setCurrentRule(firstRule);
-    } else {
-      const nextRule = remainingTests[0];
-      setCurrentRule(nextRule);
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wason Inductive Logic Test</title>
     
-    setAttempts(30);
-    setTestHistory([]);
-    setInput1('');
-    setInput2('');
-    setInput3('');
-    setFinalGuess('');
-    setGameState('playing');
-    setErrorMessage('');
-  };
-
-  // Validate input format
-  const validateInput = (value) => {
-    if (value === '') return false;
-    const cleanValue = value.replace(/^-/, '').replace('.', '');
-    return cleanValue.length <= 3 && !isNaN(parseFloat(value));
-  };
-
-  // Handle test case submission
-  const handleTestCase = (e) => {
-    e.preventDefault();
+    <!-- React Dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
     
-    if (!validateInput(input1) || !validateInput(input2) || !validateInput(input3)) {
-      setErrorMessage('Invalid input. Numbers must be typed in 3 or fewer characters (excluding signs and decimal points).');
-      return;
-    }
-
-    const x = parseFloat(input1);
-    const y = parseFloat(input2);
-    const z = parseFloat(input3);
-
-    const result = currentRule.fn(x, y, z);
-    const newHistory = [...testHistory, {
-      input: `(${x}, ${y}, ${z})`,
-      result: result
-    }];
+    <!-- Babel for JSX transformation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
     
-    setTestHistory(newHistory);
-    setAttempts(prev => prev - 1);
-    setInput1('');
-    setInput2('');
-    setInput3('');
-    setErrorMessage('');
+    <style>
+        .card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            padding: 1.5rem;
+            margin: 1rem auto;
+            max-width: 42rem;
+        }
+        .alert {
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin: 0.5rem 0;
+        }
+        .alert-error {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        .alert-info {
+            background-color: #e0f2fe;
+            color: #075985;
+        }
+        .button {
+            background-color: #2563eb;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            border: none;
+            cursor: pointer;
+        }
+        .button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .scroll-area {
+            max-height: 12rem;
+            overflow-y: auto;
+            border: 1px solid #e5e7eb;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .input {
+            border: 1px solid #e5e7eb;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+        }
+        .grid {
+            display: grid;
+            gap: 1rem;
+        }
+        .flex {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .justify-between {
+            justify-content: space-between;
+        }
+        .bg-gray {
+            background-color: #f9fafb;
+            padding: 1rem;
+            border-radius: 0.375rem;
+        }
+    </style>
+</head>
+<body style="background-color: #f3f4f6; margin: 0; padding: 1rem; font-family: system-ui, -apple-system, sans-serif;">
+    <div id="root"></div>
 
-    if (attempts <= 1) {
-      setGameState('finished');
-    }
-  };
+    <script type="text/babel">
+        const WasonTest = () => {
+            const rules = [
+                { id: 1, fn: (x, y, z) => x > y && y > z, desc: "x > y > z" },
+                { id: 2, fn: (x, y, z) => x < y && y < z, desc: "x < y < z" },
+                { id: 3, fn: (x, y, z) => x >= y && y >= z, desc: "x ≥ y ≥ z" },
+                { id: 4, fn: (x, y, z) => x <= y && y <= z, desc: "x ≤ y ≤ z" },
+                { id: 5, fn: (x, y, z) => x === y && y === z, desc: "x = y = z" },
+                { id: 6, fn: (x, y, z) => x !== y && y !== z && x !== z, desc: "x ≠ y ∧ y ≠ z ∧ x ≠ z" },
+                { id: 7, fn: (x, y, z) => x < 0 && y < 0 && z < 0, desc: "x < 0 ∧ y < 0 ∧ z < 0" },
+                { id: 8, fn: (x, y, z) => x + y === z, desc: "x + y = z" },
+                { id: 9, fn: (x, y, z) => x * y === z, desc: "x · y = z" },
+                { id: 10, fn: (x, y, z) => x < y && y > z, desc: "x < y ∧ y > z" }
+            ];
+	const [currentRule, setCurrentRule] = React.useState(null);
+            const [attempts, setAttempts] = React.useState(30);
+            const [testHistory, setTestHistory] = React.useState([]);
+            const [input1, setInput1] = React.useState('');
+            const [input2, setInput2] = React.useState('');
+            const [input3, setInput3] = React.useState('');
+            const [finalGuess, setFinalGuess] = React.useState('');
+            const [gameState, setGameState] = React.useState('initial');
+            const [errorMessage, setErrorMessage] = React.useState('');
+            const [completedTests, setCompletedTests] = React.useState([]);
+            const [remainingTests, setRemainingTests] = React.useState([]);
 
-  // Handle final guess submission
-  const handleFinalGuess = (e) => {
-    e.preventDefault();
-    if (finalGuess.trim() === '') {
-      setErrorMessage('Please enter your guess for the rule.');
-      return;
-    }
+            const startNewGame = () => {
+                if (remainingTests.length === 0) {
+                    setRemainingTests([...rules]);
+                    setCompletedTests([]);
+                    const firstRule = rules[0];
+                    setCurrentRule(firstRule);
+                } else {
+                    const nextRule = remainingTests[0];
+                    setCurrentRule(nextRule);
+                }
+                
+                setAttempts(30);
+                setTestHistory([]);
+                setInput1('');
+                setInput2('');
+                setInput3('');
+                setFinalGuess('');
+                setGameState('playing');
+                setErrorMessage('');
+            };
 
-    const newCompletedTests = [...completedTests, {
-      ruleId: currentRule.id,
-      actualRule: currentRule.desc,
-      guess: finalGuess,
-      attemptsUsed: 30 - attempts,
-      testHistory: testHistory
-    }];
-    
-    setCompletedTests(newCompletedTests);
-    const newRemainingTests = remainingTests.slice(1);
-    setRemainingTests(newRemainingTests);
+            const validateInput = (value) => {
+                if (value === '') return false;
+                const cleanValue = value.replace(/^-/, '').replace('.', '');
+                return cleanValue.length <= 3 && !isNaN(parseFloat(value));
+            };
 
-    if (newRemainingTests.length === 0) {
-      setGameState('complete');
-    } else {
-      setGameState('finished');
-    }
-  };
+            const handleTestCase = (e) => {
+                e.preventDefault();
+                
+                if (!validateInput(input1) || !validateInput(input2) || !validateInput(input3)) {
+                    setErrorMessage('Invalid input. Numbers must be typed in 3 or fewer characters (excluding signs and decimal points).');
+                    return;
+                }
 
-  // Check if test case can be submitted
-  const canSubmitTest = () => {
-    return attempts > 0 && 
-           gameState === 'playing' && 
-           validateInput(input1) && 
-           validateInput(input2) && 
-           validateInput(input3);
-  };
+                const x = parseFloat(input1);
+                const y = parseFloat(input2);
+                const z = parseFloat(input3);
 
-  // Check if final guess can be submitted
-  const canSubmitGuess = () => {
-    return gameState === 'playing' && finalGuess.trim() !== '';
-  };
+                const result = currentRule.fn(x, y, z);
+                const newHistory = [...testHistory, {
+                    input: `(${x}, ${y}, ${z})`,
+                    result: result
+                }];
+                
+                setTestHistory(newHistory);
+                setAttempts(prev => prev - 1);
+                setInput1('');
+                setInput2('');
+                setInput3('');
+                setErrorMessage('');
 
-  // Generate summary text for copying
-  const generateSummaryText = () => {
-    const averageAttempts = completedTests.reduce((sum, test) => sum + test.attemptsUsed, 0) / completedTests.length;
-    
-    let summary = `Wason Inductive Logic Test Results\n`;
-    summary += `Average test cases used: ${averageAttempts.toFixed(2)}\n\n`;
-    summary += `Detailed Results:\n`;
-    
-    completedTests.forEach((test, index) => {
-      summary += `\nTest ${test.ruleId}:\n`;
-      summary += `Actual Rule: ${test.actualRule}\n`;
-      summary += `Your Guess: ${test.guess}\n`;
-      summary += `Attempts Used: ${test.attemptsUsed}\n`;
-      summary += `Test History:\n`;
-      test.testHistory.forEach(hist => {
-        summary += `${hist.input} → ${hist.result}\n`;
-      });
-      summary += `-------------------\n`;
-    });
-    
-    return summary;
-  };
+                if (attempts <= 1) {
+                    setGameState('finished');
+                }
+            };
 
-  // Copy summary to clipboard
-  const handleCopySummary = async () => {
-    const summaryText = generateSummaryText();
-    try {
-      await navigator.clipboard.writeText(summaryText);
-      setErrorMessage('Summary copied to clipboard!');
-      setTimeout(() => setErrorMessage(''), 2000);
-    } catch (err) {
-      setErrorMessage('Failed to copy to clipboard');
-    }
-  };
+            const handleFinalGuess = (e) => {
+                e.preventDefault();
+                if (finalGuess.trim() === '') {
+                    setErrorMessage('Please enter your guess for the rule.');
+                    return;
+                }
 
-  // Initial state
-  if (gameState === 'initial') {
-    return (
-      <Card className="w-full max-w-2xl mx-auto">
-        <CardHeader>
-          <CardTitle>Wason Inductive Logic Test</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="mb-4">
-            Try to discover the hidden rules that take three numbers and return true or false.
-            You will complete 10 different tests, with up to 30 attempts per test.
-          </p>
-          <Button onClick={startNewGame}>Start Test Series</Button>
-        </CardContent>
-      </Card>
-    );
-  }
+                const newCompletedTests = [...completedTests, {
+                    ruleId: currentRule.id,
+                    actualRule: currentRule.desc,
+                    guess: finalGuess,
+                    attemptsUsed: 30 - attempts,
+                    testHistory: testHistory
+                }];
+                
+                setCompletedTests(newCompletedTests);
+                const newRemainingTests = remainingTests.slice(1);
+                setRemainingTests(newRemainingTests);
 
-  // Show complete summary
-  if (gameState === 'complete') {
-    const averageAttempts = completedTests.reduce((sum, test) => sum + test.attemptsUsed, 0) / completedTests.length;
-    
-    return (
-      <Card className="w-full max-w-4xl mx-auto">
-        <CardHeader>
-          <CardTitle>Test Series Complete!</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-6">
-            <div className="p-4 bg-gray-50 rounded">
-              <h3 className="font-semibold mb-2">Summary Statistics</h3>
-              <p>Average test cases used: {averageAttempts.toFixed(2)}</p>
-            </div>
+                if (newRemainingTests.length === 0) {
+                    setGameState('complete');
+                } else {
+                    setGameState('finished');
+                }
+            };
 
-            <ScrollArea className="h-96 border rounded p-4">
-              <div className="space-y-6">
-                {completedTests.map((test, index) => (
-                  <div key={index} className="p-4 bg-gray-50 rounded">
-                    <h3 className="font-semibold mb-2">Test {test.ruleId}</h3>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <p className="font-medium">Actual Rule:</p>
-                        <p>{test.actualRule}</p>
-                      </div>
-                      <div>
-                        <p className="font-medium">Your Guess:</p>
-                        <p>{test.guess}</p>
-                      </div>
-                      <div className="col-span-2">
-                        <p className="font-medium">Attempts Used: {test.attemptsUsed}</p>
-                      </div>
+            const generateSummaryText = () => {
+                const averageAttempts = completedTests.reduce((sum, test) => sum + test.attemptsUsed, 0) / completedTests.length;
+                
+                let summary = `Wason Inductive Logic Test Results\n`;
+                summary += `Average test cases used: ${averageAttempts.toFixed(2)}\n\n`;
+                summary += `Detailed Results:\n`;
+                
+                completedTests.forEach((test, index) => {
+                    summary += `\nTest ${test.ruleId}:\n`;
+                    summary += `Actual Rule: ${test.actualRule}\n`;
+                    summary += `Your Guess: ${test.guess}\n`;
+                    summary += `Attempts Used: ${test.attemptsUsed}\n`;
+                    summary += `Test History:\n`;
+                    test.testHistory.forEach(hist => {
+                        summary += `${hist.input} → ${hist.result}\n`;
+                    });
+                    summary += `-------------------\n`;
+                });
+                
+                return summary;
+            };
+
+            const handleCopySummary = async () => {
+                const summaryText = generateSummaryText();
+                try {
+                    await navigator.clipboard.writeText(summaryText);
+                    setErrorMessage('Summary copied to clipboard!');
+                    setTimeout(() => setErrorMessage(''), 2000);
+                } catch (err) {
+                    setErrorMessage('Failed to copy to clipboard');
+                }
+            };
+
+            // Initial state view
+            if (gameState === 'initial') {
+                return (
+                    <div className="card">
+                        <h2 style={{fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem'}}>
+                            Wason Inductive Logic Test
+                        </h2>
+                        <p style={{marginBottom: '1rem'}}>
+                            Try to discover the hidden rules that take three numbers and return true or false.
+                            You will complete 10 different tests, with up to 30 attempts per test.
+                        </p>
+                        <button className="button" onClick={startNewGame}>
+                            Start Test Series
+                        </button>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </ScrollArea>
+                );
+            }
 
-            <div className="flex space-x-4">
-              <Button onClick={() => {
-                setGameState('initial');
-                setRemainingTests([]);
-                setCompletedTests([]);
-              }}>Start New Series</Button>
-              <Button onClick={handleCopySummary} className="flex items-center gap-2">
-                <Copy className="w-4 h-4" />
-                Copy Results
-              </Button>
-            </div>
+            // Complete summary view
+            if (gameState === 'complete') {
+                const averageAttempts = completedTests.reduce((sum, test) => sum + test.attemptsUsed, 0) / completedTests.length;
+                
+                return (
+                    <div className="card">
+                        <h2 style={{fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem'}}>
+                            Test Series Complete!
+                        </h2>
+                        <div style={{marginBottom: '1rem'}}>
+                            <div className="bg-gray">
+                                <h3 style={{fontWeight: 'bold', marginBottom: '0.5rem'}}>Summary Statistics</h3>
+                                <p>Average test cases used: {averageAttempts.toFixed(2)}</p>
+                            </div>
 
-            {errorMessage && (
-              <Alert variant="info" className="mt-2">
-                <AlertDescription>{errorMessage}</AlertDescription>
-              </Alert>
-            )}
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
+                            <div className="scroll-area">
+                                {completedTests.map((test, index) => (
+                                    <div key={index} className="bg-gray" style={{marginBottom: '1rem'}}>
+                                        <h3 style={{fontWeight: 'bold', marginBottom: '0.5rem'}}>
+                                            Test {test.ruleId}
+                                        </h3>
+                                        <div className="grid">
+                                            <div>
+                                                <p style={{fontWeight: 'bold'}}>Actual Rule:</p>
+                                                <p>{test.actualRule}</p>
+                                            </div>
+                                            <div>
+                                                <p style={{fontWeight: 'bold'}}>Your Guess:</p>
+                                                <p>{test.guess}</p>
+                                            </div>
+                                            <div>
+                                                <p style={{fontWeight: 'bold'}}>Attempts Used: {test.attemptsUsed}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
 
-  return (
-    <Card className="w-full max-w-2xl mx-auto">
-      <CardHeader>
-        <CardTitle>Wason Inductive Logic Test</CardTitle>
-      </CardHeader>
-      <CardContent>
-        {gameState === 'playing' ? (
-          <>
-            <div className="mb-4">
-              <div className="flex justify-between items-center">
-                <p className="text-lg font-semibold">Attempts Remaining: {attempts}</p>
-                <p className="text-lg font-semibold">Test {currentRule.id} of 10</p>
-              </div>
-              
-              {errorMessage && (
-                <Alert variant="destructive" className="mt-2">
-                  <AlertDescription>{errorMessage}</AlertDescription>
-                </Alert>
-              )}
+                            <div className="flex">
+                                <button 
+                                    className="button"
+                                    onClick={() => {
+                                        setGameState('initial');
+                                        setRemainingTests([]);
+                                        setCompletedTests([]);
+                                    }}
+                                >
+                                    Start New Series
+                                </button>
+                                <button className="button" onClick={handleCopySummary}>
+                                    Copy Results
+                                </button>
+                            </div>
 
-              <form onSubmit={handleTestCase} className="mt-4 space-y-4">
-                <div className="flex space-x-2">
-                  <input
-                    type="text"
-                    value={input1}
-                    onChange={(e) => setInput1(e.target.value)}
-                    placeholder="x"
-                    className="border p-2 w-24 rounded"
-                    disabled={gameState !== 'playing' || attempts === 0}
-                  />
-                  <input
-                    type="text"
-                    value={input2}
-                    onChange={(e) => setInput2(e.target.value)}
-                    placeholder="y"
-                    className="border p-2 w-24 rounded"
-                    disabled={gameState !== 'playing' || attempts === 0}
-                  />
-                  <input
-                    type="text"
-                    value={input3}
-                    onChange={(e) => setInput3(e.target.value)}
-                    placeholder="z"
-                    className="border p-2 w-24 rounded"
-                    disabled={gameState !== 'playing' || attempts === 0}
-                  />
-                  <Button 
-                    type="submit" 
-                    disabled={!canSubmitTest()}
-                    onClick={handleTestCase}
-                  >
-                    Test
-                  </Button>
+                            {errorMessage && (
+                                <div className="alert alert-info">
+                                    {errorMessage}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                );
+            }
+
+            // Main game view
+            return (
+                <div className="card">
+                    <h2 style={{fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem'}}>
+                        Wason Inductive Logic Test
+                    </h2>
+                    
+                    {gameState === 'playing' ? (
+                        <>
+                            <div style={{marginBottom: '1rem'}}>
+                                <div className="flex justify-between">
+                                    <p style={{fontSize: '1.125rem', fontWeight: 'bold'}}>
+                                        Attempts Remaining: {attempts}
+                                    </p>
+                                    <p style={{fontSize: '1.125rem', fontWeight: 'bold'}}>
+                                        Test {currentRule.id} of 10
+                                    </p>
+                                </div>
+                                
+                                {errorMessage && (
+                                    <div className="alert alert-error">
+                                        {errorMessage}
+                                    </div>
+                                )}
+
+                                <form onSubmit={handleTestCase} style={{marginTop: '1rem'}}>
+                                    <div className="flex">
+                                        <input
+                                            type="text"
+                                            value={input1}
+                                            onChange={(e) => setInput1(e.target.value)}
+                                            placeholder="x"
+                                            className="input"
+                                            style={{width: '6rem'}}
+                                            disabled={gameState !== 'playing' || attempts === 0}
+                                        />
+                                        <input
+                                            type="text"
+                                            value={input2}
+                                            onChange={(e) => setInput2(e.target.value)}
+                                            placeholder="y"
+                                            className="input"
+                                            style={{width: '6rem'}}
+                                            disabled={gameState !== 'playing' || attempts === 0}
+                                        />
+                                        <input
+                                            type="text"
+                                            value={input3}
+                                            onChange={(e) => setInput3(e.target.value)}
+                                            placeholder="z"
+                                            className="input"
+                                            style={{width: '6rem'}}
+                                            disabled={gameState !== 'playing' || attempts === 0}
+                                        />
+                                        <button 
+                                            className="button"
+                                            type="submit" 
+                                            disabled={!validateInput(input1) || !validateInput(input2) || !validateInput(input3)}
+                                        >
+                                            Test
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div className="scroll-area">
+                                {testHistory.map((test, index) => (
+                                    <div key={index} style={{marginBottom: '0.25rem'}}>
+                                        {test.input} → {test.result.toString()}
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div style={{marginTop: '1rem'}}>
+                                <form onSubmit={handleFinalGuess}>
+                                    <div style={{marginBottom: '0.5rem'}}>
+                                        <label style={{display: 'block', fontWeight: 'bold', marginBottom: '0.5rem'}}>
+                                            Enter your guess for the rule:
+                                        </label>
+                                        <textarea
+                                            value={finalGuess}
+                                            onChange={(e) => setFinalGuess(e.target.value)}
+                                            className="input"
+                                            style={{width: '100%', minHeight: '5rem'}}
+                                            disabled={gameState !== 'playing'}
+                                        />
+                                        <button 
+                                            className="button"
+                                            type="submit"
+                                            disabled={!finalGuess.trim()}
+                                            style={{marginTop: '0.5rem'}}
+                                        >
+                                            Submit Final Guess
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </>
+                    ) : (
+                        <div style={{marginTop: '1rem'}}>
+                            <div className="bg-gray" style={{marginBottom: '1rem'}}>
+                                <h3 style={{fontWeight: 'bold', marginBottom: '0.5rem'}}>Your Guess:</h3>
+                                <p>{finalGuess}</p>
+                            </div>
+                            
+                            <div className="bg-gray" style={{marginBottom: '1rem'}}>
+                                <h3 style={{fontWeight: 'bold', marginBottom: '0.5rem'}}>Actual Rule:</h3>
+                                <p>{currentRule.desc}</p>
+                            </div>
+                            
+                            <div className="bg-gray" style={{marginBottom: '1rem'}}>
+                                <h3 style={{fontWeight: 'bold', marginBottom: '0.5rem'}}>Test Statistics:</h3>
+                                <p>Number of test cases used: {30 - attempts}</p>
+                                <p>Tests remaining: {remainingTests.length}</p>
+                            </div>
+
+                            <button 
+                                className="button"
+                                onClick={startNewGame}
+                            >
+                                {remainingTests.length > 1 ? 'Start Next Test' : 'View Final Results'}
+                            </button>
+                        </div>
+                    )}
                 </div>
-              </form>
-            </div>
+            );
+        };
 
-            <ScrollArea className="h-48 border rounded p-4 mb-4">
-              {testHistory.map((test, index) => (
-                <div key={index} className="mb-1">
-                  {test.input} → {test.result.toString()}
-                </div>
-              ))}
-            </ScrollArea>
-
-            <div className="mt-4">
-              <form onSubmit={handleFinalGuess}>
-                <div className="space-y-2">
-                  <label className="block font-medium">
-                    Enter your guess for the rule:
-                  </label>
-                  <textarea
-                    value={finalGuess}
-                    onChange={(e) => setFinalGuess(e.target.value)}
-                    className="w-full border p-2 rounded"
-                    rows="3"
-                    disabled={gameState !== 'playing'}
-                  />
-                  <Button 
-                    type="submit"
-                    disabled={!canSubmitGuess()}
-                    onClick={handleFinalGuess}
-                  >
-                    Submit Final Guess
-                  </Button>
-                </div>
-              </form>
-            </div>
-          </>
-        ) : (
-          <div className="space-y-4">
-            <div className="p-4 bg-gray-50 rounded">
-              <h3 className="font-semibold mb-2">Your Guess:</h3>
-              <p>{finalGuess}</p>
-            </div>
-            
-            <div className="p-4 bg-gray-50 rounded">
-              <h3 className="font-semibold mb-2">Actual Rule:</h3>
-              <p>{currentRule.desc}</p>
-            </div>
-            
-            <div className="p-4 bg-gray-50 rounded">
-              <h3 className="font-semibold mb-2">Test Statistics:</h3>
-              <p>Number of test cases used: {30 - attempts}</p>
-              <p>Tests remaining: {remainingTests.length}</p>
-            </div>
-
-            <Button onClick={startNewGame}>
-              {remainingTests.length > 1 ? 'Start Next Test' : 'View Final Results'}
-            </Button>
-          </div>
-        )}
-      </CardContent>
-    </Card>
-  );
-};
-
-export default WasonTest;
+        // Render the component
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<WasonTest />);
+    </script>
+</body>
+</html>
