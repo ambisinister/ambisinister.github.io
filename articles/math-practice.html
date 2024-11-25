@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Practice - Addition Problems</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .problem {
+            font-size: 2rem;
+            margin: 2rem 0;
+        }
+        input {
+            font-size: 1.5rem;
+            width: 100px;
+            padding: 0.5rem;
+            text-align: center;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+        }
+        .feedback {
+            transition: background-color 0.3s;
+            padding: 1rem;
+            border-radius: 5px;
+        }
+        .correct {
+            background-color: #90EE90;
+        }
+        .incorrect {
+            background-color: #FFB6C1;
+        }
+        .stats {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="practice" class="practice">
+            <h1>Addition Practice</h1>
+            <p>Solve 25 addition problems as quickly as you can!</p>
+            <button id="start" onclick="startPractice()">Start Practice</button>
+            <div id="problem" class="problem hidden"></div>
+            <input type="number" id="answer" class="hidden" onkeyup="checkAnswer(event)">
+            <div id="feedback" class="feedback"></div>
+        </div>
+        <div id="results" class="hidden">
+            <h2>Practice Complete!</h2>
+            <div class="stats">
+                <p>Correct answers: <span id="score">0</span>/25</p>
+                <p>Time taken: <span id="time">0:00</span></p>
+            </div>
+            <button onclick="location.reload()">Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        let problems = [];
+        let currentProblem = 0;
+        let correctAnswers = 0;
+        let startTime;
+        let firstNum, secondNum;
+
+        function generateProblems() {
+            for (let i = 0; i < 25; i++) {
+                firstNum = Math.floor(Math.random() * 90) + 10;  // 10-99
+                secondNum = Math.floor(Math.random() * 90) + 10; // 10-99
+                problems.push({
+                    num1: firstNum,
+                    num2: secondNum,
+                    answer: firstNum + secondNum
+                });
+            }
+        }
+
+        function displayProblem() {
+            if (currentProblem < problems.length) {
+                const problem = problems[currentProblem];
+                document.getElementById('problem').textContent = 
+                    `${problem.num1} + ${problem.num2} = `;
+                document.getElementById('answer').value = '';
+                document.getElementById('feedback').className = 'feedback';
+            } else {
+                showResults();
+            }
+        }
+
+        function startPractice() {
+            generateProblems();
+            document.getElementById('start').classList.add('hidden');
+            document.getElementById('problem').classList.remove('hidden');
+            document.getElementById('answer').classList.remove('hidden');
+            startTime = new Date();
+            displayProblem();
+            document.getElementById('answer').focus();
+        }
+
+        function checkAnswer(event) {
+            if (event.key === 'Enter') {
+                const userAnswer = parseInt(document.getElementById('answer').value);
+                const correctAnswer = problems[currentProblem].answer;
+                const feedback = document.getElementById('feedback');
+
+                if (userAnswer === correctAnswer) {
+                    feedback.textContent = 'Correct!';
+                    feedback.classList.add('correct');
+                    correctAnswers++;
+                    setTimeout(() => {
+                        currentProblem++;
+                        displayProblem();
+                        document.getElementById('answer').focus();
+                        feedback.classList.remove('correct');
+                    }, 300);
+                } else {
+                    feedback.textContent = 'Try again!';
+                    feedback.classList.add('incorrect');
+                    setTimeout(() => {
+                        feedback.classList.remove('incorrect');
+                        document.getElementById('answer').value = '';
+                        document.getElementById('answer').focus();
+                    }, 300);
+                }
+            }
+        }
+
+        function showResults() {
+            const endTime = new Date();
+            const timeDiff = Math.round((endTime - startTime) / 1000);
+            const minutes = Math.floor(timeDiff / 60);
+            const seconds = timeDiff % 60;
+            
+            document.getElementById('practice').classList.add('hidden');
+            document.getElementById('results').classList.remove('hidden');
+            document.getElementById('score').textContent = correctAnswers;
+            document.getElementById('time').textContent = 
+                `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+    </script>
+</body>
+</html>
