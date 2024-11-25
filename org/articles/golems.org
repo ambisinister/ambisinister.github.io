@@ -198,9 +198,7 @@ So can artificial systems conceivably posess internal mental states? What would 
 
 *** Reasoning Traces
 
-A recent trend in language modeling is "reasoning models": models which simulate "thinking" in addition to simply "speaking" in a manner similar to [[https://openai.com/index/learning-to-reason-with-llms/][OpenAI's o1]]. From a more cognitive lens, prior language models followed a more direct "Perceive $\rightarrow$ Act" formulation, and reasoning models fill out the perception-action cycle of "Perceive $\rightarrow$ Think $\rightarrow$ Act".
-
-This is a bit harder to model compared to the standard next-token prediction objective. These models are typically trained via reinforcement learning to navigate chains of thought. <There should be some work on this soon, read the shrush paper list>.
+A recent trend in language modeling is "reasoning models": models which simulate "thinking" in addition to simply "speaking" in a manner similar to [[https://openai.com/index/learning-to-reason-with-llms/][OpenAI's o1]]. From a more cognitive lens, prior language models followed a more direct "Perceive $\rightarrow$ Act" formulation, and reasoning models fill out the perception-action cycle of "Perceive $\rightarrow$ Think $\rightarrow$ Act". This is a bit harder to model compared to the standard next-token prediction objective. These models are typically trained via reinforcement learning to navigate chains of thought, in a manner akin to [[https://deepmind.google/discover/blog/alphazero-shedding-new-light-on-chess-shogi-and-go/][AlphaZero]], a superhuman Go program which achieves superhuman performance at board games entirely through self-play.
 
 Introducing this thinking component has been shown to improve performance: a proto-variant of this can be observed in earlier language model work which saw improvements via instructing the model to [[https://arxiv.org/pdf/2201.11903][think out loud]], and reasoner models add additional thinking-like controls like "searching along different ideas" and "backtracking when ideas do not work".
 
@@ -241,17 +239,9 @@ But something about this still doesn't feel quite right, even still. Does this r
 
 An interesting starting point to answer this question is the concept of [[https://en.wikipedia.org/wiki/Qualia][qualia]], an instance of subjective conscious experience. Things which are describable as qualia are things like "how pain feels" or "how red looks hot". The relatively famous armchair philosophy question "how can we know that my blue and your blue look the same?" is, in fact, a famous question about qualia originally posed by [[https://en.wikipedia.org/wiki/Inverted_spectrum][John Locke]].
 
-Thomas Nagel has a notably influential perspective on this topic from his paper titled /[[https://en.wikipedia.org/wiki/What_Is_It_Like_to_Be_a_Bat%3F][What Is It Like to Be a Bat?]]/
+Thomas Nagel has a notably influential perspective on this topic from his paper titled /[[https://en.wikipedia.org/wiki/What_Is_It_Like_to_Be_a_Bat%3F][What Is It Like to Be a Bat?]]/. In that paper, Nagel argues that conscious mental states are only possible to define if there's "something that it is like to /be/ that organism". In the titular example, there's some sort of sense for what it's like to "be a bat", in the same way that there's a sense for what it's like to "be a human". You may understand what bats /do/, but Nagel claims that consciousness can only be explained if it's inclusive of subjective character of experience[fn:9] (that is: qualia). 
 
-https://en.wikipedia.org/wiki/Daniel_Dennett
-
-<need to flesh out>
-
-So, can golems have qualia?
-
-Another prominent thought experiment in philosophy of mind is the [[https://en.wikipedia.org/wiki/Philosophical_zombie][philosophical zombie]] or p-zombie.
-
-A p-zombie is a creature which is person who is fully physically identical to a human being but does not experience conscious experience. That is: a human being with the "lights shut off", who behaves largely indistinguishibly from a human. A p-zombie cannot feel pain, or love, or anything at all, but will precisely act as a human would in situations requiring them to display these behaviors. This is briefly explored more literally in /Sousou no Frieren/, where the characters fight clones of themselves who are identical but lack internal experience and speech[fn:4]:
+So, can golems have qualia? Another prominent thought experiment in philosophy of mind is the [[https://en.wikipedia.org/wiki/Philosophical_zombie][philosophical zombie]] or p-zombie, introduced by David Chalmers. A p-zombie is a creature which is person who is fully physically identical to a human being but does not experience conscious experience. That is: a human being with the "lights shut off", who behaves largely indistinguishibly from a human. A p-zombie cannot feel pain, or love, or anything at all, but will precisely act as a human would in situations requiring them to display these behaviors. This is briefly explored more literally in /Sousou no Frieren/, where the characters fight clones of themselves who are identical but lack internal experience and speech[fn:4]:
 
 [[../images/from_clipboard/20241122_152001.png]]
 
@@ -278,6 +268,8 @@ We have a deep well of Animuses, performing arcane manipulations of energy and s
 There's probably an angle to see everything imaginable through this sort of lens. But this is why God invented fiction: it lets us see that there's magic in things we already see every day.
 
 * Footnotes
+
+[fn:9] Daniel Dennett, mentioned earlier, is a notable opponent of this argument, claiming that these arguments are either unimportant or amenable to third-person observation. There's lots of discussion even today about whether this paper lays a good or bad foundation; turns out consciousness is very hard to talk about.
 
 [fn:8] This particular example seems like it's either some sort of freak low-probability sampling accident, some sort of external attack on the gemini chat interface, or a very sophisticated [[https://en.wikipedia.org/wiki/Steganography][straganographic prompt injection technique]] which communicates a hidden command to the language model with that command being fully invisible to the user. I was nerdsniped by this for about two hours but did not make any progress figuring out which it could be, very possible this is less random than it appears.
 
