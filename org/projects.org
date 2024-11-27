@@ -3,168 +3,121 @@
    :PROPERTIES:
    :CUSTOM_ID: projects
    :END:
+   
+This website has a lot of random things on it, spanning from larger
+projects to notedumps on stuff that I'm learning about. As a result,
+it might be challenging to understand which of my projects might be
+interesting to you. Further confusing is the fact that my work is
+generally somewhat interdisciplinary, which means it might be
+difficult to identify what projects you would enjoy just based on the
+titles.
 
-The bulk of the content on this website contains what I consider to be
-larger projects of mine, scattered around a number of different topics.
-It might be somewhat too much to navigate naively, especially if you 
-are not interested in one topic or another. As a result, I maintain
-this page, which is a sort of "highlights reel" of what I consider to
-be some of my best work across various topics. 
+This page is an attempt to partially solve this: a sort of "start
+here" for my overall portfolio of stuff. Rather than being a list of
+my best projects, this page is something more like a representative
+sample of "good work done by Eryk". If you want to get to know me, and
+you ask me to show you something cool I did, these represent some good
+things I might show you.
 
-To be slightly more precise, I consider this page to be a representative
-sample of what "good work done by Eryk" means, rather than a list of my 
-10ish best projects. I figure this makes it more useful than just a [[https://planetbanatt.net/resume.pdf][resume]] 
-since most people aren't usually interested in digging around the projects
-in a resume anyways. If you want to get to know me, and you ask me to show
-you something cool I did, these represent some good things I might show you.
+--------------
+** [[https://arxiv.org/abs/2410.10998][WILT: A Multi-Turn, Memorization-Robust Inductive Logic Benchmark for LLMs]]
+
+[[../images/from_clipboard/20241127_144501.png]]
+
+My professional life revolves around machine learning, particularly in
+spots where that could add value to video games. Large language models
+(LLMs) are a really promising technology for this, but are mostly
+evaluated in a single-turn manner. In comparison, many gaming use
+cases that could leverage LLMs would involve multi-turn interaction
+with a player, which is a component that is comparatively
+understudied. In this work, we introduce a benchmark based on the
+Wason 2-4-6 task which measures a model's ability to gather evidence
+and infer a hidden rule (e.g. x < y < z). Our work was fortunate
+enough to be accepted to the [[https://openreview.net/forum?id=TsAvsEoh0D][NeurIPS 2024 MATH-AI Workshop]]. [[https://x.com/erykbanatt/status/1846406365591253449][Twitter
+Thread]] / [[https://planetbanatt.net/articles/wason.html][Original Weekend Project]]
 
 --------------
 ** [[https://planetbanatt.net/articles/deepseek.html][Understanding Modern LLMs via DeepSeek]]
 
 [[../images/from_clipboard/20240614_213621.png]]
 
-My professional work primarily revolves around Machine Learning, where
-my background is mostly in computer vision and language modeling. In
-this blogpost, I do a literature review walking through the entire
-body of [[https://www.deepseek.com/][DeepSeek]]'s LLM papers, which details the journey from roughly
-Llama 2 performance to roughly Llama 3 performance. I made this as an
-intense survey of Large Language Modeling literature, intended to
-bridge the gap between "knowing transformers" to "understanding modern
-LLMs".
+I read a lot of papers, and sometimes I'll write literature reviews
+synthesizing lots of related ones. In this blogpost, I do a literature
+review walking through a large portion of [[https://www.deepseek.com/][DeepSeek]]'s LLM papers, which
+details the journey from roughly Llama 2 performance to roughly Llama
+3 performance. I made this as an intense survey of Large Language
+Modeling literature, intended to bridge the gap between "knowing
+transformers" to "understanding modern LLMs".
 
 --------------
-** [[https://arxiv.org/pdf/2303.01003.pdf][Target Domain Data induces Negative Transfer in Multi-Source Classification under Category Shift]]
+** [[https://liquipedia.net/smash/SSBMRank][SSBMRank]]
 
-[[./images/misc/negtransfer.png]]
+[[../images/from_clipboard/20241127_150358.png]]
 
-In this work, we demonstrate that if training data is comprised of
-multiple domains split per-class (e.g. some classes have domain A, and
-other classes have domain B), then you will notice significantly
-hindered performance if one of those domains is the target domain.
-This is because the network learns to take an "intermediate shortcut"
-which does not go all the way to the class label (as studied in most
-shortcut learning papers), but rather narrows down the choices before
-making a decision. We show that this effect persists even when
-training with state-of-the-art domain adaptation techniques,
-suggesting it is a setting warranting further study.
---------------
-
-** [[https://planetbanatt.net/articles/lastdance.pdf][LASTDANCE: Layerwise Activation Similarity to Training Data for Assessing Non-Confirming Events]]
-
-[[./images/misc/trajectoriesresnet.png]]
-
-In this work, I develop an anomaly detection method which works in 
-scenarios where out-of-distribution points will overlap with in-distribution
-points (e.g. monte carlo dropout), making it unsuitable for both feature- 
-and label-based methods. The pre-preprint can be found [[https://planetbanatt.net/articles/lastdance.pdf][here]], and the code
-is available on [[https://github.com/ambisinister/LASTDANCE][github]].
+Aside from academic work, I also have made some contributions in the
+Super Smash Bros Melee community. While I have some very modest
+results as a player (Most notably a lucky run to top 64 at [[https://liquipedia.net/smash/GENESIS/8/Melee/Singles_Bracket][Genesis 8]]),
+I am primarily known for my work under the broad *[[https://meleestats.co/staff/][Melee Stats]]*
+umbrella, for which I am Creative Director. We've done a variety of
+things under this umbrella ([[https://www.youtube.com/playlist?list=PL1K1BWS15YRclWt562XDSKuM-7Nb49bQS][freelance content]] for esports teams, [[https://www.youtube.com/@MeleeStats][video
+essays]], and briefly sponsoring [[https://liquipedia.net/smash/Melee_Stats][14 different players in our free agent
+showcase]]), our most prominent project is SSBMRank, the yearly top 100
+rankings for the SSBM professional scene. This is primarily
+[[https://medium.com/@brendanwmalone][GimmeDatWheat]]'s brainchild, but I work as the data lead, where I
+crunch all the numbers and gather important data from tournaments.
 
 --------------
+** [[https://www.youtube.com/watch?v=z8llYT7KGdI][Michael vs Bananas - The Only Reason We Play Melee]]
 
-** [[https://planetbanatt.net/articles/itsa17.html][Auto-Rating ITG Stamina Charts with Machine Learning]]
+[[./images/misc/thumbnail_2.png]]
 
-[[./images/itsa17/umap_3feat.png]]
-
-I do machine learning in my free time, as well! In this project I used 
-some straightforward classical ML techniques, as well as sequence-to-one 
-models (RNN, LSTM) in order to automatically rate the difficulty of ITG
-Stamina charts, a 4 panel dance rhythm game similar to Dance Dance Revolution.
-Code for this project is available on [[https://github.com/ambisinister/itsa17][github]].
+You will occasionally see my name in longform video content. This work
+is probably my favorite: it's a video about rules. It covers a famous
+set where two professional players didn't move at all, surrounded by a
+huge crowd of screaming fans trying to make sense of what was
+happening. I like when these sorts of videos have something to say
+rather than just describing what happened, so there's a lot of
+commentary in this video on top of just recounting events.
 
 --------------
+** [[https://www.youtube.com/watch?v=Fg_7DcXwBlk][Plup vs Prince Abu - The Weirdest Set Ever Played]]
 
+[[./images/misc/thumbnail.png]]
+
+Our most highly-viewed video is the first one our team put out: a
+video about an obscure set that doesn't make any sense. This video
+currently has over 400,000 views on YouTube at the time of writing,
+and kickstarted [[https://www.youtube.com/channel/UCSkemv_CrepoaGxN4sAH5eA][our channel]], which now has over 25,000 subscribers.
+
+--------------
 ** [[https://cogsci.yale.edu/sites/default/files/files/Thesis2017Banatt.pdf][Input Latency Detection in Expert-Level Gamers]]
 
 [[./images/misc/latency.PNG]]
 
-My *Cognitive Science Senior Thesis at Yale University* was a visuomotor
-perception experiment in which I exposed tournament-level SSBM players
-(including some top-100 world-ranked players) to precisely timed flashes
-of light using an arduino microcontroller in order to test their ability
-to blindly determine the presence of input lag compared to a control
-group. SSBM tournament matches are all held on CRT Televisions, since
-even the fastest LCD monitors necessarily add delay in between your
-input and the picture being displayed, effectively slowing down your
-reaction time. This has led to certain players to claim they could
-notice input lag, even at single-digit-millisecond levels. This
-experiment found a large and significant difference in perceptual
-ability between tournament-level gamers and a control group, and
-suggested the existence of such a perceptual effect to be somewhat
-plausible. A slightly abridged version with additional commentary 
-can be found [[http://planetbanatt.net/articles/lagless.html][here]]. 
---------------
-** [[http://planetbanatt.net/articles/ambistats.html][Making Sense of Melee: The Illusion of Objective Ranks and the Real Impact of Everything]]
-
-[[./images/ambistats/winrates_good.png]]
-
-Aside from academic work, I've also done some statistics and data
-visualization work within the *Melee Community* under the broad *[[https://meleestats.co/staff/][Melee
-Stats]]* umbrella, for which I am Creative Director. The most prominent
-of these is /Making Sense of Melee/ - a longform statistics writeup in
-which I explore a variety of topics, including flaws in popular
-ranking algorithms, the accuracy of seeding at national tournaments (a
-topic I was [[http://www.espn.com/esports/story/_/id/20580441/smash-bros-seeding-not-secretive-suspected][interviewed by ESPN esports]] about in 2017), and
-probabilities to win against players at differing skill levels. The
-post received more than 50,000 hits, reaching [[https://news.ycombinator.com/item?id=16255910][#6 on Hacker News]].
-
---------------
-** [[https://www.youtube.com/watch?v%3DFg_7DcXwBlk&ab_channel%3DMeleeStats][Plup vs Prince Abu - The Weirdest Set Ever Played]]
-
-[[./images/misc/thumbnail.png]]
-
-You will occasionally see my name in longform video content, also,
-where I am probably most known for this video about one of my favorite
-sets of Super Smash Brothers Melee. The video currently has over
-300,000 views on YouTube at the time of writing, and kickstarted [[https://www.youtube.com/channel/UCSkemv_CrepoaGxN4sAH5eA][our
-channel]], which now has over 25,000 subscribers.
-
---------------
-** [[https://www.youtube.com/watch?v%3Dz8llYT7KGdI&ab_channel%3DMeleeStats][Michael vs Bananas - The Only Reason We Play Melee]]
-
-[[./images/misc/thumbnail_2.png]]
-
-A co-project I did with my good friend [[https://twitter.com/gimmedatwheat?lang%3Den][GimmeDatWheat]]. This particular
-set is very famous for the fact that in game 2 neither player played
-the game at all. We decided it would be good to make a video about the
-construct of community-defined rules in competitive gaming, and about
-why people like playing this game at all in the first place.
-
---------------
-
-** [[http://planetbanatt.net/articles/Bracket_Stamina.pdf][Bracket Stamina: Inferring the Intent of Other Agents in a Multiplayer Kelly Coin Flip Game]] 
-
-[[./images/misc/bracketstam.png]]
-
-In this work, we outline a multiplayer variant of the Kelly Coin Flip
-Game, which requires a player to guess the opponent's wager and
-conserve as many resources as possible. We train a Deep Q-Network to
-play this game, and substantially outperform a policy which selects a
-random value to wager.  We test this with human players and find that
-it plays at about average compared to human players playing for the
-first time, suggesting that a competent social agent may have an
-advantage at this game compared to a player with no conception of the
-other player's intent. Code can be found [[https://github.com/ambisinister/bracketstamina][here]].
-
---------------
-
-** [[https://github.com/ambisinister/blindsolve][Rubik's Cube 3x3 Blind Memorization Trainer]]
-
-[[./images/misc/scramble.png]]
-
-I have a passing interest in Memory Sports, and I used to do a lot of
-twisty puzzles in my younger days. I never learned to solve a 3x3
-blindfolded, so I wanted to build something where I could learn it by
-isolating memorization and execution steps. So, I built this super
-simple app with Flask. Rather than inputting the moves, you input the
-[[https://www.speedcubereview.com/blind-solving-algorithms.html][letter pairs from this tutorial]] which will automatically apply the
-correct moves to the virtual cube. Code is available via [[https://github.com/ambisinister/blindsolve][github]].
+As an academic and a melee player, I often get nerdsniped by questions
+raised by community members. My cognitive science senior thesis at
+Yale University was a visuomotor perception experiment in which I
+exposed tournament-level SSBM players (including some top-100
+world-ranked players) to precisely timed flashes of light using an
+arduino microcontroller in order to test their ability to blindly
+determine the presence of input lag compared to a control group. SSBM
+tournament matches are all held on CRT Televisions, since even the
+fastest LCD monitors necessarily add delay in between your input and
+the picture being displayed, effectively slowing down your reaction
+time. This has led to certain players to claim they could notice input
+lag, even at single-digit-millisecond levels. This experiment found a
+large and significant difference in perceptual ability between
+tournament-level gamers and a control group, and suggested the
+existence of such a perceptual effect to be somewhat plausible. A
+slightly abridged version with additional commentary can be found
+[[http://planetbanatt.net/articles/lagless.html][here]].
 
 --------------
 ** [[http://planetbanatt.net/articles/personainsmash.html][Predicting Personality with Playstyle in Super Smash Brothers]]
  
 [[./images/personality/extraversion_cool.png]]
 
-To get to the bottom of the very common hypothesis that playstyle in
+Another such question is the very common hypothesis that playstyle in
 Super Smash Brothers correlates in some meaningful way with
 personality, I conducted an informal survey which administered a Big
 Five Personality test alongside questions about in-game variables like
@@ -172,59 +125,36 @@ playstyle or character. After 1754 participants (!) completed the
 survey, I found a modest but significant relationship between some
 factors and playstyle question responses.
 
---------------
-** [[http://planetbanatt.net/articles/hitbox.html][GameCube Controllers in the Era of SmashBox]]
+-------------
+** [[https://planetbanatt.net/articles/golems.html][Humanity's Butterfly: Notes on Maimakterion]]
 
-[[./images/smashbox/results2.JPG]]
+[[../images/from_clipboard/20241127_152109.png]]
 
-In which I wired tact switches to precise analog values on a GameCube
-controller to emulate
-[[https://www.youtube.com/watch?v=UM-NKXS1m2I][SmashBox]] functionality
-without sacrificing analog control or previously built muscle memory.
-The video I made for this project proved extremely controversial,
-amassing 10,000 views on
-[[https://www.youtube.com/watch?v=zwwc0HjXd1k][YouTube]] and over 200
-comments on
-[[https://www.reddit.com/r/SSBM/comments/5jur1w/gamecube_controllers_in_the_era_of_smashbox/][Reddit]].
-
---------------
-** [[http://planetbanatt.net/articles/health.html][Optimizing Health with Cronometer]]
-
-[[./images/health/weightloss_1_2017.png]]
-
-Chronicles my 40-lb weight loss near the end of my undergraduate life.
-To accomplish this goal (which took only a few months), I read a number
-of papers in nutritional science, synthesized a game plan, and measured
-every single piece of food I ate for several months to assess the
-validity of my approach. I tracked my food intake using
-[[https://cronometer.com/][Cronometer]] and adhered to a calorie
-counting regime for a short while, and at the end made some charts based
-upon my weight over time and the foods I ate. In the end I lost weight
-at a constant rate, with the linear regression's R-squared resulting a
-staggering 0.98, despite not adhering to any specific macronutrient
-balance.
+I will occasionally write essays about anime and manga, as well, when
+things I read intersect with media that I'm interested in. In this
+essay, I analyze a short-lived antagonist in /[[https://en.wikipedia.org/wiki/Lucifer_and_the_Biscuit_Hammer][Lucifer and the Biscuit
+Hammer]]/. He is a speaking, shapeshifting golem who learns to speak and
+manipulate humans by reading lots of books. I compare this to
+modern-day large language models, and point out ways in which this
+character differs from traditional kabbalist golem iconography.
 
 --------------
 ** [[http://planetbanatt.net/articles/pingpongzen.html][Zen in the Art of Ping Pong The Animation]]
 
 [[./images/ppta/fly.png]]
 
-I analyze Zen themes in the storylines of cult classic sports anime
-[[http://www.crunchyroll.com/ping-pong-the-animation][Ping Pong The
-Animation]]. If you're more about my empirical projects, this might not
-be quite up your alley. However, if you've seen the show I'm confident
-this essay will shed some interesting perspective on it, and if you
-haven't seen the show then I'm confident you're missing out on one of
-the best pieces of media ever made.
+Another anime-related essay is this one, where I analyze Zen themes in
+the storylines of cult classic sports anime [[http://www.crunchyroll.com/ping-pong-the-animation][Ping Pong The Animation]]. I
+often see this show beloved by people who enjoy competing at
+tournaments, but some light familiarity with East Asian philosophy can
+improve the viewing experience substantially.
 
 --------------
 
-Some smaller projects and writings of mine are scattered around this
-website, since I use this website as a sort of journal / garage /
-desk-with-papers-scattered-all-over it. You can find more about me over
-at the [[http://planetbanatt.net/about.html][About]] page, you can find
-my Resume [[http://planetbanatt.net/resume.pdf][Here]], and you can keep
-up with what I'm up to over at the
-[[http://planetbanatt.net/links.html][Links]] page.
+Many other projects and writings of mine are scattered around this
+website, since I use this space as a sort of journal / garage /
+desk-with-papers-scattered-all-over it. You can find more about me
+over at the [[http://planetbanatt.net/about.html][About]] page, you can find my Resume [[http://planetbanatt.net/resume.pdf][Here]], and you can keep
+up with what I'm up to over at the [[http://planetbanatt.net/links.html][Links]] page.
 
 And, as always, more to come soon!
