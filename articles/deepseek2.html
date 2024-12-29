@@ -1,0 +1,1264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-12-28 Sat 22:50 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Deepseek Continued</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="./css/default_20240614.css" />
+<link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<h1 class="title">Deepseek Continued</h1>
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org0099209">DeepSeek Overview Part 2</a>
+<ul>
+<li><a href="#org05c392d">Intro</a></li>
+<li><a href="#orgd47d78e">Hidden Details</a>
+<ul>
+<li><a href="#org006fae5">DeepSeek-V2.5</a></li>
+<li><a href="#org76e28f6">DeepSeek-R1</a></li>
+</ul>
+</li>
+<li><a href="#org3827c12">Expert-Specialized Fine-Tuning</a>
+<ul>
+<li><a href="#org5f43325">LoRA</a></li>
+<li><a href="#org60d06b6">ESFT</a></li>
+</ul>
+</li>
+<li><a href="#orgdef3f71">DeepSeek-Prover-V1.5</a>
+<ul>
+<li><a href="#org87e3b6b">Aside: Monte-Carlo Tree Search</a></li>
+<li><a href="#orgc2f9951">SFT</a></li>
+<li><a href="#orge01bb6c">Reinforcement Learning from Proof Assistant Feedback</a></li>
+<li><a href="#org9dff850">Exploration-oriented MCTS</a>
+<ul>
+<li><a href="#orgebbd270">Applying MCTS</a></li>
+<li><a href="#org4000868">Intrinsic Rewards and Parallelization</a></li>
+</ul>
+</li>
+<li><a href="#org3bbbc57">Takeaways</a></li>
+</ul>
+</li>
+<li><a href="#orgb2693e9">Auxiliary-Loss-Free Load Balancing Strategy for Mixture-of-Experts</a></li>
+<li><a href="#orgc422e6a">Janus: Decoupling Visual Encoding for Unified Multimodal Understanding and Generation</a>
+<ul>
+<li><a href="#orgac6b14d">Chameleon</a></li>
+<li><a href="#org31edcfc">LlamaGen</a></li>
+<li><a href="#org008d79e">Janus</a></li>
+</ul>
+</li>
+<li><a href="#org624facc">JanusFlow: Harmonizing Autoregression and Rectified Flow for Unified Multimodal Understanding and Generation</a>
+<ul>
+<li><a href="#org29c0ddd">Rectified Flow</a></li>
+<li><a href="#org75827e9">Representation Alignment for Generation</a></li>
+<li><a href="#orgc0c5c26">ConvNeXt</a></li>
+<li><a href="#org1b09666">JanusFlow</a></li>
+</ul>
+</li>
+<li><a href="#org4e0b6b1">DeepSeek-VL2</a>
+<ul>
+<li><a href="#orgc5daf88">InternVL</a></li>
+<li><a href="#org5bacadb">Architecture and Training</a></li>
+<li><a href="#orga2dcbc5">New Capabilities</a></li>
+<li><a href="#org4aea3e4">Preregistered Future Work</a></li>
+</ul>
+</li>
+<li><a href="#org38bb93c"><span class="todo TODO">TODO</span> DeepSeek-V3</a></li>
+<li><a href="#orgf91f49b">Conclusion</a></li>
+<li><a href="#org943fb71"><span class="todo TODO">TODO</span> List</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org0099209" class="outline-1">
+<h1 id="org0099209">DeepSeek Overview Part 2</h1>
+<div class="outline-text-1" id="text-org0099209">
+</div>
+<div id="outline-container-org05c392d" class="outline-2">
+<h2 id="org05c392d">Intro</h2>
+<div class="outline-text-2" id="text-org05c392d">
+<p>
+Perhaps unsurprisingly, DeepSeek has continued to publish papers since <a href="https://planetbanatt.net/articles/deepseek.html">my previous overview</a> on their published works. That overview covered the path from DeepSeek-LLM to DeepSeek-V2-Coder, and rather than make it even longer<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>, I decided to spin off a new literature review for their journey from V2-Coder to V3.
+</p>
+
+<p>
+Broadly speaking, since working on V2-Coder, DeepSeek has published work in three bins:
+</p>
+<ul class="org-ul">
+<li>Improvements to training Mixture-of-Experts Models</li>
+<li>Enabling the training of Reasoner Models like OpenAI o1</li>
+<li>Progress on vision and multimodal models</li>
+</ul>
+
+<p>
+None of these should be too surprising for the astute reader: DeepSeek's preregistered plans in the conclusion sections of their papers at the time of the previous review were:
+</p>
+<ul class="org-ul">
+<li>A large MoE Vision-Language Model</li>
+<li>A multimodal model similar to OpenAI's GPT-4o</li>
+<li>A GPT-4 Level Model</li>
+<li>Alignment work (specifically "align with human values, minimize the need for human supervision")</li>
+</ul>
+
+<p>
+So it makes a lot of sense that they would tackle the things they did. 
+</p>
+
+<p>
+This document is a work in progress.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd47d78e" class="outline-2">
+<h2 id="orgd47d78e">Hidden Details</h2>
+<div class="outline-text-2" id="text-orgd47d78e">
+<p>
+Currently there are a number of things that DeepSeek has publicly shown, which have no technical reports attached to them. It's sort of important to lead with this: some of these things are used and referenced in the papers that follow despite being sort of loosely floating products, and the context behind them is necessary to understand.
+</p>
+</div>
+
+<div id="outline-container-org006fae5" class="outline-3">
+<h3 id="org006fae5">DeepSeek-V2.5</h3>
+<div class="outline-text-3" id="text-org006fae5">
+<p>
+DeepSeek released this very interesting <a href="https://x.com/deepseek_ai/status/1832026579180163260">V2.5</a> model on September 6th, 2024. This model seemed to combine the two versions (deepseek-chat and deepseek-coder) into a single endpoint, which was roughly the same level as the best of each model on a given task.
+</p>
+
+<p>
+This seemed to be achieved with some sort of model merging technique (a separate overview of mine on model merging can be found <a href="https://planetbanatt.net/articles/modelmerging.html">here</a>) but details are hazy and it's not clear what this model really was. On December 12th, they released a <a href="https://x.com/deepseek_ai/status/1866459740324458835">yet further updated version of this merged model</a>, again with just a weights drop and no technical report. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org76e28f6" class="outline-3">
+<h3 id="org76e28f6">DeepSeek-R1</h3>
+<div class="outline-text-3" id="text-org76e28f6">
+<p>
+DeepSeek released the lite preview of an o1-preview-like model with fully visible reasoning chains <a href="https://x.com/deepseek_ai/status/1859200141355536422">here</a>, on November 20th, 2024. This was a very interesting release: they reproduced OpenAI's AIME test-time scaling results, and the reasoning chains are a real joy to look at. But, there's no technical report, no weights, and no full version. 
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3827c12" class="outline-2">
+<h2 id="org3827c12">Expert-Specialized Fine-Tuning</h2>
+<div class="outline-text-2" id="text-org3827c12">
+<p>
+This paper can be found <a href="https://arxiv.org/abs/2407.01906">here</a>. It came out on July 2nd, 2024. Their twitter thread can be found <a href="https://x.com/deepseek_ai/status/1809086412991705550">here</a>. A minor note is that the lead author of this paper, <a href="https://x.com/wzihanw">Zihan Wang</a>, will regularly post translated interviews <a href="https://x.com/wzihanw/status/1861263524242042923">from Liang Wenfeng</a>, the <a href="https://x.com/wzihanw/status/1861671211261936038">founder of DeepSeek</a> &#x2013; these are also very insightful but slightly outside the scope of these writeups<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>.
+</p>
+
+<p>
+This is the first of DeepSeek's post-V2-coder improvements to MoE training. An important concept for fine-tuning large language models is Parameter Efficient Fine-Tuning, or PEFT. A good rule of thumb is that to train a language model, you need 4 times the memory compared to what you need to run it. This is because you have your model's parameters (1x), optimizer states for each parameter (<a href="https://arxiv.org/pdf/1412.6980">Adam</a> has two values, \(\alpha\) and \(\beta\), so 2x) and gradients for each parameter (1x). If you don't have a huge cluster, this really sucks, so a lot of time and energy has been put into figuring out how to finetune these models while using less computational resources<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>.
+</p>
+</div>
+
+<div id="outline-container-org5f43325" class="outline-3">
+<h3 id="org5f43325">LoRA</h3>
+<div class="outline-text-3" id="text-org5f43325">
+<p>
+If you've happened to read my post on <a href="https://planetbanatt.net/articles/mla.html">MLA</a> (or recall it from DeepSeek-V2), you might be familiar with <i>Rank Factorization</i>. This is the idea in linear algebra where you can turn one matrix \((a,b)\) into two matrices \((a, r), (r, b)\). A matrix of any shape can be decomposed into two matrices this way, but the lower the value of r the smaller the space of possible matrices that can be perfectly reconstructed.
+</p>
+
+<div style="display: flex; justify-content: center; padding: 2em 0;">
+  <video style="width: 80%; max-width: 640px;" controls autoplay loop muted>
+    <source src="../images/mla/LowRankDecomposition.mp4" type="video/mp4">
+    Your browser does not support videos
+  </video>
+</div>
+
+<p>
+We've already seen in DeepSeek-V2 that this idea can be used really effectively to reduce the KV Cache size, by putting it right in the attention computation. But this idea is also really useful for fine-tuning models without using so much memory. <a href="https://arxiv.org/abs/2106.09685">LoRA: Low-Rank Adaptation of Large Language Models</a> was a 2021 work which had a very simple idea behind it: if we think about approximating the <i>change in weights</i> before and after a full finetune with a low-rank matrix, we can directly train just a the two matrices \((a,r) \rightarrow (r,b)\) instead of the big matrix \((a,b)\), and then add the results together with our original network.
+</p>
+
+
+<div id="org60bb02f" class="figure">
+<p><img src="../images/from_clipboard/20241227_202228.png" alt="20241227_202228.png" />
+</p>
+</div>
+
+<p>
+This was a very good idea! The hypothesis here is that the change in weights lies inside a "low intrinsic rank", and you can make the value of \(r\) really small and still manage your fine-tune. This allowed regular end-users to start finetuning models, and sharing these smaller "LoRA adapters" instead of full finetuned models. All of this for no additional latency: if you matrix multiply the adapters together and add it to your original weights, it's just like you did a regular full finetune. These tend to not be as good as full finetunes (although some similar methods like <a href="https://www.answer.ai/posts/2024-04-26-fsdp-qdora-llama3.html">QDoRA</a> are sometimes easier to find good parameters for), but they make it possible to train big models with less memory (as opposed to not at all).
+</p>
+
+<p>
+There's two problems with just using LoRA for a big mixture-of-experts model with finegrained experts. First off, MoE models are big &#x2013; way, way bigger than dense models. Second, the experts are already really small &#x2013; way smaller than a typical FFN in a dense model. If you attach a lot of LoRA adapters to every single expert in every single layer, it doesn't really save you that many parameters compared to a full finetune.
+</p>
+
+<p>
+Relatedly, it feels sort of antithetical to the way MoE works in the first place. If you anthropomorphize two experts in your network (e.g. "good at math tokens" vs "good at cooking tokens"), then ideally you wouldn't want to touch the cooking ones at all if you're trying to finetune it on math problems. The traditional PEFT methods will touch all the parameters, a little bit, in a low rank sort of way. This is obviously appropriate for dense models, but it feels sort of icky for MoE models. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org60d06b6" class="outline-3">
+<h3 id="org60d06b6">ESFT</h3>
+<div class="outline-text-3" id="text-org60d06b6">
+
+<div id="org1e2540f" class="figure">
+<p><img src="../images/from_clipboard/20241227_203350.png" alt="20241227_203350.png" />
+</p>
+</div>
+
+<p>
+The idea behind ESFT is actually extremely easy to understand.
+</p>
+
+<ol class="org-ol">
+<li>Find out which experts are activated for your data</li>
+<li>Fully Fine-Tune Those Experts</li>
+<li>Keep the rest of the network frozen</li>
+</ol>
+
+<p>
+This all fundamentally depends on the insight that, in this highly specialized regime with a lot of really small experts, the set of experts which are turned on vary a lot by task, but are consistent between tasks of the same type. That is: two code tasks will activate mostly the same experts to each other, but virtually none of the same experts as a translation task. If this were not true, this would not be a useful method<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>. Thankfully, they got a nice result here!
+</p>
+
+
+<div id="org4344df7" class="figure">
+<p><img src="../images/from_clipboard/20241227_204437.png" alt="20241227_204437.png" />
+</p>
+</div>
+
+<p>
+The method they use isn't too different from what you'd expect, given the result of the experiment above. You sample from your dataset, you find the average affinity of all your experts to the tokens in your sampled data<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>, and you unfreeze all expert for whom their affinity is above some hyperparameter threshold.
+</p>
+
+
+<div id="orgaf41d7d" class="figure">
+<p><img src="../images/from_clipboard/20241227_205635.png" alt="20241227_205635.png" />
+</p>
+</div>
+
+<p>
+They show a number of finetunes with this method for different tasks upon DeepSeek-V2-Lite, and show that performance on finetuned tasks is better while performance on unrelated tasks stays roughly the same. It outperforms LoRA on performance, and it outperforms full fine-tune on both wall-time while being competitive performance-wise.
+</p>
+
+<p>
+To me this just makes perfect sense: for unrelated tasks, it's possible that the full forward pass before and after finetuning with ESFT would remain completely untouched, something very few other PEFT methods could ever claim. It's intuitive that this doesn't substantially damage unrelated tasks too much, and that it's parameter efficient and stable (it's just normal training, nothing special). It's just a little bit less parameter efficient than LoRA, but it does clearly better.
+</p>
+
+
+<div id="orga1f236f" class="figure">
+<p><img src="../images/from_clipboard/20241227_210629.png" alt="20241227_210629.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdef3f71" class="outline-2">
+<h2 id="orgdef3f71">DeepSeek-Prover-V1.5</h2>
+<div class="outline-text-2" id="text-orgdef3f71">
+<p>
+This paper can be found <a href="https://arxiv.org/abs/2408.08152">here</a>. It came out on August 15th, 2024. Their twitter thread can be found <a href="https://x.com/deepseek_ai/status/1824291724887208040">here</a>.
+</p>
+
+<p>
+You don't need to be too plugged into theorem proving literature to see the value here: it's a language model that uses Monte-Carlo Tree Search. I am not as plugged into the theorem proving community, so my overview of this paper will again be more focused on this paper's implications for language modeling in general.
+</p>
+</div>
+
+<div id="outline-container-org87e3b6b" class="outline-3">
+<h3 id="org87e3b6b">Aside: Monte-Carlo Tree Search</h3>
+<div class="outline-text-3" id="text-org87e3b6b">
+<p>
+<a href="https://en.wikipedia.org/wiki/Monte_Carlo_tree_search">Monte Carlo Tree Search</a>, or MCTS, is a search algorithm most commonly associated with board game solvers. <a href="https://www.davidsilver.uk/wp-content/uploads/2020/03/unformatted_final_mastering_go.pdf">AlphaGo</a> made heavy use of MCTS when it <a href="https://en.wikipedia.org/wiki/AlphaGo_versus_Lee_Sedol">defeated Lee Sedol</a> in 2016 (as did <a href="https://arxiv.org/pdf/1712.01815">AlphaZero</a> later on). The fundamental idea is searching a very large space of many possible moves by leveraging your ability to A: estimate the value of positions, and B: simulate a game from a given position ("rollout").
+</p>
+
+<p>
+MCTS works in four steps. First, selection: MCTS will traverse the tree by sampling the edges probabilistically based on the estimated values for each edge (i.e. more often picking what it thinks is the best move in each position) until it lands on a leaf node. Second, expansion: once the traversal lands on a leaf node which hasn't been rolled out, select a move there to create a new child node. Third, evaluation: that new node is "rolled out" to a completed simulated game, and a likely winner is ascertained<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>. Finally, backup: using the values of the winner of the rolled-out simulation, the values of each position of each parent node are updated &#x2013; moving towards a position where the rollout lost is likely bad, moving towards a position where the rollout won is likely good.
+</p>
+
+
+<div id="org2e16aad" class="figure">
+<p><img src="../images/from_clipboard/20241228_213907.png" alt="20241228_213907.png" />
+</p>
+</div>
+
+<p>
+This method of heuristic random search inside the space of possible actions is insanely powerful in these sorts of discretely enumerable settings. There's been much chatter about applying this sort of search method to language models, as well. There are two primary problems with this: the branching factor is very very high (many possible outputs each "turn", and the rollouts are a very large number of "turns"), and it's difficult to figure out what a good "value model" would be for this setting. But Prover-V1.5 will attempt to make some progress on this front.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc2f9951" class="outline-3">
+<h3 id="orgc2f9951">SFT</h3>
+<div class="outline-text-3" id="text-orgc2f9951">
+<p>
+Moving back to DeepSeek-Prover-V1.5, the supervised finetuning section is an interesting exercise in synthetic data generation, even compared to the already synthetic-data-heavy DeepSeek-Prover and DeepSeek-Math approaches. They do various data-collection-and-curation stuff in this step<sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></sup>, but the primary vector by which they improve the data in this step is by using DeepSeek-Coder-V2 236B to add explanatory reasoning to the lean dataset they created for the original deepseek-prover.
+</p>
+
+<p>
+They added natural language to their existing lean data in two ways: first, they add a block of text containing the full solution in natural language at the top of every proof block, second, they add natural language comments in the individual steps of the lean code. <a href="https://arxiv.org/pdf/2407.10040">Lean-STaR</a> did something similar, only using the first step (chain-of-thought \(\rightarrow\) lean tactic), but inserting natural language comments as well produces a stronger link between the natural language reasoning ability and the output lean tactics<sup><a id="fnr.8" class="footref" href="#fn.8" role="doc-backlink">8</a></sup>.
+</p>
+
+<p>
+Likewise, they train the model to separate the individual steps of a proof with a helpful "/- tactic state:" comment, which lets us consider each step as an easily parsable "node". This is not that important for this step, but will be really important later when we need to figure out how to truncate the proof at the step where it failed. 
+</p>
+
+<p>
+They trained their 7b parameter model on 9 billion tokens like this, using the standard methods.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge01bb6c" class="outline-3">
+<h3 id="orge01bb6c">Reinforcement Learning from Proof Assistant Feedback</h3>
+<div class="outline-text-3" id="text-orge01bb6c">
+<p>
+Recall from DeepSeekMath that DeepSeek's method for RL-based posttraining (Group Relative Policy Optimization) does not require a separately trained value model. They only need to sample a lot of responses, and to use a reward model to determine which of these responses are better than the average among the group samples.
+</p>
+
+<p>
+Since they don't need to train a value model, they can directly train using the proof assistant as the reward model: 1 if the output is correct, 0 if the output is not correct. It's important to note here that this is likely to be useless unless they select examples where some outputs are correct and some are incorrect: if all the sampled choices are wrong, the group provides no useful training signal, and if all the sampled choices are correct, this reward scheme can't prefer any of the responses to each other even if some are better/more efficient/etc.
+</p>
+
+<p>
+There's some vague allusions to structuring the training process to make this less likely:
+</p>
+
+<blockquote>
+<p>
+We select theorems for which DeepSeekProver-V1.5-SFT has a moderate success rate in generating correct proofs upon multiple attempts. This ensures that the model has room for improvement while still being able to receive positive
+feedback&#x2026; To mitigate this sparsity, we select training prompts that are challenging yet achievable for the supervised fine-tuned model, as described above&#x2026; Our prompt selection strategy is designed to likely include both correct and incorrect proofs among the candidates, aligning well with the group-relative nature of GRPO and thereby enhancing the training process.
+</p>
+</blockquote>
+
+<p>
+But no details on how this works. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9dff850" class="outline-3">
+<h3 id="org9dff850">Exploration-oriented MCTS</h3>
+<div class="outline-text-3" id="text-org9dff850">
+<p>
+So far we have a pretty straightforward pretraining \(\rightarrow\) SFT \(\rightarrow\) RL language modeling pipeline. The model being good at outputting lean means that now we can do some interesting things in inference: we can treat the language model as the rollout policy, and we can cut searches off based on the lean verifier failing at specific steps. Given that we know how MCTS works, using this framing and arming our lean proof generation model with MCTS is surprisingly doable. DeepSeek comes up with a strategy appropriately called "Truncate-and-Resume".
+</p>
+
+<p>
+We now have one of the gnarliest figures in the DeepSeek Corpus:
+</p>
+
+
+<div id="orgc3f1763" class="figure">
+<p><img src="../images/from_clipboard/20241227_214920.png" alt="20241227_214920.png" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgebbd270" class="outline-4">
+<h4 id="orgebbd270">Applying MCTS</h4>
+<div class="outline-text-4" id="text-orgebbd270">
+<p>
+Lean theorems will fail to compile once there is an error in the proof. We can treat each lean tactic as a node in a tree. We first will attempt to create a full proof. Once we run this whole proof, we can see if there's a node that fails: if there is, we truncate the node that fails, and we expand our search tree using Monte Carlo Tree Search, and terminate if we find a solution that compiles. So how can we make this compatible with the MCTS framing?
+</p>
+
+<p>
+For selection, they just make sure each node has a "virtual node", which attaches an imaginary child to each node, letting you expand from any node. To balance exploration and exploitation, it uses the <a href="https://www.cs.cornell.edu/courses/cs6783/2021fa/lec25.pdf">Upper Confidence Bound</a> (UCB) algorithm, which adds a bonus which grows the longer you do not select a node.
+</p>
+
+<p>
+For Expansion and Simulation, you can just attempt to generate a whole proof from whatever node you are currently expanding. These two emerge directly from the use of LLM as "policy" for this particular problem.
+</p>
+
+<p>
+For backpropagation, the extrinsic reward is 1 for a solved proof and 0 for an unsolved one. This introduces an annoying problem: we will never see this reward, since the search will terminate the moment it ever happens. To get around this, there needs to be an additional intrinsic reward.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4000868" class="outline-4">
+<h4 id="org4000868">Intrinsic Rewards and Parallelization</h4>
+<div class="outline-text-4" id="text-org4000868">
+<p>
+Because the reward being used in this framing is 1 for solved proof and 0 for unsolved proof, you get an extremely sparse reward signal. That is, it's very difficult to tell if you're making any useful progress at all, even if you're searching for a very long time. To fix this, they use something called "RMax" which just provides the maximum amount of reward whenever the agent creates a new node in the tree.
+</p>
+
+<p>
+In this setting, this is pretty much all the reward the agent ever gets to see (since if the actual reward is ever observed, the search just completes)
+</p>
+
+<p>
+Likewise, because the LLM in this work is not so large, efforts to search the tree can be parallelized across many GPUs. They describe three methods for increasing efficiency from <a href="https://dke.maastrichtuniversity.nl/m.winands/documents/multithreadedMCTS2.pdf">Parallel Monte Carlo Tree Search</a>:
+</p>
+
+<ul class="org-ul">
+<li>Root Parallelization: running lots of MCTS runners on multiple GPUs at once</li>
+<li>Tree Parallelization: using 32 thread workers for each tree iteration step</li>
+<li>Virtual Loss: To avoid race conditions, assume reward is 0 for anything still in progress during a calculation</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3bbbc57" class="outline-3">
+<h3 id="org3bbbc57">Takeaways</h3>
+<div class="outline-text-3" id="text-org3bbbc57">
+<p>
+The core objective of this paper is a direct line to the reasoning work. If we replaced the lean verifier in the RLPAF section with a regular reward model, and we replaced the truncation step in the Exploration-oriented MCTS with some sort of generic verifier, it seems possible to build a bridge from this work to building strong reasoning capability in any other topic.
+</p>
+
+<p>
+This remains a very difficult problem &#x2013; easier for code, math, theorem proving, and other easily constructable verifiers, but much harder for open-ended tasks. But now the other steps in the pipeline are well-established: if they solve one problem, the solution to another problem now falls out.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb2693e9" class="outline-2">
+<h2 id="orgb2693e9">Auxiliary-Loss-Free Load Balancing Strategy for Mixture-of-Experts</h2>
+<div class="outline-text-2" id="text-orgb2693e9">
+<p>
+This paper can be found <a href="https://arxiv.org/abs/2408.15664">here</a>. It came out on August 28th, 2024. Their twitter thread can be found <a href="https://x.com/deepseek_ai/status/1829140827127292246">here</a>.
+</p>
+
+<p>
+Compared to the other papers in this overview, this one is very easy to understand. So much so that I <a href="https://github.com/ambisinister/lossfreebalance">reproduced it on a toy model</a> a day or two after the paper was released.
+</p>
+
+<p>
+Recall from DeepSeekMoE that, in Mixture-of-Experts, the FFN component of the transformer block is replaced with a large number of "experts" which are selectively activated based on which ones would be most appropriate for the current input. These are selected by a <i>router</i>, which will pick which experts to use. DeepSeekMoE goes an extra step and introduces <i>Fine-grained experts</i> (very small ones) and <i>Shared experts</i> (always on ones).
+</p>
+
+
+<div id="org4a6be7e" class="figure">
+<p><img src="../images/from_clipboard/20240603_132441.png" alt="20240603_132441.png" />
+</p>
+</div>
+
+<p>
+A core problem of MoE models is that the router can just pick the same few experts every single time, which collapses the model to being a regular dense model with a bunch of useless parameters that are never used. Their previous solution for this was an <i>Expert-Level Balance Loss</i>, referred to in this paper as <i>Auxiliary Loss</i>. If the experts are selected unevenly, the loss increases.
+</p>
+
+
+<div id="org6458ac1" class="figure">
+<p><img src="../images/from_clipboard/20240612_143124.png" alt="20240612_143124.png" />
+</p>
+</div>
+
+<p>
+This is usually sufficient for getting the experts to be selected evenly. The problem, though, is that it touches the loss function, and therefore causes some interference with the language modeling objective. When you use the expert-level balance loss, setting the hyperparameter for it too low will make the balance uneven, and if you set it too high it will make the performance worse.
+</p>
+
+
+<div id="orgabbc8a8" class="figure">
+<p><img src="../images/from_clipboard/20241227_185215.png" alt="20241227_185215.png" />
+</p>
+</div>
+
+<p>
+To fix this problem, they introduce a bias term during training. This bias term is a single value for each expert. This value is decrememented by some small amount when the expert is used more than average, and incremented when it's used less than average. This bias term is added to the router outputs during top-k selection, but <i>not</i> during the actual weights of the output (i.e. it's <i>only</i> used for adjusting the load balance during training). 
+</p>
+
+
+<div id="org4d6c91c" class="figure">
+<p><img src="../images/from_clipboard/20241227_185622.png" alt="20241227_185622.png" />
+</p>
+</div>
+
+<p>
+There are some minor engineering details that are important to get right here. Rather than using softmax gating, they find that using sigmoid gating is better when using this bias term instead of an auxiliary loss. They introduce a metric called <i>MaxVio</i> which is just \(\frac{max_i Load_i - \bar{Load_i}}{\bar{Load_i}}\) (where Load<sub>i</sub> represents the number of tokens used by the ith expert) and their reporting is the average of this across all layers. This is different from the <i>load violation error</i> used in the actual algorithm, which is \(\bar{c_i} - c_i\). 
+</p>
+
+<p>
+Here's my quick writeup of their algorithm in code; it's not too hard to understand. 
+</p>
+
+
+<div id="orgfe919b8" class="figure">
+<p><img src="../images/from_clipboard/20241227_190419.png" alt="20241227_190419.png" />
+</p>
+</div>
+
+<p>
+(and then adjusting biases in training loop)
+</p>
+
+
+<div id="orgd8ff861" class="figure">
+<p><img src="../images/from_clipboard/20241227_190854.png" alt="20241227_190854.png" />
+</p>
+</div>
+
+<p>
+An important note: another loss-free MoE routing balancing is <a href="https://arxiv.org/pdf/2202.09368">Expert Choice</a> (EC), which ensures perfect load balance by
+using the same number of tokens for each expert in each batch of data. It does this by doing the routing separately from the prediction, i.e. without a mask upon future tokens, which "leaks" information about the future tokens in a given sequence. EC is kind of interesting, since it lets each token have a variable number of experts (which might be useful if certain tokens are easier than others, see Meta's <a href="https://ai.meta.com/research/publications/byte-latent-transformer-patches-scale-better-than-tokens/">Byte Latent Transformer</a>), but it's unclear if breaking the causal constraint by letting the router see ahead of the current token has any issues once you move to the autoregressive setting.
+</p>
+
+<p>
+That is pretty much the entirety of this paper: if you do this, you get to take an ugly term out of the loss function for an MoE network, and you get better, more balanced results. It's a very elegant idea, and it seems to work well. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc422e6a" class="outline-2">
+<h2 id="orgc422e6a">Janus: Decoupling Visual Encoding for Unified Multimodal Understanding and Generation</h2>
+<div class="outline-text-2" id="text-orgc422e6a">
+<p>
+This paper can be found <a href="https://arxiv.org/abs/2410.13848">here</a>. It came out on October 17th, 2024. Their twitter thread can be found <a href="https://x.com/deepseek_ai/status/1847191319464300652">here</a>.
+</p>
+
+<p>
+Janus is the first step towards a multimodal model, which can natively input and output images. The big claim in this paper is that most multimodal models use the same vision encoder for understanding (input) and generation (output), which is unnecessary: you can use two different encoders, which will remove the need for a tradeoff between the different demands of generating an image and understanding it.
+</p>
+</div>
+
+<div id="outline-container-orgac6b14d" class="outline-3">
+<h3 id="orgac6b14d">Chameleon</h3>
+<div class="outline-text-3" id="text-orgac6b14d">
+<p>
+<a href="https://arxiv.org/pdf/2405.09818">Chameleon</a> is Meta's early-fusion token-based mixed-modal models. Put plainly, this is meta's first big attempt to clone GPT-4o, a model which can understand images as if they were just regular words, and reply with their own images.
+</p>
+
+<p>
+The overall claim of multimodal models is that interleaving multiple modalities will help the model learn more than it would just from text alone. Remember from the DeepSeek-VL paper that traditional vision-language models trained with adapters <i>don't</i> do this &#x2013; in those models there's seemingly a "competitive dynamic" between the multimodal and language capabilities, where training one causes catastrophic forgetting in the other.
+</p>
+
+<p>
+If we want to understand the Janus work, we need to grasp how this works first. 
+</p>
+
+<p>
+<img src="../images/from_clipboard/20241228_115931.png" alt="20241228_115931.png" />
+<img src="../images/from_clipboard/20241228_120122.png" alt="20241228_120122.png" />
+</p>
+
+<p>
+The core idea behind Chameleon is the image tokenizer. When doing LLaVA-style adapters, we get features that are shaped just like tokens, which get concatenated with the output of the BPE tokenizer. These can be anything: they're not even required to be integers like normal tokenizer, they're just regular neural network features in the same shape as the tokenized input to the network. This is really good for getting detailed feature representations, but these faux-tokens<sup><a id="fnr.9" class="footref" href="#fn.9" role="doc-backlink">9</a></sup> always need to be the same dimensions and always be in the same spots, otherwise the model won't understand what they are<sup><a id="fnr.10" class="footref" href="#fn.10" role="doc-backlink">10</a></sup>.
+</p>
+
+<p>
+Way back in 2017 a paper <a href="https://arxiv.org/pdf/1711.00937">Neural Discrete Representation Learning</a> introduced Vector Quantized Variational Autoencoders (VQ-VAE). At the time, this was just a very interesting experiment: can we learn a variational autoencoder<sup><a id="fnr.11" class="footref" href="#fn.11" role="doc-backlink">11</a></sup> that uses <i>discrete</i> features, rather than <i>continuous</i> ones?
+</p>
+
+
+<div id="orge8215a9" class="figure">
+<p><img src="../images/from_clipboard/20241228_122508.png" alt="20241228_122508.png" />
+</p>
+</div>
+
+<p>
+That is, if we collapse the features in the encoder to a fixed "vocabulary" of the closest latents in a "codebook", can we still train the model to reconstruct the image well. It turns out this is, in fact, possible! And you might see where this is going: this looks a bit like a tokenizer if you squint at it. <a href="https://arxiv.org/pdf/2203.13131">Make-a-Scene</a> in 2022 applied this to an autoregressive, language-model-like generation paradigm, and now here Chameleon treats it as a first-class modality for a language model.
+</p>
+
+<p>
+This is the core idea behind Chameleon. They use a codebook of size 8192, and for each image represent the image using a sequence of 1024 tokens pulled from this codebook. Importantly, they mention that this approach is reconstructing images with lots of text &#x2013; a capability specifically pointed out in the original DeepSeek-VL paper, and the motivating use case for the high resolution features. Here represents possibly an interesting tradeoff: using a fixed codebook size makes it possible to frame the problem like inputting and outputting regular tokens, using continuous features lets you get high resolution but prevents you from doing that. 
+</p>
+
+<p>
+This is really just scratching the surface: GPT-4o has a <a href="https://openai.com/index/hello-gpt-4o/">blogpost</a> showing off it's multimodal capabilities (which are all toggled off at the time of writing). It seems like it can do things like generate voice and sounds, edit images in multi-turn settings, and maintain GPT-4-Turbo's old text/code generation capabilities in a comparatively smaller model. This "omni model" is sort of a new north star for a lot of other labs. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org31edcfc" class="outline-3">
+<h3 id="org31edcfc">LlamaGen</h3>
+<div class="outline-text-3" id="text-org31edcfc">
+<p>
+<a href="https://arxiv.org/pdf/2406.06525">LlamaGen</a> is an interesting work related specifically to the generation component. Generally speaking, at the time of writing <a href="https://en.wikipedia.org/wiki/Stable_Diffusion">diffusion models</a> are the king of image generation models. They have been the method of choice for quite some time now.
+</p>
+
+<p>
+But recently, there is a trend towards autoregressive models whose purpose is to actually compete with diffusion models at generation. This is a separate line of work from something like Chameleon, which gives serviceable generation ability to a language model which is also responsible for understanding images. This family of models puts all of the points into the text-to-image generation component: it's not intended for anything else.
+</p>
+
+<p>
+Their primary result from doing this is that the discrete representation of VQ-VAE is not the bottleneck for strong image generation capability. With the same next-token approach as langauge model, using codebook tokens specifically designed for maximally performant generation, you can get outputs which are competitive with top diffusion models.
+</p>
+
+<p>
+The important artifact we need from this paper is their released image tokenizer, an extra-strong one specifically designed for autoregressive image generation. They find that the results using this tokenizer are competitive or better than continuous VAE used in popular diffusion models.
+</p>
+
+
+<div id="org417b8e7" class="figure">
+<p><img src="../images/from_clipboard/20241228_153011.png" alt="20241228_153011.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org008d79e" class="outline-3">
+<h3 id="org008d79e">Janus</h3>
+<div class="outline-text-3" id="text-org008d79e">
+<p>
+Cycling back to Janus<sup><a id="fnr.12" class="footref" href="#fn.12" role="doc-backlink">12</a></sup>, this is DeepSeek's initial foray into this multimodal space. The main contribution in this paper is that the Chameleon approach actually pulls the codebook tokens in two directions: features that would be good for understanding the content of images, and features that would be good for generating a good image. We already know that we can build a model like Chameleon which can do both tasks, but we also know that we can put all the focus on generation and get way better results than we would from a joint-task encoder. How do we bridge this gap?
+</p>
+
+<p>
+Much like DeepSeek-VL, their approach is to use two separate encoders: one set of tokens whose job it is to describe images to the model, and one, completely separate set of tokens whose job it is to generate images. This is less straightforward than it sounds: asking this model something like "please repeat back this image to me: &lt;img&gt;" is no longer an identity task, it's now a translation task from one codebook to the other. But instead, now the encoders are no longer responsible for multiple capabilities.
+</p>
+
+<blockquote>
+<p>
+[The] granularity of the vision encoder’s representation tends to
+mainly focus on high-dimensional semantic representation. By contrast,
+in visual generation tasks, the main focus is on generating local
+details and maintaining global consistency in the image. The
+representation in this context necessitates a low-dimensional encoding
+that is capable of finegrained spatial structure and textural detail
+expression. Unifying the representations of these two tasks within the
+same space will lead to conflicts and trade-offs.
+</p>
+</blockquote>
+
+
+<div id="org3a07b40" class="figure">
+<p><img src="../images/from_clipboard/20241228_141017.png" alt="20241228_141017.png" />
+</p>
+</div>
+
+<p>
+Janus is pretty interesting: it's not trying to be a state-of-the-art image generator, nor is it trying to be a superior vision-language model. But it does do both things pretty well, despite being just 1.3B parameters, more of a proof-of-concept that these things can be coupled in the same model &#x2013; both just next-token prediction.
+</p>
+
+<p>
+The encoders themselves are composed of things we have seen already. For image understanding, it uses SigLIP upon the input image, flattened to 1D, and then using an adaptor layer just like we've already seen in DeepSeek-VL. For image generation, it uses the VQ Tokenizer from LlamaGen, flattened to 1D and passed through a different adaptor layer. These are then concatenated together, and then fed into the LLM. Finally, it trains a separate image head, which outputs codebook tokens from the VQ Tokenizer, instead of tokens from the standard LLM Tokenizer. In a sense, it's sort of like Chameleon mixed with LLaVA, which lets the Chameleon part focus on generation and the LLaVA part focus on understanding.
+</p>
+
+
+<div id="orga8c5d29" class="figure">
+<p><img src="../images/from_clipboard/20241228_143227.png" alt="20241228_143227.png" />
+</p>
+</div>
+
+<p>
+This model is trained in three phases, which should look familiar to the astute reader familiar with DeepSeek-VL. In phase 1, you do an adapter warmup, as well as starting to train the image head. In phase 2, you unfreeze everything except for the encoders, and do a large, unified pretraining run with interleaved text-image data. Finally, you do Supervised Fine-Tuning, where you unfreeze everything except the LlamaGen Encoder.
+</p>
+
+<p>
+From there it's pretty much a standard LLM training objective, no additional task-specific fancy frills. There's some interesting ideas for possible extensions mentioned:
+</p>
+
+<ul class="org-ul">
+<li>Using a stronger vision encoder for understanding is now just a simple drop-in, since it no longer affects the image generation component at all.</li>
+<li>Using more elaborate loss functions for image generation, or more sophisticated encoders is now also possible without affecting understanding.</li>
+<li>Adding additional modalities (point clouds, tactile, EEG, voice, etc) should not be too different from this, since the decoupled framing, in theory, is less likely to affect the other capabilities in the model.</li>
+</ul>
+
+<p>
+Some results:
+</p>
+
+<p>
+<img src="../images/from_clipboard/20241228_144537.png" alt="20241228_144537.png" />
+<img src="../images/from_clipboard/20241228_144554.png" alt="20241228_144554.png" />
+<img src="../images/from_clipboard/20241228_144638.png" alt="20241228_144638.png" />
+</p>
+
+<p>
+The comparisons are pretty interesting: there are clearly better image generation models, but Janus is able to perform pretty well at understanding tasks while maintaining a pretty admirable ability to output images also. This is a notable result compared to their earlier claims in the DeepSeek-VL paper, about the competitive dynamic between modalities. 
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org624facc" class="outline-2">
+<h2 id="org624facc">JanusFlow: Harmonizing Autoregression and Rectified Flow for Unified Multimodal Understanding and Generation</h2>
+<div class="outline-text-2" id="text-org624facc">
+<p>
+This paper can be found <a href="https://arxiv.org/abs/2411.07975">here</a>. It came out on November 12th, 2024. Their twitter thread can be found <a href="https://x.com/deepseek_ai/status/1856552494379520510">here</a>. 
+</p>
+
+<p>
+JanusFlow is the next step in the Janus series. Specifically, it replaces the vector quantization component in generation with rectified flow instead. On top of this, JanusFlow adds the idea of <i>representation alignment</i> during training, where the model aligns intermediate features from the understanding encoder with the internal representations. This leads to an overall more streamlined architecture compared to Janus, but with notably better performance.
+</p>
+</div>
+
+<div id="outline-container-org29c0ddd" class="outline-3">
+<h3 id="org29c0ddd">Rectified Flow</h3>
+<div class="outline-text-3" id="text-org29c0ddd">
+<p>
+Rectified Flow is a pretty big topic, probably worthy of an entirely separate post all on its own. I am not going to do it justice here, but I am hopeful that I can at least briefly cover what it <i>is</i> and why it might be useful to swap into a multimodal model.
+</p>
+
+<p>
+A paper which might be worth studying in more detail is <a href="https://arxiv.org/abs/2403.03206">Scaling Rectified Flow Transformers for High-Resolution Image Synthesis</a>, a paper by <a href="https://en.wikipedia.org/wiki/Stability_AI">Stability</a> outlining their new flow matching architecture for Stable Diffusion 3, most notable for how it improved the output of images with text in them.
+</p>
+
+
+<div id="orgcab3dd3" class="figure">
+<p><img src="../images/from_clipboard/20241228_192622.png" alt="20241228_192622.png" />
+</p>
+</div>
+
+<p>
+<a href="https://jalammar.github.io/illustrated-stable-diffusion/">The way diffusion models work</a> is that they slowly remove noise from the image a little bit at a time over many steps. Rectified flow is an attempt to predict all the steps of denoising in a single vector. These are therefore able to get good results in fewer timesteps, which is very useful for us in scenarios where our model is very large.
+</p>
+
+<p>
+We can describe a mapping between a noise distribution \(p_0\) and samples \(x_1\) of a data distribution \(p_1\) in terms of an ordinary differential equation:
+</p>
+
+<p>
+\[dy_t = v_\theta(y_t, t) dt\]
+</p>
+
+<p>
+where \(v\) is the <i>velocity</i> output by a neural network with weights \(\theta\). We can attempt to solve this by regress a vector field \(u_t\) which generates a probability path between the distributions.
+</p>
+
+<p>
+The conditional flow matching objective can be designed as the expected l2 distance between the velocity field and the vector field:
+</p>
+
+<p>
+\[L_{CFM} = \mathbb{E}_{t, p_t(z|\epsilon), p(\epsilon)}||v_\theta(z,t) - u_t(z|\epsilon)||^2_2\]
+</p>
+
+<p>
+To express the relationship between \(z_t\), \(x_0\) and \(\epsilon\), we introduce \(\psi_t\) and \(u_t\) as:
+</p>
+
+<p>
+\[\psi_t(\cdot|\epsilon) : x_0 \mapsto a_tx_0 + b_t\epsilon\]
+\[u_t(z|\epsilon) := \psi'_t(\psi^{-1}_t(z|\epsilon)|\epsilon)\]
+</p>
+
+<p>
+Since \(z_t\) can be written as a solution to the ODE \(z'_t = u_t(z_t|\epsilon)\) with initial value \(z_0 = x_0\), \(u_t(\cdot|\epsilon)\) generates \(p_t(\cdot|\epsilon)\).
+</p>
+
+<p>
+<i>Rectified Flows</i> define the forward process as follows:
+</p>
+
+<p>
+\[z_t = (1-t)x_0 +  t_\epsilon\]
+</p>
+
+<p>
+i.e. as straight paths between the data distribution and a standard normal distribution.
+</p>
+
+<p>
+So, we train a network so that it directly outputs the velocity \(v_\theta\). This gets us more directly to our final result, hopefully with many fewer timesteps. Since each step corresponds to an evaluation of the neural network, this has a direct impact on sampling speed and computational efficiency.
+</p>
+
+<p>
+That's rectified flow at a very high level, but there's lots of other work we aren't getting into here. Some further reading:
+</p>
+
+<ul class="org-ul">
+<li><a href="https://arxiv.org/pdf/2309.06380">InstaFlow: One Step Is Enough for High-Quality Diffusion-Based Text-to-Image Generation</a></li>
+<li><a href="https://arxiv.org/pdf/2209.03003">Flow Straight and Fast: Learning to Generate and Transfer Data with Rectified Flow</a></li>
+<li><a href="https://arxiv.org/pdf/2210.02747">Flow Matching for Generative Modeling</a></li>
+<li><a href="https://arxiv.org/abs/2209.15571">Building Normalizing Flows with Stochastic Interpolants</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org75827e9" class="outline-3">
+<h3 id="org75827e9">Representation Alignment for Generation</h3>
+<div class="outline-text-3" id="text-org75827e9">
+<p>
+<a href="https://arxiv.org/pdf/2410.06940">Representation Alignment</a>, or REPA, is a method for making diffusion transformer training significantly easier. The core insight from this paper is downstream of another paper <a href="https://arxiv.org/pdf/2303.09769">Denoising Diffusion Autoencoders are Unified Self-Supervised Learners</a>, which says that diffusion models learn features which let it discriminate between classes, and that better diffusion models have internal representations which are more discriminative.
+</p>
+
+<p>
+This paper proposes that getting a good output from a diffusion model relies on it having a better internal representation, so if you regularize training with something that encourages a better internal representation, you'll get better diffusion model outputs. As a result they propose REPA, which distills the representation from a powerful pretrained self-supervised model (e.g. DINOv2, CLIP, etc) model into a diffusion transformer.
+</p>
+
+<p>
+It does this by adding the following objective alongside the normal diffusion training objective:
+</p>
+
+
+<div id="orga6d095e" class="figure">
+<p><img src="../images/from_clipboard/20241228_175530.png" alt="20241228_175530.png" />
+</p>
+</div>
+
+<p>
+That is: we break the image into patches, and we check the similarity<sup><a id="fnr.13" class="footref" href="#fn.13" role="doc-backlink">13</a></sup> for each patch between a self-supervised model and our diffusion transformer's representation passed through an adapter layer \(h_\phi\). This makes generation way faster and much better: you can get results on training iteration 400k which you would normally have to wait for millions of iterations to see. 
+</p>
+
+
+<div id="org11595c3" class="figure">
+<p><img src="../images/from_clipboard/20241228_180232.png" alt="20241228_180232.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc0c5c26" class="outline-3">
+<h3 id="orgc0c5c26">ConvNeXt</h3>
+<div class="outline-text-3" id="text-orgc0c5c26">
+<p>
+<a href="https://arxiv.org/pdf/2201.03545">ConvNeXt</a> is a type of "modern" convolutional neural network which brings in a bunch of innovations used by vision transformers. The main argument of this paper is that lots of little changes to vision transformers like <a href="https://arxiv.org/pdf/2103.14030">Swin Transformers</a> are applicable to ConvNets as well.
+</p>
+
+<p>
+Some things which are commonly attributed to "superior transformer architectures for vision" include modern training methods, larger kernels, replacing ReLU with a modern variant<sup><a id="fnr.14" class="footref" href="#fn.14" role="doc-backlink">14</a></sup>, replacing batch norm with layernorm, etc. All of which can be directly applied to ConvNets as well. ConvNeXt does this and finds that ConvNets still have some fight left in them.
+</p>
+
+
+<div id="org949e466" class="figure">
+<p><img src="../images/from_clipboard/20241228_172648.png" alt="20241228_172648.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1b09666" class="outline-3">
+<h3 id="org1b09666">JanusFlow</h3>
+<div class="outline-text-3" id="text-org1b09666">
+
+<div id="org76deb00" class="figure">
+<p><img src="../images/from_clipboard/20241228_163316.png" alt="20241228_163316.png" />
+</p>
+</div>
+
+<p>
+Given that we now understand what Rectified Flow is doing, JanusFlow is pretty straightforward from here. Rather than predicting codebook tokens, it will start with gaussian noise and predict velocity vectors \(v_t\) until it reaches the final image. Each sampling step, the velocity vector is used to solve \(z_{t+dt} = z_t + v_t dt\), which updates the noisy image. This is repeated until t=1. This change seemed to help diffusion models produce higher quality images, and also has the nice effect of requiring only ~30 sampling steps<sup><a id="fnr.15" class="footref" href="#fn.15" role="doc-backlink">15</a></sup>, making generation much easier.
+</p>
+
+<p>
+Architecturally, it swaps out the VQ-VAE component from LlamaGen, and replaces it with the VAE from <a href="https://arxiv.org/pdf/2307.01952">Stable Diffusion XL</a>. The generation encoder uses two <a href="https://arxiv.org/pdf/2201.03545">ConvNeXt</a> blocks into a linear layer. The decoder uses two ConvNeXts, a <a href="https://arxiv.org/abs/1609.05158">pixel-shuffle layer</a>, and a linear layer.
+</p>
+
+<p>
+<img src="../images/from_clipboard/20241228_170507.png" alt="20241228_170507.png" />
+<img src="../images/from_clipboard/20241228_170524.png" alt="20241228_170524.png" />
+<img src="../images/from_clipboard/20241228_170603.png" alt="20241228_170603.png" />
+</p>
+
+<p>
+Likewise, JanusFlow takes the representation alignment component from REPA, using it as a regularization term on top of the rectified flow and autoregression objectives. In this case, we already have a really powerful self-supervised vision model &#x2013; the SigLIP understanding encoder. But since they don't want to mess with it, they take special care to prevent this loss from backpropagating back into it. 
+</p>
+
+<p>
+This highlights some of the advantage of the earlier Janus approach: because they've decoupled the understanding and the generation steps, they can freely swap out components for one without touching the other. 
+</p>
+
+<p>
+The figures from here should look familiar:
+</p>
+
+<p>
+<img src="../images/from_clipboard/20241228_165620.png" alt="20241228_165620.png" />
+<img src="../images/from_clipboard/20241228_182148.png" alt="20241228_182148.png" />
+<img src="../images/from_clipboard/20241228_170044.png" alt="20241228_170044.png" />
+</p>
+
+<p>
+They get some good results with these new changes. Definitely an incremental improvement over Janus, but with the meaningful added inclusion of rectified flow. 
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4e0b6b1" class="outline-2">
+<h2 id="org4e0b6b1">DeepSeek-VL2</h2>
+<div class="outline-text-2" id="text-org4e0b6b1">
+<p>
+This paper can be found <a href="https://arxiv.org/abs/2412.10302">here</a>. It came out on December 13th, 2024. Their twitter thread can be found <a href="https://x.com/deepseek_ai/status/1867545550910017563">here</a>.
+</p>
+
+<p>
+At last, DeepSeek's MoE Vision-Language model. Their largest is a 27B Mixture-of-Experts model with 4.1B active, still fairly small as far as DeepSeek releases go. If you're already familiar with the original DeepSeek-VL and the DeepSeek-V2 architectures, this doesn't actually have too much new stuff: it's an MoE with multi-head latent attention, and it uses SigLIP as the encoder. Still, there are some interesting vision-specific nuance worth diving into.
+</p>
+</div>
+
+<div id="outline-container-orgc5daf88" class="outline-3">
+<h3 id="orgc5daf88">InternVL</h3>
+<div class="outline-text-3" id="text-orgc5daf88">
+<p>
+There is one important related work to cover. InternVL is a powerful open-source vision-language model from Shanghai AI Laboratory. Their v1.5 paper can be found <a href="https://arxiv.org/pdf/2404.16821">here</a>, and their v2.5 paper can be found <a href="https://arxiv.org/pdf/2412.05271v1">here</a><sup><a id="fnr.16" class="footref" href="#fn.16" role="doc-backlink">16</a></sup>.
+</p>
+
+<p>
+The notable component of InternVL is their dynamic high resolution. Otherwise, it's pretty similar to the standard LLaVA-like architecture<sup><a id="fnr.17" class="footref" href="#fn.17" role="doc-backlink">17</a></sup>:
+</p>
+
+
+<div id="orga7d7065" class="figure">
+<p><img src="../images/from_clipboard/20241228_101609.png" alt="20241228_101609.png" />
+</p>
+</div>
+
+<p>
+Recall from DeepSeek-VL that they used two vision encoders: one for high resolution features (for things like text) and one for low resolution features (for things like general understanding of the image). In contrast, InternVL will match the image to the closest of several candidate aspect ratios, pad the image to fit it exactly, save a thumbnail version of the full image, and apply some pre-defined tiling operations upon the full resolution image.
+</p>
+
+
+<div id="org21c971b" class="figure">
+<p><img src="../images/from_clipboard/20241228_102307.png" alt="20241228_102307.png" />
+</p>
+</div>
+
+<p>
+This is a bit simpler than using two separate encoders, and has the interesting downstream effect of using a different number of tokens for larger resolution images, which is a really desirable property. You can scale to bigger and bigger images just by using more tokens to represent the image, which means you are not at as much risk of losing important information to cramming too much information into a single set of features. Likewise, the inclusion of the thumbnail tile captures roughly what DeepSeek was doing in their original VL paper (namely: low and high resolution features), but using just a single encoder. 
+</p>
+
+<p>
+Various other VLMs have adopted similar strategies, like <a href="https://arxiv.org/pdf/2409.11402">NVLM</a> and <a href="https://llava-vl.github.io/blog/2024-01-30-llava-next/">LLaVA-NeXT</a><sup><a id="fnr.18" class="footref" href="#fn.18" role="doc-backlink">18</a></sup>. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5bacadb" class="outline-3">
+<h3 id="org5bacadb">Architecture and Training</h3>
+<div class="outline-text-3" id="text-org5bacadb">
+
+<div id="orge99fe42" class="figure">
+<p><img src="../images/from_clipboard/20241227_222742.png" alt="20241227_222742.png" />
+</p>
+</div>
+
+<p>
+Interestingly, we've returned <i>back</i> to the llava-style methods, rather than the hybrid vision encoder they used before. The reason for this is that they are going to do what InternVL did: rather than using a low-res and a high-res encoder, it uses a single encoder with <i>dynamic tiling</i>, making it effectively able to select the resolution it wants to use.
+</p>
+
+<blockquote>
+<p>
+The pre-trained SigLIP operates at a base resolution of 384 × 384. To
+accommodate different aspect ratios, we define a set of candidate
+resolutions: C<sub>r</sub> = {(384m, 384n) | m ∈ N, n ∈ N, 1 ≤ m, n, mn ≤ 9},
+where m : n represents the aspect ratio. For an input image of size
+(𝐻,𝑊), we calculate the padding area required for resizing it to each
+candidate resolution in C<sub>r</sub>. We select the resolution (384m<sub>i</sub>, 384n<sub>i</sub>)
+that minimizes the padding area.  The resized image is then divided
+into m<sub>i</sub> × n<sub>i</sub> local tiles of 384 × 384 pixels, plus one global
+thumbnail tile. The SigLIP-SO400M-384 vision encoder processes all
+(1 + m<sub>i</sub> × n<sub>i</sub>) tiles, yielding 27 × 27 = 729 visual embeddings of 1152
+dimensions per tile.
+</p>
+</blockquote>
+
+
+<div id="org0b1aae4" class="figure">
+<p><img src="../images/from_clipboard/20241227_223552.png" alt="20241227_223552.png" />
+</p>
+</div>
+
+<p>
+This is the first of their works to use the loss-free load-balancing bias, validating the approach on a somewhat larger model. But otherwise, this is pretty straightforward: they collect a lot of vision-language data, and they trained it largely the same as they've trained other models. As before, they train in three phases: an adapter warmup phase, a pretraining phase with pure text and VL data interleaved, and an SFT phase where they train the model with prompt-response data. The only major differences are: more/better data<sup><a id="fnr.19" class="footref" href="#fn.19" role="doc-backlink">19</a></sup>, and training the vision encoder during pretraining and adapter warmup phases<sup><a id="fnr.20" class="footref" href="#fn.20" role="doc-backlink">20</a></sup>.
+</p>
+
+<p>
+Aside from data collection woes, the infrastructure section has some potential insight onto why this problem may have been harder a problem than expected. The visual encoder operates at dynamic resolution and is completely disabled sometimes, which means that GPU utilization during training is surprisingly difficult to get right if all you have is infra for language models. To alleviate this problem, they implement "fine-grained layer division of the vision encoder" which is briefly mentioned with no concrete details.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga2dcbc5" class="outline-3">
+<h3 id="orga2dcbc5">New Capabilities</h3>
+<div class="outline-text-3" id="text-orga2dcbc5">
+<p>
+A surprisingly interesting claim of this paper is that DeepSeek-VL2 can understand the humor in memes, and provide explanations for them. A NeurIPS 2024 paper, <a href="https://arxiv.org/pdf/2406.10522">Humor in AI: Massive Scale Crowd-Sourced Preferences and Benchmarks for Cartoon Captioning</a>, suggests a similar setting (New Yorker Weekly Cartoon Captions) is very challenging for VLMs. One component of this which might point to why is the fact that RLHF seems to incentivize the models to be much less funny, and this step was notably absent in the DeepSeek-VL2 training pipeline<sup><a id="fnr.21" class="footref" href="#fn.21" role="doc-backlink">21</a></sup>. 
+</p>
+
+
+<div id="org0692798" class="figure">
+<p><img src="../images/from_clipboard/20241228_092028.png" alt="20241228_092028.png" />
+</p>
+</div>
+
+<p>
+Likewise, a new capability to this paper compared to VL1 is <i>Visual Grounding</i>, which back in my day was just called "object detection". DeepSeek-VL2 is natively trained from pretraining on data which will create class-conditional bounding boxes for the objects you want, in a manner similar to <a href="https://arxiv.org/pdf/2304.02643">Segment Anything Model</a><sup><a id="fnr.22" class="footref" href="#fn.22" role="doc-backlink">22</a></sup>. In the vision world, the relevant related work here is <a href="https://arxiv.org/pdf/2112.03857">grounded language-image pre-training</a> (GLIP), which is sort of like CLIP, but able to match text descriptions to specific regions of an image. Something more directly like DeepSeek-VL2's visual grounding was demonstrated in March 2023 with <a href="https://arxiv.org/pdf/2303.05499">Grounding DINO</a>, which is an open-set object detection model which adds GLIP-like grounded pretraining to the popular DINO object detector, enabling for example to detect "the lion on the left" in an image with three lions. 
+</p>
+
+
+<div id="orgb7d4f67" class="figure">
+<p><img src="../images/from_clipboard/20241228_093146.png" alt="20241228_093146.png" />
+</p>
+</div>
+
+<p>
+Being a little more specific, this is actually a little different from SAM, in the sense that it's attached to a multi-image-capable language model. That is, if you want to show DeepSeek-VL2 an image of an object and say "this is a Dax" and then a second image of several objects and say "find all the Dax", you can do this purely via in-context learning using this model, unlike SAM where you would need to fine-tune to teach it a new concept.
+</p>
+
+
+<div id="org8bada5e" class="figure">
+<p><img src="../images/from_clipboard/20241228_094011.png" alt="20241228_094011.png" />
+</p>
+</div>
+
+<p>
+There's quite a bit of focus here on how this could be used for embodied AI or agents, i.e. locating the location of items on the screen, locating objects of interest in the real world, and so on. This in-context visual grounding, in particular, seems like there's a deliberate aiming at computer use, a capability demonstrated by <a href="https://www.anthropic.com/news/3-5-models-and-computer-use">Anthropic</a> in October, a few months prior.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4aea3e4" class="outline-3">
+<h3 id="org4aea3e4">Preregistered Future Work</h3>
+<div class="outline-text-3" id="text-org4aea3e4">
+<p>
+As usual, DeepSeek concludes a larger release with some hints on what they're working on next:
+</p>
+
+<ul class="org-ul">
+<li>Increase the context window, since high resolution images take a lot of tokens</li>
+<li>Make the model better at reasoning (this paper mostly focused on perception)</li>
+<li>Make the model better at occlusions or blurry images</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org38bb93c" class="outline-2">
+<h2 id="org38bb93c"><span class="todo TODO">TODO</span> DeepSeek-V3</h2>
+<div class="outline-text-2" id="text-org38bb93c">
+<p>
+This paper can be found <a href="https://github.com/deepseek-ai/DeepSeek-V3/blob/main/DeepSeek_V3.pdf">here</a>. It came out on December 25th, 2024. Their twitter thread can be found <a href="https://x.com/deepseek_ai/status/1872242657348710721">here</a>.
+</p>
+
+<p>
+WIP
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf91f49b" class="outline-2">
+<h2 id="orgf91f49b">Conclusion</h2>
+<div class="outline-text-2" id="text-orgf91f49b">
+<p>
+On January 5th, 2024, DeepSeek released DeepSeek-LLM, a recreation of Llama 2 specifically oriented for Chinese Language. 12 months and 15 papers later, we arrive at the current day: a released V3 model, with r1-full on the horizon<sup><a id="fnr.23" class="footref" href="#fn.23" role="doc-backlink">23</a></sup>. All things considered, their lab is still fairly nascent: their post-training lags behind <a href="https://www.anthropic.com/research/claude-character">the top western labs</a>, they <a href="https://arxiv.org/pdf/2410.10998">struggle</a> in <a href="https://x.com/erykbanatt/status/1872049104546848793">multi-turn settings</a>, and the narrow focus on math and code makes talking to the model feel much more like talking to a calculator, compared with other models with similar capabilities.
+</p>
+
+<p>
+But it feels like DeepSeek bookended the year rather nicely; a neat calendar year with a bit over a dozen released papers, growing from fairly pedestrian to the bleeding edge of open source. It's hard to imagine what yet another calendar year will bring.
+</p>
+
+<p>
+A friend of mine once relayed me a bit of advice from his PhD advisor: that you should pick one important paper to understand well, and if it's the right one that will be your tool for life. I am greedy, so I picked a single lab instead. In Machine Learning, there are a lot of papers out there, and it's often very challenging to discern which ones are the important ones. DeepSeek's 2024 corpus represents something unique: a written record of something a single lab actually did to cover a lot of ground in a very short time, the central spine of a tree leading to the most important published papers about language modeling all over the world.
+</p>
+
+<p>
+I can only hope they continue to publish throughout 2025. Otherwise, it will be much more annoying to prioritize my reading list.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org943fb71" class="outline-2">
+<h2 id="org943fb71"><span class="todo TODO">TODO</span> List</h2>
+<div class="outline-text-2" id="text-org943fb71">
+<ul class="org-ul">
+<li>Pixel Shuffle section in JanusFlow might be necessary, it's mentioned twice in this writeup.</li>
+<li>I'm not happy with the Rectified Flow section, probably because it's a lot to learn.</li>
+<li>UCB section in DeepSeek-Prover-V1.5 probably should be more detailed</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+The writeup already had 20k words, something like 80 pages long. I might try to make a single unified pdf version of both writeups, but I'm worried about mangling the narrative I managed to create in the previous one.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+There's a lot of insight in these interviews around questions like "why is DeepSeek open sourcing all these papers?" and "How are they making money?" and "How do they think about talent acquisition?", which are all very very interesting, but I'm hopeful I can keep this writeup to be purely about the technology in the papers.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I get into LoRA in detail in this section, but there are also lots of others. The full paper also talks about methods for adding new parameters (e.g. adding adapter layers), or selecting existing parameters (e.g. freezing most of the model except for the end few layers, more common in stuff like vision). This is a whole rabbit hole, but almost all of it is mostly useless for MoE models, so I'm skipping it here for now.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+It's possible this is <i>only</i> true because of the fine-grained experts. <a href="https://arxiv.org/pdf/2409.02060">OLMoE</a> is another important MoE work from Allen Institute for AI which independently found the fine-grained expert regime was really useful, although it's interesting to see that in their work they found the shared experts to be pretty much useless. I've seen some chatter about the shared experts being potentially useful for hardware regimes where some experts are kept on GPU and the small experts are kept in normal memory, but I'm not sure I've seen anything validating that as useful quite yet.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+They also show that it's possible to use the ratio of tokens instead of the router affinity, which does okay too, just slightly worse.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6" role="doc-backlink">6</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+In practice partial rollouts are sometimes used, and sometimes value network evals are just used directly. The rollout framing will be useful for understanding the Prover-v1.5 paper, though, so I'll leave the simplified version as-is.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.7" class="footnum" href="#fnr.7" role="doc-backlink">7</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+e.g. they find some more natural language math problems, more proof assistant languages other than lean, etc.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.8" class="footnum" href="#fnr.8" role="doc-backlink">8</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I imagine this is also true for regular code but I'm too lazy to look for a citation here. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.9" class="footnum" href="#fnr.9" role="doc-backlink">9</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Had to try hard to avoid using "Fauxkens"
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.10" class="footnum" href="#fnr.10" role="doc-backlink">10</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+This might also have something to do with why there's a competitive dynamic: a VLM has to understand image input features and tokens, jointly, which is actually two separate tasks. Framing both of these are discrete tokens means it becomes more or less the same objective in both modalities, which probably helps.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.11" class="footnum" href="#fnr.11" role="doc-backlink">11</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Somewhat outside the scope for now: VAEs are a neural network that compresses an input down to a probabilistic latent space, and then back out to the same output. They map from an input to a distribution, rather than a point, and can map from a distribution back out to the original shape. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.12" class="footnum" href="#fnr.12" role="doc-backlink">12</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+The name Janus here is very funny. In my little world he's the birth name of Magus in <i>Chrono Trigger</i>, who has access to all the elemental spells. 
+</p>
+
+<blockquote>
+<p>
+In Roman mythology, Janus is the god of duality and transitions,
+symbolizing the coexistence of contradictory forces by having two
+faces, each looking in opposite directions. Similarly, our model
+captures the inherent tension between vision tasks: understanding
+demands abstract, high-level semantic representations, while
+generation requires concrete, detailed information. By decoupling
+these processes into specialized encoders, our system mirrors Janus’s
+dual nature, resolving this tension within a unified architecture.
+</p>
+</blockquote></div></div>
+
+<div class="footdef"><sup><a id="fn.13" class="footnum" href="#fnr.13" role="doc-backlink">13</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+You could use any similarity metric here, according to the paper, but they just use cosine similarity. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.14" class="footnum" href="#fnr.14" role="doc-backlink">14</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Here <a href="https://arxiv.org/pdf/1606.08415v5">Gaussian Error Linear Units</a> (GELU)
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.15" class="footnum" href="#fnr.15" role="doc-backlink">15</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I am operating under the impression that the original Janus approach requires 576 tokens, per table 5 in the LlamaGen paper.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.16" class="footnum" href="#fnr.16" role="doc-backlink">16</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+They actually cite the v2 blogpost, but there's no technical report for that.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.17" class="footnum" href="#fnr.17" role="doc-backlink">17</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+They also use <a href="https://paperswithcode.com/method/pixelshuffle">PixelShuffle</a>, which is an operation in super-resolution models which rearranges the tiles for efficiency, but that's not used in the paper we are discussing now so I'll leave it as a footnote.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.18" class="footnum" href="#fnr.18" role="doc-backlink">18</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+LLaVA-NeXT is kind of an interesting case. It actually predates the other ones (and even DeepSeek-VL's original model), but it's only somewhat similar: it splits the image into tiles and encodes them, and it uses the thumbnail resize, but it uses the same number of tiles for images of every resolution and doesn't do any of this padding / aspect ratio matching. This to me strikes me as more similar to DeepSeek-VL's "low and high resolution features" approach, but done with a proto-version of the tiling approach used in InternLM.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.19" class="footnum" href="#fnr.19" role="doc-backlink">19</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+This is a large component of the paper, and mostly serves for them to say "We tried aggregating publicly available data, but it was all terrible, so we built an in-house data collection system" at several different steps.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.20" class="footnum" href="#fnr.20" role="doc-backlink">20</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Recall from DeepSeek-VL that this was kept frozen in these phases, and only unfrozen for SFT. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.21" class="footnum" href="#fnr.21" role="doc-backlink">21</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Given how much these steps tend to be for overfitting lmsys and virtually nothing else, I wonder if this is downstream of the models being forced to never be pithy and clear, the way a good joke is constructed. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.22" class="footnum" href="#fnr.22" role="doc-backlink">22</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Recall this was used for the visual encoder in DeepSeek-VL
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.23" class="footnum" href="#fnr.23" role="doc-backlink">23</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Not to mention the technical report, perhaps my most highly anticipated paper ever. 
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+</div>
+</body>
+</html>

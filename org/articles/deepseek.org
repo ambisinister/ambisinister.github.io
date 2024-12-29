@@ -16,7 +16,9 @@ To really /get/ how to go from this sort of technology to a bonafide frontier LL
 
 In this vein, DeepSeek-AI's body of work stands out as extremely interesting. At the time of writing, it's seven papers long, and roughly covers their company's journey from roughly Llama 2 performance to roughly Llama 3 performance. They release models with every paper, and the overall decision-making is openly laid out to an almost shocking degree.
 
-I think everybody with serious interest in large language models should read these papers, specifically. DeepSeek has some interesting ideas about architecture, but that's not why I think they're a worthwhile read; it's more that the papers all come from the same place, and build upon each other as they go. As a result they are a bit like an intense survey of state-of-the-art language modeling work /in general/ -- they discuss future plans, they have to run comparisons on what other teams are doing, and it necessarily covers everything you would need to know to understand the work powering these types of models. 
+I think everybody with serious interest in large language models should read these papers, specifically. DeepSeek has some interesting ideas about architecture, but that's not why I think they're a worthwhile read; it's more that the papers all come from the same place, and build upon each other as they go. As a result they are a bit like an intense survey of state-of-the-art language modeling work /in general/ -- they discuss future plans, they have to run comparisons on what other teams are doing, and it necessarily covers everything you would need to know to understand the work powering these types of models.
+
+*Update 12/28/2024:* I have created a separate page for DeepSeek's works between V2-Coder and V3, which can be found [[https://planetbanatt.net/articles/deepseek2.html][here]].
 
 *** This Document
 
@@ -335,7 +337,6 @@ This lets you scale up the effective width of the models substantially. For exam
 [[https://www.youtube.com/watch?v=1VdEw_mGjFk][Yannic Kilcher]] has a video on the GShard paper which goes into somewhat more detail here, but the general idea is that GShard lets you scale using Mixture of Experts more easily when you have a very large number of devices, by allowing those devices to communicate with each other and assigning them each different tasks ("sharding" the model).
 
 *** Expert Segmentation + Shared Experts = DeepSeekMoE
-
 
 [[../images/from_clipboard/20240603_132441.png]]
 
@@ -1117,6 +1118,8 @@ It's hard to read through this type of thing and not emerge from it rooting for 
 These papers (and Chinese ML work in general) do not seem to get a lot of attention in the west, and I think that's a bit of a shame even if you think western models are "better". There has even been attempts to [[https://x.com/yangzhizheng1/status/1797197104999518306][plagiarize]] models released from China, and in one prominent example this was proven because the MiniCPM team [[https://github.com/OpenBMB/MiniCPM-V/issues/196#issuecomment-2143920646][had a hidden benchmark of obscure Tsinghua Bamboo Characters]] which served as a canary to demonstrate the model was stolen. In general I came away from reading all of these papers having a much higher opinion of top Chinese ML talent -- some of these guys really know what they're doing!
 
 Most frontier labs aren't posting stuff to [[https://arxiv.org/][arXiv]] these days, and as a certified arXiv Enjoyer I am generally going to approve of teams near the frontier that actually tell people about what they are doing. Reading papers is cool! We should reward the people responsible for letting us read them.
+
+*Update 12/28/2024:* I have created a separate page for DeepSeek's works between V2-Coder and V3, which can be found [[https://planetbanatt.net/articles/deepseek2.html][here]].
 
 *** Unanswered Questions
 
