@@ -21,7 +21,7 @@ So it makes a lot of sense that they would tackle the things they did.
 
 This document is a work in progress.
 
-** Hidden Details
+** Works With No Technical Report
 
 Currently there are a number of things that DeepSeek has publicly shown, which have no technical reports attached to them. It's sort of important to lead with this: some of these things are used and referenced in the papers that follow despite being sort of loosely floating products, and the context behind them is necessary to understand.
 
@@ -452,9 +452,178 @@ As usual, DeepSeek concludes a larger release with some hints on what they're wo
 
 ** TODO DeepSeek-V3
 
-This paper can be found [[https://github.com/deepseek-ai/DeepSeek-V3/blob/main/DeepSeek_V3.pdf][here]]. It came out on December 25th, 2024. Their twitter thread can be found [[https://x.com/deepseek_ai/status/1872242657348710721][here]].
+This paper can be found [[https://github.com/deepseek-ai/DeepSeek-V3/blob/main/DeepSeek_V3.pdf][here]]. It came out on December 25th, 2024[fn:24]. Their twitter thread can be found [[https://x.com/deepseek_ai/status/1872242657348710721][here]]. 
 
-WIP
+DeepSeek-V3 is a 671B, 37B active[fn:29] Mixture-of-Experts language model trained on 14.8 Trillion tokens. On benchmarks[fn:25], it reaches scores that are comparable with GPT-4o-0513, Claude-3.5-Sonnet-1022, and Llama-3.1-405B-Instruct. On top of this, it's cheap -- super, super cheap. Even ignoring their temporary reduced price[fn:26], their listed price of $0.27/M input / $1.10/M output is much, much cheaper than GPT-4o's $2.50/M input / $10.00/M output[fn:27].
+
+Perhaps most important about this paper is the cost claim: DeepSeek-V3 was trained in 2.788M H800 GPU hours, priced at $5.576M USD. In comparison, the Llama 3.1 405B [[https://huggingface.co/meta-llama/Llama-3.1-8B][cost meta 30.84M]] GPU hours for a similar 15 Trillion tokens. This claim is a fairly ludicrous one -- there was substantial discussion about whether this was an outright lie[fn:28]. So, how's it possible? How would you train a performant language model with 2048 GPUs, $5 million dollars, and a dream?
+
+*** Aside A: Speculative Decoding
+
+[[https://arxiv.org/pdf/2211.17192][Speculative Decoding]] is a method for speeding up inference of large language models. The idea behind this is very easy to understand.
+
+A big model takes a long time to generate a single token. However, that same big model can evaluate lots of tokens in parallel, as it does in training -- it just never gets to do that in the autoregressive setting. A small model can generate lots of tokens really fast, but quality-wise, produces tokens that are way worse. However, most tokens are really easy to predict: there are "choke points" where picking the right tokens is very challenging, but easy stuff like punctuation, formatting, etc do not require the might of a full model.
+
+In speculative decoding, you use both a big and a small model, together. You make the small model (the "draft model") run way far out, and generate a lot of tokens. Then the big model processes every token generated, finds the first token which it would not have picked, and then chops the remaining tokens from there, replacing it with its own token. The hope is that there are a lot of spots in the response where the draft model does just fine, so the big model can spend all it's time focusing on the tokens it's really needed for[fn:49].
+
+[[../images/from_clipboard/20241229_212557.png]]
+
+There are lots of different methods for this now, but the core idea is all we will need for understanding this paper. 
+
+*** Aside B: Multi-Token Prediction
+
+[[https://arxiv.org/abs/2404.19737][Better & Faster Large Language Models via Multi-token Prediction]] was a hotly discussed paper when it was released back in April 2024. This one is also not so complicated: if predicting the next token is so great, why can't they predict the next two tokens?
+
+[[../images/from_clipboard/20241229_212727.png]]
+
+This paper essentially argued that this does, in fact, make the models have superior sample efficiency. The reason it had not been found is that that sample efficiency only emerges at scale. Training a small model like this does worse than vanilla next-token prediction, but training a larger model like this does do better.
+
+In Multi-token Prediction, the output layer of a language model is replaced with $n$ output heads, which are responsible for predicting a future token. For example, if $n=4$, you'll have 4 heads, index 0 will predict index 1,2,3,4; index 1 will predict 2,3,4,5; and so on. If you train this way, you'll get better results than next-token prediction, provided your model is large enough to learn to use the lookahead properly. 
+
+There are a few interesting insights in this paper: there's lots of interesting engineering detail on how to do this in a relatively efficient way which doesn't quadruple the maximum required GPI memory, but the most interesting part of this paper is section 5, /"Why does it work? Some speculation"/.
+
+They posit there are two "types" of tokens, "choice points" and "inconsequential tokens". For lots of text data, there are usually groups of tokens which are easy to predict as a chunk, e.g. given "1, 2" it's easy to predict "3, 4, 5" next. However, there are tokens which are hard to predict, e.g. given "5", if the next token is "A", you might get it wrong. Multi-token prediction implicitly assigns higher weight to these tokens, since they appear once in the next-token setting, but $n$ times in the MTP setting. This leads to better sample efficiency: you get to update several times whenever you encounter a choice point.
+
+[[../images/from_clipboard/20241229_215852.png]]
+
+Likewise, there's some interesting ideas for using this for /self-speculative decoding/, basically doing the above but using the other heads as the draft model, rather than a separate draft model. This will be important for us soon, so keep that in mind.
+
+*** Something old, something new, something borrowed, something blue
+
+At a high level, DeepSeek-V3's training is an eclectic mix of ideas both familiar and unfamiliar:
+
+- Largely follows DeepSeek-V2, a big MoE model with Multi-Head Latent Attention and GRPO in post-training
+- Makes use of their new loss-free load-balancing technique
+- New to V3 is the multi-token prediction training objective
+- Distillation in post-training based on outputs from the DeepSeek-R1
+- Lots and lots of infrastructure improvements, for making efficient use of their limited GPUs
+
+A potentially confusing element to this paper is it's concurrency with the yet-unfinished R1 series. This paper's result validates the engineering pipeline which will be needed for the likely-more-finicky R1 training. V3 depends on R1 for distillation in post-training, and it seems likely that R1 will depend on V3 for generation of synthetic data -- an [[https://en.wikipedia.org/wiki/Ouroboros][ouroboros]] of model training which results in this paper, which uses 0.1% of it's total training budget on post-training. As you might expect, post-training is somewhat of an afterthought in this work, and many of the end-user complaints about this model seem related to this part of the pipeline[fn:30]. 
+
+But on benchmarks, it comes out strong. While I think claims that it's dethroned the western labs to be a little strong, it's certainly done so for Chinese language, and punches especially above its weight on math and code tasks. 
+
+*** Notes on Architecture
+
+For the most part, the architecture is what you would expect given the description above, most of the figures and formulas are reused from DeepSeek-V2, Auxiliary-Loss-Free Load Balancing, etc. There are a few minor notes which are different as a consequence of the changes.
+
+**** Sequence-Wise Auxiliary Loss
+
+New to V3 is this Sequence-Wise loss, intended to keep the balance even within a single sequence. Globally speaking, the bias method tends to produce very evenly balanced experts. But if you have a single sequence with, for example, a very large number of math tokens all in a sequence, it's possible these tokens will get selected with a locally small pool of the same experts over and over again. This can cause bottlenecks during training, so they add an additional balance loss
+
+[[../images/from_clipboard/20241229_163101.png]]
+
+Basically, this is avoiding situations where, for example, the same subnetwork is chosen for all tokens in sequence A, and a different subnetwork is chosen for all tokens in sequence B. You'd still have global load balance, which is good, but sequence-level load imbalance causes bottlenecks when you're parallelizing lots of inputs at once. This term basically keeps the "mixture" incentive from mixture of experts in these sorts of cases.
+
+**** Token-Dropping
+
+This part is kept sort of mysterious. In training of DeepSeek-V2, they used an additional token-dropping strategy, where tokens with low affinity for the experts on a particular device are dropped and redirected to other experts, to keep everything within a computational budget. In V3, because of the load balancing strategy, they don't drop tokens at all. This is completely removed, with allusions to "specific deployment strategies" which ensure load balance during inference. 
+
+**** First Three Layers
+
+The first three layers in DeepSeek-V3 are dense layers, not MoE layers. A hint for why this is the case can be found in the wonderfully readable paper [[https://arxiv.org/pdf/2407.09298][Transformer Layers as Painters]], by the team at Sakana AI. In this work they were trying to study if transformer models were robust to layer deletion or rearrangement. It turns out, for the most part, they are, and the majority of layers can be thought of as "painting something" on the representation, and adding it via the residual connection at the end. The exception here is the first few layers, which convert the token embeddings to a "canvas" that the layers can operate upon[fn:37]. 
+
+[[../images/from_clipboard/20241229_200946.png]]
+
+It makes some sense that MoE would be less valuable for these layers than the other ones, since they are doing something qualitatively different than the majority of layers. 
+
+*** DeepSeek-V3 Multi-Token Prediction
+
+[[../images/from_clipboard/20241229_165509.png]]
+
+The multi-token prediction component is slightly different from the original MTP paper. Whereas in that paper, they were predicting extra tokens in parallel with different output heads, in this paper they use a number of auxiliary "MTP Modules". which are like additional layers bolted on to the end which predict tokens offset by 1.
+
+These are sort of like a halfway point between speculative decoding and multi-token prediction. Normally with speculative decoding, you use a smaller draft model to predict several steps out in front, leveraging the fact that it's fast to generate lots of tokens in a short time. In this case, you use a single additional block (the MTP module) bolted on top of the full representation (i.e. the final prediction is from a larger model). In fact, [[https://arxiv.org/pdf/2401.15077][EAGLE]] is very similar to this, but intended for speculative decoding (where the equivalent to these MTP modules are called "autoregression heads").
+
+[[../images/from_clipboard/20241229_184539.png]]
+
+As such there's some good allusion to the fact that these heads can also be used to speed up inference: the primary purpose is the gain in performance from the multi-token prediction objective[fn:31], rather than the speed gains. This is the coolest part of the paper for me! Speculative decoding and multi-token prediction feel really connected algorithmically, so this seems like a very elegant bridge between them.
+
+This has some nice effects. The autoregressive framing of LLMs makes an implicit assumption that all tokens are the same difficulty, but any amount of talking to people in the real world would suggest that in most sentences there are periods where you can easily infer the next few words. Multi-token prediction lets the model more directly touch the autoregressive objective[fn:45], and potentially allows it to waste less time on fewer tokens.
+
+[[https://arxiv.org/pdf/2412.09871][Byte Latent Transformer]] is a funny idea based on this insight, where potentially the speculative decoding framing could be used to eliminate tokenization altogether. If you predict directly at the byte level, and you generate with a draft model until an entropy threshold requires you to use a big model, it's possible to generate quickly at this patch level rather than using tokens at all. I think there's a lot of room for all this MTP and speculative decoding work to converge on something very interesting, so I'm spending extra time highlighting it here.
+
+*** Infrastructure
+
+/I'll be the first to admit that the infra stuff is not my primary area of expertise[fn:32]. But it is a very important part of this paper, so I'll do my best to cover a few points./
+
+DeepSeek-V3 is trained on a cluster of 2048 H800 GPUs, on machines that have 8 GPUs each. These machines talk to each other using [[https://en.wikipedia.org/wiki/InfiniBand][InfiniBand]] interconnects. This is trained via their proprietary framework, with the standard types of parallelization (Pipeline, Expert, ZeRO-1 Data Parallel, etc).
+
+There's a lot I will not get into here: there's a lot in here about making the model more suitable for the hardware available. Some things I won't cover are: fine-grained quantization, increasing accumulation precision, mantissa over exponents, online quantization, low-precision storage and communication, deployment[fn:35], and some other optimizations. There is a high level of detail available here, and for those more plugged into the infra-level stuff I'd recommend just reading the paper. 
+
+**** DualPipe
+
+The first new optimization is /DualPipe/, which is a pipeline parallelism algorithm. When you do cross-node expert parallelism, there are two fundamental things each node can be doing at a particular time. It can send something to another machine / wait for something from another machine (communication), or it can perform operations on itself (computation). Ideally, you want to overlap these as much as possible -- you want to maximize the amount of time each node spends doing computation, minimize the time it spends doing communication, and make sure it has something to do while waiting. The biggest enemy here is the GPU sitting idle waiting for something else to finish (called a "pipeline bubble").
+
+DualPipe is their solution to this, it maximizes these overlaps and attempts to minimize the bubbles. This won't change the number of operations, but time is money: this allows them to fit a lot more computation in this setting per unit time.
+
+[[../images/from_clipboard/20241229_192735.png]]
+
+**** FP8 Training
+
+There's a paper from December 2023 called [[https://arxiv.org/pdf/2310.18313][FP8-LM]], which showed that most parameters in training large language models can use fp8 data formats, as opposed to the more common fp16 and bf16 formats. Quantizing models to these types of formats is a common practice for fitting them into smaller memory footprints, and they are almost universally associated with a degradation in quality[fn:33]. A hint to why is the so-called [[https://arxiv.org/pdf/2405.19279][outlier features]] that sometimes pop up: it's not so uncommon for a stray neuron in a transformer to have a magnitude which is massively larger than the others for some reason. It seems promising, but making it work well seems tricky.
+
+There are [[https://arxiv.org/pdf/2409.12517][not very many other tries]] at using low precision during training, but there are some. Many frontier models are trained with a mixed-precision approach, where some very sensitive operations are kept at full precision, whereas others are kept at low precision. DeepSeek's solution does a bit of this floating point judo: various operations are kept in a fairly colorful array of precision types, determined via experiment with smaller models to work about as well as their regular training scheme. 
+
+[[../images/from_clipboard/20241229_194339.png]]
+
+Overall, most things are kept in fp8. As a rule of thumb, anything cast to fp8 should take half as long as something using bf16. Some things which are kept in higher precision are: embedding, output head, MoE gates, normalization, and attention[fn:34].
+
+**** Suggestions on Hardware Design
+
+More of an interesting note, pages 20-21 of this paper are spent on a sort of christmas list[fn:36] for GPU manufacturers. These are things that they believe to be possible with the optimizations they made on the software side, but are gated by a lack of features on the hardware side. I have never seen something like this in a paper before, so I thought it was super interesting:
+
+[[../images/from_clipboard/20241229_200742.png]]
+
+*** Training
+
+For the most part, training DeepSeek-V3 follows DeepSeek-V2 pretty closely. The learning rate schedule is really weird[fn:38], but they use the same batch size scheduler and general ideas from previous papers.
+
+The Long Context extension uses YaRN, like in DeepSeek-V2. but use two phases. Rather than extending to 128k and then training 1000 steps with a sequence length of 32k, this time they reverse the steps: they extend to 32k, train, extend to 128k, and train again. This seems to work better for the Needle In A Haystack tests[fn:39], but also incurs a lot more GPU hours compared to the training in V2.
+
+*** Post-Training
+
+For post-training, they create 1.5M instances of SFT data[fn:40]. These instances are largely generated with R1 for reasoning data, and DeepSeek-V2.5 for everything else[fn:41].
+
+Using the yet-unfinished R1 model for reasoning distillation in this phase introduces some problems. Namely, it's powerful, but "suffers from issues such as overthinking, poor formatting, and excessive length"[fn:42]. To do this, they needed to create a separate expert model which will generate data for the final model. This model is trained via SFT, using examples of normal SFT data with and without conditioned R1 responses. Then, using RL, the temperature is raised substantially and the expert model is incentivized to use what it has learned to solve the problem[fn:43]. Then, using rejection sampling, this model is used to generate data for DeepSeek-V3[fn:44].
+
+The reinforcement learning step in V3 follows V2 somewhat closesly: a rule-based reward model for verifiable tasks, a model-based reward model trained preference data and using earlier checkpoints of the model, and using Group Relative Policy Optimization, as we've seen several times now.
+
+*** Benchmarks
+
+Like all language modeling papers, they report impressive benchmarks. There are a few standouts that I think are worth special mention.
+
+Codeforces percentile is one which blew me away when I first saw it: [[https://wandb.ai/byyoung3/ml-news/reports/OpenAI-Introduces-o3-Pushing-the-Boundaries-of-AI-Reasoning--VmlldzoxMDY3OTUxMA][o3 made some headlines for this benchmark]], specifically landing in the 99th percentile while most of the models are barely scraping 25th percentile at best. But here's DeepSeek-V3, with a 51st percentile using no test time compute! Sonnet still seems broadly better for most development tasks, but perhaps the capability jump in this benchmark is more narrow than the percentiles make it seem, and 99th percentile is not as far away from 25th percentile as it looks.
+
+RewardBench results are interesting too -- building good reward models seems like a fundamental problem for post-training systems, and DeepSeek-V3 showing good results to me suggests that a boring solution to the reward model problem might just be scaling up base models all the same. 
+
+*** Discussion
+
+The big story in discussion is the self-rewarding section, where they make an off-handed mention of using [[https://arxiv.org/pdf/2212.08073][Constitutional AI]] similar to what was used to train Claude over at Anthropic. That is, "RL from AI Feedback" or RLAIF, where the model generates samples, evaluates itself, and finetunes based on it's internal critiques.
+
+[[../images/from_clipboard/20241229_210019.png]]
+
+The CAI paper is pretty old now, having been released back in 2022. We can see from interacting with Claude Sonnet that the post-training at Anthropic has grown way more sophisticated since then, and I hope that this represents an orientation towards post-training by DeepSeek. The focus on V3's RewardBench scores, the distillation from a bigger model, and the noted importance of Constitutional AI (Recall "align with human values, minimize the need for human supervision" from the conclusion of DeepSeek-V2) all feel very Anthropic flavored to me, so time will tell if they follow more in their footsteps from here.
+
+*** Future Directions
+
+This paper was pretty heavy on technical detail, even compared to the other deepseek work[fn:46]. But we got to see a lot about DeepSeek's future direction, rather than waiting around for a model drop, or navigating leaks on social media.
+
+On that note, preregistered future work has always been one of the most intriguing parts of a new DeepSeek release. In this paper there are some good ones:
+
+- Infinite context length
+- "Break through the architectural limitations of the Transformer"
+- Better data scaling, better performance on more topics
+- Iterating on "deep thinking" capabilities[fn:47]
+- Better model evaluation methods to prevent optimizing towards fixed targets and misleading impressions of capability[fn:48]
+
+As a reminder, these were their outstanding preregistered plans since V2-Coder:
+
+- A large MoE Vision-Language Model
+- A multimodal model
+- A GPT-4 Level Model
+- Alignment work
+
+Depending on how you consider the Constitutional AI work in this paper, these have all been addressed to some degree.
 
 ** Conclusion
 
@@ -471,8 +640,63 @@ I can only hope they continue to publish throughout 2025. Otherwise, it will be 
 - Pixel Shuffle section in JanusFlow might be necessary, it's mentioned twice in this writeup.
 - I'm not happy with the Rectified Flow section, probably because it's a lot to learn.
 - UCB section in DeepSeek-Prover-V1.5 probably should be more detailed
+- Make the infra section of V3 a lot, lot better. 
 
 * Footnotes
+
+[fn:49] Hamfisted analogy for *waves hands* all of this, probably somewhere buried in here. 
+
+[fn:48] a bit on the nose, imo
+
+[fn:47] Referring to R1, as the capability is called "DeepThink" on their chat frontend
+
+[fn:46] The Llama 3 paper still stands above it for me, as far as single papers being maximally signal, but part of the purpose of these posts is to turn the deepseek corpus into something like that paper :)
+
+[fn:45] Which is pretty much never directly given to the model during training, something I've always found very strange.
+
+[fn:44] This is all kept very hazy and mysterious, probably because it somewhat leaks information from the forthcoming R1 paper.
+
+[fn:43] Reading between the lines seems like this uses GRPO with the problem's solution as reward, since this would not require a value model or an additional reward model, and explains why this would not work for non-reasoning data.
+
+[fn:42] I think this is a good time to predict ahead of time that V3's lmsys scores will be not-so-great, primarily as a result of this step.
+
+[fn:41] The V2.5 SFT data is pruned using human annotators. 
+
+[fn:40] Their instruction-tuning for DeepSeek-V2 was also exactly 1.5M instances, which suggests to me that this did not change very much at all other than the added R1 Distillation. 
+
+[fn:39] Which I hate, by the way. This never captures how well the model does at normal, long context conversations in my experience, I think it's misleading as a result.
+
+[fn:38] It has the original warmup-and-decay as DeepSeek-V2, but with a period that uses the cosine schedule suggesting they plan on not using the checkpoints during that time period. After that, they resume a constant learning rate, which changes again near the end. 
+
+[[../images/from_clipboard/20241229_201540.png]]
+
+[fn:37] More thoughts on this paper in [[https://planetbanatt.net/articles/modelmerging.html][Model Merging and You]], my short review of some important model merging literature.
+
+[fn:36] Fitting, given the release date.
+
+[fn:35] There are a few things here that I think are worth a footnote, even with my lack of familiarity with hardware-level topics. There's several references to unproven, currently-being-tested ideas here: dynamic redundancy for decoding, and dynamic redundancy for experts, where each gpu holds 16 experts but only activate 9. Likewise, the minimum deployment for decoding is a dizzying 320 GPUs, to account for the heavy use of the always-enabled shared experts. 
+
+[fn:34] Arguably this one is the most important; keeping this in full precision seems to be somewhat unavoidable, and per my understanding this is what causes most of the degredation in quantizing for inference. 
+
+[fn:33] There's some interesting counter examples to this, though. There's some work showing that the increasingly popular reasoning models [[https://x.com/WolframRvnwlf/status/1863331342479438175][may quantize surprisingly well]], since the degredation in quality can be compensated for by using more thinking time. 
+
+[fn:32] Pointers on how to get good at this would be much appreciated, for what it's worth. It seems inscrutable compared to just "work somewhere where you train really big models."
+
+[fn:31] This is the same as the single turn objective, pretty much, just each head gets its own cross entropy loss and they get weighted-averaged together. 
+
+[fn:30] I hesistantly think this is likely to improve, but we've seen DeepSeek be famously not-so-product-brained in the past. There's an argument to be made that their lack of focus on it is an example of [[https://planetbanatt.net/articles/usefulgames.html#org0cf2eec][learning french vs learning scrabble]]. Many criticisms about this model are about how it will e.g. sometimes respond to questions like "who are you" with "I am ChatGPT, an AI assistant from OpenAI", a behavior [[https://x.com/voooooogel/status/1873133153650655658][exhibited by llama 3.1 405B base]] and not by the instruct tuned models. I would still consider Meta's post-training to be chasing behind the closed labs, but it certainly is more of a core focus compared to DeepSeek's purely utilitarian post-training. They need an [[https://x.com/erykbanatt/status/1872699419122147462][Amanda Askell]]!
+
+[fn:29] Lots of discussion on this too -- extremely memory intensive, extremely computation light. It's a very different comparison to something like Llama 3.3 70B, which is much lighter on memory but also uses more than double the activated parameters every forward pass. 
+
+[fn:28] This strikes me as a very insane thing to lie about, especially compared to the much easier patterns like distilling a competitor's model or overfitting on the test sets of a benchmark. I've seen this opinion defended using "occam's razor" but I just don't think it follows at all: I think a lot of people /want/ this result to be a lie, since lots of discourse about "the end of scaling" and "the need for bigger datacenters" now get painted in an unfavorable light. Especially embedded in a work with so much verifiable technical information, inside a larger corpus of verified technical claims, I think making this sort of claim is completely baseless, if not outright conspiratorial. 
+
+[fn:27] DeepSeek-V3's full price is roughly 2x the price of GPT-4o mini, for comparison. 
+
+[fn:26] Until Feb 8, 2025, it's the same price as V2.5, which is $0.14/M input + $0.28/M output, plus reductions for cache hits. Given that deepseek's API lets you parallelize calls as much as you want, I doubt this price they're serving is at a loss for them. 
+
+[fn:25] DeepSeek-V3 is definitely a benchmark-maxxer, it doesn't feel as good to use as other models at the frontier. But for purely utilitarian purposes / math / code / etc it's certainly very strong, maybe similar to 4o from my playing around with it. 
+
+[fn:24] Chinese spots are always open on Christmas, don't forget.
 
 [fn:23] In practice partial rollouts are sometimes used, and sometimes value network evals are just used directly. The rollout framing will be useful for understanding the Prover-v1.5 paper, though, so I'll leave the simplified version as-is.
 
