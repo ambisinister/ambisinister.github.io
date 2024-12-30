@@ -11,7 +11,7 @@ Broadly speaking, since working on V2-Coder, DeepSeek has published work in thre
 - Enabling the training of Reasoner Models like OpenAI o1
 - Progress on vision and multimodal models
 
-None of these should be too surprising for the astute reader: DeepSeek's preregistered plans in the conclusion sections of their papers at the time of the previous review were:
+None of these should be too surprising for the astute reader. DeepSeek's preregistered plans in the conclusion sections of their papers at the time of the previous review were:
 - A large MoE Vision-Language Model
 - A multimodal model similar to OpenAI's GPT-4o
 - A GPT-4 Level Model
@@ -58,7 +58,7 @@ We've already seen in DeepSeek-V2 that this idea can be used really effectively 
 
 This was a very good idea! The hypothesis here is that the change in weights lies inside a "low intrinsic rank", and you can make the value of $r$ really small and still manage your fine-tune. This allowed regular end-users to start finetuning models, and sharing these smaller "LoRA adapters" instead of full finetuned models. All of this for no additional latency: if you matrix multiply the adapters together and add it to your original weights, it's just like you did a regular full finetune. These tend to not be as good as full finetunes (although some similar methods like [[https://www.answer.ai/posts/2024-04-26-fsdp-qdora-llama3.html][QDoRA]] are sometimes easier to find good parameters for), but they make it possible to train big models with less memory (as opposed to not at all).
 
-There's two problems with just using LoRA for a big mixture-of-experts model with finegrained experts. First off, MoE models are big -- way, way bigger than dense models. Second, the experts are already really small -- way smaller than a typical FFN in a dense model. If you attach a lot of LoRA adapters to every single expert in every single layer, it doesn't really save you that many parameters compared to a full finetune.
+There's two problems with just using LoRA for a big mixture-of-experts model with finegrained experts. First off, MoE models are big -- way, way bigger than dense models. Second, the experts are already really small -- way smaller than a typical FFN in a dense model. If you attach a lot of LoRA adapters to every single expert in every single layer, it ends up being less useful than it would be for dense models.
 
 Relatedly, it feels sort of antithetical to the way MoE works in the first place. If you anthropomorphize two experts in your network (e.g. "good at math tokens" vs "good at cooking tokens"), then ideally you wouldn't want to touch the cooking ones at all if you're trying to finetune it on math problems. The traditional PEFT methods will touch all the parameters, a little bit, in a low rank sort of way. This is obviously appropriate for dense models, but it feels sort of icky for MoE models. 
 
@@ -69,14 +69,14 @@ Relatedly, it feels sort of antithetical to the way MoE works in the first place
 The idea behind ESFT is actually extremely easy to understand.
 
 1. Find out which experts are activated for your data
-2. Fully Fine-Tune Those Experts
+2. Fully fine-tune those experts
 3. Keep the rest of the network frozen
 
 This all fundamentally depends on the insight that, in this highly specialized regime with a lot of really small experts, the set of experts which are turned on vary a lot by task, but are consistent between tasks of the same type. That is: two code tasks will activate mostly the same experts to each other, but virtually none of the same experts as a translation task. If this were not true, this would not be a useful method[fn:4]. Thankfully, they got a nice result here!
 
 [[../images/from_clipboard/20241227_204437.png]]
 
-The method they use isn't too different from what you'd expect, given the result of the experiment above. You sample from your dataset, you find the average affinity of all your experts to the tokens in your sampled data[fn:5], and you unfreeze all expert for whom their affinity is above some hyperparameter threshold.
+The method they use isn't too different from what you'd expect, given the result of the experiment above. You sample from your dataset, you find the average affinity of all your experts to the tokens in your sampled data[fn:5], and you unfreeze all experts for whom their affinity is above some hyperparameter threshold.
 
 [[../images/from_clipboard/20241227_205635.png]]
 
@@ -90,7 +90,7 @@ To me this just makes perfect sense: for unrelated tasks, it's possible that the
 
 This paper can be found [[https://arxiv.org/abs/2408.08152][here]]. It came out on August 15th, 2024. Their twitter thread can be found [[https://x.com/deepseek_ai/status/1824291724887208040][here]].
 
-You don't need to be too plugged into theorem proving literature to see the value here: it's a language model that uses Monte-Carlo Tree Search. I am not as plugged into the theorem proving community, so my overview of this paper will again be more focused on this paper's implications for language modeling in general.
+You don't need to be too plugged into theorem proving literature to see the value here: it's a language model that uses Monte-Carlo Tree Search. I'm not super informed on the nuances of computer theorem proving, so my overview of this paper will again be more focused on this paper's implications for language modeling in general.
 
 *** Aside: Monte-Carlo Tree Search
 
@@ -208,7 +208,7 @@ Janus is the first step towards a multimodal model, which can natively input and
 
 *** Chameleon
 
-[[https://arxiv.org/pdf/2405.09818][Chameleon]] is Meta's early-fusion token-based mixed-modal models. Put plainly, this is meta's first big attempt to clone GPT-4o, a model which can understand images as if they were just regular words, and reply with their own images.
+[[https://arxiv.org/pdf/2405.09818][Chameleon]] is Meta's early-fusion token-based mixed-modal model. Put plainly, this is Meta's first big attempt to clone GPT-4o, a model which can understand images as if they were just regular words, and reply with their own images.
 
 The overall claim of multimodal models is that interleaving multiple modalities will help the model learn more than it would just from text alone. Remember from the DeepSeek-VL paper that traditional vision-language models trained with adapters /don't/ do this -- in those models there's seemingly a "competitive dynamic" between the multimodal and language capabilities, where training one causes catastrophic forgetting in the other.
 
@@ -217,7 +217,7 @@ If we want to understand the Janus work, we need to grasp how this works first.
 [[../images/from_clipboard/20241228_115931.png]]
 [[../images/from_clipboard/20241228_120122.png]]
 
-The core idea behind Chameleon is the image tokenizer. When doing LLaVA-style adapters, we get features that are shaped just like tokens, which get concatenated with the output of the BPE tokenizer. These can be anything: they're not even required to be integers like normal tokenizer, they're just regular neural network features in the same shape as the tokenized input to the network. This is really good for getting detailed feature representations, but these faux-tokens[fn:15] always need to be the same dimensions and always be in the same spots, otherwise the model won't understand what they are[fn:16].
+The core idea behind Chameleon is the image tokenizer. When doing LLaVA-style adapters, we get features that are shaped just like tokens, which get concatenated with the output of the BPE tokenizer. These can be anything: they're not even required to be integers like in a normal tokenizer, they're just regular neural network features in the same shape as the tokenized input to the network. This is really good for getting detailed feature representations, but these faux-tokens[fn:15] always need to be the same dimensions and always be in the same spots, otherwise the model won't understand what they are[fn:16].
 
 Way back in 2017 a paper [[https://arxiv.org/pdf/1711.00937][Neural Discrete Representation Learning]] introduced Vector Quantized Variational Autoencoders (VQ-VAE). At the time, this was just a very interesting experiment: can we learn a variational autoencoder[fn:17] that uses /discrete/ features, rather than /continuous/ ones?
 
@@ -225,7 +225,7 @@ Way back in 2017 a paper [[https://arxiv.org/pdf/1711.00937][Neural Discrete Rep
 
 That is, if we collapse the features in the encoder to a fixed "vocabulary" of the closest latents in a "codebook", can we still train the model to reconstruct the image well. It turns out this is, in fact, possible! And you might see where this is going: this looks a bit like a tokenizer if you squint at it. [[https://arxiv.org/pdf/2203.13131][Make-a-Scene]] in 2022 applied this to an autoregressive, language-model-like generation paradigm, and now here Chameleon treats it as a first-class modality for a language model.
 
-This is the core idea behind Chameleon. They use a codebook of size 8192, and for each image represent the image using a sequence of 1024 tokens pulled from this codebook. Importantly, they mention that this approach is reconstructing images with lots of text -- a capability specifically pointed out in the original DeepSeek-VL paper, and the motivating use case for the high resolution features. Here represents possibly an interesting tradeoff: using a fixed codebook size makes it possible to frame the problem like inputting and outputting regular tokens, using continuous features lets you get high resolution but prevents you from doing that. 
+This is the core idea behind Chameleon. They use a codebook of size 8192, and for each image represent the image using a sequence of 1024 tokens pulled from this codebook. Importantly, they mention that this approach is bad at reconstructing images with lots of text -- a capability specifically pointed out in the original DeepSeek-VL paper, and the motivating use case for the high resolution features. Here represents possibly an interesting tradeoff: using a fixed codebook size makes it possible to frame the problem like inputting and outputting regular tokens, using continuous features lets you get high resolution but prevents you from doing that. 
 
 This is really just scratching the surface: GPT-4o has a [[https://openai.com/index/hello-gpt-4o/][blogpost]] showing off it's multimodal capabilities (which are all toggled off at the time of writing). It seems like it can do things like generate voice and sounds, edit images in multi-turn settings, and maintain GPT-4-Turbo's old text/code generation capabilities in a comparatively smaller model. This "omni model" is sort of a new north star for a lot of other labs. 
 
@@ -302,7 +302,7 @@ We can describe a mapping between a noise distribution $p_0$ and samples $x_1$ o
 
 $$dy_t = v_\theta(y_t, t) dt$$
 
-where $v$ is the /velocity/ output by a neural network with weights $\theta$. We can attempt to solve this by regress a vector field $u_t$ which generates a probability path between the distributions.
+where $v$ is the /velocity/ output by a neural network with weights $\theta$. We can attempt to solve this by regressing a vector field $u_t$ which generates a probability path between the distributions.
 
 The conditional flow matching objective can be designed as the expected l2 distance between the velocity field and the vector field:
 
@@ -313,7 +313,7 @@ To express the relationship between $z_t$, $x_0$ and $\epsilon$, we introduce $\
 $$\psi_t(\cdot|\epsilon) : x_0 \mapsto a_tx_0 + b_t\epsilon$$
 $$u_t(z|\epsilon) := \psi'_t(\psi^{-1}_t(z|\epsilon)|\epsilon)$$
 
-Since $z_t$ can be written as a solution to the ODE $z'_t = u_t(z_t|\epsilon)$ with initial value $z_0 = x_0$, $u_t(\cdot|\epsilon)$ generates $p_t(\cdot|\epsilon)$.
+Since $z_t$ can be written as a solution to the ODE $z'_t = u_t(z_t|\epsilon)$ with initial value $z_0 = x_0$, $u_t(\cdot|\epsilon)$ which generates $p_t(\cdot|\epsilon)$.
 
 /Rectified Flows/ define the forward process as follows:
 
@@ -422,7 +422,7 @@ dimensions per tile.
 
 This is the first of their works to use the loss-free load-balancing bias, validating the approach on a somewhat larger model. But otherwise, this is pretty straightforward: they collect a lot of vision-language data, and they trained it largely the same as they've trained other models. As before, they train in three phases: an adapter warmup phase, a pretraining phase with pure text and VL data interleaved, and an SFT phase where they train the model with prompt-response data. The only major differences are: more/better data[fn:9], and training the vision encoder during pretraining and adapter warmup phases[fn:8].
 
-Aside from data collection woes, the infrastructure section has some potential insight onto why this problem may have been harder a problem than expected. The visual encoder operates at dynamic resolution and is completely disabled sometimes, which means that GPU utilization during training is surprisingly difficult to get right if all you have is infra for language models. To alleviate this problem, they implement "fine-grained layer division of the vision encoder" which is briefly mentioned with no concrete details.
+Aside from data collection woes, the infrastructure section has some potential insight onto why this problem may have been harder than expected. The visual encoder operates at dynamic resolution and is completely disabled sometimes, which means that GPU utilization during training is surprisingly difficult to get right if all you have is infra for language models. To alleviate this problem, they implement "fine-grained layer division of the vision encoder" which is briefly mentioned with no concrete details.
 
 *** New Capabilities
 
@@ -478,7 +478,7 @@ This paper essentially argued that this does, in fact, make the models have supe
 
 In Multi-token Prediction, the output layer of a language model is replaced with $n$ output heads, which are responsible for predicting a future token. For example, if $n=4$, you'll have 4 heads, index 0 will predict index 1,2,3,4; index 1 will predict 2,3,4,5; and so on. If you train this way, you'll get better results than next-token prediction, provided your model is large enough to learn to use the lookahead properly. 
 
-There are a few interesting insights in this paper: there's lots of interesting engineering detail on how to do this in a relatively efficient way which doesn't quadruple the maximum required GPI memory, but the most interesting part of this paper is section 5, /"Why does it work? Some speculation"/.
+There are a few interesting insights in this paper: there's lots of interesting engineering detail on how to do this in a relatively efficient way which doesn't quadruple the maximum required GPU memory, but the most interesting part of this paper is section 5, /"Why does it work? Some speculation"/.
 
 They posit there are two "types" of tokens, "choice points" and "inconsequential tokens". For lots of text data, there are usually groups of tokens which are easy to predict as a chunk, e.g. given "1, 2" it's easy to predict "3, 4, 5" next. However, there are tokens which are hard to predict, e.g. given "5", if the next token is "A", you might get it wrong. Multi-token prediction implicitly assigns higher weight to these tokens, since they appear once in the next-token setting, but $n$ times in the MTP setting. This leads to better sample efficiency: you get to update several times whenever you encounter a choice point.
 
@@ -498,7 +498,7 @@ At a high level, DeepSeek-V3's training is an eclectic mix of ideas both familia
 
 A potentially confusing element to this paper is it's concurrency with the yet-unfinished R1 series. This paper's result validates the engineering pipeline which will be needed for the likely-more-finicky R1 training. V3 depends on R1 for distillation in post-training, and it seems likely that R1 will depend on V3 for generation of synthetic data -- an [[https://en.wikipedia.org/wiki/Ouroboros][ouroboros]] of model training which results in this paper, which uses 0.1% of it's total training budget on post-training. As you might expect, post-training is somewhat of an afterthought in this work, and many of the end-user complaints about this model seem related to this part of the pipeline[fn:30]. 
 
-But on benchmarks, it comes out strong. While I think claims that it's dethroned the western labs to be a little strong, it's certainly done so for Chinese language, and punches especially above its weight on math and code tasks. 
+But on benchmarks, it comes out strong. While I think claims that it's dethroned the western labs to be a little premature, it's certainly done so for Chinese language, and punches especially above its weight on math and code tasks. 
 
 *** Notes on Architecture
 
@@ -528,13 +528,13 @@ It makes some sense that MoE would be less valuable for these layers than the ot
 
 [[../images/from_clipboard/20241229_165509.png]]
 
-The multi-token prediction component is slightly different from the original MTP paper. Whereas in that paper, they were predicting extra tokens in parallel with different output heads, in this paper they use a number of auxiliary "MTP Modules". which are like additional layers bolted on to the end which predict tokens offset by 1.
+The multi-token prediction component is slightly different from the original MTP paper. Whereas in that paper, they were predicting extra tokens in parallel with different output heads, in this paper they use a number of auxiliary "MTP Modules" which are like additional layers bolted on to the end which predict tokens offset by 1.
 
 These are sort of like a halfway point between speculative decoding and multi-token prediction. Normally with speculative decoding, you use a smaller draft model to predict several steps out in front, leveraging the fact that it's fast to generate lots of tokens in a short time. In this case, you use a single additional block (the MTP module) bolted on top of the full representation (i.e. the final prediction is from a larger model). In fact, [[https://arxiv.org/pdf/2401.15077][EAGLE]] is very similar to this, but intended for speculative decoding (where the equivalent to these MTP modules are called "autoregression heads").
 
 [[../images/from_clipboard/20241229_184539.png]]
 
-As such there's some good allusion to the fact that these heads can also be used to speed up inference: the primary purpose is the gain in performance from the multi-token prediction objective[fn:31], rather than the speed gains. This is the coolest part of the paper for me! Speculative decoding and multi-token prediction feel really connected algorithmically, so this seems like a very elegant bridge between them.
+As such there's some good allusion to the fact that these heads can also be used to speed up inference: the primary purpose is the gain in performance from the multi-token prediction objective[fn:31], rather than the speed gains, but with one comes the other. This is the coolest part of the paper for me! Speculative decoding and multi-token prediction feel really connected algorithmically, so this seems like a very elegant bridge between them.
 
 This has some nice effects. The autoregressive framing of LLMs makes an implicit assumption that all tokens are the same difficulty, but any amount of talking to people in the real world would suggest that in most sentences there are periods where you can easily infer the next few words. Multi-token prediction lets the model more directly touch the autoregressive objective[fn:45], and potentially allows it to waste less time on fewer tokens.
 
@@ -546,7 +546,7 @@ This has some nice effects. The autoregressive framing of LLMs makes an implicit
 
 DeepSeek-V3 is trained on a cluster of 2048 H800 GPUs, on machines that have 8 GPUs each. These machines talk to each other using [[https://en.wikipedia.org/wiki/InfiniBand][InfiniBand]] interconnects. This is trained via their proprietary framework, with the standard types of parallelization (Pipeline, Expert, ZeRO-1 Data Parallel, etc).
 
-There's a lot I will not get into here: there's a lot in here about making the model more suitable for the hardware available. Some things I won't cover are: fine-grained quantization, increasing accumulation precision, mantissa over exponents, online quantization, low-precision storage and communication, deployment[fn:35], and some other optimizations. There is a high level of detail available here, and for those more plugged into the infra-level stuff I'd recommend just reading the paper. 
+I won't cover everything in this writeup: there's a lot in here about making the model more suitable for the hardware available. Some things I won't cover are: fine-grained quantization, increasing accumulation precision, mantissa over exponents, online quantization, low-precision storage and communication, deployment[fn:35], and some other optimizations. There is a high level of detail available here, and for those more plugged into the infra-level stuff I'd recommend just reading the paper. 
 
 **** DualPipe
 
@@ -576,7 +576,7 @@ More of an interesting note, pages 20-21 of this paper are spent on a sort of ch
 
 For the most part, training DeepSeek-V3 follows DeepSeek-V2 pretty closely. The learning rate schedule is really weird[fn:38], but they use the same batch size scheduler and general ideas from previous papers.
 
-The Long Context extension uses YaRN, like in DeepSeek-V2. but use two phases. Rather than extending to 128k and then training 1000 steps with a sequence length of 32k, this time they reverse the steps: they extend to 32k, train, extend to 128k, and train again. This seems to work better for the Needle In A Haystack tests[fn:39], but also incurs a lot more GPU hours compared to the training in V2.
+The Long Context extension uses YaRN, like in DeepSeek-V2, but this time using two phases. Rather than extending to 128k and then training 1000 steps with a sequence length of 32k, this time they reverse the steps: they extend to 32k, train, extend to 128k, and train again. This seems to work better for the Needle In A Haystack tests[fn:39], but also incurs a lot more GPU hours compared to the training in V2.
 
 *** Post-Training
 
@@ -584,7 +584,7 @@ For post-training, they create 1.5M instances of SFT data[fn:40]. These instance
 
 Using the yet-unfinished R1 model for reasoning distillation in this phase introduces some problems. Namely, it's powerful, but "suffers from issues such as overthinking, poor formatting, and excessive length"[fn:42]. To do this, they needed to create a separate expert model which will generate data for the final model. This model is trained via SFT, using examples of normal SFT data with and without conditioned R1 responses. Then, using RL, the temperature is raised substantially and the expert model is incentivized to use what it has learned to solve the problem[fn:43]. Then, using rejection sampling, this model is used to generate data for DeepSeek-V3[fn:44].
 
-The reinforcement learning step in V3 follows V2 somewhat closesly: a rule-based reward model for verifiable tasks, a model-based reward model trained preference data and using earlier checkpoints of the model, and using Group Relative Policy Optimization, as we've seen several times now.
+The reinforcement learning step in V3 follows V2 somewhat closely: a rule-based reward model for verifiable tasks, a model-based reward model trained using preference data from using earlier checkpoints of the model, and using Group Relative Policy Optimization, as we've seen several times now.
 
 *** Benchmarks
 
@@ -632,6 +632,8 @@ But it feels like DeepSeek bookended the year rather nicely; a neat calendar yea
 A friend of mine once relayed me a bit of advice from his PhD advisor: that you should pick one important paper to understand well, and if it's the right one that will be your tool for life. I am greedy, so I picked a single lab instead. In Machine Learning, there are a lot of papers out there, and it's often very challenging to discern which ones are the important ones. DeepSeek's 2024 corpus represents something unique: a written record of something a single lab actually did to cover a lot of ground in a very short time, the central spine of a tree leading to the most important published papers about language modeling all over the world.
 
 I can only hope they continue to publish throughout 2025. Otherwise, it will be much more annoying to prioritize my reading list.
+
+For comments, errata, suggestions, etc, you can reach me on [[https://x.com/erykbanatt][twitter @erykbanatt]].
 
 ** TODO List
 

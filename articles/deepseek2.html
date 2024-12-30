@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-12-29 Sun 22:13 -->
+<!-- 2024-12-30 Mon 10:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Deepseek Continued</title>
@@ -217,7 +217,7 @@ Broadly speaking, since working on V2-Coder, DeepSeek has published work in thre
 </ul>
 
 <p>
-None of these should be too surprising for the astute reader: DeepSeek's preregistered plans in the conclusion sections of their papers at the time of the previous review were:
+None of these should be too surprising for the astute reader. DeepSeek's preregistered plans in the conclusion sections of their papers at the time of the previous review were:
 </p>
 <ul class="org-ul">
 <li>A large MoE Vision-Language Model</li>
@@ -294,7 +294,7 @@ We've already seen in DeepSeek-V2 that this idea can be used really effectively 
 </p>
 
 
-<div id="org09a5e78" class="figure">
+<div id="org8ef8242" class="figure">
 <p><img src="../images/from_clipboard/20241227_202228.png" alt="20241227_202228.png" />
 </p>
 </div>
@@ -304,7 +304,7 @@ This was a very good idea! The hypothesis here is that the change in weights lie
 </p>
 
 <p>
-There's two problems with just using LoRA for a big mixture-of-experts model with finegrained experts. First off, MoE models are big &#x2013; way, way bigger than dense models. Second, the experts are already really small &#x2013; way smaller than a typical FFN in a dense model. If you attach a lot of LoRA adapters to every single expert in every single layer, it doesn't really save you that many parameters compared to a full finetune.
+There's two problems with just using LoRA for a big mixture-of-experts model with finegrained experts. First off, MoE models are big &#x2013; way, way bigger than dense models. Second, the experts are already really small &#x2013; way smaller than a typical FFN in a dense model. If you attach a lot of LoRA adapters to every single expert in every single layer, it ends up being less useful than it would be for dense models.
 </p>
 
 <p>
@@ -317,7 +317,7 @@ Relatedly, it feels sort of antithetical to the way MoE works in the first place
 <h3 id="org60d06b6">ESFT</h3>
 <div class="outline-text-3" id="text-org60d06b6">
 
-<div id="org71a9401" class="figure">
+<div id="orgc9aefa1" class="figure">
 <p><img src="../images/from_clipboard/20241227_203350.png" alt="20241227_203350.png" />
 </p>
 </div>
@@ -328,7 +328,7 @@ The idea behind ESFT is actually extremely easy to understand.
 
 <ol class="org-ol">
 <li>Find out which experts are activated for your data</li>
-<li>Fully Fine-Tune Those Experts</li>
+<li>Fully fine-tune those experts</li>
 <li>Keep the rest of the network frozen</li>
 </ol>
 
@@ -337,17 +337,17 @@ This all fundamentally depends on the insight that, in this highly specialized r
 </p>
 
 
-<div id="org3a71846" class="figure">
+<div id="org5587138" class="figure">
 <p><img src="../images/from_clipboard/20241227_204437.png" alt="20241227_204437.png" />
 </p>
 </div>
 
 <p>
-The method they use isn't too different from what you'd expect, given the result of the experiment above. You sample from your dataset, you find the average affinity of all your experts to the tokens in your sampled data<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>, and you unfreeze all expert for whom their affinity is above some hyperparameter threshold.
+The method they use isn't too different from what you'd expect, given the result of the experiment above. You sample from your dataset, you find the average affinity of all your experts to the tokens in your sampled data<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>, and you unfreeze all experts for whom their affinity is above some hyperparameter threshold.
 </p>
 
 
-<div id="orga0e0200" class="figure">
+<div id="org39ca86d" class="figure">
 <p><img src="../images/from_clipboard/20241227_205635.png" alt="20241227_205635.png" />
 </p>
 </div>
@@ -361,7 +361,7 @@ To me this just makes perfect sense: for unrelated tasks, it's possible that the
 </p>
 
 
-<div id="org21d13ba" class="figure">
+<div id="org7ff0aea" class="figure">
 <p><img src="../images/from_clipboard/20241227_210629.png" alt="20241227_210629.png" />
 </p>
 </div>
@@ -377,7 +377,7 @@ This paper can be found <a href="https://arxiv.org/abs/2408.08152">here</a>. It 
 </p>
 
 <p>
-You don't need to be too plugged into theorem proving literature to see the value here: it's a language model that uses Monte-Carlo Tree Search. I am not as plugged into the theorem proving community, so my overview of this paper will again be more focused on this paper's implications for language modeling in general.
+You don't need to be too plugged into theorem proving literature to see the value here: it's a language model that uses Monte-Carlo Tree Search. I'm not super informed on the nuances of computer theorem proving, so my overview of this paper will again be more focused on this paper's implications for language modeling in general.
 </p>
 </div>
 
@@ -393,7 +393,7 @@ MCTS works in four steps. First, selection: MCTS will traverse the tree by sampl
 </p>
 
 
-<div id="orgcf69ff0" class="figure">
+<div id="org4a2aa67" class="figure">
 <p><img src="../images/from_clipboard/20241228_213907.png" alt="20241228_213907.png" />
 </p>
 </div>
@@ -465,7 +465,7 @@ We now have one of the gnarliest figures in the DeepSeek Corpus:
 </p>
 
 
-<div id="org3926d4f" class="figure">
+<div id="org47b1230" class="figure">
 <p><img src="../images/from_clipboard/20241227_214920.png" alt="20241227_214920.png" />
 </p>
 </div>
@@ -546,7 +546,7 @@ Recall from DeepSeekMoE that, in Mixture-of-Experts, the FFN component of the tr
 </p>
 
 
-<div id="orgb92c80e" class="figure">
+<div id="org3529811" class="figure">
 <p><img src="../images/from_clipboard/20240603_132441.png" alt="20240603_132441.png" />
 </p>
 </div>
@@ -556,7 +556,7 @@ A core problem of MoE models is that the router can just pick the same few exper
 </p>
 
 
-<div id="org4003f5a" class="figure">
+<div id="orgfbbc729" class="figure">
 <p><img src="../images/from_clipboard/20240612_143124.png" alt="20240612_143124.png" />
 </p>
 </div>
@@ -566,7 +566,7 @@ This is usually sufficient for getting the experts to be selected evenly. The pr
 </p>
 
 
-<div id="org1fe16a0" class="figure">
+<div id="orga3ff8ba" class="figure">
 <p><img src="../images/from_clipboard/20241227_185215.png" alt="20241227_185215.png" />
 </p>
 </div>
@@ -576,7 +576,7 @@ To fix this problem, they introduce a bias term during training. This bias term 
 </p>
 
 
-<div id="orgf1538b7" class="figure">
+<div id="org79815f5" class="figure">
 <p><img src="../images/from_clipboard/20241227_185622.png" alt="20241227_185622.png" />
 </p>
 </div>
@@ -590,7 +590,7 @@ Here's my quick writeup of their algorithm in code; it's not too hard to underst
 </p>
 
 
-<div id="org07ce2a4" class="figure">
+<div id="org6a5394b" class="figure">
 <p><img src="../images/from_clipboard/20241227_190419.png" alt="20241227_190419.png" />
 </p>
 </div>
@@ -600,7 +600,7 @@ Here's my quick writeup of their algorithm in code; it's not too hard to underst
 </p>
 
 
-<div id="org0f1fa70" class="figure">
+<div id="orgad34769" class="figure">
 <p><img src="../images/from_clipboard/20241227_190854.png" alt="20241227_190854.png" />
 </p>
 </div>
@@ -632,7 +632,7 @@ Janus is the first step towards a multimodal model, which can natively input and
 <h3 id="orgac6b14d">Chameleon</h3>
 <div class="outline-text-3" id="text-orgac6b14d">
 <p>
-<a href="https://arxiv.org/pdf/2405.09818">Chameleon</a> is Meta's early-fusion token-based mixed-modal models. Put plainly, this is meta's first big attempt to clone GPT-4o, a model which can understand images as if they were just regular words, and reply with their own images.
+<a href="https://arxiv.org/pdf/2405.09818">Chameleon</a> is Meta's early-fusion token-based mixed-modal model. Put plainly, this is Meta's first big attempt to clone GPT-4o, a model which can understand images as if they were just regular words, and reply with their own images.
 </p>
 
 <p>
@@ -649,7 +649,7 @@ If we want to understand the Janus work, we need to grasp how this works first.
 </p>
 
 <p>
-The core idea behind Chameleon is the image tokenizer. When doing LLaVA-style adapters, we get features that are shaped just like tokens, which get concatenated with the output of the BPE tokenizer. These can be anything: they're not even required to be integers like normal tokenizer, they're just regular neural network features in the same shape as the tokenized input to the network. This is really good for getting detailed feature representations, but these faux-tokens<sup><a id="fnr.9" class="footref" href="#fn.9" role="doc-backlink">9</a></sup> always need to be the same dimensions and always be in the same spots, otherwise the model won't understand what they are<sup><a id="fnr.10" class="footref" href="#fn.10" role="doc-backlink">10</a></sup>.
+The core idea behind Chameleon is the image tokenizer. When doing LLaVA-style adapters, we get features that are shaped just like tokens, which get concatenated with the output of the BPE tokenizer. These can be anything: they're not even required to be integers like in a normal tokenizer, they're just regular neural network features in the same shape as the tokenized input to the network. This is really good for getting detailed feature representations, but these faux-tokens<sup><a id="fnr.9" class="footref" href="#fn.9" role="doc-backlink">9</a></sup> always need to be the same dimensions and always be in the same spots, otherwise the model won't understand what they are<sup><a id="fnr.10" class="footref" href="#fn.10" role="doc-backlink">10</a></sup>.
 </p>
 
 <p>
@@ -657,7 +657,7 @@ Way back in 2017 a paper <a href="https://arxiv.org/pdf/1711.00937">Neural Discr
 </p>
 
 
-<div id="orgd92cbc5" class="figure">
+<div id="orgb667df4" class="figure">
 <p><img src="../images/from_clipboard/20241228_122508.png" alt="20241228_122508.png" />
 </p>
 </div>
@@ -667,7 +667,7 @@ That is, if we collapse the features in the encoder to a fixed "vocabulary" of t
 </p>
 
 <p>
-This is the core idea behind Chameleon. They use a codebook of size 8192, and for each image represent the image using a sequence of 1024 tokens pulled from this codebook. Importantly, they mention that this approach is reconstructing images with lots of text &#x2013; a capability specifically pointed out in the original DeepSeek-VL paper, and the motivating use case for the high resolution features. Here represents possibly an interesting tradeoff: using a fixed codebook size makes it possible to frame the problem like inputting and outputting regular tokens, using continuous features lets you get high resolution but prevents you from doing that. 
+This is the core idea behind Chameleon. They use a codebook of size 8192, and for each image represent the image using a sequence of 1024 tokens pulled from this codebook. Importantly, they mention that this approach is bad at reconstructing images with lots of text &#x2013; a capability specifically pointed out in the original DeepSeek-VL paper, and the motivating use case for the high resolution features. Here represents possibly an interesting tradeoff: using a fixed codebook size makes it possible to frame the problem like inputting and outputting regular tokens, using continuous features lets you get high resolution but prevents you from doing that. 
 </p>
 
 <p>
@@ -696,7 +696,7 @@ The important artifact we need from this paper is their released image tokenizer
 </p>
 
 
-<div id="org0ae9769" class="figure">
+<div id="orgc60cf80" class="figure">
 <p><img src="../images/from_clipboard/20241228_153011.png" alt="20241228_153011.png" />
 </p>
 </div>
@@ -728,7 +728,7 @@ same space will lead to conflicts and trade-offs.
 </blockquote>
 
 
-<div id="org9bebeac" class="figure">
+<div id="org9f72769" class="figure">
 <p><img src="../images/from_clipboard/20241228_141017.png" alt="20241228_141017.png" />
 </p>
 </div>
@@ -742,7 +742,7 @@ The encoders themselves are composed of things we have seen already. For image u
 </p>
 
 
-<div id="org29e5104" class="figure">
+<div id="org6ea8288" class="figure">
 <p><img src="../images/from_clipboard/20241228_143227.png" alt="20241228_143227.png" />
 </p>
 </div>
@@ -802,7 +802,7 @@ A paper which might be worth studying in more detail is <a href="https://arxiv.o
 </p>
 
 
-<div id="orgad16c44" class="figure">
+<div id="orgca10303" class="figure">
 <p><img src="../images/from_clipboard/20241228_192622.png" alt="20241228_192622.png" />
 </p>
 </div>
@@ -820,7 +820,7 @@ We can describe a mapping between a noise distribution \(p_0\) and samples \(x_1
 </p>
 
 <p>
-where \(v\) is the <i>velocity</i> output by a neural network with weights \(\theta\). We can attempt to solve this by regress a vector field \(u_t\) which generates a probability path between the distributions.
+where \(v\) is the <i>velocity</i> output by a neural network with weights \(\theta\). We can attempt to solve this by regressing a vector field \(u_t\) which generates a probability path between the distributions.
 </p>
 
 <p>
@@ -841,7 +841,7 @@ To express the relationship between \(z_t\), \(x_0\) and \(\epsilon\), we introd
 </p>
 
 <p>
-Since \(z_t\) can be written as a solution to the ODE \(z'_t = u_t(z_t|\epsilon)\) with initial value \(z_0 = x_0\), \(u_t(\cdot|\epsilon)\) generates \(p_t(\cdot|\epsilon)\).
+Since \(z_t\) can be written as a solution to the ODE \(z'_t = u_t(z_t|\epsilon)\) with initial value \(z_0 = x_0\), \(u_t(\cdot|\epsilon)\) which generates \(p_t(\cdot|\epsilon)\).
 </p>
 
 <p>
@@ -889,7 +889,7 @@ It does this by adding the following objective alongside the normal diffusion tr
 </p>
 
 
-<div id="org9f4f5ba" class="figure">
+<div id="org423e10e" class="figure">
 <p><img src="../images/from_clipboard/20241228_175530.png" alt="20241228_175530.png" />
 </p>
 </div>
@@ -899,7 +899,7 @@ That is: we break the image into patches, and we check the similarity<sup><a id=
 </p>
 
 
-<div id="org415e510" class="figure">
+<div id="org9264598" class="figure">
 <p><img src="../images/from_clipboard/20241228_180232.png" alt="20241228_180232.png" />
 </p>
 </div>
@@ -918,7 +918,7 @@ Some things which are commonly attributed to "superior transformer architectures
 </p>
 
 
-<div id="org9152120" class="figure">
+<div id="orgf76ef9f" class="figure">
 <p><img src="../images/from_clipboard/20241228_172648.png" alt="20241228_172648.png" />
 </p>
 </div>
@@ -929,7 +929,7 @@ Some things which are commonly attributed to "superior transformer architectures
 <h3 id="org1b09666">JanusFlow</h3>
 <div class="outline-text-3" id="text-org1b09666">
 
-<div id="orgc39cae3" class="figure">
+<div id="org79d4fa7" class="figure">
 <p><img src="../images/from_clipboard/20241228_163316.png" alt="20241228_163316.png" />
 </p>
 </div>
@@ -997,7 +997,7 @@ The notable component of InternVL is their dynamic high resolution. Otherwise, i
 </p>
 
 
-<div id="orgf3ef021" class="figure">
+<div id="org3559028" class="figure">
 <p><img src="../images/from_clipboard/20241228_101609.png" alt="20241228_101609.png" />
 </p>
 </div>
@@ -1007,7 +1007,7 @@ Recall from DeepSeek-VL that they used two vision encoders: one for high resolut
 </p>
 
 
-<div id="orgb4cea7d" class="figure">
+<div id="orgff9a1cf" class="figure">
 <p><img src="../images/from_clipboard/20241228_102307.png" alt="20241228_102307.png" />
 </p>
 </div>
@@ -1026,7 +1026,7 @@ Various other VLMs have adopted similar strategies, like <a href="https://arxiv.
 <h3 id="org5bacadb">Architecture and Training</h3>
 <div class="outline-text-3" id="text-org5bacadb">
 
-<div id="org2a38a80" class="figure">
+<div id="org5cead94" class="figure">
 <p><img src="../images/from_clipboard/20241227_222742.png" alt="20241227_222742.png" />
 </p>
 </div>
@@ -1052,7 +1052,7 @@ dimensions per tile.
 </blockquote>
 
 
-<div id="org98e56bd" class="figure">
+<div id="org7457360" class="figure">
 <p><img src="../images/from_clipboard/20241227_223552.png" alt="20241227_223552.png" />
 </p>
 </div>
@@ -1062,7 +1062,7 @@ This is the first of their works to use the loss-free load-balancing bias, valid
 </p>
 
 <p>
-Aside from data collection woes, the infrastructure section has some potential insight onto why this problem may have been harder a problem than expected. The visual encoder operates at dynamic resolution and is completely disabled sometimes, which means that GPU utilization during training is surprisingly difficult to get right if all you have is infra for language models. To alleviate this problem, they implement "fine-grained layer division of the vision encoder" which is briefly mentioned with no concrete details.
+Aside from data collection woes, the infrastructure section has some potential insight onto why this problem may have been harder than expected. The visual encoder operates at dynamic resolution and is completely disabled sometimes, which means that GPU utilization during training is surprisingly difficult to get right if all you have is infra for language models. To alleviate this problem, they implement "fine-grained layer division of the vision encoder" which is briefly mentioned with no concrete details.
 </p>
 </div>
 </div>
@@ -1075,7 +1075,7 @@ A surprisingly interesting claim of this paper is that DeepSeek-VL2 can understa
 </p>
 
 
-<div id="org6954892" class="figure">
+<div id="org94d343d" class="figure">
 <p><img src="../images/from_clipboard/20241228_092028.png" alt="20241228_092028.png" />
 </p>
 </div>
@@ -1085,7 +1085,7 @@ Likewise, a new capability to this paper compared to VL1 is <i>Visual Grounding<
 </p>
 
 
-<div id="orgfd5016f" class="figure">
+<div id="orga9cfb24" class="figure">
 <p><img src="../images/from_clipboard/20241228_093146.png" alt="20241228_093146.png" />
 </p>
 </div>
@@ -1095,7 +1095,7 @@ Being a little more specific, this is actually a little different from SAM, in t
 </p>
 
 
-<div id="org4ff89b2" class="figure">
+<div id="orgace48c4" class="figure">
 <p><img src="../images/from_clipboard/20241228_094011.png" alt="20241228_094011.png" />
 </p>
 </div>
@@ -1154,7 +1154,7 @@ In speculative decoding, you use both a big and a small model, together. You mak
 </p>
 
 
-<div id="org938c4f1" class="figure">
+<div id="orgd8b721b" class="figure">
 <p><img src="../images/from_clipboard/20241229_212557.png" alt="20241229_212557.png" />
 </p>
 </div>
@@ -1173,7 +1173,7 @@ There are lots of different methods for this now, but the core idea is all we wi
 </p>
 
 
-<div id="org2ba7ff8" class="figure">
+<div id="org3068202" class="figure">
 <p><img src="../images/from_clipboard/20241229_212727.png" alt="20241229_212727.png" />
 </p>
 </div>
@@ -1187,7 +1187,7 @@ In Multi-token Prediction, the output layer of a language model is replaced with
 </p>
 
 <p>
-There are a few interesting insights in this paper: there's lots of interesting engineering detail on how to do this in a relatively efficient way which doesn't quadruple the maximum required GPI memory, but the most interesting part of this paper is section 5, <i>"Why does it work? Some speculation"</i>.
+There are a few interesting insights in this paper: there's lots of interesting engineering detail on how to do this in a relatively efficient way which doesn't quadruple the maximum required GPU memory, but the most interesting part of this paper is section 5, <i>"Why does it work? Some speculation"</i>.
 </p>
 
 <p>
@@ -1195,7 +1195,7 @@ They posit there are two "types" of tokens, "choice points" and "inconsequential
 </p>
 
 
-<div id="orgce65c9a" class="figure">
+<div id="orgab9521e" class="figure">
 <p><img src="../images/from_clipboard/20241229_215852.png" alt="20241229_215852.png" />
 </p>
 </div>
@@ -1226,7 +1226,7 @@ A potentially confusing element to this paper is it's concurrency with the yet-u
 </p>
 
 <p>
-But on benchmarks, it comes out strong. While I think claims that it's dethroned the western labs to be a little strong, it's certainly done so for Chinese language, and punches especially above its weight on math and code tasks. 
+But on benchmarks, it comes out strong. While I think claims that it's dethroned the western labs to be a little premature, it's certainly done so for Chinese language, and punches especially above its weight on math and code tasks. 
 </p>
 </div>
 </div>
@@ -1247,7 +1247,7 @@ New to V3 is this Sequence-Wise loss, intended to keep the balance even within a
 </p>
 
 
-<div id="org9e9356f" class="figure">
+<div id="org8c90bc9" class="figure">
 <p><img src="../images/from_clipboard/20241229_163101.png" alt="20241229_163101.png" />
 </p>
 </div>
@@ -1275,7 +1275,7 @@ The first three layers in DeepSeek-V3 are dense layers, not MoE layers. A hint f
 </p>
 
 
-<div id="org22343aa" class="figure">
+<div id="orgc23ee26" class="figure">
 <p><img src="../images/from_clipboard/20241229_200946.png" alt="20241229_200946.png" />
 </p>
 </div>
@@ -1291,13 +1291,13 @@ It makes some sense that MoE would be less valuable for these layers than the ot
 <h3 id="orgb8ae80c">DeepSeek-V3 Multi-Token Prediction</h3>
 <div class="outline-text-3" id="text-orgb8ae80c">
 
-<div id="org43b8613" class="figure">
+<div id="orgf055468" class="figure">
 <p><img src="../images/from_clipboard/20241229_165509.png" alt="20241229_165509.png" />
 </p>
 </div>
 
 <p>
-The multi-token prediction component is slightly different from the original MTP paper. Whereas in that paper, they were predicting extra tokens in parallel with different output heads, in this paper they use a number of auxiliary "MTP Modules". which are like additional layers bolted on to the end which predict tokens offset by 1.
+The multi-token prediction component is slightly different from the original MTP paper. Whereas in that paper, they were predicting extra tokens in parallel with different output heads, in this paper they use a number of auxiliary "MTP Modules" which are like additional layers bolted on to the end which predict tokens offset by 1.
 </p>
 
 <p>
@@ -1305,13 +1305,13 @@ These are sort of like a halfway point between speculative decoding and multi-to
 </p>
 
 
-<div id="orgffe65bd" class="figure">
+<div id="org2ad4105" class="figure">
 <p><img src="../images/from_clipboard/20241229_184539.png" alt="20241229_184539.png" />
 </p>
 </div>
 
 <p>
-As such there's some good allusion to the fact that these heads can also be used to speed up inference: the primary purpose is the gain in performance from the multi-token prediction objective<sup><a id="fnr.32" class="footref" href="#fn.32" role="doc-backlink">32</a></sup>, rather than the speed gains. This is the coolest part of the paper for me! Speculative decoding and multi-token prediction feel really connected algorithmically, so this seems like a very elegant bridge between them.
+As such there's some good allusion to the fact that these heads can also be used to speed up inference: the primary purpose is the gain in performance from the multi-token prediction objective<sup><a id="fnr.32" class="footref" href="#fn.32" role="doc-backlink">32</a></sup>, rather than the speed gains, but with one comes the other. This is the coolest part of the paper for me! Speculative decoding and multi-token prediction feel really connected algorithmically, so this seems like a very elegant bridge between them.
 </p>
 
 <p>
@@ -1336,7 +1336,7 @@ DeepSeek-V3 is trained on a cluster of 2048 H800 GPUs, on machines that have 8 G
 </p>
 
 <p>
-There's a lot I will not get into here: there's a lot in here about making the model more suitable for the hardware available. Some things I won't cover are: fine-grained quantization, increasing accumulation precision, mantissa over exponents, online quantization, low-precision storage and communication, deployment<sup><a id="fnr.35" class="footref" href="#fn.35" role="doc-backlink">35</a></sup>, and some other optimizations. There is a high level of detail available here, and for those more plugged into the infra-level stuff I'd recommend just reading the paper. 
+I won't cover everything in this writeup: there's a lot in here about making the model more suitable for the hardware available. Some things I won't cover are: fine-grained quantization, increasing accumulation precision, mantissa over exponents, online quantization, low-precision storage and communication, deployment<sup><a id="fnr.35" class="footref" href="#fn.35" role="doc-backlink">35</a></sup>, and some other optimizations. There is a high level of detail available here, and for those more plugged into the infra-level stuff I'd recommend just reading the paper. 
 </p>
 </div>
 
@@ -1352,7 +1352,7 @@ DualPipe is their solution to this, it maximizes these overlaps and attempts to 
 </p>
 
 
-<div id="orgda8bc1b" class="figure">
+<div id="orgecf4577" class="figure">
 <p><img src="../images/from_clipboard/20241229_192735.png" alt="20241229_192735.png" />
 </p>
 </div>
@@ -1371,7 +1371,7 @@ There are <a href="https://arxiv.org/pdf/2409.12517">not very many other tries</
 </p>
 
 
-<div id="org8a3fd39" class="figure">
+<div id="org4efa89f" class="figure">
 <p><img src="../images/from_clipboard/20241229_194339.png" alt="20241229_194339.png" />
 </p>
 </div>
@@ -1390,7 +1390,7 @@ More of an interesting note, pages 20-21 of this paper are spent on a sort of ch
 </p>
 
 
-<div id="orgbdf387b" class="figure">
+<div id="org0404c34" class="figure">
 <p><img src="../images/from_clipboard/20241229_200742.png" alt="20241229_200742.png" />
 </p>
 </div>
@@ -1406,7 +1406,7 @@ For the most part, training DeepSeek-V3 follows DeepSeek-V2 pretty closely. The 
 </p>
 
 <p>
-The Long Context extension uses YaRN, like in DeepSeek-V2. but use two phases. Rather than extending to 128k and then training 1000 steps with a sequence length of 32k, this time they reverse the steps: they extend to 32k, train, extend to 128k, and train again. This seems to work better for the Needle In A Haystack tests<sup><a id="fnr.40" class="footref" href="#fn.40" role="doc-backlink">40</a></sup>, but also incurs a lot more GPU hours compared to the training in V2.
+The Long Context extension uses YaRN, like in DeepSeek-V2, but this time using two phases. Rather than extending to 128k and then training 1000 steps with a sequence length of 32k, this time they reverse the steps: they extend to 32k, train, extend to 128k, and train again. This seems to work better for the Needle In A Haystack tests<sup><a id="fnr.40" class="footref" href="#fn.40" role="doc-backlink">40</a></sup>, but also incurs a lot more GPU hours compared to the training in V2.
 </p>
 </div>
 </div>
@@ -1423,7 +1423,7 @@ Using the yet-unfinished R1 model for reasoning distillation in this phase intro
 </p>
 
 <p>
-The reinforcement learning step in V3 follows V2 somewhat closesly: a rule-based reward model for verifiable tasks, a model-based reward model trained preference data and using earlier checkpoints of the model, and using Group Relative Policy Optimization, as we've seen several times now.
+The reinforcement learning step in V3 follows V2 somewhat closely: a rule-based reward model for verifiable tasks, a model-based reward model trained using preference data from using earlier checkpoints of the model, and using Group Relative Policy Optimization, as we've seen several times now.
 </p>
 </div>
 </div>
@@ -1453,7 +1453,7 @@ The big story in discussion is the self-rewarding section, where they make an of
 </p>
 
 
-<div id="org7d5a110" class="figure">
+<div id="orgaa0a2c9" class="figure">
 <p><img src="../images/from_clipboard/20241229_210019.png" alt="20241229_210019.png" />
 </p>
 </div>
@@ -1518,6 +1518,10 @@ A friend of mine once relayed me a bit of advice from his PhD advisor: that you 
 
 <p>
 I can only hope they continue to publish throughout 2025. Otherwise, it will be much more annoying to prioritize my reading list.
+</p>
+
+<p>
+For comments, errata, suggestions, etc, you can reach me on <a href="https://x.com/erykbanatt">twitter @erykbanatt</a>.
 </p>
 </div>
 </div>
@@ -1708,7 +1712,7 @@ It has the original warmup-and-decay as DeepSeek-V2, but with a period that uses
 </p>
 
 
-<div id="orgc643e73" class="figure">
+<div id="org622f3bd" class="figure">
 <p><img src="../images/from_clipboard/20241229_201540.png" alt="20241229_201540.png" />
 </p>
 </div></div></div>
