@@ -1,0 +1,55 @@
+#+TITLE: Gungi
+
+* Gungi
+
+Gungi is a board game featured in Hunter x Hunter's Chimera Ant arc. It's similar to chess and shogi, where the goal is to checkmate the enemy marshall. In the story, Gungi serves as an elaborate metaphor for the conflict surrounding the characters playing, where it's used as a source of substantial foreshadowing. This post assumes you've seen this arc, and will freely refer to events during the show.
+
+#+BEGIN_EXPORT html
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ZsnlF_x4v8Y?si=1B9bV8AhU8qskrlo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+#+END_EXPORT
+
+An interesting footnote is that [[https://www.docdroid.net/P4r6Fvq/gungi-pdf][Gungi has clearly defined, developed rules]], and you can [[https://automaton-media.com/en/news/20220214-9564/][buy an officially]] [[https://www.animenewsnetwork.com/interest/2022-02-16/hunter-x-hunter-gungi-board-game-gets-1st-official-real-life-set/.182680][licensed set]]. [[https://www.youtube.com/watch?v=jpcn6gR5Pyk][The rules]] are very interesting. It bears a lot of similarity to Shogi, but there are two primary differences. First, pieces that are captured are removed from play permanently: you can't place captured pieces like you can in Shogi, which follows from the fact that there are white and black pieces. Second, you can "stack" pieces on top of each other, in order to modify them to make them more powerful.
+
+This creates an interesting dynamic compared to regular Shogi. Unlike in Shogi, the removal of pieces from play means that endgames can emerge. Likewise, the stacking mechanic allows for pieces to have relatively unimpinged movement compared to shogi, where pieces cannot share the same square. Overall it's a board game with a lot of rules and very high complexity -- probably too much so for it to be a seriously competitive board game.
+
+This page is going to be home to a lot of notes about Gungi[fn:2], both about the game and about strategies inside the game, too. 
+
+** TODO Gungi Rules Translation
+
+Universal Music Japan released a licensed Gungi set in 2022, which completely sold out almost immediately upon being made available. There were two released versions: a cheaper version, and a high-end wooden [[https://en.wikipedia.org/wiki/Go_equipment#Goban][goban]]-like version more faithful to the one used in the show. I managed to get my hand on the cheaper one of these off ebay[fn:1]:
+
+<<here>>
+
+Here I will put scanned and translated versions of the rulebook. There are a few versions of the Gungi rules floating around, but I consider the Universal Music Japan rules to be the least likely to be entirely fanfiction. However, despite this being the "official" rulebook, there's not much of a record of it anywhere, much less an English translation.
+
+<<Scanned Raw>>
+
+<<Translated>>
+
+The translation here is a bit of an art project: I don't speak Japanese, so all of the translation work is done via machine translation tools, followed by my own reworded interpretation to keep everything clear and consistent. 
+
+<<Ways this differs from existing rulesets online>>
+
+** TODO /pyGungi/, a Gungi Client
+ 
+We are going to be doing some computer exploration of the game of Gungi. At a bare minimum, I need to be able to have a virtual board with the basic rules implemented. There are a couple of these floating around, but I need to build one which supports the exact ruleset I am using, as well being generally amenable to being used as an reinforcement learning environment down the line. Most of the code for experiments in this post can be found [[https://github.com/ambisinister/gungi][here]].
+
+Likewise, important for this general Gungi effort is the availability of a tool which will allow me to share specific games or moves, in order to build an understanding of how the game could be played at a high level. As such, I'll need something supporting an equivalent [[https://en.wikipedia.org/wiki/Portable_Game_Notation][portable game notation]] which will let me embed Gungi games into a webpage like this one. 
+
+** TODO Building /Komugi/, a Gungi Engine Trained via Self-Play
+
+Gungi, as you might expect for a game I had to manually translate a rulebook for, does not have an extensive body of human experts playing it[fn:3]. It is also quite oddly shaped, since the opening phase of the game prevents you from moving pieces at all, and the subsequent "starting position" is both asymmetric and potentially different each game.
+
+This, to me, represents a beautiful opportunity for building something which learns to play high-level Gungi via self-play. There are no human experts to speak of, and the self-play framing is a nice mirror to the story itself, where Komugi's nen awakens and she continues to grow in power through repeated games with Meruem. In effect, we are going to bring Komugi back to life.
+
+** TODO (Stretch Goal) Building /Komugi-Tutor/, a chessGPT-like for Gungi
+
+[[https://arxiv.org/pdf/2306.09200][ChessGPT]] is a relatively interesting work using annotated games and strong player game databases to train a 3B-parameter language model which plays chess in a conversational setting. Extending this to Gungi is a potentially interesting stretch project here, since unlike chessGPT there's no high volume of human data for the game. With /Komugi/, we can likely get some sort of model which performs reasonably well at the game, so maybe we can leverage it to train something like chessGPT for Gungi. 
+
+* Footnotes
+
+[fn:3] TODO: There does seem to be some minimal attention from Shogi players for this game. Maybe some way I can make contact with this community?
+
+[fn:2] The Chimera Ant arc is probably my single most favorite arc of any anime / manga, of all time. I think hxh would have been relatively mediocre without it, and Komugi / Gungi in particular were some of my favorite plot devices ever. 
+
+[fn:1] In addition to not having the space in my apartment for a high-end Gungiban, a game I do not yet know how to play, these things go on ebay for like $700-800 USD, far outside my budget for a post like this. 

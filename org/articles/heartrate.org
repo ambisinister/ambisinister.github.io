@@ -1,14 +1,16 @@
 #+TITLE: Heart Rate Notes
 
-* Aerobic Base Building vs High Intensity Interval Training
+* ITG Players Have Unusual Heart Rate Zones
 
 I have been an intermediate-level [[https://planetbanatt.net/articles/dancegames.html][In The Groove]] player for a few years now, it's fair to say that up to this point that it represents a relatively high proportion of my total exercise.
 
-Recently I have been getting into [[https://www.youtube.com/watch?v=_BMP5eEz7fc][Zwift]], and at the time of writing (November 2024) have been resuming it after a period where I didn't have access to a frame for my smart trainer. In doing so I have noticed a peculiar thing about my fitness -- namely, that my "zones" felt roughly the way they should have, but that my heart rate was extremely high for some unknown reason. I took a [[https://www.youtube.com/watch?v=HIG2yl3aaG0][Lite version of the FTP Ramp Test]] which I was able to clear unexpectedly, and got this interesting comment from another cyclist.
+Recently I have been getting into [[https://www.youtube.com/watch?v=_BMP5eEz7fc][Zwift]], in search of ways I can exercise which do not demand 100% of my focus[fn:1]. In doing so I have noticed a peculiar thing about my fitness -- namely, that my "zones" felt roughly the way they should have, but that my heart rate was extremely high for some unknown reason. I took a [[https://www.youtube.com/watch?v=HIG2yl3aaG0][Lite version of the FTP Ramp Test]] which I was able to clear unexpectedly, and got this interesting comment from another cyclist:
 
 [[../images/from_clipboard/20241116_190024.png]]
 
-I have noticed this being somewhat of a problem in orienting my rides. What feels to me like a comfortable, conversational pace with moderate effort will bring my heart rate to alarming levels (~160-170 bpm), which I seem to be able to sustain for longer than expected.
+I remember thinking /"boy, do I have the video game for you!"/
+
+This has emerged as sort of a problem for figuring out how to pace my rides. What feels to me like a comfortable, conversational pace with weak-to-moderate effort will bring my heart rate to alarmingly high levels (~160-180 bpm[fn:3]), which I seem to be able to sustain for much longer than expected. I believe this to be an artifact of the ITG Stamina player's unique athletic profile -- as with most things like this, I got nerdsniped into reading a lot of papers about it.
 
 ** Dance Game Player as Athlete
 
@@ -22,9 +24,9 @@ As refresher, "heart rate zones" refer to efforts at the following rates:
 | Zone 4 (Threshold) | 85%-88% Max |
 | Zone 5 (Anaerobic) | 90% Max     |
 
-Dance game players have a very interesting athletic profile compared to most other sports, since virtually all of the work they do is at tempo / threshold / anerobic levels. What likely represents the best picture of this is [[https://sereni.github.io/stamina/][Sereni's guide]] where they paid a sports coach to help them improve at ITG stamina. The coach told them to do most sessions at 120-140 heart rate (i.e. Zone 2 training) which corresponded to them playing 9 blocks below their max level.
+Dance game players have a very interesting athletic profile compared to most other sports, since virtually all of the work they do is at tempo / threshold / anerobic levels. The likely best depiction of this is [[https://sereni.github.io/stamina/][Sereni's guide]] on making stamina easier, where they paid a sports coach to help them improve at ITG. The coach told them to do most sessions at 120-140 heart rate (i.e. Zone 2 training) which corresponded to them playing 9 blocks below their max level[fn:2].
 
-This is fine: dance games are ultimately, at their core, interval training. Stamina especially, where the charts are mostly fully described by their density graphs which are almost identical in concept to their equivalents in cycling training plans
+This is fine: dance games are ultimately, at their core, interval training. In stamina especially, the charts are mostly fully described by their density graphs, which are almost identical in concept to their equivalents in cycling training plans
 
 [[../images/from_clipboard/20241116_191557.png]]
 
@@ -36,33 +38,97 @@ However, this is in stark contrast to how athletes in other sports train. In cyc
 
 ** Misalignment
 
-In cycling you can estimate how much power is required to put your heart rate in specific bands. This is done by associating a reference value (Functional Threshold Power, or [[https://www.trainerroad.com/blog/what-ftp-really-means-to-cyclists/][FTP]]).
+In cycling, there are actually two different types of zones. There's heart rate zones, which we've seen, and power zones, which are based on instantaneous power output rather than heart rate. This is done by calculating and subsequently associating a reference value (Functional Threshold Power, or [[https://www.trainerroad.com/blog/what-ftp-really-means-to-cyclists/][FTP]]). The primary difference here is that the former measures physiological response, and the latter is a more "objective" measure of the difficulty of the effort.
 
-As a dance game player moving to cycling, I have noticed that my "zone 2 values" feel like they are often described ("conversational, moderate effort, sustainable") but correspond to very high values (e.g. 165+ bpm). I considered this somewhat alarming at first.
+| Zone               | Rate          |
+|--------------------+---------------|
+| Zone 1 (Recovery)  | <55% FTP      |
+| Zone 2 (Endurance) | 55%-75% FTP   |
+| Zone 3 (Tempo)     | 76%-90% FTP   |
+| Zone 4 (Threshold) | 91%-105% FTP  |
+| Zone 5 (VO2max)    | 106%-120% FTP |
+| Zone 6 (Anaerobic) | >120% FTP     |
 
-** Form Concerns
+This being distinct from heart rate zones was somewhat confusing to me at first. Heart rate more directly measures how the effort is supposed to "make you feel", but it's a measurement which suffers from time lag, e.g. when you begin climbing a hill, your heart rate takes some time to get faster, whereas your power output will change instantly. Likewise, holding the same power output will obviously keep you in the same zone, but as it makes you more tired that will cause your heart rate to naturally rise over time ("cardiac drift").
 
-A core result from [[https://sereni.github.io/stamina/][Sereni's guide]] is that form cues are a large component of what reduces physical effort in ITG Stamina. That is: using an appropriate bar, keeping weight on your heels, keeping weight off the bar, and limiting range of motion. 
+But the big one is: different people will have naturally higher or lower heart rates. As a dance game player moving to cycling, I have noticed that my easier rides /feel like/ they are often described ("conversational, moderate effort, sustainable") but correspond to very high actual heart rate values (e.g. often 175+ bpm, sometimes even reaching into zone 5). I considered this somewhat alarming at first. For example, here's a ride I did on 2024-01-03:
 
-** To Read
+[[../images/from_clipboard/20250103_184217.png]]
 
-High Intensity Interval Training Leads to Greater Improvements in Acute Heart Rate Recovery and Anaerobic Power as High Volume Low Intensity Training
+This felt very "medium", I did it while listening to [[https://www.youtube.com/watch?v=qTogNUV3CAI][a podcast]], I'd call it comparable to playing a short session mostly in the 11 blocks. My heart rate quickly rose to 180 almost immediately, where it sustained for about 30 minutes across 10 miles. The highest I've ever seen my heart rate go is 201, so this represents a borderline zone 5 effort. That's interesting, since it very cleanly does not correspond to my subjective experience.
 
-https://www.frontiersin.org/journals/physiology/articles/10.3389/fphys.2017.00562/full
+My understanding here is that this is actually a relatively common pattern in competitive dance game players, despite being clearly unusual. For example, I reached out to Sereni who was gracious enough to answer some questions about their post:
 
-Impact of Training Intensity Distribution on Performance in Endurance Athletes
+#+BEGIN_QUOTE
+I had the same feedback about my HR — I could hold 210 for 10 minutes and 190 for an hour, and everyone told me it shouldn't be possible. I can't do that anymore after training in low HR, now 170 feels spicy.
 
-https://journals.lww.com/nsca-jscr/abstract/2007/08000/Impact_of_Training_Intensity_Distribution_on.48.aspx
+-- Sereni
+#+END_QUOTE
 
-Effects of High Intensity Interval Training on Physical Performance in Female Team Sports: A Systematic Review
+That is, the likelihood that the observed mismatch between heart rate zones and perceived exertion is unlikely to be a quirk of my outlier genetics, but rather a direct training effect of the majority of my exercise being exclusively at relatively high heart rate. This is really interesting! Competitive dance game players have a very unusual athletic profile compared to other cardio-oriented disciplines: it's so much more about /suffering/ with very little reward for base building compared to something like cycling or running. 
 
-https://sportsmedicine-open.springeropen.com/articles/10.1186/s40798-023-00623-2
+** A Short HIIT + Heart Rates Literature Review
 
-The Effects of High Intensity Interval Training vs Steady State Training on Aerobic and Anaerobic Capacity
+It seems worthwhile to make an attempt to navigate the sports science literature on high intensity interval training, specifically what it has to say about heart rate zones, in particular. In general, most of the works were predictably about the effects of this style of training on various athletes, which makes the comparison not entirely perfect for our purposes.
 
-https://pmc.ncbi.nlm.nih.gov/articles/PMC4657417/
+An interesting place to start is [[https://www.researchgate.net/publication/6153247_Impact_of_Training_Intensity_Distribution_on_Performance_in_Endurance_Athletes][Impact of Training Intensity Distribution on Performance in Endurance Athletes]] by Esteve et al, 2007. This study put two groups of track athletes, all specialists in 5000m races, in two different training protocols for a 5 month period. Group 1 emphasized low-intensity, subthreshold training, whereas group 2 emphasized slightly higher, mostly threshold work[fn:4]. At the end of the study, all partitipants were measured at a 10.4km cross country race to evaluate them. Both groups improved substantially over the 5 month period, but the group who did most of their work in lower intensities saw a noticeably larger improvement.
 
-Heart Rate Zones and High Intensity Interval Training in Collegiate Women Woccer Athletes
+This seems to be a good indication that zone 1 training is a pretty good idea. There's even a pretty easy-to-understand reason why: low intensity runners averaged about 25 more total training hours compared to the threshold-emphasis group, despite their training loads being roughly the same[fn:5]. But both of these groups were subelite distance runners going into the experiment, it doesn't tell us much other than, broadly, "getting the heart rate down might be a good idea for performance."
 
-https://etda.libraries.psu.edu/files/final_submissions/10140
+Something potentially scoring a point for HIIT is [[https://www.frontiersin.org/journals/physiology/articles/10.3389/fphys.2017.00562/full][High Intensity Interval Training Leads to Greater Improvements in Acute Heart Rate Recovery and Anaerobic Power as High Volume Low Intensity Training]], by Stöggl et al, 2017. In this study, they took two very small groups of well-trained endurance athletes[fn:6], and measured how they responded to HIIT in their training[fn:7]. This study was only 9 weeks (much more compatible with modern sports science ideas around [[https://en.wikipedia.org/wiki/Sports_periodization][periodization]]) and 9 weeks of HIIT resulted in fairly clear neuromuscular and anaerobic improvements. Namely, that athletes who did a short HIIT cycle became better adapted to quickly lower their heart rate with shorter periods of rest, and seemed in general less taxed by higher intensity work. 
 
+[[../images/from_clipboard/20250104_200802.png]]
+
+This is a better hint for what we are looking for. In the discussion, there's even acknowledgement in the discussion section that all of the participants were already well-trained endurance athletes with strong bases already:
+
+#+BEGIN_QUOTE
+Interestingly, the [Heart Rate Recovery] HRR seems to be acutely impaired by a high anaerobic contribution. However, the question is if this is trainable and might be different if the athlete is accustomed to more anaerobic work. Our results indicate that the athletes exposed to HIIT seemed to handle the anaerobic stress better than the [High Volume Low Intensity Training] HVLIT dominated groups indicated by their superior HRR.
+#+END_QUOTE
+
+But a funny note on why the dance game pattern seems yet-unobserved in the literature is that it's exceedingly rare to find somebody willing to do all of their exercise via HIIT. [[https://pmc.ncbi.nlm.nih.gov/articles/PMC4657417/][The Effects of High Intensity Interval Training vs Steady State Training on Aerobic and Anaerobic Capacity]], from Foster et al 2015, ran a similar experiment on untrained college students, using Tabata as the HIIT protocol. They found that all the groups improved across various health metrics, but that participants assigned to HIIT found it substantially less rewarding and enjoyable compared to all the other groups:
+
+#+BEGIN_QUOTE
+One of the most remarkable (but perhaps not surprising) findings of this study is the significantly lower level of enjoyment in the Tabata group, and the progressively declining level of enjoyment in all groups across the course of the study. Several studies (Bartlett et al. 2011, Jung et al. 2014, Kilpartirck et al., 2012) all suggest that moderate intensity interval training may be more pleasant than moderate intensity continuous exercise. However, Tabata type protocols (very high intensity intervals with very short recovery periods) are so physically chanllenging (sic) that they are very unlikely to be perceived as pleasant. 
+#+END_QUOTE
+
+So, it seems like dance game players occupy a niche in the fitness landscape where the gamification aspect makes it tolerable to do something which is otherwise considered profoundly miserable[fn:8].
+
+But how does this sustained heart rate adaptation actually work? One possible hint can be found in [[https://sportsmedicine-open.springeropen.com/articles/10.1186/s40798-023-00623-2][Effects of High Intensity Interval Training on Physical Performance in Female Team Sports: A Systematic Review]], a review from Stankovic et al in 2023. This was a meta-analysis of 13 studies examining HIIT interventions in well-trained Womens' sports programs. The core result here was, broadly, that HIIT has some benefits in these populations (as we have seen).
+
+But a very small proportion of time in training for these athletes was ever spent in near-maximal heart rate, often as low as 7-9% on average. As such, even very performant groups will sometimes see useful adaptations with these interventions:
+
+#+BEGIN_QUOTE
+...short intervals of HIIT allow the volume and intensity to be manipulated, while HIIT with long intervals stimulates the work of the anaerobic system and neuromuscular load. Anaerobic glycolytic energy is a substantial component of the short intervals. Furthermore, field-based HIIT formats with short intervals are linked to lower initial blood lactate accumulation rates than those with long intervals. Despite the fact that a recent review had difficulties drawing stronger conclusions regarding the importance of exercise intensity for cardiovascular adaptations, the current findings may be considered relevant in these team sports.
+#+END_QUOTE
+
+** Conclusion
+
+So, it seems like a seemingly unusual ability to sustain high heart rate is a potentially emerging capability in athletes who spend a large proportion of their training in those heart rates. It seems sort of obvious when put that way, but it seems like the sports science literature has a really hard time finding anybody willing to do what the majority of ITG players will do on their own.
+
+It seems useful and potentially healthy to spend the time doing low heart rate training, and I'll be updating this post with the results of my subsequent Zwift training arc. Sereni, again, provides a useful benchmark:
+
+#+BEGIN_QUOTE
+my low HR training was on ITG, I played 9s for the longest time, and was super bored. because I had my HR in front of my eyes at all times, I kept changing my form until I found something that lowers HR. I essentially re-invented [[https://www.youtube.com/watch?v=gwWgmGjeyRs][based form]] from scratch that way.
+
+although I can no longer tolerate super high HR, I think this change was overall beneficial — I can now train the same levels (17-18) as part of my daily training, and not as an all-out effort that requires substantial recovery.
+#+END_QUOTE
+
+If you happen to work in Sports Science academia, and happened to happen upon this post, I humbly suggest trying to find ITG players to study. [[https://www.nature.com/articles/nature01647][Video game players]] have been a [[https://cognitivesciencesociety.org/cogsci20/papers/0020/0020.pdf][huge source of interesting subjects]] in the cognitive science literature, and it's possible they can be useful for your field, too!
+
+* Footnotes
+
+[fn:8] He says, in a post about moving from ITG to Zwift.
+
+[fn:7] Another useful footnote: 0% of the athletes were doing HIIT before this, 100% were doing predominantly high volume low intensity training.
+
+[fn:6] This is a very small study, n=36, but the partitipants were e.g. members of the Austrian cross-country skiing national team, the level is relatively high. [[https://etda.libraries.psu.edu/files/final_submissions/10140][Rosalie Ann Cook's Thesis]] on Heart Rate Zones in Collegiate Womens Soccer is a similar case; mostly observations that well-trained sub-elite soccer athletes see good anaerobic adaptations from short periods of HIIT training.
+
+[fn:5] That is: skill improvements?
+
+[fn:4] Already not very similar to our dance game setting, where both of these are fairly light.
+
+[fn:3] This is using a chest strap, also, just before any concerns about measurements get raised.
+
+[fn:2] Sereni did end up sticking to this for about three months, which I think is commendable. For me, 9 blocks below my max would put me at 7 block, which I have a very hard time playing at all when ITL rolls around.
+
+[fn:1] I also moved to an upstairs apartment, and have gotten numerous complaints from my new downstairs neighbor just from walking around my own apartment, despite not yet playing any ITG whatsoever. Hopefully he's not in for too rough of a time, Zwift should at least be a pretty manageable compromise.
