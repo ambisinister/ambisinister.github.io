@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-01-18 Sat 20:48 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gungi</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="./css/default_20240614.css" />
+<link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<h1 class="title">Gungi</h1>
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgf03c99e">Gungi</a>
+<ul>
+<li><a href="#org59ce7b0">Gungi Rules Translation</a></li>
+<li><a href="#org364fdff">Various In-Progress Ideas</a>
+<ul>
+<li><a href="#org376f556"><span class="todo TODO">TODO</span> <i>pyGungi</i>, a Gungi Client</a></li>
+<li><a href="#org0229523"><span class="todo TODO">TODO</span> Building <i>Komugi</i>, a Gungi Engine Trained via Self-Play</a></li>
+<li><a href="#orgb709afb"><span class="todo TODO">TODO</span> (Stretch Goal) Building <i>Komugi-Tutor</i>, a chessGPT-like for Gungi</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf03c99e" class="outline-1">
+<h1 id="orgf03c99e">Gungi</h1>
+<div class="outline-text-1" id="text-orgf03c99e">
+<p>
+Gungi is a board game featured in Hunter x Hunter's Chimera Ant arc. It's similar to chess and shogi, where the goal is to checkmate the enemy Marshall. In the story, Gungi serves as an elaborate metaphor for the conflict surrounding the characters playing, where it's used as a source of substantial foreshadowing. This post assumes you've seen this arc, and will freely refer to events during the show.
+</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ZsnlF_x4v8Y?si=1B9bV8AhU8qskrlo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<p>
+An interesting footnote is that Gungi has clearly defined, developed rules, and you can <a href="https://automaton-media.com/en/news/20220214-9564/">buy an officially</a> <a href="https://www.animenewsnetwork.com/interest/2022-02-16/hunter-x-hunter-gungi-board-game-gets-1st-official-real-life-set/.182680">licensed set</a>. <a href="https://www.youtube.com/watch?v=jpcn6gR5Pyk">The rules</a> are very interesting. It bears a lot of similarity to shogi, but there are a few important differences. First, pieces that are captured are removed from play permanently: captured pieces do not become part of your hand like they do in shogi, which follows from the fact that there are white and black pieces. Second, you can "stack" pieces on top of each other, in order to modify them to make them more powerful<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>. Finally, the beginning of the game features a phase where you get to pick your own starting layout before the game starts<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>.
+</p>
+
+<p>
+This creates an interesting dynamic compared to regular shogi. Unlike in shogi, the removal of pieces from play means that endgames can emerge<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>. Likewise, the stacking mechanic allows for pieces to have relatively unimpinged movement compared to shogi, where pieces cannot share the same square. Overall it's a board game with a lot of rules and very high complexity &#x2013; probably too much so for it to be a seriously competitive board game.
+</p>
+
+<p>
+This page is going to be home to a lot of notes about Gungi<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>. I plan on trying to use Gungi as an opportunity to do some board game archeology, so to speak: just understanding the game at all represents an interesting enough project to me. 
+</p>
+</div>
+
+<div id="outline-container-org59ce7b0" class="outline-2">
+<h2 id="org59ce7b0">Gungi Rules Translation</h2>
+<div class="outline-text-2" id="text-org59ce7b0">
+<p>
+Universal Music Japan released a licensed Gungi set in 2022, which completely sold out almost immediately upon being made available. There were two released versions: a cheaper version, and a <a href="https://www.reddit.com/r/HunterXHunter/comments/10fwmqv/after_many_years_i_have_finally_obtained_it/">high-end</a> wooden <a href="https://en.wikipedia.org/wiki/Go_equipment#Goban">goban</a>-like version more faithful to the one used in the show. I managed to get my hand on the cheaper one of these off ebay<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>:
+</p>
+
+
+<div id="orge4779e5" class="figure">
+<p><img src="../images/misc/gungi.png" alt="gungi.png" />
+</p>
+</div>
+
+<p>
+<a href="https://planetbanatt.net/docs/gungi_rulebook_jp.pdf">Here</a> you can find a pdf scan of the attached rulebook, which to my knowledge is unavailable anywhere else on the internet. There are a few versions of the Gungi rules floating around, but I consider the Universal Music Japan rules to be the least likely to be entirely fanfiction. Despite this being the "official" rulebook, there's not much of a record of it anywhere, much less a clear English translation<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
+</p>
+
+<p>
+I went ahead and created an English version of the scanned pdf, which you can find <a href="https://planetbanatt.net/docs/gungi_rulebook_en.pdf">here</a><sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></sup>. Creating this pdf was my primary motivation for buying the set in the first place. I had two big goals that I hoped would follow from having an English version of this rulebook. First, I was hoping that this could serve as a glimpse into some common challenges faced by the <a href="https://en.wikipedia.org/wiki/Scanlation">scanlation</a> community. Second, I was interested in obtaining some sense of "ground truth" for the "official" ruleset, so that I could create a computer client for the game<sup><a id="fnr.8" class="footref" href="#fn.8" role="doc-backlink">8</a></sup>. 
+</p>
+
+<p>
+The translation here is a bit of an art project: I don't speak Japanese, so all of the translation work is done via machine translation tools, followed by my own reworded interpretation to keep everything clear and consistent. The translation was performed by the following process:
+</p>
+
+<ol class="org-ol">
+<li>First transcribing the Japanese text using <a href="https://claude.ai/">Claude-Sonnet-3.6</a>.</li>
+<li>Using my limited Japanese reading ability to confirm the transcriptions matched<sup><a id="fnr.9" class="footref" href="#fn.9" role="doc-backlink">9</a></sup>.</li>
+<li>Cross-referencing translations between Google Translate and Claude Sonnet.</li>
+<li>Rewording to keep the text natural sounding.</li>
+</ol>
+
+<p>
+The images were edited to be in English manually using <a href="https://www.photopea.com/">photopea</a>, which was a relatively substantial effort that took me a few days. I think the results look pretty nice, though, so I'm happy with how it turned out<sup><a id="fnr.10" class="footref" href="#fn.10" role="doc-backlink">10</a></sup>. 
+</p>
+
+<p>
+Compared to <a href="https://www.docdroid.net/P4r6Fvq/gungi-pdf">other commonly referred-to Gungi rulesets</a>, this ruleset has some notable differences, which mostly serve as a mechanism to make the game more like regular shogi. For example, each player gets one General (大) and one Lieutenant General (中), which roughly correspond to the single rook and the single bishop in shogi. Stacking makes one piece more like the other, but otherwise these are easy to understand for shogi players. Additionally, this variant includes a 14th piece type, the Spear<sup><a id="fnr.11" class="footref" href="#fn.11" role="doc-backlink">11</a></sup> (槍) which I do not believe ever actually appears in the actual work<sup><a id="fnr.12" class="footref" href="#fn.12" role="doc-backlink">12</a></sup>.
+</p>
+
+<p>
+Maybe some remaining work here would be a translation of the <a href="https://www.youtube.com/watch?v=jpcn6gR5Pyk">various tutorial</a> and promotional <a href="https://www.youtube.com/watch?v=cBWaclDnFb0">videos released</a> alongside <a href="https://www.youtube.com/watch?v=x3gB-VzMYx">the launch of this version of the game</a>. I'm certain these are probably very interesting for potential English-speaking fans of Gungi, but the <a href="https://openai.com/index/whisper/">OpenAI Whisper</a> pipeline I briefly tried throwing together for this was not really cutting it. There does not seem to be that much media out there about this product, but it's possible I just lack the ability to properly navigate JP subculture internet: would welcome any direction if someone out there has any.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org364fdff" class="outline-2">
+<h2 id="org364fdff">Various In-Progress Ideas</h2>
+<div class="outline-text-2" id="text-org364fdff">
+<p>
+I have various projects in mind surrounding this little Gungi rabbit hole. I will likely be posting this same link to this page on social media multiple times as I complete various components of this, since it would feel weird to keep the translated rulebook to myself just because I haven't completed a self-play RL engine or something. 
+</p>
+</div>
+
+<div id="outline-container-org376f556" class="outline-3">
+<h3 id="org376f556"><span class="todo TODO">TODO</span> <i>pyGungi</i>, a Gungi Client</h3>
+<div class="outline-text-3" id="text-org376f556">
+<p>
+We are going to be doing some computer exploration of the game of Gungi. At a bare minimum, I need to be able to have a virtual board with the basic rules implemented. There are a couple of these floating around, but I need to build one which supports the exact ruleset I am using, as well being generally amenable to being used as an reinforcement learning environment down the line. Most of the code for experiments in this post can be found <a href="https://github.com/ambisinister/gungi">here</a>.
+</p>
+
+<p>
+Likewise, important for this general Gungi effort is the availability of a tool which will allow me to share specific games or moves, in order to build an understanding of how the game could be played at a high level. As such, I'll need something supporting an equivalent <a href="https://en.wikipedia.org/wiki/Portable_Game_Notation">portable game notation</a> which will let me embed Gungi games into a webpage like this one. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0229523" class="outline-3">
+<h3 id="org0229523"><span class="todo TODO">TODO</span> Building <i>Komugi</i>, a Gungi Engine Trained via Self-Play</h3>
+<div class="outline-text-3" id="text-org0229523">
+<p>
+Gungi, as you might expect for a game I had to manually translate a rulebook for, does not have an extensive body of human experts playing it<sup><a id="fnr.13" class="footref" href="#fn.13" role="doc-backlink">13</a></sup>. It is also quite oddly shaped, since the opening phase of the game prevents you from moving pieces at all, and the subsequent "starting position" is both asymmetric and potentially different each game.
+</p>
+
+<p>
+This, to me, represents a beautiful opportunity for building something which learns to play high-level Gungi via self-play. There are no human experts to speak of, and the self-play framing is a nice mirror to the story itself, where Komugi's nen awakens and she continues to grow in power through repeated games with Meruem. In effect, we are going to bring Komugi back to life.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb709afb" class="outline-3">
+<h3 id="orgb709afb"><span class="todo TODO">TODO</span> (Stretch Goal) Building <i>Komugi-Tutor</i>, a chessGPT-like for Gungi</h3>
+<div class="outline-text-3" id="text-orgb709afb">
+<p>
+<a href="https://arxiv.org/pdf/2306.09200">ChessGPT</a> is a relatively interesting work using annotated games and strong player game databases to train a 3B-parameter language model which plays chess in a conversational setting. Extending this to Gungi is a potentially interesting stretch project here, since unlike chessGPT there's no high volume of human data for the game. With <i>Komugi</i>, we can likely get some sort of model which performs reasonably well at the game, so maybe we can leverage it to train something like chessGPT for Gungi. 
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Or, perhaps more importantly, to allow pieces to almost always be able to move around, even if surrounded by other pieces. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+A number of chess-like games have things vaguely similar to this, but none quite the same character as seen in Gungi. <a href="https://en.wikipedia.org/wiki/Janggi">Janggi</a>, the Korean variant of <a href="https://en.wikipedia.org/wiki/Xiangqi">xiangqi</a>, has a phase where a couple pieces can be moved a little bit before the game starts. Likewise, <a href="https://en.wikipedia.org/wiki/Chess960">Chess960</a>, sometimes called <i>Fischer Random</i>, is a Chess variant which randomizes the back rank of a chess game, similarly testing ability from many potential starting configurations, but where you don't get to pick those configurations yourself.
+</p>
+
+<p class="footpara">
+Closest is probably <a href="https://en.wikipedia.org/wiki/Stratego">stratego</a>, as it is a board game where you get to pick your own starting setup, but where that's obscured from your opponent. The similarity to stratego is likely why the english localization of Gungi used particular piece names: Marshall instead of King, Spy instead of Ninja/Shinobi, and so on. 
+</p>
+
+<p class="footpara">
+The way it works in Gungi is interesting: it functions more like <a href="https://mtg.fandom.com/wiki/Draft">drafting to build a deck in a card game</a>, or maybe like picking a <a href="https://liquipedia.net/starcraft/Build_order">build order</a> in a strategy game. It creates some interesting opportunities for obtaining an advantage before the game even starts, creating a position with interesting <a href="https://x.com/erykbanatt/status/1865639904027295745">imbalances</a> right away, or even playing more nuanced handicap games without doing something extreme like playing at <a href="https://en.wikipedia.org/wiki/Handicap_(chess)">Knight odds</a> in chess.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<a href="https://www.youtube.com/watch?v=y7Euq67gFo0">Anish Giri</a> has some very nice things to say about shogi players, namely that they can reach International Master strength at chess with very little effort. He mentions that the top Japanese chess players often have very strong calculation and unusually lopsided weak endgames, mostly by virtue of playing not very much chess at all. <a href="https://en.wikipedia.org/wiki/Yoshiharu_Habu">Yoshiharu Habu</a> is perhaps the most famous example, an all-time great shogi player and lifetime <a href="https://en.wikipedia.org/wiki/Meijin_(shogi)">Meijin</a>, who quietly reached 2400 FIDE rating in 2014.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+The Chimera Ant arc is probably my single most favorite arc of any anime / manga, of all time. I think hxh would have been relatively mediocre without it, and Komugi / Gungi in particular were some of my favorite plot devices ever. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+In addition to not having the space in my apartment for a high-end Gungiban (a game I do not yet know how to play, mind you) these things go on ebay for like $700-800 USD, far outside my budget for a post like this. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6" role="doc-backlink">6</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+The closest I can find to the Universal Music Japan ruleset is <a href="https://www.reddit.com/r/HunterXHunter/comments/uqrtct/gungi_the_official_rules/">this reddit post</a> which is a little incomplete, and filtered through Japanese fan -&gt; French fan -&gt; translate to English. This has most of the basic rules outlined, but there's some confusion in parts about which color starts the game, what the different beginner rules are, etc. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.7" class="footnum" href="#fnr.7" role="doc-backlink">7</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+There is also an <a href="https://www.universal-music.co.jp/other/hunter-gungi__qa/">FAQ</a> on their webpage, which can be machine translated normally. This has some useful clarification for stuff like how the Archer moves, etc. Notably, "Marshall Stack" was confusing for me, since it's mentioned nowhere except for the alternative rulesets. Per the FAQ, in the easier rulesets, the Marshall cannot be stacked upon other pieces. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.8" class="footnum" href="#fnr.8" role="doc-backlink">8</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<a href="https://github.com/hkpeprah/gungi/tree/master">hkpeprah</a> has a C++ codebase for this from 9 years ago, which uses <a href="https://github.com/hkpeprah/gungi/blob/master/RULES.md">rules</a> adapted from <a href="https://mmmmalo.tumblr.com/post/74510568781/rules-of-gungi">an English translation</a> of a <a href="https://blog.goo.ne.jp/nishitsuji-sannkurou/e/aee5280f6c4109b22f594202947bcd2c">Japanese fan ruleset</a>. These are really different from the Universal Music rules, which makes sense since it predates that version by 6 years. Likewise, <a href="https://gungi.io/">gungi.io</a> is a multiplayer client from about 8 years ago which uses the <a href="https://www.docdroid.net/P4r6Fvq/gungi-pdf">Zaneme</a> ruleset I've linked in the main body of the post. Gungi.io seems mostly dead now, and I'm mostly interested in using this so I can create an engine which plays it, so it was more important to me that I used "official" rules since from my research it doesn't seem like there's a large Gungi community playing some sort of modified fan variant. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.9" class="footnum" href="#fnr.9" role="doc-backlink">9</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I took about a year of formal Japanese in undergrad, which certainly was not enough to translate this rulebook, but was fine for reading hiragana / katakana / verifying two kanji contain the same <a href="https://en.wikipedia.org/wiki/List_of_kanji_radicals_by_frequency">radicals</a>. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.10" class="footnum" href="#fnr.10" role="doc-backlink">10</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+The Gungi rulebook is written in relatively clear, easy-to-understand language, so it's probably a lot easier to translate with these sorts of tools compared to something like Japanese Literature. <a href="https://en.wikipedia.org/wiki/Le_Ton_beau_de_Marot">Douglas Hofstadter</a>, most commonly known for <i>Gödel, Escher, Bach: an Eternal Golden Braid</i>, has a somewhat lesser-known work called <a href="https://en.wikipedia.org/wiki/Le_Ton_beau_de_Marot">Le Ton beau de Marot</a> which touches upon the multifaceted challenges that translating poetry faces. I ran into trouble appreciating translated poems working through an <a href="https://planetbanatt.net/articles/media.html#orgd70305c">annotated reader of the Hyakunin Isshu</a>, you really lose a lot of meaning for stuff like that. Thankfully not too many puns or double meanings in this board game rulebook!
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.11" class="footnum" href="#fnr.11" role="doc-backlink">11</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I went back and forth about how to localize this particular piece's name. The pronounciation is <a href="https://en.wikipedia.org/wiki/Yari">Yari</a>, and there is indeed a shogi variant called <a href="https://en.wikipedia.org/wiki/Yari_shogi">Yari shogi</a> that gives most pieces movement similar to the lance. The Yari doesn't move like a lance, so I thought "lance" would be too confusing, and I've seen "Yari shogi" get translated to "spear chess", so I landed upon "spear" as the piece name. I could have stuck with "Yari", but simply romanizing words in translation is a bit too <i><a href="https://www.youtube.com/watch?v=UENxZiDpPFA">Keikaku means plan</a></i> for my tastes. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.12" class="footnum" href="#fnr.12" role="doc-backlink">12</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+It does not appear in the fan-made rulesets, nor does it seem present on the <a href="https://hunterxhunter.fandom.com/wiki/Gungi">fandom wiki</a>, leading me to believe it's an original piece by the development team. It's possible it appears somewhere and I simply didn't notice, it but it feels noteworthy that these two sources have various discrepancies between each other (the former outlines 38 pieces, the latter claims 25 in line with the Universal Music rules, etc) but align on not including the spear anywhere. Happy to modify this if someone points it out to me. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.13" class="footnum" href="#fnr.13" role="doc-backlink">13</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+There does seem to be some minimal attention from Shogi players for this game, if translated youtube comments underneath the Japanese promotional videos are to be believed. Maybe some way I can make contact with this community?
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+</div>
+</body>
+</html>
