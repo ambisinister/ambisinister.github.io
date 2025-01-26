@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-01-25 Sat 16:27 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>V3 Training Fermi Estimate</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="./css/default_20240614.css" />
+<link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<h1 class="title">V3 Training Fermi Estimate</h1>
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org12a6464">Deepseek-V3 Training Budget Fermi Estimation</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org12a6464" class="outline-1">
+<h1 id="org12a6464">Deepseek-V3 Training Budget Fermi Estimation</h1>
+<div class="outline-text-1" id="text-org12a6464">
+<p>
+There are a variety of opinions floating around about the validity of the table in the <a href="https://arxiv.org/abs/2412.19437v1">Deepseek-V3 paper</a>, which claims that the model was trained on a budget of $5.5 Million USD. Some people are going so far as to call it an outright lie, or some sort of psyop to make American labs chase an impossible target.
+</p>
+
+<p>
+For one, I suspect a lot of people are talking past each other with respect to conversations about how much it cost to train Deepseek-V3. More directly: I think <a href="https://www.lesswrong.com/posts/WBdvyyHLdxZSAMmoz/taboo-your-words">tabooing your words</a> does a lot to make conversation on this topic more clear. A number of people are very convinced, but I think the papers released by Deepseek contain enough detail where you can just look at the paper and make some rough estimates, which ground the conversation in some sense of actual reality.
+</p>
+
+<p>
+Let’s reframe the convo: the figure from the V3 paper is that they trained it using 2.788M H800 GPU hours. At $2 per GPU hour, that comes out to $5.576M. The cost of 2048 H800s is much higher than $5 million, and obviously this figure includes nothing about research, salary, failed training runs, paying the janitor to clean the desks at the office, or whatever. The claim of the paper is that 2.788M GPU hours costs $5.5 million, which is more like the amount of money they would have made just renting the GPUs out for $2 per hour instead of training it. I think it’s more productive to cast the dollar figure completely away here: the claim is that they were able to train a Deepseek-V3 architecture on 14.8 trillion tokens using 2788k GPU hours. We will focus entirely upon this figure instead, since it’s one we can actually look at and analyze.
+</p>
+
+
+<div id="org55d2fc8" class="figure">
+<p><img src="../images/from_clipboard/20250125_153530.png" alt="20250125_153530.png" />
+</p>
+</div>
+
+<p>
+It would be helpful to start with a quick summary on what floating point operations, or "FLOPs" are. These are an important way to measure computing performance. Modern GPUs are good at manipulating floats in different formats, which make them useful for different ML applications. 
+</p>
+
+<p>
+First, it’s helpful to have a reference point for what “normal” would look like for this many tokens. Llama 3.1 405B took Meta a reported <a href="https://huggingface.co/meta-llama/Llama-3.1-8B">30.84M GPU hours</a>, and they trained on a very similar 15 trillion tokens. That was a dense, 405B model trained in full <a href="https://en.wikipedia.org/wiki/Bfloat16_floating-point_format">bf16</a>, for which <a href="https://arxiv.org/pdf/2407.21783">they report about 40% utilization</a>. Let’s maybe start there. Deepseek-V3 has 671B total parameters, but since it’s an MoE, it only activates 37B for each forward and backward pass. To start with something very simple, let’s just pretend for now that this is a 37B dense model that we want to train on 14.8T tokens. If we were Meta, how much would that cost us?
+</p>
+
+<p>
+Llama 3 did 15 trillion tokens in 30.84M GPU hours. They report 3.8e25 FLOPs in training, which checks out with the rule-of-thumb of \(6 * \text{parameters} * \text{tokens}\), \((15T * 405B * 6 = 3.65e25 \text{ FLOPs})\). In comparison, Deepseek-V3 has 37B active, which is about 9.1% of the active size of 405B. \(6 * 37B * 14.8T\) lands us at \(3.29e24\) FLOPs in training, which is pretty close to what you would get from \(3.8e25 * \frac{14.8}{15} * 0.091 = 3.41e24\). We can cross-reference this with the figures for <a href="https://arxiv.org/pdf/2401.06066">Deepseek-MoE</a>: in that work, DeepSeekMoE is 145B total, 22.2B active, and reports 585.6T flops per 4k tokens. \(((585.6T \text{flops} / 4000 \text{tokens}) / 22.2B \text{parameters}) = 6.59\) flops per token per active parameter, and \(6.59 \text{ flops} * 14.8T \text{ tokens} * 37B \text{ active params} = 3.61e24\) flops total for Deepseek-V3. this is not so far off from our estimate, so it's probably reasonable. 
+</p>
+
+<p>
+Per the same usage as llama 3 \((30.84M / 3.8e25) * 3.29e24\), this should take \(2.67M\) GPU hours. This is very close to the reported figure of 2.788M GPU hours, which is super helpful in helping us understand what the actual claim of the Deepseek-V3 paper is. In essence, the claim here is that the improvement over llama 3's training infrastructure is roughly equivalent to the additional overhead added by mixture-of-experts plus the additional overhead added by using H800s instead of H100s. How ridiculous is this claim?
+</p>
+
+<p>
+Deepseek-V3 uses H800s instead of llama's H100s, which have the same TFLOPS but inferior <a href="https://www.fibermall.com/blog/nvidia-ai-chip.htm">interconnection bandwidth</a>. H800s have 44% of the communication bandwidth as H100s (400 GB/s vs 900 GB/s), and the decision to use mixture-of-experts will add some intrinsic additional overhead. A somewhat arbitrary, but hopefully reasonably conservative estimate is between MoE overhead and H800 bandwidth overhead, it sums to it taking twice as long<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>, which would put us at about 5.34M GPU hours, or about $10.6 Million USD. We can think of this as a very rough upper bound for how much training a model like this "should cost". Doing this many FLOPs on this architecture at ~llama 3 speeds with ~100% overhead lands us at about $10 million USD. There are two ways we can reduce this number: going faster than llama 3, and reducing the MoE overhead.
+</p>
+
+<p>
+The first of these is the easiest to directly measure. As mentioned earlier, llama 3 was trained in full bf16. Different, bigger floating point formats operate at different speeds, and it takes longer to do something in bf16 (which uses 2 bytes) compared to <a href="https://en.wikipedia.org/wiki/Minifloat">fp8</a> (which uses only 1 byte). GPU manufacterers will often report how their GPUs perform with these different formats: how many they can perform per unit time. The more stuff we have in fp8, the faster it will be compared to if it were all in bf16. All of this is really important, because as we mentioned, H800s have really different FLOPs for fp8 and bf16. Namely, for H800s it’s <a href="https://resources.nvidia.com/en-us-tensor-core/nvidia-tensor-core-gpu-datasheet">about 4000 for fp8 and just shy of 2000 for full bf16</a>.
+</p>
+
+<p>
+An important element of the Deepseek-V3 paper is their elaboration upon using mixed precision training, where they try to make as much of the model as possible use fp8 instead of bf16. We need to identify how the different parts of the model are quanitzed. The first 3 layers after bf16 embedding are dense layers, with bf16 attention and mixed precision fp8 / bf16 for the FFN. The next 58 layers are MoE blocks with Multi-head Latent Attention, which are bf16 for attention, softmax, and projection, and fp8 for the main matrix multiplications. The final output head is in full fp16 precision.  Roughly 80-85% of the architecture is in fp8, and the rest is in bf16.
+</p>
+
+<p>
+If 80% of the network is in fp8, then 80% of the FLOPs will be twice as fast as they were for llama 3. So right away we can do \((5.34M * 0.8 * 0.5) + (5.34M * 0.2) = 3.2M\) GPU hours, which would put the cost of the training run at about $6.4 million USD, assuming 100% overhead.
+</p>
+
+<p>
+Reducing the overhead is also a big part of the paper. <a href="https://arxiv.org/pdf/2408.15664">Load-balancing MoE</a>, DualPipe, and all that other hard-to-understand infra stuff from the V3 paper probably all chip away at this figure substantially. How much would we need to chip off our estimate to arrive at their figure? 279/320 = 0.87, so in this case it represents an improvement reducing overhead from 100% to 87% (an improvement of about 13%). 
+</p>
+
+<p>
+These are all just estimates, and it's possible I'm missing something really big or made a huge assumption somewhere that I shouldn't have. But all in all, the claims that Deepseek trained a 671B parameter MoE with 37B active parameters on 14.8T tokens in 2.788M GPU hours to be very plausible, and this many GPU hours across 2048 H800s represents about 1.8 months, which is in line with the claims in the paper ("two months").
+</p>
+
+<p>
+There are some things in the V3 paper which are clearly just able to be validated: like how many flops it would take to train this architecture on a certain number of tokens. Ways that the figure could be fabricated are:
+</p>
+
+<ol class="org-ol">
+<li>Deepseek-V3 was trained on way more than 14.8T tokens<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>.</li>
+<li>Deepseek-V3 made no improvements over llama 3's training infra, so it should have taken roughly 3.2M GPU hours, rather than 2.788M GPU hours.</li>
+<li>Deepseek is lying about doing fp8 training, and they actually trained it in bf16.</li>
+<li>I am wrong about the overhead, it's actually much higher than 100%, and the infra optimizations in the Deepseek-V3 paper do not work.</li>
+</ol>
+
+<p>
+These all seem unlikely to me. I don't think these really represent the claims made by skeptics, which I think more likely are people who misunderstood the original claim as "anybody with $5 million dollars could have trained Deepseek-V3<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>" instead of the actual, much weaker claim of "the winning training run took $5 million USD worth of GPU hours". 
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I arrive here assuming 1.6x communication overhead times 1.3x MoE overhead = 2.08x overhead. These values seem reasonable enough from what I understand about MoE / H800s, but this is not my forte so happy to entertain discussion about how this is totally wrong. It is a fermi problem, after all. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Qwen 2.5 Coder does 5.5T on top of the 18T from their base 2.5 model, so larger training runs have certainly happened before. But I don't think this seems like the primary claim of the skeptics.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I have a few people say this number is how much r1 / r1-zero cost, which I think is just clearly a sign there's misunderstandings floating around. 
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+</div>
+</body>
+</html>
