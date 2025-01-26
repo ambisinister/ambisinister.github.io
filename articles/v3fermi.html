@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-01-25 Sat 16:27 -->
+<!-- 2025-01-25 Sat 16:47 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>V3 Training Fermi Estimate</title>
@@ -108,7 +108,14 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org12a6464">Deepseek-V3 Training Budget Fermi Estimation</a></li>
+<li><a href="#org12a6464">Deepseek-V3 Training Budget Fermi Estimation</a>
+<ul>
+<li><a href="#org9f1f6be">What Is The Actual Claim?</a></li>
+<li><a href="#org3c4a6ed">Estimating FLOPs</a></li>
+<li><a href="#org874b1f2">Additional Overhead from MoE / H800</a></li>
+<li><a href="#orge681a06">Conclusion</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -116,6 +123,10 @@ $(function() {
 <div id="outline-container-org12a6464" class="outline-1">
 <h1 id="org12a6464">Deepseek-V3 Training Budget Fermi Estimation</h1>
 <div class="outline-text-1" id="text-org12a6464">
+</div>
+<div id="outline-container-org9f1f6be" class="outline-2">
+<h2 id="org9f1f6be">What Is The Actual Claim?</h2>
+<div class="outline-text-2" id="text-org9f1f6be">
 <p>
 There are a variety of opinions floating around about the validity of the table in the <a href="https://arxiv.org/abs/2412.19437v1">Deepseek-V3 paper</a>, which claims that the model was trained on a budget of $5.5 Million USD. Some people are going so far as to call it an outright lie, or some sort of psyop to make American labs chase an impossible target.
 </p>
@@ -129,13 +140,18 @@ Let’s reframe the convo: the figure from the V3 paper is that they trained it 
 </p>
 
 
-<div id="org55d2fc8" class="figure">
+<div id="orgbc475db" class="figure">
 <p><img src="../images/from_clipboard/20250125_153530.png" alt="20250125_153530.png" />
 </p>
 </div>
+</div>
+</div>
 
+<div id="outline-container-org3c4a6ed" class="outline-2">
+<h2 id="org3c4a6ed">Estimating FLOPs</h2>
+<div class="outline-text-2" id="text-org3c4a6ed">
 <p>
-It would be helpful to start with a quick summary on what floating point operations, or "FLOPs" are. These are an important way to measure computing performance. Modern GPUs are good at manipulating floats in different formats, which make them useful for different ML applications. 
+It would be helpful to start with a quick summary on what <a href="https://en.wikipedia.org/wiki/Floating_point_operations_per_second">floating point operations</a>, or "FLOPs" are. These are an important way to measure computing performance. Modern GPUs are good at manipulating floats in different formats, which make them useful for different ML applications. Because we know how many parameters are active in the forward and backward passes, and they told us how many tokens they trained on, we can estimate how long it should take by starting with the total number of floating point operations were used. 
 </p>
 
 <p>
@@ -149,7 +165,12 @@ Llama 3 did 15 trillion tokens in 30.84M GPU hours. They report 3.8e25 FLOPs in 
 <p>
 Per the same usage as llama 3 \((30.84M / 3.8e25) * 3.29e24\), this should take \(2.67M\) GPU hours. This is very close to the reported figure of 2.788M GPU hours, which is super helpful in helping us understand what the actual claim of the Deepseek-V3 paper is. In essence, the claim here is that the improvement over llama 3's training infrastructure is roughly equivalent to the additional overhead added by mixture-of-experts plus the additional overhead added by using H800s instead of H100s. How ridiculous is this claim?
 </p>
+</div>
+</div>
 
+<div id="outline-container-org874b1f2" class="outline-2">
+<h2 id="org874b1f2">Additional Overhead from MoE / H800</h2>
+<div class="outline-text-2" id="text-org874b1f2">
 <p>
 Deepseek-V3 uses H800s instead of llama's H100s, which have the same TFLOPS but inferior <a href="https://www.fibermall.com/blog/nvidia-ai-chip.htm">interconnection bandwidth</a>. H800s have 44% of the communication bandwidth as H100s (400 GB/s vs 900 GB/s), and the decision to use mixture-of-experts will add some intrinsic additional overhead. A somewhat arbitrary, but hopefully reasonably conservative estimate is between MoE overhead and H800 bandwidth overhead, it sums to it taking twice as long<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>, which would put us at about 5.34M GPU hours, or about $10.6 Million USD. We can think of this as a very rough upper bound for how much training a model like this "should cost". Doing this many FLOPs on this architecture at ~llama 3 speeds with ~100% overhead lands us at about $10 million USD. There are two ways we can reduce this number: going faster than llama 3, and reducing the MoE overhead.
 </p>
@@ -163,13 +184,18 @@ An important element of the Deepseek-V3 paper is their elaboration upon using mi
 </p>
 
 <p>
-If 80% of the network is in fp8, then 80% of the FLOPs will be twice as fast as they were for llama 3. So right away we can do \((5.34M * 0.8 * 0.5) + (5.34M * 0.2) = 3.2M\) GPU hours, which would put the cost of the training run at about $6.4 million USD, assuming 100% overhead.
+If 80% of the network is in fp8, then 80% of the FLOPs will be twice as fast as they were for llama 3<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>. So right away we can do \((5.34M * 0.8 * 0.5) + (5.34M * 0.2) = 3.2M\) GPU hours, which would put the cost of the training run at about $6.4 million USD, assuming 100% overhead.
 </p>
 
 <p>
-Reducing the overhead is also a big part of the paper. <a href="https://arxiv.org/pdf/2408.15664">Load-balancing MoE</a>, DualPipe, and all that other hard-to-understand infra stuff from the V3 paper probably all chip away at this figure substantially. How much would we need to chip off our estimate to arrive at their figure? 279/320 = 0.87, so in this case it represents an improvement reducing overhead from 100% to 87% (an improvement of about 13%). 
+Reducing the overhead is also a big part of the paper. <a href="https://arxiv.org/pdf/2408.15664">Load-balancing MoE</a>, DualPipe, and all that other hard-to-understand infra stuff from the V3 paper probably all chip away at this figure substantially. How much would we need to chip off our estimate to arrive at their figure? 279/320 = 0.87, so in this case it represents an improvement reducing overhead from 100% to 87% (an improvement of about 13%). If you're an infra person, you can read the improvements proposed in the paper and assess for yourself if that seems plausible or not.
 </p>
+</div>
+</div>
 
+<div id="outline-container-orge681a06" class="outline-2">
+<h2 id="orge681a06">Conclusion</h2>
+<div class="outline-text-2" id="text-orge681a06">
 <p>
 These are all just estimates, and it's possible I'm missing something really big or made a huge assumption somewhere that I shouldn't have. But all in all, the claims that Deepseek trained a 671B parameter MoE with 37B active parameters on 14.8T tokens in 2.788M GPU hours to be very plausible, and this many GPU hours across 2048 H800s represents about 1.8 months, which is in line with the claims in the paper ("two months").
 </p>
@@ -179,15 +205,16 @@ There are some things in the V3 paper which are clearly just able to be validate
 </p>
 
 <ol class="org-ol">
-<li>Deepseek-V3 was trained on way more than 14.8T tokens<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>.</li>
+<li>Deepseek-V3 was trained on way more than 14.8T tokens<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>.</li>
 <li>Deepseek-V3 made no improvements over llama 3's training infra, so it should have taken roughly 3.2M GPU hours, rather than 2.788M GPU hours.</li>
 <li>Deepseek is lying about doing fp8 training, and they actually trained it in bf16.</li>
 <li>I am wrong about the overhead, it's actually much higher than 100%, and the infra optimizations in the Deepseek-V3 paper do not work.</li>
 </ol>
 
 <p>
-These all seem unlikely to me. I don't think these really represent the claims made by skeptics, which I think more likely are people who misunderstood the original claim as "anybody with $5 million dollars could have trained Deepseek-V3<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>" instead of the actual, much weaker claim of "the winning training run took $5 million USD worth of GPU hours". 
+These all seem fairly unlikely to me. I don't think these really represent the claims made by skeptics, which I think more likely are people who misunderstood the original claim as "anybody with $5 million dollars could have trained Deepseek-V3<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>" instead of the actual, much weaker claim of "the winning training run took $5 million USD worth of GPU hours". 
 </p>
+</div>
 </div>
 </div>
 <div id="footnotes">
@@ -199,10 +226,14 @@ I arrive here assuming 1.6x communication overhead times 1.3x MoE overhead = 2.0
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-Qwen 2.5 Coder does 5.5T on top of the 18T from their base 2.5 model, so larger training runs have certainly happened before. But I don't think this seems like the primary claim of the skeptics.
+This is a bit of an oversimplification, admittedly, but it's a good first order approximation. 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Qwen 2.5 Coder does 5.5T on top of the 18T from their base 2.5 model, so larger training runs have certainly happened before. But I don't think this seems like the primary claim of the skeptics.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 I have a few people say this number is how much r1 / r1-zero cost, which I think is just clearly a sign there's misunderstandings floating around. 
 </p></div></div>
 
