@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-01-25 Sat 16:54 -->
+<!-- 2025-01-25 Sat 17:01 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>V3 Training Fermi Estimate</title>
@@ -140,7 +140,7 @@ Let’s reframe the convo: the figure from the V3 paper is that they trained it 
 </p>
 
 
-<div id="org6692e82" class="figure">
+<div id="orgdfdf342" class="figure">
 <p><img src="../images/from_clipboard/20250125_153530.png" alt="20250125_153530.png" />
 </p>
 </div>
@@ -159,7 +159,7 @@ First, it’s helpful to have a reference point for what “normal” would look
 </p>
 
 <p>
-Llama 3 did 15 trillion tokens in 30.84M GPU hours. They report 3.8e25 FLOPs in training, which checks out with the rule-of-thumb of \(6 * \text{parameters} * \text{tokens}\), \((15T * 405B * 6 = 3.65e25 \text{ FLOPs})\). In comparison, Deepseek-V3 has 37B active, which is about 9.1% of the active size of 405B. \(6 * 37B * 14.8T\) lands us at \(3.29e24\) FLOPs in training, which is pretty close to what you would get from \(3.8e25 * \frac{14.8}{15} * 0.091 = 3.41e24\). We can cross-reference this with the figures for <a href="https://arxiv.org/pdf/2401.06066">Deepseek-MoE</a>: in that work, DeepSeekMoE is 145B total, 22.2B active, and reports 585.6T flops per 4k tokens. \(\frac{585.6T \text{ flops}}{4000 \text{ tokens}} * \frac{1}{22.2B \text{ parameters}} = 6.59\) flops per token per active parameter, and \(6.59 \text{ flops} * 14.8T \text{ tokens} * 37B \text{ active params} = 3.61e24\) flops total for Deepseek-V3. this is not so far off from our estimate, so it's probably reasonable. 
+Llama 3 did 15 trillion tokens in 30.84M GPU hours. They report 3.8e25 FLOPs in training, which checks out with the rule-of-thumb of \(6 * \text{parameters} * \text{tokens}\), \((15T * 405B * 6 = 3.65e25 \text{ FLOPs})\). In comparison, Deepseek-V3 has 37B active, which is about 9.1% of the active size of 405B. \(6 * 37B * 14.8T\) lands us at \(3.29e24\) FLOPs in training, which is pretty close to what you would get from \(3.8e25 * \frac{14.8}{15} * 0.091 = 3.41e24\). We can cross-reference this with the figures for <a href="https://arxiv.org/pdf/2401.06066">Deepseek-MoE</a>: in that work, DeepSeekMoE is 145B total, 22.2B active, and reports 585.6T flops per 4k tokens. \(\frac{585.6T \text{ flops}}{4000 \text{ tokens}} * \frac{1}{22.2B \text{ parameters}} = 6.59\) flops per token per active parameter, and \(6.59 \text{ flops} * 14.8T \text{ tokens} * 37B \text{ active params} = 3.61e24\) flops total for Deepseek-V3. This is not so far off from our estimate, so it's probably reasonable. 
 </p>
 
 <p>
