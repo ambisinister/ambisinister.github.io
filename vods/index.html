@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Melee VOD Browser</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body{font-family:system-ui,Arial,sans-serif;margin:20px;background:#f9fafb;color:#111}
+    h1{margin-bottom:10px;font-size:1.5rem;font-weight:700}
+    #file-input{margin-bottom:15px}
+    #controls{margin-top:15px}
+    #controls label{margin-right:12px;font-size:0.9rem}
+    #controls input{padding:4px 6px;margin-left:4px;border:1px solid #ccc;border-radius:4px}
+    #apply{padding:6px 14px;border:0;border-radius:4px;background:#2563eb;color:#fff;cursor:pointer}
+    table{width:100%;border-collapse:collapse;margin-top:14px;font-size:0.9rem}
+    thead{background:#e5e7eb}
+    th,td{padding:6px 8px;border:1px solid #d1d5db;text-align:left}
+    tr:nth-child(even){background:#f0f2f5}
+    button.watch-btn{padding:4px 8px;border:0;border-radius:4px;background:#10b981;color:#fff;cursor:pointer}
+    #player-modal{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:1000}
+    #player-wrap{background:#000;border-radius:8px;overflow:hidden;max-width:90vw;width:800px;aspect-ratio:16/9}
+    #close-btn{position:absolute;top:8px;right:12px;font-size:20px;color:#fff;cursor:pointer;font-weight:bold}
+    .file-area{border:2px dashed #ccc;padding:20px;text-align:center;border-radius:8px;margin-bottom:20px}
+    .file-area:hover{background:#f0f9ff;border-color:#93c5fd}
+    #file-status{font-size:0.9rem;font-weight:500;margin-top:8px;color:#4b5563}
+    #toggle-btn{margin-left:10px;background:#4b5563;color:white;border:none;border-radius:4px;padding:6px 14px;cursor:pointer}
+    #data-source{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}
+    #loading-indicator{display:none;margin-top:10px;font-weight:500;color:#4b5563}
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+</head>
+<body>
+  <h1>Melee VOD Browser</h1>
+
+  <div id="data-source">
+    <div>
+      <span>Data Source:</span>
+      <button id="toggle-btn">Switch to Upload</button>
+    </div>
+    <div id="loading-indicator">Loading matches from remote CSV...</div>
+  </div>
+
+  <div class="file-area" id="upload-area" style="display:none;">
+    <p>Upload your Melee matches CSV file</p>
+    <input type="file" id="csv-file" accept=".csv" />
+    <div id="file-status">No file selected</div>
+  </div>
+
+  <div id="controls">
+    <label>Player <input id="player" type="text" placeholder="any" /></label>
+    <label>Character <input id="character" type="text" placeholder="Fox" /></label>
+    <label>Since <input id="since" type="date" /></label>
+    <button id="apply">Apply</button>
+  </div>
+
+  <table id="matches">
+    <thead>
+      <tr>
+        <th>Date</th><th>Event</th><th>Winner</th><th>Score</th><th>Loser</th><th>Characters</th><th>VOD</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+  let data = [];
+  let activeFilters = { player:"", character:"", since:null };
+  const tbody = document.querySelector('#matches tbody');
+  const fileInput = document.getElementById('csv-file');
+  const fileStatus = document.getElementById('file-status');
+  const loadingIndicator = document.getElementById('loading-indicator');
+  const uploadArea = document.getElementById('upload-area');
+  const toggleBtn = document.getElementById('toggle-btn');
+  
+  // Remote CSV URL
+  const remoteCSVUrl = 'https://planetbanatt.net/vods/matches.csv';
+  let usingRemoteData = true;
+
+  // Toggle between remote and upload
+  toggleBtn.addEventListener('click', function() {
+    usingRemoteData = !usingRemoteData;
+    if (usingRemoteData) {
+      uploadArea.style.display = 'none';
+      toggleBtn.textContent = 'Switch to Upload';
+      loadRemoteCSV();
+    } else {
+      uploadArea.style.display = 'block';
+      toggleBtn.textContent = 'Switch to Remote';
+    }
+  });
+
+  // Load remote CSV on page load
+  window.addEventListener('DOMContentLoaded', function() {
+    loadRemoteCSV();
+  });
+
+  // Function to load remote CSV
+  function loadRemoteCSV() {
+    data = [];
+    loadingIndicator.style.display = 'block';
+    
+    fetch(remoteCSVUrl)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Failed to fetch CSV: ${response.status} ${response.statusText}`);
+        }
+        return response.text();
+      })
+      .then(csvText => {
+        Papa.parse(csvText, {
+          header: true,
+          skipEmptyLines: true,
+          complete: function(results) {
+            data = results.data.filter(r => r.VOD_LINK);
+            loadingIndicator.style.display = 'none';
+            render();
+          },
+          error: function(error) {
+            loadingIndicator.style.display = 'none';
+            loadingIndicator.textContent = `Error parsing CSV: ${error.message}`;
+          }
+        });
+      })
+      .catch(error => {
+        loadingIndicator.style.display = 'none';
+        loadingIndicator.textContent = `Error: ${error.message}`;
+        console.error('Error fetching remote CSV:', error);
+      });
+  }
+
+  // Handle file selection
+  fileInput.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) {
+      fileStatus.textContent = 'No file selected';
+      return;
+    }
+    
+    fileStatus.textContent = `File selected: ${file.name}`;
+    
+    // Parse the CSV file
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: function(results) {
+        data = results.data.filter(r => r.VOD_LINK);
+        render();
+      },
+      error: function(error) {
+        fileStatus.textContent = `Error: ${error.message}`;
+      }
+    });
+  });
+
+  document.getElementById('apply').addEventListener('click', () => {
+    activeFilters.player = document.getElementById('player').value.trim().toLowerCase();
+    activeFilters.character = document.getElementById('character').value.trim().toLowerCase();
+    activeFilters.since = document.getElementById('since').value || null;
+    render();
+  });
+
+  function matchFilter(r) {
+    if (activeFilters.player) {
+      const p = activeFilters.player;
+      if (!(r.PLAYER_WIN?.toLowerCase().includes(p) || r.PLAYER_LOSE?.toLowerCase().includes(p))) return false;
+    }
+    if (activeFilters.character) {
+      const c = activeFilters.character;
+      if (!(r.CHARACTERS_WIN?.toLowerCase().includes(c) || r.CHARACTERS_LOSE?.toLowerCase().includes(c))) return false;
+    }
+    if (activeFilters.since) {
+      if (new Date(r.DATE) < new Date(activeFilters.since)) return false;
+    }
+    return true;
+  }
+
+  function render() {
+    tbody.innerHTML = '';
+    const filtered = data.filter(matchFilter);
+    filtered.forEach((row, idx) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${row.DATE || 'N/A'}</td>
+        <td>${row.EVENT || 'N/A'}</td>
+        <td>${row.PLAYER_WIN || 'N/A'}</td>
+        <td>${row.SCORE || 'N/A'}</td>
+        <td>${row.PLAYER_LOSE || 'N/A'}</td>
+        <td>${row.CHARACTERS_WIN || 'N/A'} vs ${row.CHARACTERS_LOSE || 'N/A'}</td>
+        <td>${row.VOD_LINK ? `<button class='watch-btn' data-index='${idx}'>Watch</button>` : 'N/A'}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  // ---------- YouTube embed handling ----------
+  let ytPlayer = null;
+  let playingList = [];
+  let currentPtr = -1;
+  let ytReady = false;
+
+  // YouTube API Ready handler
+  function onYouTubeIframeAPIReady() {
+    ytReady = true;
+    console.log("YouTube API Ready");
+  }
+
+  function getVideoId(url) {
+    if (!url) return null;
+    const m = url.match(/(?:v=|youtu\.be\/|embed\/)([A-Za-z0-9_-]{11})/);
+    return m ? m[1] : null;
+  }
+
+  function openModal(index) {
+    playingList = data.filter(matchFilter);
+    currentPtr = index;
+    const id = getVideoId(playingList[currentPtr].VOD_LINK);
+    if (!id) {
+      alert("Could not extract valid YouTube video ID");
+      return;
+    }
+
+    const modal = document.createElement('div');
+    modal.id = 'player-modal';
+    modal.innerHTML = `<div id='player-wrap'><div id='close-btn'>&times;</div><div id='yt-player'></div></div>`;
+    document.body.appendChild(modal);
+    
+    document.getElementById('close-btn').onclick = () => {
+      if (ytPlayer) {
+        ytPlayer.stopVideo();
+        ytPlayer.destroy();
+        ytPlayer = null;
+      }
+      modal.remove();
+    };
+
+    // Wait a moment to ensure DOM is ready
+    setTimeout(() => {
+      try {
+        ytPlayer = new YT.Player('yt-player', {
+          height: '100%',
+          width: '100%',
+          videoId: id,
+          playerVars: {
+            'autoplay': 1,
+            'rel': 0,
+            'modestbranding': 1
+          },
+          events: {
+            'onReady': (event) => { event.target.playVideo(); },
+            'onStateChange': onPlayerState,
+            'onError': (event) => { console.error("YouTube player error:", err); }
+          }
+        });
+      } catch (err) {
+        console.error("Error creating YouTube player:", err);
+        alert("Error loading YouTube player. Please try again.");
+      }
+    }, 300);
+  }
+
+  function onPlayerState(e) {
+    if (e.data === YT.PlayerState.ENDED) {
+      const nextIdx = currentPtr + 1;
+      if (nextIdx < playingList.length) {
+        currentPtr = nextIdx;
+        const nextId = getVideoId(playingList[currentPtr].VOD_LINK);
+        if (nextId) {
+          ytPlayer.loadVideoById(nextId);
+        }
+      }
+    }
+  }
+
+  // Make sure YouTube API is loaded properly
+  if (!window.YT) {
+    // If YT is not defined, reload the API
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  }
+
+  document.addEventListener('click', e => {
+    if (e.target.classList.contains('watch-btn')) {
+      const index = parseInt(e.target.dataset.index, 10);
+      if (window.YT && window.YT.Player) {
+        // YouTube API is ready
+        openModal(index);
+      } else {
+        // Wait for YouTube API to load
+        alert("YouTube player is loading. Please try again in a moment.");
+        // Reload YouTube API
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      }
+    }
+  });
+  </script>
+</body>
+</html>
