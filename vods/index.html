@@ -7,10 +7,16 @@
   <style>
     body{font-family:system-ui,Arial,sans-serif;margin:20px;background:#f9fafb;color:#111}
     h1{margin-bottom:10px;font-size:1.5rem;font-weight:700}
-    #file-input{margin-bottom:15px}
     #controls{margin-top:15px}
     #controls label{margin-right:12px;font-size:0.9rem}
-    #controls input{padding:4px 6px;margin-left:4px;border:1px solid #ccc;border-radius:4px}
+    #controls input,#controls select{padding:4px 6px;margin-left:4px;border:1px solid #ccc;border-radius:4px}
+    .dropdown{position:relative;display:inline-block;margin-left:4px}
+    .dropdown-selected{padding:4px 6px;border:1px solid #ccc;border-radius:4px;background:#fff;cursor:pointer;min-width:150px;user-select:none}
+    .dropdown-options{position:absolute;top:calc(100% + 2px);left:0;right:0;background:#fff;border:1px solid #ccc;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,0.1);z-index:1000;display:none;max-height:200px;overflow-y:auto}
+    .dropdown-options label{display:block;padding:6px 8px;cursor:pointer;font-size:0.9rem;border-bottom:1px solid #f0f0f0}
+    .dropdown-options label:last-child{border-bottom:none}
+    .dropdown-options label:hover{background:#f5f5f5}
+    .dropdown-options input[type="checkbox"]{margin-right:6px}
     #apply{padding:6px 14px;border:0;border-radius:4px;background:#2563eb;color:#fff;cursor:pointer}
     table{width:100%;border-collapse:collapse;margin-top:14px;font-size:0.9rem}
     thead{background:#e5e7eb}
@@ -20,11 +26,6 @@
     #player-modal{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:1000}
     #player-wrap{background:#000;border-radius:8px;overflow:hidden;max-width:90vw;width:800px;aspect-ratio:16/9}
     #close-btn{position:absolute;top:8px;right:12px;font-size:20px;color:#fff;cursor:pointer;font-weight:bold}
-    .file-area{border:2px dashed #ccc;padding:20px;text-align:center;border-radius:8px;margin-bottom:20px}
-    .file-area:hover{background:#f0f9ff;border-color:#93c5fd}
-    #file-status{font-size:0.9rem;font-weight:500;margin-top:8px;color:#4b5563}
-    #toggle-btn{margin-left:10px;background:#4b5563;color:white;border:none;border-radius:4px;padding:6px 14px;cursor:pointer}
-    #data-source{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}
     #loading-indicator{display:none;margin-top:10px;font-weight:500;color:#4b5563}
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
@@ -33,23 +34,41 @@
 <body>
   <h1>Melee VOD Browser</h1>
 
-  <div id="data-source">
-    <div>
-      <span>Data Source:</span>
-      <button id="toggle-btn">Switch to Upload</button>
-    </div>
-    <div id="loading-indicator">Loading matches from remote CSV...</div>
-  </div>
-
-  <div class="file-area" id="upload-area" style="display:none;">
-    <p>Upload your Melee matches CSV file</p>
-    <input type="file" id="csv-file" accept=".csv" />
-    <div id="file-status">No file selected</div>
-  </div>
+  <div id="loading-indicator">Loading matches from remote CSV...</div>
 
   <div id="controls">
     <label>Player <input id="player" type="text" placeholder="any" /></label>
-    <label>Character <input id="character" type="text" placeholder="Fox" /></label>
+    <label>Characters 
+      <div class="dropdown">
+        <div class="dropdown-selected" id="character-selected">Select characters...</div>
+        <div class="dropdown-options" id="character-options">
+          <label><input type="checkbox" value="CaptainFalcon"> Captain Falcon</label>
+          <label><input type="checkbox" value="DonkeyKong"> Donkey Kong</label>
+          <label><input type="checkbox" value="DrMario"> Dr. Mario</label>
+          <label><input type="checkbox" value="Falco"> Falco</label>
+          <label><input type="checkbox" value="Fox"> Fox</label>
+          <label><input type="checkbox" value="Ganondorf"> Ganondorf</label>
+          <label><input type="checkbox" value="IceClimbers"> Ice Climbers</label>
+          <label><input type="checkbox" value="Jigglypuff"> Jigglypuff</label>
+          <label><input type="checkbox" value="Kirby"> Kirby</label>
+          <label><input type="checkbox" value="Link"> Link</label>
+          <label><input type="checkbox" value="Luigi"> Luigi</label>
+          <label><input type="checkbox" value="Mario"> Mario</label>
+          <label><input type="checkbox" value="Marth"> Marth</label>
+          <label><input type="checkbox" value="MrGameWatch"> Mr. Game & Watch</label>
+          <label><input type="checkbox" value="Ness"> Ness</label>
+          <label><input type="checkbox" value="Peach"> Peach</label>
+          <label><input type="checkbox" value="Pichu"> Pichu</label>
+          <label><input type="checkbox" value="Pikachu"> Pikachu</label>
+          <label><input type="checkbox" value="Roy"> Roy</label>
+          <label><input type="checkbox" value="Samus"> Samus</label>
+          <label><input type="checkbox" value="Sheik"> Sheik</label>
+          <label><input type="checkbox" value="Yoshi"> Yoshi</label>
+          <label><input type="checkbox" value="YoungLink"> Young Link</label>
+          <label><input type="checkbox" value="Zelda"> Zelda</label>
+        </div>
+      </div>
+    </label>
     <label>Since <input id="since" type="date" /></label>
     <button id="apply">Apply</button>
   </div>
@@ -63,32 +82,18 @@
     <tbody></tbody>
   </table>
 
+  <footer style="margin-top: 40px; padding: 20px; text-align: center; font-size: 0.8rem; color: #666; border-top: 1px solid #ddd;">
+    Data provided by <a href="https://liquipedia.net" target="_blank" rel="noopener" style="color: #2563eb; text-decoration: none;">Liquipedia</a>
+  </footer>
+
   <script>
   let data = [];
-  let activeFilters = { player:"", character:"", since:null };
+  let activeFilters = { player:"", character:[], since:null };
   const tbody = document.querySelector('#matches tbody');
-  const fileInput = document.getElementById('csv-file');
-  const fileStatus = document.getElementById('file-status');
   const loadingIndicator = document.getElementById('loading-indicator');
-  const uploadArea = document.getElementById('upload-area');
-  const toggleBtn = document.getElementById('toggle-btn');
   
   // Remote CSV URL
   const remoteCSVUrl = 'https://planetbanatt.net/vods/matches.csv';
-  let usingRemoteData = true;
-
-  // Toggle between remote and upload
-  toggleBtn.addEventListener('click', function() {
-    usingRemoteData = !usingRemoteData;
-    if (usingRemoteData) {
-      uploadArea.style.display = 'none';
-      toggleBtn.textContent = 'Switch to Upload';
-      loadRemoteCSV();
-    } else {
-      uploadArea.style.display = 'block';
-      toggleBtn.textContent = 'Switch to Remote';
-    }
-  });
 
   // Load remote CSV on page load
   window.addEventListener('DOMContentLoaded', function() {
@@ -129,33 +134,51 @@
       });
   }
 
-  // Handle file selection
-  fileInput.addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    if (!file) {
-      fileStatus.textContent = 'No file selected';
-      return;
-    }
-    
-    fileStatus.textContent = `File selected: ${file.name}`;
-    
-    // Parse the CSV file
-    Papa.parse(file, {
-      header: true,
-      skipEmptyLines: true,
-      complete: function(results) {
-        data = results.data.filter(r => r.VOD_LINK);
-        render();
-      },
-      error: function(error) {
-        fileStatus.textContent = `Error: ${error.message}`;
-      }
-    });
+
+  // Character dropdown functionality
+  const characterSelected = document.getElementById('character-selected');
+  const characterOptions = document.getElementById('character-options');
+  let dropdownOpen = false;
+  
+  // Toggle dropdown - ONLY when clicking the selected area
+  characterSelected.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dropdownOpen = !dropdownOpen;
+    characterOptions.style.display = dropdownOpen ? 'block' : 'none';
   });
+  
+  // Handle checkbox changes - completely separate from dropdown toggle
+  characterOptions.addEventListener('change', (e) => {
+    if (e.target.type === 'checkbox') {
+      updateCharacterDisplay();
+    }
+  });
+  
+  // Prevent any clicks inside dropdown from closing it or interfering
+  characterOptions.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+  
+  // Close dropdown when clicking outside the entire dropdown area
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.dropdown')) {
+      dropdownOpen = false;
+      characterOptions.style.display = 'none';
+    }
+  });
+  
+  // Update selected text when checkboxes change
+  function updateCharacterDisplay() {
+    const checked = document.querySelectorAll('#character-options input[type="checkbox"]:checked');
+    const names = Array.from(checked).map(cb => cb.parentElement.textContent.trim());
+    characterSelected.textContent = names.length > 0 ? names.join(', ') : 'Select characters...';
+  }
 
   document.getElementById('apply').addEventListener('click', () => {
     activeFilters.player = document.getElementById('player').value.trim().toLowerCase();
-    activeFilters.character = document.getElementById('character').value.trim().toLowerCase();
+    const checkedBoxes = document.querySelectorAll('#character-options input[type="checkbox"]:checked');
+    activeFilters.character = Array.from(checkedBoxes).map(cb => cb.value);
     activeFilters.since = document.getElementById('since').value || null;
     render();
   });
@@ -165,9 +188,16 @@
       const p = activeFilters.player;
       if (!(r.PLAYER_WIN?.toLowerCase().includes(p) || r.PLAYER_LOSE?.toLowerCase().includes(p))) return false;
     }
-    if (activeFilters.character) {
-      const c = activeFilters.character;
-      if (!(r.CHARACTERS_WIN?.toLowerCase().includes(c) || r.CHARACTERS_LOSE?.toLowerCase().includes(c))) return false;
+    if (activeFilters.character && activeFilters.character.length > 0) {
+      const selectedChars = activeFilters.character;
+      const winChars = (r.CHARACTERS_WIN || '').split(',').map(ch => ch.trim());
+      const loseChars = (r.CHARACTERS_LOSE || '').split(',').map(ch => ch.trim());
+      const allChars = [...winChars, ...loseChars];
+      
+      // Check if ALL selected characters appear in this match
+      if (!selectedChars.every(selectedChar => allChars.some(char => char === selectedChar))) {
+        return false;
+      }
     }
     if (activeFilters.since) {
       if (new Date(r.DATE) < new Date(activeFilters.since)) return false;
