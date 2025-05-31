@@ -200,7 +200,10 @@
       }
     }
     if (activeFilters.since) {
-      if (new Date(r.DATE) < new Date(activeFilters.since)) return false;
+      // Extract just the date part (YYYY-MM-DD) from the DATE field
+      // in case it has time component like "2024-11-16 04:00:45"
+      const matchDate = r.DATE ? r.DATE.split(' ')[0] : '';
+      if (matchDate && matchDate < activeFilters.since) return false;
     }
     return true;
   }
