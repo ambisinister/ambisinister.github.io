@@ -141,6 +141,7 @@
         <button onclick="showPracticeModal()">Practice from Queue</button>
         <button onclick="authenticateGoogle()" id="authButton">Connect to Google Sheets</button>
         <button onclick="loadFromGoogleSheets()" id="loadButton" style="display: none;">Refresh from Sheet</button>
+        <button onclick="logoutGoogle()" id="logoutButton" style="display: none; background: #dc3545;">Disconnect</button>
         <span id="authStatus" style="margin-left: 10px; color: #666;"></span>
         <input type="text" id="filterInput" placeholder="Filter savestates..." onkeyup="filterSavestates()">
     </div>
@@ -269,16 +270,19 @@
         function updateAuthStatus(authenticated) {
             const authButton = document.getElementById('authButton');
             const loadButton = document.getElementById('loadButton');
+            const logoutButton = document.getElementById('logoutButton');
             const statusSpan = document.getElementById('authStatus');
             
             if (authenticated) {
                 authButton.style.display = 'none';
                 loadButton.style.display = 'inline-block';
+                logoutButton.style.display = 'inline-block';
                 statusSpan.textContent = '✓ Connected to Google Sheets';
                 statusSpan.style.color = '#28a745';
             } else {
                 authButton.style.display = 'inline-block';
                 loadButton.style.display = 'none';
+                logoutButton.style.display = 'none';
                 statusSpan.textContent = 'Not connected';
                 statusSpan.style.color = '#666';
             }
@@ -286,6 +290,32 @@
         
         function authenticateGoogle() {
             tokenClient.requestAccessToken({prompt: 'consent'});
+        }
+        
+        function logoutGoogle() {
+            // Clear stored tokens
+            localStorage.removeItem('google_access_token');
+            localStorage.removeItem('google_refresh_token');
+            
+            // Clear gapi token
+            if (gapi.client.getToken()) {
+                gapi.client.setToken(null);
+            }
+            
+            // Revoke the token from Google
+            const token = gapi.client.getToken();
+            if (token && token.access_token) {
+                google.accounts.oauth2.revoke(token.access_token, () => {
+                    console.log('Token revoked');
+                });
+            }
+            
+            // Clear savestates and update UI
+            savestates = [];
+            updateAuthStatus(false);
+            updateDisplay();
+            
+            console.log('Logged out from Google Sheets');
         }
 
         // Load data
