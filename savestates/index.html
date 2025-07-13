@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice Scheduler</title>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .queue-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .savestate-list {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .savestate-item {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background: #fafafa;
+        }
+        .savestate-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .title {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .meta {
+            font-size: 0.9em;
+            color: #666;
+        }
+        .score-display {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .score-good { background: #d4edda; color: #155724; }
+        .score-warning { background: #fff3cd; color: #856404; }
+        .score-bad { background: #f8d7da; color: #721c24; }
+        button {
+            padding: 8px 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .queue-item {
+            padding: 10px;
+            margin: 5px 0;
+            background: #e3f2fd;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        .tag {
+            display: inline-block;
+            background: #e9ecef;
+            padding: 3px 8px;
+            margin: 2px;
+            border-radius: 3px;
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Practice Scheduler</h1>
+    </div>
+
+    <div class="controls">
+        <button onclick="showAddModal()">Add New Savestate</button>
+        <button onclick="showPracticeModal()">Practice from Queue</button>
+        <button onclick="authenticateGoogle()" id="authButton">Connect to Google Sheets</button>
+        <button onclick="loadFromGoogleSheets()" id="loadButton" style="display: none;">Refresh from Sheet</button>
+        <span id="authStatus" style="margin-left: 10px; color: #666;"></span>
+        <input type="text" id="filterInput" placeholder="Filter savestates..." onkeyup="filterSavestates()">
+    </div>
+
+    <div class="queue-container">
+        <h2>Practice Queue (Top 10)</h2>
+        <div id="queueDisplay"></div>
+    </div>
+
+    <div class="savestate-list">
+        <h2>All Savestates</h2>
+        <div id="savestateDisplay"></div>
+    </div>
+
+    <!-- Add Savestate Modal -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <h2>Add New Savestate</h2>
+            <label>Title:</label>
+            <input type="text" id="newTitle" required>
+            <label>Character:</label>
+            <input type="text" id="newCharacter">
+            <label>Target Score (%):</label>
+            <input type="number" id="newTarget" min="0" max="100" value="80">
+            <label>Priority (1-10):</label>
+            <input type="number" id="newPriority" min="1" max="10" value="5">
+            <label>Tags (comma separated):</label>
+            <input type="text" id="newTags" placeholder="tag1, tag2, tag3">
+            <label>Description:</label>
+            <textarea id="newDescription" rows="3"></textarea>
+            <button onclick="addSavestate()">Add Savestate</button>
+            <button onclick="closeAddModal()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Practice Modal -->
+    <div id="practiceModal" class="modal">
+        <div class="modal-content">
+            <h2>Practice Session</h2>
+            <div id="practiceStateName"></div>
+            
+            <h3>Edit Savestate Properties</h3>
+            <label>Target Score (%):</label>
+            <input type="number" id="editTargetScore" min="0" max="100">
+            <label>Priority (1-10):</label>
+            <input type="number" id="editPriority" min="1" max="10">
+            <label>Description:</label>
+            <textarea id="editDescription" rows="2"></textarea>
+            <label>Tags (comma separated):</label>
+            <input type="text" id="editTags">
+            
+            <h3>Previous Notes</h3>
+            <div id="previousNotes" style="background: #f8f9fa; padding: 10px; border-radius: 5px; margin: 10px 0; min-height: 40px; font-style: italic;"></div>
+            
+            <h3>Practice Results</h3>
+            <label>Score achieved (%):</label>
+            <input type="number" id="practiceScore" min="0" max="100">
+            <label>New notes about this practice:</label>
+            <textarea id="practiceNotes" rows="3" placeholder="Add notes about this practice session..."></textarea>
+            
+            <button onclick="completePractice()">Save Practice & Updates</button>
+            <button onclick="closePracticeModal()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        let savestates = [];
+        let practiceHistory = [];
+        let currentStateToPractice = null;
+        
+        // Google Sheets configuration
+        const CLIENT_ID = '662674494823-v8ld81fj95vu1vnnfa43egnorrovan47.apps.googleusercontent.com';
+        const SPREADSHEET_ID = '1oeJGYa9qnk1KEG0djOv1rNv1WCJFwyxTUNGCqLn9_gs';
+        const DISCOVERY_DOC = 'https://sheets.googleapis.com/$discovery/rest?version=v4';
+        const SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
+        
+        let tokenClient;
+        let gapi_initialized = false;
+        let gis_initialized = false;
+
+        // Initialize Google APIs
+        async function initializeGapi() {
+            await gapi.load('client', initializeGapiClient);
+        }
+        
+        async function initializeGapiClient() {
+            await gapi.client.init({
+                discoveryDocs: [DISCOVERY_DOC],
+            });
+            gapi_initialized = true;
+            maybeEnableButtons();
+        }
+        
+        function initializeGis() {
+            tokenClient = google.accounts.oauth2.initTokenClient({
+                client_id: CLIENT_ID,
+                scope: SCOPES,
+                callback: (tokenResponse) => {
+                    if (tokenResponse.access_token) {
+                        localStorage.setItem('google_access_token', tokenResponse.access_token);
+                        if (tokenResponse.refresh_token) {
+                            localStorage.setItem('google_refresh_token', tokenResponse.refresh_token);
+                        }
+                        updateAuthStatus(true);
+                        loadFromGoogleSheets();
+                    }
+                },
+            });
+            gis_initialized = true;
+            maybeEnableButtons();
+        }
+        
+        function maybeEnableButtons() {
+            if (gapi_initialized && gis_initialized) {
+                const token = localStorage.getItem('google_access_token');
+                if (token) {
+                    gapi.client.setToken({access_token: token});
+                    updateAuthStatus(true);
+                    loadFromGoogleSheets();
+                } else {
+                    updateAuthStatus(false);
+                }
+            }
+        }
+        
+        function updateAuthStatus(authenticated) {
+            const authButton = document.getElementById('authButton');
+            const loadButton = document.getElementById('loadButton');
+            const statusSpan = document.getElementById('authStatus');
+            
+            if (authenticated) {
+                authButton.style.display = 'none';
+                loadButton.style.display = 'inline-block';
+                statusSpan.textContent = '✓ Connected to Google Sheets';
+                statusSpan.style.color = '#28a745';
+            } else {
+                authButton.style.display = 'inline-block';
+                loadButton.style.display = 'none';
+                statusSpan.textContent = 'Not connected';
+                statusSpan.style.color = '#666';
+            }
+        }
+        
+        function authenticateGoogle() {
+            tokenClient.requestAccessToken({prompt: 'consent'});
+        }
+
+        // Load data
+        function loadData() {
+            // Initialize Google APIs
+            initializeGapi();
+            loadPracticeHistory();
+            updateDisplay();
+        }
+        
+        async function loadFromGoogleSheets() {
+            try {
+                const response = await gapi.client.sheets.spreadsheets.values.get({
+                    spreadsheetId: SPREADSHEET_ID,
+                    range: 'A:H', // Adjust range as needed
+                });
+                
+                const rows = response.result.values;
+                if (rows && rows.length > 1) {
+                    // Skip header row
+                    const dataRows = rows.slice(1);
+                    
+                    savestates = dataRows.map((row, index) => {
+                        const [name, character, priority, description, notes, lastPracticed, targetScore, currentScore] = row;
+                        return {
+                            id: index + 1, // Use row number as ID (1-based)
+                            rowIndex: index + 2, // Store actual row index for updates (1-based + header)
+                            title: name || '',
+                            character: character || 'Any',
+                            targetScore: parseInt(targetScore) || 80,
+                            priority: parseInt(priority) || 5,
+                            tags: [],
+                            description: description || '',
+                            lastPracticed: lastPracticed ? new Date(lastPracticed) : null,
+                            currentScore: parseInt(currentScore) || 0,
+                            notes: notes || ''
+                        };
+                    });
+                    
+                    console.log(`Loaded ${savestates.length} savestates from Google Sheets`);
+                    updateDisplay();
+                } else {
+                    console.log('No data found in the sheet');
+                }
+            } catch (error) {
+                console.error('Error loading from Google Sheets:', error);
+                alert('Failed to load from Google Sheets. Please check your connection and permissions.');
+            }
+        }
+        
+        async function updateSheetRow(rowIndex, data) {
+            try {
+                const response = await gapi.client.sheets.spreadsheets.values.update({
+                    spreadsheetId: SPREADSHEET_ID,
+                    range: `A${rowIndex}:H${rowIndex}`,
+                    valueInputOption: 'RAW',
+                    resource: {
+                        values: [data]
+                    }
+                });
+                console.log('Sheet updated successfully');
+                return response;
+            } catch (error) {
+                console.error('Error updating sheet:', error);
+                throw error;
+            }
+        }
+        
+
+        function loadPracticeHistory() {
+            // No localStorage loading for now
+            practiceHistory = [];
+        }
+
+        // Save data
+        function saveSavestates() {
+            // No localStorage saving for now - changes are temporary
+            console.log('Savestate changes made (not persistent)');
+        }
+
+        function savePracticeHistory() {
+            // No localStorage saving for now - changes are temporary
+            console.log('Practice history recorded (not persistent)');
+        }
+
+        // Calculate priority score
+        function calculatePriorityScore(state) {
+            const scoreGap = Math.abs(state.targetScore - state.currentScore);
+            let timeMultiplier = 1;
+            
+            if (state.lastPracticed) {
+                const hoursSincePractice = (Date.now() - state.lastPracticed.getTime()) / (1000 * 60 * 60);
+                if (hoursSincePractice > 24) {
+                    timeMultiplier = Math.min(2, hoursSincePractice / 24);
+                }
+            } else {
+                timeMultiplier = 5;
+            }
+            
+            return scoreGap * state.priority * timeMultiplier;
+        }
+
+        // Queue management
+        function getPracticeQueue() {
+            return savestates
+                .map(s => ({...s, priorityScore: calculatePriorityScore(s)}))
+                .sort((a, b) => b.priorityScore - a.priorityScore);
+        }
+
+        // Display functions
+        function updateDisplay() {
+            updateQueueDisplay();
+            updateSavestateDisplay();
+        }
+
+        function updateQueueDisplay() {
+            const queue = getPracticeQueue().slice(0, 10);
+            
+            let html = '';
+            queue.forEach(state => {
+                html += `
+                    <div class="queue-item">
+                        <div>
+                            <strong>${state.title}</strong> (${state.character || 'Any'})
+                            <div class="meta">Priority: ${state.priorityScore.toFixed(1)} | Last practiced: ${state.lastPracticed ? state.lastPracticed.toLocaleDateString() : 'Never'}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('queueDisplay').innerHTML = html;
+        }
+
+        function updateSavestateDisplay() {
+            const sortedStates = [...savestates].sort((a, b) => a.title.localeCompare(b.title));
+            
+            let html = '';
+            sortedStates.forEach(state => {
+                const scoreStatus = getScoreStatus(state);
+                const tagsHtml = state.tags.filter(t => t).map(t => `<span class="tag">${t}</span>`).join(' ');
+                
+                html += `
+                    <div class="savestate-item">
+                        <div class="savestate-header">
+                            <div>
+                                <div class="title">${state.title}</div>
+                                <div class="meta">${state.character || 'Any character'} | Priority: ${state.priority} | Target: ${state.targetScore}%</div>
+                                ${state.description ? `<div class="meta">${state.description}</div>` : ''}
+                                ${tagsHtml}
+                            </div>
+                            <div>
+                                <span class="score-display ${scoreStatus.class}">${state.currentScore}% / ${state.targetScore}%</span>
+                                <button onclick="showPracticeModalSingle(${state.id})">Practice</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('savestateDisplay').innerHTML = html;
+        }
+
+        function getScoreStatus(state) {
+            const diff = Math.abs(state.currentScore - state.targetScore);
+            if (diff <= 10) return { class: 'score-good', text: 'Good' };
+            if (diff <= 25) return { class: 'score-warning', text: 'Fair' };
+            return { class: 'score-bad', text: 'Needs Work' };
+        }
+
+        // Filter functionality
+        function filterSavestates() {
+            const filter = document.getElementById('filterInput').value.toLowerCase();
+            const items = document.querySelectorAll('.savestate-item');
+            
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(filter) ? 'block' : 'none';
+            });
+        }
+
+        // Modal functions
+        function showAddModal() {
+            document.getElementById('addModal').style.display = 'block';
+        }
+
+        function closeAddModal() {
+            document.getElementById('addModal').style.display = 'none';
+            document.getElementById('newTitle').value = '';
+            document.getElementById('newCharacter').value = '';
+            document.getElementById('newTarget').value = '80';
+            document.getElementById('newPriority').value = '5';
+            document.getElementById('newTags').value = '';
+            document.getElementById('newDescription').value = '';
+        }
+
+        function showPracticeModal() {
+            const queue = getPracticeQueue();
+            if (queue.length > 0) {
+                currentStateToPractice = queue[0];
+                showPracticeModalForState(currentStateToPractice);
+            }
+        }
+
+        function showPracticeModalSingle(stateId) {
+            currentStateToPractice = savestates.find(s => s.id === stateId);
+            if (currentStateToPractice) {
+                showPracticeModalForState(currentStateToPractice);
+            }
+        }
+
+        function showPracticeModalForState(state) {
+            document.getElementById('practiceStateName').innerHTML = `<h3>${state.title} (${state.character || 'Any'})</h3>`;
+            
+            // Populate edit fields with current values
+            document.getElementById('editTargetScore').value = state.targetScore;
+            document.getElementById('editPriority').value = state.priority;
+            document.getElementById('editDescription').value = state.description || '';
+            document.getElementById('editTags').value = state.tags.join(', ');
+            
+            // Show previous notes
+            const previousNotesDiv = document.getElementById('previousNotes');
+            if (state.notes && state.notes.trim()) {
+                previousNotesDiv.innerHTML = state.notes.replace(/\n/g, '<br>');
+            } else {
+                previousNotesDiv.innerHTML = '<em>No previous notes</em>';
+            }
+            
+            document.getElementById('practiceModal').style.display = 'block';
+        }
+
+        function closePracticeModal() {
+            document.getElementById('practiceModal').style.display = 'none';
+            document.getElementById('practiceScore').value = '';
+            document.getElementById('practiceNotes').value = '';
+            document.getElementById('editTargetScore').value = '';
+            document.getElementById('editPriority').value = '';
+            document.getElementById('editDescription').value = '';
+            document.getElementById('editTags').value = '';
+            currentStateToPractice = null;
+        }
+
+        // Action functions
+        function addSavestate() {
+            const newState = {
+                id: Date.now(),
+                title: document.getElementById('newTitle').value,
+                character: document.getElementById('newCharacter').value,
+                targetScore: parseInt(document.getElementById('newTarget').value),
+                priority: parseInt(document.getElementById('newPriority').value),
+                tags: document.getElementById('newTags').value.split(',').map(t => t.trim()),
+                description: document.getElementById('newDescription').value,
+                lastPracticed: null,
+                currentScore: 0
+            };
+            
+            savestates.push(newState);
+            saveSavestates();
+            closeAddModal();
+            updateDisplay();
+        }
+
+        async function completePractice() {
+            const score = parseInt(document.getElementById('practiceScore').value);
+            const newNotes = document.getElementById('practiceNotes').value;
+            
+            // Get updated savestate properties
+            const newTargetScore = parseInt(document.getElementById('editTargetScore').value);
+            const newPriority = parseInt(document.getElementById('editPriority').value);
+            const newDescription = document.getElementById('editDescription').value;
+            const newTags = document.getElementById('editTags').value.split(',').map(t => t.trim()).filter(t => t);
+            
+            if (currentStateToPractice) {
+                const stateIndex = savestates.findIndex(s => s.id === currentStateToPractice.id);
+                const state = savestates[stateIndex];
+                
+                // Update savestate properties
+                state.targetScore = newTargetScore;
+                state.priority = newPriority;
+                state.description = newDescription;
+                state.tags = newTags;
+                
+                // Update practice data
+                state.lastPracticed = new Date();
+                state.currentScore = score;
+                
+                // Append new notes to existing notes
+                let updatedNotes = state.notes || '';
+                if (newNotes && newNotes.trim()) {
+                    const timestamp = new Date().toLocaleDateString();
+                    const newNoteEntry = `[${timestamp}] ${newNotes.trim()}`;
+                    if (updatedNotes) {
+                        updatedNotes += '\n\n' + newNoteEntry;
+                    } else {
+                        updatedNotes = newNoteEntry;
+                    }
+                }
+                state.notes = updatedNotes;
+                
+                // Update Google Sheet
+                try {
+                    const rowData = [
+                        state.title,
+                        state.character,
+                        state.priority,
+                        state.description,
+                        state.notes,
+                        state.lastPracticed ? state.lastPracticed.toISOString() : '',
+                        state.targetScore,
+                        state.currentScore
+                    ];
+                    
+                    await updateSheetRow(state.rowIndex, rowData);
+                    console.log('Practice data synced to Google Sheets');
+                } catch (error) {
+                    console.error('Failed to sync to Google Sheets:', error);
+                    alert('Practice recorded locally but failed to sync to Google Sheets. Please check your connection.');
+                }
+                
+                practiceHistory.push({
+                    stateId: currentStateToPractice.id,
+                    date: new Date().toISOString(),
+                    score: score,
+                    notes: newNotes
+                });
+                
+                saveSavestates();
+                savePracticeHistory();
+                closePracticeModal();
+                updateDisplay();
+            }
+        }
+
+        // Initialize
+        loadData();
+        
+        // Load Google Identity Services
+        function loadGIS() {
+            const script = document.createElement('script');
+            script.src = 'https://accounts.google.com/gsi/client';
+            script.onload = initializeGis;
+            document.head.appendChild(script);
+        }
+        
+        // Load GIS after page loads
+        window.addEventListener('load', loadGIS);
+    </script>
+</body>
+</html>
