@@ -1,0 +1,38 @@
+#+TITLE: Bthrow Dash Attack vs CF
+* Backthrow Dash Attack vs Captain Falcon
+
+This is a strong option starting from around 50 percent. If they DI neutral or away, they're offstage and you get to edgeguard them. If they DI in, you can dash attack them before they grab ledge (and they can't do anything else).
+
+#+BEGIN_EMBED html
+<video controls="" autoplay="" name="media"><source src="https://media.cookbook.gg/60f48566a9fa0602242693f5/64c00c4176487479d1a9b736.mp4" type="video/mp4"></video>
+#+END_EMBED
+
+#+BEGIN_EMBED html
+<iframe width="560" height="315" src="https://www.youtube.com/embed/UToeO-8MIy8?si=wjXauGkRCI0Shf_q&amp;clip=UgkxfoTJlmdbgUOxNDHGwN2mcPbgtDpCLT7H&amp;clipt=ENLdBhjkmgc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+#+END_EMBED
+
+** Frames
+
+This is sort of tricky to land, I needed to look at the frame data to get this consistent. An easy mistake is doing the dash attack really early since you think that the additional dash frames are greedy, but the opposite is true: doing the dash attack too early will make it whiff, and you will not reach falcon before he grabs the ledge.
+
+Likewise, another important mechanic is the 1f buffer for dash out of lag. This is super important for making this viable. I'll show two tables, one for this at 60 (easier) and one for this at 50 (harder).
+
+Table at 60%
+
+| x   | d0 | d1 | d2 | d3 |
+| a6  | x  | x  | x  | x  |
+| a7  | ✓  | ✓  | ✓  | x  |
+| a8  | ✓  | ✓  | ✓  | x  |
+| a9  | ✓  | ✓  | x  | x  |
+| a10 | ✓  | ✓  | x  | x  |
+| a11 | x  | x  | x  | x  |
+
+Table at 50%
+
+| x   | d0 | d1 | d2 | 
+| a6  | x  | x  | x  | 
+| a7  | ✓  | ✓  | x  | 
+| a8  | ✓  | ✓  | x  | 
+| a9  | x  | x  | x  | 
+
+In general I think 2f by 2f windows are pretty reasonable to get consistent a high percentage of the time. 
