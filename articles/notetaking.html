@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-07-19 Sat 14:38 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Notetaking</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="https://planetbanatt.net/css/default_20240614.css" />
+<link rel="shortcut icon" type="image/jpg" href="https://planetbanatt.net/favicon.ico" />
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<h1 class="title">Notetaking</h1>
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org8ed506d">A Notetaking Baseline for Academic Work</a>
+<ul>
+<li><a href="#org8d394cb">Remark: AI Cannot Learn For You</a>
+<ul>
+<li><a href="#org0e52d79">Exposure</a></li>
+<li><a href="#org998cdda">Encoding</a></li>
+</ul>
+</li>
+<li><a href="#orgc7a4543">Physically Taking the Notes</a>
+<ul>
+<li><a href="#orgd50c2a9">Writing on A4 Paper</a>
+<ul>
+<li><a href="#orgc905605">Remark: Nice Stationary is the Mind Killer</a></li>
+<li><a href="#org3c69c48">Formatting Notes</a>
+<ul>
+<li><a href="#orgde74504">always title at top of first page</a></li>
+<li><a href="#orgf5867d2">Box -&gt; anki flashcard</a></li>
+<li><a href="#org9e24a71">always tl;dr at the bottom of the last page</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org78fa44c">Typing</a></li>
+<li><a href="#orgb26dc6b">Yapping</a></li>
+</ul>
+</li>
+<li><a href="#org1397491">Pipelining</a>
+<ul>
+<li><a href="#orgdcc25e2">Digitizing Written Notes with Multimodal LLMs</a></li>
+</ul>
+</li>
+<li><a href="#org3adc66e">Comparison to "Study Devices"</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8ed506d" class="outline-1">
+<h1 id="org8ed506d">A Notetaking Baseline for Academic Work</h1>
+<div class="outline-text-1" id="text-org8ed506d">
+<p>
+People online have various ideas on what devices and techniques constitute good notetaking. I am someone who reads and takes notes a fairly substantial amount every day, and whose livelihood is largely contingent on that process being fairly effective. However, none of these systems ever really stuck with me. It has been my experience that the only determining factor that really matters is whether I was paying attention while I was reading, and whether I regularly think about what I read after I read it. This is potentially troublesome to people attempting to sell you effective notetaking strategies.
+</p>
+
+<p>
+What follows is my attempt at organizing notetaking into a system that (hopefully) has the following properties:
+</p>
+
+<ol class="org-ol">
+<li>enables me to learn topics really, really well.</li>
+<li>doesn't require a very tedious, unneeded components which discourage me from doing it</li>
+<li><i>unifies</i> my <i>knowledge management</i> &#x2013; largely invisibly connects things together for me</li>
+<li>lets me evaluate if the newest shiny bauble is useful or would damage my process</li>
+</ol>
+</div>
+
+<div id="outline-container-org8d394cb" class="outline-2">
+<h2 id="org8d394cb">Remark: AI Cannot Learn For You</h2>
+<div class="outline-text-2" id="text-org8d394cb">
+<p>
+Many people have taken swings at incorporating LLMs into the notetaking process and for the most part all of these attempts have been pretty bad. The reason for this is very simple, and nicely illustrates the entire point of this post. Learning something new involves two fundamental steps: <b>exposure</b> and <b>encoding</b>, and any software-enabled notetaking system must absolutely, never, ever touch either of these two things. We are going to try to design a system which uses technology to help us learn, understand, and remember; but we need first to establish some baselines for what's kosher and what's harmful.
+</p>
+</div>
+
+<div id="outline-container-org0e52d79" class="outline-3">
+<h3 id="org0e52d79">Exposure</h3>
+<div class="outline-text-3" id="text-org0e52d79">
+<p>
+The way to learn new things is to read. You <i>have</i> to read. There are some things which loosely "count" as reading, like paying attention to lectures/videos, being tutored by someone, etc. But for the most part, there's rarely anything better than being exposed to an extremely dense block of information, organized with the intent to build understanding. If you do anything even vaguely academic for work, you should be reading pretty much all the time. 
+</p>
+
+<p>
+Consider the common naive idea of using chatGPT to create flashcards from a textbook chapter you have read. On the surface this seems like a really great idea: we can even use cloze cards to directly rip out sentences and mask important key words to reduce the likelihood of llm hallucination. However, the big problem with this is that the language model does not actually have access to your internal body of knowledge, and cannot create cards that are the appropriate difficulty for you. For example, I recently read the <a href="https://arxiv.org/abs/2405.15793">SWE-Agent</a> paper and tried to run this as an experiment<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>. Example cards that this generated for me are below
+</p>
+
+<blockquote>
+<p>
+{{c1::SWE-agent}} is an autonomous system that uses a {{c2::language model}} to interact with a computer to solve {{c3::software engineering tasks}}.
+</p>
+
+<p>
+{{c1::SWE-agent}} uses an {{c2::ACI}} that enables an {{c3::LM}} to act as a {{c4::software engineering agent}}.
+</p>
+</blockquote>
+
+<p>
+Which are, you know, fine. If I didn't already have some background in LLMs then maybe I could use some flashcards to tell me that SWE-agent is an LLM agent for software engineering. But this illustrates part of the problem: the things I want to remember in this paper are very specifically what its contents are compared to other papers, and what new concepts are introduced in this paper that I do not already know. In order to obtain this information <b>I need to read the paper</b> and then subsequently <b>I need to identify things I do not already know</b>.
+</p>
+
+<p>
+The LLM cannot see inside my brain. If it did, it could read the paper for me and pull out specifically the concepts which I need to make flashcards for, and then make those for me. But here in actual current reality there is a necessary exposure to the concepts which I need to actually do myself. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org998cdda" class="outline-3">
+<h3 id="org998cdda">Encoding</h3>
+<div class="outline-text-3" id="text-org998cdda">
+<p>
+Longtime readers know I have a passing interest in <a href="https://planetbanatt.net/articles/memory.html">memory sports</a>. It was through a brief stint in memory sports where I really learned that <i>seeing something</i> and <i>putting something in my memory</i> are two separate processes, and the second one is a deliberate and active process.
+</p>
+
+<p>
+The LLM flashcards app idea falls short in this second way, as well. People commonly tell you when using <a href="https://planetbanatt.net/articles/anki.html">flashcard systems</a> that you're usually better off making your own cards, and this is a big part of why: making the card is a step where you are <i>actively putting</i> this information into your memory. Letting a machine handle this step will rob you of a critical step in the process, which I have found usually defers this step to the first time you see the card<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc7a4543" class="outline-2">
+<h2 id="orgc7a4543">Physically Taking the Notes</h2>
+<div class="outline-text-2" id="text-orgc7a4543">
+<p>
+paper vs computer
+<a href="https://journals.sagepub.com/doi/abs/10.1177/0956797614524581">https://journals.sagepub.com/doi/abs/10.1177/0956797614524581</a> 
+<a href="https://journals.sagepub.com/doi/10.1177/0956797620965541?icid=int.sj-abstract.similar-articles.3">https://journals.sagepub.com/doi/10.1177/0956797620965541?icid=int.sj-abstract.similar-articles.3</a>
+</p>
+
+<p>
+I am greedy, so let's figure out a way to do everything.
+</p>
+</div>
+
+<div id="outline-container-orgd50c2a9" class="outline-3">
+<h3 id="orgd50c2a9">Writing on A4 Paper</h3>
+<div class="outline-text-3" id="text-orgd50c2a9">
+<p>
+new thing I'm trying
+</p>
+
+<p>
+<a href="https://www.amazon.com/LAMY-Color-Ballpoint-Brushed-L401/dp/B000UTKMDQ/ref=sr_1_1?crid=3VCHUTF8J2OZ2&amp;dib=eyJ2IjoiMSJ9.AIpczuQX9COcBrJ6-rJreuf1r6d4pEUzDPyZPEqQe4aKBWUM-Vr44toBcgNSxa3_bL3hsR25APyHZOwQYI3SxPHJtVz-61nggVUu901voXpZma8HyDPRmMkz0bUQpeSf591sSv-Wwi1x2QKYqrYtK9WqVHS2KxvDIrHU6bZgmq1omT8s-KL4HkTqDxv9EnqrYOgMujXHI66vyYpNC7fKlPUcA_khkn0CeMJnO8OWmYCAM0z6erUmntWkVszJm3ZtBDF_g1Ke2BP8ityHK_QOE1jqi07L98KM1C2O0kWo1j8.nP2ou6FzJmf4t2EPbk4VQXFGXz3-rXrRNNNtY2bze6g&amp;dib_tag=se&amp;keywords=Lamy%2B2000%2BMultipen&amp;qid=1718857367&amp;s=office-products&amp;sprefix=lamy%2B2000%2Bmultipen%2Coffice-products%2C134&amp;sr=1-1&amp;th=1">pen</a> <a href="https://www.amazon.com/Lamy-logo-3-colours-multicoloured-ballpoint/dp/B002KK5YDQ/ref=cs_sr_dp_2?crid=YNUSZCI2NE00&amp;dib=eyJ2IjoiMSJ9.ftVK5OPW-TgvQqD1g38rJeB-lwqaJYf1XjDx_twBuzBxaEa-jDcQ6kP1VsGJ6kr4PIcXpiqH7Gi6ffBIyBXyE0GDT0-RPbbD0DAJ5S3l2jHZyMznDaKWKncwnZwI9ti2GAT29grDsvSUgct8ibQz8FE_LnT85qT3KIA82eeEMNJmawt-6v6qjuTYEKX3xa5GfTsMZbbb1Tvc-DhS9bx77aKSU2GeP7nYfG-M8_dP3RI-wFDAV-jU_lMqMQ2MjaYXFs8dXvmP-Xa--OQX88W0JVjqi07L98KM1C2O0kWo1j8.8hGNvkAICkenlcqu1HpYhOngdeEprvypj4E8fdBZHdQ&amp;dib_tag=se&amp;keywords=lamy%2Blogo%2B3%2Bpen&amp;qid=1718942889&amp;sprefix=lamy%2Blogo%2B3%2Bpen%2Caps%2C144&amp;sr=8-2&amp;th=1">diff pen</a> <a href="https://www.amazon.com/Stream-Prime-Ballpoint-colors-SXE3330005-24/dp/B08WX1KGKP/ref=sr_1_1?crid=2D99YYKYWIQTF&amp;dib=eyJ2IjoiMSJ9.oA5EO4x-sCohV9uzc1HLK3C6cDtcA1hqwD-aUD76Zqz2qBkGuHATotaRekM-CEwDOwrvEaIL-SRlJOV0ldY2DS-kA2nOjHzpweUANsl2W5KQldZSLEB29BSUNjVVzEm51ArkYnTbrBwPlMeCi0wcCiqdGb2xnFv77iZqUJ8rHLyZ83u3O05VCZhmzwV0TvbmFHbi4AOCeSLjHMww2mVSCEtctIa5w-YJGa53zRaEmIkIontj8tIlGwNbopNkZIUN8xhMSrP-lviarvmyKU4MF6yCWrR3Ngap4muwju_LT4I.B0w0Wh-QHcVkUk3c-0EzWx00eWqJzx-OgS5cZNN6UFc&amp;dib_tag=se&amp;keywords=Uniball%2BJetstream%2BPrime&amp;qid=1718943067&amp;sprefix=uniball%2Bjetstream%2Bprime%2Caps%2C142&amp;sr=8-1&amp;th=1">less luxury pen</a>
+<a href="https://www.amazon.com/Hammermill-Paper-letter-Bright-Sheets/dp/B01MTJEHYA/ref=sr_1_2?crid=1IK57K0OJX7JN&amp;dib=eyJ2IjoiMSJ9.BGp6pdQoiuBqqYAtiCHQxIBtE9uZQxWBbIn_2nekYn1sb3cEggE4yCM7PE4tl7MR81rvYQZ6phk7I6i6lP2wVL1tT8OAKBMOPOv12OZ_bx-t8XjOzTDyW0HYl3U--e5BGhBT_R4-4r-IIPMgLI03SNwnMB5BrcyFGQFGdlv47J_vC4eOpYQAiLQiuCIY-r0yHst-qIN8ruuPquaoJnafFhCrVr3Me7g7LDJDbT_0jaoLgbGSw4xp23sHohy9XZbsDWYCRsQAZDnzm9nCkJQUe3XiuVcvWHeJh-HqIqD8_W8.TsByK5ZCYAl2i09jyHOV1GSSURLNDbL-5Isbsylnx6Q&amp;dib_tag=se&amp;keywords=a4%2Bpaper&amp;qid=1718857903&amp;sprefix=a4%2Bpaper%2Caps%2C158&amp;sr=8-2&amp;th=1">paper</a>
+<a href="https://www.amazon.com/ProCase-Clipboard-Portfolio-Professional-Conference/dp/B0CHRTS4XM/ref=sr_1_8?crid=15CMK17DKKHA6&amp;dib=eyJ2IjoiMSJ9.YdZKOKLGRUeW01KnygpE9AUvYbvWZyXG44eJqn9V0_wQN7O-KxLAHQ93YR732xyjnAm9vnxVg5N9Ggf6-Val2QZAOHgmYp4__t1tQQOs6-M_K_VL1ZO0UH-VdopZHc57mjMyYKktHMemkkewNAG1cGFHUfzW-VSN9JgSSvxex1IrP6xqfD6g6xcn-FQcozrjTrILKvnDT7N_CEcHwJCOiBiFjSrpkKc055EBnw_f2CE5lYYTwrYW-SxfwtmuuMpRHffvdl2IMdS9f2DSIyFNr9QZmiHsrrkdOBTU_FV4Vvw.TN9FD2__YnoXvf9_reyvVuMwiJ5vg17nJhn1qEBWX7I&amp;dib_tag=se&amp;keywords=folder%2Bclipboard&amp;qid=1718857927&amp;sprefix=folder%2Bclipboard%2Caps%2C144&amp;sr=8-8&amp;th=1">clipcase thing</a>
+</p>
+</div>
+
+<div id="outline-container-orgc905605" class="outline-4">
+<h4 id="orgc905605">Remark: Nice Stationary is the Mind Killer</h4>
+<div class="outline-text-4" id="text-orgc905605">
+<p>
+I am a sucker for nice notebooks and stuff. I always buy them and think that I am going to spend all my time filling them with beautiful thoughts that I can go back through later and enjoy reading. This presents a problem &#x2013; I don't want to use the stationary unless my thoughts are beautiful and interesting. Notes are best taken when they are about something you are clueless about. They represent the stage of learning where you are at your dumbest possible with respect to understanding a topic, and the entire purpose of them is to destroy the lack of understanding.
+</p>
+
+<p>
+"Scratch Paper" on the other hand, is perfect for notes. You just write on it, as ugly as possible, to dump your thoughts and perform some act of active encoding and compression. You should be so comfortable with this that it would seem normal enough to destroy these notes later due to being not useful anymore. Stuff should be crossed out, stuff should be wrong; it ought to be chaotic and messy as you fight through understanding something new.
+</p>
+
+<p>
+What needs to be beautiful is the <i>synthesis</i> of what you are learning with what you already know. Beautiful notes are a strange concept to me: anything sufficiently beautiful seems to lack the prerequisite struggle to warrant notes being taken on the topic in the first place.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3c69c48" class="outline-4">
+<h4 id="org3c69c48">Formatting Notes</h4>
+<div class="outline-text-4" id="text-org3c69c48">
+</div>
+<div id="outline-container-orgde74504" class="outline-5">
+<h5 id="orgde74504">always title at top of first page</h5>
+</div>
+
+<div id="outline-container-orgf5867d2" class="outline-5">
+<h5 id="orgf5867d2">Box -&gt; anki flashcard</h5>
+</div>
+
+<div id="outline-container-org9e24a71" class="outline-5">
+<h5 id="org9e24a71">always tl;dr at the bottom of the last page</h5>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org78fa44c" class="outline-3">
+<h3 id="org78fa44c">Typing</h3>
+<div class="outline-text-3" id="text-org78fa44c">
+<p>
+org-mode is really useful for people who produce lots of words
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb26dc6b" class="outline-3">
+<h3 id="orgb26dc6b">Yapping</h3>
+<div class="outline-text-3" id="text-orgb26dc6b">
+<p>
+Blogposts in my experience are really good.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1397491" class="outline-2">
+<h2 id="org1397491">Pipelining</h2>
+<div class="outline-text-2" id="text-org1397491">
+<p>
+Where LLMs <i>can</i> be useful for a notetaking system is <i>connecting components together</i>. 
+</p>
+</div>
+
+<div id="outline-container-orgdcc25e2" class="outline-3">
+<h3 id="orgdcc25e2">Digitizing Written Notes with Multimodal LLMs</h3>
+<div class="outline-text-3" id="text-orgdcc25e2">
+<p>
+The reason I took such care to include the anki and tldr stuff is because we are going to pipe this into an LLM to turn it to text.
+</p>
+
+<p>
+Specifically, we input a bundle of all the pictures in order, and we ask it to do five things:
+</p>
+
+<ol class="org-ol">
+<li>In notes file, we add a new header with the title at the top of the first page<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup></li>
+<li>Under that header, we add the tl;dr from the bottom of the last page</li>
+<li>Under that tldr, we add a csv block with our anki cards (and send that to anki)</li>
+<li>Digitize the notes to be like I drew them on a computer</li>
+<li>OCR the notes into a txt file for searching purposes</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3adc66e" class="outline-2">
+<h2 id="org3adc66e">Comparison to "Study Devices"</h2>
+<div class="outline-text-2" id="text-org3adc66e">
+<p>
+The above represents a minimum bar for me to consider using a tool which claims to want to insert itself into my process of study. e-ink devices, for example, often have clunky notetaking capabilities that claim to hold everything together for you in a way that makes it valuable somehow.
+</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Prompt:
+</p>
+
+<p class="footpara">
+Attached is a pdf I am reading. I would like you to help me make flashcards to study for a test.
+</p>
+
+<p class="footpara">
+I would like the following:
+</p>
+
+<ol class="org-ol">
+<li>Create an outline of the pdf provided which captures all of the major details. This should be in bullet-point format, and should allow me to skim through it and immediately remember the general contents of the pdf (e.g. for a research paper, do not say intro, related work, experiments, results, discussion, conclusion, etc; instead each section should be like "Experiment: adding l2 regularization to loss function" etc).</li>
+<li>For each of these sections, pull out a subset of sentences which represent a detailed overview of that section. This should contain each "atomic" unit of information, as defined by Pitor Wozniak's 20 rules of knowledge formulation. Basically: each of these sentences should contain all of the "new facts" contained in that section, which I am unlikely to already know.</li>
+<li>Make anki cloze deletion cards from these sentences. Do this by wrapping specific important words or phrases in curly braces. For example, for the sentence "The capital of Burkina Faso is Ouagadougou" can be turned into two cards like so: "The capital of {{c1::Burkina Faso}} is {{c2::Ouagadougou}}" where c1 will obscure Burkina Faso and c2 will obscure Ouagadougou.</li>
+</ol>
+
+<p class="footpara">
+Please note that I am specifically interested in being assisted with the rote memory component of studying for this test. I have faith that I could answer how/why/conceptual questions on this topic, but that isn't well suited for flashcards which are specifically just drilling my rote memorization. As such, try to avoid "conceptual cards" which are easy to guess or intuit by understanding &#x2013; each cloze deletion should be a concept that I should get wrong with maximum probability if I did not memorize the topic in sufficiently high resolution. 
+</p>
+
+<p class="footpara">
+Aim to let me recall the technical and historical details of this pdf with roughly perfect precision.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I have written some scripts which will use llms to make cloze cards based on my clipboard contents if I press a hotkey, and I've found that I'll often want to go in and edit new cards the first time I see them anyways, which sort of defeats the purpose. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Also put the date here
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+</div>
+</body>
+</html>

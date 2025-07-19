@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-07-19 Sat 14:38 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LLMs for Self-Tutoring</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="https://planetbanatt.net/css/default_20240614.css" />
+<link rel="shortcut icon" type="image/jpg" href="https://planetbanatt.net/favicon.ico" />
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<h1 class="title">LLMs for Self-Tutoring</h1>
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org3d0fa79">Self-Tutoring with LLMs as Generalized Policy Iteration</a>
+<ul>
+<li><a href="#org8519bf6">Generalized Policy Iteration</a></li>
+<li><a href="#org8edfb44">A Strategy for Self-Tutoring with LLMs</a>
+<ul>
+<li><a href="#orge4c428c">You Still Have To Read</a></li>
+<li><a href="#orge829507">LLM Summaries as Abstracts</a></li>
+<li><a href="#org735f6e3">Keep Track of What You Don't Understand</a></li>
+<li><a href="#orga6236a8">Give The LLM Your Text</a></li>
+<li><a href="#orga92ed7d">Ask It About Things You Don't Understand</a></li>
+<li><a href="#orgef0b171">Do The Exercises, Get Active Feedback</a></li>
+</ul>
+</li>
+<li><a href="#org2ef6dbe">Thoughts on LLMs as the Driver for Modern Montessori</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3d0fa79" class="outline-1">
+<h1 id="org3d0fa79">Self-Tutoring with LLMs as Generalized Policy Iteration</h1>
+<div class="outline-text-1" id="text-org3d0fa79">
+<p>
+A core result from education research is <a href="https://en.wikipedia.org/wiki/Bloom%27s_2_sigma_problem">Bloom's 2 sigma problem</a>, which roughly states that the average student that recieves one-on-one tutoring scores higher than 98% of students who learn just through classroom settings. This is fairly outrageous: even just elevating the median student to 70th percentile would feel like an extremely large discrepancy.
+</p>
+
+<p>
+Classroom settings are therefore remarkably suspect. A one-size-fits-all setting which allows a diligent 98th percentile student to match a merely average level tutored student, and which advances to the next topic even when students score too poorly on previous tests to understand the subsequent material. It is simultaneously too slow and too fast, necessarily capturing a narrow window which builds a shaky foundation for lower-performing students and limits the heights attainable by higher-performing ones.
+</p>
+
+<p>
+But in the real world, tutors are outside the price range of most middle-class-and-below students, regardless of their potential membership in the upper percentiles. LLMs offer a potential opportunity to disrupt this, and provide high-quality tutoring for meager costs (or free). Looming fear of hallucination means that this has not taken off as a widespread solution: can this be mitigated?
+</p>
+</div>
+
+<div id="outline-container-org8519bf6" class="outline-2">
+<h2 id="org8519bf6">Generalized Policy Iteration</h2>
+<div class="outline-text-2" id="text-org8519bf6">
+<p>
+A good framework for getting practical value out of LLMs is to frame the problem in terms of <a href="http://incompleteideas.net/book/first/ebook/node46.html">Generalized Policy Iteration</a>. The overall idea of GPI is that you have a policy which determines your actions, and a value function which tells you how good your policy is. These two update each other in a cycle: the value function is adjusted based on the current policy, and then the policy is adjusted to pick the best action in each state. If you do this cycle over and over again, these two will converge to the same spot, where neither changes because you have the optimal value function and policy.
+</p>
+
+
+<div id="org60c0f8b" class="figure">
+<p><img src="../images/from_clipboard/20241129_143515.png" alt="20241129_143515.png" />
+</p>
+</div>
+
+
+<p>
+The core idea here is that you need to build up some understanding yourself, and use the LLM to improve spots of that understanding which are lacking. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8edfb44" class="outline-2">
+<h2 id="org8edfb44">A Strategy for Self-Tutoring with LLMs</h2>
+<div class="outline-text-2" id="text-org8edfb44">
+<p>
+I have found LLMs tremendously helpful at learning new material, despite admittedly frequent hallucination. You have to be careful to use it in a way that enables you to actually, reliably, learn in an effective way. 
+</p>
+</div>
+
+<div id="outline-container-orge4c428c" class="outline-3">
+<h3 id="orge4c428c">You Still Have To Read</h3>
+<div class="outline-text-3" id="text-orge4c428c">
+<p>
+A very common use-case for LLMs seems to be summarization. Very often you will LLM evangelists show off how good a model is at summarizing lots of text, and you will see questions from potential new users like "how can I be certain that this text is accurate?" To me, this completely misses the forest for the trees.
+</p>
+
+<p>
+Fundamental to all of this is that you still have to read the things you want to learn. The LLM can help you learn, but it cannot <i>learn for you</i>. You will never have a problem with LLM-generated summaries causing you problems understanding if you simply <i>read the thing first</i>. 
+</p>
+
+<p>
+There is a great divide in LLM usage which is roughly shaped like the above: people who want to use LLMs to do stuff for them, and people who want to use LLMs to enable themselves to do new stuff. LLMs can easily do your homework for you, or produce words to help you pretend like you read something. Lots of people are lazy, and the ability to do these things is disrupting the existing education infrastructure in a potentially not-so-positive way. But you, dear reader, are trying to actually learn things (right?), so it's of critical importance that you do not accidentally use LLMs in a way recommended by team lazy. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge829507" class="outline-3">
+<h3 id="orge829507">LLM Summaries as Abstracts</h3>
+<div class="outline-text-3" id="text-orge829507">
+<p>
+LLM Summaries are not useless, despite the point we just raised. A good way to think about this is that LLMs can read a huge amount of text very, very fast compared to you. As a result, you can think of LLM-generated summaries as ways to direct your reading, in scenarios where you have a lot of things to read.
+</p>
+
+<p>
+Academic work often contains <a href="https://www.sjsu.edu/writingcenter/docs/handouts/Abstracts.pdf">abstracts</a>, which provide a high-level summary of the paper's contributions. Lots of papers get published every day, so researchers will often read lots of abstracts in order to identify which papers hold potential promise for their work. This is super useful &#x2013; it helps us from having to read lots of papers just to figure out whether or not the paper would be important for us to read. Types of writing which have high volume but no abstracts often resort to having overly verbose titles. Light novels, for example, often have titles like <i><a href="https://www.novelupdates.com/series/the-results-from-when-i-time-leaped-to-my-second-year-of-high-school-and-confessed-to-the-teacher-i-liked-at-the-time/">The Results From When I Time Leaped to My Second Year of High School and Confessed to the Teacher I Liked at the Time</a></i>, since readers on light novel aggregation websites get just the title and nothing else: how else to know what it's about?
+</p>
+
+<p>
+If you just read the abstract, it would be silly to act like you've read the whole paper. Summaries are like this: you can think of LLM-generated summaries as <i>abstracts you can talk to</i>, and therefore, <i>abstracts which are targeted towards you, specifically</i>. Reading these can be tremendously helpful at helping you determine whether or not you should read the thing in question. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org735f6e3" class="outline-3">
+<h3 id="org735f6e3">Keep Track of What You Don't Understand</h3>
+<div class="outline-text-3" id="text-org735f6e3">
+<p>
+When you read something challenging, you should pay close attention to the things which feel hazy vs the things that feel straightforward. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga6236a8" class="outline-3">
+<h3 id="orga6236a8">Give The LLM Your Text</h3>
+<div class="outline-text-3" id="text-orga6236a8">
+<p>
+If you're reading something in pdf form, you usually can put the pdf in the window. If it's too large, you can trim it with print to pdf. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga92ed7d" class="outline-3">
+<h3 id="orga92ed7d">Ask It About Things You Don't Understand</h3>
+<div class="outline-text-3" id="text-orga92ed7d">
+<p>
+Generally speaking, when you don't understand something you are reading, there's a specific single threshold you are struggling with.
+</p>
+
+<p>
+If the LLM can help you make that step, then you've made an improvement to your understanding. Hooray!
+</p>
+
+<p>
+If the LLM hallucinates and provides you something nonsensical or incorrect, it's very likely that this will not improve your understanding. This is an easy way to have some limited verification about what it's teaching you: if the LLM helps you get a concept you were struggling with, that's good, and if the LLM gives you something confusing then you are no worse than you were before (i.e. not understanding something after reading it yourself). 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgef0b171" class="outline-3">
+<h3 id="orgef0b171">Do The Exercises, Get Active Feedback</h3>
+<div class="outline-text-3" id="text-orgef0b171">
+<p>
+If the thing you're doing has exercises, you should try to do them, ideally with as little assistance as you can manage. LLMs are very good at homework-problem-shaped things, so even if you get stuck and want a hint you should be explicit saying something like "point me in the right direction but don't solve the problem for me".
+</p>
+
+<p>
+One of the biggest benefits of using LLMs for tutoring (especially when exercises are involved) is that the model can walk through exercises with you and actively help explain why your mistakes are incorrect. This, to me, represents perhaps the biggest problem with a classroom setting: tests are vilified because feedback is binary, things can be either right or wrong, and if you get things wrong you only learn that your current approach did not work.
+</p>
+
+<p>
+Actually reviewing errors is an extremely important part of getting good at something, and LLMs offer the opportunity for personalized feedback and correcting of mistakes. Putting this another way, LLMs are often demonized in education because they can do homework for students. But, in fact, this is their biggest strength <i>in education</i>, because they are <i>so good at homework</i> that you can put in your graded homework into it and it can walk you through all your mistakes. If the explanation is hard to understand, you can ask for further clarification, and the red ink of your teacher's feedback will morph before your very eyes.
+</p>
+
+<p>
+It requires you to actually care about the topic, though. 
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2ef6dbe" class="outline-2">
+<h2 id="org2ef6dbe">Thoughts on LLMs as the Driver for Modern Montessori</h2>
+<div class="outline-text-2" id="text-org2ef6dbe">
+<p>
+I think that of all possible applications, education is the single industry most likely to be significantly positively disrupted by LLM-driven technologies.
+</p>
+
+<p>
+<a href="https://en.wikipedia.org/wiki/Montessori_education">Montessori Education</a> already carries with it many of the elements which, with minimal modification, could be integrated with LLM tutors to yield highly positive outcomes. Elements like standardized tests and grades are discouraged in traditional Montessori, because templated testing provides good outcomes for students who master the material and bad outcomes for students who do not. Individualized testing, individualized instruction, individualized feedback, all of these are potential ways that previously impractical teaching methods could be adapted in a modern educational curriculum.
+</p>
+
+<p>
+Core to these discussions are the power of LLMs: they can be used to learn more effectively, and they can also be used to avoid having to learn anything altogether. Here is where I can envision the value human teachers and peers can provide to a student &#x2013; <i>vision</i> into each student's mind and level of engagement is far more likely to be useful to <i>the student</i> compared to lecture-style instruction.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+</div>
+</body>
+</html>

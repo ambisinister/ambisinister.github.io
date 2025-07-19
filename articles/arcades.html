@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-07-19 Sat 14:38 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Arcades</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="https://planetbanatt.net/css/default_20240614.css" />
+<link rel="shortcut icon" type="image/jpg" href="https://planetbanatt.net/favicon.ico" />
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<h1 class="title">Arcades</h1>
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org281fdeb">Arcade Culture Encourages High Skill Acquisition</a>
+<ul>
+<li><a href="#org8a9b9ce">The Arcade as a Multi-Arm Bandit Problem</a></li>
+<li><a href="#org9b921a3">Why Did The Arcade Die?</a></li>
+</ul>
+</li>
+<li><a href="#org321d29c">More Reading</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org281fdeb" class="outline-1">
+<h1 id="org281fdeb">Arcade Culture Encourages High Skill Acquisition</h1>
+<div class="outline-text-1" id="text-org281fdeb">
+<p>
+The death of the Arcade as a third space has roughly coincided with an era in gaming history which has largely moved away from technically demanding, high-skill-expression gameplay. I do some simple modeling and show that arcades offer an avenue for lower-income players to achieve similar enjoyment to their more wealthy peers only if they can develop high skill at particular games. 
+</p>
+</div>
+
+<div id="outline-container-org8a9b9ce" class="outline-2">
+<h2 id="org8a9b9ce">The Arcade as a Multi-Arm Bandit Problem</h2>
+<div class="outline-text-2" id="text-org8a9b9ce">
+<p>
+In Reinforcement Learning, Multi-Arm Bandit settings are problems where you have a bunch of actions and need to figure out which one provides the most reward. They're named this way because you're supposed to picture a bunch of slot machines ("one-armed bandits"), and your task is to figure out which of the slot machines pays out at the best rate.
+</p>
+
+<p>
+We can model arcades as a variant of the multi-arm bandit problem in order to illustrate the effect of skill acquisition. Departing from the traditional multi-arm bandit setting, we describe a stateful version as follows:
+</p>
+
+<p>
+Each day, the player has 180 minutes of free time (<i>time</i>) and recieves some constant amount of money (<i>income</i>). The player exists in an environment with different machines which cost some price to play (<i>quarters</i>), and when played will return a tuple of values (enjoyment, duration). Fun is defined as the total enjoyment * duration. The objective is to maximize the amount of fun the player experiences.
+</p>
+
+<p>
+There are two types of machines: cabinets and home games. A home game has a fixed one-time price which is very high, and will return a constant enjoyment value for the entire remaining duration of that particular day. Once you've purchased a home game, you can continue playing it at no cost. Over time, the enjoyment will decay for these games, but you can refill this to the full original amusement value if you purchase another home game at the same original price.
+</p>
+
+<p>
+A cabinet has a price which is very low, and will produce an enjoyment value for a relatively short time. However, these games behave differently from home games. Each time you play an arcade cabinet, the duration will increase, and the amount of enjoyment will skew towards higher values (<i>skill acquisition</i>). The first time you play a particular cabinet on a particular day, there's a small bonus (<i>novelty</i>) for the first couple of plays, which wears off quickly. Novelty also lessens day-by-day, so over time that initial bonus will shrink.  
+</p>
+
+<p>
+Note that by the construction here, if you can't afford a home game, you have to save up for one and forego the enjoyment of playing in the arcade. If you need to save up a long time, that is a large opportunity cost compared to the fun you would be having playing in the arcade. On the flip side, if you have so much money that you can continually buy new home games, you might not have any desire to play the cabinets at all. There's a sweetspot here &#x2013; people who cannot afford home console games, but can spend enough time in the arcade that they can become good at using a particular cabinet. This may result in them being able to compete or even outperform peers with more income, because it's so much harder to encounter this situation if you're armed with high income (and can just buy home games).
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9b921a3" class="outline-2">
+<h2 id="org9b921a3">Why Did The Arcade Die?</h2>
+<div class="outline-text-2" id="text-org9b921a3">
+<p>
+Conventional wisdom will tell you that the arcade died because of rapidly increasing technological advancement in the home console market. However, through this lens, the story becomes slightly more nuanced. You can model an arcade's typical clientele as a variety of different agents for this multi-arm bandit problem, each with their own personal q* values for each cabinet (i.e. the player's <i>taste</i>).
+</p>
+
+<p>
+As home console games grow more fun and less expensive, this sweetspot of regular arcade goers will begin to dwindle. Likewise, players who learn a specific policy which prefers the arcade over a home console is likely doing so because they can extract more fun for fewer quarters compared to a higher income player who happens to randomly go to the arcade on a particular day. That player on average will be worse at most of the cabinets compared to a regular, which means they will spend less <i>time</i> on each cabinet, and be able to visit <i>more</i> of them, netting the arcade's owner much more compared to a regular arcade-goer.
+</p>
+
+<p>
+More concretely, the hardcore fan of arcades is largely irrelevant for the operating revenue of the arcade, the money-making clientele vanish with increased accessibility of home games, and overall most players will inevitably funnel out.
+</p>
+
+<p>
+The nail in the coffin for arcades is if somehow arcade owners started seeking to make the games more expensive for these regulars, which makes sense given their attachment to being there. This can be done in two ways: First, making cabinets more expensive overall, which may potentially extract value from existing regulars of high skill, but shrinks the sweet spot for new players who would be encouraged to learn to play the cabinets at the first place. Second, making the cabinets less prone to skill acquisition, so that players can't spend a lot of time in the arcade without spending lots of money on the machines.
+</p>
+
+<p>
+This last point can even be accidental &#x2013; the LCD screen revolution that took place in the late aughts represented a major pivot away from games which demanded snappy, high-octane gameplay simply by virtue of those games being difficult to play subject to <a href="https://planetbanatt.net/articles/lagless.html">input lag</a>. Most classic
+</p>
+
+<p>
+Finally, incentives from the developer side would make these industries very difficult compared to the wide open home market. While new machines at an arcade would increase novelty in our toy examples, <i>getting rid</i> of machines is comparatively more difficult. Creating a development cycle which gets arcade owners perpetually buying new machines is extremely subject to oversaturation, but directly selling new games to home consoles became exponentially easier to manage after home consoles became much more popular. 
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org321d29c" class="outline-1">
+<h1 id="org321d29c">More Reading</h1>
+<div class="outline-text-1" id="text-org321d29c">
+<p>
+<a href="https://d1wqtxts1xzle7.cloudfront.net/64961322/JBVI_arcades_Roundy_2020-libre.pdf?1605627336=&amp;response-content-disposition=inline%3B+filename%3DAn_extra_life_for_the_arcade_Entrepreneu.pdf&amp;Expires=1728609608&amp;Signature=Q5plQGSd7~EPQ8DC1pULbrDwCko6BQjFuBhzC78rqy2UH-u2u2nuPqpCtCjGl4NQV~qkiL6STIYDNsmWvjHrat12y20UOODKPrpcFYOPJAxaYwI-riZ3AmvZqk5kSoL~gxsTmGolD011Q4cfQj1MWN4yNzX4z4610ut1aC2ZP2Me71PrT1likpEHEjynCwHkUiu9ckQjUGFJ8BZyvan6ypG7R8ot01QAX~gIhzP-ZrKEWSFbu7cVs87Qg~4anxQ5zJOXZpE3wrWfV6AwT8WkiLPcB6-ZPi218HSG6nz5RaSgAHyy6YY-sgYpe9ar0u7GnVY5PQceSEa7lPhcI18BIw__&amp;Key-Pair-Id=APKAJLOHF5GGSLRBV4ZA">"extra life" for the arcade</a>
+</p>
+
+<p>
+<a href="https://books.google.com/books?hl=en&amp;lr=&amp;id=gTB0DwAAQBAJ&amp;oi=fnd&amp;pg=PT5&amp;dq=arcade+culture&amp;ots=ocNeoT2dS4&amp;sig=roYG2DYE6hmu0unMvlXILc1b29A#v=onepage&amp;q=arcade%20culture&amp;f=false">https://books.google.com/books?hl=en&amp;lr=&amp;id=gTB0DwAAQBAJ&amp;oi=fnd&amp;pg=PT5&amp;dq=arcade+culture&amp;ots=ocNeoT2dS4&amp;sig=roYG2DYE6hmu0unMvlXILc1b29A#v=onepage&amp;q=arcade%20culture&amp;f=false</a>
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+</div>
+</body>
+</html>

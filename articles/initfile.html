@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-07-19 Sat 14:38 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Emacs Configuration</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="https://planetbanatt.net/css/default_20240614.css" />
+<link rel="shortcut icon" type="image/jpg" href="https://planetbanatt.net/favicon.ico" />
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<h1 class="title">Emacs Configuration</h1>
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org02a33dd">Emacs configuration</a>
+<ul>
+<li><a href="#orga6fdf34">Init File</a></li>
+<li><a href="#orgab7d7fa">Basic customization</a>
+<ul>
+<li><a href="#org1143775">Appearance settings</a></li>
+<li><a href="#org2a6d89f">autosave settings</a></li>
+<li><a href="#org16cac87">basic custom keybinds</a></li>
+</ul>
+</li>
+<li><a href="#orgc78c30a">HTML Export</a>
+<ul>
+<li><a href="#org3b2f642">settings</a></li>
+<li><a href="#orgcc24082">org-html head/pre/postamble</a>
+<ul>
+<li><a href="#org125f142">head</a></li>
+<li><a href="#orgd5028c9">preamble</a></li>
+<li><a href="#orgee5f36c">postamble</a></li>
+</ul>
+</li>
+<li><a href="#orge9e116d">publish projects</a></li>
+<li><a href="#org2197c7c">minted, hopefully</a></li>
+</ul>
+</li>
+<li><a href="#orgb26c70b">org mode settings</a>
+<ul>
+<li><a href="#org013cdea">Basic display settings and hotkeys</a></li>
+<li><a href="#org155faf9">Clipboard Inline Image Paste</a></li>
+<li><a href="#org2db18be">Capture templates</a></li>
+<li><a href="#org3b8e899">Anki</a></li>
+<li><a href="#org63856b2">Programming QOL Stuff</a></li>
+<li><a href="#org270691d">packages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org02a33dd" class="outline-1">
+<h1 id="org02a33dd">Emacs configuration</h1>
+<div class="outline-text-1" id="text-org02a33dd">
+<p>
+I'm a mediocre emacs user and I have an init file just like everybody else.
+</p>
+</div>
+
+<div id="outline-container-orga6fdf34" class="outline-2">
+<h2 id="orga6fdf34">Init File</h2>
+<div class="outline-text-2" id="text-orga6fdf34">
+<p>
+To begin you'll want the following in your init.el file:
+</p>
+
+<pre class="example">
+(require 'package)
+(setq package-enable-at-startup nil)
+(add-to-list 'package-archives
+	     '("melpa" . "http://melpa.org/packages/"))
+(package-initialize)
+
+;; Bootstrap `use-package'
+(unless (package-installed-p 'use-package)
+	(package-refresh-contents)
+	(package-install 'use-package))
+
+(org-babel-load-file (expand-file-name "&lt;&lt;whatever location&gt;&gt;"))
+</pre>
+
+<p>
+The rest is handled inside the org document full of emacs-lisp src blocks (that is, this document)
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgab7d7fa" class="outline-2">
+<h2 id="orgab7d7fa">Basic customization</h2>
+<div class="outline-text-2" id="text-orgab7d7fa">
+</div>
+<div id="outline-container-org1143775" class="outline-3">
+<h3 id="org1143775">Appearance settings</h3>
+<div class="outline-text-3" id="text-org1143775">
+<p>
+should be straightforward enough, just getting rid of stuff like the toolbar / setting visual 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(tool-bar-mode 0)
+(menu-bar-mode 0)
+(setq inhibit-startup-message t)
+(when window-system (scroll-bar-mode -1))
+(setq fill-column 80)
+(global-visual-line-mode t)
+
+;theme
+(use-package monokai-theme :ensure t)
+(load-theme 'monokai t)
+
+;encoding?
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+</pre>
+</div>
+
+<p>
+as well as my <a href="https://en.wikipedia.org/wiki/Invictus">custom scratch message</a>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq initial-scratch-message
+"; Present Day. Present Time! (ahahaha!)
+")
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2a6d89f" class="outline-3">
+<h3 id="org2a6d89f">autosave settings</h3>
+<div class="outline-text-3" id="text-org2a6d89f">
+<p>
+Don't really use for anything, might get rid of this later
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">; autosave directory hidden
+(setq
+   backup-by-copying t      ; don't clobber symlinks
+   backup-directory-alist
+    '(("." . "~/.saves/"))    ; don't litter my fs tree
+   delete-old-versions t
+   kept-new-versions 6
+   kept-old-versions 2
+   version-control t)
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org16cac87" class="outline-3">
+<h3 id="org16cac87">basic custom keybinds</h3>
+<div class="outline-text-3" id="text-org16cac87">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(global-set-key (kbd "M-o") 'other-window)
+(global-set-key (kbd "C-x k") 'kill-current-buffer)
+(global-set-key (kbd "C-c C-k") 'eval-buffer)
+(global-unset-key (kbd "C-z"))
+
+
+(defun kill-current-buffer ()
+  (interactive)
+  (kill-buffer (current-buffer))
+  )
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc78c30a" class="outline-2">
+<h2 id="orgc78c30a">HTML Export</h2>
+<div class="outline-text-2" id="text-orgc78c30a">
+</div>
+<div id="outline-container-org3b2f642" class="outline-3">
+<h3 id="org3b2f642">settings</h3>
+<div class="outline-text-3" id="text-org3b2f642">
+<p>
+planetbanatt org config things
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq org-export-with-section-numbers nil)
+;(setq org-export-with-title nil) ;doesn't seem to work
+(setq org-export-with-title t)
+(setq org-html-toplevel-hlevel 1)
+(setq org-html-head-include-default-style nil)
+(setq org-html-head-include-default-scripts nil)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcc24082" class="outline-3">
+<h3 id="orgcc24082">org-html head/pre/postamble</h3>
+<div class="outline-text-3" id="text-orgcc24082">
+<p>
+Sort of a hacky solution to get emacs to export html files compatible with my <a href="https://planetbanatt.net">personal website</a>, but I basically accomplish everything by appending a default head, preamble, and postamble to everything. I use <a href="https://getbootstrap.com/">bootstrap</a> as a framework but it's not straightforward to edit the classes of elements done via html export in emacs. To get around this, I have a small javascript function that sets classes / attributes to things and makes them roughly usable by bootstrap. It looks pretty strange but it works for what I'm using it for!
+</p>
+</div>
+
+<div id="outline-container-org125f142" class="outline-4">
+<h4 id="org125f142">head</h4>
+<div class="outline-text-4" id="text-org125f142">
+<p>
+default CSS / bootstrap, google analytics, some js functions for compatability
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq org-html-head
+      "&lt;meta charset=\"utf-8\"&gt;
+&lt;meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"&gt;
+&lt;meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"&gt;
+&lt;script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js\"&gt;&lt;/script&gt;
+&lt;!-- Global site tag (gtag.js) - Google Analytics --&gt;
+&lt;script async src=\"https://www.googletagmanager.com/gtag/js?id=UA-101739190-1\"&gt;&lt;/script&gt;
+&lt;script&gt;
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+&lt;/script&gt;
+
+
+&lt;link  href=\"https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css\" rel=\"stylesheet\"&gt;
+&lt;script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js\"&gt;&lt;/script&gt;
+&lt;script src=\"https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js\"&gt;&lt;/script&gt;
+
+&lt;script&gt;
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener(\"hashchange\", shiftWindow);
+&lt;/script&gt;
+
+&lt;script type=\"text/javascript\"&gt;
+
+$(function() {
+    'use strict';
+
+    $(\"#text-table-of-contents ul:first\").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+});
+&lt;/script&gt;
+
+&lt;link rel=\"stylesheet\" type=\"text/css\" href=\"./css/default_20240614.css\" /&gt;
+&lt;link rel=\"shortcut icon\" type=\"image/jpg\" href=\"./favicon.ico\" /&gt;
+")
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd5028c9" class="outline-4">
+<h4 id="orgd5028c9">preamble</h4>
+<div class="outline-text-4" id="text-orgd5028c9">
+<p>
+navbar; will probably add header with my name later
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq org-html-preamble
+"
+&lt;!-- heading --&gt;
+&lt;!-- add here --&gt;
+
+&lt;!-- Fixed navbar --&gt;
+    &lt;nav class=\"navbar navbar-default navbar-fixed-top\"&gt;
+	&lt;div class=\"navbar-header\"&gt;
+	  &lt;button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\"&gt;
+	    &lt;span class=\"sr-only\"&gt;Toggle navigation&lt;/span&gt;
+	    &lt;span class=\"icon-bar\"&gt;&lt;/span&gt;
+	    &lt;span class=\"icon-bar\"&gt;&lt;/span&gt;
+	    &lt;span class=\"icon-bar\"&gt;&lt;/span&gt;
+	  &lt;/button&gt;
+	&lt;/div&gt;
+
+	&lt;div id=\"navbar\" class=\"navbar-collapse collapse\"&gt;
+	  &lt;ul class=\"nav navbar-nav ml-auto\" style=\"margin-left:3%%\"&gt;
+	    &lt;li class=\"nav-item\"&gt;&lt;a href=\"http://planetbanatt.net/\"&gt;Home&lt;/a&gt;&lt;/li&gt;
+	    &lt;li&gt;&lt;a href=\"http://planetbanatt.net/about.html\"&gt;About&lt;/a&gt;&lt;/li&gt;
+	    &lt;li&gt;&lt;a href=\"http://planetbanatt.net/projects.html\"&gt;Projects&lt;/a&gt;&lt;/li&gt;
+	    &lt;li&gt;&lt;a href=\"http://planetbanatt.net/melee.html\"&gt;Melee&lt;/a&gt;&lt;/li&gt;
+	    &lt;li&gt;&lt;a href=\"http://planetbanatt.net/links.html\"&gt;Links&lt;/a&gt;&lt;/li&gt;
+	    &lt;li&gt;&lt;a href=\"http://planetbanatt.net/resume.pdf\"&gt;Resume&lt;/li&gt;
+	  &lt;/ul&gt;
+	  &lt;/ul&gt;
+	&lt;/div&gt;&lt;!--/.nav-collapse --&gt;
+    &lt;/nav&gt;
+")
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgee5f36c" class="outline-4">
+<h4 id="orgee5f36c">postamble</h4>
+<div class="outline-text-4" id="text-orgee5f36c">
+<p>
+back to top
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq org-html-postamble
+      "&lt;a href=\"#top\"&gt;Back to Top&lt;/a&gt;")
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge9e116d" class="outline-3">
+<h3 id="orge9e116d">publish projects</h3>
+<div class="outline-text-3" id="text-orge9e116d">
+<p>
+currently just publishing all to planetbanatt format
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq org-publish-project-alist
+      '(("planetbanatt"
+	:base-directory "~/Documents/code/ambisinister.github.io/org/"
+	:base-extension "org"
+	:publishing-directory "~/Documents/code/ambisinister.github.io/"
+	:recursive t
+	:publishing-function org-html-publish-to-html
+	:headline-levels 6             ; Just the default for this project.
+	))
+)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2197c7c" class="outline-3">
+<h3 id="org2197c7c">minted, hopefully</h3>
+<div class="outline-text-3" id="text-org2197c7c">
+<p>
+syntax highlighting for emacs org mode -&gt; html would be nice to have for when I export things with code in them
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;(require 'ox-latex)
+;(use-package htmlize)
+;(add-to-list 'org-latex-packages-alist '("" "minted"))
+;(setq org-latex-listings 'minted)
+;(setq org-latex-pdf-process
+;      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+;        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+;        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgb26c70b" class="outline-2">
+<h2 id="orgb26c70b">org mode settings</h2>
+<div class="outline-text-2" id="text-orgb26c70b">
+</div>
+<div id="outline-container-org013cdea" class="outline-3">
+<h3 id="org013cdea">Basic display settings and hotkeys</h3>
+<div class="outline-text-3" id="text-org013cdea">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; The following lines are always needed.  Choose your own keys.
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cb" 'org-switchb)
+
+(global-set-key (kbd "C-c i") 'org-toggle-inline-images)
+(setq org-image-actual-width '(500))
+(setq org-display-inline-images t)
+(setq org-latex-create-formula-image-program 'dvipng)
+(setq org-archive-location "~/Dropbox/org/logs/archive.org::* From %s")
+(setq org-hide-leading-stars t)
+(setq org-src-tab-acts-natively t)
+(setq org-default-notes-file "~/Dropbox/org/main.org")
+
+
+(setq org-todo-keywords
+      '((sequence "TODO" "WAITING" "|" "DONE" "HOLD")))
+
+(setq org-return-follows-link 1)
+
+
+(use-package org-bullets :ensure t)
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+
+(setq org-ellipsis "⤵")
+
+(setq org-src-fontify-natively t)
+
+;(setq org-bullets-bullet-list
+;'("◉" "◎" "&lt;img draggable="false" class="emoji" alt="⚫" src="https://s0.wp.com/wp-content/mu-plugins/wpcom-smileys/twemoji/2/svg/26ab.svg"&gt;" "○" "►" "◇"))
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org155faf9" class="outline-3">
+<h3 id="org155faf9">Clipboard Inline Image Paste</h3>
+<div class="outline-text-3" id="text-org155faf9">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (defun paste-clipboard-image ()
+    (interactive)
+    (let* ((image-dir (concat (file-name-directory (buffer-file-name))
+			      "../images/from_clipboard/"))
+	   (file-name (concat (format-time-string "%Y%m%d_%H%M%S") ".png"))
+	   (file-path (concat image-dir file-name)))
+      (unless (file-exists-p image-dir)
+	(make-directory image-dir t))
+      ;; replace 'pngpaste' with 'xclip' for Linux.
+      (shell-command (concat "/opt/homebrew/bin/pngpaste " file-path))
+      (insert (concat "[[../images/from_clipboard/" file-name "]]"))
+      (org-display-inline-images)))
+
+(with-eval-after-load 'org
+  (define-key org-mode-map (kbd "C-c C-x i") 'paste-clipboard-image))
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2db18be" class="outline-3">
+<h3 id="org2db18be">Capture templates</h3>
+<div class="outline-text-3" id="text-org2db18be">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq org-capture-templates
+      '(("a" "anki basic" entry (file+headline "~/Dropbox/org/logs/added_anki.org" "Basic")
+	 "* know :deck: \n** Item :note: \n\t:PROPERTIES:\n\t:ANKI_NOTE_TYPE: Basic\n\t:ANKI_TAGS: \n\t:END:\n*** Front\n%?\n*** Back\n")
+	("t" "task" entry (file+headline "~/Dropbox/org/main.org" "Assorted Things")
+	 "* TODO %?")
+	("l" "links" item (file "~/Dropbox/org/links.org")
+	 "[[%^{prompt}][%^{prompt}]] %?")
+	("j" "journal" entry (file+headline "~/Dropbox/org/logs/captains_log.org" "journal")
+	 "* %t \n%?")
+	))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3b8e899" class="outline-3">
+<h3 id="org3b8e899">Anki</h3>
+<div class="outline-text-3" id="text-org3b8e899">
+<p>
+I spend a lot of time in anki, so one of my org capture templates saves things in anki card format in a stowed away org file - I need to transfer these to anki somehow so I use a package called anki-editor and a short hotkey to send them all when I am done writing them. At some point I need to find out if there is a hook I can use during the capture process to do this directly but for now a keystroke to send it isn't the worst thing in the world.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package anki-editor :ensure t)
+
+(global-set-key "\C-c0" 'send-to-anki)
+
+(defun send-to-anki ()
+  (interactive)
+  (find-file "~/Dropbox/org/logs/added_anki.org")
+  (anki-editor-submit)
+  (erase-buffer)
+  (save-buffer)
+  (kill-current-buffer)
+  )
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org63856b2" class="outline-3">
+<h3 id="org63856b2">Programming QOL Stuff</h3>
+<div class="outline-text-3" id="text-org63856b2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;probably change this so that it only asks once per file upon opening, since this is sort of dangerous
+(defun my-org-confirm-babel-evaluate (lang body)
+  (not (member lang '("python"))))
+(setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((python . t)))
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org270691d" class="outline-3">
+<h3 id="org270691d">packages</h3>
+<div class="outline-text-3" id="text-org270691d">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package pdf-tools :ensure t)
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(pdf-loader-install)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+</div>
+</body>
+</html>
