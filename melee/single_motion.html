@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-20 Sun 02:56 -->
+<!-- 2025-07-20 Sun 15:27 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Controller Stuff</title>
@@ -87,7 +87,21 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org8ddbd0b">Single Motion / Phob Stuff</a></li>
+<li><a href="#org8ddbd0b">Single Motion / Phob Stuff</a>
+<ul>
+<li><a href="#org8e9f81c">Ledgedashing</a>
+<ul>
+<li><a href="#org090b65b">Why I Use Single Motion</a></li>
+<li><a href="#org53bd31c">Inputting Single Motion Ledgedash</a></li>
+<li><a href="#org05698ee">How This Interacts With PODE</a></li>
+<li><a href="#org0b6ca95">My Controller Settings</a></li>
+<li><a href="#orgb20e228">Understanding The Phob</a></li>
+</ul>
+</li>
+<li><a href="#org9b423a0">Other Important Controller Resources</a></li>
+<li><a href="#org64326c2">More Links</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -95,11 +109,208 @@ $(function() {
 <h1 id="org8ddbd0b">Single Motion / Phob Stuff</h1>
 <div class="outline-text-1" id="text-org8ddbd0b">
 <p>
+This page holds info about the phob controller settings I use, important for building backup controllers for consistent performance. As a fox player and <a href="https://www.youtube.com/watch?v=j97XqzDSLlo">non-rectangle user</a>, I do not have the luxury of simply buying another controller if mine breaks and assuming it will be the same as the last one.
+</p>
+</div>
+
+<div id="outline-container-org8e9f81c" class="outline-2">
+<h2 id="org8e9f81c">Ledgedashing</h2>
+<div class="outline-text-2" id="text-org8e9f81c">
+</div>
+<div id="outline-container-org090b65b" class="outline-3">
+<h3 id="org090b65b">Why I Use Single Motion</h3>
+<div class="outline-text-3" id="text-org090b65b">
+<p>
+There are three primary methods to input a ledgedash, all with pros and cons.
+</p>
+
+<p>
+<b><b>Away Release</b></b>: hold away from the ledge, move to down forwards and jump. The pros of this are that it's very consistent to get off the ledge with it, and you will never get a fastfall even if your jump is late. The cons of this are that the input is a really fast stick movement (i.e. hand strain), you can get doraki walljump airdodge by accident on FD, and you can get polled between the back + forward movements to get neutral jump instead of forwards jump. Many top players use this method (Cody Schwab, Plup, etc). 
+</p>
+
+<p>
+<b><b>C stick Release</b></b>: really good method for claw users, or people who play characters where the ledgedash input is pretty slow (e.g. Marth). I sometimes get ledgedrop bairs using this method, but I think that can be mitigated with good inputs. KoopaTroopa895 uses this method and he has some of the best ledgedashes of any top-level marth player. 
+</p>
+
+<p>
+<b><b>Single Motion</b></b>: hold down-forwards to release the ledge, jump, and airdodge. Traditionally this is done with <a href="https://i.imgur.com/zXroyHy.png">Kadano's optimal ledgedash angle</a> which is just a bit shy of the 45 degree notch, but certain controllers tend to maximize this angle due to PODE delaying the X-axis input. The pros of this are that it's the easiest method to get lots of intangibility frames, and it's the least straining of the three methods. However, the cons of this method are that jumping on the 2nd frame after ledgedrop will give you a frame of fastfall, which can kill you. Also, it's more polling dependent than the other methods. 
+</p>
+
+<p>
+I use single motion ledgedash, primarily because I'm interested in abusing the intangibility frames, I want to use the method with the least hand strain, and open source controllers like <a href="https://github.com/PhobGCC">PhobGCC</a> make the PODE-dependent aspects of this no longer random. Because you can simply emulate PODE with custom settings on Phob, it seems like a good method to use. This topic was discussed by my good friend <a href="https://r2dliu.com/articles/ledgedash">R2DLiu</a> at length a few years ago, which is an excellent resource for how this behavior works for OEMs. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org53bd31c" class="outline-3">
+<h3 id="org53bd31c">Inputting Single Motion Ledgedash</h3>
+<div class="outline-text-3" id="text-org53bd31c">
+<p>
+The fastfall line is (Y -.6625). The forwards jump line is (X .2875). The neutral getup angle is roughly 50 degrees. With this in mind, our ideal outcome is:
+</p>
+
+<ol class="org-ol">
+<li>Input downforwards, game recieves a straight down input that will not yield fastfall.</li>
+<li>Jump forwards on frame 2, or fall with no fastfall and jump on frame 3</li>
+<li>Input airdodge 3 frames after doublejumping</li>
+</ol>
+
+<p>
+Depending on ECB, it may be better to input the airdodge 4 frames after instead (i.e. from fastfall to ledge). The frame 4 airdodge is also robust to not knowing if you jumped on frame 2 or 3, so it might be a more consistent target than the first one. 
+</p>
+
+<p>
+A common misconception about the single motion ledgedash input is that it's a very fast input, but that is mostly mixing it up with the away ledgedash input, which is very fast. <b><b>A proper single motion ledgedash is actually quite a bit slower than the other methods</b></b>. The reason for this is that you want frames 1 and 2 to be above -.6625, you want frames 2 and 3 to be beyond .2875, and you don't need to reach the gate values until much later when you airdodge. 
+</p>
+
+<p>
+We can show this off with a number of simulated input trajectories just to illustrate what I mean. This is going to be a lot of charts in a row so bear with me. What I am going to show is a simulated input from (0,0) to (0.600, -0.800), which falls within our OEM single motion zone shown off by Kadano. I'm going to show this with three polling timer offsets (0ms, 8ms, 14ms), at three speeds (20ms, 35ms, 45ms). 
+</p>
+
+
+<div id="org54fed62" class="figure">
+<p><img src="../images/melee/sim_20ms_0poll.png" alt="sim_20ms_0poll.png" />
+</p>
+</div>
+
+
+<div id="org2b4de16" class="figure">
+<p><img src="../images/melee/sim_20ms_8poll.png" alt="sim_20ms_8poll.png" />
+</p>
+</div>
+
+
+<div id="org28d831d" class="figure">
+<p><img src="../images/melee/sim_20ms_14poll.png" alt="sim_20ms_14poll.png" />
+</p>
+</div>
+
+
+<div id="org71cf8a5" class="figure">
+<p><img src="../images/melee/sim_35ms_0poll.png" alt="sim_35ms_0poll.png" />
+</p>
+</div>
+
+
+<div id="org130483a" class="figure">
+<p><img src="../images/melee/sim_35ms_8poll.png" alt="sim_35ms_8poll.png" />
+</p>
+</div>
+
+
+<div id="orgfb40557" class="figure">
+<p><img src="../images/melee/sim_35ms_14poll.png" alt="sim_35ms_14poll.png" />
+</p>
+</div>
+
+
+<div id="orgcd2babf" class="figure">
+<p><img src="../images/melee/sim_45ms_0poll.png" alt="sim_45ms_0poll.png" />
+</p>
+</div>
+
+
+<div id="orgfa18b98" class="figure">
+<p><img src="../images/melee/sim_45ms_8poll.png" alt="sim_45ms_8poll.png" />
+</p>
+</div>
+
+
+<div id="orgb2aaef5" class="figure">
+<p><img src="../images/melee/sim_45ms_14poll.png" alt="sim_45ms_14poll.png" />
+</p>
+</div>
+
+<p>
+With every method, there carries some risk of getting the initial input polled while in the deadzone (the polling timer being essentially random is the big source of human error in hitting 1f windows). The most straightforward way to get ledgedashes this way consistently is to aim the jump at the third frame after you input the motion. This will give you the frame perfect jump if you get polled in the deadzone on the first frame, and will give you 1f late jump if it polls outside the deadzone.
+</p>
+
+<p>
+However, we can see clearly here that faster stick inputs carry a double sided risk: they are more likely for the second polled frame to land below the fastfall line (in some cases the first frame already is below this line). 
+</p>
+
+<p>
+Here are the scenarios if you input the jump on the third frame after the initial input.
+</p>
+
+<p>
+A: Your first frame is polled in the deadzone. You do a 1f late release (2f cliffwait), and the frame perfect jump on the frame after your ledge release (~13-14f galint).
+</p>
+
+<p>
+B: Your first frame is polled outside the deadzone. You do a frame perfect release (1f cliffwait), and a 1f delayed jump after your ledge release. If you get a fastfall here, you will likely die. If you get no fastfall here, you will get a perfectly fine ledgedash. 
+</p>
+
+<p>
+Alternatively, you can start the motion 1f before the first frame you can let go. If you get polling timered here, you will do a frame perfect ledgedash. If you do not get polling timered here, you will likely do tournament winner (since you input ledgedrop too early and then pressed jump while on ledge). If you can reliably do this input slow enough to always take a frame's worth of time to exit the deadzone, this might be better, but it seems like doing a bit too much theorycrafting based on this linear speed assumption (which is likely not a perfect representation).
+</p>
+</div>
+</div>
+
+<div id="outline-container-org05698ee" class="outline-3">
+<h3 id="org05698ee">How This Interacts With PODE</h3>
+<div class="outline-text-3" id="text-org05698ee">
+<p>
+PODE, as covered by R2DLiu in the past, can be thought of as an X-axis delay, providing us a frame of straight down where we would otherwise be getting some non-cardinal angle. This lets us do a single motion ledgedash even if we input a shallower angle, for example 45 degrees.
+</p>
+
+
+<div id="org1e2f57c" class="figure">
+<p><img src="../images/melee/sim_pode.png" alt="sim_pode.png" />
+</p>
+</div>
+
+<p>
+You can see that, effectively, this is the same as a regular single motion ledgedash, except we can use shallower angles than would otherwise be possible on a normally functioning controller. This is insanely powerful, but it comes with a obvious drawback of being completely at the mercy of your controller happening to have this bug.
+</p>
+
+<p>
+A funny thing about this bug is that this changes the nature of the polling timer stuff we just talked about. Now instead of making sure we don't get fastfall, we can just pick an angle that will never give us a fastfall. However, this comes attached to now needing to make sure the polling timer doesn't give us neutral getup. Annoyingly, this changes what speeds are good compared to an OEM Kadano-type single motion ledgedash, since now going too slow is likely to give us a neutral getup.
+</p>
+
+
+<div id="org8618390" class="figure">
+<p><img src="../images/melee/pode_polling_simulation_30ms_0poll_16pode.png" alt="pode_polling_simulation_30ms_0poll_16pode.png" />
+</p>
+</div>
+
+
+<div id="org09cdfdb" class="figure">
+<p><img src="../images/melee/pode_polling_simulation_30ms_15poll_16pode.png" alt="pode_polling_simulation_30ms_15poll_16pode.png" />
+</p>
+</div>
+
+
+<div id="orgb60a9aa" class="figure">
+<p><img src="../images/melee/pode_polling_simulation_45ms_0poll_16pode.png" alt="pode_polling_simulation_45ms_0poll_16pode.png" />
+</p>
+</div>
+
+
+<div id="org8b52fc1" class="figure">
+<p><img src="../images/melee/pode_polling_simulation_45ms_15poll_16pode.png" alt="pode_polling_simulation_45ms_15poll_16pode.png" />
+</p>
+</div>
+
+<p>
+However, I am not as interested in PODE itself, since getting a controller with these properties involves buying a lot of controllers (and <a href="https://kotaku.com/smash-god-drops-out-of-tournament-because-his-controlle-1794769487">DQing from events if your controller stops having it</a>). Ideally we can figure out the ideal settings to do something like this with a PhobGCC, and then learn to ledgedash with those settings forever. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0b6ca95" class="outline-3">
+<h3 id="org0b6ca95">My Controller Settings</h3>
+<div class="outline-text-3" id="text-org0b6ca95">
+<p>
+You can emulate PODE by adjusting waveshaping, axis smoothing, and smart snapback filtering. We will get into what these do in a moment, but here's what shows up in <a href="https://drive.google.com/file/d/1rYSEaf_AJXQ5TP5UlGmj8xVYNdXGGOAG/view">smashscope</a> when I check the values. You can adjust these values by following the <a href="https://github.com/PhobGCC/PhobGCC-doc/blob/main/For_Users/Phob_Calibration_Guide_Latest.md">phobGCC documentation</a>.
+</p>
+
+<p>
 Triggers (waveshaping) L: 8, R: 0
 </p>
 <ul class="org-ul">
-<li>L trigger X-axis waveshaping = 8 (pretty strong)</li>
-<li>R trigger Y-axis waveshaping = 0 (disabled)</li>
+<li>L trigger (X-axis) = 8 (pretty strong)</li>
+<li>R trigger (Y-axis) = 0 (disabled)</li>
 <li>Setting 8 maps to coefficient ~0.00556, providing good pode-like behavior where fast movements are filtered more heavily than slow ones</li>
 </ul>
 
@@ -109,7 +320,7 @@ Analog stick (smart snapback filter) x: 4, y: -5
 <ul class="org-ul">
 <li>X-axis = 4 (positive snapback = Kalman filtering)</li>
 <li>Y-axis = -5 (negative snapback = low-pass filter without rise time shortening)</li>
-<li>The negative Y value makes stick return to center slower and smoother</li>
+<li>The negative Y value is supposed to make the stick return to center slower and smoother</li>
 </ul>
 
 <p>
@@ -119,32 +330,52 @@ C stick (axis smoothing) x: 5, y: 0
 <li>X-axis = 50% smoothing strength (coefficient ~0.659)</li>
 <li>Y-axis = 0 (no smoothing)</li>
 </ul>
+</div>
+</div>
+
+<div id="outline-container-orgb20e228" class="outline-3">
+<h3 id="orgb20e228">Understanding The Phob</h3>
+<div class="outline-text-3" id="text-orgb20e228">
+<p>
+Generally speaking, players who know how to use smashscope at all will mostly just input values people tell them to use, without clear understanding of what is actually happening to their controller when they do these things (source: me).
+</p>
 
 <p>
-Links to code for:
+The relevant links to understanding waveshaping, smart snapback filter, and axis smoothing, can be found in these three spots in the phobGCC code:
 </p>
 <ul class="org-ul">
-<li><a href="https://github.com/PhobGCC/PhobGCC-SW/blob/1ff160c13d1e2062bc9c257823d501bedbcb6d1b/PhobGCC/common/filter.h#L184">smart snapback filter</a> (filter.h)</li>
-<li><a href="https://github.com/PhobGCC/PhobGCC-SW/blob/1ff160c13d1e2062bc9c257823d501bedbcb6d1b/PhobGCC/common/filter.h#L224">waveshaping</a> (also filter.h)</li>
 <li><a href="https://github.com/PhobGCC/PhobGCC-SW/blob/1ff160c13d1e2062bc9c257823d501bedbcb6d1b/PhobGCC/common/phobGCC.h#L2245">axis smoothing</a> (phobgcc.h)</li>
+<li><a href="https://github.com/PhobGCC/PhobGCC-SW/blob/1ff160c13d1e2062bc9c257823d501bedbcb6d1b/PhobGCC/common/filter.h#L224">waveshaping</a> (also filter.h)</li>
+<li><a href="https://github.com/PhobGCC/PhobGCC-SW/blob/1ff160c13d1e2062bc9c257823d501bedbcb6d1b/PhobGCC/common/filter.h#L184">smart snapback filter</a> (filter.h)</li>
 </ul>
 
 <p>
 TODO: run simulations with these calculations based on how fast the motion is, what the resulting value would be.
 </p>
+</div>
+</div>
+</div>
 
+<div id="outline-container-org9b423a0" class="outline-2">
+<h2 id="org9b423a0">Other Important Controller Resources</h2>
+<div class="outline-text-2" id="text-org9b423a0">
 <p>
-TODO: Write about how doing the input slower is preferable for single motion, compared to doing it really fast for backwards ledgedash.
+<a href="https://www.sparkplatemelee.com/">Sparkplate</a>: full firefox notches are quite a bit cheaper to obtain now that they are mass-producible. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org64326c2" class="outline-2">
+<h2 id="org64326c2">More Links</h2>
+<div class="outline-text-2" id="text-org64326c2">
+<p>
+TODO: Host the smashscope files because they're not available anymore??
 </p>
 
-<p>
-More links:
-</p>
 <ul class="org-ul">
-<li><a href="https://r2dliu.com/articles/ledgedash">r2dliu on PODE / ledgedashing</a></li>
-<li><a href="https://github.com/PhobGCC/PhobGCC-doc/blob/main/For_Users/Phob_Calibration_Guide_Latest.md">phobGCC documentation</a></li>
 <li><a href="https://alexspuffstuff.blogspot.com/2019/03/fox-ledgedash-consistency_23.html">alexpuffstuff post on fox ledgedash</a></li>
 </ul>
+</div>
 </div>
 </div>
 </div>
