@@ -1,0 +1,31 @@
+#+TITLE: Controller Stuff
+* Single Motion / Phob Stuff
+
+Triggers (waveshaping) L: 8, R: 0
+- L trigger X-axis waveshaping = 8 (pretty strong)
+- R trigger Y-axis waveshaping = 0 (disabled)
+- Setting 8 maps to coefficient ~0.00556, providing good pode-like behavior where fast movements are filtered more
+heavily than slow ones
+
+Analog stick (smart snapback filter) x: 4, y: -5
+- X-axis = 4 (positive snapback = Kalman filtering)
+- Y-axis = -5 (negative snapback = low-pass filter without rise time shortening)
+- The negative Y value makes stick return to center slower and smoother
+
+C stick (axis smoothing) x: 5, y: 0
+- X-axis = 50% smoothing strength (coefficient ~0.659)
+- Y-axis = 0 (no smoothing)
+
+Links to code for:
+- [[https://github.com/PhobGCC/PhobGCC-SW/blob/1ff160c13d1e2062bc9c257823d501bedbcb6d1b/PhobGCC/common/filter.h#L184][smart snapback filter]] (filter.h)
+- [[https://github.com/PhobGCC/PhobGCC-SW/blob/1ff160c13d1e2062bc9c257823d501bedbcb6d1b/PhobGCC/common/filter.h#L224][waveshaping]] (also filter.h)
+- [[https://github.com/PhobGCC/PhobGCC-SW/blob/1ff160c13d1e2062bc9c257823d501bedbcb6d1b/PhobGCC/common/phobGCC.h#L2245][axis smoothing]] (phobgcc.h)
+
+TODO: run simulations with these calculations based on how fast the motion is, what the resulting value would be.
+
+TODO: Write about how doing the input slower is preferable for single motion, compared to doing it really fast for backwards ledgedash.
+
+More links:
+- [[https://r2dliu.com/articles/ledgedash][r2dliu on PODE / ledgedashing]]
+- [[https://github.com/PhobGCC/PhobGCC-doc/blob/main/For_Users/Phob_Calibration_Guide_Latest.md][phobGCC documentation]]
+- [[https://alexspuffstuff.blogspot.com/2019/03/fox-ledgedash-consistency_23.html][alexpuffstuff post on fox ledgedash]]
