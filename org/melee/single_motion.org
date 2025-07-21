@@ -29,13 +29,13 @@ Depending on ECB, it may be better to input the airdodge 4 frames after instead 
 
 A common misconception about the single motion ledgedash input is that it's a very fast input, but that is mostly mixing it up with the away ledgedash input, which is very fast. **A proper single motion ledgedash is actually quite a bit slower than the other methods**. The reason for this is that you want frames 1 and 2 to be above -.6625, you want frames 2 and 3 to be beyond .2875, and you don't need to reach the gate values until much later when you airdodge. 
 
-We can show this off with a number of simulated input trajectories just to illustrate what I mean. This is going to be a lot of charts in a row so bear with me. What I am going to show is a simulated input from (0,0) to (0.600, -0.800), which falls within our OEM single motion zone shown off by Kadano. I'm going to show this with three polling timer offsets (0ms, 8ms, 14ms), at three speeds (20ms, 35ms, 45ms). 
+We can show this off with a number of simulated input trajectories just to illustrate what I mean. This is going to be a lot of charts in a row so bear with me. What I am going to show is a simulated input from (0,0) to (0.600, -0.800), which falls within our OEM single motion zone shown off by Kadano. I'm going to show this with three polling timer offsets (0ms, 8ms, 14ms), at three speeds ([[https://docs.google.com/document/u/0/d/1abMqoatAGh_ZhQD1qJaQx6YqFAppCjU5KyF3mgvDQVw/mobilebasic][9ms]], 35ms, 45ms). 
 
-[[../images/melee/sim_20ms_0poll.png]]
+[[../images/melee/controller_polling_simulation_9ms_0poll.png]]
 
-[[../images/melee/sim_20ms_8poll.png]]
+[[../images/melee/controller_polling_simulation_9ms_8poll.png]]
 
-[[../images/melee/sim_20ms_14poll.png]]
+[[../images/melee/controller_polling_simulation_9ms_14poll.png]]
 
 [[../images/melee/sim_35ms_0poll.png]]
 
@@ -51,7 +51,7 @@ We can show this off with a number of simulated input trajectories just to illus
 
 With every method, there carries some risk of getting the initial input polled while in the deadzone (the polling timer being essentially random is the big source of human error in hitting 1f windows). The most straightforward way to get ledgedashes this way consistently is to aim the jump at the third frame after you input the motion. This will give you the frame perfect jump if you get polled in the deadzone on the first frame, and will give you 1f late jump if it polls outside the deadzone.
 
-However, we can see clearly here that faster stick inputs carry a double sided risk: they are more likely for the second polled frame to land below the fastfall line (in some cases the first frame already is below this line). 
+However, we can see clearly here that faster stick inputs carry a double sided risk: they are more likely for the second polled frame to land below the fastfall line (in some cases the first frame already is below this line, unless we get very lucky with the polling timer). 
 
 Here are the scenarios if you input the jump on the third frame after the initial input.
 

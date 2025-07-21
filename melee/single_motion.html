@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-20 Sun 15:27 -->
+<!-- 2025-07-20 Sun 17:20 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Controller Stuff</title>
@@ -164,59 +164,59 @@ A common misconception about the single motion ledgedash input is that it's a ve
 </p>
 
 <p>
-We can show this off with a number of simulated input trajectories just to illustrate what I mean. This is going to be a lot of charts in a row so bear with me. What I am going to show is a simulated input from (0,0) to (0.600, -0.800), which falls within our OEM single motion zone shown off by Kadano. I'm going to show this with three polling timer offsets (0ms, 8ms, 14ms), at three speeds (20ms, 35ms, 45ms). 
+We can show this off with a number of simulated input trajectories just to illustrate what I mean. This is going to be a lot of charts in a row so bear with me. What I am going to show is a simulated input from (0,0) to (0.600, -0.800), which falls within our OEM single motion zone shown off by Kadano. I'm going to show this with three polling timer offsets (0ms, 8ms, 14ms), at three speeds (<a href="https://docs.google.com/document/u/0/d/1abMqoatAGh_ZhQD1qJaQx6YqFAppCjU5KyF3mgvDQVw/mobilebasic">9ms</a>, 35ms, 45ms). 
 </p>
 
 
-<div id="org54fed62" class="figure">
-<p><img src="../images/melee/sim_20ms_0poll.png" alt="sim_20ms_0poll.png" />
-</p>
-</div>
-
-
-<div id="org2b4de16" class="figure">
-<p><img src="../images/melee/sim_20ms_8poll.png" alt="sim_20ms_8poll.png" />
+<div id="orga2140e0" class="figure">
+<p><img src="../images/melee/controller_polling_simulation_9ms_0poll.png" alt="controller_polling_simulation_9ms_0poll.png" />
 </p>
 </div>
 
 
-<div id="org28d831d" class="figure">
-<p><img src="../images/melee/sim_20ms_14poll.png" alt="sim_20ms_14poll.png" />
+<div id="org5d98db8" class="figure">
+<p><img src="../images/melee/controller_polling_simulation_9ms_8poll.png" alt="controller_polling_simulation_9ms_8poll.png" />
 </p>
 </div>
 
 
-<div id="org71cf8a5" class="figure">
+<div id="orgb187c76" class="figure">
+<p><img src="../images/melee/controller_polling_simulation_9ms_14poll.png" alt="controller_polling_simulation_9ms_14poll.png" />
+</p>
+</div>
+
+
+<div id="org66357c7" class="figure">
 <p><img src="../images/melee/sim_35ms_0poll.png" alt="sim_35ms_0poll.png" />
 </p>
 </div>
 
 
-<div id="org130483a" class="figure">
+<div id="org39dc2ef" class="figure">
 <p><img src="../images/melee/sim_35ms_8poll.png" alt="sim_35ms_8poll.png" />
 </p>
 </div>
 
 
-<div id="orgfb40557" class="figure">
+<div id="orgcccbb73" class="figure">
 <p><img src="../images/melee/sim_35ms_14poll.png" alt="sim_35ms_14poll.png" />
 </p>
 </div>
 
 
-<div id="orgcd2babf" class="figure">
+<div id="org3adf665" class="figure">
 <p><img src="../images/melee/sim_45ms_0poll.png" alt="sim_45ms_0poll.png" />
 </p>
 </div>
 
 
-<div id="orgfa18b98" class="figure">
+<div id="org5cbc6bd" class="figure">
 <p><img src="../images/melee/sim_45ms_8poll.png" alt="sim_45ms_8poll.png" />
 </p>
 </div>
 
 
-<div id="orgb2aaef5" class="figure">
+<div id="org6f6a514" class="figure">
 <p><img src="../images/melee/sim_45ms_14poll.png" alt="sim_45ms_14poll.png" />
 </p>
 </div>
@@ -226,7 +226,7 @@ With every method, there carries some risk of getting the initial input polled w
 </p>
 
 <p>
-However, we can see clearly here that faster stick inputs carry a double sided risk: they are more likely for the second polled frame to land below the fastfall line (in some cases the first frame already is below this line). 
+However, we can see clearly here that faster stick inputs carry a double sided risk: they are more likely for the second polled frame to land below the fastfall line (in some cases the first frame already is below this line, unless we get very lucky with the polling timer). 
 </p>
 
 <p>
@@ -255,7 +255,7 @@ PODE, as covered by R2DLiu in the past, can be thought of as an X-axis delay, pr
 </p>
 
 
-<div id="org1e2f57c" class="figure">
+<div id="orgc1bdadd" class="figure">
 <p><img src="../images/melee/sim_pode.png" alt="sim_pode.png" />
 </p>
 </div>
@@ -269,25 +269,25 @@ A funny thing about this bug is that this changes the nature of the polling time
 </p>
 
 
-<div id="org8618390" class="figure">
+<div id="org0516b1d" class="figure">
 <p><img src="../images/melee/pode_polling_simulation_30ms_0poll_16pode.png" alt="pode_polling_simulation_30ms_0poll_16pode.png" />
 </p>
 </div>
 
 
-<div id="org09cdfdb" class="figure">
+<div id="orgf8c94c5" class="figure">
 <p><img src="../images/melee/pode_polling_simulation_30ms_15poll_16pode.png" alt="pode_polling_simulation_30ms_15poll_16pode.png" />
 </p>
 </div>
 
 
-<div id="orgb60a9aa" class="figure">
+<div id="orgfc7d8e8" class="figure">
 <p><img src="../images/melee/pode_polling_simulation_45ms_0poll_16pode.png" alt="pode_polling_simulation_45ms_0poll_16pode.png" />
 </p>
 </div>
 
 
-<div id="org8b52fc1" class="figure">
+<div id="orgc8c5d92" class="figure">
 <p><img src="../images/melee/pode_polling_simulation_45ms_15poll_16pode.png" alt="pode_polling_simulation_45ms_15poll_16pode.png" />
 </p>
 </div>
