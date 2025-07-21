@@ -61,6 +61,28 @@ B: Your first frame is polled outside the deadzone. You do a frame perfect relea
 
 Alternatively, you can start the motion 1f before the first frame you can let go. If you get polling timered here, you will do a frame perfect ledgedash. If you do not get polling timered here, you will likely do tournament winner (since you input ledgedrop too early and then pressed jump while on ledge). If you can reliably do this input slow enough to always take a frame's worth of time to exit the deadzone, this might be better, but it seems like doing a bit too much theorycrafting based on this linear speed assumption (which is likely not a perfect representation).
 
+**** The Frame 4 Airdodge Compromise
+
+Choosing to do a frame 4 airdodge instead of a frame 3 one is pretty strong. The reason it's pretty strong is that it works for a lot more ECB states compared to the frame 3 one. The frame 4 airdodge is sort of like a second serve, it's a good consistent input that gets lots of GALINT and gives a pretty low chance of dying, even if it sacrifices some optimality.
+
+TODO get galint values / death or no death for:
+
+firefox regrab
+- 1f fall
+- 2f fall no ff
+- 2f fall ff
+
+fastfall
+- 1f fall
+- 2f fall no ff
+- 2f fall ff (pretty sure this still dies)
+
+doublejump back regrab
+- 1f fall
+- 2f fall no ff
+- 2f fall ff
+
+
 *** How This Interacts With PODE
 
 PODE, as covered by R2DLiu in the past, can be thought of as an X-axis delay, providing us a frame of straight down where we would otherwise be getting some non-cardinal angle. This lets us do a single motion ledgedash even if we input a shallower angle, for example 45 degrees.

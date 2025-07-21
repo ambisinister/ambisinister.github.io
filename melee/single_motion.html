@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-20 Sun 21:22 -->
+<!-- 2025-07-21 Mon 00:28 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Controller Stuff</title>
@@ -113,7 +113,11 @@ $(function() {
 <li><a href="#org8e9f81c">Ledgedashing</a>
 <ul>
 <li><a href="#org090b65b">Why I Use Single Motion</a></li>
-<li><a href="#org53bd31c">Inputting Single Motion Ledgedash</a></li>
+<li><a href="#org53bd31c">Inputting Single Motion Ledgedash</a>
+<ul>
+<li><a href="#org444cb17">The Frame 4 Airdodge Compromise</a></li>
+</ul>
+</li>
 <li><a href="#org05698ee">How This Interacts With PODE</a></li>
 <li><a href="#org0b6ca95">My Controller Settings</a></li>
 <li><a href="#orgb20e228">Understanding The Phob</a>
@@ -196,55 +200,55 @@ We can show this off with a number of simulated input trajectories just to illus
 </p>
 
 
-<div id="org6b67223" class="figure">
+<div id="orgbfaeddd" class="figure">
 <p><img src="../images/melee/controller_polling_simulation_9ms_0poll.png" alt="controller_polling_simulation_9ms_0poll.png" />
 </p>
 </div>
 
 
-<div id="orge070792" class="figure">
+<div id="org127954f" class="figure">
 <p><img src="../images/melee/controller_polling_simulation_9ms_8poll.png" alt="controller_polling_simulation_9ms_8poll.png" />
 </p>
 </div>
 
 
-<div id="orgeb15407" class="figure">
+<div id="org6414ef7" class="figure">
 <p><img src="../images/melee/controller_polling_simulation_9ms_14poll.png" alt="controller_polling_simulation_9ms_14poll.png" />
 </p>
 </div>
 
 
-<div id="org3a9373c" class="figure">
+<div id="org110e7cd" class="figure">
 <p><img src="../images/melee/sim_35ms_0poll.png" alt="sim_35ms_0poll.png" />
 </p>
 </div>
 
 
-<div id="org3bbf212" class="figure">
+<div id="org0cd5cc9" class="figure">
 <p><img src="../images/melee/sim_35ms_8poll.png" alt="sim_35ms_8poll.png" />
 </p>
 </div>
 
 
-<div id="org419325c" class="figure">
+<div id="org58c7aeb" class="figure">
 <p><img src="../images/melee/sim_35ms_14poll.png" alt="sim_35ms_14poll.png" />
 </p>
 </div>
 
 
-<div id="orgb4b3803" class="figure">
+<div id="org130daf4" class="figure">
 <p><img src="../images/melee/sim_45ms_0poll.png" alt="sim_45ms_0poll.png" />
 </p>
 </div>
 
 
-<div id="org73297ba" class="figure">
+<div id="orgb048251" class="figure">
 <p><img src="../images/melee/sim_45ms_8poll.png" alt="sim_45ms_8poll.png" />
 </p>
 </div>
 
 
-<div id="org1a77ed2" class="figure">
+<div id="org13be14c" class="figure">
 <p><img src="../images/melee/sim_45ms_14poll.png" alt="sim_45ms_14poll.png" />
 </p>
 </div>
@@ -273,7 +277,48 @@ B: Your first frame is polled outside the deadzone. You do a frame perfect relea
 Alternatively, you can start the motion 1f before the first frame you can let go. If you get polling timered here, you will do a frame perfect ledgedash. If you do not get polling timered here, you will likely do tournament winner (since you input ledgedrop too early and then pressed jump while on ledge). If you can reliably do this input slow enough to always take a frame's worth of time to exit the deadzone, this might be better, but it seems like doing a bit too much theorycrafting based on this linear speed assumption (which is likely not a perfect representation).
 </p>
 </div>
+
+<div id="outline-container-org444cb17" class="outline-4">
+<h4 id="org444cb17">The Frame 4 Airdodge Compromise</h4>
+<div class="outline-text-4" id="text-org444cb17">
+<p>
+Choosing to do a frame 4 airdodge instead of a frame 3 one is pretty strong. The reason it's pretty strong is that it works for a lot more ECB states compared to the frame 3 one. The frame 4 airdodge is sort of like a second serve, it's a good consistent input that gets lots of GALINT and gives a pretty low chance of dying, even if it sacrifices some optimality.
+</p>
+
+<p>
+TODO get galint values / death or no death for:
+</p>
+
+<p>
+firefox regrab
+</p>
+<ul class="org-ul">
+<li>1f fall</li>
+<li>2f fall no ff</li>
+<li>2f fall ff</li>
+</ul>
+
+<p>
+fastfall
+</p>
+<ul class="org-ul">
+<li>1f fall</li>
+<li>2f fall no ff</li>
+<li>2f fall ff (pretty sure this still dies)</li>
+</ul>
+
+<p>
+doublejump back regrab
+</p>
+<ul class="org-ul">
+<li>1f fall</li>
+<li>2f fall no ff</li>
+<li>2f fall ff</li>
+</ul>
 </div>
+</div>
+</div>
+
 
 <div id="outline-container-org05698ee" class="outline-3">
 <h3 id="org05698ee">How This Interacts With PODE</h3>
@@ -283,7 +328,7 @@ PODE, as covered by R2DLiu in the past, can be thought of as an X-axis delay, pr
 </p>
 
 
-<div id="org08e630b" class="figure">
+<div id="org0be7cbd" class="figure">
 <p><img src="../images/melee/sim_pode.png" alt="sim_pode.png" />
 </p>
 </div>
@@ -297,25 +342,25 @@ A funny thing about this bug is that this changes the nature of the polling time
 </p>
 
 
-<div id="org8cd4bca" class="figure">
+<div id="org7ff7947" class="figure">
 <p><img src="../images/melee/pode_polling_simulation_30ms_0poll_16pode.png" alt="pode_polling_simulation_30ms_0poll_16pode.png" />
 </p>
 </div>
 
 
-<div id="org8abaf03" class="figure">
+<div id="org96b53e5" class="figure">
 <p><img src="../images/melee/pode_polling_simulation_30ms_15poll_16pode.png" alt="pode_polling_simulation_30ms_15poll_16pode.png" />
 </p>
 </div>
 
 
-<div id="org36a7810" class="figure">
+<div id="orgde65c89" class="figure">
 <p><img src="../images/melee/pode_polling_simulation_45ms_0poll_16pode.png" alt="pode_polling_simulation_45ms_0poll_16pode.png" />
 </p>
 </div>
 
 
-<div id="orgc779391" class="figure">
+<div id="org42fee6a" class="figure">
 <p><img src="../images/melee/pode_polling_simulation_45ms_15poll_16pode.png" alt="pode_polling_simulation_45ms_15poll_16pode.png" />
 </p>
 </div>
@@ -398,13 +443,13 @@ Here's showing how a 7.5ms fast motion can get you both deadzone polled AND getu
 </p>
 
 
-<div id="org3799cda" class="figure">
+<div id="orgebeb3eb" class="figure">
 <p><img src="../images/melee/phobgcc_7ms_ws_poll2.png" alt="phobgcc_7ms_ws_poll2.png" />
 </p>
 </div>
 
 
-<div id="org6f6f246" class="figure">
+<div id="org207a63d" class="figure">
 <p><img src="../images/melee/phobgcc_7ms_ws_poll14.png" alt="phobgcc_7ms_ws_poll14.png" />
 </p>
 </div>
@@ -414,7 +459,7 @@ And here's showing how a 12ms fast motion can never get you anything but neutral
 </p>
 
 
-<div id="orgc3a5fd2" class="figure">
+<div id="org5777fa6" class="figure">
 <p><img src="../images/melee/phobgcc_12ms_ws.png" alt="phobgcc_12ms_ws.png" />
 </p>
 </div>
@@ -429,7 +474,7 @@ To understand axis smoothing's interaction with this, let's assume a waveshaping
 </p>
 
 
-<div id="org93cd711" class="figure">
+<div id="orgb5e13e1" class="figure">
 <p><img src="../images/melee/standard_waveshape_example.png" alt="standard_waveshape_example.png" />
 </p>
 </div>
@@ -439,7 +484,7 @@ Axis smoothing is pretty simple to understand: it is a <a href="https://en.wikip
 </p>
 
 
-<div id="orgc8a05c7" class="figure">
+<div id="org9b7b40b" class="figure">
 <p><img src="../images/melee/phobgcc_9ms_ws-sm_5.png" alt="phobgcc_9ms_ws-sm_5.png" />
 </p>
 </div>
