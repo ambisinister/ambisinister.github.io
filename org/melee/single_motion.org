@@ -19,7 +19,7 @@ I use single motion ledgedash, primarily because I'm interested in abusing the i
 
 *** Inputting Single Motion Ledgedash
 
-The fastfall line is (Y -.6625). The forwards jump line is (X .2875). The neutral getup angle is roughly 50 degrees. With this in mind, our ideal outcome is:
+The fastfall line is (Y -.6625). The forwards jump line is (X .2875). The neutral getup angle is roughly 50 degrees. With this in mind, our ideal outcome (for Fox, specifically) is:
 
 1. Input downforwards, game recieves a straight down input that will not yield fastfall.
 2. Jump forwards on frame 2, or fall with no fastfall and jump on frame 3
@@ -86,7 +86,7 @@ However, I am not as interested in PODE itself, since getting a controller with 
 You can emulate PODE by adjusting waveshaping, axis smoothing, and smart snapback filtering. We will get into what these do in a moment, but here's what shows up in [[https://drive.google.com/file/d/1rYSEaf_AJXQ5TP5UlGmj8xVYNdXGGOAG/view][smashscope]] when I check the values. You can adjust these values by following the [[https://github.com/PhobGCC/PhobGCC-doc/blob/main/For_Users/Phob_Calibration_Guide_Latest.md][phobGCC documentation]].
 
 Triggers (waveshaping) L: 8, R: 0
-- L trigger (X-axis) = 8 (pretty strong)
+- L trigger (X-axis) = 8
 - R trigger (Y-axis) = 0 (disabled)
 - Setting 8 maps to coefficient ~0.00556, providing good pode-like behavior where fast movements are filtered more heavily than slow ones
 
@@ -106,7 +106,7 @@ The relevant links to understanding waveshaping, smart snapback filter, and axis
 - [[https://github.com/PhobGCC/PhobGCC-SW/blob/1ff160c13d1e2062bc9c257823d501bedbcb6d1b/PhobGCC/common/filter.h#L224][waveshaping]] (also filter.h)
 - [[https://github.com/PhobGCC/PhobGCC-SW/blob/1ff160c13d1e2062bc9c257823d501bedbcb6d1b/PhobGCC/common/filter.h#L184][smart snapback filter]] (filter.h)
 
-Generally speaking, players who know how to use smashscope at all will mostly just input values people tell them to use, without clear understanding of what is actually happening to their controller when they do these things (source: me). I will attempt to pull some of these apart.
+Generally speaking, even players who know how to use smashscope at all will mostly just input values people tell them to use, without clear understanding of what is actually happening to their controller when they do these things (source: me). I will attempt to pull some of these apart.
 
 **** Waveshaping
 
@@ -124,13 +124,35 @@ And here's showing how a 12ms fast motion can never get you anything but neutral
 
 [[../images/melee/phobgcc_12ms_ws.png]]
 
-**** Smart Snapback
-
-TODO: do the same as waveshaping
-
 **** Axis Smoothing
 
-TODO: run simulations with these calculations based on how fast the motion is, what the resulting value would be.
+To understand axis smoothing's interaction with this, let's assume a waveshaping x=11 and a speed of 9ms. This is just a cartoon to establish what the other things do.
+
+[[../images/melee/standard_waveshape_example.png]]
+
+Axis smoothing is pretty simple to understand: it is a [[https://en.wikipedia.org/wiki/Low-pass_filter][low pass filter]] which is performed at the very end of the chain. The resulting effect is that it will ease into changes rather than having these sharp discontinuities.
+
+[[../images/melee/phobgcc_9ms_ws-sm_5.png]]
+
+The two main concepts are the *gain* and the *smoothing factor*. The gain is just the setting you picked (in this case 5) divided by 10 (the maximum). The smoothing factor is calculated as $(1 - \text{gain}) ^{1.2}$, in this case ~0.435. Then, the output is $(\text{smoothing factor} * \text{input} + (1 - \text{smoothing factor}) * \text{previous output}$.
+
+The *purpose* of axis smoothing is to reduce jitter / artifacts / noise / etc. Increasing the smoothing will make your controller less responsive, but cleaner, compared to lowering it, which makes your controller more responsive, but noisier. For our purposes, we care about having some smoothing because it moves the curve a little bit to the left, which is desirable for ledgedashing. 
+
+**** Smart Snapback
+
+Smart Snapback actually has two filters, "positive" and "negative". Negative values correspond to something we've seen before, it just applied a low-pass filter to the input. Here we can see what applying negative 5 to the y axis affects the curve:
+
+<image>
+
+In comparison, the X axis uses a [[https://en.wikipedia.org/wiki/Kalman_filter][Kalman filter]], an algorithm which predicts current state given multiple measurements of prior state. It makes sense to use a Kalman filter to prevent snapback, since snapback "bounce" values can be viewed as a noisy measurement of the true intended position (i.e. the origin), and smoothing out that value while keeping normal inputs the same is desirable. Here's how it combines with the low-pass filter for our ledgedash.
+
+<image>
+
+TODO: I think my code for this is wrong, it's complicated in the code.
+
+*** The TL;DR
+
+Doing this input fast is possible, and for that you want to maximize the amount of curve-per-unit-time to the left of the neutral getup line, most ideally where two frames will be polled left of it, starting from the movement's beginning (either 1 deadzone and 1 drop, or 2 drop). This seems sort of untenable. More reliable is doing the input slowly, swooshing it manually, and getting it consistently with no fastfalls or neutral getups. 
 
 ** Other Important Controller Resources
 
