@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-20 Sun 17:20 -->
+<!-- 2025-07-20 Sun 18:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Controller Stuff</title>
@@ -95,7 +95,13 @@ $(function() {
 <li><a href="#org53bd31c">Inputting Single Motion Ledgedash</a></li>
 <li><a href="#org05698ee">How This Interacts With PODE</a></li>
 <li><a href="#org0b6ca95">My Controller Settings</a></li>
-<li><a href="#orgb20e228">Understanding The Phob</a></li>
+<li><a href="#orgb20e228">Understanding The Phob</a>
+<ul>
+<li><a href="#org86aac35">Waveshaping</a></li>
+<li><a href="#org86c6293">Smart Snapback</a></li>
+<li><a href="#org44ba012">Axis Smoothing</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#org9b423a0">Other Important Controller Resources</a></li>
@@ -168,55 +174,55 @@ We can show this off with a number of simulated input trajectories just to illus
 </p>
 
 
-<div id="orga2140e0" class="figure">
+<div id="orga5e7413" class="figure">
 <p><img src="../images/melee/controller_polling_simulation_9ms_0poll.png" alt="controller_polling_simulation_9ms_0poll.png" />
 </p>
 </div>
 
 
-<div id="org5d98db8" class="figure">
+<div id="org3e91655" class="figure">
 <p><img src="../images/melee/controller_polling_simulation_9ms_8poll.png" alt="controller_polling_simulation_9ms_8poll.png" />
 </p>
 </div>
 
 
-<div id="orgb187c76" class="figure">
+<div id="org34df0e6" class="figure">
 <p><img src="../images/melee/controller_polling_simulation_9ms_14poll.png" alt="controller_polling_simulation_9ms_14poll.png" />
 </p>
 </div>
 
 
-<div id="org66357c7" class="figure">
+<div id="orge576a78" class="figure">
 <p><img src="../images/melee/sim_35ms_0poll.png" alt="sim_35ms_0poll.png" />
 </p>
 </div>
 
 
-<div id="org39dc2ef" class="figure">
+<div id="orga57d928" class="figure">
 <p><img src="../images/melee/sim_35ms_8poll.png" alt="sim_35ms_8poll.png" />
 </p>
 </div>
 
 
-<div id="orgcccbb73" class="figure">
+<div id="org8470843" class="figure">
 <p><img src="../images/melee/sim_35ms_14poll.png" alt="sim_35ms_14poll.png" />
 </p>
 </div>
 
 
-<div id="org3adf665" class="figure">
+<div id="org62dee65" class="figure">
 <p><img src="../images/melee/sim_45ms_0poll.png" alt="sim_45ms_0poll.png" />
 </p>
 </div>
 
 
-<div id="org5cbc6bd" class="figure">
+<div id="org2f9e83d" class="figure">
 <p><img src="../images/melee/sim_45ms_8poll.png" alt="sim_45ms_8poll.png" />
 </p>
 </div>
 
 
-<div id="org6f6a514" class="figure">
+<div id="org2ae4b50" class="figure">
 <p><img src="../images/melee/sim_45ms_14poll.png" alt="sim_45ms_14poll.png" />
 </p>
 </div>
@@ -255,7 +261,7 @@ PODE, as covered by R2DLiu in the past, can be thought of as an X-axis delay, pr
 </p>
 
 
-<div id="orgc1bdadd" class="figure">
+<div id="orgbb434f0" class="figure">
 <p><img src="../images/melee/sim_pode.png" alt="sim_pode.png" />
 </p>
 </div>
@@ -269,25 +275,25 @@ A funny thing about this bug is that this changes the nature of the polling time
 </p>
 
 
-<div id="org0516b1d" class="figure">
+<div id="org18a0aa9" class="figure">
 <p><img src="../images/melee/pode_polling_simulation_30ms_0poll_16pode.png" alt="pode_polling_simulation_30ms_0poll_16pode.png" />
 </p>
 </div>
 
 
-<div id="orgf8c94c5" class="figure">
+<div id="orgef364de" class="figure">
 <p><img src="../images/melee/pode_polling_simulation_30ms_15poll_16pode.png" alt="pode_polling_simulation_30ms_15poll_16pode.png" />
 </p>
 </div>
 
 
-<div id="orgfc7d8e8" class="figure">
+<div id="org037b3b3" class="figure">
 <p><img src="../images/melee/pode_polling_simulation_45ms_0poll_16pode.png" alt="pode_polling_simulation_45ms_0poll_16pode.png" />
 </p>
 </div>
 
 
-<div id="orgc8c5d92" class="figure">
+<div id="org70d3ebf" class="figure">
 <p><img src="../images/melee/pode_polling_simulation_45ms_15poll_16pode.png" alt="pode_polling_simulation_45ms_15poll_16pode.png" />
 </p>
 </div>
@@ -337,10 +343,6 @@ C stick (axis smoothing) x: 5, y: 0
 <h3 id="orgb20e228">Understanding The Phob</h3>
 <div class="outline-text-3" id="text-orgb20e228">
 <p>
-Generally speaking, players who know how to use smashscope at all will mostly just input values people tell them to use, without clear understanding of what is actually happening to their controller when they do these things (source: me).
-</p>
-
-<p>
 The relevant links to understanding waveshaping, smart snapback filter, and axis smoothing, can be found in these three spots in the phobGCC code:
 </p>
 <ul class="org-ul">
@@ -350,8 +352,65 @@ The relevant links to understanding waveshaping, smart snapback filter, and axis
 </ul>
 
 <p>
+Generally speaking, players who know how to use smashscope at all will mostly just input values people tell them to use, without clear understanding of what is actually happening to their controller when they do these things (source: me). I will attempt to pull some of these apart.
+</p>
+</div>
+
+<div id="outline-container-org86aac35" class="outline-4">
+<h4 id="org86aac35">Waveshaping</h4>
+<div class="outline-text-4" id="text-org86aac35">
+<p>
+Waveshaping ostensibly works by trying to emulate PODE by delaying the input of one axis specifically. However, it works in an "idealized" manner, where it will delay inputs if they cross a velocity threshold, but leave them alone otherwise.
+</p>
+
+<p>
+This is actually really annoying for single motion ledgedash, since it interacts unfavorably with the polling timer. <b><b>If you do the input too fast, you are at the mercy of the polling timer</b></b>: too early, and you get polled in the deadzone; too late, you get polled past neutral getup. <b><b>If you do the input too slow, it doesn't kick in at all</b></b>, and you will get neutral getup every single time no matter what (since the x axis input won't be delayed).
+</p>
+
+<p>
+Here's showing how a 9ms fast motion can get you both deadzone polled AND getup polled:
+</p>
+
+
+<div id="org6e38cec" class="figure">
+<p><img src="../images/melee/phobgcc_7ms_ws_poll2.png" alt="phobgcc_7ms_ws_poll2.png" />
+</p>
+</div>
+
+
+<div id="org67e5d80" class="figure">
+<p><img src="../images/melee/phobgcc_7ms_ws_poll14.png" alt="phobgcc_7ms_ws_poll14.png" />
+</p>
+</div>
+
+<p>
+And here's showing how a 12ms fast motion can never get you anything but neutral getup
+</p>
+
+
+<div id="org6cabd84" class="figure">
+<p><img src="../images/melee/phobgcc_12ms_ws.png" alt="phobgcc_12ms_ws.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org86c6293" class="outline-4">
+<h4 id="org86c6293">Smart Snapback</h4>
+<div class="outline-text-4" id="text-org86c6293">
+<p>
+TODO: do the same as waveshaping
+</p>
+</div>
+</div>
+
+<div id="outline-container-org44ba012" class="outline-4">
+<h4 id="org44ba012">Axis Smoothing</h4>
+<div class="outline-text-4" id="text-org44ba012">
+<p>
 TODO: run simulations with these calculations based on how fast the motion is, what the resulting value would be.
 </p>
+</div>
 </div>
 </div>
 </div>

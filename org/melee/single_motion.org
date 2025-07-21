@@ -101,12 +101,34 @@ C stick (axis smoothing) x: 5, y: 0
 
 *** Understanding The Phob
 
-Generally speaking, players who know how to use smashscope at all will mostly just input values people tell them to use, without clear understanding of what is actually happening to their controller when they do these things (source: me).
-
 The relevant links to understanding waveshaping, smart snapback filter, and axis smoothing, can be found in these three spots in the phobGCC code:
 - [[https://github.com/PhobGCC/PhobGCC-SW/blob/1ff160c13d1e2062bc9c257823d501bedbcb6d1b/PhobGCC/common/phobGCC.h#L2245][axis smoothing]] (phobgcc.h)
 - [[https://github.com/PhobGCC/PhobGCC-SW/blob/1ff160c13d1e2062bc9c257823d501bedbcb6d1b/PhobGCC/common/filter.h#L224][waveshaping]] (also filter.h)
 - [[https://github.com/PhobGCC/PhobGCC-SW/blob/1ff160c13d1e2062bc9c257823d501bedbcb6d1b/PhobGCC/common/filter.h#L184][smart snapback filter]] (filter.h)
+
+Generally speaking, players who know how to use smashscope at all will mostly just input values people tell them to use, without clear understanding of what is actually happening to their controller when they do these things (source: me). I will attempt to pull some of these apart.
+
+**** Waveshaping
+
+Waveshaping ostensibly works by trying to emulate PODE by delaying the input of one axis specifically. However, it works in an "idealized" manner, where it will delay inputs if they cross a velocity threshold, but leave them alone otherwise.
+
+This is actually really annoying for single motion ledgedash, since it interacts unfavorably with the polling timer. **If you do the input too fast, you are at the mercy of the polling timer**: too early, and you get polled in the deadzone; too late, you get polled past neutral getup. **If you do the input too slow, it doesn't kick in at all**, and you will get neutral getup every single time no matter what (since the x axis input won't be delayed).
+
+Here's showing how a 9ms fast motion can get you both deadzone polled AND getup polled:
+
+[[../images/melee/phobgcc_7ms_ws_poll2.png]]
+
+[[../images/melee/phobgcc_7ms_ws_poll14.png]]
+
+And here's showing how a 12ms fast motion can never get you anything but neutral getup
+
+[[../images/melee/phobgcc_12ms_ws.png]]
+
+**** Smart Snapback
+
+TODO: do the same as waveshaping
+
+**** Axis Smoothing
 
 TODO: run simulations with these calculations based on how fast the motion is, what the resulting value would be.
 
