@@ -136,7 +136,7 @@ Axis smoothing is pretty simple to understand: it is a [[https://en.wikipedia.or
 
 [[../images/melee/phobgcc_9ms_ws-sm_5.png]]
 
-The two main concepts are the *gain* and the *smoothing factor*. The gain is just the setting you picked (in this case 5) divided by 10 (the maximum). The smoothing factor is calculated as $(1 - \text{gain}) ^{1.2}$, in this case ~0.435. Then, the output is $(\text{smoothing factor} * \text{input} + (1 - \text{smoothing factor}) * \text{previous output}$.
+The two main concepts are the *gain* and the *smoothing factor*. The gain is just the setting you picked (in this case 5) divided by 10 (the maximum). The smoothing factor is calculated as $(1 - \text{gain}) ^{1.2}$, in this case ~0.435. Then, the output is $\text{smoothing factor} * \text{input} + (1 - \text{smoothing factor}) * \text{previous output}$.
 
 The *purpose* of axis smoothing is to reduce jitter / artifacts / noise / etc. Increasing the smoothing will make your controller less responsive, but cleaner, compared to lowering it, which makes your controller more responsive, but noisier. For our purposes, we care about having some smoothing because it moves the curve a little bit to the left, which is desirable for ledgedashing. 
 
