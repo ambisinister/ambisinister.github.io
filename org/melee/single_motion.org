@@ -99,6 +99,8 @@ C stick (axis smoothing) x: 5, y: 0
 - X-axis = 50% smoothing strength (coefficient ~0.659)
 - Y-axis = 0 (no smoothing)
 
+TODO: These are probably pretty bad after investigating this somewhat.
+
 *** Understanding The Phob
 
 The relevant links to understanding waveshaping, smart snapback filter, and axis smoothing, can be found in these three spots in the phobGCC code:
@@ -114,7 +116,7 @@ Waveshaping ostensibly works by trying to emulate PODE by delaying the input of 
 
 This is actually really annoying for single motion ledgedash, since it interacts unfavorably with the polling timer. **If you do the input too fast, you are at the mercy of the polling timer**: too early, and you get polled in the deadzone; too late, you get polled past neutral getup. **If you do the input too slow, it doesn't kick in at all**, and you will get neutral getup every single time no matter what (since the x axis input won't be delayed).
 
-Here's showing how a 9ms fast motion can get you both deadzone polled AND getup polled:
+Here's showing how a 7.5ms fast motion can get you both deadzone polled AND getup polled:
 
 [[../images/melee/phobgcc_7ms_ws_poll2.png]]
 
