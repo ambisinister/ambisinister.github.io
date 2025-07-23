@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-23 Wed 15:13 -->
+<!-- 2025-07-23 Wed 15:49 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Deepseek Continued</title>
@@ -46,7 +46,7 @@ $(function() {
     $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
     // Dark mode functionality
-    function toggleDarkMode() {
+    window.toggleDarkMode = function() {
         document.body.classList.toggle('dark-mode');
         const isDarkMode = document.body.classList.contains('dark-mode');
         localStorage.setItem('darkMode', isDarkMode);
@@ -54,7 +54,7 @@ $(function() {
     }
 
     function updateToggleButton() {
-        const toggle = document.querySelector('.dark-mode-toggle');
+        const toggle = document.querySelector('.dark-mode-toggle-nav');
         if (toggle) {
             toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
         }
@@ -66,13 +66,7 @@ $(function() {
         document.body.classList.add('dark-mode');
     }
 
-    // Add toggle button
-    const toggleButton = document.createElement('div');
-    toggleButton.className = 'dark-mode-toggle';
-    toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    toggleButton.addEventListener('click', toggleDarkMode);
-    document.body.appendChild(toggleButton);
-
+    // Update toggle button on page load
     updateToggleButton();
 });
 </script>
@@ -125,7 +119,8 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
-            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
+            <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
           </ul>
         </div><!--/.nav-collapse -->
@@ -323,7 +318,7 @@ We've already seen in DeepSeek-V2 that this idea can be used really effectively 
 </p>
 
 
-<div id="org76b3e0d" class="figure">
+<div id="orgac0781b" class="figure">
 <p><img src="../images/from_clipboard/20241227_202228.png" alt="20241227_202228.png" />
 </p>
 </div>
@@ -346,7 +341,7 @@ Relatedly, it feels sort of antithetical to the way MoE works in the first place
 <h3 id="org60d06b6">ESFT</h3>
 <div class="outline-text-3" id="text-org60d06b6">
 
-<div id="orgf60fd7c" class="figure">
+<div id="orge9a129a" class="figure">
 <p><img src="../images/from_clipboard/20241227_203350.png" alt="20241227_203350.png" />
 </p>
 </div>
@@ -366,7 +361,7 @@ This all fundamentally depends on the insight that, in this highly specialized r
 </p>
 
 
-<div id="org72588c9" class="figure">
+<div id="org73b9aa3" class="figure">
 <p><img src="../images/from_clipboard/20241227_204437.png" alt="20241227_204437.png" />
 </p>
 </div>
@@ -376,7 +371,7 @@ The method they use isn't too different from what you'd expect, given the result
 </p>
 
 
-<div id="orgafaf2b9" class="figure">
+<div id="org2646c0f" class="figure">
 <p><img src="../images/from_clipboard/20241227_205635.png" alt="20241227_205635.png" />
 </p>
 </div>
@@ -390,7 +385,7 @@ To me this just makes perfect sense: for unrelated tasks, it's possible that the
 </p>
 
 
-<div id="org3dd713d" class="figure">
+<div id="org0da146a" class="figure">
 <p><img src="../images/from_clipboard/20241227_210629.png" alt="20241227_210629.png" />
 </p>
 </div>
@@ -422,7 +417,7 @@ MCTS works in four steps. First, selection: MCTS will traverse the tree by sampl
 </p>
 
 
-<div id="org702b5fe" class="figure">
+<div id="orge69de38" class="figure">
 <p><img src="../images/from_clipboard/20241228_213907.png" alt="20241228_213907.png" />
 </p>
 </div>
@@ -494,7 +489,7 @@ We now have one of the gnarliest figures in the DeepSeek Corpus:
 </p>
 
 
-<div id="orgb7eb59c" class="figure">
+<div id="org9e656b6" class="figure">
 <p><img src="../images/from_clipboard/20241227_214920.png" alt="20241227_214920.png" />
 </p>
 </div>
@@ -575,7 +570,7 @@ Recall from DeepSeekMoE that, in Mixture-of-Experts, the FFN component of the tr
 </p>
 
 
-<div id="org22e4fbc" class="figure">
+<div id="orgf3d959c" class="figure">
 <p><img src="../images/from_clipboard/20240603_132441.png" alt="20240603_132441.png" />
 </p>
 </div>
@@ -585,7 +580,7 @@ A core problem of MoE models is that the router can just pick the same few exper
 </p>
 
 
-<div id="org1f8e049" class="figure">
+<div id="orge82f9fe" class="figure">
 <p><img src="../images/from_clipboard/20240612_143124.png" alt="20240612_143124.png" />
 </p>
 </div>
@@ -595,7 +590,7 @@ This is usually sufficient for getting the experts to be selected evenly. The pr
 </p>
 
 
-<div id="org9973097" class="figure">
+<div id="orgd9f7378" class="figure">
 <p><img src="../images/from_clipboard/20241227_185215.png" alt="20241227_185215.png" />
 </p>
 </div>
@@ -605,7 +600,7 @@ To fix this problem, they introduce a bias term during training. This bias term 
 </p>
 
 
-<div id="orgb9c30b5" class="figure">
+<div id="org48e1271" class="figure">
 <p><img src="../images/from_clipboard/20241227_185622.png" alt="20241227_185622.png" />
 </p>
 </div>
@@ -619,7 +614,7 @@ Here's my quick writeup of their algorithm in code; it's not too hard to underst
 </p>
 
 
-<div id="orgbc5d45e" class="figure">
+<div id="orgd7ef631" class="figure">
 <p><img src="../images/from_clipboard/20241227_190419.png" alt="20241227_190419.png" />
 </p>
 </div>
@@ -629,7 +624,7 @@ Here's my quick writeup of their algorithm in code; it's not too hard to underst
 </p>
 
 
-<div id="org3ee94c8" class="figure">
+<div id="org0d1a06b" class="figure">
 <p><img src="../images/from_clipboard/20241227_190854.png" alt="20241227_190854.png" />
 </p>
 </div>
@@ -686,7 +681,7 @@ Way back in 2017 a paper <a href="https://arxiv.org/pdf/1711.00937">Neural Discr
 </p>
 
 
-<div id="org5b3bfd7" class="figure">
+<div id="orgeca1c52" class="figure">
 <p><img src="../images/from_clipboard/20241228_122508.png" alt="20241228_122508.png" />
 </p>
 </div>
@@ -725,7 +720,7 @@ The important artifact we need from this paper is their released image tokenizer
 </p>
 
 
-<div id="org7e89598" class="figure">
+<div id="orgb21c2ad" class="figure">
 <p><img src="../images/from_clipboard/20241228_153011.png" alt="20241228_153011.png" />
 </p>
 </div>
@@ -757,7 +752,7 @@ same space will lead to conflicts and trade-offs.
 </blockquote>
 
 
-<div id="org0748c28" class="figure">
+<div id="org47c0620" class="figure">
 <p><img src="../images/from_clipboard/20241228_141017.png" alt="20241228_141017.png" />
 </p>
 </div>
@@ -771,7 +766,7 @@ The encoders themselves are composed of things we have seen already. For image u
 </p>
 
 
-<div id="org9089172" class="figure">
+<div id="orgba48fae" class="figure">
 <p><img src="../images/from_clipboard/20241228_143227.png" alt="20241228_143227.png" />
 </p>
 </div>
@@ -831,7 +826,7 @@ A paper which might be worth studying in more detail is <a href="https://arxiv.o
 </p>
 
 
-<div id="org16c8da4" class="figure">
+<div id="orgc28b280" class="figure">
 <p><img src="../images/from_clipboard/20241228_192622.png" alt="20241228_192622.png" />
 </p>
 </div>
@@ -918,7 +913,7 @@ It does this by adding the following objective alongside the normal diffusion tr
 </p>
 
 
-<div id="org5bf0047" class="figure">
+<div id="org364b874" class="figure">
 <p><img src="../images/from_clipboard/20241228_175530.png" alt="20241228_175530.png" />
 </p>
 </div>
@@ -928,7 +923,7 @@ That is: we break the image into patches, and we check the similarity<sup><a id=
 </p>
 
 
-<div id="orge596c7d" class="figure">
+<div id="org61a8c48" class="figure">
 <p><img src="../images/from_clipboard/20241228_180232.png" alt="20241228_180232.png" />
 </p>
 </div>
@@ -947,7 +942,7 @@ Some things which are commonly attributed to "superior transformer architectures
 </p>
 
 
-<div id="orgcce4be1" class="figure">
+<div id="orgc5ff611" class="figure">
 <p><img src="../images/from_clipboard/20241228_172648.png" alt="20241228_172648.png" />
 </p>
 </div>
@@ -958,7 +953,7 @@ Some things which are commonly attributed to "superior transformer architectures
 <h3 id="org1b09666">JanusFlow</h3>
 <div class="outline-text-3" id="text-org1b09666">
 
-<div id="orga5edfaa" class="figure">
+<div id="org7ba3a29" class="figure">
 <p><img src="../images/from_clipboard/20241228_163316.png" alt="20241228_163316.png" />
 </p>
 </div>
@@ -1026,7 +1021,7 @@ The notable component of InternVL is their dynamic high resolution. Otherwise, i
 </p>
 
 
-<div id="org6c48e11" class="figure">
+<div id="org9f32f5e" class="figure">
 <p><img src="../images/from_clipboard/20241228_101609.png" alt="20241228_101609.png" />
 </p>
 </div>
@@ -1036,7 +1031,7 @@ Recall from DeepSeek-VL that they used two vision encoders: one for high resolut
 </p>
 
 
-<div id="org771d2c4" class="figure">
+<div id="org1866052" class="figure">
 <p><img src="../images/from_clipboard/20241228_102307.png" alt="20241228_102307.png" />
 </p>
 </div>
@@ -1055,7 +1050,7 @@ Various other VLMs have adopted similar strategies, like <a href="https://arxiv.
 <h3 id="org5bacadb">Architecture and Training</h3>
 <div class="outline-text-3" id="text-org5bacadb">
 
-<div id="org87af5fb" class="figure">
+<div id="org534aeb5" class="figure">
 <p><img src="../images/from_clipboard/20241227_222742.png" alt="20241227_222742.png" />
 </p>
 </div>
@@ -1081,7 +1076,7 @@ dimensions per tile.
 </blockquote>
 
 
-<div id="orgb1c643b" class="figure">
+<div id="org63e354e" class="figure">
 <p><img src="../images/from_clipboard/20241227_223552.png" alt="20241227_223552.png" />
 </p>
 </div>
@@ -1104,7 +1099,7 @@ A surprisingly interesting claim of this paper is that DeepSeek-VL2 can understa
 </p>
 
 
-<div id="orgc924133" class="figure">
+<div id="org2139c91" class="figure">
 <p><img src="../images/from_clipboard/20241228_092028.png" alt="20241228_092028.png" />
 </p>
 </div>
@@ -1114,7 +1109,7 @@ Likewise, a new capability to this paper compared to VL1 is <i>Visual Grounding<
 </p>
 
 
-<div id="orge863ab2" class="figure">
+<div id="org41bf870" class="figure">
 <p><img src="../images/from_clipboard/20241228_093146.png" alt="20241228_093146.png" />
 </p>
 </div>
@@ -1124,7 +1119,7 @@ Being a little more specific, this is actually a little different from SAM, in t
 </p>
 
 
-<div id="orgf1dbad7" class="figure">
+<div id="orgfef1cca" class="figure">
 <p><img src="../images/from_clipboard/20241228_094011.png" alt="20241228_094011.png" />
 </p>
 </div>
@@ -1183,7 +1178,7 @@ In speculative decoding, you use both a big and a small model, together. You mak
 </p>
 
 
-<div id="org353417f" class="figure">
+<div id="orgc0a4915" class="figure">
 <p><img src="../images/from_clipboard/20241229_212557.png" alt="20241229_212557.png" />
 </p>
 </div>
@@ -1202,7 +1197,7 @@ There are lots of different methods for this now, but the core idea is all we wi
 </p>
 
 
-<div id="orgfd7371f" class="figure">
+<div id="org384aa27" class="figure">
 <p><img src="../images/from_clipboard/20241229_212727.png" alt="20241229_212727.png" />
 </p>
 </div>
@@ -1224,7 +1219,7 @@ They posit there are two "types" of tokens, "choice points" and "inconsequential
 </p>
 
 
-<div id="org79b99c3" class="figure">
+<div id="orge65aabd" class="figure">
 <p><img src="../images/from_clipboard/20241229_215852.png" alt="20241229_215852.png" />
 </p>
 </div>
@@ -1276,7 +1271,7 @@ New to V3 is this Sequence-Wise loss, intended to keep the balance even within a
 </p>
 
 
-<div id="orgffb43a8" class="figure">
+<div id="org918b1fa" class="figure">
 <p><img src="../images/from_clipboard/20241229_163101.png" alt="20241229_163101.png" />
 </p>
 </div>
@@ -1304,7 +1299,7 @@ The first three layers in DeepSeek-V3 are dense layers, not MoE layers. A hint f
 </p>
 
 
-<div id="org59acf08" class="figure">
+<div id="org5961abf" class="figure">
 <p><img src="../images/from_clipboard/20241229_200946.png" alt="20241229_200946.png" />
 </p>
 </div>
@@ -1320,7 +1315,7 @@ It makes some sense that MoE would be less valuable for these layers than the ot
 <h3 id="orgb8ae80c">DeepSeek-V3 Multi-Token Prediction</h3>
 <div class="outline-text-3" id="text-orgb8ae80c">
 
-<div id="orga062693" class="figure">
+<div id="org451b9b3" class="figure">
 <p><img src="../images/from_clipboard/20241229_165509.png" alt="20241229_165509.png" />
 </p>
 </div>
@@ -1334,7 +1329,7 @@ These are sort of like a halfway point between speculative decoding and multi-to
 </p>
 
 
-<div id="org65ad132" class="figure">
+<div id="orgf0d1685" class="figure">
 <p><img src="../images/from_clipboard/20241229_184539.png" alt="20241229_184539.png" />
 </p>
 </div>
@@ -1381,7 +1376,7 @@ DualPipe is their solution to this, it maximizes these overlaps and attempts to 
 </p>
 
 
-<div id="orge2a8df5" class="figure">
+<div id="orge32dfc0" class="figure">
 <p><img src="../images/from_clipboard/20241229_192735.png" alt="20241229_192735.png" />
 </p>
 </div>
@@ -1400,7 +1395,7 @@ There are <a href="https://arxiv.org/pdf/2409.12517">not very many other tries</
 </p>
 
 
-<div id="org8956334" class="figure">
+<div id="org4601eb8" class="figure">
 <p><img src="../images/from_clipboard/20241229_194339.png" alt="20241229_194339.png" />
 </p>
 </div>
@@ -1419,7 +1414,7 @@ More of an interesting note, pages 20-21 of this paper are spent on a sort of ch
 </p>
 
 
-<div id="org0ee1d86" class="figure">
+<div id="orgffdf5ca" class="figure">
 <p><img src="../images/from_clipboard/20241229_200742.png" alt="20241229_200742.png" />
 </p>
 </div>
@@ -1482,7 +1477,7 @@ The big story in discussion is the self-rewarding section, where they make an of
 </p>
 
 
-<div id="orga1da1ae" class="figure">
+<div id="org23e78ab" class="figure">
 <p><img src="../images/from_clipboard/20241229_210019.png" alt="20241229_210019.png" />
 </p>
 </div>
@@ -1741,7 +1736,7 @@ It has the original warmup-and-decay as DeepSeek-V2, but with a period that uses
 </p>
 
 
-<div id="org421f1f0" class="figure">
+<div id="orgba79d0d" class="figure">
 <p><img src="../images/from_clipboard/20241229_201540.png" alt="20241229_201540.png" />
 </p>
 </div></div></div>

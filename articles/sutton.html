@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-23 Wed 15:13 -->
+<!-- 2025-07-23 Wed 15:49 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Learning RL</title>
@@ -46,7 +46,7 @@ $(function() {
     $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
     // Dark mode functionality
-    function toggleDarkMode() {
+    window.toggleDarkMode = function() {
         document.body.classList.toggle('dark-mode');
         const isDarkMode = document.body.classList.contains('dark-mode');
         localStorage.setItem('darkMode', isDarkMode);
@@ -54,7 +54,7 @@ $(function() {
     }
 
     function updateToggleButton() {
-        const toggle = document.querySelector('.dark-mode-toggle');
+        const toggle = document.querySelector('.dark-mode-toggle-nav');
         if (toggle) {
             toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
         }
@@ -66,13 +66,7 @@ $(function() {
         document.body.classList.add('dark-mode');
     }
 
-    // Add toggle button
-    const toggleButton = document.createElement('div');
-    toggleButton.className = 'dark-mode-toggle';
-    toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    toggleButton.addEventListener('click', toggleDarkMode);
-    document.body.appendChild(toggleButton);
-
+    // Update toggle button on page load
     updateToggleButton();
 });
 </script>
@@ -125,7 +119,8 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
-            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
+            <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
           </ul>
         </div><!--/.nav-collapse -->
@@ -298,7 +293,7 @@ $(function() {
 <ul>
 <li><a href="#org2f71fd5">Exercise 11.1</a></li>
 <li><a href="#orga019a12">Exercise 11.3</a></li>
-<li><a href="#org292169f"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
+<li><a href="#orge5dbb5a"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
 </ul>
 </li>
 <li><a href="#orgd91dc01">12 - Eligibility Traces</a>
@@ -329,7 +324,7 @@ $(function() {
 <li><a href="#orgddfbd2e">Exercise 13.3</a></li>
 <li><a href="#org12f03b9">Exercise 13.4</a></li>
 <li><a href="#orgfb5dc0a">Exercise 13.5</a></li>
-<li><a href="#org1b1c581"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
+<li><a href="#orga5ad5f1"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
 </ul>
 </li>
 <li><a href="#org0577026">14-16: No Exercises</a></li>
@@ -4459,9 +4454,9 @@ Code can be found in this <a href="https://colab.research.google.com/drive/1LvCq
 </div>
 </div>
 
-<div id="outline-container-org292169f" class="outline-4">
-<h4 id="org292169f"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
-<div class="outline-text-4" id="text-org292169f">
+<div id="outline-container-orge5dbb5a" class="outline-4">
+<h4 id="orge5dbb5a"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
+<div class="outline-text-4" id="text-orge5dbb5a">
 <p>
 *Exercise 11.2 Convert the equations of n-step Q() (7.11 and 7.17) to semi-gradient
 form. Give definitions that cover both the episodic and continuing cases.
@@ -5390,9 +5385,9 @@ notice that P corresponds to a=1 and 1-P responds to a=0, meaning both are actua
 </div>
 
 
-<div id="outline-container-org1b1c581" class="outline-4">
-<h4 id="org1b1c581"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
-<div class="outline-text-4" id="text-org1b1c581">
+<div id="outline-container-orga5ad5f1" class="outline-4">
+<h4 id="orga5ad5f1"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
+<div class="outline-text-4" id="text-orga5ad5f1">
 <p>
 *Exercise 13.2 Generalize the box on page 199, the policy gradient theorem (13.5), the
 proof of the policy gradient theorem (page 325), and the steps leading to the REINFORCE

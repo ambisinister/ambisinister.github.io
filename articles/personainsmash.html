@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-23 Wed 15:13 -->
+<!-- 2025-07-23 Wed 15:49 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Personality in Smash</title>
@@ -46,7 +46,7 @@ $(function() {
     $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
     // Dark mode functionality
-    function toggleDarkMode() {
+    window.toggleDarkMode = function() {
         document.body.classList.toggle('dark-mode');
         const isDarkMode = document.body.classList.contains('dark-mode');
         localStorage.setItem('darkMode', isDarkMode);
@@ -54,7 +54,7 @@ $(function() {
     }
 
     function updateToggleButton() {
-        const toggle = document.querySelector('.dark-mode-toggle');
+        const toggle = document.querySelector('.dark-mode-toggle-nav');
         if (toggle) {
             toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
         }
@@ -66,13 +66,7 @@ $(function() {
         document.body.classList.add('dark-mode');
     }
 
-    // Add toggle button
-    const toggleButton = document.createElement('div');
-    toggleButton.className = 'dark-mode-toggle';
-    toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    toggleButton.addEventListener('click', toggleDarkMode);
-    document.body.appendChild(toggleButton);
-
+    // Update toggle button on page load
     updateToggleButton();
 });
 </script>
@@ -104,7 +98,8 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
-            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
+            <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
           </ul>
         </div><!--/.nav-collapse -->
@@ -289,7 +284,7 @@ The survey questions can be found <a href="https://docs.google.com/forms/d/1Pzd4
 </table>
 
 
-<div id="orgb90b533" class="figure">
+<div id="orgec5c978" class="figure">
 <p><img src="../images/personality/all_vs_control.png" alt="all_vs_control.png" />
 </p>
 </div>
@@ -299,7 +294,7 @@ With regards to personality, SSBM Players (avg age 21) overall score significant
 </p>
 
 
-<div id="orge533c5c" class="figure">
+<div id="orgfba2c2c" class="figure">
 <p><img src="../images/personality/techskill_all.png" alt="techskill_all.png" />
 </p>
 </div>
@@ -318,7 +313,7 @@ To assess the relationship between personality and character selection, we can p
 </p>
 
 
-<div id="org062c773" class="figure">
+<div id="org8e6a8d0" class="figure">
 <p><img src="../images/personality/raw_relationship.png" alt="raw_relationship.png" />
 </p>
 </div>
@@ -332,13 +327,13 @@ However, something striking about this data is that it's somewhat different from
 </p>
 
 
-<div id="org5a1b118" class="figure">
+<div id="org8e7f76b" class="figure">
 <p><img src="../images/personality/characters_all.png" alt="characters_all.png" />
 </p>
 </div>
 
 
-<div id="org04b54b0" class="figure">
+<div id="org75e12da" class="figure">
 <p><img src="../images/personality/players_maining.PNG" alt="players_maining.PNG" />
 </p>
 </div>
@@ -352,7 +347,7 @@ Performing this filtering step upon players who claim to be active competitors a
 </p>
 
 
-<div id="org1873a5e" class="figure">
+<div id="orgf345bb0" class="figure">
 <p><img src="../images/personality/characters_filtered.png" alt="characters_filtered.png" />
 </p>
 </div>
@@ -376,7 +371,7 @@ A useful starting point is examining the relationship between activity level and
 
 
 
-<div id="org0618aa2" class="figure">
+<div id="org03a1fce" class="figure">
 <p><img src="../images/personality/extraversion_activity.png" alt="extraversion_activity.png" />
 </p>
 </div>
@@ -386,7 +381,7 @@ Based upon this, it becomes more reasonable that the strongest predictor of skil
 </p>
 
 
-<div id="org37cae27" class="figure">
+<div id="orgc0c5585" class="figure">
 <p><img src="../images/personality/extraversion_skill.png" alt="extraversion_skill.png" />
 </p>
 </div>
@@ -396,13 +391,13 @@ Another amusing relationship comes from the question asking players whether they
 </p>
 
 
-<div id="orgb7c2345" class="figure">
+<div id="orge7db048" class="figure">
 <p><img src="../images/personality/agreeableness_playstyle.png" alt="agreeableness_playstyle.png" />
 </p>
 </div>
 
 
-<div id="org339e899" class="figure">
+<div id="org00b11be" class="figure">
 <p><img src="../images/personality/extraversion_playstyle.png" alt="extraversion_playstyle.png" />
 </p>
 </div>
@@ -412,7 +407,7 @@ As you might have expected, players who rated themselves as highly intuition-dri
 </p>
 
 
-<div id="orga07ce8a" class="figure">
+<div id="org9c24f76" class="figure">
 <p><img src="../images/personality/conscientiousness_intuition.png" alt="conscientiousness_intuition.png" />
 </p>
 </div>
@@ -422,25 +417,25 @@ The technical skill question ended up as a surprisingly significant vector for p
 </p>
 
 
-<div id="orgc18c91f" class="figure">
+<div id="orgfa9ddcb" class="figure">
 <p><img src="../images/personality/openness_techskill.png" alt="openness_techskill.png" />
 </p>
 </div>
 
 
-<div id="org2844d7a" class="figure">
+<div id="org5bfb99c" class="figure">
 <p><img src="../images/personality/conscientiousness_techskill.png" alt="conscientiousness_techskill.png" />
 </p>
 </div>
 
 
-<div id="org3d5c928" class="figure">
+<div id="org1e1e026" class="figure">
 <p><img src="../images/personality/extraversion_techskill.png" alt="extraversion_techskill.png" />
 </p>
 </div>
 
 
-<div id="org942e7d6" class="figure">
+<div id="orge944199" class="figure">
 <p><img src="../images/personality/neuroticism_techskill.png" alt="neuroticism_techskill.png" />
 </p>
 </div>
@@ -450,25 +445,25 @@ Finally, Players who considered it important for their playstyle to be considere
 </p>
 
 
-<div id="orgc341cef" class="figure">
+<div id="org4e685ca" class="figure">
 <p><img src="../images/personality/openness_cool.png" alt="openness_cool.png" />
 </p>
 </div>
 
 
-<div id="org6bbda00" class="figure">
+<div id="orge2211ab" class="figure">
 <p><img src="../images/personality/extraversion_cool.png" alt="extraversion_cool.png" />
 </p>
 </div>
 
 
-<div id="org0d62afe" class="figure">
+<div id="orga2428de" class="figure">
 <p><img src="../images/personality/agreeableness_cool.png" alt="agreeableness_cool.png" />
 </p>
 </div>
 
 
-<div id="org68f6d66" class="figure">
+<div id="org3730ae8" class="figure">
 <p><img src="../images/personality/openness_honest.png" alt="openness_honest.png" />
 </p>
 </div>

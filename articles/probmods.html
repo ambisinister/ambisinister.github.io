@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-23 Wed 15:13 -->
+<!-- 2025-07-23 Wed 15:49 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Probabilistic Models of Cognition</title>
@@ -46,7 +46,7 @@ $(function() {
     $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
     // Dark mode functionality
-    function toggleDarkMode() {
+    window.toggleDarkMode = function() {
         document.body.classList.toggle('dark-mode');
         const isDarkMode = document.body.classList.contains('dark-mode');
         localStorage.setItem('darkMode', isDarkMode);
@@ -54,7 +54,7 @@ $(function() {
     }
 
     function updateToggleButton() {
-        const toggle = document.querySelector('.dark-mode-toggle');
+        const toggle = document.querySelector('.dark-mode-toggle-nav');
         if (toggle) {
             toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
         }
@@ -66,13 +66,7 @@ $(function() {
         document.body.classList.add('dark-mode');
     }
 
-    // Add toggle button
-    const toggleButton = document.createElement('div');
-    toggleButton.className = 'dark-mode-toggle';
-    toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    toggleButton.addEventListener('click', toggleDarkMode);
-    document.body.appendChild(toggleButton);
-
+    // Update toggle button on page load
     updateToggleButton();
 });
 </script>
@@ -104,7 +98,8 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
-            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
+            <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
           </ul>
         </div><!--/.nav-collapse -->
@@ -124,12 +119,12 @@ $(function() {
 <ul>
 <li><a href="#org5f4569d">Generative Models</a>
 <ul>
-<li><a href="#org85c89cf">1</a></li>
-<li><a href="#org4030acc">2</a></li>
-<li><a href="#org5fb11d5">3</a></li>
-<li><a href="#org918e300">4</a></li>
-<li><a href="#org403af99">5</a></li>
-<li><a href="#orgd76ce2c">6</a></li>
+<li><a href="#org3e42a50">1</a></li>
+<li><a href="#org40fc6df">2</a></li>
+<li><a href="#org24fc2a7">3</a></li>
+<li><a href="#org453189f">4</a></li>
+<li><a href="#org522af6b">5</a></li>
+<li><a href="#org4461211">6</a></li>
 <li><a href="#orge780e8f">7</a></li>
 <li><a href="#org2188081">8</a></li>
 <li><a href="#orgb6127c9">9</a></li>
@@ -137,74 +132,74 @@ $(function() {
 </li>
 <li><a href="#org8e9a0d8">Conditioning</a>
 <ul>
-<li><a href="#org9dcbaa2">1</a></li>
-<li><a href="#org8a05ec0">2</a></li>
-<li><a href="#org93618dd">3</a></li>
-<li><a href="#org55b005b">4</a></li>
-<li><a href="#org4571237">5</a></li>
-<li><a href="#orgb6d6792">6</a></li>
+<li><a href="#org34df230">1</a></li>
+<li><a href="#org5aa752f">2</a></li>
+<li><a href="#org0a2e06e">3</a></li>
+<li><a href="#org40cdff9">4</a></li>
+<li><a href="#org0d15d50">5</a></li>
+<li><a href="#orge236b1a">6</a></li>
 </ul>
 </li>
 <li><a href="#orgc211e97">Dependence</a>
 <ul>
-<li><a href="#org7484075">1</a></li>
+<li><a href="#orgbf034e3">1</a></li>
 </ul>
 </li>
 <li><a href="#org403e374">Conditional Dependence</a>
 <ul>
-<li><a href="#org6d4f7ac">1</a></li>
+<li><a href="#org6c560d8">1</a></li>
 </ul>
 </li>
 <li><a href="#orgab0aa76">Bayesian Data Analysis</a>
 <ul>
-<li><a href="#org2e8e649">1</a></li>
-<li><a href="#org87529d0">2</a></li>
-<li><a href="#orgc44cc46">3</a></li>
-<li><a href="#org9516119">4</a></li>
+<li><a href="#org3876fa0">1</a></li>
+<li><a href="#org4484964">2</a></li>
+<li><a href="#org0ed5083">3</a></li>
+<li><a href="#org2067403">4</a></li>
 </ul>
 </li>
 <li><a href="#org22d17b3">Algorithms for Inference</a>
 <ul>
-<li><a href="#org47149f6">1</a></li>
-<li><a href="#orge23a55c">2</a></li>
+<li><a href="#orgb3d9d7b">1</a></li>
+<li><a href="#orge05e9fb">2</a></li>
 </ul>
 </li>
 <li><a href="#org564ad05">Learning as conditional inference</a>
 <ul>
-<li><a href="#org6a549d7">1</a></li>
-<li><a href="#orgd4effa4">2</a></li>
-<li><a href="#org9a3ca15">3</a></li>
+<li><a href="#orga7a07dc">1</a></li>
+<li><a href="#orgb84855f">2</a></li>
+<li><a href="#org1b969e2">3</a></li>
 </ul>
 </li>
 <li><a href="#orgd85743b">Learning with a Language of Thought</a>
 <ul>
-<li><a href="#org6bc2e73">1</a></li>
-<li><a href="#org1ea54d0">2</a></li>
+<li><a href="#orgc1603f8">1</a></li>
+<li><a href="#orgf5debc4">2</a></li>
 </ul>
 </li>
 <li><a href="#org01af76a">Hierarchical Models</a>
 <ul>
-<li><a href="#org54cd431">1</a></li>
-<li><a href="#orgeac3c72">2</a></li>
-<li><a href="#org873ccc1">3</a></li>
+<li><a href="#orgf43faf0">1</a></li>
+<li><a href="#org9a8c38d">2</a></li>
+<li><a href="#orga5554a0">3</a></li>
 </ul>
 </li>
 <li><a href="#org70d2bc8">Occam's Razor</a>
 <ul>
-<li><a href="#org726d091">1</a></li>
-<li><a href="#orge9c65cb">2</a></li>
+<li><a href="#org82a642a">1</a></li>
+<li><a href="#org01252a5">2</a></li>
 </ul>
 </li>
 <li><a href="#org1e30707">Mixture Models</a>
 <ul>
-<li><a href="#orgffb9e96">1</a></li>
-<li><a href="#org01ec782">2</a></li>
+<li><a href="#org22854fd">1</a></li>
+<li><a href="#org7a98af8">2</a></li>
 </ul>
 </li>
 <li><a href="#org9923205">Social Cognition</a>
 <ul>
-<li><a href="#org98815f9">1</a></li>
-<li><a href="#org99d41f0">2</a></li>
+<li><a href="#org538eab7">1</a></li>
+<li><a href="#org05fe6e8">2</a></li>
 <li><a href="#org950b069"></a></li>
 </ul>
 </li>
@@ -325,9 +320,9 @@ That said, you can do some useful stuff in very few lines of code using webPPL, 
 <h3 id="org5f4569d">Generative Models</h3>
 <div class="outline-text-3" id="text-org5f4569d">
 </div>
-<div id="outline-container-org85c89cf" class="outline-4">
-<h4 id="org85c89cf">1</h4>
-<div class="outline-text-4" id="text-org85c89cf">
+<div id="outline-container-org3e42a50" class="outline-4">
+<h4 id="org3e42a50">1</h4>
+<div class="outline-text-4" id="text-org3e42a50">
 <p>
 b) (replace function w/ whatever)
 </p>
@@ -349,9 +344,9 @@ viz.hist(d);
 </div>
 </div>
 
-<div id="outline-container-org4030acc" class="outline-4">
-<h4 id="org4030acc">2</h4>
-<div class="outline-text-4" id="text-org4030acc">
+<div id="outline-container-org40fc6df" class="outline-4">
+<h4 id="org40fc6df">2</h4>
+<div class="outline-text-4" id="text-org40fc6df">
 <p>
 a) 
 </p>
@@ -380,9 +375,9 @@ display([foo(0), foo(0), foo(1)]);
 </div>
 </div>
 
-<div id="outline-container-org5fb11d5" class="outline-4">
-<h4 id="org5fb11d5">3</h4>
-<div class="outline-text-4" id="text-org5fb11d5">
+<div id="outline-container-org24fc2a7" class="outline-4">
+<h4 id="org24fc2a7">3</h4>
+<div class="outline-text-4" id="text-org24fc2a7">
 <p>
 a) the actual calculations come out to .7h .3t for program A and something like 0.729h 0.271t for program B, so a perfect 7:3 split sounds more lika program A
 </p>
@@ -393,9 +388,9 @@ b) program B couldve also produced that, sure, it's within the range of random v
 </div>
 </div>
 
-<div id="outline-container-org918e300" class="outline-4">
-<h4 id="org918e300">4</h4>
-<div class="outline-text-4" id="text-org918e300">
+<div id="outline-container-org453189f" class="outline-4">
+<h4 id="org453189f">4</h4>
+<div class="outline-text-4" id="text-org453189f">
 <p>
 a) P(sneezing) = .14 + .24 + .06 = 0.44; P(sneezing)P(fever) = 0.2 
 </p>
@@ -431,9 +426,9 @@ display([sneeze('bob'), sneeze('alice'), fever('bob'), fever('alice')])
 </div>
 </div>
 
-<div id="outline-container-org403af99" class="outline-4">
-<h4 id="org403af99">5</h4>
-<div class="outline-text-4" id="text-org403af99">
+<div id="outline-container-org522af6b" class="outline-4">
+<h4 id="org522af6b">5</h4>
+<div class="outline-text-4" id="text-org522af6b">
 <p>
 a) 0.4h 0.6t
 b) 
@@ -457,9 +452,9 @@ Infer({method: "forward", samples: 1000}, bentCoin);
 </div>
 </div>
 
-<div id="outline-container-orgd76ce2c" class="outline-4">
-<h4 id="orgd76ce2c">6</h4>
-<div class="outline-text-4" id="text-orgd76ce2c">
+<div id="outline-container-org4461211" class="outline-4">
+<h4 id="org4461211">6</h4>
+<div class="outline-text-4" id="text-org4461211">
 <p>
 a) it seems like it would just be (1-p)<sup>5</sup>*p
 b)
@@ -538,9 +533,9 @@ physics.animate(1000, bowlingWorld);
 <h3 id="org8e9a0d8">Conditioning</h3>
 <div class="outline-text-3" id="text-org8e9a0d8">
 </div>
-<div id="outline-container-org9dcbaa2" class="outline-4">
-<h4 id="org9dcbaa2">1</h4>
-<div class="outline-text-4" id="text-org9dcbaa2">
+<div id="outline-container-org34df230" class="outline-4">
+<h4 id="org34df230">1</h4>
+<div class="outline-text-4" id="text-org34df230">
 <p>
 a)
 </p>
@@ -592,9 +587,9 @@ the coin will be heads 60% of the time (proof same as part c)
 </div>
 </div>
 
-<div id="outline-container-org8a05ec0" class="outline-4">
-<h4 id="org8a05ec0">2</h4>
-<div class="outline-text-4" id="text-org8a05ec0">
+<div id="outline-container-org5aa752f" class="outline-4">
+<h4 id="org5aa752f">2</h4>
+<div class="outline-text-4" id="text-org5aa752f">
 <p>
 a)
 </p>
@@ -632,9 +627,9 @@ conditioning on situations where people have yellow hands allows you to infer th
 </div>
 </div>
 
-<div id="outline-container-org93618dd" class="outline-4">
-<h4 id="org93618dd">3</h4>
-<div class="outline-text-4" id="text-org93618dd">
+<div id="outline-container-org0a2e06e" class="outline-4">
+<h4 id="org0a2e06e">3</h4>
+<div class="outline-text-4" id="text-org0a2e06e">
 <p>
 a)
 </p>
@@ -661,9 +656,9 @@ p(alice is nice | she smiles <i>again</i>) = &#x2026; = .8886
 </div>
 </div>
 
-<div id="outline-container-org55b005b" class="outline-4">
-<h4 id="org55b005b">4</h4>
-<div class="outline-text-4" id="text-org55b005b">
+<div id="outline-container-org40cdff9" class="outline-4">
+<h4 id="org40cdff9">4</h4>
+<div class="outline-text-4" id="text-org40cdff9">
 <p>
 a) 
 </p>
@@ -720,9 +715,9 @@ viz(Infer({method: "enumerate"}, smilesModel))
 </div>
 </div>
 
-<div id="outline-container-org4571237" class="outline-4">
-<h4 id="org4571237">5</h4>
-<div class="outline-text-4" id="text-org4571237">
+<div id="outline-container-org0d15d50" class="outline-4">
+<h4 id="org0d15d50">5</h4>
+<div class="outline-text-4" id="text-org0d15d50">
 <p>
 a) 
 </p>
@@ -792,9 +787,9 @@ print(Infer({method: "enumerate"}, watermodel))
 </div>
 </div>
 
-<div id="outline-container-orgb6d6792" class="outline-4">
-<h4 id="orgb6d6792">6</h4>
-<div class="outline-text-4" id="text-orgb6d6792">
+<div id="outline-container-orge236b1a" class="outline-4">
+<h4 id="orge236b1a">6</h4>
+<div class="outline-text-4" id="text-orge236b1a">
 <p>
 a)
 </p>
@@ -882,9 +877,9 @@ I think most of these are pretty clearly either statistically dependent or not b
 </p>
 </div>
 
-<div id="outline-container-org7484075" class="outline-4">
-<h4 id="org7484075">1</h4>
-<div class="outline-text-4" id="text-org7484075">
+<div id="outline-container-orgbf034e3" class="outline-4">
+<h4 id="orgbf034e3">1</h4>
+<div class="outline-text-4" id="text-orgbf034e3">
 <p>
 a)
 </p>
@@ -1020,9 +1015,9 @@ The readings page is broken, so I assume there are no readings associated with t
 </p>
 </div>
 
-<div id="outline-container-org6d4f7ac" class="outline-4">
-<h4 id="org6d4f7ac">1</h4>
-<div class="outline-text-4" id="text-org6d4f7ac">
+<div id="outline-container-org6c560d8" class="outline-4">
+<h4 id="org6c560d8">1</h4>
+<div class="outline-text-4" id="text-org6c560d8">
 <pre class="example">
 Infer({method: 'enumerate'}, function() {
   var cancer = flip(0.00001);
@@ -1100,9 +1095,9 @@ Again, it seems there are no readings for this chapter.
 </p>
 </div>
 
-<div id="outline-container-org2e8e649" class="outline-4">
-<h4 id="org2e8e649">1</h4>
-<div class="outline-text-4" id="text-org2e8e649">
+<div id="outline-container-org3876fa0" class="outline-4">
+<h4 id="org3876fa0">1</h4>
+<div class="outline-text-4" id="text-org3876fa0">
 <p>
 a)
 </p>
@@ -1166,9 +1161,9 @@ viz.marginals(posterior)
 </div>
 </div>
 
-<div id="outline-container-org87529d0" class="outline-4">
-<h4 id="org87529d0">2</h4>
-<div class="outline-text-4" id="text-org87529d0">
+<div id="outline-container-org4484964" class="outline-4">
+<h4 id="org4484964">2</h4>
+<div class="outline-text-4" id="text-org4484964">
 <p>
 a)
 </p>
@@ -1191,9 +1186,9 @@ From the metaphor of theory/model evaluation, it seems more effective to conside
 </div>
 </div>
 
-<div id="outline-container-orgc44cc46" class="outline-4">
-<h4 id="orgc44cc46">3</h4>
-<div class="outline-text-4" id="text-orgc44cc46">
+<div id="outline-container-org0ed5083" class="outline-4">
+<h4 id="org0ed5083">3</h4>
+<div class="outline-text-4" id="text-org0ed5083">
 <p>
 a)
 </p>
@@ -1228,9 +1223,9 @@ d)
 </div>
 </div>
 
-<div id="outline-container-org9516119" class="outline-4">
-<h4 id="org9516119">4</h4>
-<div class="outline-text-4" id="text-org9516119">
+<div id="outline-container-org2067403" class="outline-4">
+<h4 id="org2067403">4</h4>
+<div class="outline-text-4" id="text-org2067403">
 <p>
 a) 
 </p>
@@ -1336,9 +1331,9 @@ The fit is better if we look at MAP values directly, and the previous values see
 <h3 id="org22d17b3">Algorithms for Inference</h3>
 <div class="outline-text-3" id="text-org22d17b3">
 </div>
-<div id="outline-container-org47149f6" class="outline-4">
-<h4 id="org47149f6">1</h4>
-<div class="outline-text-4" id="text-org47149f6">
+<div id="outline-container-orgb3d9d7b" class="outline-4">
+<h4 id="orgb3d9d7b">1</h4>
+<div class="outline-text-4" id="text-orgb3d9d7b">
 <p>
 a)
 </p>
@@ -1448,9 +1443,9 @@ HMC seems to work better because it's less local and also feasible for the gener
 </div>
 </div>
 
-<div id="outline-container-orge23a55c" class="outline-4">
-<h4 id="orge23a55c">2</h4>
-<div class="outline-text-4" id="text-orge23a55c">
+<div id="outline-container-orge05e9fb" class="outline-4">
+<h4 id="orge05e9fb">2</h4>
+<div class="outline-text-4" id="text-orge05e9fb">
 <p>
 a) 
 </p>
@@ -1613,9 +1608,9 @@ well, whatever it's doing, it's helping a lot!
 <h3 id="org564ad05">Learning as conditional inference</h3>
 <div class="outline-text-3" id="text-org564ad05">
 </div>
-<div id="outline-container-org6a549d7" class="outline-4">
-<h4 id="org6a549d7">1</h4>
-<div class="outline-text-4" id="text-org6a549d7">
+<div id="outline-container-orga7a07dc" class="outline-4">
+<h4 id="orga7a07dc">1</h4>
+<div class="outline-text-4" id="text-orga7a07dc">
 <p>
 a) 
 </p>
@@ -1658,9 +1653,9 @@ However, the naive uniform prior will more quickly learn if the true value of th
 </div>
 </div>
 
-<div id="outline-container-orgd4effa4" class="outline-4">
-<h4 id="orgd4effa4">2</h4>
-<div class="outline-text-4" id="text-orgd4effa4">
+<div id="outline-container-orgb84855f" class="outline-4">
+<h4 id="orgb84855f">2</h4>
+<div class="outline-text-4" id="text-orgb84855f">
 <p>
 a) 
 </p>
@@ -1731,9 +1726,9 @@ viz.line(observedDataSizes, variances);
 </div>
 </div>
 
-<div id="outline-container-org9a3ca15" class="outline-4">
-<h4 id="org9a3ca15">3</h4>
-<div class="outline-text-4" id="text-org9a3ca15">
+<div id="outline-container-org1b969e2" class="outline-4">
+<h4 id="org1b969e2">3</h4>
+<div class="outline-text-4" id="text-org1b969e2">
 <p>
 a)
 </p>
@@ -1792,9 +1787,9 @@ this gives roughly uniform probabilities for causal power, but will only get wor
 <h3 id="orgd85743b">Learning with a Language of Thought</h3>
 <div class="outline-text-3" id="text-orgd85743b">
 </div>
-<div id="outline-container-org6bc2e73" class="outline-4">
-<h4 id="org6bc2e73">1</h4>
-<div class="outline-text-4" id="text-org6bc2e73">
+<div id="outline-container-orgc1603f8" class="outline-4">
+<h4 id="orgc1603f8">1</h4>
+<div class="outline-text-4" id="text-orgc1603f8">
 <p>
 a)
 </p>
@@ -1821,9 +1816,9 @@ Make it less likely for exponentiation to include a non-constant, I guess.
 </div>
 </div>
 
-<div id="outline-container-org1ea54d0" class="outline-4">
-<h4 id="org1ea54d0">2</h4>
-<div class="outline-text-4" id="text-org1ea54d0">
+<div id="outline-container-orgf5debc4" class="outline-4">
+<h4 id="orgf5debc4">2</h4>
+<div class="outline-text-4" id="text-orgf5debc4">
 <p>
 I'll do this later lol 
 </p>
@@ -1834,9 +1829,9 @@ I'll do this later lol
 <h3 id="org01af76a">Hierarchical Models</h3>
 <div class="outline-text-3" id="text-org01af76a">
 </div>
-<div id="outline-container-org54cd431" class="outline-4">
-<h4 id="org54cd431">1</h4>
-<div class="outline-text-4" id="text-org54cd431">
+<div id="outline-container-orgf43faf0" class="outline-4">
+<h4 id="orgf43faf0">1</h4>
+<div class="outline-text-4" id="text-orgf43faf0">
 <p>
 a) 
 </p>
@@ -1889,9 +1884,9 @@ viz.marginals(usealpha) // should roughly match first figure
 </div>
 </div>
 
-<div id="outline-container-orgeac3c72" class="outline-4">
-<h4 id="orgeac3c72">2</h4>
-<div class="outline-text-4" id="text-orgeac3c72">
+<div id="outline-container-org9a8c38d" class="outline-4">
+<h4 id="org9a8c38d">2</h4>
+<div class="outline-text-4" id="text-org9a8c38d">
 <p>
 a)
 </p>
@@ -2008,9 +2003,9 @@ viz(Infer({method: 'forward'}, function(){
 </div>
 </div>
 
-<div id="outline-container-org873ccc1" class="outline-4">
-<h4 id="org873ccc1">3</h4>
-<div class="outline-text-4" id="text-org873ccc1">
+<div id="outline-container-orga5554a0" class="outline-4">
+<h4 id="orga5554a0">3</h4>
+<div class="outline-text-4" id="text-orga5554a0">
 <p>
 a)
 </p>
@@ -2152,9 +2147,9 @@ This seems to make the conclusion weaker, suggesting it might've just been one/a
 <h3 id="org70d2bc8">Occam's Razor</h3>
 <div class="outline-text-3" id="text-org70d2bc8">
 </div>
-<div id="outline-container-org726d091" class="outline-4">
-<h4 id="org726d091">1</h4>
-<div class="outline-text-4" id="text-org726d091">
+<div id="outline-container-org82a642a" class="outline-4">
+<h4 id="org82a642a">1</h4>
+<div class="outline-text-4" id="text-org82a642a">
 <p>
 a)
 </p>
@@ -2297,9 +2292,9 @@ People seem to care a good amount about digit-wise patterns compared to the mach
 </div>
 
 
-<div id="outline-container-orge9c65cb" class="outline-4">
-<h4 id="orge9c65cb">2</h4>
-<div class="outline-text-4" id="text-orge9c65cb">
+<div id="outline-container-org01252a5" class="outline-4">
+<h4 id="org01252a5">2</h4>
+<div class="outline-text-4" id="text-org01252a5">
 <p>
 a)
 </p>
@@ -2381,9 +2376,9 @@ casual selection biases the model towards believing there is no relation, since 
 <h3 id="org1e30707">Mixture Models</h3>
 <div class="outline-text-3" id="text-org1e30707">
 </div>
-<div id="outline-container-orgffb9e96" class="outline-4">
-<h4 id="orgffb9e96">1</h4>
-<div class="outline-text-4" id="text-orgffb9e96">
+<div id="outline-container-org22854fd" class="outline-4">
+<h4 id="org22854fd">1</h4>
+<div class="outline-text-4" id="text-org22854fd">
 <p>
 a) 
 </p>
@@ -2447,9 +2442,9 @@ It's highly likely that a noisy alien sound comes from an alien which is green w
 </div>
 </div>
 
-<div id="outline-container-org01ec782" class="outline-4">
-<h4 id="org01ec782">2</h4>
-<div class="outline-text-4" id="text-org01ec782">
+<div id="outline-container-org7a98af8" class="outline-4">
+<h4 id="org7a98af8">2</h4>
+<div class="outline-text-4" id="text-org7a98af8">
 <p>
 a)
 </p>
@@ -2497,9 +2492,9 @@ Definitely seems like not everybody followed instructions, you can tune the para
 <h3 id="org9923205">Social Cognition</h3>
 <div class="outline-text-3" id="text-org9923205">
 </div>
-<div id="outline-container-org98815f9" class="outline-4">
-<h4 id="org98815f9">1</h4>
-<div class="outline-text-4" id="text-org98815f9">
+<div id="outline-container-org538eab7" class="outline-4">
+<h4 id="org538eab7">1</h4>
+<div class="outline-text-4" id="text-org538eab7">
 <p>
 a) 
 </p>
@@ -2558,9 +2553,9 @@ if she does 'a' and then 'b' she's probably trying to hide that she wants a doug
 </div>
 </div>
 
-<div id="outline-container-org99d41f0" class="outline-4">
-<h4 id="org99d41f0">2</h4>
-<div class="outline-text-4" id="text-org99d41f0">
+<div id="outline-container-org05fe6e8" class="outline-4">
+<h4 id="org05fe6e8">2</h4>
+<div class="outline-text-4" id="text-org05fe6e8">
 <p>
 a)
 </p>

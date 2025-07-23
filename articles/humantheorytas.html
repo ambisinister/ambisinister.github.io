@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-23 Wed 15:13 -->
+<!-- 2025-07-23 Wed 15:49 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>STARS ALIGNED TAS</title>
@@ -46,7 +46,7 @@ $(function() {
     $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
     // Dark mode functionality
-    function toggleDarkMode() {
+    window.toggleDarkMode = function() {
         document.body.classList.toggle('dark-mode');
         const isDarkMode = document.body.classList.contains('dark-mode');
         localStorage.setItem('darkMode', isDarkMode);
@@ -54,7 +54,7 @@ $(function() {
     }
 
     function updateToggleButton() {
-        const toggle = document.querySelector('.dark-mode-toggle');
+        const toggle = document.querySelector('.dark-mode-toggle-nav');
         if (toggle) {
             toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
         }
@@ -66,13 +66,7 @@ $(function() {
         document.body.classList.add('dark-mode');
     }
 
-    // Add toggle button
-    const toggleButton = document.createElement('div');
-    toggleButton.className = 'dark-mode-toggle';
-    toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    toggleButton.addEventListener('click', toggleDarkMode);
-    document.body.appendChild(toggleButton);
-
+    // Update toggle button on page load
     updateToggleButton();
 });
 </script>
@@ -104,7 +98,8 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
-            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
+            <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
           </ul>
         </div><!--/.nav-collapse -->
@@ -207,7 +202,7 @@ The clip mostly speaks for itself, I think, not that much is really going on her
 </p>
 
 
-<div id="org99190f5" class="figure">
+<div id="orge385017" class="figure">
 <p><img src="../images/htt/nairdair.PNG" alt="nairdair.PNG" />
 </p>
 </div>
@@ -333,7 +328,7 @@ Here's a funny image of falcon punch in the skybox.
 </p>
 
 
-<div id="org8641142" class="figure">
+<div id="orgf460298" class="figure">
 <p><img src="../images/htt/fsmash windmill ascension falcon punch.PNG" alt="fsmash windmill ascension falcon punch.PNG" />
 </p>
 </div>
@@ -357,7 +352,7 @@ Other notable things in this clip are CC -&gt; Dash JC shine vs Marth's fair out
 </p>
 
 
-<div id="org37f333e" class="figure">
+<div id="org556ff3c" class="figure">
 <p><img src="../images/htt/invincible doraki bair.PNG" alt="invincible doraki bair.PNG" />
 </p>
 </div>
@@ -383,7 +378,7 @@ Connecting with the upB is obviously pretty unlikely and the clip had most of th
 </p>
 
 
-<div id="org45ad62b" class="figure">
+<div id="orgd3c570f" class="figure">
 <p><img src="../images/htt/revfirebird.PNG" alt="revfirebird.PNG" />
 </p>
 </div>
@@ -462,7 +457,7 @@ It's actually possible to do an instant walljump off of edgecancel knee with Cap
 <iframe src="https://clips.twitch.tv/embed?clip=SmokyTsunderePlumageHassanChop" frameborder="0" allowfullscreen="true" height="378" width="620"></iframe>
 
 
-<div id="orgafaa095" class="figure">
+<div id="org803a895" class="figure">
 <p><img src="../images/htt/offstageknee.PNG" alt="offstageknee.PNG" />
 </p>
 </div>

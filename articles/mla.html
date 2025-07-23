@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-23 Wed 15:13 -->
+<!-- 2025-07-23 Wed 15:49 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>On MLA</title>
@@ -46,7 +46,7 @@ $(function() {
     $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
     // Dark mode functionality
-    function toggleDarkMode() {
+    window.toggleDarkMode = function() {
         document.body.classList.toggle('dark-mode');
         const isDarkMode = document.body.classList.contains('dark-mode');
         localStorage.setItem('darkMode', isDarkMode);
@@ -54,7 +54,7 @@ $(function() {
     }
 
     function updateToggleButton() {
-        const toggle = document.querySelector('.dark-mode-toggle');
+        const toggle = document.querySelector('.dark-mode-toggle-nav');
         if (toggle) {
             toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
         }
@@ -66,13 +66,7 @@ $(function() {
         document.body.classList.add('dark-mode');
     }
 
-    // Add toggle button
-    const toggleButton = document.createElement('div');
-    toggleButton.className = 'dark-mode-toggle';
-    toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    toggleButton.addEventListener('click', toggleDarkMode);
-    document.body.appendChild(toggleButton);
-
+    // Update toggle button on page load
     updateToggleButton();
 });
 </script>
@@ -125,7 +119,8 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
-            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
+            <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
           </ul>
         </div><!--/.nav-collapse -->
@@ -511,43 +506,43 @@ We also see below our training curves for each of these experiments, which seem 
 </p>
 
 
-<div id="org731bf94" class="figure">
+<div id="org987c1b4" class="figure">
 <p><img src="../images/mla/mha_rope_training_curve.png" alt="mha_rope_training_curve.png" />
 </p>
 </div>
 
 
-<div id="org50f46e5" class="figure">
+<div id="org65e929e" class="figure">
 <p><img src="../images/mla/mla_rope_training_curve.png" alt="mla_rope_training_curve.png" />
 </p>
 </div>
 
 
-<div id="orgd938561" class="figure">
+<div id="orgacad3c4" class="figure">
 <p><img src="../images/mla/mha_decoupled_rope_training_curve.png" alt="mha_decoupled_rope_training_curve.png" />
 </p>
 </div>
 
 
-<div id="org3aa9b8c" class="figure">
+<div id="org458c7d4" class="figure">
 <p><img src="../images/mla/mqa_rope_training_curve.png" alt="mqa_rope_training_curve.png" />
 </p>
 </div>
 
 
-<div id="org8b857e6" class="figure">
+<div id="org5a24ea0" class="figure">
 <p><img src="../images/mla/mla_training_curve.png" alt="mla_training_curve.png" />
 </p>
 </div>
 
 
-<div id="org1fe6a63" class="figure">
+<div id="orgbf35876" class="figure">
 <p><img src="../images/mla/mha_training_curve.png" alt="mha_training_curve.png" />
 </p>
 </div>
 
 
-<div id="orgcf70c23" class="figure">
+<div id="org7b95978" class="figure">
 <p><img src="../images/mla/mqa_training_curve.png" alt="mqa_training_curve.png" />
 </p>
 </div>
@@ -620,13 +615,13 @@ You may ask: how different is the performance between compressed caching and ful
 </p>
 
 
-<div id="org13d4c11" class="figure">
+<div id="org70482c8" class="figure">
 <p><img src="../images/mla/inference_100_in.png" alt="inference_100_in.png" />
 </p>
 </div>
 
 
-<div id="orgab1d737" class="figure">
+<div id="org6f374d8" class="figure">
 <p><img src="../images/mla/inference_100_out.png" alt="inference_100_out.png" />
 </p>
 </div>

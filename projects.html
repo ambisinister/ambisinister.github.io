@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-23 Wed 15:13 -->
+<!-- 2025-07-23 Wed 15:49 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Projects</title>
@@ -46,7 +46,7 @@ $(function() {
     $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
     // Dark mode functionality
-    function toggleDarkMode() {
+    window.toggleDarkMode = function() {
         document.body.classList.toggle('dark-mode');
         const isDarkMode = document.body.classList.contains('dark-mode');
         localStorage.setItem('darkMode', isDarkMode);
@@ -54,7 +54,7 @@ $(function() {
     }
 
     function updateToggleButton() {
-        const toggle = document.querySelector('.dark-mode-toggle');
+        const toggle = document.querySelector('.dark-mode-toggle-nav');
         if (toggle) {
             toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
         }
@@ -66,13 +66,7 @@ $(function() {
         document.body.classList.add('dark-mode');
     }
 
-    // Add toggle button
-    const toggleButton = document.createElement('div');
-    toggleButton.className = 'dark-mode-toggle';
-    toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    toggleButton.addEventListener('click', toggleDarkMode);
-    document.body.appendChild(toggleButton);
-
+    // Update toggle button on page load
     updateToggleButton();
 });
 </script>
@@ -104,7 +98,8 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
-            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
+            <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
           </ul>
         </div><!--/.nav-collapse -->
@@ -160,7 +155,7 @@ things I might show you.
 <h2 id="orga1c256a"><a href="https://arxiv.org/abs/2410.10998">WILT: A Multi-Turn, Memorization-Robust Inductive Logic Benchmark for LLMs</a></h2>
 <div class="outline-text-2" id="text-orga1c256a">
 
-<div id="org1cf0ba9" class="figure">
+<div id="org4ebea73" class="figure">
 <p><img src="../images/from_clipboard/20241127_144501.png" alt="20241127_144501.png" />
 </p>
 </div>
@@ -186,7 +181,7 @@ Thread</a> / <a href="https://planetbanatt.net/articles/wason.html">Original Wee
 <h2 id="org68a0457"><a href="https://planetbanatt.net/articles/deepseek.html">Understanding Modern LLMs via DeepSeek</a></h2>
 <div class="outline-text-2" id="text-org68a0457">
 
-<div id="orgfb0edf6" class="figure">
+<div id="org90bb1ad" class="figure">
 <p><img src="../images/from_clipboard/20240614_213621.png" alt="20240614_213621.png" />
 </p>
 </div>
@@ -208,7 +203,7 @@ transformers" to "understanding modern LLMs".
 <h2 id="org97d2388"><a href="https://liquipedia.net/smash/SSBMRank">SSBMRank</a></h2>
 <div class="outline-text-2" id="text-org97d2388">
 
-<div id="org7d2e7fa" class="figure">
+<div id="orgee59736" class="figure">
 <p><img src="../images/from_clipboard/20241127_150358.png" alt="20241127_150358.png" />
 </p>
 </div>
@@ -234,7 +229,7 @@ crunch all the numbers and gather important data from tournaments.
 <h2 id="org1a21bed"><a href="https://www.youtube.com/watch?v=z8llYT7KGdI">Michael vs Bananas - The Only Reason We Play Melee</a></h2>
 <div class="outline-text-2" id="text-org1a21bed">
 
-<div id="org142e25b" class="figure">
+<div id="orgb03112d" class="figure">
 <p><img src="./images/misc/thumbnail_2.png" alt="thumbnail_2.png" />
 </p>
 </div>
@@ -256,7 +251,7 @@ commentary in this video on top of just recounting events.
 <h2 id="org2386aa2"><a href="https://www.youtube.com/watch?v=Fg_7DcXwBlk">Plup vs Prince Abu - The Weirdest Set Ever Played</a></h2>
 <div class="outline-text-2" id="text-org2386aa2">
 
-<div id="org8265761" class="figure">
+<div id="org812d654" class="figure">
 <p><img src="./images/misc/thumbnail.png" alt="thumbnail.png" />
 </p>
 </div>
@@ -275,7 +270,7 @@ and kickstarted <a href="https://www.youtube.com/channel/UCSkemv_CrepoaGxN4sAH5e
 <h2 id="orgd5ab435"><a href="https://cogsci.yale.edu/sites/default/files/files/Thesis2017Banatt.pdf">Input Latency Detection in Expert-Level Gamers</a></h2>
 <div class="outline-text-2" id="text-orgd5ab435">
 
-<div id="orga13fb1f" class="figure">
+<div id="org2261401" class="figure">
 <p><img src="./images/misc/latency.PNG" alt="latency.PNG" />
 </p>
 </div>
@@ -307,7 +302,7 @@ slightly abridged version with additional commentary can be found
 <h2 id="org68c9441"><a href="http://planetbanatt.net/articles/personainsmash.html">Predicting Personality with Playstyle in Super Smash Brothers</a></h2>
 <div class="outline-text-2" id="text-org68c9441">
 
-<div id="org0fd511c" class="figure">
+<div id="orgded3544" class="figure">
 <p><img src="./images/personality/extraversion_cool.png" alt="extraversion_cool.png" />
 </p>
 </div>
@@ -329,7 +324,7 @@ factors and playstyle question responses.
 <h2 id="org44485ac"><a href="https://planetbanatt.net/articles/golems.html">Humanity's Butterfly: Notes on Maimakterion</a></h2>
 <div class="outline-text-2" id="text-org44485ac">
 
-<div id="org76610e2" class="figure">
+<div id="org2eddefb" class="figure">
 <p><img src="../images/from_clipboard/20241122_014742.png" alt="20241122_014742.png" />
 </p>
 </div>
@@ -351,7 +346,7 @@ character differs from traditional kabbalist golem iconography.
 <h2 id="orgb124547"><a href="http://planetbanatt.net/articles/pingpongzen.html">Zen in the Art of Ping Pong The Animation</a></h2>
 <div class="outline-text-2" id="text-orgb124547">
 
-<div id="org986d039" class="figure">
+<div id="orgb59b250" class="figure">
 <p><img src="./images/ppta/fly.png" alt="fly.png" />
 </p>
 </div>

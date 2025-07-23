@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-23 Wed 15:13 -->
+<!-- 2025-07-23 Wed 15:49 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Zen in the Art of Ping Pong The Animation</title>
@@ -46,7 +46,7 @@ $(function() {
     $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
     // Dark mode functionality
-    function toggleDarkMode() {
+    window.toggleDarkMode = function() {
         document.body.classList.toggle('dark-mode');
         const isDarkMode = document.body.classList.contains('dark-mode');
         localStorage.setItem('darkMode', isDarkMode);
@@ -54,7 +54,7 @@ $(function() {
     }
 
     function updateToggleButton() {
-        const toggle = document.querySelector('.dark-mode-toggle');
+        const toggle = document.querySelector('.dark-mode-toggle-nav');
         if (toggle) {
             toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
         }
@@ -66,13 +66,7 @@ $(function() {
         document.body.classList.add('dark-mode');
     }
 
-    // Add toggle button
-    const toggleButton = document.createElement('div');
-    toggleButton.className = 'dark-mode-toggle';
-    toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    toggleButton.addEventListener('click', toggleDarkMode);
-    document.body.appendChild(toggleButton);
-
+    // Update toggle button on page load
     updateToggleButton();
 });
 </script>
@@ -104,7 +98,8 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
-            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
+            <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
           </ul>
         </div><!--/.nav-collapse -->
@@ -320,7 +315,7 @@ instructions.
 </blockquote>
 
 
-<div id="org5439715" class="figure">
+<div id="org26e5045" class="figure">
 <p><img src="../images/ppta/mathtest.png" alt="mathtest.png" />
 </p>
 </div>
@@ -570,7 +565,7 @@ how much he loves table tennis.
 </p>
 
 
-<div id="org6e68648" class="figure">
+<div id="org30bf86e" class="figure">
 <p><img src="../images/ppta/nothingness.png" alt="nothingness.png" />
 </p>
 </div>
@@ -590,7 +585,7 @@ punches to "be like him."
 </p>
 
 
-<div id="org09c4c5e" class="figure">
+<div id="org236a856" class="figure">
 <p><img src="../images/ppta/pecomitai.png" alt="pecomitai.png" />
 </p>
 </div>
@@ -700,7 +695,7 @@ finally experience it himself.
 </p>
 
 
-<div id="orgf1b1c25" class="figure">
+<div id="org33bedc4" class="figure">
 <p><img src="../images/ppta/game.png" alt="game.png" />
 </p>
 </div>
@@ -721,7 +716,7 @@ nostalgia-obsessed, highly anxious, and completely unable to focus.
 </p>
 
 
-<div id="org903adb4" class="figure">
+<div id="org4e5af71" class="figure">
 <p><img src="../images/ppta/hell.png" alt="hell.png" />
 </p>
 </div>
@@ -768,7 +763,7 @@ back, walking away&#x2026;
 </p>
 
 
-<div id="org35e40c8" class="figure">
+<div id="org6cd8538" class="figure">
 <p><img src="../images/ppta/coach.png" alt="coach.png" />
 </p>
 </div>
@@ -779,7 +774,7 @@ the words "Finally&#x2026; You've come home" superimposed&#x2026;
 </p>
 
 
-<div id="org1f65afd" class="figure">
+<div id="orgd695c3e" class="figure">
 <p><img src="../images/ppta/home.png" alt="home.png" />
 </p>
 </div>
@@ -790,7 +785,7 @@ pong ball, with the word "JAPAN" in starkly contrasting black.
 </p>
 
 
-<div id="org91377a6" class="figure">
+<div id="org197dc3d" class="figure">
 <p><img src="../images/ppta/japan.png" alt="japan.png" />
 </p>
 </div>
@@ -802,7 +797,7 @@ fades into reality, leaving behind a smiling Kong and a victorious Peco.
 </p>
 
 
-<div id="org8e8747f" class="figure">
+<div id="orgc163b8c" class="figure">
 <p><img src="../images/ppta/plane.png" alt="plane.png" />
 </p>
 </div>
@@ -820,7 +815,7 @@ definition of things that count as "winning" at all.
 </p>
 
 
-<div id="orgb6ccb37" class="figure">
+<div id="org35cb61f" class="figure">
 <p><img src="../images/ppta/tsujido.png" alt="tsujido.png" />
 </p>
 </div>
@@ -890,7 +885,7 @@ the background, an instrument typically associated with Kabuki.
 </p>
 
 
-<div id="orga0878d5" class="figure">
+<div id="orgd51d031" class="figure">
 <p><img src="../images/ppta/ronin.jpg" alt="ronin.jpg" />
 </p>
 </div>
@@ -902,7 +897,7 @@ he has in his room ain't funny to me."
 </p>
 
 
-<div id="orgfed3e3f" class="figure">
+<div id="org52c2a0a" class="figure">
 <p><img src="../images/ppta/posters.png" alt="posters.png" />
 </p>
 </div>
@@ -952,7 +947,7 @@ what he wants it to be.
 </blockquote>
 
 
-<div id="org01f5326" class="figure">
+<div id="orgdae3b24" class="figure">
 <p><img src="../images/ppta/competition.png" alt="competition.png" />
 </p>
 </div>
@@ -982,7 +977,7 @@ as real as Peco's or Kong's.
 </blockquote>
 
 
-<div id="org83e74cc" class="figure">
+<div id="orga8b6ce1" class="figure">
 <p><img src="../images/ppta/birds.png" alt="birds.png" />
 </p>
 </div>
@@ -1020,7 +1015,7 @@ once, surrounding only Kazama's narrative.
 </p>
 
 
-<div id="orgdcb9ebb" class="figure">
+<div id="orgecebab2" class="figure">
 <p><img src="../images/ppta/defdeath1.png" alt="defdeath1.png" />
 </p>
 </div>
@@ -1036,7 +1031,7 @@ fear of death, are so all-consuming that the entire experience is
 </p>
 
 
-<div id="org47223ed" class="figure">
+<div id="orge724d04" class="figure">
 <p><img src="../images/ppta/pain.png" alt="pain.png" />
 </p>
 </div>

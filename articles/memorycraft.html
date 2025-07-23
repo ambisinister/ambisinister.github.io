@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-23 Wed 15:13 -->
+<!-- 2025-07-23 Wed 15:49 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Book Review: Memory Craft</title>
@@ -46,7 +46,7 @@ $(function() {
     $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
     // Dark mode functionality
-    function toggleDarkMode() {
+    window.toggleDarkMode = function() {
         document.body.classList.toggle('dark-mode');
         const isDarkMode = document.body.classList.contains('dark-mode');
         localStorage.setItem('darkMode', isDarkMode);
@@ -54,7 +54,7 @@ $(function() {
     }
 
     function updateToggleButton() {
-        const toggle = document.querySelector('.dark-mode-toggle');
+        const toggle = document.querySelector('.dark-mode-toggle-nav');
         if (toggle) {
             toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
         }
@@ -66,13 +66,7 @@ $(function() {
         document.body.classList.add('dark-mode');
     }
 
-    // Add toggle button
-    const toggleButton = document.createElement('div');
-    toggleButton.className = 'dark-mode-toggle';
-    toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    toggleButton.addEventListener('click', toggleDarkMode);
-    document.body.appendChild(toggleButton);
-
+    // Update toggle button on page load
     updateToggleButton();
 });
 </script>
@@ -104,7 +98,8 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
-            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
+            <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
           </ul>
         </div><!--/.nav-collapse -->
@@ -170,7 +165,7 @@ I remember a few months ago I spent some time with some friends in Shenandoah Na
 </p>
 
 
-<div id="org59e5748" class="figure">
+<div id="orgeb11caa" class="figure">
 <p><img src="../images/from_clipboard/20240107_104927.png" alt="20240107_104927.png" />
 </p>
 </div>
@@ -227,7 +222,7 @@ One thing I thought was super compelling about this book was the discussion abou
 </p>
 
 
-<div id="orge2ce964" class="figure">
+<div id="org38a557f" class="figure">
 <p><img src="../images/from_clipboard/20240106_210750.png" alt="20240106_210750.png" />
 </p>
 </div>
@@ -241,7 +236,7 @@ You can see this entire process in the etymology of <a href="https://en.wikipedi
 </p>
 
 
-<div id="org2f1b57f" class="figure">
+<div id="org7d16731" class="figure">
 <p><img src="../images/from_clipboard/20240106_211302.png" alt="20240106_211302.png" />
 </p>
 </div>
@@ -296,13 +291,13 @@ As with the above, anime fans have long been ahead of the curve at creating godf
 </p>
 
 
-<div id="org0387522" class="figure">
+<div id="org0dd78be" class="figure">
 <p><img src="../images/from_clipboard/20240107_102003.png" alt="20240107_102003.png" />
 </p>
 </div>
 
 
-<div id="org6f83aa7" class="figure">
+<div id="orgae42767" class="figure">
 <p><img src="../images/from_clipboard/20240107_102148.png" alt="20240107_102148.png" />
 </p>
 </div>
@@ -335,7 +330,7 @@ But what really stuck out to me as a pseudo-meditative practice wasn't the act o
 </p>
 
 
-<div id="orga2348e7" class="figure">
+<div id="orgea16be3" class="figure">
 <p><img src="../images/from_clipboard/20240106_224655.png" alt="20240106_224655.png" />
 </p>
 </div>
@@ -353,7 +348,7 @@ Digging around, it's not hard to see how this shares a lot of similarities with 
 </p>
 
 
-<div id="orgdb974a3" class="figure">
+<div id="orgc00e45a" class="figure">
 <p><img src="../images/from_clipboard/20240106_230756.png" alt="20240106_230756.png" />
 </p>
 </div>
@@ -389,7 +384,7 @@ A mind map is pretty much just a 2D memory palace, the same way that a <a href="
 </p>
 
 
-<div id="org6fe9ec4" class="figure">
+<div id="orgaff6fad" class="figure">
 <p><img src="../images/from_clipboard/20240106_233545.png" alt="20240106_233545.png" />
 </p>
 </div>
@@ -403,7 +398,7 @@ Something I did not do (or think of) prior to reading this book is making sure e
 </p>
 
 
-<div id="orgf5c78d1" class="figure">
+<div id="orgf687c15" class="figure">
 <p><img src="../images/from_clipboard/20240106_234142.png" alt="20240106_234142.png" />
 </p>
 </div>
@@ -492,7 +487,7 @@ I thought about this briefly, for about ten seconds. Well, there's <a href="http
 </p>
 
 
-<div id="org2d4105b" class="figure">
+<div id="org1ee9e41" class="figure">
 <p><img src="../images/from_clipboard/20240107_000752.png" alt="20240107_000752.png" />
 </p>
 </div>

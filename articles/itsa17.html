@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-23 Wed 15:13 -->
+<!-- 2025-07-23 Wed 15:49 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Rating ITG Charts with ML</title>
@@ -46,7 +46,7 @@ $(function() {
     $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
     // Dark mode functionality
-    function toggleDarkMode() {
+    window.toggleDarkMode = function() {
         document.body.classList.toggle('dark-mode');
         const isDarkMode = document.body.classList.contains('dark-mode');
         localStorage.setItem('darkMode', isDarkMode);
@@ -54,7 +54,7 @@ $(function() {
     }
 
     function updateToggleButton() {
-        const toggle = document.querySelector('.dark-mode-toggle');
+        const toggle = document.querySelector('.dark-mode-toggle-nav');
         if (toggle) {
             toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
         }
@@ -66,13 +66,7 @@ $(function() {
         document.body.classList.add('dark-mode');
     }
 
-    // Add toggle button
-    const toggleButton = document.createElement('div');
-    toggleButton.className = 'dark-mode-toggle';
-    toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    toggleButton.addEventListener('click', toggleDarkMode);
-    document.body.appendChild(toggleButton);
-
+    // Update toggle button on page load
     updateToggleButton();
 });
 </script>
@@ -104,7 +98,8 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
-            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
+            <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
           </ul>
         </div><!--/.nav-collapse -->
@@ -217,7 +212,7 @@ This exists, and is a common first-order benchmark used by step artists when rat
 </p>
 
 
-<div id="orgdb3bb4c" class="figure">
+<div id="org215c626" class="figure">
 <p><img src="../images/itsa17/lookup_table.png" alt="lookup_table.png" />
 </p>
 </div>
@@ -232,13 +227,13 @@ Running some this on our SRPG5 set we get a result which makes sense: this serve
 
 
 
-<div id="org202690c" class="figure">
+<div id="org5588307" class="figure">
 <p><img src="../images/itsa17/Lookup Table Interpolation.png" alt="Lookup Table Interpolation.png" />
 </p>
 </div>
 
 
-<div id="org0325641" class="figure">
+<div id="org028770b" class="figure">
 <p><img src="../images/itsa17/Lookup Table Interpolation (Sum of Total Stream).png" alt="Lookup Table Interpolation (Sum of Total Stream).png" />
 </p>
 </div>
@@ -264,7 +259,7 @@ and then classifies a value based upon these three. This is still a pretty featu
 </p>
 
 
-<div id="org1a994b8" class="figure">
+<div id="org63290f7" class="figure">
 <p><img src="../images/itsa17/umap_3feat.png" alt="umap_3feat.png" />
 </p>
 </div>
@@ -282,19 +277,19 @@ Running this on our SRPG5 set, we see that Linear Regression it scores exactly t
 </p>
 
 
-<div id="org52066f8" class="figure">
+<div id="org4e86701" class="figure">
 <p><img src="../images/itsa17/Linear Regression.png" alt="Linear Regression.png" />
 </p>
 </div>
 
 
-<div id="org2838ba7" class="figure">
+<div id="org274195b" class="figure">
 <p><img src="../images/itsa17/kNN.png" alt="kNN.png" />
 </p>
 </div>
 
 
-<div id="orgc1a014b" class="figure">
+<div id="org9dc31a9" class="figure">
 <p><img src="../images/itsa17/SVM Classifier.png" alt="SVM Classifier.png" />
 </p>
 </div>
@@ -326,7 +321,7 @@ I build a simple RNN in pytorch on the above problem, feed it breakdowns, and pe
 </p>
 
 
-<div id="org6bcdf31" class="figure">
+<div id="orga2b3b63" class="figure">
 <p><img src="../images/itsa17/RNN_overfitting.png" alt="RNN_overfitting.png" />
 </p>
 </div>
@@ -336,7 +331,7 @@ However, what is actually happening is that we are horribly overfitting to our t
 </p>
 
 
-<div id="org5556834" class="figure">
+<div id="orgc7eae92" class="figure">
 <p><img src="../images/itsa17/RNN_overfitting_val.png" alt="RNN_overfitting_val.png" />
 </p>
 </div>
@@ -346,7 +341,7 @@ I switched to a more direct implementation of RNNs instead of using the shipped-
 </p>
 
 
-<div id="org28f6498" class="figure">
+<div id="org11f666a" class="figure">
 <p><img src="../images/itsa17/RNN.png" alt="RNN.png" />
 </p>
 </div>

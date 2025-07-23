@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-23 Wed 15:13 -->
+<!-- 2025-07-23 Wed 15:49 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Controller Stuff</title>
@@ -46,7 +46,7 @@ $(function() {
     $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
     // Dark mode functionality
-    function toggleDarkMode() {
+    window.toggleDarkMode = function() {
         document.body.classList.toggle('dark-mode');
         const isDarkMode = document.body.classList.contains('dark-mode');
         localStorage.setItem('darkMode', isDarkMode);
@@ -54,7 +54,7 @@ $(function() {
     }
 
     function updateToggleButton() {
-        const toggle = document.querySelector('.dark-mode-toggle');
+        const toggle = document.querySelector('.dark-mode-toggle-nav');
         if (toggle) {
             toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
         }
@@ -66,13 +66,7 @@ $(function() {
         document.body.classList.add('dark-mode');
     }
 
-    // Add toggle button
-    const toggleButton = document.createElement('div');
-    toggleButton.className = 'dark-mode-toggle';
-    toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    toggleButton.addEventListener('click', toggleDarkMode);
-    document.body.appendChild(toggleButton);
-
+    // Update toggle button on page load
     updateToggleButton();
 });
 </script>
@@ -125,7 +119,8 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
-            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
+            <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
           </ul>
         </div><!--/.nav-collapse -->
@@ -229,55 +224,55 @@ We can show this off with a number of simulated input trajectories just to illus
 </p>
 
 
-<div id="org848ba6e" class="figure">
+<div id="orge58b3f0" class="figure">
 <p><img src="../images/melee/controller_polling_simulation_9ms_0poll.png" alt="controller_polling_simulation_9ms_0poll.png" />
 </p>
 </div>
 
 
-<div id="org02e7ae8" class="figure">
+<div id="org39675c1" class="figure">
 <p><img src="../images/melee/controller_polling_simulation_9ms_8poll.png" alt="controller_polling_simulation_9ms_8poll.png" />
 </p>
 </div>
 
 
-<div id="org98b6112" class="figure">
+<div id="org3c1d2f5" class="figure">
 <p><img src="../images/melee/controller_polling_simulation_9ms_14poll.png" alt="controller_polling_simulation_9ms_14poll.png" />
 </p>
 </div>
 
 
-<div id="orge741146" class="figure">
+<div id="org7b73905" class="figure">
 <p><img src="../images/melee/sim_35ms_0poll.png" alt="sim_35ms_0poll.png" />
 </p>
 </div>
 
 
-<div id="org9627672" class="figure">
+<div id="org5d8a209" class="figure">
 <p><img src="../images/melee/sim_35ms_8poll.png" alt="sim_35ms_8poll.png" />
 </p>
 </div>
 
 
-<div id="org2dd6734" class="figure">
+<div id="org1f1439f" class="figure">
 <p><img src="../images/melee/sim_35ms_14poll.png" alt="sim_35ms_14poll.png" />
 </p>
 </div>
 
 
-<div id="orgf1c734d" class="figure">
+<div id="orgf207f37" class="figure">
 <p><img src="../images/melee/sim_45ms_0poll.png" alt="sim_45ms_0poll.png" />
 </p>
 </div>
 
 
-<div id="org1c41635" class="figure">
+<div id="orgd4c4532" class="figure">
 <p><img src="../images/melee/sim_45ms_8poll.png" alt="sim_45ms_8poll.png" />
 </p>
 </div>
 
 
-<div id="org6538e9e" class="figure">
+<div id="org15b16a6" class="figure">
 <p><img src="../images/melee/sim_45ms_14poll.png" alt="sim_45ms_14poll.png" />
 </p>
 </div>
@@ -357,7 +352,7 @@ PODE, as covered by R2DLiu in the past, can be thought of as an X-axis delay, pr
 </p>
 
 
-<div id="org47fceed" class="figure">
+<div id="org3993bc6" class="figure">
 <p><img src="../images/melee/sim_pode.png" alt="sim_pode.png" />
 </p>
 </div>
@@ -371,25 +366,25 @@ A funny thing about this bug is that this changes the nature of the polling time
 </p>
 
 
-<div id="orgd257e0f" class="figure">
+<div id="org09eaf36" class="figure">
 <p><img src="../images/melee/pode_polling_simulation_30ms_0poll_16pode.png" alt="pode_polling_simulation_30ms_0poll_16pode.png" />
 </p>
 </div>
 
 
-<div id="org5137c59" class="figure">
+<div id="org28af183" class="figure">
 <p><img src="../images/melee/pode_polling_simulation_30ms_15poll_16pode.png" alt="pode_polling_simulation_30ms_15poll_16pode.png" />
 </p>
 </div>
 
 
-<div id="orgd463b7c" class="figure">
+<div id="org10bbd94" class="figure">
 <p><img src="../images/melee/pode_polling_simulation_45ms_0poll_16pode.png" alt="pode_polling_simulation_45ms_0poll_16pode.png" />
 </p>
 </div>
 
 
-<div id="org6a2eabd" class="figure">
+<div id="org28e91ec" class="figure">
 <p><img src="../images/melee/pode_polling_simulation_45ms_15poll_16pode.png" alt="pode_polling_simulation_45ms_15poll_16pode.png" />
 </p>
 </div>
@@ -472,13 +467,13 @@ Here's showing how a 7.5ms fast motion can get you both deadzone polled AND getu
 </p>
 
 
-<div id="orgd2190e8" class="figure">
+<div id="org6ddbc7a" class="figure">
 <p><img src="../images/melee/phobgcc_7ms_ws_poll2.png" alt="phobgcc_7ms_ws_poll2.png" />
 </p>
 </div>
 
 
-<div id="org6fc43a6" class="figure">
+<div id="org1b7581a" class="figure">
 <p><img src="../images/melee/phobgcc_7ms_ws_poll14.png" alt="phobgcc_7ms_ws_poll14.png" />
 </p>
 </div>
@@ -488,7 +483,7 @@ And here's showing how a 12ms fast motion can never get you anything but neutral
 </p>
 
 
-<div id="orgf71b09e" class="figure">
+<div id="org054a390" class="figure">
 <p><img src="../images/melee/phobgcc_12ms_ws.png" alt="phobgcc_12ms_ws.png" />
 </p>
 </div>
@@ -503,7 +498,7 @@ To understand axis smoothing's interaction with this, let's assume a waveshaping
 </p>
 
 
-<div id="org4619e27" class="figure">
+<div id="orga91232b" class="figure">
 <p><img src="../images/melee/standard_waveshape_example.png" alt="standard_waveshape_example.png" />
 </p>
 </div>
@@ -513,7 +508,7 @@ Axis smoothing is pretty simple to understand: it is a <a href="https://en.wikip
 </p>
 
 
-<div id="org6f6fb61" class="figure">
+<div id="org5f6ff1d" class="figure">
 <p><img src="../images/melee/phobgcc_9ms_ws-sm_5.png" alt="phobgcc_9ms_ws-sm_5.png" />
 </p>
 </div>

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-23 Wed 15:13 -->
+<!-- 2025-07-23 Wed 15:49 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>2024 ML Reading</title>
@@ -46,7 +46,7 @@ $(function() {
     $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
     // Dark mode functionality
-    function toggleDarkMode() {
+    window.toggleDarkMode = function() {
         document.body.classList.toggle('dark-mode');
         const isDarkMode = document.body.classList.contains('dark-mode');
         localStorage.setItem('darkMode', isDarkMode);
@@ -54,7 +54,7 @@ $(function() {
     }
 
     function updateToggleButton() {
-        const toggle = document.querySelector('.dark-mode-toggle');
+        const toggle = document.querySelector('.dark-mode-toggle-nav');
         if (toggle) {
             toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
         }
@@ -66,13 +66,7 @@ $(function() {
         document.body.classList.add('dark-mode');
     }
 
-    // Add toggle button
-    const toggleButton = document.createElement('div');
-    toggleButton.className = 'dark-mode-toggle';
-    toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    toggleButton.addEventListener('click', toggleDarkMode);
-    document.body.appendChild(toggleButton);
-
+    // Update toggle button on page load
     updateToggleButton();
 });
 </script>
@@ -104,7 +98,8 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
-            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
+            <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
           </ul>
         </div><!--/.nav-collapse -->
@@ -205,7 +200,7 @@ Players: new LLM, old LLM. Old LLM generates responses close to real data, new L
 </p>
 
 
-<div id="org06bc696" class="figure">
+<div id="org36c7bb9" class="figure">
 <p><img src="../images/from_clipboard/20240104_104317.png" alt="20240104_104317.png" />
 </p>
 </div>
@@ -240,7 +235,7 @@ Core here is outputs of text -&gt; image-rendering code -&gt; image, and likewis
 </p>
 
 
-<div id="orgb565072" class="figure">
+<div id="org57c4a28" class="figure">
 <p><img src="../images/from_clipboard/20240104_110255.png" alt="20240104_110255.png" />
 </p>
 </div>
@@ -271,7 +266,7 @@ MUSE originally used a 4.6b text encoder, a 3b base transformer, and a 1b super-
 </p>
 
 
-<div id="org739db2b" class="figure">
+<div id="orgb66f350" class="figure">
 <p><img src="../images/from_clipboard/20240104_114430.png" alt="20240104_114430.png" />
 </p>
 </div>
@@ -292,7 +287,7 @@ MUSE originally used a 4.6b text encoder, a 3b base transformer, and a 1b super-
 </ol>
 
 
-<div id="orge9da726" class="figure">
+<div id="org0b543c3" class="figure">
 <p><img src="../images/from_clipboard/20240104_121841.png" alt="20240104_121841.png" />
 </p>
 </div>
@@ -319,7 +314,7 @@ A fine-tuned diffusion model which natively accepts multimodal input similar to 
 </p>
 
 
-<div id="orgf011db4" class="figure">
+<div id="org54336f7" class="figure">
 <p><img src="../images/from_clipboard/20240105_100548.png" alt="20240105_100548.png" />
 </p>
 </div>
@@ -333,7 +328,7 @@ Their results are fine &#x2013; it is not possible to evaluate image generation 
 </p>
 
 
-<div id="orgce08fbd" class="figure">
+<div id="org67c6e39" class="figure">
 <p><img src="../images/from_clipboard/20240105_103438.png" alt="20240105_103438.png" />
 </p>
 </div>
@@ -356,7 +351,7 @@ Existing models for 3d perception usually use 3D point clouds, and these models 
 </p>
 
 
-<div id="org5e2c2a2" class="figure">
+<div id="orgcc00739" class="figure">
 <p><img src="../images/from_clipboard/20240105_110916.png" alt="20240105_110916.png" />
 </p>
 </div>

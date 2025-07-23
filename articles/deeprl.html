@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-23 Wed 15:13 -->
+<!-- 2025-07-23 Wed 15:49 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Deep RL</title>
@@ -46,7 +46,7 @@ $(function() {
     $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
     // Dark mode functionality
-    function toggleDarkMode() {
+    window.toggleDarkMode = function() {
         document.body.classList.toggle('dark-mode');
         const isDarkMode = document.body.classList.contains('dark-mode');
         localStorage.setItem('darkMode', isDarkMode);
@@ -54,7 +54,7 @@ $(function() {
     }
 
     function updateToggleButton() {
-        const toggle = document.querySelector('.dark-mode-toggle');
+        const toggle = document.querySelector('.dark-mode-toggle-nav');
         if (toggle) {
             toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
         }
@@ -66,13 +66,7 @@ $(function() {
         document.body.classList.add('dark-mode');
     }
 
-    // Add toggle button
-    const toggleButton = document.createElement('div');
-    toggleButton.className = 'dark-mode-toggle';
-    toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    toggleButton.addEventListener('click', toggleDarkMode);
-    document.body.appendChild(toggleButton);
-
+    // Update toggle button on page load
     updateToggleButton();
 });
 </script>
@@ -125,7 +119,8 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
-            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
+            <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
           </ul>
         </div><!--/.nav-collapse -->
@@ -211,7 +206,7 @@ Notable about this paper is the fact that all the games are deterministic, so th
 </p>
 
 
-<div id="org6a97663" class="figure">
+<div id="orgc7c208e" class="figure">
 <p><img src="../images/from_clipboard/20241029_111102.png" alt="20241029_111102.png" />
 </p>
 </div>
@@ -299,7 +294,7 @@ This paper introduces Deep Deterministic Policy Gradient (DDPG) which adds the e
 </p>
 
 
-<div id="org4f8a70e" class="figure">
+<div id="org5e75a8e" class="figure">
 <p><img src="../images/from_clipboard/20241102_173841.png" alt="20241102_173841.png" />
 </p>
 </div>
@@ -326,7 +321,7 @@ This has a similar effect to the noisy nets work; the network is incentivized to
 </p>
 
 
-<div id="orgc028f3c" class="figure">
+<div id="org4dc8e5f" class="figure">
 <p><img src="../images/from_clipboard/20241109_150359.png" alt="20241109_150359.png" />
 </p>
 </div>
@@ -336,7 +331,7 @@ They derive a soft version of policy iteration (i.e. a soft policy evaluation + 
 </p>
 
 
-<div id="orgdfa9e4b" class="figure">
+<div id="orge19b093" class="figure">
 <p><img src="../images/from_clipboard/20241109_154829.png" alt="20241109_154829.png" />
 </p>
 </div>
@@ -398,7 +393,7 @@ The actual PPO algorithm is super simple:
 </p>
 
 
-<div id="orgcbc40cf" class="figure">
+<div id="org1157471" class="figure">
 <p><img src="../images/from_clipboard/20241102_210014.png" alt="20241102_210014.png" />
 </p>
 </div>
@@ -469,7 +464,7 @@ Specifically, for Q-prop we have the following:
 </p>
 
 
-<div id="org7ade45e" class="figure">
+<div id="orgd383809" class="figure">
 <p><img src="../images/from_clipboard/20241116_210832.png" alt="20241116_210832.png" />
 </p>
 </div>
@@ -483,7 +478,7 @@ The core contribution in this paper is the notion of interpolating these two ter
 </p>
 
 
-<div id="org2459f09" class="figure">
+<div id="org99be1a9" class="figure">
 <p><img src="../images/from_clipboard/20241116_211600.png" alt="20241116_211600.png" />
 </p>
 </div>
@@ -497,7 +492,7 @@ With this framing you can recover lots of the other methods in entirety using sp
 </p>
 
 
-<div id="orga3677ba" class="figure">
+<div id="org7e292ad" class="figure">
 <p><img src="../images/from_clipboard/20241116_213623.png" alt="20241116_213623.png" />
 </p>
 </div>
@@ -520,7 +515,7 @@ The majority of this paper deals with the necessary architectural challenges pre
 </p>
 
 
-<div id="org10f323b" class="figure">
+<div id="orgaf65bef" class="figure">
 <p><img src="../images/from_clipboard/20241103_114232.png" alt="20241103_114232.png" />
 </p>
 </div>
@@ -530,7 +525,7 @@ They train this such that each hero uses the same network, and the actor-critic 
 </p>
 
 
-<div id="orga3026e4" class="figure">
+<div id="org9831bc3" class="figure">
 <p><img src="../images/from_clipboard/20241103_114809.png" alt="20241103_114809.png" />
 </p>
 </div>
@@ -598,7 +593,7 @@ A core component of starcraft is that there are three races. To be good at starc
 </p>
 
 
-<div id="orgb01a467" class="figure">
+<div id="orgd214fa5" class="figure">
 <p><img src="../images/from_clipboard/20241103_155450.png" alt="20241103_155450.png" />
 </p>
 </div>
@@ -621,7 +616,7 @@ Paper <a href="https://arxiv.org/pdf/1808.00177">here</a>.
 </p>
 
 
-<div id="orge26a505" class="figure">
+<div id="orgb2d1422" class="figure">
 <p><img src="../images/from_clipboard/20241109_181542.png" alt="20241109_181542.png" />
 </p>
 </div>
@@ -649,7 +644,7 @@ The critic isn't actually used at inference time so it can leverage information 
 </p>
 
 
-<div id="orga183cb6" class="figure">
+<div id="orge14dd71" class="figure">
 <p><img src="../images/from_clipboard/20241109_183231.png" alt="20241109_183231.png" />
 </p>
 </div>
@@ -672,7 +667,7 @@ As you would expect, there's some degradation in the real world performance comp
 <h3 id="orgd9547c7">Emergent Tool Use From Multi-Agent Autocurricula (Hide and Seek)</h3>
 <div class="outline-text-3" id="text-orgd9547c7">
 
-<div id="org47ebebc" class="figure">
+<div id="org894b917" class="figure">
 <p><img src="../images/from_clipboard/20241109_185336.png" alt="20241109_185336.png" />
 </p>
 </div>
@@ -686,7 +681,7 @@ Yet again, this is trained with PPO. But this time we get to use self-attention 
 </p>
 
 
-<div id="orgda006ea" class="figure">
+<div id="org88ffe3f" class="figure">
 <p><img src="../images/from_clipboard/20241109_190605.png" alt="20241109_190605.png" />
 </p>
 </div>
@@ -696,7 +691,7 @@ There's also some interesting stuff in here about using finetuning as a measure 
 </p>
 
 
-<div id="orgca494bd" class="figure">
+<div id="orgf8d53d8" class="figure">
 <p><img src="../images/from_clipboard/20241109_191307.png" alt="20241109_191307.png" />
 </p>
 </div>
@@ -707,7 +702,7 @@ There's also some interesting stuff in here about using finetuning as a measure 
 <h3 id="org694d798">Human-Level performance in 3D multiplayer games with population-based reinforcement learning (CTF)</h3>
 <div class="outline-text-3" id="text-org694d798">
 
-<div id="orga69ac9f" class="figure">
+<div id="orge9b83d6" class="figure">
 <p><img src="../images/from_clipboard/20241109_191615.png" alt="20241109_191615.png" />
 </p>
 </div>
@@ -721,7 +716,7 @@ The way they handle the multi-agent problem is to frame the problem as having tw
 </p>
 
 
-<div id="orga9aef50" class="figure">
+<div id="orgd9af7c4" class="figure">
 <p><img src="../images/from_clipboard/20241109_193028.png" alt="20241109_193028.png" />
 </p>
 </div>
@@ -768,7 +763,7 @@ where \(\phi(s, a, s')\) describes features, and \(w\) represents weights which 
 </p>
 
 
-<div id="org71fd52b" class="figure">
+<div id="org6158f85" class="figure">
 <p><img src="../images/from_clipboard/20241031_131631.png" alt="20241031_131631.png" />
 </p>
 </div>
@@ -803,7 +798,7 @@ There's some additional guarantees here that if the distance between your new ta
 <h3 id="org13bd075">Policy Manifold Search for Improving Diversity-based Neuroevolution</h3>
 <div class="outline-text-3" id="text-org13bd075">
 
-<div id="orgc64b385" class="figure">
+<div id="org37e0559" class="figure">
 <p><img src="../images/from_clipboard/20241104_143220.png" alt="20241104_143220.png" />
 </p>
 </div>
@@ -821,7 +816,7 @@ An interesting component of this work is the concept of a <i>Behavior Descriptor
 </p>
 
 
-<div id="orge8951d5" class="figure">
+<div id="orgb0aceed" class="figure">
 <p><img src="../images/from_clipboard/20241104_150117.png" alt="20241104_150117.png" />
 </p>
 </div>
@@ -849,7 +844,7 @@ code is <a href="https://github.com/vwxyzjn/cleanrl/blob/master/cleanrl/dqn_atar
 </p>
 
 
-<div id="org681be9d" class="figure">
+<div id="org0cd41f6" class="figure">
 <p><img src="../images/from_clipboard/20241029_114628.png" alt="20241029_114628.png" />
 </p>
 </div>
@@ -863,7 +858,7 @@ Likewise implementing this using a frozen "target network" and optimizing a sepa
 </p>
 
 
-<div id="orgd39e9aa" class="figure">
+<div id="org66bd163" class="figure">
 <p><img src="../images/from_clipboard/20241029_114822.png" alt="20241029_114822.png" />
 </p>
 </div>
@@ -886,7 +881,7 @@ Code is <a href="https://github.com/vwxyzjn/cleanrl/blob/master/cleanrl/ppo.py">
 <h4 id="orgf97dbb5">Core Idea</h4>
 <div class="outline-text-4" id="text-orgf97dbb5">
 
-<div id="orgd2a2c97" class="figure">
+<div id="org6976516" class="figure">
 <p><img src="../images/from_clipboard/20241102_235702.png" alt="20241102_235702.png" />
 </p>
 </div>
@@ -896,7 +891,7 @@ Critic estimates value (regression problem), Actor selects action (here discrete
 </p>
 
 
-<div id="org1b34eb8" class="figure">
+<div id="org2e85a99" class="figure">
 <p><img src="../images/from_clipboard/20241103_002142.png" alt="20241103_002142.png" />
 </p>
 </div>
@@ -906,7 +901,7 @@ Get T timesteps from each actor (i.e. one actor)
 </p>
 
 
-<div id="org6e8656e" class="figure">
+<div id="org8ff82b4" class="figure">
 <p><img src="../images/from_clipboard/20241103_003738.png" alt="20241103_003738.png" />
 </p>
 </div>
@@ -916,13 +911,13 @@ Get advantages
 </p>
 
 
-<div id="org5a2b07e" class="figure">
+<div id="orgecee2a9" class="figure">
 <p><img src="../images/from_clipboard/20241103_005013.png" alt="20241103_005013.png" />
 </p>
 </div>
 
 
-<div id="orgcf4d9b7" class="figure">
+<div id="org5009c92" class="figure">
 <p><img src="../images/from_clipboard/20241103_005146.png" alt="20241103_005146.png" />
 </p>
 </div>

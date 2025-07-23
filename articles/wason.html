@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-23 Wed 15:13 -->
+<!-- 2025-07-23 Wed 15:49 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>WILT Benchmark</title>
@@ -46,7 +46,7 @@ $(function() {
     $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
     // Dark mode functionality
-    function toggleDarkMode() {
+    window.toggleDarkMode = function() {
         document.body.classList.toggle('dark-mode');
         const isDarkMode = document.body.classList.contains('dark-mode');
         localStorage.setItem('darkMode', isDarkMode);
@@ -54,7 +54,7 @@ $(function() {
     }
 
     function updateToggleButton() {
-        const toggle = document.querySelector('.dark-mode-toggle');
+        const toggle = document.querySelector('.dark-mode-toggle-nav');
         if (toggle) {
             toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
         }
@@ -66,13 +66,7 @@ $(function() {
         document.body.classList.add('dark-mode');
     }
 
-    // Add toggle button
-    const toggleButton = document.createElement('div');
-    toggleButton.className = 'dark-mode-toggle';
-    toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    toggleButton.addEventListener('click', toggleDarkMode);
-    document.body.appendChild(toggleButton);
-
+    // Update toggle button on page load
     updateToggleButton();
 });
 </script>
@@ -125,7 +119,8 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
-            <li><a href="http://planetbanatt.net/resume.pdf">Resume</li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
+            <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
           </ul>
         </div><!--/.nav-collapse -->
@@ -419,7 +414,7 @@ One very funny thing this model flubbed on is the "all numbers negative" test, w
 </p>
 
 
-<div id="orgdacbf3b" class="figure">
+<div id="org6713f68" class="figure">
 <p><img src="../images/from_clipboard/20240623_011848.png" alt="20240623_011848.png" />
 </p>
 </div>
@@ -438,7 +433,7 @@ This one below stuck out to me in the early phases of testing Llama 3 70B on it.
 </p>
 
 
-<div id="org19bd393" class="figure">
+<div id="org0431230" class="figure">
 <p><img src="../images/from_clipboard/20240622_200739.png" alt="20240622_200739.png" />
 </p>
 </div>
@@ -448,7 +443,7 @@ This one even more striking, where it identifies that it created a test case it 
 </p>
 
 
-<div id="org168180e" class="figure">
+<div id="org1131a3c" class="figure">
 <p><img src="../images/from_clipboard/20240622_210916.png" alt="20240622_210916.png" />
 </p>
 </div>
@@ -467,7 +462,7 @@ This one also, where it took tokens to "think". I don't even think it got the an
 </p>
 
 
-<div id="org5d454fe" class="figure">
+<div id="org866ddcd" class="figure">
 <p><img src="../images/from_clipboard/20240622_202111.png" alt="20240622_202111.png" />
 </p>
 </div>
@@ -487,7 +482,7 @@ These two models did this funny thing where they started to provide their own im
 </p>
 
 
-<div id="org6bde020" class="figure">
+<div id="org4086508" class="figure">
 <p><img src="../images/from_clipboard/20240622_230123.png" alt="20240622_230123.png" />
 </p>
 </div>
@@ -503,7 +498,7 @@ GPT-4-turbo did quite well on this task, at least for these examples. It would o
 </p>
 
 
-<div id="orgd4948b9" class="figure">
+<div id="org8105eb3" class="figure">
 <p><img src="../images/from_clipboard/20240622_235707.png" alt="20240622_235707.png" />
 </p>
 </div>
@@ -544,7 +539,7 @@ DeepSeek-coder behaved really similar to DeepSeek-V2 as far as general behaviors
 </p>
 
 
-<div id="orgac281f7" class="figure">
+<div id="org769e126" class="figure">
 <p><img src="../images/from_clipboard/20240623_003733.png" alt="20240623_003733.png" />
 </p>
 </div>

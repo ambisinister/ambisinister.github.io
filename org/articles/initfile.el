@@ -85,7 +85,7 @@ $(function() {
     $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
     // Dark mode functionality
-    function toggleDarkMode() {
+    window.toggleDarkMode = function() {
         document.body.classList.toggle('dark-mode');
         const isDarkMode = document.body.classList.contains('dark-mode');
         localStorage.setItem('darkMode', isDarkMode);
@@ -93,7 +93,7 @@ $(function() {
     }
 
     function updateToggleButton() {
-        const toggle = document.querySelector('.dark-mode-toggle');
+        const toggle = document.querySelector('.dark-mode-toggle-nav');
         if (toggle) {
             toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
         }
@@ -105,13 +105,7 @@ $(function() {
         document.body.classList.add('dark-mode');
     }
 
-    // Add toggle button
-    const toggleButton = document.createElement('div');
-    toggleButton.className = 'dark-mode-toggle';
-    toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    toggleButton.addEventListener('click', toggleDarkMode);
-    document.body.appendChild(toggleButton);
-
+    // Update toggle button on page load
     updateToggleButton();
 });
 </script>
@@ -143,7 +137,8 @@ $(function() {
             <li><a href=\"http://planetbanatt.net/projects.html\">Projects</a></li>
             <li><a href=\"http://planetbanatt.net/melee/index.html\">Melee</a></li>
             <li><a href=\"http://planetbanatt.net/links.html\">Links</a></li>
-            <li><a href=\"http://planetbanatt.net/resume.pdf\">Resume</li>
+            <li><a href=\"http://planetbanatt.net/resume.pdf\">Resume</a></li>
+            <li class=\"dark-mode-nav-item\"><a href=\"#\" class=\"dark-mode-toggle-nav\" onclick=\"toggleDarkMode(); return false;\">🌙</a></li>
           </ul>
           </ul>
         </div><!--/.nav-collapse -->
