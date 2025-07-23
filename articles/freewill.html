@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-19 Sat 14:38 -->
+<!-- 2025-07-23 Wed 15:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Free Will</title>
@@ -45,6 +45,35 @@ $(function() {
     $('body').attr('data-offset', '100')
     $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
+    // Dark mode functionality
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDarkMode);
+        updateToggleButton();
+    }
+
+    function updateToggleButton() {
+        const toggle = document.querySelector('.dark-mode-toggle');
+        if (toggle) {
+            toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        }
+    }
+
+    // Initialize dark mode from localStorage
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+
+    // Add toggle button
+    const toggleButton = document.createElement('div');
+    toggleButton.className = 'dark-mode-toggle';
+    toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+    toggleButton.addEventListener('click', toggleDarkMode);
+    document.body.appendChild(toggleButton);
+
+    updateToggleButton();
 });
 </script>
 
@@ -137,7 +166,7 @@ This was a pretty popular viral meme at one point, so I ended up finding an exis
 </p>
 
 
-<div id="org1b5a55a" class="figure">
+<div id="orgaf0ff78" class="figure">
 <p><img src="../images/freewill/oracle.png" alt="oracle.png" />
 </p>
 </div>
@@ -162,7 +191,7 @@ Armed with this knowledge, I dug into their code and found the following
 </p>
 
 
-<div id="org0852fa7" class="figure">
+<div id="org1309bd0" class="figure">
 <p><img src="../images/freewill/oracle_fn.png" alt="oracle_fn.png" />
 </p>
 </div>

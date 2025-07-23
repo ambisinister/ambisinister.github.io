@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-23 Wed 00:22 -->
+<!-- 2025-07-23 Wed 15:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Making Sense of Melee</title>
@@ -45,6 +45,35 @@ $(function() {
     $('body').attr('data-offset', '100')
     $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
+    // Dark mode functionality
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDarkMode);
+        updateToggleButton();
+    }
+
+    function updateToggleButton() {
+        const toggle = document.querySelector('.dark-mode-toggle');
+        if (toggle) {
+            toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        }
+    }
+
+    // Initialize dark mode from localStorage
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+
+    // Add toggle button
+    const toggleButton = document.createElement('div');
+    toggleButton.className = 'dark-mode-toggle';
+    toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+    toggleButton.addEventListener('click', toggleDarkMode);
+    document.body.appendChild(toggleButton);
+
+    updateToggleButton();
 });
 </script>
 
@@ -160,7 +189,7 @@ an objective system to do ranks?"
 </p>
 
 
-<div id="org001072b" class="figure">
+<div id="org3b38ca9" class="figure">
 <p><img src="../images/ambistats/reddit_kid.png" alt="reddit_kid.png" />
 </p>
 </div>
@@ -173,7 +202,7 @@ example, here is Elo run on the database
 </p>
 
 
-<div id="orge156eb1" class="figure">
+<div id="org142bda1" class="figure">
 <p><img src="../images/ambistats/top_50_according_to_reddit_kid.png" alt="top_50_according_to_reddit_kid.png" />
 </p>
 </div>
@@ -183,7 +212,7 @@ And here is the top 10 with Glicko-2 run on the database
 </p>
 
 
-<div id="org6c17230" class="figure">
+<div id="org7045726" class="figure">
 <p><img src="../images/ambistats/glicko_sucks_too.jpg" alt="glicko_sucks_too.jpg" />
 </p>
 </div>
@@ -213,7 +242,7 @@ between your actual and expected scores, multiplied by a constant K"
 </p>
 
 
-<div id="orgbd64d47" class="figure">
+<div id="org0e21097" class="figure">
 <p><img src="../images/ambistats/elo_update.PNG" alt="elo_update.PNG" />
 </p>
 </div>
@@ -557,7 +586,7 @@ tiers is a little messy&#x2026;
 </p>
 
 
-<div id="orgd859ca8" class="figure">
+<div id="org00ee478" class="figure">
 <p><img src="../images/ambistats/winrates_bad.png" alt="winrates_bad.png" />
 </p>
 </div>
@@ -568,7 +597,7 @@ pretty gradient:
 </p>
 
 
-<div id="org5d66a4d" class="figure">
+<div id="orga0edf74" class="figure">
 <p><img src="../images/ambistats/winrates_good.png" alt="winrates_good.png" />
 </p>
 </div>
@@ -611,13 +640,13 @@ data), yielding the following results, respectively:
 </p>
 
 
-<div id="org7a37abf" class="figure">
+<div id="orgb7310aa" class="figure">
 <p><img src="../images/ambistats/winrates_autotagged_simple.png" alt="winrates_autotagged_simple.png" />
 </p>
 </div>
 
 
-<div id="org9c6401d" class="figure">
+<div id="orga52eb0b" class="figure">
 <p><img src="../images/ambistats/winrates_autotagged_multi.png" alt="winrates_autotagged_multi.png" />
 </p>
 </div>
@@ -635,7 +664,7 @@ with fewer results to account for them.
 </p>
 
 
-<div id="org155b7be" class="figure">
+<div id="org5f63017" class="figure">
 <p><img src="../images/ambistats/winrates_autotag_final.png" alt="winrates_autotag_final.png" />
 </p>
 </div>
@@ -647,7 +676,7 @@ result, and we can use this to examine some interesting trends in the
 data.
 </p>
 
-<div class="HTML" id="orgaa01a8d">
+<div class="HTML" id="orgc2238f1">
 <p>
 &lt;p&gt;&lt;i&gt;Just as a brief aside - before anyone suggests that this be used
 without human curation, the automatic tiering contained some serious
@@ -721,7 +750,7 @@ sets (labeled as 1-0), we get the following:
 </p>
 
 
-<div id="org295b8c7" class="figure">
+<div id="org816921e" class="figure">
 <p><img src="../images/ambistats/gamecounts_all.png" alt="gamecounts_all.png" />
 </p>
 </div>
@@ -739,7 +768,7 @@ If we only look at players with <i>seeds</i>, then we get the following.
 </p>
 
 
-<div id="orgd14b93b" class="figure">
+<div id="orgc786e0b" class="figure">
 <p><img src="../images/ambistats/gamecounts_tiered.png" alt="gamecounts_tiered.png" />
 </p>
 </div>
@@ -772,7 +801,7 @@ the top tier (least data, most representative of top level).
 </p>
 
 
-<div id="org49dd7e2" class="figure">
+<div id="org16edd1a" class="figure">
 <p><img src="../images/ambistats/FoxSheik_gamecount_all.png" alt="FoxSheik_gamecount_all.png" />
 </p>
 </div>
@@ -782,7 +811,7 @@ It looks 6-4 at first glance, which squares up with conventional wisdom.
 </p>
 
 
-<div id="orgcb65c57" class="figure">
+<div id="orgd592688" class="figure">
 <p><img src="../images/ambistats/FoxSheik_gamecount_tiered.png" alt="FoxSheik_gamecount_tiered.png" />
 </p>
 </div>
@@ -801,7 +830,7 @@ roughly equally.
 </p>
 
 
-<div id="orgd07655d" class="figure">
+<div id="org632af86" class="figure">
 <p><img src="../images/ambistats/FoxSheik_gamecount_closetiered.png" alt="FoxSheik_gamecount_closetiered.png" />
 </p>
 </div>
@@ -816,7 +845,7 @@ matchup.
 </p>
 
 
-<div id="org9bc0375" class="figure">
+<div id="orga2bad68" class="figure">
 <p><img src="../images/ambistats/FoxSheik_gamecount_hightiered.png" alt="FoxSheik_gamecount_hightiered.png" />
 </p>
 </div>
@@ -839,7 +868,7 @@ Excluding them for completeness' sake we get the following
 </p>
 
 
-<div id="orgf041ed9" class="figure">
+<div id="orgd65a57c" class="figure">
 <p><img src="../images/ambistats/FoxSheik_gamecount_nogoods.png" alt="FoxSheik_gamecount_nogoods.png" />
 </p>
 </div>
@@ -904,7 +933,7 @@ yields the following table.
 </p>
 
 
-<div id="orgfe1b93c" class="figure">
+<div id="orga62dd62" class="figure">
 <p><img src="../images/ambistats/empirical_tier_list.PNG" alt="empirical_tier_list.PNG" />
 </p>
 </div>
@@ -929,7 +958,7 @@ is favored over having a few very easy matchups.
 </p>
 
 
-<div id="org84e453e" class="figure">
+<div id="org53433ac" class="figure">
 <p><img src="../images/ambistats/empirical_tier_list_sigma.PNG" alt="empirical_tier_list_sigma.PNG" />
 </p>
 </div>
@@ -966,7 +995,7 @@ omnium contra omnes</a> fashion, we can see the following:
 </p>
 
 
-<div id="orgee1a008" class="figure">
+<div id="org733c64a" class="figure">
 <p><img src="../images/ambistats/characters/All_vs_All.png" alt="All_vs_All.png" />
 </p>
 </div>
@@ -978,7 +1007,7 @@ almost exactly identical to the same calculation I performed in 2015:
 </p>
 
 
-<div id="orgb0710f3" class="figure">
+<div id="orge488e45" class="figure">
 <p><img src="../images/projection/allvsall.png" alt="allvsall.png" />
 </p>
 </div>
@@ -1007,7 +1036,7 @@ characters so this was pretty interesting to see.
 </p>
 
 
-<div id="org0e1ea36" class="figure">
+<div id="orge664ab5" class="figure">
 <p><img src="../images/ambistats/characters/ICs_vs_All.png" alt="ICs_vs_All.png" />
 </p>
 </div>
@@ -1028,7 +1057,7 @@ the regression function.
 </p>
 
 
-<div id="orgc27272d" class="figure">
+<div id="orgeb43055" class="figure">
 <p><img src="../images/ambistats/curve_data.PNG" alt="curve_data.PNG" />
 </p>
 </div>
@@ -1064,7 +1093,7 @@ is Peach vs Ice Climbers.
 </p>
 
 
-<div id="org45b695c" class="figure">
+<div id="orgb3d6895" class="figure">
 <p><img src="../images/ambistats/matchups/Peach_vs_ICs.png" alt="Peach_vs_ICs.png" />
 </p>
 </div>

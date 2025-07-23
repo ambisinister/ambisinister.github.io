@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-19 Sat 14:38 -->
+<!-- 2025-07-23 Wed 15:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Golems</title>
@@ -45,6 +45,35 @@ $(function() {
     $('body').attr('data-offset', '100')
     $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
+    // Dark mode functionality
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDarkMode);
+        updateToggleButton();
+    }
+
+    function updateToggleButton() {
+        const toggle = document.querySelector('.dark-mode-toggle');
+        if (toggle) {
+            toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        }
+    }
+
+    // Initialize dark mode from localStorage
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+
+    // Add toggle button
+    const toggleButton = document.createElement('div');
+    toggleButton.className = 'dark-mode-toggle';
+    toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+    toggleButton.addEventListener('click', toggleDarkMode);
+    document.body.appendChild(toggleButton);
+
+    updateToggleButton();
 });
 </script>
 
@@ -176,7 +205,7 @@ The arcs leading up to Maimakterion's introduction spend considerable effort see
 </p>
 
 
-<div id="orgc5d7fcf" class="figure">
+<div id="org1f715a8" class="figure">
 <p><img src="../images/from_clipboard/20241123_185211.png" alt="20241123_185211.png" />
 </p>
 </div>
@@ -186,7 +215,7 @@ In the lead-up to Maimakterion's introduction, there is substantial foreshadowin
 </p>
 
 
-<div id="orgeb2b946" class="figure">
+<div id="orgcc30ea2" class="figure">
 <p><img src="../images/from_clipboard/20241123_205110.png" alt="20241123_205110.png" />
 </p>
 </div>
@@ -205,7 +234,7 @@ In the lead-up to Maimakterion's introduction, there is substantial foreshadowin
 <h3 id="org8850058">The Golem Who Spoke</h3>
 <div class="outline-text-3" id="text-org8850058">
 
-<div id="orgacf7779" class="figure">
+<div id="org14363e6" class="figure">
 <p><img src="../images/from_clipboard/20241123_225510.png" alt="20241123_225510.png" />
 </p>
 </div>
@@ -215,7 +244,7 @@ It's later shown that Maimakterion's trick is that he reads books. Taiyou makes 
 </p>
 
 
-<div id="orga80dc83" class="figure">
+<div id="org38857a8" class="figure">
 <p><img src="../images/from_clipboard/20241124_012505.png" alt="20241124_012505.png" />
 </p>
 </div>
@@ -272,7 +301,7 @@ Maimakterion's character arc bears remarkable similarity to real-world <a href="
 <h3 id="org001fd49">What are Golems?</h3>
 <div class="outline-text-3" id="text-org001fd49">
 
-<div id="orgdff3cf5" class="figure">
+<div id="orge347e4e" class="figure">
 <p><img src="../images/from_clipboard/20241122_014742.png" alt="20241122_014742.png" />
 </p>
 </div>
@@ -495,7 +524,7 @@ This sparked some interesting discussion surrounding the observation of self-awa
 </p>
 
 
-<div id="org70c5aad" class="figure">
+<div id="org6c692a5" class="figure">
 <p><img src="../images/from_clipboard/20241122_210842.png" alt="20241122_210842.png" />
 </p>
 </div>
@@ -602,7 +631,7 @@ So, can golems have qualia? Another prominent thought experiment in philosophy o
 </p>
 
 
-<div id="orgd4d87f8" class="figure">
+<div id="orgf59fb9c" class="figure">
 <p><img src="../images/from_clipboard/20241122_152001.png" alt="20241122_152001.png" />
 </p>
 </div>
@@ -662,7 +691,7 @@ The original name of this is "Samidare of the Stars", referring to the princess 
 </p>
 
 
-<div id="org19c81c0" class="figure">
+<div id="orge63a019" class="figure">
 <p><img src="../images/from_clipboard/20241123_195707.png" alt="20241123_195707.png" />
 </p>
 </div></div></div>
@@ -676,7 +705,7 @@ Other Golems in <i>Biscuit Hammer</i> do seem to exhibit the capacity for very r
 </p>
 
 
-<div id="orgfc1027e" class="figure">
+<div id="orge7b570b" class="figure">
 <p><img src="../images/from_clipboard/20241124_201549.png" alt="20241124_201549.png" />
 </p>
 </div>

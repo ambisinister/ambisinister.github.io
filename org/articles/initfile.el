@@ -1,37 +1,3 @@
-#+TITLE: Emacs Configuration
-
-* Emacs configuration
-
-I'm a mediocre emacs user and I have an init file just like everybody else.
-
-** Init File
-
-To begin you'll want the following in your init.el file:
-
-#+BEGIN_SRC 
-(require 'package)
-(setq package-enable-at-startup nil)
-(add-to-list 'package-archives
-	     '("melpa" . "http://melpa.org/packages/"))
-(package-initialize)
-
-;; Bootstrap `use-package'
-(unless (package-installed-p 'use-package)
-	(package-refresh-contents)
-	(package-install 'use-package))
-
-(org-babel-load-file (expand-file-name "<<whatever location>>"))
-#+END_SRC
-
-The rest is handled inside the org document full of emacs-lisp src blocks (that is, this document)
-
-** Basic customization
-
-*** Appearance settings 
-
-should be straightforward enough, just getting rid of stuff like the toolbar / setting visual 
-
-#+BEGIN_SRC emacs-lisp
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (setq inhibit-startup-message t)
@@ -48,24 +14,11 @@ should be straightforward enough, just getting rid of stuff like the toolbar / s
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
-#+END_SRC
 
-#+RESULTS:
-: utf-8-unix
-
-as well as my [[https://en.wikipedia.org/wiki/Invictus][custom scratch message]].
-
-#+BEGIN_SRC emacs-lisp
 (setq initial-scratch-message
 "; Present Day. Present Time! (ahahaha!)
 ")
-#+END_SRC
 
-*** autosave settings 
-
-Don't really use for anything, might get rid of this later
-
-#+BEGIN_SRC emacs-lisp
 ; autosave directory hidden
 (setq
    backup-by-copying t      ; don't clobber symlinks
@@ -76,11 +29,6 @@ Don't really use for anything, might get rid of this later
    kept-old-versions 2
    version-control t)
 
-#+END_SRC
-
-*** basic custom keybinds
-
-#+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "C-x k") 'kill-current-buffer)
 (global-set-key (kbd "C-c C-k") 'eval-buffer)
@@ -92,30 +40,13 @@ Don't really use for anything, might get rid of this later
   (kill-buffer (current-buffer))
   )
 
-#+END_SRC
-
-** HTML Export
-
-*** settings
-
-planetbanatt org config things
-
-#+BEGIN_SRC emacs-lisp
 (setq org-export-with-section-numbers nil)
 ;(setq org-export-with-title nil) ;doesn't seem to work
 (setq org-export-with-title t)
 (setq org-html-toplevel-hlevel 1)
 (setq org-html-head-include-default-style nil)
 (setq org-html-head-include-default-scripts nil)
-#+END_SRC
 
-*** org-html head/pre/postamble
-
-Sort of a hacky solution to get emacs to export html files compatible with my [[https://planetbanatt.net/][personal website]], but I basically accomplish everything by appending a default head, preamble, and postamble to everything. I use [[https://getbootstrap.com/][bootstrap]] as a framework but it's not straightforward to edit the classes of elements done via html export in emacs. To get around this, I have a small javascript function that sets classes / attributes to things and makes them roughly usable by bootstrap. It looks pretty strange but it works for what I'm using it for!
-
-**** head
-default CSS / bootstrap, google analytics, some js functions for compatability
-#+BEGIN_SRC emacs-lisp
 (setq org-html-head
       "<meta charset=\"utf-8\">
 <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">
@@ -188,11 +119,7 @@ $(function() {
 <link rel=\"stylesheet\" type=\"text/css\" href=\"https://planetbanatt.net/css/default_20240614.css\" />
 <link rel=\"shortcut icon\" type=\"image/jpg\" href=\"https://planetbanatt.net/favicon.ico\" />
 ")
-#+END_SRC
 
-**** preamble
-navbar; will probably add header with my name later
-#+BEGIN_SRC emacs-lisp
 (setq org-html-preamble
 "
 <!-- heading -->
@@ -222,19 +149,10 @@ navbar; will probably add header with my name later
         </div><!--/.nav-collapse -->
     </nav>
 ")
-#+END_SRC
 
-**** postamble
-back to top
-#+BEGIN_SRC emacs-lisp
 (setq org-html-postamble
       "<a href=\"#top\">Back to Top</a>")
-#+END_SRC
 
-*** publish projects
-
-currently just publishing all to planetbanatt format
-#+BEGIN_SRC emacs-lisp
 (setq org-publish-project-alist
       '(("planetbanatt"
 	:base-directory "~/Documents/code/ambisinister.github.io/org/"
@@ -245,14 +163,7 @@ currently just publishing all to planetbanatt format
 	:headline-levels 6             ; Just the default for this project.
 	))
 )
-#+END_SRC
 
-*** minted, hopefully
-
-syntax highlighting for emacs org mode -> html would be nice to have for when I export things with code in them
-
-
-#+BEGIN_SRC emacs-lisp
 ;(require 'ox-latex)
 ;(use-package htmlize)
 ;(add-to-list 'org-latex-packages-alist '("" "minted"))
@@ -261,14 +172,7 @@ syntax highlighting for emacs org mode -> html would be nice to have for when I 
 ;      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
 ;        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
 ;        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-#+END_SRC
 
-
-** org mode settings
-
-*** Basic display settings and hotkeys
-
-#+BEGIN_SRC emacs-lisp
 ;; The following lines are always needed.  Choose your own keys.
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
@@ -302,12 +206,7 @@ syntax highlighting for emacs org mode -> html would be nice to have for when I 
 ;(setq org-bullets-bullet-list
 ;'("◉" "◎" "<img draggable="false" class="emoji" alt="⚫" src="https://s0.wp.com/wp-content/mu-plugins/wpcom-smileys/twemoji/2/svg/26ab.svg">" "○" "►" "◇"))
 
-#+END_SRC
-
-*** Clipboard Inline Image Paste
-
-#+BEGIN_SRC emacs-lisp
-  (defun paste-clipboard-image ()
+(defun paste-clipboard-image ()
     (interactive)
     (let* ((image-dir (concat (file-name-directory (buffer-file-name))
 			      "../images/from_clipboard/"))
@@ -323,31 +222,17 @@ syntax highlighting for emacs org mode -> html would be nice to have for when I 
 (with-eval-after-load 'org
   (define-key org-mode-map (kbd "C-c C-x i") 'paste-clipboard-image))
 
-#+END_SRC
+(setq org-capture-templates
+      '(("a" "anki basic" entry (file+headline "~/Dropbox/org/logs/added_anki.org" "Basic")
+         "* know :deck: \n** Item :note: \n\t:PROPERTIES:\n\t:ANKI_NOTE_TYPE: Basic\n\t:ANKI_TAGS: \n\t:END:\n*** Front\n%?\n*** Back\n")
+        ("t" "task" entry (file+headline "~/Dropbox/org/main.org" "Assorted Things")
+         "* TODO %?")
+        ("l" "links" item (file "~/Dropbox/org/links.org")
+         "[[%^{prompt}][%^{prompt}]] %?")
+        ("j" "journal" entry (file+headline "~/Dropbox/org/logs/captains_log.org" "journal")
+         "* %t \n%?")
+        ))
 
-#+RESULTS:
-: paste-clipboard-image
-
-*** Capture templates
-
-#+BEGIN_SRC emacs-lisp
-  (setq org-capture-templates
-        '(("a" "anki basic" entry (file+headline "~/Dropbox/org/logs/added_anki.org" "Basic")
-           "* know :deck: \n** Item :note: \n\t:PROPERTIES:\n\t:ANKI_NOTE_TYPE: Basic\n\t:ANKI_TAGS: \n\t:END:\n*** Front\n%?\n*** Back\n")
-          ("t" "task" entry (file+headline "~/Dropbox/org/main.org" "Assorted Things")
-           "* TODO %?")
-          ("l" "links" item (file "~/Dropbox/org/links.org")
-           "[[%^{prompt}][%^{prompt}]] %?")
-          ("j" "journal" entry (file+headline "~/Dropbox/org/logs/captains_log.org" "journal")
-           "* %t \n%?")
-          ))
-#+END_SRC
-
-*** Anki
-
-I spend a lot of time in anki, so one of my org capture templates saves things in anki card format in a stowed away org file - I need to transfer these to anki somehow so I use a package called anki-editor and a short hotkey to send them all when I am done writing them. At some point I need to find out if there is a hook I can use during the capture process to do this directly but for now a keystroke to send it isn't the worst thing in the world.
-
-#+BEGIN_SRC emacs-lisp
 (use-package anki-editor :ensure t)
 
 (global-set-key "\C-c0" 'send-to-anki)
@@ -360,11 +245,7 @@ I spend a lot of time in anki, so one of my org capture templates saves things i
   (save-buffer)
   (kill-current-buffer)
   )
-#+END_SRC
 
-*** Programming QOL Stuff
-
-#+BEGIN_SRC emacs-lisp
 ;probably change this so that it only asks once per file upon opening, since this is sort of dangerous
 (defun my-org-confirm-babel-evaluate (lang body)
   (not (member lang '("python"))))
@@ -374,12 +255,6 @@ I spend a lot of time in anki, so one of my org capture templates saves things i
  'org-babel-load-languages
  '((python . t)))
 
-#+END_SRC
-
-*** packages
-
-#+BEGIN_SRC emacs-lisp
 (use-package pdf-tools :ensure t)
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (pdf-loader-install)
-#+END_SRC

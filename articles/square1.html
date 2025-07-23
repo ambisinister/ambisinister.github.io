@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-19 Sat 14:38 -->
+<!-- 2025-07-23 Wed 15:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Square-1</title>
@@ -45,6 +45,35 @@ $(function() {
     $('body').attr('data-offset', '100')
     $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
+    // Dark mode functionality
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDarkMode);
+        updateToggleButton();
+    }
+
+    function updateToggleButton() {
+        const toggle = document.querySelector('.dark-mode-toggle');
+        if (toggle) {
+            toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        }
+    }
+
+    // Initialize dark mode from localStorage
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+
+    // Add toggle button
+    const toggleButton = document.createElement('div');
+    toggleButton.className = 'dark-mode-toggle';
+    toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+    toggleButton.addEventListener('click', toggleDarkMode);
+    document.body.appendChild(toggleButton);
+
+    updateToggleButton();
 });
 </script>
 
@@ -130,7 +159,7 @@ My recent stint memorizing things led me back to my other old hobby: speedsolvin
 </p>
 
 
-<div id="orgb41ba51" class="figure">
+<div id="org632afd1" class="figure">
 <p><img src="../images/from_clipboard/20240114_143432.png" alt="20240114_143432.png" />
 </p>
 </div>
@@ -168,7 +197,7 @@ This is going great! I'm totally going to solve this soon! I called it a day for
 </p>
 
 
-<div id="orgeb07c6a" class="figure">
+<div id="org7827521" class="figure">
 <p><img src="../images/from_clipboard/20240114_144113.png" alt="20240114_144113.png" />
 </p>
 </div>
@@ -212,7 +241,7 @@ At the end of this day, I arrived at the following case:
 </p>
 
 
-<div id="org1f5e54d" class="figure">
+<div id="org5535a90" class="figure">
 <p><img src="../images/from_clipboard/20240114_161137.png" alt="20240114_161137.png" />
 </p>
 </div>
@@ -292,7 +321,7 @@ which was pretty good overall despite it's incompleteness, not too different fro
 </p>
 
 
-<div id="orgaed280a" class="figure">
+<div id="org6258415" class="figure">
 <p><img src="../images/from_clipboard/20240114_162927.png" alt="20240114_162927.png" />
 </p>
 </div>

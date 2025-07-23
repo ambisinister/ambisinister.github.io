@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-19 Sat 14:38 -->
+<!-- 2025-07-23 Wed 15:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Invasion of the Ballot Snatchers</title>
@@ -45,6 +45,35 @@ $(function() {
     $('body').attr('data-offset', '100')
     $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
+    // Dark mode functionality
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDarkMode);
+        updateToggleButton();
+    }
+
+    function updateToggleButton() {
+        const toggle = document.querySelector('.dark-mode-toggle');
+        if (toggle) {
+            toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        }
+    }
+
+    // Initialize dark mode from localStorage
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+
+    // Add toggle button
+    const toggleButton = document.createElement('div');
+    toggleButton.className = 'dark-mode-toggle';
+    toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+    toggleButton.addEventListener('click', toggleDarkMode);
+    document.body.appendChild(toggleButton);
+
+    updateToggleButton();
 });
 </script>
 
@@ -748,7 +777,7 @@ return '../images/ensembles/lonewolf.png'
 
 
 
-<div id="org6309e2e" class="figure">
+<div id="org6ef93af" class="figure">
 <p><img src="../images/ensembles/lonewolf.png" alt="lonewolf.png" />
 </p>
 </div>
@@ -835,7 +864,7 @@ return '../images/ensembles/lonewolf_var.png'
 
 
 
-<div id="org203ef6c" class="figure">
+<div id="orgbd1039b" class="figure">
 <p><img src="../images/ensembles/lonewolf_var.png" alt="lonewolf_var.png" />
 </p>
 </div>
@@ -1125,7 +1154,7 @@ return '../images/ensembles/copycat_var.png'
 
 
 
-<div id="orgc522945" class="figure">
+<div id="org72c1076" class="figure">
 <p><img src="../images/ensembles/copycat_var.png" alt="copycat_var.png" />
 </p>
 </div>
@@ -1258,7 +1287,7 @@ return '../images/ensembles/copy_good.png'
 
 
 
-<div id="orgf5b3d37" class="figure">
+<div id="orga9ddbbd" class="figure">
 <p><img src="../images/ensembles/copy_good.png" alt="copy_good.png" />
 </p>
 </div>
@@ -1622,7 +1651,7 @@ return '../images/ensembles/work_together.png'
 
 
 
-<div id="org2680601" class="figure">
+<div id="orgc9013b5" class="figure">
 <p><img src="../images/ensembles/work_together.png" alt="work_together.png" />
 </p>
 </div>
@@ -1785,7 +1814,7 @@ It's no secret that the MPGR top 100 operates on very little data, and there are
 </p>
 
 
-<div id="org3e33114" class="figure">
+<div id="orgac53691" class="figure">
 <p><img src="../images/ensembles/zhu2017.png" alt="zhu2017.png" />
 </p>
 </div>

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-19 Sat 14:38 -->
+<!-- 2025-07-23 Wed 15:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ITL 2023 Postmortem</title>
@@ -45,6 +45,35 @@ $(function() {
     $('body').attr('data-offset', '100')
     $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
+    // Dark mode functionality
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDarkMode);
+        updateToggleButton();
+    }
+
+    function updateToggleButton() {
+        const toggle = document.querySelector('.dark-mode-toggle');
+        if (toggle) {
+            toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        }
+    }
+
+    // Initialize dark mode from localStorage
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+
+    // Add toggle button
+    const toggleButton = document.createElement('div');
+    toggleButton.className = 'dark-mode-toggle';
+    toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+    toggleButton.addEventListener('click', toggleDarkMode);
+    document.body.appendChild(toggleButton);
+
+    updateToggleButton();
 });
 </script>
 
@@ -161,7 +190,7 @@ One thing which is nice to know is the rate at which I earned points, relative t
 </p>
 
 
-<div id="org026fe3f" class="figure">
+<div id="org9ee2593" class="figure">
 <p><img src="../images/itl2023/rp_time.png" alt="rp_time.png" />
 </p>
 </div>
@@ -171,7 +200,7 @@ This chart tells the story pretty well: playing a few relatively easy charts nob
 </p>
 
 
-<div id="orgf9d307e" class="figure">
+<div id="org08100ca" class="figure">
 <p><img src="../images/itl2023/bar.png" alt="bar.png" />
 </p>
 </div>
@@ -185,7 +214,7 @@ Another good way to visualize this is with a heatmap with the number of points e
 </p>
 
 
-<div id="org13242d2" class="figure">
+<div id="org7e2f5ca" class="figure">
 <p><img src="../images/itl2023/daily_points.png" alt="daily_points.png" />
 </p>
 </div>
@@ -208,7 +237,7 @@ As such, I'm not going through the trouble of analyzing every play from every ot
 </p>
 
 
-<div id="orgf719400" class="figure">
+<div id="org38277fb" class="figure">
 <p><img src="../images/itl2023/num_plays.png" alt="num_plays.png" />
 </p>
 </div>
@@ -218,7 +247,7 @@ So, I played a pretty consistent amount most days, and had the occasional push s
 </p>
 
 
-<div id="orgce21113" class="figure">
+<div id="org7553b8c" class="figure">
 <p><img src="../images/itl2023/block_avg.png" alt="block_avg.png" />
 </p>
 </div>
@@ -245,7 +274,7 @@ Combining the above with the heatmaps from earlier, we can actually directly see
 </p>
 
 
-<div id="orga754970" class="figure">
+<div id="orgb33f812" class="figure">
 <p><img src="../images/itl2023/hours_perday.png" alt="hours_perday.png" />
 </p>
 </div>
@@ -268,19 +297,19 @@ Average EX score per block is very funny here: 14 is quite a bit higher than 13 
 </p>
 
 
-<div id="orgaddc10e" class="figure">
+<div id="org80e587a" class="figure">
 <p><img src="../images/itl2023/avg_ex_by_block.png" alt="avg_ex_by_block.png" />
 </p>
 </div>
 
 
-<div id="orgdcc2efc" class="figure">
+<div id="org5b5fa23" class="figure">
 <p><img src="../images/itl2023/highest_play.png" alt="highest_play.png" />
 </p>
 </div>
 
 
-<div id="org98cb07c" class="figure">
+<div id="orgca3e4b7" class="figure">
 <p><img src="../images/itl2023/block_bar.png" alt="block_bar.png" />
 </p>
 </div>
@@ -338,7 +367,7 @@ So I asked the ITL Discord, and I got a lot of really nice advice from very help
 </p>
 
 
-<div id="org9ce12e1" class="figure">
+<div id="org5ebe635" class="figure">
 <p><img src="../images/itl2023/advice.png" alt="advice.png" />
 </p>
 </div>
@@ -458,7 +487,7 @@ Below is the goals document I had kept in my phone's notes app.
 </p>
 
 
-<div id="org4c50f5f" class="figure">
+<div id="orgf05bf29" class="figure">
 <p><img src="../images/itl2023/goals.jpg" alt="goals.jpg" />
 </p>
 </div>

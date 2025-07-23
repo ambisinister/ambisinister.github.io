@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-19 Sat 14:38 -->
+<!-- 2025-07-23 Wed 15:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>2024 ML Reading</title>
@@ -45,6 +45,35 @@ $(function() {
     $('body').attr('data-offset', '100')
     $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
+    // Dark mode functionality
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDarkMode);
+        updateToggleButton();
+    }
+
+    function updateToggleButton() {
+        const toggle = document.querySelector('.dark-mode-toggle');
+        if (toggle) {
+            toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        }
+    }
+
+    // Initialize dark mode from localStorage
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+
+    // Add toggle button
+    const toggleButton = document.createElement('div');
+    toggleButton.className = 'dark-mode-toggle';
+    toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+    toggleButton.addEventListener('click', toggleDarkMode);
+    document.body.appendChild(toggleButton);
+
+    updateToggleButton();
 });
 </script>
 
@@ -176,7 +205,7 @@ Players: new LLM, old LLM. Old LLM generates responses close to real data, new L
 </p>
 
 
-<div id="orgfc7bbaf" class="figure">
+<div id="orgbb50593" class="figure">
 <p><img src="../images/from_clipboard/20240104_104317.png" alt="20240104_104317.png" />
 </p>
 </div>
@@ -211,7 +240,7 @@ Core here is outputs of text -&gt; image-rendering code -&gt; image, and likewis
 </p>
 
 
-<div id="org7389229" class="figure">
+<div id="org5fc7be5" class="figure">
 <p><img src="../images/from_clipboard/20240104_110255.png" alt="20240104_110255.png" />
 </p>
 </div>
@@ -242,7 +271,7 @@ MUSE originally used a 4.6b text encoder, a 3b base transformer, and a 1b super-
 </p>
 
 
-<div id="org85729d5" class="figure">
+<div id="orgbc068d9" class="figure">
 <p><img src="../images/from_clipboard/20240104_114430.png" alt="20240104_114430.png" />
 </p>
 </div>
@@ -263,7 +292,7 @@ MUSE originally used a 4.6b text encoder, a 3b base transformer, and a 1b super-
 </ol>
 
 
-<div id="org0eff255" class="figure">
+<div id="org5dfa68b" class="figure">
 <p><img src="../images/from_clipboard/20240104_121841.png" alt="20240104_121841.png" />
 </p>
 </div>
@@ -290,7 +319,7 @@ A fine-tuned diffusion model which natively accepts multimodal input similar to 
 </p>
 
 
-<div id="orgdba7343" class="figure">
+<div id="org5e6e2dc" class="figure">
 <p><img src="../images/from_clipboard/20240105_100548.png" alt="20240105_100548.png" />
 </p>
 </div>
@@ -304,7 +333,7 @@ Their results are fine &#x2013; it is not possible to evaluate image generation 
 </p>
 
 
-<div id="org1346d2a" class="figure">
+<div id="orga32fd57" class="figure">
 <p><img src="../images/from_clipboard/20240105_103438.png" alt="20240105_103438.png" />
 </p>
 </div>
@@ -327,7 +356,7 @@ Existing models for 3d perception usually use 3D point clouds, and these models 
 </p>
 
 
-<div id="org63fa17d" class="figure">
+<div id="orga1b3afb" class="figure">
 <p><img src="../images/from_clipboard/20240105_110916.png" alt="20240105_110916.png" />
 </p>
 </div>

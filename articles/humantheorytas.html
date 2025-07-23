@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-19 Sat 14:38 -->
+<!-- 2025-07-23 Wed 15:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>STARS ALIGNED TAS</title>
@@ -45,6 +45,35 @@ $(function() {
     $('body').attr('data-offset', '100')
     $('table').addClass('table table-striped table-bordered table-hover table-condensed')
 
+    // Dark mode functionality
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDarkMode);
+        updateToggleButton();
+    }
+
+    function updateToggleButton() {
+        const toggle = document.querySelector('.dark-mode-toggle');
+        if (toggle) {
+            toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        }
+    }
+
+    // Initialize dark mode from localStorage
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+
+    // Add toggle button
+    const toggleButton = document.createElement('div');
+    toggleButton.className = 'dark-mode-toggle';
+    toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+    toggleButton.addEventListener('click', toggleDarkMode);
+    document.body.appendChild(toggleButton);
+
+    updateToggleButton();
 });
 </script>
 
@@ -178,7 +207,7 @@ The clip mostly speaks for itself, I think, not that much is really going on her
 </p>
 
 
-<div id="orgdafddd0" class="figure">
+<div id="org41860eb" class="figure">
 <p><img src="../images/htt/nairdair.PNG" alt="nairdair.PNG" />
 </p>
 </div>
@@ -304,7 +333,7 @@ Here's a funny image of falcon punch in the skybox.
 </p>
 
 
-<div id="orgd524ba9" class="figure">
+<div id="orgda5336d" class="figure">
 <p><img src="../images/htt/fsmash windmill ascension falcon punch.PNG" alt="fsmash windmill ascension falcon punch.PNG" />
 </p>
 </div>
@@ -328,7 +357,7 @@ Other notable things in this clip are CC -&gt; Dash JC shine vs Marth's fair out
 </p>
 
 
-<div id="orgf72b684" class="figure">
+<div id="org03fded3" class="figure">
 <p><img src="../images/htt/invincible doraki bair.PNG" alt="invincible doraki bair.PNG" />
 </p>
 </div>
@@ -354,7 +383,7 @@ Connecting with the upB is obviously pretty unlikely and the clip had most of th
 </p>
 
 
-<div id="orga596fa4" class="figure">
+<div id="org30108a2" class="figure">
 <p><img src="../images/htt/revfirebird.PNG" alt="revfirebird.PNG" />
 </p>
 </div>
@@ -433,7 +462,7 @@ It's actually possible to do an instant walljump off of edgecancel knee with Cap
 <iframe src="https://clips.twitch.tv/embed?clip=SmokyTsunderePlumageHassanChop" frameborder="0" allowfullscreen="true" height="378" width="620"></iframe>
 
 
-<div id="orgf122dd2" class="figure">
+<div id="orgab36df7" class="figure">
 <p><img src="../images/htt/offstageknee.PNG" alt="offstageknee.PNG" />
 </p>
 </div>
