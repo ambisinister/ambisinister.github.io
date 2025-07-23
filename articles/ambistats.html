@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-19 Sat 14:38 -->
+<!-- 2025-07-23 Wed 00:22 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Making Sense of Melee</title>
@@ -89,7 +89,7 @@ $(function() {
 <ul>
 <li><a href="#org9b5f322">Making Sense of Melee: The Illusion of Objective Ranks and the Real Impact of Everything</a>
 <ul>
-<li><a href="#whydontyoujustuseelo">"Why don't you just use ELO?"</a>
+<li><a href="#whydontyoujustuseelo">"Why don't you just use Elo?"</a>
 <ul>
 <li><a href="#matchdisparity">Match Disparity</a></li>
 <li><a href="#claudebloodgood">Claude Bloodgood</a></li>
@@ -149,7 +149,7 @@ works and about how looking at tournament results might prove valuable.
 </div>
 
 <div id="outline-container-whydontyoujustuseelo" class="outline-2">
-<h2 id="whydontyoujustuseelo">"Why don't you just use ELO?"</h2>
+<h2 id="whydontyoujustuseelo">"Why don't you just use Elo?"</h2>
 <div class="outline-text-2" id="text-whydontyoujustuseelo">
 <p>
 I was interviewed briefly for
@@ -160,7 +160,7 @@ an objective system to do ranks?"
 </p>
 
 
-<div id="orgcb1a922" class="figure">
+<div id="org001072b" class="figure">
 <p><img src="../images/ambistats/reddit_kid.png" alt="reddit_kid.png" />
 </p>
 </div>
@@ -169,11 +169,11 @@ an objective system to do ranks?"
 The short answer to this is "well, we've tried, and it doesn't work
 well." The long answer is that most of these Rating algorithms are not
 well-suited either for melee or for double-elimination formats. For
-example, here is ELO run on the database
+example, here is Elo run on the database
 </p>
 
 
-<div id="orga051555" class="figure">
+<div id="orge156eb1" class="figure">
 <p><img src="../images/ambistats/top_50_according_to_reddit_kid.png" alt="top_50_according_to_reddit_kid.png" />
 </p>
 </div>
@@ -183,7 +183,7 @@ And here is the top 10 with Glicko-2 run on the database
 </p>
 
 
-<div id="org0bd6bba" class="figure">
+<div id="org6c17230" class="figure">
 <p><img src="../images/ambistats/glicko_sucks_too.jpg" alt="glicko_sucks_too.jpg" />
 </p>
 </div>
@@ -202,18 +202,18 @@ appraisal.
 <h3 id="matchdisparity">Match Disparity</h3>
 <div class="outline-text-3" id="text-matchdisparity">
 <p>
-Something people often neglect when making the suggestion to use ELO is
-that ELO functions by
+Something people often neglect when making the suggestion to use Elo is
+that Elo functions by
 <a href="https://en.wikipedia.org/wiki/Elo_rating_system">predicting the number
 of wins and losses you will have across a tournament</a> given how many
 matches you play, a number which is a constant in Swiss format and a
-variable in Double Elimination. Below is the update function for ELO,
+variable in Double Elimination. Below is the update function for Elo,
 which in plain english is "your rating is adjusted by the difference
 between your actual and expected scores, multiplied by a constant K"
 </p>
 
 
-<div id="org6d2c9c8" class="figure">
+<div id="orgbd64d47" class="figure">
 <p><img src="../images/ambistats/elo_update.PNG" alt="elo_update.PNG" />
 </p>
 </div>
@@ -224,29 +224,18 @@ not only do all the players have different number of matches, but even
 two players playing in the same round of losers usually have played a
 different number of matches to reach that spot. Not only that, but every
 player will have the same number of set losses every tournament except
-for the single winner of the tournament. So, imagine a local tournament
-featuring Mang0. We may predict that he ought to come out of this
-tournament with five wins and no losses. If he loses round 1 and plays
-ten sets in losers to win the tournament, this is obviously a horrendous
-performance for Mang0 but a wildly rewarded one using ELO (10 &gt; 5). You
-can try retroactively predicting the number of points you <i>ought to</i> win
-given how many you played, but this also punishes players that win
-through winners and therefore play fewer matches - a 2000-rated player
-winning 3 points out of 5 against a [100, 2200, 2200, 2200, 2200]
-bracket is worth the same to ELO regardless of whether you beat the 100
-or lost to them; in double elimination, losing to a 100-rated player R1
-might net a 2000-rated player a longer but not much more difficult
-bracket run, something like [100, 1500, 1800, 1800, 2000, 2200, 2200,
-2200], thereby rewarding the player slightly more for losing to the
-100-rated player compared to losing to the 2200 player. You can <i>also</i>
-try predicting it match by match and use percent chance to win (which is
-what online chess clubs like ICC use), but this leaves a lot to be
-desired in practice and also simply misses the point entirely: ELO is
-structured around players having a roughly equal number of games each
-tournament, and double elimination means that placements and number of
-matches played are always different. ELO, and it's commonly used
-variants like Glicko-2 or trueskill simply aren't well-suited for the
-format used in Melee tournaments.
+for the single winner of the tournament.
+</p>
+
+<p>
+This creates some warped incentives: if your goal is rating gain, then
+it may be optimal to deliberately lose earlier in the tournament, in
+order to give yourself more runway for matches (and therefore, more
+rating updates). This is a non-factor in other games which use Elo,
+since those communities frequently use Swiss tournaments with a fixed
+number of rounds, rather than double elimination as is most common in
+SSBM. Elo, and it's commonly used variants like Glicko-2 or trueskill
+simply aren't well-suited for the format used in Melee tournaments.
 </p>
 </div>
 </div>
@@ -303,7 +292,7 @@ amount of points to one 1200 player as they are to another 1200 player.
 However, the existence of multiple characters in melee means that every
 win isn't necessarily created equal - wins as peach against puff players
 are inherently more valuable than wins as fox against puff players, and
-so on. ELO is structured around the idea of all matches being worth the
+so on. Elo is structured around the idea of all matches being worth the
 same amount, and thus misses the nuance when, say, lloD beats Prince
 Abu, a player ranked lower than him.
 </p>
@@ -568,7 +557,7 @@ tiers is a little messy&#x2026;
 </p>
 
 
-<div id="org134cdaa" class="figure">
+<div id="orgd859ca8" class="figure">
 <p><img src="../images/ambistats/winrates_bad.png" alt="winrates_bad.png" />
 </p>
 </div>
@@ -579,7 +568,7 @@ pretty gradient:
 </p>
 
 
-<div id="orgd5be3e2" class="figure">
+<div id="org5d66a4d" class="figure">
 <p><img src="../images/ambistats/winrates_good.png" alt="winrates_good.png" />
 </p>
 </div>
@@ -622,13 +611,13 @@ data), yielding the following results, respectively:
 </p>
 
 
-<div id="org6029b92" class="figure">
+<div id="org7a37abf" class="figure">
 <p><img src="../images/ambistats/winrates_autotagged_simple.png" alt="winrates_autotagged_simple.png" />
 </p>
 </div>
 
 
-<div id="org3ed9210" class="figure">
+<div id="org9c6401d" class="figure">
 <p><img src="../images/ambistats/winrates_autotagged_multi.png" alt="winrates_autotagged_multi.png" />
 </p>
 </div>
@@ -646,7 +635,7 @@ with fewer results to account for them.
 </p>
 
 
-<div id="org0057fde" class="figure">
+<div id="org155b7be" class="figure">
 <p><img src="../images/ambistats/winrates_autotag_final.png" alt="winrates_autotag_final.png" />
 </p>
 </div>
@@ -658,7 +647,7 @@ result, and we can use this to examine some interesting trends in the
 data.
 </p>
 
-<div class="HTML" id="orga05a757">
+<div class="HTML" id="orgaa01a8d">
 <p>
 &lt;p&gt;&lt;i&gt;Just as a brief aside - before anyone suggests that this be used
 without human curation, the automatic tiering contained some serious
@@ -732,7 +721,7 @@ sets (labeled as 1-0), we get the following:
 </p>
 
 
-<div id="orgde2f524" class="figure">
+<div id="org295b8c7" class="figure">
 <p><img src="../images/ambistats/gamecounts_all.png" alt="gamecounts_all.png" />
 </p>
 </div>
@@ -750,7 +739,7 @@ If we only look at players with <i>seeds</i>, then we get the following.
 </p>
 
 
-<div id="orgc945268" class="figure">
+<div id="orgd14b93b" class="figure">
 <p><img src="../images/ambistats/gamecounts_tiered.png" alt="gamecounts_tiered.png" />
 </p>
 </div>
@@ -783,7 +772,7 @@ the top tier (least data, most representative of top level).
 </p>
 
 
-<div id="org930ed91" class="figure">
+<div id="org49dd7e2" class="figure">
 <p><img src="../images/ambistats/FoxSheik_gamecount_all.png" alt="FoxSheik_gamecount_all.png" />
 </p>
 </div>
@@ -793,7 +782,7 @@ It looks 6-4 at first glance, which squares up with conventional wisdom.
 </p>
 
 
-<div id="org2dab3a7" class="figure">
+<div id="orgcb65c57" class="figure">
 <p><img src="../images/ambistats/FoxSheik_gamecount_tiered.png" alt="FoxSheik_gamecount_tiered.png" />
 </p>
 </div>
@@ -812,7 +801,7 @@ roughly equally.
 </p>
 
 
-<div id="orgc07ab61" class="figure">
+<div id="orgd07655d" class="figure">
 <p><img src="../images/ambistats/FoxSheik_gamecount_closetiered.png" alt="FoxSheik_gamecount_closetiered.png" />
 </p>
 </div>
@@ -827,7 +816,7 @@ matchup.
 </p>
 
 
-<div id="org2deac4f" class="figure">
+<div id="org9bc0375" class="figure">
 <p><img src="../images/ambistats/FoxSheik_gamecount_hightiered.png" alt="FoxSheik_gamecount_hightiered.png" />
 </p>
 </div>
@@ -850,7 +839,7 @@ Excluding them for completeness' sake we get the following
 </p>
 
 
-<div id="org8a33276" class="figure">
+<div id="orgf041ed9" class="figure">
 <p><img src="../images/ambistats/FoxSheik_gamecount_nogoods.png" alt="FoxSheik_gamecount_nogoods.png" />
 </p>
 </div>
@@ -915,7 +904,7 @@ yields the following table.
 </p>
 
 
-<div id="org95f9de5" class="figure">
+<div id="orgfe1b93c" class="figure">
 <p><img src="../images/ambistats/empirical_tier_list.PNG" alt="empirical_tier_list.PNG" />
 </p>
 </div>
@@ -940,7 +929,7 @@ is favored over having a few very easy matchups.
 </p>
 
 
-<div id="org58ef49e" class="figure">
+<div id="org84e453e" class="figure">
 <p><img src="../images/ambistats/empirical_tier_list_sigma.PNG" alt="empirical_tier_list_sigma.PNG" />
 </p>
 </div>
@@ -977,7 +966,7 @@ omnium contra omnes</a> fashion, we can see the following:
 </p>
 
 
-<div id="org53833c0" class="figure">
+<div id="orgee1a008" class="figure">
 <p><img src="../images/ambistats/characters/All_vs_All.png" alt="All_vs_All.png" />
 </p>
 </div>
@@ -989,7 +978,7 @@ almost exactly identical to the same calculation I performed in 2015:
 </p>
 
 
-<div id="org075aa28" class="figure">
+<div id="orgb0710f3" class="figure">
 <p><img src="../images/projection/allvsall.png" alt="allvsall.png" />
 </p>
 </div>
@@ -1018,7 +1007,7 @@ characters so this was pretty interesting to see.
 </p>
 
 
-<div id="org4bfca1c" class="figure">
+<div id="org0e1ea36" class="figure">
 <p><img src="../images/ambistats/characters/ICs_vs_All.png" alt="ICs_vs_All.png" />
 </p>
 </div>
@@ -1039,7 +1028,7 @@ the regression function.
 </p>
 
 
-<div id="org2292e18" class="figure">
+<div id="orgc27272d" class="figure">
 <p><img src="../images/ambistats/curve_data.PNG" alt="curve_data.PNG" />
 </p>
 </div>
@@ -1075,7 +1064,7 @@ is Peach vs Ice Climbers.
 </p>
 
 
-<div id="orga552d66" class="figure">
+<div id="org45b695c" class="figure">
 <p><img src="../images/ambistats/matchups/Peach_vs_ICs.png" alt="Peach_vs_ICs.png" />
 </p>
 </div>
@@ -1168,7 +1157,7 @@ this short writeup that at least some of this ire is abated by the
 assurance that there's tons of people working behind the scenes to make
 sure everything runs smoothly, and that everybody has the best
 experience possible. Oftentimes ideas that <i>sound</i> good at first (e.g.
-"use ELO to seed tournaments to eliminate exposure bias") simply fall
+"use Elo to seed tournaments to eliminate exposure bias") simply fall
 apart after you actually try to implement them. The melee community
 isn't perfect, but at the end of the day most of us are just doing all
 of this because we like it, and having a degree of good faith that

@@ -19,7 +19,7 @@ results is a bit of a hot topic lately, after SSBMrank 2017, so with
 this modest amount of information we can explore a bit about how Melee
 works and about how looking at tournament results might prove valuable.
 
-** "Why don't you just use ELO?"
+** "Why don't you just use Elo?"
     :PROPERTIES:
     :CUSTOM_ID: whydontyoujustuseelo
     :END:
@@ -35,7 +35,7 @@ an objective system to do ranks?"
 The short answer to this is "well, we've tried, and it doesn't work
 well." The long answer is that most of these Rating algorithms are not
 well-suited either for melee or for double-elimination formats. For
-example, here is ELO run on the database
+example, here is Elo run on the database
 
 [[../images/ambistats/top_50_according_to_reddit_kid.png]]
 
@@ -55,12 +55,12 @@ appraisal.
      :CUSTOM_ID: matchdisparity
      :END:
 
-Something people often neglect when making the suggestion to use ELO is
-that ELO functions by
+Something people often neglect when making the suggestion to use Elo is
+that Elo functions by
 [[https://en.wikipedia.org/wiki/Elo_rating_system][predicting the number
 of wins and losses you will have across a tournament]] given how many
 matches you play, a number which is a constant in Swiss format and a
-variable in Double Elimination. Below is the update function for ELO,
+variable in Double Elimination. Below is the update function for Elo,
 which in plain english is "your rating is adjusted by the difference
 between your actual and expected scores, multiplied by a constant K"
 
@@ -71,29 +71,16 @@ not only do all the players have different number of matches, but even
 two players playing in the same round of losers usually have played a
 different number of matches to reach that spot. Not only that, but every
 player will have the same number of set losses every tournament except
-for the single winner of the tournament. So, imagine a local tournament
-featuring Mang0. We may predict that he ought to come out of this
-tournament with five wins and no losses. If he loses round 1 and plays
-ten sets in losers to win the tournament, this is obviously a horrendous
-performance for Mang0 but a wildly rewarded one using ELO (10 > 5). You
-can try retroactively predicting the number of points you /ought to/ win
-given how many you played, but this also punishes players that win
-through winners and therefore play fewer matches - a 2000-rated player
-winning 3 points out of 5 against a [100, 2200, 2200, 2200, 2200]
-bracket is worth the same to ELO regardless of whether you beat the 100
-or lost to them; in double elimination, losing to a 100-rated player R1
-might net a 2000-rated player a longer but not much more difficult
-bracket run, something like [100, 1500, 1800, 1800, 2000, 2200, 2200,
-2200], thereby rewarding the player slightly more for losing to the
-100-rated player compared to losing to the 2200 player. You can /also/
-try predicting it match by match and use percent chance to win (which is
-what online chess clubs like ICC use), but this leaves a lot to be
-desired in practice and also simply misses the point entirely: ELO is
-structured around players having a roughly equal number of games each
-tournament, and double elimination means that placements and number of
-matches played are always different. ELO, and it's commonly used
-variants like Glicko-2 or trueskill simply aren't well-suited for the
-format used in Melee tournaments.
+for the single winner of the tournament.
+
+This creates some warped incentives: if your goal is rating gain, then
+it may be optimal to deliberately lose earlier in the tournament, in
+order to give yourself more runway for matches (and therefore, more
+rating updates). This is a non-factor in other games which use Elo,
+since those communities frequently use Swiss tournaments with a fixed
+number of rounds, rather than double elimination as is most common in
+SSBM. Elo, and it's commonly used variants like Glicko-2 or trueskill
+simply aren't well-suited for the format used in Melee tournaments.
 
 *** Claude Bloodgood
      :PROPERTIES:
@@ -144,7 +131,7 @@ amount of points to one 1200 player as they are to another 1200 player.
 However, the existence of multiple characters in melee means that every
 win isn't necessarily created equal - wins as peach against puff players
 are inherently more valuable than wins as fox against puff players, and
-so on. ELO is structured around the idea of all matches being worth the
+so on. Elo is structured around the idea of all matches being worth the
 same amount, and thus misses the nuance when, say, lloD beats Prince
 Abu, a player ranked lower than him.
 
@@ -707,7 +694,7 @@ this short writeup that at least some of this ire is abated by the
 assurance that there's tons of people working behind the scenes to make
 sure everything runs smoothly, and that everybody has the best
 experience possible. Oftentimes ideas that /sound/ good at first (e.g.
-"use ELO to seed tournaments to eliminate exposure bias") simply fall
+"use Elo to seed tournaments to eliminate exposure bias") simply fall
 apart after you actually try to implement them. The melee community
 isn't perfect, but at the end of the day most of us are just doing all
 of this because we like it, and having a degree of good faith that
