@@ -402,6 +402,43 @@
             }
         }
         
+        async function appendToSheet2(practiceData) {
+            try {
+                // Ensure we have a valid token
+                const token = localStorage.getItem('google_access_token');
+                if (!token) {
+                    throw new Error('No access token found');
+                }
+                
+                // Set the token before making the request
+                gapi.client.setToken({access_token: token});
+                
+                const response = await gapi.client.sheets.spreadsheets.values.append({
+                    spreadsheetId: SPREADSHEET_ID,
+                    range: 'Sheet2!A:E',
+                    valueInputOption: 'RAW',
+                    insertDataOption: 'INSERT_ROWS',
+                    resource: {
+                        values: [practiceData]
+                    }
+                });
+                console.log('Sheet2 updated successfully');
+                return response;
+            } catch (error) {
+                console.error('Error updating Sheet2:', error);
+                
+                // If authentication failed, try to refresh or re-authenticate
+                if (error.status === 401) {
+                    console.log('Token expired, requesting new authentication...');
+                    localStorage.removeItem('google_access_token');
+                    updateAuthStatus(false);
+                    alert('Authentication expired. Please reconnect to Google Sheets.');
+                }
+                
+                throw error;
+            }
+        }
+        
 
         function loadPracticeHistory() {
             // No localStorage loading for now
@@ -632,8 +669,9 @@
                 }
                 state.notes = updatedNotes;
                 
-                // Update Google Sheet
+                // Update Google Sheets (both Sheet1 and Sheet2)
                 try {
+                    // Update Sheet1 with accumulated data
                     const rowData = [
                         state.title,
                         state.character,
@@ -646,7 +684,19 @@
                     ];
                     
                     await updateSheetRow(state.rowIndex, rowData);
-                    console.log('Practice data synced to Google Sheets');
+                    console.log('Practice data synced to Sheet1');
+                    
+                    // Append raw practice data to Sheet2
+                    const sheet2Data = [
+                        state.title,
+                        newNotes || '', // Just today's notes, not accumulated
+                        state.lastPracticed ? state.lastPracticed.toISOString() : '',
+                        state.targetScore,
+                        score
+                    ];
+                    
+                    await appendToSheet2(sheet2Data);
+                    console.log('Raw practice data appended to Sheet2');
                 } catch (error) {
                     console.error('Failed to sync to Google Sheets:', error);
                     alert('Practice recorded locally but failed to sync to Google Sheets. Please check your connection.');
