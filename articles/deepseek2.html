@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-09-23 Tue 17:27 -->
+<!-- 2025-09-23 Tue 17:34 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Deepseek Continued</title>
@@ -138,7 +138,8 @@ $(function() {
 <li><a href="#org443dbc9">Works With No Technical Report</a>
 <ul>
 <li><a href="#org006fae5">DeepSeek-V2.5</a></li>
-<li><a href="#org76e28f6">DeepSeek-R1</a></li>
+<li><a href="#org977c284">DeepSeek-R1-lite</a></li>
+<li><a href="#orgee38092">DeepSeek-V3.1 Line</a></li>
 </ul>
 </li>
 <li><a href="#org3827c12">Expert-Specialized Fine-Tuning</a>
@@ -237,7 +238,7 @@ $(function() {
 <h2 id="org05c392d">Intro</h2>
 <div class="outline-text-2" id="text-org05c392d">
 <p>
-Perhaps unsurprisingly, DeepSeek has continued to publish papers since <a href="https://planetbanatt.net/articles/deepseek.html">my previous overview</a> on their published works. That overview covered the path from DeepSeek-LLM to DeepSeek-V2-Coder, and rather than make it even longer<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>, I decided to spin off a new literature review for their journey from V2-Coder to V3.
+Perhaps unsurprisingly, DeepSeek has continued to publish papers since <a href="https://planetbanatt.net/articles/deepseek.html">my previous overview</a> on their published works. That overview covered the path from DeepSeek-LLM to DeepSeek-V2-Coder, and rather than make it even longer<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>, I decided to spin off a new literature review for their journey from V2-Coder to R1.
 </p>
 
 <p>
@@ -260,7 +261,7 @@ None of these should be too surprising for the astute reader. DeepSeek's preregi
 </ul>
 
 <p>
-As a slight spoiler, we will tackle all of these in some capacity in the papers that follow. This document will cover the papers released between DeepSeek-Coder-V2 and DeepSeek-V3, which contains seven works. Please make sure you read <a href="https://planetbanatt.net/articles/deepseek.html">Part 1</a> of this writeup before continuing further, since it will be hard to understand otherwise.
+As a slight spoiler, we will tackle all of these in some capacity in the papers that follow. This document will cover the papers released between DeepSeek-Coder-V2 and DeepSeek-R1, which contains eight works. Please make sure you read <a href="https://planetbanatt.net/articles/deepseek.html">Part 1</a> of this writeup before continuing further, since it will be hard to understand otherwise.
 </p>
 </div>
 </div>
@@ -286,11 +287,20 @@ This seemed to be achieved with some sort of model merging technique (a separate
 </div>
 </div>
 
-<div id="outline-container-org76e28f6" class="outline-3">
-<h3 id="org76e28f6">DeepSeek-R1</h3>
-<div class="outline-text-3" id="text-org76e28f6">
+<div id="outline-container-org977c284" class="outline-3">
+<h3 id="org977c284">DeepSeek-R1-lite</h3>
+<div class="outline-text-3" id="text-org977c284">
 <p>
-DeepSeek released the lite preview of an o1-preview-like model with fully visible reasoning chains <a href="https://x.com/deepseek_ai/status/1859200141355536422">here</a>, on November 20th, 2024. This was a very interesting release: they reproduced OpenAI's AIME test-time scaling results, and the reasoning chains are a real joy to look at. But, there's no technical report, no weights, and no full version. 
+DeepSeek released the lite preview of an o1-preview-like model with fully visible reasoning chains <a href="https://x.com/deepseek_ai/status/1859200141355536422">here</a>, on November 20th, 2024. This was a very interesting release: they reproduced OpenAI's AIME test-time scaling results, and the reasoning chains are a real joy to look at. This model was never released, but presumably was trained the same way as their R1 Technical report.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgee38092" class="outline-3">
+<h3 id="orgee38092">DeepSeek-V3.1 Line</h3>
+<div class="outline-text-3" id="text-orgee38092">
+<p>
+DeepSeek has since in 2025 released some updates to DeepSeek-V3 which turn it into a hybrid/agentic model which is more specialized for operating inside harnesses like <a href="https://claude.com/product/claude-code">Claude Code</a>. There is no technical report for this change at the time of writing.
 </p>
 </div>
 </div>
@@ -327,7 +337,7 @@ We've already seen in DeepSeek-V2 that this idea can be used really effectively 
 </p>
 
 
-<div id="orgab556ec" class="figure">
+<div id="org4cd29b6" class="figure">
 <p><img src="../images/from_clipboard/20241227_202228.png" alt="20241227_202228.png" />
 </p>
 </div>
@@ -350,7 +360,7 @@ Relatedly, it feels sort of antithetical to the way MoE works in the first place
 <h3 id="org60d06b6">ESFT</h3>
 <div class="outline-text-3" id="text-org60d06b6">
 
-<div id="orga017c4f" class="figure">
+<div id="org6f0450e" class="figure">
 <p><img src="../images/from_clipboard/20241227_203350.png" alt="20241227_203350.png" />
 </p>
 </div>
@@ -370,7 +380,7 @@ This all fundamentally depends on the insight that, in this highly specialized r
 </p>
 
 
-<div id="org1bb10eb" class="figure">
+<div id="orgf20523b" class="figure">
 <p><img src="../images/from_clipboard/20241227_204437.png" alt="20241227_204437.png" />
 </p>
 </div>
@@ -380,7 +390,7 @@ The method they use isn't too different from what you'd expect, given the result
 </p>
 
 
-<div id="orge3f0a2f" class="figure">
+<div id="orgd33d544" class="figure">
 <p><img src="../images/from_clipboard/20241227_205635.png" alt="20241227_205635.png" />
 </p>
 </div>
@@ -394,7 +404,7 @@ To me this just makes perfect sense: for unrelated tasks, it's possible that the
 </p>
 
 
-<div id="org553f86d" class="figure">
+<div id="org4f2089e" class="figure">
 <p><img src="../images/from_clipboard/20241227_210629.png" alt="20241227_210629.png" />
 </p>
 </div>
@@ -426,7 +436,7 @@ MCTS works in four steps. First, selection: MCTS will traverse the tree by sampl
 </p>
 
 
-<div id="org0622a5d" class="figure">
+<div id="org9211f6e" class="figure">
 <p><img src="../images/from_clipboard/20241228_213907.png" alt="20241228_213907.png" />
 </p>
 </div>
@@ -498,7 +508,7 @@ We now have one of the gnarliest figures in the DeepSeek Corpus:
 </p>
 
 
-<div id="org5a51f51" class="figure">
+<div id="orgd52194f" class="figure">
 <p><img src="../images/from_clipboard/20241227_214920.png" alt="20241227_214920.png" />
 </p>
 </div>
@@ -579,7 +589,7 @@ Recall from DeepSeekMoE that, in Mixture-of-Experts, the FFN component of the tr
 </p>
 
 
-<div id="orgff52a91" class="figure">
+<div id="orge42783a" class="figure">
 <p><img src="../images/from_clipboard/20240603_132441.png" alt="20240603_132441.png" />
 </p>
 </div>
@@ -589,7 +599,7 @@ A core problem of MoE models is that the router can just pick the same few exper
 </p>
 
 
-<div id="org5687431" class="figure">
+<div id="org1c173b9" class="figure">
 <p><img src="../images/from_clipboard/20240612_143124.png" alt="20240612_143124.png" />
 </p>
 </div>
@@ -599,7 +609,7 @@ This is usually sufficient for getting the experts to be selected evenly. The pr
 </p>
 
 
-<div id="org8e7a30c" class="figure">
+<div id="org603aaf3" class="figure">
 <p><img src="../images/from_clipboard/20241227_185215.png" alt="20241227_185215.png" />
 </p>
 </div>
@@ -609,7 +619,7 @@ To fix this problem, they introduce a bias term during training. This bias term 
 </p>
 
 
-<div id="orga0e9942" class="figure">
+<div id="org57907c4" class="figure">
 <p><img src="../images/from_clipboard/20241227_185622.png" alt="20241227_185622.png" />
 </p>
 </div>
@@ -623,7 +633,7 @@ Here's my quick writeup of their algorithm in code; it's not too hard to underst
 </p>
 
 
-<div id="org27bcb04" class="figure">
+<div id="org6094f8b" class="figure">
 <p><img src="../images/from_clipboard/20241227_190419.png" alt="20241227_190419.png" />
 </p>
 </div>
@@ -633,7 +643,7 @@ Here's my quick writeup of their algorithm in code; it's not too hard to underst
 </p>
 
 
-<div id="orgf29fa94" class="figure">
+<div id="org28e7818" class="figure">
 <p><img src="../images/from_clipboard/20241227_190854.png" alt="20241227_190854.png" />
 </p>
 </div>
@@ -690,7 +700,7 @@ Way back in 2017 a paper <a href="https://arxiv.org/pdf/1711.00937">Neural Discr
 </p>
 
 
-<div id="org4f337c6" class="figure">
+<div id="org9f91893" class="figure">
 <p><img src="../images/from_clipboard/20241228_122508.png" alt="20241228_122508.png" />
 </p>
 </div>
@@ -729,7 +739,7 @@ The important artifact we need from this paper is their released image tokenizer
 </p>
 
 
-<div id="org8c278a6" class="figure">
+<div id="orgc8478ab" class="figure">
 <p><img src="../images/from_clipboard/20241228_153011.png" alt="20241228_153011.png" />
 </p>
 </div>
@@ -761,7 +771,7 @@ same space will lead to conflicts and trade-offs.
 </blockquote>
 
 
-<div id="org6424a46" class="figure">
+<div id="org0f0d725" class="figure">
 <p><img src="../images/from_clipboard/20241228_141017.png" alt="20241228_141017.png" />
 </p>
 </div>
@@ -775,7 +785,7 @@ The encoders themselves are composed of things we have seen already. For image u
 </p>
 
 
-<div id="org1e38b0d" class="figure">
+<div id="org1f2c2b3" class="figure">
 <p><img src="../images/from_clipboard/20241228_143227.png" alt="20241228_143227.png" />
 </p>
 </div>
@@ -835,7 +845,7 @@ A paper which might be worth studying in more detail is <a href="https://arxiv.o
 </p>
 
 
-<div id="org1bc8362" class="figure">
+<div id="org4d02bc0" class="figure">
 <p><img src="../images/from_clipboard/20241228_192622.png" alt="20241228_192622.png" />
 </p>
 </div>
@@ -922,7 +932,7 @@ It does this by adding the following objective alongside the normal diffusion tr
 </p>
 
 
-<div id="orgfefbeae" class="figure">
+<div id="org1e3a8b3" class="figure">
 <p><img src="../images/from_clipboard/20241228_175530.png" alt="20241228_175530.png" />
 </p>
 </div>
@@ -932,7 +942,7 @@ That is: we break the image into patches, and we check the similarity<sup><a id=
 </p>
 
 
-<div id="orgb5c5ea2" class="figure">
+<div id="org6ed537e" class="figure">
 <p><img src="../images/from_clipboard/20241228_180232.png" alt="20241228_180232.png" />
 </p>
 </div>
@@ -951,7 +961,7 @@ Some things which are commonly attributed to "superior transformer architectures
 </p>
 
 
-<div id="org0e9bd74" class="figure">
+<div id="org322ba1c" class="figure">
 <p><img src="../images/from_clipboard/20241228_172648.png" alt="20241228_172648.png" />
 </p>
 </div>
@@ -962,7 +972,7 @@ Some things which are commonly attributed to "superior transformer architectures
 <h3 id="org1b09666">JanusFlow</h3>
 <div class="outline-text-3" id="text-org1b09666">
 
-<div id="org3788ff7" class="figure">
+<div id="orgb3e02ba" class="figure">
 <p><img src="../images/from_clipboard/20241228_163316.png" alt="20241228_163316.png" />
 </p>
 </div>
@@ -1030,7 +1040,7 @@ The notable component of InternVL is their dynamic high resolution. Otherwise, i
 </p>
 
 
-<div id="orga1e62c9" class="figure">
+<div id="orgcca2f90" class="figure">
 <p><img src="../images/from_clipboard/20241228_101609.png" alt="20241228_101609.png" />
 </p>
 </div>
@@ -1040,7 +1050,7 @@ Recall from DeepSeek-VL that they used two vision encoders: one for high resolut
 </p>
 
 
-<div id="orgdf9ead0" class="figure">
+<div id="orgfe33de0" class="figure">
 <p><img src="../images/from_clipboard/20241228_102307.png" alt="20241228_102307.png" />
 </p>
 </div>
@@ -1059,7 +1069,7 @@ Various other VLMs have adopted similar strategies, like <a href="https://arxiv.
 <h3 id="org5bacadb">Architecture and Training</h3>
 <div class="outline-text-3" id="text-org5bacadb">
 
-<div id="org84dae62" class="figure">
+<div id="org07ad5f7" class="figure">
 <p><img src="../images/from_clipboard/20241227_222742.png" alt="20241227_222742.png" />
 </p>
 </div>
@@ -1085,7 +1095,7 @@ dimensions per tile.
 </blockquote>
 
 
-<div id="orgbed53e3" class="figure">
+<div id="org05a25d0" class="figure">
 <p><img src="../images/from_clipboard/20241227_223552.png" alt="20241227_223552.png" />
 </p>
 </div>
@@ -1108,7 +1118,7 @@ A surprisingly interesting claim of this paper is that DeepSeek-VL2 can understa
 </p>
 
 
-<div id="org07d7123" class="figure">
+<div id="org6edec53" class="figure">
 <p><img src="../images/from_clipboard/20241228_092028.png" alt="20241228_092028.png" />
 </p>
 </div>
@@ -1118,7 +1128,7 @@ Likewise, a new capability to this paper compared to VL1 is <i>Visual Grounding<
 </p>
 
 
-<div id="org81c616f" class="figure">
+<div id="orgb703e2d" class="figure">
 <p><img src="../images/from_clipboard/20241228_093146.png" alt="20241228_093146.png" />
 </p>
 </div>
@@ -1128,7 +1138,7 @@ Being a little more specific, this is actually a little different from SAM, in t
 </p>
 
 
-<div id="orgecfc142" class="figure">
+<div id="org7258650" class="figure">
 <p><img src="../images/from_clipboard/20241228_094011.png" alt="20241228_094011.png" />
 </p>
 </div>
@@ -1187,7 +1197,7 @@ In speculative decoding, you use both a big and a small model, together. You mak
 </p>
 
 
-<div id="org1952fc1" class="figure">
+<div id="org0d23f69" class="figure">
 <p><img src="../images/from_clipboard/20241229_212557.png" alt="20241229_212557.png" />
 </p>
 </div>
@@ -1206,7 +1216,7 @@ There are lots of different methods for this now, but the core idea is all we wi
 </p>
 
 
-<div id="orga59bb83" class="figure">
+<div id="orgf1ca2b7" class="figure">
 <p><img src="../images/from_clipboard/20241229_212727.png" alt="20241229_212727.png" />
 </p>
 </div>
@@ -1228,7 +1238,7 @@ They posit there are two "types" of tokens, "choice points" and "inconsequential
 </p>
 
 
-<div id="org01facf5" class="figure">
+<div id="org6136ddb" class="figure">
 <p><img src="../images/from_clipboard/20241229_215852.png" alt="20241229_215852.png" />
 </p>
 </div>
@@ -1280,7 +1290,7 @@ New to V3 is this Sequence-Wise loss, intended to keep the balance even within a
 </p>
 
 
-<div id="org03b8a32" class="figure">
+<div id="orgda5ca2c" class="figure">
 <p><img src="../images/from_clipboard/20241229_163101.png" alt="20241229_163101.png" />
 </p>
 </div>
@@ -1308,7 +1318,7 @@ The first three layers in DeepSeek-V3 are dense layers, not MoE layers. A hint f
 </p>
 
 
-<div id="org441462b" class="figure">
+<div id="org28270eb" class="figure">
 <p><img src="../images/from_clipboard/20241229_200946.png" alt="20241229_200946.png" />
 </p>
 </div>
@@ -1324,7 +1334,7 @@ It makes some sense that MoE would be less valuable for these layers than the ot
 <h3 id="orgb8ae80c">DeepSeek-V3 Multi-Token Prediction</h3>
 <div class="outline-text-3" id="text-orgb8ae80c">
 
-<div id="orgbc59cf5" class="figure">
+<div id="org980c0a9" class="figure">
 <p><img src="../images/from_clipboard/20241229_165509.png" alt="20241229_165509.png" />
 </p>
 </div>
@@ -1338,7 +1348,7 @@ These are sort of like a halfway point between speculative decoding and multi-to
 </p>
 
 
-<div id="orgabfa594" class="figure">
+<div id="orgd10963c" class="figure">
 <p><img src="../images/from_clipboard/20241229_184539.png" alt="20241229_184539.png" />
 </p>
 </div>
@@ -1385,7 +1395,7 @@ DualPipe is their solution to this, it maximizes these overlaps and attempts to 
 </p>
 
 
-<div id="org67aacd5" class="figure">
+<div id="org02eb19c" class="figure">
 <p><img src="../images/from_clipboard/20241229_192735.png" alt="20241229_192735.png" />
 </p>
 </div>
@@ -1404,7 +1414,7 @@ There are <a href="https://arxiv.org/pdf/2409.12517">not very many other tries</
 </p>
 
 
-<div id="orga753b6c" class="figure">
+<div id="org112bcf6" class="figure">
 <p><img src="../images/from_clipboard/20241229_194339.png" alt="20241229_194339.png" />
 </p>
 </div>
@@ -1423,7 +1433,7 @@ More of an interesting note, pages 20-21 of this paper are spent on a sort of ch
 </p>
 
 
-<div id="org333bb32" class="figure">
+<div id="org3129f70" class="figure">
 <p><img src="../images/from_clipboard/20241229_200742.png" alt="20241229_200742.png" />
 </p>
 </div>
@@ -1486,7 +1496,7 @@ The big story in discussion is the self-rewarding section, where they make an of
 </p>
 
 
-<div id="org9255c50" class="figure">
+<div id="org8c9313c" class="figure">
 <p><img src="../images/from_clipboard/20241229_210019.png" alt="20241229_210019.png" />
 </p>
 </div>
@@ -1564,7 +1574,7 @@ The very striking thing about this paper is how little is actually in it. Compar
 </p>
 
 
-<div id="org967409f" class="figure">
+<div id="orgcdd6980" class="figure">
 <p><img src="../images/from_clipboard/20250923_170715.png" alt="20250923_170715.png" />
 </p>
 </div>
@@ -1574,7 +1584,7 @@ DeepSeek-R1-Zero is a model DeepSeek released to show off what happens with more
 </p>
 
 
-<div id="org68d8dbe" class="figure">
+<div id="org05f7233" class="figure">
 <p><img src="../images/from_clipboard/20250923_160727.png" alt="20250923_160727.png" />
 </p>
 </div>
@@ -1610,7 +1620,7 @@ After this, they perform mostly typical LLM post-training (reasoning/non-reasoni
 </p>
 
 
-<div id="orga83fe93" class="figure">
+<div id="orge746a29" class="figure">
 <p><img src="../images/from_clipboard/20250923_163516.png" alt="20250923_163516.png" />
 </p>
 </div>
@@ -1625,7 +1635,7 @@ The distillation component of this paper is likewise extremely simple, and packs
 </p>
 
 
-<div id="orgc89d44d" class="figure">
+<div id="org327283b" class="figure">
 <p><img src="../images/from_clipboard/20250923_163920.png" alt="20250923_163920.png" />
 </p>
 </div>
@@ -1635,7 +1645,7 @@ My favorite thing about this result is their demonstration that distilling R1 th
 </p>
 
 
-<div id="org1ecd8a7" class="figure">
+<div id="org29a73c8" class="figure">
 <p><img src="../images/from_clipboard/20250923_164346.png" alt="20250923_164346.png" />
 </p>
 </div>
@@ -1894,7 +1904,7 @@ It has the original warmup-and-decay as DeepSeek-V2, but with a period that uses
 </p>
 
 
-<div id="org3495395" class="figure">
+<div id="org925fad0" class="figure">
 <p><img src="../images/from_clipboard/20241229_201540.png" alt="20241229_201540.png" />
 </p>
 </div></div></div>

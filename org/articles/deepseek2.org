@@ -4,7 +4,7 @@
 
 ** Intro
 
-Perhaps unsurprisingly, DeepSeek has continued to publish papers since [[https://planetbanatt.net/articles/deepseek.html][my previous overview]] on their published works. That overview covered the path from DeepSeek-LLM to DeepSeek-V2-Coder, and rather than make it even longer[fn:1], I decided to spin off a new literature review for their journey from V2-Coder to V3.
+Perhaps unsurprisingly, DeepSeek has continued to publish papers since [[https://planetbanatt.net/articles/deepseek.html][my previous overview]] on their published works. That overview covered the path from DeepSeek-LLM to DeepSeek-V2-Coder, and rather than make it even longer[fn:1], I decided to spin off a new literature review for their journey from V2-Coder to R1.
 
 Broadly speaking, since working on V2-Coder, DeepSeek has published work in three bins:
 - Improvements to training Mixture-of-Experts Models
@@ -17,7 +17,7 @@ None of these should be too surprising for the astute reader. DeepSeek's preregi
 - A GPT-4 Level Model
 - Alignment work (specifically "align with human values, minimize the need for human supervision")
 
-As a slight spoiler, we will tackle all of these in some capacity in the papers that follow. This document will cover the papers released between DeepSeek-Coder-V2 and DeepSeek-V3, which contains seven works. Please make sure you read [[https://planetbanatt.net/articles/deepseek.html][Part 1]] of this writeup before continuing further, since it will be hard to understand otherwise.
+As a slight spoiler, we will tackle all of these in some capacity in the papers that follow. This document will cover the papers released between DeepSeek-Coder-V2 and DeepSeek-R1, which contains eight works. Please make sure you read [[https://planetbanatt.net/articles/deepseek.html][Part 1]] of this writeup before continuing further, since it will be hard to understand otherwise.
 
 ** Works With No Technical Report
 
@@ -29,9 +29,13 @@ DeepSeek released this very interesting [[https://x.com/deepseek_ai/status/18320
 
 This seemed to be achieved with some sort of model merging technique (a separate overview of mine on model merging can be found [[https://planetbanatt.net/articles/modelmerging.html][here]]) but details are hazy and it's not clear what this model really was. On December 12th, they released a [[https://x.com/deepseek_ai/status/1866459740324458835][yet further updated version of this merged model]], again with just a weights drop and no technical report. 
 
-*** DeepSeek-R1
+*** DeepSeek-R1-lite
 
-DeepSeek released the lite preview of an o1-preview-like model with fully visible reasoning chains [[https://x.com/deepseek_ai/status/1859200141355536422][here]], on November 20th, 2024. This was a very interesting release: they reproduced OpenAI's AIME test-time scaling results, and the reasoning chains are a real joy to look at. But, there's no technical report, no weights, and no full version. 
+DeepSeek released the lite preview of an o1-preview-like model with fully visible reasoning chains [[https://x.com/deepseek_ai/status/1859200141355536422][here]], on November 20th, 2024. This was a very interesting release: they reproduced OpenAI's AIME test-time scaling results, and the reasoning chains are a real joy to look at. This model was never released, but presumably was trained the same way as their R1 Technical report.
+
+*** DeepSeek-V3.1 Line
+
+DeepSeek has since in 2025 released some updates to DeepSeek-V3 which turn it into a hybrid/agentic model which is more specialized for operating inside harnesses like [[https://claude.com/product/claude-code][Claude Code]]. There is no technical report for this change at the time of writing.
 
 ** Expert-Specialized Fine-Tuning
 
