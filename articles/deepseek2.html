@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-23 Wed 15:49 -->
+<!-- 2025-09-23 Tue 17:18 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Deepseek Continued</title>
@@ -212,6 +212,15 @@ $(function() {
 <li><a href="#orge5321d1">Future Directions</a></li>
 </ul>
 </li>
+<li><a href="#org9cf2026">DeepSeek R1</a>
+<ul>
+<li><a href="#org126a4dc">Reinforcement Learning with Verifiable Rewards (RLVR)</a></li>
+<li><a href="#orgedc0c28">Making Internal CoT Readable</a></li>
+<li><a href="#org5e2754a">Distillation to Smaller Models</a></li>
+<li><a href="#org1fa9c69">Unsuccessful Attempts</a></li>
+<li><a href="#org7a75244">Additional Thoughts on Reasoners</a></li>
+</ul>
+</li>
 <li><a href="#orgf91f49b">Conclusion</a></li>
 <li><a href="#org943fb71"><span class="todo TODO">TODO</span> List</a></li>
 </ul>
@@ -318,7 +327,7 @@ We've already seen in DeepSeek-V2 that this idea can be used really effectively 
 </p>
 
 
-<div id="orgac0781b" class="figure">
+<div id="org92c00d3" class="figure">
 <p><img src="../images/from_clipboard/20241227_202228.png" alt="20241227_202228.png" />
 </p>
 </div>
@@ -341,7 +350,7 @@ Relatedly, it feels sort of antithetical to the way MoE works in the first place
 <h3 id="org60d06b6">ESFT</h3>
 <div class="outline-text-3" id="text-org60d06b6">
 
-<div id="orge9a129a" class="figure">
+<div id="org8de638f" class="figure">
 <p><img src="../images/from_clipboard/20241227_203350.png" alt="20241227_203350.png" />
 </p>
 </div>
@@ -361,7 +370,7 @@ This all fundamentally depends on the insight that, in this highly specialized r
 </p>
 
 
-<div id="org73b9aa3" class="figure">
+<div id="org82adf1c" class="figure">
 <p><img src="../images/from_clipboard/20241227_204437.png" alt="20241227_204437.png" />
 </p>
 </div>
@@ -371,7 +380,7 @@ The method they use isn't too different from what you'd expect, given the result
 </p>
 
 
-<div id="org2646c0f" class="figure">
+<div id="orgf1fd5ff" class="figure">
 <p><img src="../images/from_clipboard/20241227_205635.png" alt="20241227_205635.png" />
 </p>
 </div>
@@ -385,7 +394,7 @@ To me this just makes perfect sense: for unrelated tasks, it's possible that the
 </p>
 
 
-<div id="org0da146a" class="figure">
+<div id="orgce75d55" class="figure">
 <p><img src="../images/from_clipboard/20241227_210629.png" alt="20241227_210629.png" />
 </p>
 </div>
@@ -417,7 +426,7 @@ MCTS works in four steps. First, selection: MCTS will traverse the tree by sampl
 </p>
 
 
-<div id="orge69de38" class="figure">
+<div id="org9b67bc1" class="figure">
 <p><img src="../images/from_clipboard/20241228_213907.png" alt="20241228_213907.png" />
 </p>
 </div>
@@ -489,7 +498,7 @@ We now have one of the gnarliest figures in the DeepSeek Corpus:
 </p>
 
 
-<div id="org9e656b6" class="figure">
+<div id="org53ea2b5" class="figure">
 <p><img src="../images/from_clipboard/20241227_214920.png" alt="20241227_214920.png" />
 </p>
 </div>
@@ -570,7 +579,7 @@ Recall from DeepSeekMoE that, in Mixture-of-Experts, the FFN component of the tr
 </p>
 
 
-<div id="orgf3d959c" class="figure">
+<div id="org0bf9cd4" class="figure">
 <p><img src="../images/from_clipboard/20240603_132441.png" alt="20240603_132441.png" />
 </p>
 </div>
@@ -580,7 +589,7 @@ A core problem of MoE models is that the router can just pick the same few exper
 </p>
 
 
-<div id="orge82f9fe" class="figure">
+<div id="org3a4a8a3" class="figure">
 <p><img src="../images/from_clipboard/20240612_143124.png" alt="20240612_143124.png" />
 </p>
 </div>
@@ -590,7 +599,7 @@ This is usually sufficient for getting the experts to be selected evenly. The pr
 </p>
 
 
-<div id="orgd9f7378" class="figure">
+<div id="org845297a" class="figure">
 <p><img src="../images/from_clipboard/20241227_185215.png" alt="20241227_185215.png" />
 </p>
 </div>
@@ -600,7 +609,7 @@ To fix this problem, they introduce a bias term during training. This bias term 
 </p>
 
 
-<div id="org48e1271" class="figure">
+<div id="orgad3c94d" class="figure">
 <p><img src="../images/from_clipboard/20241227_185622.png" alt="20241227_185622.png" />
 </p>
 </div>
@@ -614,7 +623,7 @@ Here's my quick writeup of their algorithm in code; it's not too hard to underst
 </p>
 
 
-<div id="orgd7ef631" class="figure">
+<div id="org3c07ec8" class="figure">
 <p><img src="../images/from_clipboard/20241227_190419.png" alt="20241227_190419.png" />
 </p>
 </div>
@@ -624,7 +633,7 @@ Here's my quick writeup of their algorithm in code; it's not too hard to underst
 </p>
 
 
-<div id="org0d1a06b" class="figure">
+<div id="org994b2b2" class="figure">
 <p><img src="../images/from_clipboard/20241227_190854.png" alt="20241227_190854.png" />
 </p>
 </div>
@@ -681,7 +690,7 @@ Way back in 2017 a paper <a href="https://arxiv.org/pdf/1711.00937">Neural Discr
 </p>
 
 
-<div id="orgeca1c52" class="figure">
+<div id="orgc206be3" class="figure">
 <p><img src="../images/from_clipboard/20241228_122508.png" alt="20241228_122508.png" />
 </p>
 </div>
@@ -720,7 +729,7 @@ The important artifact we need from this paper is their released image tokenizer
 </p>
 
 
-<div id="orgb21c2ad" class="figure">
+<div id="orgf1a72b3" class="figure">
 <p><img src="../images/from_clipboard/20241228_153011.png" alt="20241228_153011.png" />
 </p>
 </div>
@@ -752,7 +761,7 @@ same space will lead to conflicts and trade-offs.
 </blockquote>
 
 
-<div id="org47c0620" class="figure">
+<div id="orgd7c271b" class="figure">
 <p><img src="../images/from_clipboard/20241228_141017.png" alt="20241228_141017.png" />
 </p>
 </div>
@@ -766,7 +775,7 @@ The encoders themselves are composed of things we have seen already. For image u
 </p>
 
 
-<div id="orgba48fae" class="figure">
+<div id="org1087a08" class="figure">
 <p><img src="../images/from_clipboard/20241228_143227.png" alt="20241228_143227.png" />
 </p>
 </div>
@@ -826,7 +835,7 @@ A paper which might be worth studying in more detail is <a href="https://arxiv.o
 </p>
 
 
-<div id="orgc28b280" class="figure">
+<div id="org55354e7" class="figure">
 <p><img src="../images/from_clipboard/20241228_192622.png" alt="20241228_192622.png" />
 </p>
 </div>
@@ -913,7 +922,7 @@ It does this by adding the following objective alongside the normal diffusion tr
 </p>
 
 
-<div id="org364b874" class="figure">
+<div id="org2013f87" class="figure">
 <p><img src="../images/from_clipboard/20241228_175530.png" alt="20241228_175530.png" />
 </p>
 </div>
@@ -923,7 +932,7 @@ That is: we break the image into patches, and we check the similarity<sup><a id=
 </p>
 
 
-<div id="org61a8c48" class="figure">
+<div id="orgdb0ecb1" class="figure">
 <p><img src="../images/from_clipboard/20241228_180232.png" alt="20241228_180232.png" />
 </p>
 </div>
@@ -942,7 +951,7 @@ Some things which are commonly attributed to "superior transformer architectures
 </p>
 
 
-<div id="orgc5ff611" class="figure">
+<div id="orga070846" class="figure">
 <p><img src="../images/from_clipboard/20241228_172648.png" alt="20241228_172648.png" />
 </p>
 </div>
@@ -953,7 +962,7 @@ Some things which are commonly attributed to "superior transformer architectures
 <h3 id="org1b09666">JanusFlow</h3>
 <div class="outline-text-3" id="text-org1b09666">
 
-<div id="org7ba3a29" class="figure">
+<div id="org45db17e" class="figure">
 <p><img src="../images/from_clipboard/20241228_163316.png" alt="20241228_163316.png" />
 </p>
 </div>
@@ -1021,7 +1030,7 @@ The notable component of InternVL is their dynamic high resolution. Otherwise, i
 </p>
 
 
-<div id="org9f32f5e" class="figure">
+<div id="orge5946b4" class="figure">
 <p><img src="../images/from_clipboard/20241228_101609.png" alt="20241228_101609.png" />
 </p>
 </div>
@@ -1031,7 +1040,7 @@ Recall from DeepSeek-VL that they used two vision encoders: one for high resolut
 </p>
 
 
-<div id="org1866052" class="figure">
+<div id="org87425c0" class="figure">
 <p><img src="../images/from_clipboard/20241228_102307.png" alt="20241228_102307.png" />
 </p>
 </div>
@@ -1050,7 +1059,7 @@ Various other VLMs have adopted similar strategies, like <a href="https://arxiv.
 <h3 id="org5bacadb">Architecture and Training</h3>
 <div class="outline-text-3" id="text-org5bacadb">
 
-<div id="org534aeb5" class="figure">
+<div id="orgbcb752e" class="figure">
 <p><img src="../images/from_clipboard/20241227_222742.png" alt="20241227_222742.png" />
 </p>
 </div>
@@ -1076,7 +1085,7 @@ dimensions per tile.
 </blockquote>
 
 
-<div id="org63e354e" class="figure">
+<div id="orgbed97ed" class="figure">
 <p><img src="../images/from_clipboard/20241227_223552.png" alt="20241227_223552.png" />
 </p>
 </div>
@@ -1099,7 +1108,7 @@ A surprisingly interesting claim of this paper is that DeepSeek-VL2 can understa
 </p>
 
 
-<div id="org2139c91" class="figure">
+<div id="org0ef4d1f" class="figure">
 <p><img src="../images/from_clipboard/20241228_092028.png" alt="20241228_092028.png" />
 </p>
 </div>
@@ -1109,7 +1118,7 @@ Likewise, a new capability to this paper compared to VL1 is <i>Visual Grounding<
 </p>
 
 
-<div id="org41bf870" class="figure">
+<div id="org980ab33" class="figure">
 <p><img src="../images/from_clipboard/20241228_093146.png" alt="20241228_093146.png" />
 </p>
 </div>
@@ -1119,7 +1128,7 @@ Being a little more specific, this is actually a little different from SAM, in t
 </p>
 
 
-<div id="orgfef1cca" class="figure">
+<div id="org4a5d9bf" class="figure">
 <p><img src="../images/from_clipboard/20241228_094011.png" alt="20241228_094011.png" />
 </p>
 </div>
@@ -1178,7 +1187,7 @@ In speculative decoding, you use both a big and a small model, together. You mak
 </p>
 
 
-<div id="orgc0a4915" class="figure">
+<div id="orgbadf2ec" class="figure">
 <p><img src="../images/from_clipboard/20241229_212557.png" alt="20241229_212557.png" />
 </p>
 </div>
@@ -1197,7 +1206,7 @@ There are lots of different methods for this now, but the core idea is all we wi
 </p>
 
 
-<div id="org384aa27" class="figure">
+<div id="org9fc863b" class="figure">
 <p><img src="../images/from_clipboard/20241229_212727.png" alt="20241229_212727.png" />
 </p>
 </div>
@@ -1219,7 +1228,7 @@ They posit there are two "types" of tokens, "choice points" and "inconsequential
 </p>
 
 
-<div id="orge65aabd" class="figure">
+<div id="org72d9b82" class="figure">
 <p><img src="../images/from_clipboard/20241229_215852.png" alt="20241229_215852.png" />
 </p>
 </div>
@@ -1271,7 +1280,7 @@ New to V3 is this Sequence-Wise loss, intended to keep the balance even within a
 </p>
 
 
-<div id="org918b1fa" class="figure">
+<div id="org7d0e97a" class="figure">
 <p><img src="../images/from_clipboard/20241229_163101.png" alt="20241229_163101.png" />
 </p>
 </div>
@@ -1299,7 +1308,7 @@ The first three layers in DeepSeek-V3 are dense layers, not MoE layers. A hint f
 </p>
 
 
-<div id="org5961abf" class="figure">
+<div id="org3a59b06" class="figure">
 <p><img src="../images/from_clipboard/20241229_200946.png" alt="20241229_200946.png" />
 </p>
 </div>
@@ -1315,7 +1324,7 @@ It makes some sense that MoE would be less valuable for these layers than the ot
 <h3 id="orgb8ae80c">DeepSeek-V3 Multi-Token Prediction</h3>
 <div class="outline-text-3" id="text-orgb8ae80c">
 
-<div id="org451b9b3" class="figure">
+<div id="org287739d" class="figure">
 <p><img src="../images/from_clipboard/20241229_165509.png" alt="20241229_165509.png" />
 </p>
 </div>
@@ -1329,7 +1338,7 @@ These are sort of like a halfway point between speculative decoding and multi-to
 </p>
 
 
-<div id="orgf0d1685" class="figure">
+<div id="orgd588b7c" class="figure">
 <p><img src="../images/from_clipboard/20241229_184539.png" alt="20241229_184539.png" />
 </p>
 </div>
@@ -1376,7 +1385,7 @@ DualPipe is their solution to this, it maximizes these overlaps and attempts to 
 </p>
 
 
-<div id="orge32dfc0" class="figure">
+<div id="org1f5b83e" class="figure">
 <p><img src="../images/from_clipboard/20241229_192735.png" alt="20241229_192735.png" />
 </p>
 </div>
@@ -1395,7 +1404,7 @@ There are <a href="https://arxiv.org/pdf/2409.12517">not very many other tries</
 </p>
 
 
-<div id="org4601eb8" class="figure">
+<div id="org1764085" class="figure">
 <p><img src="../images/from_clipboard/20241229_194339.png" alt="20241229_194339.png" />
 </p>
 </div>
@@ -1414,7 +1423,7 @@ More of an interesting note, pages 20-21 of this paper are spent on a sort of ch
 </p>
 
 
-<div id="orgffdf5ca" class="figure">
+<div id="org514e356" class="figure">
 <p><img src="../images/from_clipboard/20241229_200742.png" alt="20241229_200742.png" />
 </p>
 </div>
@@ -1477,7 +1486,7 @@ The big story in discussion is the self-rewarding section, where they make an of
 </p>
 
 
-<div id="org23e78ab" class="figure">
+<div id="org199ac67" class="figure">
 <p><img src="../images/from_clipboard/20241229_210019.png" alt="20241229_210019.png" />
 </p>
 </div>
@@ -1525,11 +1534,160 @@ Depending on how you consider the Constitutional AI work in this paper, these ha
 </div>
 </div>
 
+<div id="outline-container-org9cf2026" class="outline-2">
+<h2 id="org9cf2026">DeepSeek R1</h2>
+<div class="outline-text-2" id="text-org9cf2026">
+<p>
+This is what DeepSeek had been building to the entire time &#x2013; their bona fide entry to the frontier, a faithful reproduction of OpenAI's o1 reasoning model. The ramifications of this work were enormous: DeepSeek became a household name virtually overnight, with <a href="https://planetbanatt.net/articles/v3fermi.html">sudden objections</a> to the claims in previous papers, extensive news coverage, an extremely popular iphone app, and so on. Months later, this paper would go on to <a href="https://www.nature.com/articles/s41586-025-09422-z">get published in <i>Nature</i></a>, certainly a rarity for ML papers in this day and age.
+</p>
+
+<p>
+At its core, the R1 paper is a relatively simple paper, at least compared to most of what came before it. This paper has three primary findings:
+</p>
+
+<ol class="org-ol">
+<li>Applying RL upon a powerful base model using verifiable problems will cause the o1-style reasoning behavior to emerge by itself, since it will learn that using more tokens first will lead to higher likelihood of successful responses. (DeepSeek-R1-Zero)</li>
+<li>If you perform SFT in addition to this, you can influence the thought traces to be more human-readable and more frequently mono-linguial, which they use to create a model on par with OpenAI-o1-1217 (DeepSeek-R1)</li>
+<li>If you collect a large number of reasoning traces, you can distill reasoning-like behavior into smaller models via SFT. This works much better than doing RL upon those models, resulting in better reasoning performance in much less time compared to RL training (!), but you need the big model to exist first.</li>
+</ol>
+
+<p>
+These are fairly easy to understand! So we will go through them each in detail.
+</p>
+</div>
+
+<div id="outline-container-org126a4dc" class="outline-3">
+<h3 id="org126a4dc">Reinforcement Learning with Verifiable Rewards (RLVR)</h3>
+<div class="outline-text-3" id="text-org126a4dc">
+<p>
+The very striking thing about this paper is how little is actually in it. Compared to several other models attempting to reproduce OpenAI o1, the DeepSeek strategy lacks any complicated reward hacking or process supervision at all. You can compare this to <a href="https://qwen.ai/blog?id=c07674ffdf6f7267f6907c2a3d921550dbf4281e&amp;from=research.research-list">team Qwen</a> who released their QwQ-32B thinking model around the same time, using elaborate process supervision models to achieve the desired result. In contrast, AI2's <a href="https://arxiv.org/pdf/2411.15124">Tulu 3</a> work makes a great case for using <i>Reinforcement Learning with Verifiable Rewards</i> (RLVR) in order to produce a targeted improvement in specific verifiable domains<sup><a id="fnr.49" class="footref" href="#fn.49" role="doc-backlink">49</a></sup>.
+</p>
+
+
+<div id="orge185247" class="figure">
+<p><img src="../images/from_clipboard/20250923_170715.png" alt="20250923_170715.png" />
+</p>
+</div>
+
+<p>
+DeepSeek-R1-Zero is a model DeepSeek released to show off what happens with more or less zero interference beyond the incentive to get answers correct. They use GRPO (as is typical for DeepSeek works) and provide a reward of 1 for correct answers and a reward of 0 for incorrect answers. This is a dead-simple formulation that comes at the cost of constraining the training domain to verifiable problems (math, code, etc), along with a small formatting reward which checks for the presence of &lt;think&gt; and &lt;/think&gt; tags in the response. 
+</p>
+
+
+<div id="orgda39d74" class="figure">
+<p><img src="../images/from_clipboard/20250923_160727.png" alt="20250923_160727.png" />
+</p>
+</div>
+
+<p>
+What they find is that given this environment, the model will learn that outputting more tokens makes it more likely to get the answer correct, and it will begin using more and more tokens in the thinking section before responding. This manifests in what they call the "aha moment", aka a point during training where the model will decide that it needs to reevaluate its candidate answer one more time before responding. Since it's better to think longer before responding, when you think you are done thinking, it is useful to find an excuse to think longer.
+</p>
+
+<p>
+<img src="../images/from_clipboard/20250923_161547.png" alt="20250923_161547.png" />
+<img src="../images/from_clipboard/20250923_161605.png" alt="20250923_161605.png" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgedc0c28" class="outline-3">
+<h3 id="orgedc0c28">Making Internal CoT Readable</h3>
+<div class="outline-text-3" id="text-orgedc0c28">
+<p>
+When you do this naturally, you get a model that will mix languages and use some very strange turn of phrases. DeepSeek takes the extra step to produce a version of R1 which has more readable internal thoughts, in a way which will seem pretty simple to anyone following this long.
+</p>
+
+<p>
+They begin with <i>cold start data</i>: a relatively small curated dataset of reasoning traces from DeepSeek-R1-Zero which have been automatically reformatted to be more readable using DeepSeek-V3. They perform SFT upon DeepSeek-V3-Base in order to kick off the unstable beginning phase of RL training<sup><a id="fnr.50" class="footref" href="#fn.50" role="doc-backlink">50</a></sup>.
+</p>
+
+<p>
+They then perform the same RLVR process as in DeepSeek-R1-Zero, but with an additional language consistency reward. Interestingly, they actually find that the language consistency reward actually <i>hurts</i> model performance, but keep it anyways since readable CoT "aligns with human preferences"<sup><a id="fnr.51" class="footref" href="#fn.51" role="doc-backlink">51</a></sup>.
+</p>
+
+<p>
+After this, they perform mostly typical LLM post-training (reasoning/non-reasoning SFT, an additional RL post-training phase a la DeepSeek-V3, but with some reasoning data mixed in to avoid forgetting). The result after all of this is DeepSeek-R1, a reasoning model roughly at parity with OpenAI-o1-1217<sup><a id="fnr.52" class="footref" href="#fn.52" role="doc-backlink">52</a></sup>:
+</p>
+
+
+<div id="orgb191102" class="figure">
+<p><img src="../images/from_clipboard/20250923_163516.png" alt="20250923_163516.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5e2754a" class="outline-3">
+<h3 id="org5e2754a">Distillation to Smaller Models</h3>
+<div class="outline-text-3" id="text-org5e2754a">
+<p>
+The distillation component of this paper is likewise extremely simple, and packs a punch. They collect reasoning traces from R1 and perform SFT on a number of smaller models ranging from 1.5B to 70B. This, vaguely, "turns them into reasoner models"<sup><a id="fnr.53" class="footref" href="#fn.53" role="doc-backlink">53</a></sup>
+</p>
+
+
+<div id="orgb0bb41d" class="figure">
+<p><img src="../images/from_clipboard/20250923_163920.png" alt="20250923_163920.png" />
+</p>
+</div>
+
+<p>
+My favorite thing about this result is their demonstration that distilling R1 thought traces into Qwen 32B absolutely crushes QwQ-32B-Preview, which is Qwen's own RL posttrained version of the 32B model intended to make it into a reasoner model. In fact, they go into quite some detail about this claim. They do RL posttraining on Qwen 32B in the same manner as R1-Zero, and show that they get very similar results to the actual QwQ model's reported performance. It's not that Qwen did a bad job on post-training QwQ, it's just that it is much easier to distill performance from a bigger model than to RL post-train a model from scratch.
+</p>
+
+
+<div id="orge8e5178" class="figure">
+<p><img src="../images/from_clipboard/20250923_164346.png" alt="20250923_164346.png" />
+</p>
+</div>
+
+<p>
+This introduces a pretty interesting frontier funnel effect. It's resource-inefficient to RL posttrain a model compared to distilling a bigger one, but to distill from a bigger model, you need a bigger model. As a result, big frontier models are going to be resource-intensive to train, and the resulting capabilities will inevitably trickle down into smaller models over time (since it's so much cheaper). Overall this is pretty good news: when improvements to the frontier happen, pareto improvements will generally follow.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1fa9c69" class="outline-3">
+<h3 id="org1fa9c69">Unsuccessful Attempts</h3>
+<div class="outline-text-3" id="text-org1fa9c69">
+<p>
+I love when papers include what doesn't work - it's good for the field. The two things in this section of the paper are very noteworthy: Process Reward Models (PRMs) and Monte Carlo Tree Search (MCTS).
+</p>
+
+<p>
+Many researchers believed the o1 formula would have something to do with a process reward model &#x2013; something that would identify the model outputting a "reasoning step" and then provide a reward the model could use to learn it should do that behavior more. Many attempts were made to reproduce the o1 formula using something like this, but DeepSeek outlines three flaws that make it largely intractable:
+</p>
+
+<ol class="org-ol">
+<li>Defining "a reasoning step" is difficult to do concretely, it's a bit ill-posed</li>
+<li>Determining the "correctness" of an intermediate step is challenging; rewarding a model for "better thoughts" between two correct answers seems challenging.</li>
+<li>Once you introduce a PRM, the model will engage in reward hacking to "beat the PRM" rather than to solve the task.</li>
+</ol>
+
+<p>
+Likewise, many people thought that MCTS would exist in the formula somewhere. DeepSeek-Prover-V1.5 seemed firmly pointed in this direction. But in practice, it seems like the state space is just too large for this to be useful. The exponential search space paired with the bottleneck of a value model to guide the self-search just causes more harm than good with their current resources<sup><a id="fnr.54" class="footref" href="#fn.54" role="doc-backlink">54</a></sup>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7a75244" class="outline-3">
+<h3 id="org7a75244">Additional Thoughts on Reasoners</h3>
+<div class="outline-text-3" id="text-org7a75244">
+<p>
+R1 exhibits some interesting shared flaws with o1, which lends authority to the claim that it's a faithful-ish reproduction. It's called out explicitly <a href="https://x.com/erykbanatt/status/1881445256111292651">that R1 performs worse at multi-turn</a> due to the RLVR inductive bias towards single-turn solutions. This seems like it was worked on explicitly by other labs as part of the "hybrid" / "agentic" model wave, which is out of the scope of this article for now.
+</p>
+
+<p>
+Likewise, the Chain-of-thought SFT part of this paper was highly amusing to me. Many so-called "o1 replications" prior to this one would simply SFT models upon curated long chains of thought. This annoyed me enough for me to <a href="https://x.com/erykbanatt/status/1879065210843193422">crack a joke</a> about it way back in January, so it was funny to see a core component of this paper being "it's pretty easy to make another model behave like this if you can develop one first".
+</p>
+</div>
+</div>
+</div>
+
 <div id="outline-container-orgf91f49b" class="outline-2">
 <h2 id="orgf91f49b">Conclusion</h2>
 <div class="outline-text-2" id="text-orgf91f49b">
 <p>
-On January 5th, 2024, DeepSeek released DeepSeek-LLM, a recreation of Llama 2 specifically oriented for Chinese Language. 12 months and 15 papers later, we arrive at the current day: a released V3 model, with r1-full on the horizon<sup><a id="fnr.49" class="footref" href="#fn.49" role="doc-backlink">49</a></sup>. All things considered, their lab is still fairly nascent: their post-training lags behind <a href="https://www.anthropic.com/research/claude-character">the top western labs</a>, they <a href="https://arxiv.org/pdf/2410.10998">struggle</a> in <a href="https://x.com/erykbanatt/status/1872049104546848793">multi-turn settings</a>, and the narrow focus on math and code makes talking to the model feel much more like talking to a calculator, compared with other models with similar capabilities.
+On January 5th, 2024, DeepSeek released DeepSeek-LLM, a recreation of Llama 2 specifically oriented for Chinese Language. 12 months and 15 papers later, we arrive at the current day: a released V3 <i>(and r1)</i> model, <del>with r1-full on the horizon</del><sup><a id="fnr.55" class="footref" href="#fn.55" role="doc-backlink">55</a></sup>. All things considered, their lab is still fairly nascent: their post-training lags behind <a href="https://www.anthropic.com/research/claude-character">the top western labs</a>, they <a href="https://arxiv.org/pdf/2410.10998">struggle</a> in <a href="https://x.com/erykbanatt/status/1872049104546848793">multi-turn settings</a>, and the narrow focus on math and code makes talking to the model feel much more like talking to a calculator, compared with other models with similar capabilities.
 </p>
 
 <p>
@@ -1541,7 +1699,7 @@ A friend of mine once relayed me a bit of advice from his PhD advisor: that you 
 </p>
 
 <p>
-I can only hope they continue to publish throughout 2025. Otherwise, it will be much more annoying to prioritize my reading list.
+I can only hope they continue to publish throughout 2025. Otherwise, it will be much more annoying to prioritize my reading list<sup><a id="fnr.56" class="footref" href="#fn.56" role="doc-backlink">56</a></sup>.
 </p>
 
 <p>
@@ -1736,7 +1894,7 @@ It has the original warmup-and-decay as DeepSeek-V2, but with a period that uses
 </p>
 
 
-<div id="orgba79d0d" class="figure">
+<div id="orgda3b561" class="figure">
 <p><img src="../images/from_clipboard/20241229_201540.png" alt="20241229_201540.png" />
 </p>
 </div></div></div>
@@ -1778,7 +1936,35 @@ a bit on the nose, imo
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.49" class="footnum" href="#fnr.49" role="doc-backlink">49</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+This is a fantastic read all its own. Probably not <i>essential background</i> to warrant its own section, but the Tulu 3 paper is a treasure trove since it goes into so much detail about data etc. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.50" class="footnum" href="#fnr.50" role="doc-backlink">50</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+This can also be seen as a sort of baby version of the later conclusion: that it's easier to distill capability from another model than it is to learn that behavior from scratch using RL. It doesn't necessarily need to be from a <b>larger</b> model, I suppose. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.51" class="footnum" href="#fnr.51" role="doc-backlink">51</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Some hypothesize that this performance hit is why internal CoT is not visible in many closed-source models. I think that deliberately hamstringing your own model to yield a more beautiful result is profound, but I can understand other labs being unwilling to take the performance degradation, even if it is just mild. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.52" class="footnum" href="#fnr.52" role="doc-backlink">52</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I think it's interesting to consider how something so simple seemingly evaded other labs for so long. <a href="https://www.interconnects.ai/p/deepseek-r1-recipe-for-o1">Nathan Lambert</a> had some good thoughts here, including the claim that <a href="https://www.interconnects.ai/p/openais-o1-using-search-was-a-psyop">OpenAI misleadingly implied o1 was using "search" of some sort</a>. A brief thought <a href="https://x.com/erykbanatt/status/1881729672440066427">I had on this</a> was that DeepSeek has always been pretty diligent about tracking <i>capabilities</i> during training, rather than just loss. DeepSeek has always been careful about reporting that training on specific data mixes would boost capability A while degrading capability B, and I think that could be an important note as to how DeepSeek could have arrived here while others didn't. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.53" class="footnum" href="#fnr.53" role="doc-backlink">53</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I know this claim pisses some people off. It makes them output lots of tokens like a reasoner model, and get the answers right more often like a reasoner model. But it's not really a model RL posttrained to arrive at correct answers, it's an LLM aping the output of another model which <i>is</i> trained that way. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.54" class="footnum" href="#fnr.54" role="doc-backlink">54</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I suspect we haven't seen the last of MCTS, but it's a more computationally challenging task to generate tokens compared even to playing Go. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.55" class="footnum" href="#fnr.55" role="doc-backlink">55</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Not to mention the technical report, perhaps my most highly anticipated paper ever. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.56" class="footnum" href="#fnr.56" role="doc-backlink">56</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Author's Note 9/18/25: they sure as hell did not do this. Oh well.
 </p></div></div>
 
 

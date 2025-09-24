@@ -1,0 +1,71 @@
+#+TITLE: Agentic LLMs
+
+* Understanding Agentic LLMs
+
+Over the last several months, progress in LLMs has largely diverged into two work streams: /thinking/ or /reasoning/ models, which output reasoning tokens before responding, and /hybrid/ or /agentic/ models, which are capable of both fast and slow responses, intended primarily for use in /agentic loops/.
+
+This wave was primarily kicked off by Anthropic, who have largely stuck it out exclusively with the hybrid model approach. The golden goose here is [[https://claude.com/product/claude-code][Claude Code]], a CLI tool which gives Claude access to a little filesystem and a variety of simple tools it can use.
+
+Lots of other labs have similar setups:
+
+- OpenAI's [[https://openai.com/codex/][Codex]]
+- Google's [[https://codeassist.google/][Gemini Code Assist]]
+- Tongyi's [[https://github.com/QwenLM/qwen-code][Qwen Code]]
+
+...as well as other frontier model providers like [[https://api-docs.deepseek.com/guides/anthropic_api][DeepSeek]] (DeepSeek-V3.1), [[https://medium.com/@Erik_Milosevic/how-to-run-kimi-k2-inside-claude-code-the-ultimate-open-source-ai-coding-combo-22b743b69e5a][Moonshot]] (Kimi K2), and [[https://docs.z.ai/scenario-example/develop-tools/claude][Zhipu AI]] (GLM) making explicit efforts to be easily drop-in with Claude Code.
+
+So, what the heck is going on here? A lot of questions pop up. Why would you want to use a thinking model vs an agentic model?
+
+** TODO Chess Games vs Chess Puzzles: The Perception Action Cycle
+
+I have spoken [[https://arxiv.org/pdf/2410.10998][extensively in the past]] about the importance of the multi-turn settings for getting value out of LLMs. An analogy I really like to use is: does your problem feel more like a Chess Puzzle, or does it feel like a Chess Game?
+
+LLM Evaluation is broadly split into two very large "categories": can you solve this really difficult task right now, in one turn (a puzzle) or can you do this long-term interaction with an environment and arrive at a goal state (a game). An example of the former is the [[https://openai.com/index/learning-to-reason-with-llms/][AIME math problems]] that OpenAI's models do extremely well at. An example of the latter is [[https://www.anthropic.com/research/visible-extended-thinking][Claude playing Pokemon Red]].
+
+Broadly, LLMs with thinking seem like the right approach for solving very difficult tasks like AIME math problems. But they don't seem like the right paradigm for something like Pokemon Red: no matter how much you think, you need to see what is on the other side of a door to make progress. 
+
+** TODO Kimi K2
+
+The easiest introduction to non-extended-thinking agentic models is Moonshot's [[https://arxiv.org/pdf/2507.20534][Kimi K2 model]], released on July 28th 2025. This was a non-thinking model intended to operate well inside of multi-turn agentic harnesses, with 1 Trillion total (!!!!) / 32B active parameters trained on 15.5T tokens.
+
+Kimi is a "non-thinking" model, but it outputs [[https://x.com/ArtificialAnlys/status/1944897163722678764][3x the tokens]] of other non-thinking models. It's sort of like a halfway point between a thinking model and a non-thinking model. 
+
+** TODO Hybrid Models - GLM-4.5
+
+The Claude models are a little interesting in comparison to Kimi K2: they seem to have a [[https://www.anthropic.com/research/visible-extended-thinking][special setting]] that turns them into reasoning models. DeepSeek, quiet for most of 2025, has made [[https://api-docs.deepseek.com/news/news250821][clear steps in this direction]] as well with the introduction of their V3.1 model, with their hybridification of DeepSeek-V3. These models don't seem to default to this mode the way o3 / gpt-5 / R1 etc do, and they seem broadly like "extra strong no-thinking, below average with-thinking" type models. How does this work? What's the advantage here?
+
+The paper to point to here is [[https://arxiv.org/pdf/2508.06471][GLM-4.5]] by Zhipu AI, which spills the beans on building something similar. They get a great result here, putting together a 355B total / 32B active parameter model trained on 23T tokens (!!!) which seems roughly at parity with the Claude and OpenAI models. These models are natively capable of both extended thinking and immediate responses.
+
+** TODO Pretraining: Scaling Agents via Continual Pretraining
+
+When Qwen dropped Tongyi DeepResearch, they also dropped six separate technical reports outlining the steps they took to get it working. The first of these was [[https://arxiv.org/pdf/2509.13310][Scaling Agents via Continual Pretraining]], which explains the pre-training steps which help when creating an agent model specifically for research. In this paper, they outline how they created a 30B total / 3B parameter active model which outperforms OpenAI deep research / Gemini deep research / DeepSeek / GLM / etc at research tasks like Humanity's Last Exam[fn:1].
+
+** TODO Post-training: WebSailor-V2
+
+The [[https://arxiv.org/pdf/2509.13305][WebSailor-V2]] paper explains the post-training pipeline necessary to equip a pretrained language model with web-agent capabilities. There's additional SFT+RL training which can improve performance at this part of the pipeline substantially. 
+
+** TODO Context Management: WebResearcher
+
+[[https://arxiv.org/pdf/2509.13309][WebResearcher]] is yet another component of the Qwen DeepResearch training pipeline. This time, they're outlining context management, and data synthesis for web-based tool use.
+
+** TODO Context Compacting: ReSum
+
+Something inevitable with handling large amounts of text is the flooding of context window. [[https://arxiv.org/pdf/2509.13313][ReSum]] is Qwen's solution to the context-compacting problem: when you fill up your context, how do you compress what you already have so that you can keep working, but without losing too much context from what has already been seen?[fn:2]
+
+** TODO Information Synthesis: WebWeaver
+
+WebResearcher and WebSailor-V2 are not to be confused with [[https://arxiv.org/pdf/2509.13312][WebWeaver]], which outlines how research agents can synthesize an extremely large number of documents into something useful and digestable. 
+
+** TODO RL Environments: Towards General Agentic Intelligence via Environment Scaling
+
+Rounding out the Qwen paper drop is [[https://arxiv.org/pdf/2509.13311][Towards General Agentic Intelligence via Environment Scaling]], where they argue that you can fine-tune agentic capabilities into a model by progressively scaling up more and more diverse environments over time. Put more plainly: how do we move from massive, raw text pretraining, to a model which is strong because it has learned from experience? 
+
+** TODO Where Do We Go From Here
+
+Scaling - [[https://qwen.ai/blog?id=4074cca80393150c248e508aa62983f9cb7d27cd][Qwen3-Next]]
+
+* Footnotes
+
+[fn:2] In practice for coding models I think it's usually better to kick it off from scratch before this happens, but there are cases where that's not as useful as compacting, plus it's much bigger of a problem for models 
+
+[fn:1] Frankly I never liked this benchmark being used for deep research benchmarking. I always thought this was supposed to be more of a native capabilty dataset, but it quickly became a browsing+tool use benchmark once [[https://openai.com/index/introducing-deep-research/][OpenAI Deep Research]] used it to illustrate how looking up the +the answers+ relevant information could greatly improve performance at the benchmark. Everybody followed suit I guess, to level the playing field back out. 

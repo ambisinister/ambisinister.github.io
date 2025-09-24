@@ -623,15 +623,84 @@ As a reminder, these were their outstanding preregistered plans since V2-Coder:
 
 Depending on how you consider the Constitutional AI work in this paper, these have all been addressed to some degree.
 
+** DeepSeek R1
+
+This is what DeepSeek had been building to the entire time -- their bona fide entry to the frontier, a faithful reproduction of OpenAI's o1 reasoning model. The ramifications of this work were enormous: DeepSeek became a household name virtually overnight, with [[https://planetbanatt.net/articles/v3fermi.html][sudden objections]] to the claims in previous papers, extensive news coverage, an extremely popular iphone app, and so on. Months later, this paper would go on to [[https://www.nature.com/articles/s41586-025-09422-z][get published in /Nature/]], certainly a rarity for ML papers in this day and age.
+
+At its core, the R1 paper is a relatively simple paper, at least compared to most of what came before it. This paper has three primary findings:
+
+1. Applying RL upon a powerful base model using verifiable problems will cause the o1-style reasoning behavior to emerge by itself, since it will learn that using more tokens first will lead to higher likelihood of successful responses. (DeepSeek-R1-Zero)
+2. If you perform SFT in addition to this, you can influence the thought traces to be more human-readable and more frequently mono-linguial, which they use to create a model on par with OpenAI-o1-1217 (DeepSeek-R1)
+3. If you collect a large number of reasoning traces, you can distill reasoning-like behavior into smaller models via SFT. This works much better than doing RL upon those models, resulting in better reasoning performance in much less time compared to RL training (!), but you need the big model to exist first.
+
+These are fairly easy to understand! So we will go through them each in detail.
+
+*** Reinforcement Learning with Verifiable Rewards (RLVR)
+
+The very striking thing about this paper is how little is actually in it. Compared to several other models attempting to reproduce OpenAI o1, the DeepSeek strategy lacks any complicated reward hacking or process supervision at all. You can compare this to [[https://qwen.ai/blog?id=c07674ffdf6f7267f6907c2a3d921550dbf4281e&from=research.research-list][team Qwen]] who released their QwQ-32B thinking model around the same time, using elaborate process supervision models to achieve the desired result. In contrast, AI2's [[https://arxiv.org/pdf/2411.15124][Tulu 3]] work makes a great case for using /Reinforcement Learning with Verifiable Rewards/ (RLVR) in order to produce a targeted improvement in specific verifiable domains[fn:55].
+
+[[../images/from_clipboard/20250923_170715.png]]
+
+DeepSeek-R1-Zero is a model DeepSeek released to show off what happens with more or less zero interference beyond the incentive to get answers correct. They use GRPO (as is typical for DeepSeek works) and provide a reward of 1 for correct answers and a reward of 0 for incorrect answers. This is a dead-simple formulation that comes at the cost of constraining the training domain to verifiable problems (math, code, etc), along with a small formatting reward which checks for the presence of <think> and </think> tags in the response. 
+
+[[../images/from_clipboard/20250923_160727.png]]
+
+What they find is that given this environment, the model will learn that outputting more tokens makes it more likely to get the answer correct, and it will begin using more and more tokens in the thinking section before responding. This manifests in what they call the "aha moment", aka a point during training where the model will decide that it needs to reevaluate its candidate answer one more time before responding. Since it's better to think longer before responding, when you think you are done thinking, it is useful to find an excuse to think longer.
+
+[[../images/from_clipboard/20250923_161547.png]]
+[[../images/from_clipboard/20250923_161605.png]]
+
+*** Making Internal CoT Readable
+
+When you do this naturally, you get a model that will mix languages and use some very strange turn of phrases. DeepSeek takes the extra step to produce a version of R1 which has more readable internal thoughts, in a way which will seem pretty simple to anyone following this long.
+
+They begin with /cold start data/: a relatively small curated dataset of reasoning traces from DeepSeek-R1-Zero which have been automatically reformatted to be more readable using DeepSeek-V3. They perform SFT upon DeepSeek-V3-Base in order to kick off the unstable beginning phase of RL training[fn:51].
+
+They then perform the same RLVR process as in DeepSeek-R1-Zero, but with an additional language consistency reward. Interestingly, they actually find that the language consistency reward actually /hurts/ model performance, but keep it anyways since readable CoT "aligns with human preferences"[fn:52].
+
+After this, they perform mostly typical LLM post-training (reasoning/non-reasoning SFT, an additional RL post-training phase a la DeepSeek-V3, but with some reasoning data mixed in to avoid forgetting). The result after all of this is DeepSeek-R1, a reasoning model roughly at parity with OpenAI-o1-1217[fn:56]:
+
+[[../images/from_clipboard/20250923_163516.png]]
+
+*** Distillation to Smaller Models
+
+The distillation component of this paper is likewise extremely simple, and packs a punch. They collect reasoning traces from R1 and perform SFT on a number of smaller models ranging from 1.5B to 70B. This, vaguely, "turns them into reasoner models"[fn:53]
+
+[[../images/from_clipboard/20250923_163920.png]]
+
+My favorite thing about this result is their demonstration that distilling R1 thought traces into Qwen 32B absolutely crushes QwQ-32B-Preview, which is Qwen's own RL posttrained version of the 32B model intended to make it into a reasoner model. In fact, they go into quite some detail about this claim. They do RL posttraining on Qwen 32B in the same manner as R1-Zero, and show that they get very similar results to the actual QwQ model's reported performance. It's not that Qwen did a bad job on post-training QwQ, it's just that it is much easier to distill performance from a bigger model than to RL post-train a model from scratch.
+
+[[../images/from_clipboard/20250923_164346.png]]
+
+This introduces a pretty interesting frontier funnel effect. It's resource-inefficient to RL posttrain a model compared to distilling a bigger one, but to distill from a bigger model, you need a bigger model. As a result, big frontier models are going to be resource-intensive to train, and the resulting capabilities will inevitably trickle down into smaller models over time (since it's so much cheaper). Overall this is pretty good news: when improvements to the frontier happen, pareto improvements will generally follow.
+
+*** Unsuccessful Attempts
+
+I love when papers include what doesn't work - it's good for the field. The two things in this section of the paper are very noteworthy: Process Reward Models (PRMs) and Monte Carlo Tree Search (MCTS).
+
+Many researchers believed the o1 formula would have something to do with a process reward model -- something that would identify the model outputting a "reasoning step" and then provide a reward the model could use to learn it should do that behavior more. Many attempts were made to reproduce the o1 formula using something like this, but DeepSeek outlines three flaws that make it largely intractable:
+
+1. Defining "a reasoning step" is difficult to do concretely, it's a bit ill-posed
+2. Determining the "correctness" of an intermediate step is challenging; rewarding a model for "better thoughts" between two correct answers seems challenging.
+3. Once you introduce a PRM, the model will engage in reward hacking to "beat the PRM" rather than to solve the task.
+
+Likewise, many people thought that MCTS would exist in the formula somewhere. DeepSeek-Prover-V1.5 seemed firmly pointed in this direction. But in practice, it seems like the state space is just too large for this to be useful. The exponential search space paired with the bottleneck of a value model to guide the self-search just causes more harm than good with their current resources[fn:54].
+
+*** Additional Thoughts on Reasoners
+
+R1 exhibits some interesting shared flaws with o1, which lends authority to the claim that it's a faithful-ish reproduction. It's called out explicitly [[https://x.com/erykbanatt/status/1881445256111292651][that R1 performs worse at multi-turn]] due to the RLVR inductive bias towards single-turn solutions. This seems like it was worked on explicitly by other labs as part of the "hybrid" / "agentic" model wave, which is out of the scope of this article for now.
+
+Likewise, the Chain-of-thought SFT part of this paper was highly amusing to me. Many so-called "o1 replications" prior to this one would simply SFT models upon curated long chains of thought. This annoyed me enough for me to [[https://x.com/erykbanatt/status/1879065210843193422][crack a joke]] about it way back in January, so it was funny to see a core component of this paper being "it's pretty easy to make another model behave like this if you can develop one first".
+
 ** Conclusion
 
-On January 5th, 2024, DeepSeek released DeepSeek-LLM, a recreation of Llama 2 specifically oriented for Chinese Language. 12 months and 15 papers later, we arrive at the current day: a released V3 model, with r1-full on the horizon[fn:22]. All things considered, their lab is still fairly nascent: their post-training lags behind [[https://www.anthropic.com/research/claude-character][the top western labs]], they [[https://arxiv.org/pdf/2410.10998][struggle]] in [[https://x.com/erykbanatt/status/1872049104546848793][multi-turn settings]], and the narrow focus on math and code makes talking to the model feel much more like talking to a calculator, compared with other models with similar capabilities.
+On January 5th, 2024, DeepSeek released DeepSeek-LLM, a recreation of Llama 2 specifically oriented for Chinese Language. 12 months and 15 papers later, we arrive at the current day: a released V3 /(and r1)/ model, +with r1-full on the horizon+[fn:22]. All things considered, their lab is still fairly nascent: their post-training lags behind [[https://www.anthropic.com/research/claude-character][the top western labs]], they [[https://arxiv.org/pdf/2410.10998][struggle]] in [[https://x.com/erykbanatt/status/1872049104546848793][multi-turn settings]], and the narrow focus on math and code makes talking to the model feel much more like talking to a calculator, compared with other models with similar capabilities.
 
 But it feels like DeepSeek bookended the year rather nicely; a neat calendar year with a bit over a dozen released papers, growing from fairly pedestrian to the bleeding edge of open source. It's hard to imagine what yet another calendar year will bring.
 
 A friend of mine once relayed me a bit of advice from his PhD advisor: that you should pick one important paper to understand well, and if it's the right one that will be your tool for life. I am greedy, so I picked a single lab instead. In Machine Learning, there are a lot of papers out there, and it's often very challenging to discern which ones are the important ones. DeepSeek's 2024 corpus represents something unique: a written record of something a single lab actually did to cover a lot of ground in a very short time, the central spine of a tree leading to the most important published papers about language modeling all over the world.
 
-I can only hope they continue to publish throughout 2025. Otherwise, it will be much more annoying to prioritize my reading list.
+I can only hope they continue to publish throughout 2025. Otherwise, it will be much more annoying to prioritize my reading list[fn:50].
 
 For comments, errata, suggestions, etc, you can reach me on [[https://x.com/erykbanatt][twitter @erykbanatt]].
 
@@ -643,6 +712,20 @@ For comments, errata, suggestions, etc, you can reach me on [[https://x.com/eryk
 - Make the infra section of V3 a lot, lot better. 
 
 * Footnotes
+
+[fn:56] I think it's interesting to consider how something so simple seemingly evaded other labs for so long. [[https://www.interconnects.ai/p/deepseek-r1-recipe-for-o1][Nathan Lambert]] had some good thoughts here, including the claim that [[https://www.interconnects.ai/p/openais-o1-using-search-was-a-psyop][OpenAI misleadingly implied o1 was using "search" of some sort]]. A brief thought [[https://x.com/erykbanatt/status/1881729672440066427][I had on this]] was that DeepSeek has always been pretty diligent about tracking /capabilities/ during training, rather than just loss. DeepSeek has always been careful about reporting that training on specific data mixes would boost capability A while degrading capability B, and I think that could be an important note as to how DeepSeek could have arrived here while others didn't. 
+
+[fn:55] This is a fantastic read all its own. Probably not /essential background/ to warrant its own section, but the Tulu 3 paper is a treasure trove since it goes into so much detail about data etc. 
+
+[fn:54] I suspect we haven't seen the last of MCTS, but it's a more computationally challenging task to generate tokens compared even to playing Go. 
+
+[fn:53] I know this claim pisses some people off. It makes them output lots of tokens like a reasoner model, and get the answers right more often like a reasoner model. But it's not really a model RL posttrained to arrive at correct answers, it's an LLM aping the output of another model which /is/ trained that way. 
+
+[fn:52] Some hypothesize that this performance hit is why internal CoT is not visible in many closed-source models. I think that deliberately hamstringing your own model to yield a more beautiful result is profound, but I can understand other labs being unwilling to take the performance degradation, even if it is just mild. 
+
+[fn:51] This can also be seen as a sort of baby version of the later conclusion: that it's easier to distill capability from another model than it is to learn that behavior from scratch using RL. It doesn't necessarily need to be from a *larger* model, I suppose. 
+
+[fn:50] Author's Note 9/18/25: they sure as hell did not do this. Oh well.
 
 [fn:49] Hamfisted analogy for *waves hands* all of this, probably somewhere buried in here. 
 
