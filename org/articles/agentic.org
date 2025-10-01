@@ -96,10 +96,8 @@ This paper highlights something curious about these hybrid models -- by allowing
 
 Qwen3 is a really simple paper: train the model via SFT so that you can ask it to not output thinking tokens. A cynical take would be comparing it to a non-thinking model that you just prompt to output lots of tokens before responding:
 
-[[../images/from_clipboard/20250924_165521.png]]
-
-[[../images/from_clipboard/20250924_165532.png]]
-
+[[../images/from_clipboard/20250930_174926.png]]
+[[../images/from_clipboard/20250930_175010.png]]
 One thing which will immediately become apparent is the difficulty of comparing a thinking model to a non-thinking model prompted via this sort of chain-of-thought prompting. It is a bit like instilling a very useful prompting template into every single response the model outputs, and here with this Qwen paper we've just reverse-engineered not including that prompting template via straightforward SFT.
 
 But we are seeing the beginnings, vaguely, of a model which is a bit more directly intended to operate in a multi-turn setting. This is actually kind of a big deal! Many labs had strongly tunneled into scaling test-time compute, and the idea of zeroing it back out just seemed like going backwards for no reason. Is it better to have your model think /even longer/ so it can hard /even harder single turn problems/, or is this sort of "Blitz Chess" model still useful in places?
@@ -454,8 +452,6 @@ agentic paradigm is a good way to close the gap between strong and
 weak models.
 #+END_QUOTE
 
-/TODO: figure out more to say about this paper lol/
-
 ** Context Management: WebResearcher
 
 [[https://arxiv.org/pdf/2509.13309][WebResearcher]] is yet another component of the Tongyi DeepResearch training pipeline. This time, they're outlining context management, and data synthesis for web-based tool use.
@@ -482,7 +478,7 @@ Similar to previous Tongyi works, this work outlines how they could construct di
 
 [[../images/from_clipboard/20250926_174519.png]]
 
-*** TODO Training
+*** Training
 
 IterResearch uses an MDP framing: at every round, the model must produce a response (action) given the current state (report). This has a nice Markov property to it: since no history is retained in-context, each round is only dependent on the report which was generated last round.
 
@@ -646,7 +642,7 @@ Agent work is still largely nascent, as far as LLM work goes. Many of the techni
 
 When GPT-5 was released, METR put out [[https://evaluations.metr.org/gpt-5-report/][an interesting report]] outlining that the length of task a model could complete has been steadily growing. Roughly every 213 days the length of task competable by a frontier model doubles.
 
-[[../images/from_clipboard/20250930_173145.png]]
+[[../images/from_clipboard/20250930_175144.png]]
 
 Agentic models seem focused on this sort of time horizon problem. It may be that soon models will be capable of working autonomously for very long periods of time, perhaps days or weeks, without exploding due to saturated context windows. It's unclear what sorts of advances are occurring inside frontier labs, but I'd expect developments pointed at pushing this number up will begin to take a first-class-citizen-type role moving forwards, especially as existing benchmarks continue to saturate[fn:45].
 
