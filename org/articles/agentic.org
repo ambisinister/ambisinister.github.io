@@ -96,8 +96,8 @@ This paper highlights something curious about these hybrid models -- by allowing
 
 Qwen3 is a really simple paper: train the model via SFT so that you can ask it to not output thinking tokens. A cynical take would be comparing it to a non-thinking model that you just prompt to output lots of tokens before responding:
 
-[[../images/from_clipboard/20250930_174926.png]]
-[[../images/from_clipboard/20250930_175010.png]]
+[[../images/from_clipboard/20250930_175755.png]]
+
 One thing which will immediately become apparent is the difficulty of comparing a thinking model to a non-thinking model prompted via this sort of chain-of-thought prompting. It is a bit like instilling a very useful prompting template into every single response the model outputs, and here with this Qwen paper we've just reverse-engineered not including that prompting template via straightforward SFT.
 
 But we are seeing the beginnings, vaguely, of a model which is a bit more directly intended to operate in a multi-turn setting. This is actually kind of a big deal! Many labs had strongly tunneled into scaling test-time compute, and the idea of zeroing it back out just seemed like going backwards for no reason. Is it better to have your model think /even longer/ so it can hard /even harder single turn problems/, or is this sort of "Blitz Chess" model still useful in places?
