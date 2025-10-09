@@ -204,9 +204,12 @@ The really interesting part of Kimi K2's RL phase is the *Self-Critique Rubric R
 
 As mentioned earlier, Kimi K2 scores super low on the flattery benchmarks compared to models like 4o, so it's clear that this phase is imparting some interesting behavior to the model. 
 
-/TODO Some additional background necessary for this section/
+The Kimi K2 RL algorithm [[https://arxiv.org/pdf/2501.12599][follows Kimi 1.5]][fn:47] which uses [[https://proceedings.mlr.press/v97/lazic19a.html][online policy mirror descent]]. This means that the policy is updated iteratively by maximizing expected reward while being regularized by a KL divergence term that acts as a [[https://en.wikipedia.org/wiki/Bregman_divergence][Bregman divergence]][fn:46], constraining the new policy to remain close to the current policy and ensuring geometrically natural updates in the space of probability distributions. Basically, it's like GRPO except it uses mirror descent optimization instead of the PPO-like-framing.
 
-The Kimi K2 RL algorithm [[https://arxiv.org/pdf/2501.12599][follows Kimi 1.5]] which uses online policy mirror descent. The changes from K1.5 are using Muon as the optimizer, an enforced maximum token budget[fn:13], an auxiliary PTX loss, and a high sampling temperature with a decay schedule. /TODO go into detail on these/.
+[[../images/from_clipboard/20251008_135109.png]]
+
+
+The changes from K1.5 are using Muon as the optimizer, an enforced maximum token budget[fn:13], an auxiliary PTX loss, and a high sampling temperature with a decay schedule.
 
 There additionally is a lot of detail about the RL infrastructure, specifically the training / checkpoint / inference engines necessary to make it work at scale. These are slightly outside the scope of what I want to cover here, but are worth a read.
 
@@ -314,7 +317,6 @@ We have some interesting tools in our toolkit now:
 It seems like we have a pretty good handle now on how to create these models which are capable of thinking vs responding quickly, and even ones capable of determining that on their own. It's easy to force a model like GLM-4.5 to not think just by prefilling a zero-token reasoning trace before it continues responding, and otherwise it will decide on its own based on similarity to the SFT data it was presented.
 
 We have primarily been focused upon these agent models relative to their ability to operate in claude-code-like CLI tools. But the agentic rabbit hole actually does a bit deeper: [[https://openai.com/index/introducing-deep-research/][deep research tools]] are another use case of agentic, multi-turn workflows which have to synthesize a lot of information together to work well. This produces yet-more challenges we haven't addressed much yet. What do those look like?
-
 ** Agentic Continual Pretraining: Scaling Agents via Continual Pretraining
 
 On September 16th 2025, Alibaba dropped [[https://x.com/Ali_TongyiLab/status/1967988004179546451][Tongyi DeepResearch]], a fully open source deep research web agent /AgentFounder/ which was extremely small: just 30B total / 3B active parameters, matching or outperforming OpenAI Deep Research on a variety of benchmarks[fn:23].
@@ -328,8 +330,6 @@ To address this, Tongyi introduces Agentic Continual Pretraining (Agentic CPT). 
 [[../images/from_clipboard/20250926_111524.png]]
 
 *** Agentic CPT
-
-/TODO: This paper is pretty confusingly written and there's typos everywhere. I need to double check that my understanding is all relatively correct./
 
 Tongyi's Agentic CPT is a relatively modest additional 300B tokens which are pretrained on top of Qwen-30B-A3B-Base. As mentioned, it follows two phases:
 
@@ -484,9 +484,25 @@ IterResearch uses an MDP framing: at every round, the model must produce a respo
 
 This model is trained via Rejection Sampling Fine-Tuning, where trajectories are gathered using the IterResearch framing, and kept only if they arrive at the right answer eventually. This forms a dataset which allows the model to be fine-tuned to produce working trajectories more frequently.
 
-/TODO: look more into this minimal-loss downsampling section. Go into more detail on GSPO since I haven't read it yet/.
+**** Group Sequence Policy Optimization
 
-The model is then further trained using reinforcement learning, leveraging [[https://arxiv.org/pdf/2507.18071][Group Sequence Policy Optimization]] with matching reference answers as the reward signal.
+The model is then further trained using reinforcement learning, leveraging [[https://arxiv.org/pdf/2507.18071][Group Sequence Policy Optimization]], or GSPO, with matching reference answers as the reward signal.
+
+GSPO is very interesting: it's a variation of GRPO which the Qwen team claims makes training with it much more stable. Recall GRPO's formulation from DeepSeekMath:
+
+[[../images/from_clipboard/20240614_213940.png]]
+
+The useful thing about GRPO is that it sidesteps the need to train an explicit value model, instead leaning on the relative advantage of the responses. This is really nice, since value models are difficult to train, so it's generally worth the tradeoff even if the stability is difficult to dial in properly. Since DeepSeekMath, GRPO has grown significantly in popularity, and you see it in all sorts of LLM work nowadays.
+
+The central claim of the GSPO paper is that the importance sampling term used in GRPO is ill-posed. Since it uses the probability ratio of outputs at each token, it's drawn from a single sample rather than a distribution averaged over several samples, which introduces lots of noise to the training process since the single-token probability ratios can vary wildly token to token.
+
+To address this, GSPO reformulates the objective to work at the sequence level instead. This is a nice, natural framing, since the reward is prodivded at the sequence level anyways. GSPO makes just one change, which is replacing this importance ratio with one which is based on sequence likelihood instead. Instead of using a per-token likelihood ratio, it uses the geometric mean of all the per-token likelihoods[fn:48].
+
+[[../images/from_clipboard/20251008_160952.png]]
+
+They show through experiment that this results in better and more stable training than vanilla GRPO[fn:49].
+
+[[../images/from_clipboard/20251008_161341.png]]
 
 *** Discussion
 
@@ -620,7 +636,7 @@ With these chained tool calls, an LLM generates simulated user queries and agent
 
 [[../images/from_clipboard/20250930_164101.png]]
 
-These sequences are then fine-tuned upon (with the user messages and the tool responses excluded) such that the model trains upon lots of trajectories of a large variety of different types of tools. This fine-tuning is done in two stages, the first with a lot of available APIs for very broad, versatile problems, and the second with more domain-constrained specialized settings. /TODO: what does this even mean? It's not clear from the text./
+These sequences are then fine-tuned upon (with the user messages and the tool responses excluded) such that the model trains upon lots of trajectories of a large variety of different types of tools. This fine-tuning is done in two stages, the first with a lot of available APIs for very broad, versatile problems, and the second with more domain-constrained specialized settings.
 
 *** Results / Discussion
 
@@ -648,7 +664,68 @@ Agentic models seem focused on this sort of time horizon problem. It may be that
 
 Time will tell.
 
+** Appendix A: Agent Training - Kimi-Dev
+
+I think this paper probably doesn't justify inclusion in the main body of the text, since it's a little too light to be as useful as the other papers. There is some interesting stuff in it, though, so I wanted to write briefly on it. 
+
+How you might turn one of these agentic LLMs into something which natively plays extra nice in the SWE-agent-type loops you see in popular CLI tools? A very recent paper sheds some initial light on this: [[https://www.arxiv.org/pdf/2509.23045][Kimi-Dev]] from the Moonshot team. In this paper they train up a 72B parameter model which has /induced skill priors/ for this setting through agentless training. This is an attempt to marry the single-turn workflow / multi-turn agent distinction for SWE settings, and they introduce some interesting tricks to get this model performant.
+
+*** Cold Start / Mid-Training
+
+The priors they are attempting to instill into the model are:
+- Its ability to fix bugs which have been identified
+- Its ability to write tests which reproduce the bug and pass when the bug is fixed
+
+[[../images/from_clipboard/20251008_173755.png]]
+
+The first step they take on this front is cold start from a pretrained base model (here Qwen 2.5-72B-Base) using ~90B tokens consisting of collected, real-world resolved github issues, curated PR commit packs, and synthetic reasoning data generated by DeepSeek R1. SFT upon this dataset yields a base model which is extra-performant in these sorts of software-pointed scenarios, which is used as a starting point for future steps.
+
+*** Reinforcement Learning
+
+Like Kimi K2, Kimi-Dev is based on the online policy mirror descent outlined in the Kimi k1.5 paper, which is a GRPO-like method with a regression framing instead of a PPO-like framing[fn:50]. They use 0/1 verification as the reward, discard anything with pass@16=0, and regularly feed it back positive examples it got right already, in order to reinforce successful patterns[fn:51].
+
+*** Test-Time Self-Play
+
+Another interesting idea presented in this paper is Test-Time Self-Play. After RL the model can reliably perform both roles: fixing bugs, and writing tests for the patches it generates. They can boost performance at test-time by writing lots of candidate solutions at runtime (here 40 examples[fn:52]), and selecting the best one.
+
+How to select the best one is pretty interesting. For each example, 40 tests are generated, yielding 1600 total tests (40 for each patch). Then for each patch, they run each test on the code before and after applying it. A good patch to the bug will make a lot of tests that used to fail now pass ($FP$ or fail-to-pass) and will ideally not break any tests which already passed before the patch was applied ($PP$ or pass-to-pass). This is quantified by a simple formula:
+
+$$S_i = \frac{\sum_j FP(i,j)}{\sum_j F(j)} + \frac{\sum_j PP(i,j)}{\sum_j P(j)}$$
+
+and then the patch with the highest score is selected as the final answer[fn:53]. 
+
+*** Results and Discussion
+
+With these tools in play they show some simple results that show that this improves performance on SWE-bench (generally considered a more agentic benchmark) despite the training process being entirely agentless[fn:54]. But perhaps more interesting is the experiment on how these phases impact multi-turn performance. A core thesis of the paper is that this sort of agentless prior can help transfer to multi-turn settings, and that the hybrid-for-multi-turn / thinking-for-single-turn may be somewhat of a temporary phenomenon.
+
+In their experiment they show off how well each of these models performs in the different phases of training, done in this fashion. They show a thought provoking result: models trained with Long CoT with these priors do better in long multi-turn settings compared to the ones that don't have that ability. This is admittedly a test conflated with the growing ability of the model's ability to write it's own tests, but it's interesting regardless.
+
+[[../images/from_clipboard/20251008_174701.png]]
+
+It is possible that these workstreams will re-converge at some point, and that these hybrid models will just /be/ what the thinking models turn into: models equipped with long CoT which are simply more enabled in multi-turn settings. I'd have to see more solid experimental design before I arrive at that conclusion myself, but it's certainly something worth thinking about.
 * Footnotes
+
+[fn:54] I have a suspicion that the qwen-72B base model has probably seen the ground truth for most of swe-bench anyways, since most of it is just the django repository anyways. A cynical take here is that it's just pulling this performance out of the base model better, but that's a bit outside the scope here. 
+
+[fn:53] This is a big fancy name for a technique but it's really just best-of-N with code execution tool calls. They compare it later to majority voting and also the oracle which selects the ground-truth test patch. 
+
+[[../images/from_clipboard/20251008_173443.png]]
+
+[fn:52] Further detail: one test is temperature 0 (greedy decoding), the rest are temperature 1 (high variance)
+
+[fn:51] This is funny. Like me watching back a [[https://www.youtube.com/watch?v=7buwkcR0eXo][combo video]] of my own gameplay in SSBM to tell myself that I'm so good and I should do these patterns more often. 
+
+[fn:50] I'm a bit out of my depth on RL stuff but they mention in appendix C1 that this is "a simpler policy gradient approach" which I think is wrong? since rather than being a policy gradient method at all, it's a regression objective. I guess it does optimize a policy still. 
+
+[fn:49] They also provide a token-level objective variant. Some of the advantage of GRPO in the original DeepSeekMath paper is in that it was token-level rather than only being possible to formulate at the end of the sequence. For these settings (and, notably, pointed at multi-turn RL scenarios), they have a version which cuts the gradient at each token, making them all different.
+
+[[../images/from_clipboard/20251008_161551.png]]
+
+[fn:48] the geometric mean is also the exponent of the arithmetic mean of logs. 
+
+[fn:47] Kimi 1.5 is a 20B parameter thinking model, unlike K2 which is much larger and explicitly not a thinking model. This paper is pretty interesting too, there's some interesting reward modeling stuff in it, but outside the scope of this writeup. 
+
+[fn:46] This is the "mirror" part.
 
 [fn:45] or [[https://arxiv.org/abs/2309.08632][get trained on directly]], for that matter. 
 

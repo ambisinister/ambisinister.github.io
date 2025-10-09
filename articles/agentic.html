@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-09-30 Tue 17:58 -->
+<!-- 2025-10-08 Wed 17:49 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Agentic LLMs</title>
@@ -137,15 +137,15 @@ $(function() {
 <li><a href="#org87a4afe">Chess Games vs Chess Puzzles: The Perception Action Cycle</a></li>
 <li><a href="#orgda415aa">Qwen3 Technical Report</a>
 <ul>
-<li><a href="#org23e34ec">Architecture</a></li>
-<li><a href="#org2b5582b">Training</a>
+<li><a href="#org78a3598">Architecture</a></li>
+<li><a href="#orgf2582eb">Training</a>
 <ul>
 <li><a href="#orgdd1dadc">Reasoning Stage in Pretraining</a></li>
 <li><a href="#orgf29b78d">Post-training</a></li>
 </ul>
 </li>
-<li><a href="#org58a3283">Results</a></li>
-<li><a href="#org52dad31">Discussion</a></li>
+<li><a href="#orgec657bd">Results</a></li>
+<li><a href="#orga95a77c">Discussion</a></li>
 </ul>
 </li>
 <li><a href="#org17deda8">Kimi K2</a>
@@ -154,31 +154,31 @@ $(function() {
 <li><a href="#orgb0ba3ad">MuonClip</a></li>
 <li><a href="#org0ac9b13">Token Efficiency via Rephrasing</a></li>
 <li><a href="#orge0e8c7f">Architecture and Pretraining</a></li>
-<li><a href="#org411b42c">Post-Training</a>
+<li><a href="#org6b8e0fb">Post-Training</a>
 <ul>
 <li><a href="#org63bbf78">Agentic Data Synthesis for Tools (SFT)</a></li>
 <li><a href="#orgfc47e1f">Reinforcement Learning</a></li>
 </ul>
 </li>
-<li><a href="#orga565424">Discussion</a></li>
+<li><a href="#orgd0ed6d1">Discussion</a></li>
 </ul>
 </li>
 <li><a href="#orga6e3425">Hybrid Models - GLM-4.5</a>
 <ul>
-<li><a href="#org78a3598">Architecture</a></li>
+<li><a href="#org56f19da">Architecture</a></li>
 <li><a href="#org7c5afca">Pre-Training and Mid-Training</a></li>
-<li><a href="#org6b8e0fb">Post-Training</a>
+<li><a href="#org6dc889f">Post-Training</a>
 <ul>
 <li><a href="#orgafcbbc9">SFT</a></li>
 <li><a href="#org5d1cb4d">Reasoning RL</a></li>
-<li><a href="#org44ff1f9">Agentic RL</a></li>
+<li><a href="#org98ae3ed">Agentic RL</a></li>
 <li><a href="#org1287bd8">Iterative Distillation</a></li>
 <li><a href="#orgf52c9da">Scaling via More Turns</a></li>
 <li><a href="#org50adf60">General RL</a></li>
 </ul>
 </li>
-<li><a href="#org072ccdc">Results</a></li>
-<li><a href="#orgd9b15f3">Discussion</a></li>
+<li><a href="#org37026cb">Results</a></li>
+<li><a href="#org2b6ffbf">Discussion</a></li>
 </ul>
 </li>
 <li><a href="#org312aec9">Agentic Continual Pretraining: Scaling Agents via Continual Pretraining</a>
@@ -189,30 +189,34 @@ $(function() {
 <li><a href="#orga9bb636">Higher-order Action Synthesis</a></li>
 </ul>
 </li>
-<li><a href="#org2fb46e4">Results</a></li>
-<li><a href="#org11a368a">Discussion</a></li>
+<li><a href="#org0c9be6f">Results</a></li>
+<li><a href="#orge087766">Discussion</a></li>
 </ul>
 </li>
 <li><a href="#org4a7b0ce">Post-training: WebSailor-V2</a>
 <ul>
 <li><a href="#org1ee8842">SailorFog-QA-V2</a></li>
-<li><a href="#org98ae3ed">Agentic RL</a></li>
-<li><a href="#org044e4c2">Discussion</a></li>
+<li><a href="#orgc0d9467">Agentic RL</a></li>
+<li><a href="#org327f74c">Discussion</a></li>
 </ul>
 </li>
 <li><a href="#orge59065a">Context Management: WebResearcher</a>
 <ul>
 <li><a href="#org409b0e0">IterResearch</a></li>
 <li><a href="#org865238f">Multi-Agent Data Synthesis</a></li>
-<li><a href="#orgf2582eb">Training</a></li>
-<li><a href="#orga95a77c">Discussion</a></li>
+<li><a href="#orgf5a15ec">Training</a>
+<ul>
+<li><a href="#org72f6307">Group Sequence Policy Optimization</a></li>
+</ul>
+</li>
+<li><a href="#org72b85e9">Discussion</a></li>
 </ul>
 </li>
 <li><a href="#org211eca5">Information Synthesis: WebWeaver</a>
 <ul>
 <li><a href="#orge579687">WebWeaver</a></li>
-<li><a href="#orgec657bd">Results</a></li>
-<li><a href="#org3a08d3e">Takeaways</a></li>
+<li><a href="#org5fda747">Results</a></li>
+<li><a href="#org1e5218d">Takeaways</a></li>
 </ul>
 </li>
 <li><a href="#org29085d3">Context Compacting: ReSum</a>
@@ -220,7 +224,7 @@ $(function() {
 <li><a href="#orgd90348a">Aside: ReAct</a></li>
 <li><a href="#orgdfd2fd3">ReSum</a></li>
 <li><a href="#org5bbd513">ReSum-GRPO</a></li>
-<li><a href="#org1e5218d">Takeaways</a></li>
+<li><a href="#org8cbd71e">Takeaways</a></li>
 </ul>
 </li>
 <li><a href="#org93f00bf">Tools: Towards General Agentic Intelligence via Environment Scaling</a>
@@ -231,6 +235,14 @@ $(function() {
 </ul>
 </li>
 <li><a href="#org2ad8f74">Where Do We Go From Here</a></li>
+<li><a href="#orgeb5362a">Appendix A: Agent Training - Kimi-Dev</a>
+<ul>
+<li><a href="#orgb22e11d">Cold Start / Mid-Training</a></li>
+<li><a href="#org78f9625">Reinforcement Learning</a></li>
+<li><a href="#org993cce9">Test-Time Self-Play</a></li>
+<li><a href="#orgd10bbf6">Results and Discussion</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -298,7 +310,7 @@ Broadly, LLMs with thinking seem like the right approach for solving very diffic
 </p>
 
 
-<div id="orge6672dd" class="figure">
+<div id="org2e673c4" class="figure">
 <p><img src="../images/from_clipboard/20250924_151103.png" alt="20250924_151103.png" />
 </p>
 </div>
@@ -329,24 +341,24 @@ Notable about the Qwen models is their heinously large training datasets - 36 tr
 </p>
 </div>
 
-<div id="outline-container-org23e34ec" class="outline-3">
-<h3 id="org23e34ec">Architecture</h3>
-<div class="outline-text-3" id="text-org23e34ec">
+<div id="outline-container-org78a3598" class="outline-3">
+<h3 id="org78a3598">Architecture</h3>
+<div class="outline-text-3" id="text-org78a3598">
 <p>
 Qwen3 is a mostly unremarkable MoE model, architectually speaking. It uses Grouped Query Attention, SwiGLU, RoPE, RMSNorm, etc. From DeepSeekMoE, it adapts the fine-grained expert segmentation, which has become a slightly more standard architecture in recent months. But otherwise, this is mostly standard fare previously covered in the <a href="https://planetbanatt.net/articles/deepseek.html">deepseek writeups</a> I have covered previously.
 </p>
 
 
-<div id="org8bbc4be" class="figure">
+<div id="org52c3310" class="figure">
 <p><img src="../images/from_clipboard/20250924_154210.png" alt="20250924_154210.png" />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org2b5582b" class="outline-3">
-<h3 id="org2b5582b">Training</h3>
-<div class="outline-text-3" id="text-org2b5582b">
+<div id="outline-container-orgf2582eb" class="outline-3">
+<h3 id="orgf2582eb">Training</h3>
+<div class="outline-text-3" id="text-orgf2582eb">
 <p>
 Qwen3 is pretrained similar to other similar sized large models, so for simplicity we will primarily cover what imparts the optional reasoning behaviors:
 </p>
@@ -369,7 +381,7 @@ This is where the meat of the contributions are. Recall from DeepSeek-R1 that R1
 </p>
 
 
-<div id="orgc0d2319" class="figure">
+<div id="org3279436" class="figure">
 <p><img src="../images/from_clipboard/20250924_160014.png" alt="20250924_160014.png" />
 </p>
 </div>
@@ -384,7 +396,7 @@ Training this model for the most part follows the formula of DeepSeek-R1. A cold
 </p>
 
 
-<div id="org9292b0f" class="figure">
+<div id="org34034db" class="figure">
 <p><img src="../images/from_clipboard/20250924_161658.png" alt="20250924_161658.png" />
 </p>
 </div>
@@ -404,15 +416,15 @@ Following this fusion phase, they do a regular general-purpose RL post-training 
 </div>
 </div>
 
-<div id="outline-container-org58a3283" class="outline-3">
-<h3 id="org58a3283">Results</h3>
-<div class="outline-text-3" id="text-org58a3283">
+<div id="outline-container-orgec657bd" class="outline-3">
+<h3 id="orgec657bd">Results</h3>
+<div class="outline-text-3" id="text-orgec657bd">
 <p>
 Their resulting model is pretty good relative to thinking models.
 </p>
 
 
-<div id="org914ab2f" class="figure">
+<div id="orgddc1e1c" class="figure">
 <p><img src="../images/from_clipboard/20250924_164416.png" alt="20250924_164416.png" />
 </p>
 </div>
@@ -422,7 +434,7 @@ It's also pretty good relative to non thinking models.
 </p>
 
 
-<div id="org142d99c" class="figure">
+<div id="org4319649" class="figure">
 <p><img src="../images/from_clipboard/20250924_164511.png" alt="20250924_164511.png" />
 </p>
 </div>
@@ -433,15 +445,15 @@ This paper highlights something curious about these hybrid models &#x2013; by al
 </div>
 </div>
 
-<div id="outline-container-org52dad31" class="outline-3">
-<h3 id="org52dad31">Discussion</h3>
-<div class="outline-text-3" id="text-org52dad31">
+<div id="outline-container-orga95a77c" class="outline-3">
+<h3 id="orga95a77c">Discussion</h3>
+<div class="outline-text-3" id="text-orga95a77c">
 <p>
 Qwen3 is a really simple paper: train the model via SFT so that you can ask it to not output thinking tokens. A cynical take would be comparing it to a non-thinking model that you just prompt to output lots of tokens before responding:
 </p>
 
 
-<div id="org2f0b3f6" class="figure">
+<div id="org6a5188d" class="figure">
 <p><img src="../images/from_clipboard/20250930_175755.png" alt="20250930_175755.png" />
 </p>
 </div>
@@ -491,13 +503,13 @@ Most very large models are trained with the tried-and-tested <a href="https://ar
 </p>
 
 
-<div id="org5623590" class="figure">
+<div id="orgca4b9fb" class="figure">
 <p><img src="../images/from_clipboard/20250925_120827.png" alt="20250925_120827.png" />
 </p>
 </div>
 
 
-<div id="orgd8789dd" class="figure">
+<div id="org5d5bab3" class="figure">
 <p><img src="../images/from_clipboard/20250925_121009.png" alt="20250925_121009.png" />
 </p>
 </div>
@@ -507,7 +519,7 @@ What does that mean, <i>orthogonalize</i>? We can take a look at the operation t
 </p>
 
 
-<div id="org8bf7588" class="figure">
+<div id="org27f3b83" class="figure">
 <p><img src="../images/from_clipboard/20250925_121142.png" alt="20250925_121142.png" />
 </p>
 </div>
@@ -552,7 +564,7 @@ Kimi's solution to the exploding attention logits in Muon is <i>QK-Clip</i>. Thi
 </p>
 
 
-<div id="org7b55438" class="figure">
+<div id="orgcc86bdb" class="figure">
 <p><img src="../images/from_clipboard/20250925_125154.png" alt="20250925_125154.png" />
 </p>
 </div>
@@ -575,7 +587,7 @@ Kimi's contribution here is: rather than showing the same text to a model twice,
 </p>
 
 
-<div id="orgcd436a3" class="figure">
+<div id="org0e1ff21" class="figure">
 <p><img src="../images/from_clipboard/20250925_130656.png" alt="20250925_130656.png" />
 </p>
 </div>
@@ -590,7 +602,7 @@ Kimi K2 is more or less an extremely large version of DeepSeek-V3, leveraging Mo
 </p>
 
 
-<div id="org4c2d2c9" class="figure">
+<div id="org18a36f4" class="figure">
 <p><img src="../images/from_clipboard/20250925_131220.png" alt="20250925_131220.png" />
 </p>
 </div>
@@ -609,9 +621,9 @@ Pretraining follows largely the same standard formula, but with MuonClip added. 
 </div>
 </div>
 
-<div id="outline-container-org411b42c" class="outline-3">
-<h3 id="org411b42c">Post-Training</h3>
-<div class="outline-text-3" id="text-org411b42c">
+<div id="outline-container-org6b8e0fb" class="outline-3">
+<h3 id="org6b8e0fb">Post-Training</h3>
+<div class="outline-text-3" id="text-org6b8e0fb">
 </div>
 <div id="outline-container-org63bbf78" class="outline-4">
 <h4 id="org63bbf78">Agentic Data Synthesis for Tools (SFT)</h4>
@@ -627,7 +639,7 @@ Kimi's SFT phase involves a substantial data synthesis pipeline intended to gene
 </ol>
 
 
-<div id="org9362952" class="figure">
+<div id="org320e83e" class="figure">
 <p><img src="../images/from_clipboard/20250925_133738.png" alt="20250925_133738.png" />
 </p>
 </div>
@@ -666,7 +678,7 @@ The really interesting part of Kimi K2's RL phase is the <b>Self-Critique Rubric
 </p>
 
 
-<div id="org9784dbe" class="figure">
+<div id="orgc52350e" class="figure">
 <p><img src="../images/from_clipboard/20250925_141144.png" alt="20250925_141144.png" />
 </p>
 </div>
@@ -676,11 +688,18 @@ As mentioned earlier, Kimi K2 scores super low on the flattery benchmarks compar
 </p>
 
 <p>
-<i>TODO Some additional background necessary for this section</i>
+The Kimi K2 RL algorithm <a href="https://arxiv.org/pdf/2501.12599">follows Kimi 1.5</a><sup><a id="fnr.11" class="footref" href="#fn.11" role="doc-backlink">11</a></sup> which uses <a href="https://proceedings.mlr.press/v97/lazic19a.html">online policy mirror descent</a>. This means that the policy is updated iteratively by maximizing expected reward while being regularized by a KL divergence term that acts as a <a href="https://en.wikipedia.org/wiki/Bregman_divergence">Bregman divergence</a><sup><a id="fnr.12" class="footref" href="#fn.12" role="doc-backlink">12</a></sup>, constraining the new policy to remain close to the current policy and ensuring geometrically natural updates in the space of probability distributions. Basically, it's like GRPO except it uses mirror descent optimization instead of the PPO-like-framing.
 </p>
 
+
+<div id="orgd6a1da2" class="figure">
+<p><img src="../images/from_clipboard/20251008_135109.png" alt="20251008_135109.png" />
+</p>
+</div>
+
+
 <p>
-The Kimi K2 RL algorithm <a href="https://arxiv.org/pdf/2501.12599">follows Kimi 1.5</a> which uses online policy mirror descent. The changes from K1.5 are using Muon as the optimizer, an enforced maximum token budget<sup><a id="fnr.11" class="footref" href="#fn.11" role="doc-backlink">11</a></sup>, an auxiliary PTX loss, and a high sampling temperature with a decay schedule. <i>TODO go into detail on these</i>.
+The changes from K1.5 are using Muon as the optimizer, an enforced maximum token budget<sup><a id="fnr.13" class="footref" href="#fn.13" role="doc-backlink">13</a></sup>, an auxiliary PTX loss, and a high sampling temperature with a decay schedule.
 </p>
 
 <p>
@@ -690,9 +709,9 @@ There additionally is a lot of detail about the RL infrastructure, specifically 
 </div>
 </div>
 
-<div id="outline-container-orga565424" class="outline-3">
-<h3 id="orga565424">Discussion</h3>
-<div class="outline-text-3" id="text-orga565424">
+<div id="outline-container-orgd0ed6d1" class="outline-3">
+<h3 id="orgd0ed6d1">Discussion</h3>
+<div class="outline-text-3" id="text-orgd0ed6d1">
 <p>
 Kimi K2 gets some really interesting results. As mentioned, it's sort of complicated to compare it to other models. It's a bit like a reasoner model squeezed into a non-reasoner box. It's good at using tools, and it operates well in agentic harnesses. Getting Muon to work for a model this large is also no small contribution &#x2013; it will be super interesting to see if it catches on or not.
 </p>
@@ -716,15 +735,15 @@ I am admittedly surprised by this. I wonder if it's the case that there are thre
 </p>
 </div>
 
-<div id="outline-container-org78a3598" class="outline-3">
-<h3 id="org78a3598">Architecture</h3>
-<div class="outline-text-3" id="text-org78a3598">
+<div id="outline-container-org56f19da" class="outline-3">
+<h3 id="org56f19da">Architecture</h3>
+<div class="outline-text-3" id="text-org56f19da">
 <p>
 GLM largely follows DeepSeek-V3, differing by making the model much deeper, using fewer experts, and using Group-Query Attention instead of MLA. But otherwise, it's an MoE with fine-grained experts, using loss-free balancing, with multi-token prediction layers etc.
 </p>
 
 
-<div id="org82ae1ee" class="figure">
+<div id="org570ca22" class="figure">
 <p><img src="../images/from_clipboard/20250925_145906.png" alt="20250925_145906.png" />
 </p>
 </div>
@@ -739,13 +758,13 @@ It's sort of the opposite of Kimi K2 &#x2013; rather than making V3-but-wider, i
 <h3 id="org7c5afca">Pre-Training and Mid-Training</h3>
 <div class="outline-text-3" id="text-org7c5afca">
 
-<div id="org654c091" class="figure">
+<div id="orgec6ee5f" class="figure">
 <p><img src="../images/from_clipboard/20250925_150110.png" alt="20250925_150110.png" />
 </p>
 </div>
 
 <p>
-Pretraining is similar to Qwen3, a general-purpose pretraining phase with a reasoning pretrain corpus after that. Rather than immediately jump into long context pretraining a la Kimi K2, GLM-4.5 uses three phases that they refer to as "Mid-Training"<sup><a id="fnr.12" class="footref" href="#fn.12" role="doc-backlink">12</a></sup>: Repo-level code training at 32k context length, Synthetic Reasoning data<sup><a id="fnr.13" class="footref" href="#fn.13" role="doc-backlink">13</a></sup> at 32k context length, and "Long-Context &amp; Agent Training" which repurposes the typical long-context pretraining phase to include the large-scale synthetic agent trajectories similar to Kimi K2.
+Pretraining is similar to Qwen3, a general-purpose pretraining phase with a reasoning pretrain corpus after that. Rather than immediately jump into long context pretraining a la Kimi K2, GLM-4.5 uses three phases that they refer to as "Mid-Training"<sup><a id="fnr.14" class="footref" href="#fn.14" role="doc-backlink">14</a></sup>: Repo-level code training at 32k context length, Synthetic Reasoning data<sup><a id="fnr.15" class="footref" href="#fn.15" role="doc-backlink">15</a></sup> at 32k context length, and "Long-Context &amp; Agent Training" which repurposes the typical long-context pretraining phase to include the large-scale synthetic agent trajectories similar to Kimi K2.
 </p>
 
 <p>
@@ -754,11 +773,11 @@ GLM-4.5 uses Muon as the optimizer much like Kimi K2, and did not report the sam
 </div>
 </div>
 
-<div id="outline-container-org6b8e0fb" class="outline-3">
-<h3 id="org6b8e0fb">Post-Training</h3>
-<div class="outline-text-3" id="text-org6b8e0fb">
+<div id="outline-container-org6dc889f" class="outline-3">
+<h3 id="org6dc889f">Post-Training</h3>
+<div class="outline-text-3" id="text-org6dc889f">
 <p>
-GLM-4.5 divides post-training into two stages. First, they constuct <i>Expert Models</i>, essentially three finetuned models for each of Reasoning, Agent, and General chat<sup><a id="fnr.14" class="footref" href="#fn.14" role="doc-backlink">14</a></sup>. Second, they use self-distillation to combine these three models back into a single model good at all three things.
+GLM-4.5 divides post-training into two stages. First, they constuct <i>Expert Models</i>, essentially three finetuned models for each of Reasoning, Agent, and General chat<sup><a id="fnr.16" class="footref" href="#fn.16" role="doc-backlink">16</a></sup>. Second, they use self-distillation to combine these three models back into a single model good at all three things.
 </p>
 </div>
 
@@ -779,30 +798,30 @@ GLM-4.5 uses GRPO (sans the KL loss term) for the reasoning RL phase, which of c
 </p>
 
 <p>
-This paper goes into detail about addressing this problem<sup><a id="fnr.15" class="footref" href="#fn.15" role="doc-backlink">15</a></sup>: they use a two-stage approach. First, they filter down to problems which the SFT model can get some proportion of the time, but not always. Then, after training for a number of steps, they switch datasets to examples which are pass@8=0 and pass@512&gt;0, i.e. problems which are gettable by the SFT model but only barely. This improves performance substantially compared to saturating only moderately difficult problems.
+This paper goes into detail about addressing this problem<sup><a id="fnr.17" class="footref" href="#fn.17" role="doc-backlink">17</a></sup>: they use a two-stage approach. First, they filter down to problems which the SFT model can get some proportion of the time, but not always. Then, after training for a number of steps, they switch datasets to examples which are pass@8=0 and pass@512&gt;0, i.e. problems which are gettable by the SFT model but only barely. This improves performance substantially compared to saturating only moderately difficult problems.
 </p>
 
 
-<div id="orge3a1742" class="figure">
+<div id="org82d216e" class="figure">
 <p><img src="../images/from_clipboard/20250925_155527.png" alt="20250925_155527.png" />
 </p>
 </div>
 
 <p>
-They use 64k output length throughout the Reasoning RL phase<sup><a id="fnr.16" class="footref" href="#fn.16" role="doc-backlink">16</a></sup>, with dynamic temperature that will rise when average rewards level off, in order to increase exploration<sup><a id="fnr.17" class="footref" href="#fn.17" role="doc-backlink">17</a></sup>. They do RL upon verifiable code and science problems and see increased performance as a result.
+They use 64k output length throughout the Reasoning RL phase<sup><a id="fnr.18" class="footref" href="#fn.18" role="doc-backlink">18</a></sup>, with dynamic temperature that will rise when average rewards level off, in order to increase exploration<sup><a id="fnr.19" class="footref" href="#fn.19" role="doc-backlink">19</a></sup>. They do RL upon verifiable code and science problems and see increased performance as a result.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org44ff1f9" class="outline-4">
-<h4 id="org44ff1f9">Agentic RL</h4>
-<div class="outline-text-4" id="text-org44ff1f9">
+<div id="outline-container-org98ae3ed" class="outline-4">
+<h4 id="org98ae3ed">Agentic RL</h4>
+<div class="outline-text-4" id="text-org98ae3ed">
 <p>
 On top of the now-standard-fare reasoning RL, GLM does specifically targeted RL training for agentic uses, specifically to improve the model at verifiable web-search and code-generation tasks.
 </p>
 
 <p>
-The authors assemble a dataset of web-search problems by synthesizing questions based on multiple internet documents, and then obfuscating content from those documents in order to require a successful web search to complete properly<sup><a id="fnr.18" class="footref" href="#fn.18" role="doc-backlink">18</a></sup>. 
+The authors assemble a dataset of web-search problems by synthesizing questions based on multiple internet documents, and then obfuscating content from those documents in order to require a successful web search to complete properly<sup><a id="fnr.20" class="footref" href="#fn.20" role="doc-backlink">20</a></sup>. 
 </p>
 
 <p>
@@ -819,7 +838,7 @@ A really interesting component of GLM's RL pipeline is <b>Iterative Self-Distill
 </p>
 
 <p>
-In DeepSeek-R1, they created DeepSeek-R1-Zero via RLVR, created a cold-start dataset of filtered responses from R1-Zero, and performed SFT upon the base model with these before doing RLVR on that model to create DeepSeek-R1. GLM takes this a step further. Once they train a model using RL, they generate <i>even more</i> cold start data from it in order to create a superior SFT model, and then perform RL upon it once again, looping this process<sup><a id="fnr.19" class="footref" href="#fn.19" role="doc-backlink">19</a></sup>. This can gradually push the difficulty of problems it's capable of solving, making it a pretty efficient way to increase the performance during this phase.
+In DeepSeek-R1, they created DeepSeek-R1-Zero via RLVR, created a cold-start dataset of filtered responses from R1-Zero, and performed SFT upon the base model with these before doing RLVR on that model to create DeepSeek-R1. GLM takes this a step further. Once they train a model using RL, they generate <i>even more</i> cold start data from it in order to create a superior SFT model, and then perform RL upon it once again, looping this process<sup><a id="fnr.21" class="footref" href="#fn.21" role="doc-backlink">21</a></sup>. This can gradually push the difficulty of problems it's capable of solving, making it a pretty efficient way to increase the performance during this phase.
 </p>
 
 <p>
@@ -836,7 +855,7 @@ One thing I love about this paper is their result showing that you can reap perf
 </p>
 
 
-<div id="orgbe43697" class="figure">
+<div id="org77a4149" class="figure">
 <p><img src="../images/from_clipboard/20250925_163346.png" alt="20250925_163346.png" />
 </p>
 </div>
@@ -847,7 +866,7 @@ One thing I love about this paper is their result showing that you can reap perf
 <h4 id="org50adf60">General RL</h4>
 <div class="outline-text-4" id="text-org50adf60">
 <p>
-Like most models, GLM finishes up with general-purpose RL for improving various things about the model. They do RLHF and RLAIF to improve instruction following, function calling, mono-lingual responses, formatting errors, and so on<sup><a id="fnr.20" class="footref" href="#fn.20" role="doc-backlink">20</a></sup>.
+Like most models, GLM finishes up with general-purpose RL for improving various things about the model. They do RLHF and RLAIF to improve instruction following, function calling, mono-lingual responses, formatting errors, and so on<sup><a id="fnr.22" class="footref" href="#fn.22" role="doc-backlink">22</a></sup>.
 </p>
 
 <p>
@@ -857,15 +876,15 @@ Function-calling RL here has a special section dedicated to end-to-end multi-tur
 </div>
 </div>
 
-<div id="outline-container-org072ccdc" class="outline-3">
-<h3 id="org072ccdc">Results</h3>
-<div class="outline-text-3" id="text-org072ccdc">
+<div id="outline-container-org37026cb" class="outline-3">
+<h3 id="org37026cb">Results</h3>
+<div class="outline-text-3" id="text-org37026cb">
 <p>
 GLM-4.5 and GLM-4.5-Air benchmark very well. One very interesting thing GLM-4.5 provides beyond just benchmarks is human blind testing with specific participants, which is an extreme rarity compared to using something crowdsourced comparisons (e.g. LMArena, which I am not fond of these days).
 </p>
 
 
-<div id="org60796d9" class="figure">
+<div id="org4ab9973" class="figure">
 <p><img src="../images/from_clipboard/20250925_165228.png" alt="20250925_165228.png" />
 </p>
 </div>
@@ -879,7 +898,7 @@ Likewise, there's substantial comparison for GLM specifically operating inside C
 </p>
 
 
-<div id="orgdbda88c" class="figure">
+<div id="org6d630fb" class="figure">
 <p><img src="../images/from_clipboard/20250925_165420.png" alt="20250925_165420.png" />
 </p>
 </div>
@@ -889,22 +908,22 @@ There are some zones where GLM edges out Sonnet 4, but in general it trails just
 </p>
 
 
-<div id="org8b1004d" class="figure">
+<div id="org9e355a5" class="figure">
 <p><img src="../images/from_clipboard/20250925_165824.png" alt="20250925_165824.png" />
 </p>
 </div>
 
 
-<div id="orgf540cd4" class="figure">
+<div id="org3467048" class="figure">
 <p><img src="../images/from_clipboard/20250925_165911.png" alt="20250925_165911.png" />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgd9b15f3" class="outline-3">
-<h3 id="orgd9b15f3">Discussion</h3>
-<div class="outline-text-3" id="text-orgd9b15f3">
+<div id="outline-container-org2b6ffbf" class="outline-3">
+<h3 id="org2b6ffbf">Discussion</h3>
+<div class="outline-text-3" id="text-org2b6ffbf">
 <p>
 We have some interesting tools in our toolkit now:
 </p>
@@ -926,16 +945,15 @@ We have primarily been focused upon these agent models relative to their ability
 </div>
 </div>
 </div>
-
 <div id="outline-container-org312aec9" class="outline-2">
 <h2 id="org312aec9">Agentic Continual Pretraining: Scaling Agents via Continual Pretraining</h2>
 <div class="outline-text-2" id="text-org312aec9">
 <p>
-On September 16th 2025, Alibaba dropped <a href="https://x.com/Ali_TongyiLab/status/1967988004179546451">Tongyi DeepResearch</a>, a fully open source deep research web agent <i>AgentFounder</i> which was extremely small: just 30B total / 3B active parameters, matching or outperforming OpenAI Deep Research on a variety of benchmarks<sup><a id="fnr.21" class="footref" href="#fn.21" role="doc-backlink">21</a></sup>.
+On September 16th 2025, Alibaba dropped <a href="https://x.com/Ali_TongyiLab/status/1967988004179546451">Tongyi DeepResearch</a>, a fully open source deep research web agent <i>AgentFounder</i> which was extremely small: just 30B total / 3B active parameters, matching or outperforming OpenAI Deep Research on a variety of benchmarks<sup><a id="fnr.23" class="footref" href="#fn.23" role="doc-backlink">23</a></sup>.
 </p>
 
 <p>
-Alongside this model drop, they also dropped six (!) separate technical reports outlining the steps they took to get it working. The first of these was <a href="https://arxiv.org/pdf/2509.13310">Scaling Agents via Continual Pretraining</a>, which explains the pre-training steps which help when creating an agent model specifically for research. In this paper, they outline how they created the model itself, which outperforms OpenAI deep research / Gemini deep research / DeepSeek / GLM / etc at research tasks like Humanity's Last Exam<sup><a id="fnr.22" class="footref" href="#fn.22" role="doc-backlink">22</a></sup>.
+Alongside this model drop, they also dropped six (!) separate technical reports outlining the steps they took to get it working. The first of these was <a href="https://arxiv.org/pdf/2509.13310">Scaling Agents via Continual Pretraining</a>, which explains the pre-training steps which help when creating an agent model specifically for research. In this paper, they outline how they created the model itself, which outperforms OpenAI deep research / Gemini deep research / DeepSeek / GLM / etc at research tasks like Humanity's Last Exam<sup><a id="fnr.24" class="footref" href="#fn.24" role="doc-backlink">24</a></sup>.
 </p>
 
 <p>
@@ -947,7 +965,7 @@ To address this, Tongyi introduces Agentic Continual Pretraining (Agentic CPT). 
 </p>
 
 
-<div id="orgf8a7e9e" class="figure">
+<div id="orga3d4ac3" class="figure">
 <p><img src="../images/from_clipboard/20250926_111524.png" alt="20250926_111524.png" />
 </p>
 </div>
@@ -956,10 +974,6 @@ To address this, Tongyi introduces Agentic Continual Pretraining (Agentic CPT). 
 <div id="outline-container-orgb497cf9" class="outline-3">
 <h3 id="orgb497cf9">Agentic CPT</h3>
 <div class="outline-text-3" id="text-orgb497cf9">
-<p>
-<i>TODO: This paper is pretty confusingly written and there's typos everywhere. I need to double check that my understanding is all relatively correct.</i>
-</p>
-
 <p>
 Tongyi's Agentic CPT is a relatively modest additional 300B tokens which are pretrained on top of Qwen-30B-A3B-Base. As mentioned, it follows two phases:
 </p>
@@ -1008,21 +1022,21 @@ The notable thing about this approach is that they go from "web-search -&gt; mul
 </p>
 
 
-<div id="org9124af5" class="figure">
+<div id="org083e013" class="figure">
 <p><img src="../images/from_clipboard/20250926_130759.png" alt="20250926_130759.png" />
 </p>
 </div>
 
 <p>
-In addition, a large quantity of synthetic data are generated for the LLMs initial planning phase before kicking off the agentic turnflow. This part seems largely possible with existing LLMs ("plan how you would look up X, predict which tool is the first one you should use, format an API call to that tool") which allows for the full FAS pretraining set to take the form "question -&gt; planning -&gt; web-search -&gt; multi-source knowledge -&gt; answer"<sup><a id="fnr.23" class="footref" href="#fn.23" role="doc-backlink">23</a></sup>.
+In addition, a large quantity of synthetic data are generated for the LLMs initial planning phase before kicking off the agentic turnflow. This part seems largely possible with existing LLMs ("plan how you would look up X, predict which tool is the first one you should use, format an API call to that tool") which allows for the full FAS pretraining set to take the form "question -&gt; planning -&gt; web-search -&gt; multi-source knowledge -&gt; answer"<sup><a id="fnr.25" class="footref" href="#fn.25" role="doc-backlink">25</a></sup>.
 </p>
 
 <p>
-However, from very large accumulated datasets, it becomes more necessary to inclde the ability to synthesize the accumulated information before attempting to answer the question<sup><a id="fnr.24" class="footref" href="#fn.24" role="doc-backlink">24</a></sup>. After they've accumulated data as described above, they use LLMs to decompose the questions into sub-questions, generate detailed chains of thought for each sub-question, and then combine them into a longer final answer<sup><a id="fnr.25" class="footref" href="#fn.25" role="doc-backlink">25</a></sup>.
+However, from very large accumulated datasets, it becomes more necessary to inclde the ability to synthesize the accumulated information before attempting to answer the question<sup><a id="fnr.26" class="footref" href="#fn.26" role="doc-backlink">26</a></sup>. After they've accumulated data as described above, they use LLMs to decompose the questions into sub-questions, generate detailed chains of thought for each sub-question, and then combine them into a longer final answer<sup><a id="fnr.27" class="footref" href="#fn.27" role="doc-backlink">27</a></sup>.
 </p>
 
 
-<div id="orgf1a258a" class="figure">
+<div id="org875d254" class="figure">
 <p><img src="../images/from_clipboard/20250926_130743.png" alt="20250926_130743.png" />
 </p>
 </div>
@@ -1049,7 +1063,7 @@ For contrastive decision-action synthesis, this is then transformed into several
 </p>
 
 
-<div id="org234f2fe" class="figure">
+<div id="org55f8237" class="figure">
 <p><img src="../images/from_clipboard/20250926_135939.png" alt="20250926_135939.png" />
 </p>
 </div>
@@ -1057,15 +1071,15 @@ For contrastive decision-action synthesis, this is then transformed into several
 </div>
 </div>
 
-<div id="outline-container-org2fb46e4" class="outline-3">
-<h3 id="org2fb46e4">Results</h3>
-<div class="outline-text-3" id="text-org2fb46e4">
+<div id="outline-container-org0c9be6f" class="outline-3">
+<h3 id="org0c9be6f">Results</h3>
+<div class="outline-text-3" id="text-org0c9be6f">
 <p>
-A lot of the details describing how this model works are buried in the papers which are to follow: this paper describes the Agentic CPT and also reports their final results<sup><a id="fnr.26" class="footref" href="#fn.26" role="doc-backlink">26</a></sup>. A lot more went into this model than just Agentic CPT so it feels premature to talk about results here:
+A lot of the details describing how this model works are buried in the papers which are to follow: this paper describes the Agentic CPT and also reports their final results<sup><a id="fnr.28" class="footref" href="#fn.28" role="doc-backlink">28</a></sup>. A lot more went into this model than just Agentic CPT so it feels premature to talk about results here:
 </p>
 
 
-<div id="orgd6ce350" class="figure">
+<div id="org9edb186" class="figure">
 <p><img src="../images/from_clipboard/20250926_140405.png" alt="20250926_140405.png" />
 </p>
 </div>
@@ -1075,7 +1089,7 @@ but regardless: they report really good results on research-type tasks. It's rea
 </p>
 
 
-<div id="orgd794061" class="figure">
+<div id="org4fc11a7" class="figure">
 <p><img src="../images/from_clipboard/20250926_140942.png" alt="20250926_140942.png" />
 </p>
 </div>
@@ -1085,18 +1099,18 @@ They also do make some claims about the amenability of their Agentic CPT for fur
 </p>
 
 
-<div id="org622a41e" class="figure">
+<div id="org85b6f69" class="figure">
 <p><img src="../images/from_clipboard/20250926_141510.png" alt="20250926_141510.png" />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org11a368a" class="outline-3">
-<h3 id="org11a368a">Discussion</h3>
-<div class="outline-text-3" id="text-org11a368a">
+<div id="outline-container-orge087766" class="outline-3">
+<h3 id="orge087766">Discussion</h3>
+<div class="outline-text-3" id="text-orge087766">
 <p>
-Moving agentic capability data into pretraining (where models usually "learn facts" rather than just "learn to follow instructions better") makes a lot of sense, and the AgentFounder work can be viewed as being similar in spirit to GLM-4.5's mid-training strategy<sup><a id="fnr.27" class="footref" href="#fn.27" role="doc-backlink">27</a></sup>, but adapted for web research more than for code.
+Moving agentic capability data into pretraining (where models usually "learn facts" rather than just "learn to follow instructions better") makes a lot of sense, and the AgentFounder work can be viewed as being similar in spirit to GLM-4.5's mid-training strategy<sup><a id="fnr.29" class="footref" href="#fn.29" role="doc-backlink">29</a></sup>, but adapted for web research more than for code.
 </p>
 
 <p>
@@ -1134,24 +1148,24 @@ With a dense knowledge graph, they extract subgraphs of this graph via random wa
 </p>
 
 <p>
-This data is used in the SFT Cold Start phase of WebSailor-V2's Agentic Post-training, built atop the Qwen3-30B-A3B-Thinking-2507 model<sup><a id="fnr.28" class="footref" href="#fn.28" role="doc-backlink">28</a></sup>. 
+This data is used in the SFT Cold Start phase of WebSailor-V2's Agentic Post-training, built atop the Qwen3-30B-A3B-Thinking-2507 model<sup><a id="fnr.30" class="footref" href="#fn.30" role="doc-backlink">30</a></sup>. 
 </p>
 </div>
 </div>
 
-<div id="outline-container-org98ae3ed" class="outline-3">
-<h3 id="org98ae3ed">Agentic RL</h3>
-<div class="outline-text-3" id="text-org98ae3ed">
+<div id="outline-container-orgc0d9467" class="outline-3">
+<h3 id="orgc0d9467">Agentic RL</h3>
+<div class="outline-text-3" id="text-orgc0d9467">
 <p>
 To avoid the heavy costs of RL posttraining a model with real web searches, real APIs, and real data, WebSailor-V2 instead opts to create a simulation environment using a small set of tools and an offline snapshot of Wikipedia. This allows for testing data with ground truth to be assembled, as well as train the model to search and navigate common web pages that it will see in real scenarios. A tightly engineered toolset is used in "real environment" scenarios in this phase also, such that the model gets some exposure to non-wikipedia sources as well.
 </p>
 
 <p>
-Their RL pipeline uses GRPO slightly adapted for the setting (i.e. with the KL term removed). Likewise, negative samples are selectively excluded from the loss calculation (e.g. if they are too long) in order to avoid degraded performance<sup><a id="fnr.29" class="footref" href="#fn.29" role="doc-backlink">29</a></sup>.
+Their RL pipeline uses GRPO slightly adapted for the setting (i.e. with the KL term removed). Likewise, negative samples are selectively excluded from the loss calculation (e.g. if they are too long) in order to avoid degraded performance<sup><a id="fnr.31" class="footref" href="#fn.31" role="doc-backlink">31</a></sup>.
 </p>
 
 <p>
-There is a full paragraph in this section which is bolded, stating that the RL algorithm isn't as important as the synthetic data mix for this part of the process. It also mentions that training on the test set for BrowseComp actually did worse than using the generated synthetic data<sup><a id="fnr.30" class="footref" href="#fn.30" role="doc-backlink">30</a></sup>.
+There is a full paragraph in this section which is bolded, stating that the RL algorithm isn't as important as the synthetic data mix for this part of the process. It also mentions that training on the test set for BrowseComp actually did worse than using the generated synthetic data<sup><a id="fnr.32" class="footref" href="#fn.32" role="doc-backlink">32</a></sup>.
 </p>
 
 <blockquote>
@@ -1174,9 +1188,9 @@ which consequently hinders the model to learn and generalize from it.
 </div>
 </div>
 
-<div id="outline-container-org044e4c2" class="outline-3">
-<h3 id="org044e4c2">Discussion</h3>
-<div class="outline-text-3" id="text-org044e4c2">
+<div id="outline-container-org327f74c" class="outline-3">
+<h3 id="org327f74c">Discussion</h3>
+<div class="outline-text-3" id="text-org327f74c">
 <p>
 Web search and agent-powered information retrieval are, in some sense, another mechanism for scaling test-time compute. As we've seen earlier, we can scale test-time compute by outputting more reasoning tokens, doing more operations over more turns, or getting better and better at looking up the answers to questions. From the text:
 </p>
@@ -1204,19 +1218,19 @@ weak models.
 </p>
 
 <p>
-The core problem being addressed in this paper are primarily engineering ones. Typical open-source approaches put a lot of documents into the LLMs context window, and ask the model to draw conclusions based on that. As the number of retrieved documents grows, this will flood the context with text that is mostly noise<sup><a id="fnr.31" class="footref" href="#fn.31" role="doc-backlink">31</a></sup>. This introduces an undesirable trade-off: do we deliberately get fewer documents, or do we risk adding irrelevant ones to the context?
+The core problem being addressed in this paper are primarily engineering ones. Typical open-source approaches put a lot of documents into the LLMs context window, and ask the model to draw conclusions based on that. As the number of retrieved documents grows, this will flood the context with text that is mostly noise<sup><a id="fnr.33" class="footref" href="#fn.33" role="doc-backlink">33</a></sup>. This introduces an undesirable trade-off: do we deliberately get fewer documents, or do we risk adding irrelevant ones to the context?
 </p>
 
 <p>
-<i>IterResearch</i> is the paradigm introduced by this paper, intended to formulate the deep research problem as a <a href="https://en.wikipedia.org/wiki/Markov_decision_process">Markov Decision Process (MDP)</a>. To get around the mono-context problem, they instead include an intermediate step which will consolidate everything it's seen into a report, clear out its workspace, and repeatedly update this report as it goes, rather than keeping everything stuck in the context. The claim here is that this formulation allows their model to pursue "arbitrarily complex investigations" by preventing additional documents from filling up the context<sup><a id="fnr.32" class="footref" href="#fn.32" role="doc-backlink">32</a></sup>. 
+<i>IterResearch</i> is the paradigm introduced by this paper, intended to formulate the deep research problem as a <a href="https://en.wikipedia.org/wiki/Markov_decision_process">Markov Decision Process (MDP)</a>. To get around the mono-context problem, they instead include an intermediate step which will consolidate everything it's seen into a report, clear out its workspace, and repeatedly update this report as it goes, rather than keeping everything stuck in the context. The claim here is that this formulation allows their model to pursue "arbitrarily complex investigations" by preventing additional documents from filling up the context<sup><a id="fnr.34" class="footref" href="#fn.34" role="doc-backlink">34</a></sup>. 
 </p>
 
 <p>
-Likewise, this formulation enables parallelization of the research process. All you have to do is share the report between multiple agents, and have them explore separate sets of documents before updating. They call this approach the <i>Research-Synthesis Framework</i> and distinguish results leveraging this parallelization with the "heavy" label<sup><a id="fnr.33" class="footref" href="#fn.33" role="doc-backlink">33</a></sup>:
+Likewise, this formulation enables parallelization of the research process. All you have to do is share the report between multiple agents, and have them explore separate sets of documents before updating. They call this approach the <i>Research-Synthesis Framework</i> and distinguish results leveraging this parallelization with the "heavy" label<sup><a id="fnr.35" class="footref" href="#fn.35" role="doc-backlink">35</a></sup>:
 </p>
 
 
-<div id="orge929533" class="figure">
+<div id="org9207dc1" class="figure">
 <p><img src="../images/from_clipboard/20250926_173112.png" alt="20250926_173112.png" />
 </p>
 </div>
@@ -1230,7 +1244,7 @@ The IterResearch paradigm is super simple to understand. Rather than linearly fl
 </p>
 
 
-<div id="orgf4ca376" class="figure">
+<div id="orga21f254" class="figure">
 <p><img src="../images/from_clipboard/20250926_173724.png" alt="20250926_173724.png" />
 </p>
 </div>
@@ -1249,16 +1263,16 @@ Similar to previous Tongyi works, this work outlines how they could construct di
 </p>
 
 
-<div id="orge8cf8d7" class="figure">
+<div id="orgcfa04a3" class="figure">
 <p><img src="../images/from_clipboard/20250926_174519.png" alt="20250926_174519.png" />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgf2582eb" class="outline-3">
-<h3 id="orgf2582eb">Training</h3>
-<div class="outline-text-3" id="text-orgf2582eb">
+<div id="outline-container-orgf5a15ec" class="outline-3">
+<h3 id="orgf5a15ec">Training</h3>
+<div class="outline-text-3" id="text-orgf5a15ec">
 <p>
 IterResearch uses an MDP framing: at every round, the model must produce a response (action) given the current state (report). This has a nice Markov property to it: since no history is retained in-context, each round is only dependent on the report which was generated last round.
 </p>
@@ -1266,32 +1280,71 @@ IterResearch uses an MDP framing: at every round, the model must produce a respo
 <p>
 This model is trained via Rejection Sampling Fine-Tuning, where trajectories are gathered using the IterResearch framing, and kept only if they arrive at the right answer eventually. This forms a dataset which allows the model to be fine-tuned to produce working trajectories more frequently.
 </p>
+</div>
 
+<div id="outline-container-org72f6307" class="outline-4">
+<h4 id="org72f6307">Group Sequence Policy Optimization</h4>
+<div class="outline-text-4" id="text-org72f6307">
 <p>
-<i>TODO: look more into this minimal-loss downsampling section. Go into more detail on GSPO since I haven't read it yet</i>.
+The model is then further trained using reinforcement learning, leveraging <a href="https://arxiv.org/pdf/2507.18071">Group Sequence Policy Optimization</a>, or GSPO, with matching reference answers as the reward signal.
 </p>
 
 <p>
-The model is then further trained using reinforcement learning, leveraging <a href="https://arxiv.org/pdf/2507.18071">Group Sequence Policy Optimization</a> with matching reference answers as the reward signal.
+GSPO is very interesting: it's a variation of GRPO which the Qwen team claims makes training with it much more stable. Recall GRPO's formulation from DeepSeekMath:
+</p>
+
+
+<div id="orgd6131fe" class="figure">
+<p><img src="../images/from_clipboard/20240614_213940.png" alt="20240614_213940.png" />
+</p>
+</div>
+
+<p>
+The useful thing about GRPO is that it sidesteps the need to train an explicit value model, instead leaning on the relative advantage of the responses. This is really nice, since value models are difficult to train, so it's generally worth the tradeoff even if the stability is difficult to dial in properly. Since DeepSeekMath, GRPO has grown significantly in popularity, and you see it in all sorts of LLM work nowadays.
+</p>
+
+<p>
+The central claim of the GSPO paper is that the importance sampling term used in GRPO is ill-posed. Since it uses the probability ratio of outputs at each token, it's drawn from a single sample rather than a distribution averaged over several samples, which introduces lots of noise to the training process since the single-token probability ratios can vary wildly token to token.
+</p>
+
+<p>
+To address this, GSPO reformulates the objective to work at the sequence level instead. This is a nice, natural framing, since the reward is prodivded at the sequence level anyways. GSPO makes just one change, which is replacing this importance ratio with one which is based on sequence likelihood instead. Instead of using a per-token likelihood ratio, it uses the geometric mean of all the per-token likelihoods<sup><a id="fnr.36" class="footref" href="#fn.36" role="doc-backlink">36</a></sup>.
+</p>
+
+
+<div id="org3170f91" class="figure">
+<p><img src="../images/from_clipboard/20251008_160952.png" alt="20251008_160952.png" />
+</p>
+</div>
+
+<p>
+They show through experiment that this results in better and more stable training than vanilla GRPO<sup><a id="fnr.37" class="footref" href="#fn.37" role="doc-backlink">37</a></sup>.
+</p>
+
+
+<div id="org67da25d" class="figure">
+<p><img src="../images/from_clipboard/20251008_161341.png" alt="20251008_161341.png" />
 </p>
 </div>
 </div>
+</div>
+</div>
 
-<div id="outline-container-orga95a77c" class="outline-3">
-<h3 id="orga95a77c">Discussion</h3>
-<div class="outline-text-3" id="text-orga95a77c">
+<div id="outline-container-org72b85e9" class="outline-3">
+<h3 id="org72b85e9">Discussion</h3>
+<div class="outline-text-3" id="text-org72b85e9">
 <p>
 The WebResearcher paper is one of the simpler ones in the Tongyi DeepResearch wheelhouse. Using a text-based hidden state, you enable both parallelization and implicit context management, which seems like a clear advantage over mono-context approaches.
 </p>
 
 
-<div id="org4282bb8" class="figure">
+<div id="orge7fbfde" class="figure">
 <p><img src="../images/from_clipboard/20250926_180134.png" alt="20250926_180134.png" />
 </p>
 </div>
 
 <p>
-The big question is whether or not this framework suffers from information loss as it tries to compress more and more information into the developing report it updates on every step. It's possible this is not much of a concern for now (i.e. the damage from flooding context with noise might simply be greater than the damage from trying to compress too much information into a report<sup><a id="fnr.34" class="footref" href="#fn.34" role="doc-backlink">34</a></sup>), but as the task complexity grows it will likely become an increasingly central element to the problem.
+The big question is whether or not this framework suffers from information loss as it tries to compress more and more information into the developing report it updates on every step. It's possible this is not much of a concern for now (i.e. the damage from flooding context with noise might simply be greater than the damage from trying to compress too much information into a report<sup><a id="fnr.38" class="footref" href="#fn.38" role="doc-backlink">38</a></sup>), but as the task complexity grows it will likely become an increasingly central element to the problem.
 </p>
 </div>
 </div>
@@ -1313,7 +1366,7 @@ While WebResearcher will iteratively write a report as it accumulates more docum
 </p>
 
 
-<div id="orgfa707c6" class="figure">
+<div id="orgb69f4f0" class="figure">
 <p><img src="../images/from_clipboard/20250930_111358.png" alt="20250930_111358.png" />
 </p>
 </div>
@@ -1329,24 +1382,24 @@ The central claim of this paper is:
 </ul>
 
 <p>
-Putting this another way, this workflow is intended to make the model "write a report" closer to how a person would write a report. For example, the way I am writing this post: An initial lit review, an outline, reading papers, writing the sections as I read the papers, etc<sup><a id="fnr.35" class="footref" href="#fn.35" role="doc-backlink">35</a></sup>.
+Putting this another way, this workflow is intended to make the model "write a report" closer to how a person would write a report. For example, the way I am writing this post: An initial lit review, an outline, reading papers, writing the sections as I read the papers, etc<sup><a id="fnr.39" class="footref" href="#fn.39" role="doc-backlink">39</a></sup>.
 </p>
 
 
-<div id="org03f91eb" class="figure">
+<div id="org016518e" class="figure">
 <p><img src="../images/from_clipboard/20250930_114205.png" alt="20250930_114205.png" />
 </p>
 </div>
 
 <p>
-A major positive component of this is that now the specific citations are constrained to key sections in the outline. Because the planner is responsible for the outline (and the outline's citations), the writer can write a section of the final report while being much more easily able to retrieve the right data for what is happens to be writing. This is referred to as <i>Hierarchical Retrieval</i> and is a much more natural formulation compared to long-context-based or embedding-based retrieval augmented generation<sup><a id="fnr.36" class="footref" href="#fn.36" role="doc-backlink">36</a></sup>.
+A major positive component of this is that now the specific citations are constrained to key sections in the outline. Because the planner is responsible for the outline (and the outline's citations), the writer can write a section of the final report while being much more easily able to retrieve the right data for what is happens to be writing. This is referred to as <i>Hierarchical Retrieval</i> and is a much more natural formulation compared to long-context-based or embedding-based retrieval augmented generation<sup><a id="fnr.40" class="footref" href="#fn.40" role="doc-backlink">40</a></sup>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgec657bd" class="outline-3">
-<h3 id="orgec657bd">Results</h3>
-<div class="outline-text-3" id="text-orgec657bd">
+<div id="outline-container-org5fda747" class="outline-3">
+<h3 id="org5fda747">Results</h3>
+<div class="outline-text-3" id="text-org5fda747">
 <p>
 Because this framework can be used with any model trained to call research tools, their main results are evaluated by using this framework with other foundation models, and comparing to existing deep research platforms:
 </p>
@@ -1357,30 +1410,30 @@ Because this framework can be used with any model trained to call research tools
 </p>
 
 <p>
-You can see here that WebWeaver with Sonnet 4 does solidly better than Claude's own research tool, showing off the strength of this approach. They show that more refinement loops yields better results<sup><a id="fnr.37" class="footref" href="#fn.37" role="doc-backlink">37</a></sup>, cleaner context windows improves the performance, and the section-based writing strategy outperforms other approaches.
+You can see here that WebWeaver with Sonnet 4 does solidly better than Claude's own research tool, showing off the strength of this approach. They show that more refinement loops yields better results<sup><a id="fnr.41" class="footref" href="#fn.41" role="doc-backlink">41</a></sup>, cleaner context windows improves the performance, and the section-based writing strategy outperforms other approaches.
 </p>
 
 <p>
-Critical for understanding how this translates to their Tongyi DeepResearch result, they create an 3k SFT dataset consisting of examples of a strong teacher model using the WebWeaver framework<sup><a id="fnr.38" class="footref" href="#fn.38" role="doc-backlink">38</a></sup>. With 3k curated multi-turn trajectory examples, they fine tuned a 30b model on this data and saw hugely improved results on stuff like citation accuracy<sup><a id="fnr.39" class="footref" href="#fn.39" role="doc-backlink">39</a></sup> and DeepResearchGym<sup><a id="fnr.40" class="footref" href="#fn.40" role="doc-backlink">40</a></sup>. 
+Critical for understanding how this translates to their Tongyi DeepResearch result, they create an 3k SFT dataset consisting of examples of a strong teacher model using the WebWeaver framework<sup><a id="fnr.42" class="footref" href="#fn.42" role="doc-backlink">42</a></sup>. With 3k curated multi-turn trajectory examples, they fine tuned a 30b model on this data and saw hugely improved results on stuff like citation accuracy<sup><a id="fnr.43" class="footref" href="#fn.43" role="doc-backlink">43</a></sup> and DeepResearchGym<sup><a id="fnr.44" class="footref" href="#fn.44" role="doc-backlink">44</a></sup>. 
 </p>
 
 
-<div id="org48bc0d3" class="figure">
+<div id="org3687072" class="figure">
 <p><img src="../images/from_clipboard/20250930_121927.png" alt="20250930_121927.png" />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org3a08d3e" class="outline-3">
-<h3 id="org3a08d3e">Takeaways</h3>
-<div class="outline-text-3" id="text-org3a08d3e">
+<div id="outline-container-org1e5218d" class="outline-3">
+<h3 id="org1e5218d">Takeaways</h3>
+<div class="outline-text-3" id="text-org1e5218d">
 <p>
 We've talked a lot up to now about how to make LLMs able to <i>take actions</i> over multiple turns, how to proactively go get documents to read, and then process them somehow before responding. But these have so far been mostly about simple question / answer problems. If the model doesn't know something, it can look up the answer, and then reply like it would normally.
 </p>
 
 <p>
-The WebWeaver paper is our glimpse into how tool-equipped LLMs can <i>actually produce</i> something that looks like the output of a deep research tool, rather than just an extremely informed LLM response. The platonic ideal of a deep research tool is something like an essay, maybe a paper or a blog post, complete with links to other interesting and useful things to read<sup><a id="fnr.41" class="footref" href="#fn.41" role="doc-backlink">41</a></sup>.
+The WebWeaver paper is our glimpse into how tool-equipped LLMs can <i>actually produce</i> something that looks like the output of a deep research tool, rather than just an extremely informed LLM response. The platonic ideal of a deep research tool is something like an essay, maybe a paper or a blog post, complete with links to other interesting and useful things to read<sup><a id="fnr.45" class="footref" href="#fn.45" role="doc-backlink">45</a></sup>.
 </p>
 </div>
 </div>
@@ -1390,7 +1443,7 @@ The WebWeaver paper is our glimpse into how tool-equipped LLMs can <i>actually p
 <h2 id="org29085d3">Context Compacting: ReSum</h2>
 <div class="outline-text-2" id="text-org29085d3">
 <p>
-Even with so many clever tricks to keep the context manageable, it remains sort of inevitable that eventually context windows will just be filled anyways. <a href="https://arxiv.org/pdf/2509.13313">ReSum</a> is Tongyi's solution to the context-compacting problem: when you fill up your context, how do you compress what you already have so that you can keep working, but without losing too much context from what has already been seen?<sup><a id="fnr.42" class="footref" href="#fn.42" role="doc-backlink">42</a></sup>
+Even with so many clever tricks to keep the context manageable, it remains sort of inevitable that eventually context windows will just be filled anyways. <a href="https://arxiv.org/pdf/2509.13313">ReSum</a> is Tongyi's solution to the context-compacting problem: when you fill up your context, how do you compress what you already have so that you can keep working, but without losing too much context from what has already been seen?<sup><a id="fnr.46" class="footref" href="#fn.46" role="doc-backlink">46</a></sup>
 </p>
 </div>
 
@@ -1402,7 +1455,7 @@ We've glossed over the multiple mentions of the <a href="https://arxiv.org/pdf/2
 </p>
 
 
-<div id="orgc6c9a58" class="figure">
+<div id="org8d315cc" class="figure">
 <p><img src="../images/from_clipboard/20250930_132502.png" alt="20250930_132502.png" />
 </p>
 </div>
@@ -1420,13 +1473,13 @@ One of the primary results from this paper was that finetuning models with a sma
 </p>
 
 
-<div id="orgb05e0bb" class="figure">
+<div id="org01f7941" class="figure">
 <p><img src="../images/from_clipboard/20250930_135004.png" alt="20250930_135004.png" />
 </p>
 </div>
 
 <p>
-ReAct is one of the very very early examples of agent framework, and sees continued use to the present day since it's pretty difficult to design anything simpler than this to build an agent<sup><a id="fnr.43" class="footref" href="#fn.43" role="doc-backlink">43</a></sup>. 
+ReAct is one of the very very early examples of agent framework, and sees continued use to the present day since it's pretty difficult to design anything simpler than this to build an agent<sup><a id="fnr.47" class="footref" href="#fn.47" role="doc-backlink">47</a></sup>. 
 </p>
 </div>
 </div>
@@ -1435,7 +1488,7 @@ ReAct is one of the very very early examples of agent framework, and sees contin
 <h3 id="orgdfd2fd3">ReSum</h3>
 <div class="outline-text-3" id="text-orgdfd2fd3">
 <p>
-Tongyi has been leveraging ReAct for almost all previous works up to now<sup><a id="fnr.44" class="footref" href="#fn.44" role="doc-backlink">44</a></sup>. However, for a truly multi-turn focused model, it seems likely that the model could just take so many turns thinking that the context is completely filled with now-irrelevant reasoning steps for prior sub-tasks. This is obviously not optimal: once I'm on turn 11, it's no longer important to me why I wanted to use the search tool on turn 2, only that I used it and what I found.
+Tongyi has been leveraging ReAct for almost all previous works up to now<sup><a id="fnr.48" class="footref" href="#fn.48" role="doc-backlink">48</a></sup>. However, for a truly multi-turn focused model, it seems likely that the model could just take so many turns thinking that the context is completely filled with now-irrelevant reasoning steps for prior sub-tasks. This is obviously not optimal: once I'm on turn 11, it's no longer important to me why I wanted to use the search tool on turn 2, only that I used it and what I found.
 </p>
 
 <p>
@@ -1443,7 +1496,7 @@ ReSum just introduces a summary tool to the ReAct framework. All this does is su
 </p>
 
 
-<div id="orgcbdbdc3" class="figure">
+<div id="org78970a5" class="figure">
 <p><img src="../images/from_clipboard/20250930_140101.png" alt="20250930_140101.png" />
 </p>
 </div>
@@ -1476,7 +1529,7 @@ The core modification done to vanilla GRPO is to treat a single end-to-end traje
 </p>
 
 
-<div id="orgc7e2e0d" class="figure">
+<div id="orgbd7780b" class="figure">
 <p><img src="../images/from_clipboard/20250930_152353.png" alt="20250930_152353.png" />
 </p>
 </div>
@@ -1487,16 +1540,16 @@ Basically: ReSum GRPO is the same as regular GRPO for all short trajectories, bu
 
 
 
-<div id="org7295a3f" class="figure">
+<div id="org7c460e7" class="figure">
 <p><img src="../images/from_clipboard/20250930_151858.png" alt="20250930_151858.png" />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org1e5218d" class="outline-3">
-<h3 id="org1e5218d">Takeaways</h3>
-<div class="outline-text-3" id="text-org1e5218d">
+<div id="outline-container-org8cbd71e" class="outline-3">
+<h3 id="org8cbd71e">Takeaways</h3>
+<div class="outline-text-3" id="text-org8cbd71e">
 <p>
 ReSum is perhaps the most naive possible solution to this sort of problem. It is likely possible to do some sort of more complicated latent compression <a href="https://arxiv.org/pdf/2104.08691">prompt tuning</a> or something, if you had a larger training budget and believed this to be a more effective compacting strategy.
 </p>
@@ -1528,7 +1581,7 @@ The flipside to this approach is by simulating agent-human interactions. This cr
 </p>
 
 
-<div id="orgd70e57b" class="figure">
+<div id="org92cb933" class="figure">
 <p><img src="../images/from_clipboard/20250930_162721.png" alt="20250930_162721.png" />
 </p>
 </div>
@@ -1561,13 +1614,13 @@ With these chained tool calls, an LLM generates simulated user queries and agent
 </p>
 
 
-<div id="org508d97d" class="figure">
+<div id="org788a571" class="figure">
 <p><img src="../images/from_clipboard/20250930_164101.png" alt="20250930_164101.png" />
 </p>
 </div>
 
 <p>
-These sequences are then fine-tuned upon (with the user messages and the tool responses excluded) such that the model trains upon lots of trajectories of a large variety of different types of tools. This fine-tuning is done in two stages, the first with a lot of available APIs for very broad, versatile problems, and the second with more domain-constrained specialized settings. <i>TODO: what does this even mean? It's not clear from the text.</i>
+These sequences are then fine-tuned upon (with the user messages and the tool responses excluded) such that the model trains upon lots of trajectories of a large variety of different types of tools. This fine-tuning is done in two stages, the first with a lot of available APIs for very broad, versatile problems, and the second with more domain-constrained specialized settings.
 </p>
 </div>
 </div>
@@ -1580,7 +1633,7 @@ This model does fairly well at using all sorts of different type of tools, and u
 </p>
 
 
-<div id="orgfbc6fdc" class="figure">
+<div id="org6ac1a04" class="figure">
 <p><img src="../images/from_clipboard/20250930_165800.png" alt="20250930_165800.png" />
 </p>
 </div>
@@ -1590,7 +1643,7 @@ But while this finetuning approach helps a lot with formulating tool calls, it w
 </p>
 
 
-<div id="orgdf229d0" class="figure">
+<div id="orge2f57b8" class="figure">
 <p><img src="../images/from_clipboard/20250930_170440.png" alt="20250930_170440.png" />
 </p>
 </div>
@@ -1618,18 +1671,107 @@ When GPT-5 was released, METR put out <a href="https://evaluations.metr.org/gpt-
 </p>
 
 
-<div id="org8c9a6f6" class="figure">
+<div id="org6d95392" class="figure">
 <p><img src="../images/from_clipboard/20250930_175144.png" alt="20250930_175144.png" />
 </p>
 </div>
 
 <p>
-Agentic models seem focused on this sort of time horizon problem. It may be that soon models will be capable of working autonomously for very long periods of time, perhaps days or weeks, without exploding due to saturated context windows. It's unclear what sorts of advances are occurring inside frontier labs, but I'd expect developments pointed at pushing this number up will begin to take a first-class-citizen-type role moving forwards, especially as existing benchmarks continue to saturate<sup><a id="fnr.45" class="footref" href="#fn.45" role="doc-backlink">45</a></sup>.
+Agentic models seem focused on this sort of time horizon problem. It may be that soon models will be capable of working autonomously for very long periods of time, perhaps days or weeks, without exploding due to saturated context windows. It's unclear what sorts of advances are occurring inside frontier labs, but I'd expect developments pointed at pushing this number up will begin to take a first-class-citizen-type role moving forwards, especially as existing benchmarks continue to saturate<sup><a id="fnr.49" class="footref" href="#fn.49" role="doc-backlink">49</a></sup>.
 </p>
 
 <p>
 Time will tell.
 </p>
+</div>
+</div>
+
+<div id="outline-container-orgeb5362a" class="outline-2">
+<h2 id="orgeb5362a">Appendix A: Agent Training - Kimi-Dev</h2>
+<div class="outline-text-2" id="text-orgeb5362a">
+<p>
+I think this paper probably doesn't justify inclusion in the main body of the text, since it's a little too light to be as useful as the other papers. There is some interesting stuff in it, though, so I wanted to write briefly on it. 
+</p>
+
+<p>
+How you might turn one of these agentic LLMs into something which natively plays extra nice in the SWE-agent-type loops you see in popular CLI tools? A very recent paper sheds some initial light on this: <a href="https://www.arxiv.org/pdf/2509.23045">Kimi-Dev</a> from the Moonshot team. In this paper they train up a 72B parameter model which has <i>induced skill priors</i> for this setting through agentless training. This is an attempt to marry the single-turn workflow / multi-turn agent distinction for SWE settings, and they introduce some interesting tricks to get this model performant.
+</p>
+</div>
+
+<div id="outline-container-orgb22e11d" class="outline-3">
+<h3 id="orgb22e11d">Cold Start / Mid-Training</h3>
+<div class="outline-text-3" id="text-orgb22e11d">
+<p>
+The priors they are attempting to instill into the model are:
+</p>
+<ul class="org-ul">
+<li>Its ability to fix bugs which have been identified</li>
+<li>Its ability to write tests which reproduce the bug and pass when the bug is fixed</li>
+</ul>
+
+
+<div id="org024b39e" class="figure">
+<p><img src="../images/from_clipboard/20251008_173755.png" alt="20251008_173755.png" />
+</p>
+</div>
+
+<p>
+The first step they take on this front is cold start from a pretrained base model (here Qwen 2.5-72B-Base) using ~90B tokens consisting of collected, real-world resolved github issues, curated PR commit packs, and synthetic reasoning data generated by DeepSeek R1. SFT upon this dataset yields a base model which is extra-performant in these sorts of software-pointed scenarios, which is used as a starting point for future steps.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org78f9625" class="outline-3">
+<h3 id="org78f9625">Reinforcement Learning</h3>
+<div class="outline-text-3" id="text-org78f9625">
+<p>
+Like Kimi K2, Kimi-Dev is based on the online policy mirror descent outlined in the Kimi k1.5 paper, which is a GRPO-like method with a regression framing instead of a PPO-like framing<sup><a id="fnr.50" class="footref" href="#fn.50" role="doc-backlink">50</a></sup>. They use 0/1 verification as the reward, discard anything with pass@16=0, and regularly feed it back positive examples it got right already, in order to reinforce successful patterns<sup><a id="fnr.51" class="footref" href="#fn.51" role="doc-backlink">51</a></sup>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org993cce9" class="outline-3">
+<h3 id="org993cce9">Test-Time Self-Play</h3>
+<div class="outline-text-3" id="text-org993cce9">
+<p>
+Another interesting idea presented in this paper is Test-Time Self-Play. After RL the model can reliably perform both roles: fixing bugs, and writing tests for the patches it generates. They can boost performance at test-time by writing lots of candidate solutions at runtime (here 40 examples<sup><a id="fnr.52" class="footref" href="#fn.52" role="doc-backlink">52</a></sup>), and selecting the best one.
+</p>
+
+<p>
+How to select the best one is pretty interesting. For each example, 40 tests are generated, yielding 1600 total tests (40 for each patch). Then for each patch, they run each test on the code before and after applying it. A good patch to the bug will make a lot of tests that used to fail now pass (\(FP\) or fail-to-pass) and will ideally not break any tests which already passed before the patch was applied (\(PP\) or pass-to-pass). This is quantified by a simple formula:
+</p>
+
+<p>
+\[S_i = \frac{\sum_j FP(i,j)}{\sum_j F(j)} + \frac{\sum_j PP(i,j)}{\sum_j P(j)}\]
+</p>
+
+<p>
+and then the patch with the highest score is selected as the final answer<sup><a id="fnr.53" class="footref" href="#fn.53" role="doc-backlink">53</a></sup>. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd10bbf6" class="outline-3">
+<h3 id="orgd10bbf6">Results and Discussion</h3>
+<div class="outline-text-3" id="text-orgd10bbf6">
+<p>
+With these tools in play they show some simple results that show that this improves performance on SWE-bench (generally considered a more agentic benchmark) despite the training process being entirely agentless<sup><a id="fnr.54" class="footref" href="#fn.54" role="doc-backlink">54</a></sup>. But perhaps more interesting is the experiment on how these phases impact multi-turn performance. A core thesis of the paper is that this sort of agentless prior can help transfer to multi-turn settings, and that the hybrid-for-multi-turn / thinking-for-single-turn may be somewhat of a temporary phenomenon.
+</p>
+
+<p>
+In their experiment they show off how well each of these models performs in the different phases of training, done in this fashion. They show a thought provoking result: models trained with Long CoT with these priors do better in long multi-turn settings compared to the ones that don't have that ability. This is admittedly a test conflated with the growing ability of the model's ability to write it's own tests, but it's interesting regardless.
+</p>
+
+
+<div id="org3597f59" class="figure">
+<p><img src="../images/from_clipboard/20251008_174701.png" alt="20251008_174701.png" />
+</p>
+</div>
+
+<p>
+It is possible that these workstreams will re-converge at some point, and that these hybrid models will just <i>be</i> what the thinking models turn into: models equipped with long CoT which are simply more enabled in multi-turn settings. I'd have to see more solid experimental design before I arrive at that conclusion myself, but it's certainly something worth thinking about.
+</p>
+</div>
 </div>
 </div>
 </div>
@@ -1662,7 +1804,7 @@ I don't find this too compelling. I don't think this claim really feels any diff
 </p>
 
 
-<div id="org2435252" class="figure">
+<div id="orgfe90024" class="figure">
 <p><img src="../images/from_clipboard/20250924_163606.png" alt="20250924_163606.png" />
 </p>
 </div></div></div>
@@ -1684,149 +1826,197 @@ I have no idea what this could be, details provided are zero.
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.11" class="footnum" href="#fnr.11" role="doc-backlink">11</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-This was probably still set to be quite high. This penalty was specifically intended to prevent the emergent reasoning behavior that RLVR models will sometimes learn, but it seems like given the high output token count of this model that the learned behavior was to come up close against that threshold without incurring the penalty. 
+Kimi 1.5 is a 20B parameter thinking model, unlike K2 which is much larger and explicitly not a thinking model. This paper is pretty interesting too, there's some interesting reward modeling stuff in it, but outside the scope of this writeup. 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.12" class="footnum" href="#fnr.12" role="doc-backlink">12</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-I don't like this term. This is pretty much still just pretraining even if it's medium-size with instruction data. Instruction tuning data in pretraining has been around forever, I don't think the term is that distinguishing from other works. 
+This is the "mirror" part.
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.13" class="footnum" href="#fnr.13" role="doc-backlink">13</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-I think functionally this is the same as cold-start long CoT data
+This was probably still set to be quite high. This penalty was specifically intended to prevent the emergent reasoning behavior that RLVR models will sometimes learn, but it seems like given the high output token count of this model that the learned behavior was to come up close against that threshold without incurring the penalty. 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.14" class="footnum" href="#fnr.14" role="doc-backlink">14</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-See, this is more different from phase 2 of post training compared to the supposed "mid-training" is from pretraining. I think the only reason this step isn't called "mid training" is because it contains SFT (typically considered post training) and also "mid-post-training" and "late-post-training" would sound too ridiculous. 
+I don't like this term. This is pretty much still just pretraining even if it's medium-size with instruction data. Instruction tuning data in pretraining has been around forever, I don't think the term is that distinguishing from other works. 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.15" class="footnum" href="#fnr.15" role="doc-backlink">15</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-Compare to DeepSeek making allusions about curriculum learning in their GRPO works, but not providing much detail. 
+I think functionally this is the same as cold-start long CoT data
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.16" class="footnum" href="#fnr.16" role="doc-backlink">16</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-This is confusingly labeled as "single stage" right after the diagram saying they use two stages for curriculum learning, but it's single stage for context length and two-stage for difficulty. 
+See, this is more different from phase 2 of post training compared to the supposed "mid-training" is from pretraining. I think the only reason this step isn't called "mid training" is because it contains SFT (typically considered post training) and also "mid-post-training" and "late-post-training" would sound too ridiculous. 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.17" class="footnum" href="#fnr.17" role="doc-backlink">17</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-I'm a little surprised to have not seen so much reward-based exploration scheduling like this up until now. I know there are a bunch of issues with this in standard RL e.g. exploration bonus not being stationary enough for this to always work, but I have <a href="https://proceedings.neurips.cc/paper_files/paper/2022/file/266c0f191b04cbbbe529016d0edc847e-Paper-Conference.pdf">seen some stuff</a> about this sort of thing being good for environments with sparse rewards. 
+Compare to DeepSeek making allusions about curriculum learning in their GRPO works, but not providing much detail. 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.18" class="footnum" href="#fnr.18" role="doc-backlink">18</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-This part seems mostly done by hand. 
+This is confusingly labeled as "single stage" right after the diagram saying they use two stages for curriculum learning, but it's single stage for context length and two-stage for difficulty. 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.19" class="footnum" href="#fnr.19" role="doc-backlink">19</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-This is why they can afford to get away with removing the KL loss term from GRPO. There's not much risk of the model deviating too far from the original SFT policy, which is going to get discarded anyways once they cook up a new one. 
+I'm a little surprised to have not seen so much reward-based exploration scheduling like this up until now. I know there are a bunch of issues with this in standard RL e.g. exploration bonus not being stationary enough for this to always work, but I have <a href="https://proceedings.neurips.cc/paper_files/paper/2022/file/266c0f191b04cbbbe529016d0edc847e-Paper-Conference.pdf">seen some stuff</a> about this sort of thing being good for environments with sparse rewards. 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.20" class="footnum" href="#fnr.20" role="doc-backlink">20</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-The paper also goes into some detail about the infra, which again I will be omitting for brevity / recognizing that I'm out of my depth in understanding it well enough to explain it. 
+This part seems mostly done by hand. 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.21" class="footnum" href="#fnr.21" role="doc-backlink">21</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-Qwen models always seem to benchmark a little higher than their practical utility, but the point here is that it's very small and works pretty well. 
+This is why they can afford to get away with removing the KL loss term from GRPO. There's not much risk of the model deviating too far from the original SFT policy, which is going to get discarded anyways once they cook up a new one. 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.22" class="footnum" href="#fnr.22" role="doc-backlink">22</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-Frankly I never liked this benchmark being used for deep research benchmarking. I always thought this was supposed to be more of a native capabilty dataset, but it quickly became a browsing+tool use benchmark once <a href="https://openai.com/index/introducing-deep-research/">OpenAI Deep Research</a> used it to illustrate how looking up the <del>the answers</del> relevant information could greatly improve performance at the benchmark. Everybody followed suit I guess, to level the playing field back out. 
+The paper also goes into some detail about the infra, which again I will be omitting for brevity / recognizing that I'm out of my depth in understanding it well enough to explain it. 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.23" class="footnum" href="#fnr.23" role="doc-backlink">23</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-These are further rejection sampled with LLM-as-Judge to get rid of examples that seem obviously unlikely to result in success. 
+Qwen models always seem to benchmark a little higher than their practical utility, but the point here is that it's very small and works pretty well. 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.24" class="footnum" href="#fnr.24" role="doc-backlink">24</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-Also for aesthetic reasons: nobody wants this model to dig around for 20 minutes searching documents and then come back with a one word response that might be wrong. 
+Frankly I never liked this benchmark being used for deep research benchmarking. I always thought this was supposed to be more of a native capabilty dataset, but it quickly became a browsing+tool use benchmark once <a href="https://openai.com/index/introducing-deep-research/">OpenAI Deep Research</a> used it to illustrate how looking up the <del>the answers</del> relevant information could greatly improve performance at the benchmark. Everybody followed suit I guess, to level the playing field back out. 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.25" class="footnum" href="#fnr.25" role="doc-backlink">25</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-Again further rejection sampled via LLM-as-Judge.
+These are further rejection sampled with LLM-as-Judge to get rid of examples that seem obviously unlikely to result in success. 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.26" class="footnum" href="#fnr.26" role="doc-backlink">26</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-I think it would have been more sensible to release one very large paper for this single project, but Tongyi in general seems to have engagement-based or volume-based KPIs for arxiv papers / model downloads / releases / etc. Splitting this up in this fashion definitely makes the project harder to follow and understand what order everything happens in, but I suppose it's still much better than a lab just not publishing anything at all.
+Also for aesthetic reasons: nobody wants this model to dig around for 20 minutes searching documents and then come back with a one word response that might be wrong. 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.27" class="footnum" href="#fnr.27" role="doc-backlink">27</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-You could probably call Agentic CPT "Agentic CMT" given that it's performed on top of a pretrained base model. But it's fine. 
+Again further rejection sampled via LLM-as-Judge.
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.28" class="footnum" href="#fnr.28" role="doc-backlink">28</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-This entire section is frustratingly vague.
+I think it would have been more sensible to release one very large paper for this single project, but Tongyi in general seems to have engagement-based or volume-based KPIs for arxiv papers / model downloads / releases / etc. Splitting this up in this fashion definitely makes the project harder to follow and understand what order everything happens in, but I suppose it's still much better than a lab just not publishing anything at all.
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.29" class="footnum" href="#fnr.29" role="doc-backlink">29</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-Again, very light on detail here, but it could be the case that heavily penalizing length limit exceeded will provide signal that the model should use fewer turns whenever possible, which is undesirable.  
+You could probably call Agentic CPT "Agentic CMT" given that it's performed on top of a pretrained base model. But it's fine. 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.30" class="footnum" href="#fnr.30" role="doc-backlink">30</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-Which is, uh, an unusual experiment to be performing. 
+This entire section is frustratingly vague.
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.31" class="footnum" href="#fnr.31" role="doc-backlink">31</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-A funny framing here is that this approach is an extremely difficult <a href="https://cloud.google.com/blog/products/ai-machine-learning/the-needle-in-the-haystack-test-and-how-gemini-pro-solves-it">needle in a haystack</a> test. 
+Again, very light on detail here, but it could be the case that heavily penalizing length limit exceeded will provide signal that the model should use fewer turns whenever possible, which is undesirable.  
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.32" class="footnum" href="#fnr.32" role="doc-backlink">32</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-Maybe a pedant point but I don't think it's true that this scales "arbitrarily", since if you fix the size of the report there's an upper bound to information density, and if you don't fix the size of the report it obviously can also grow beyond the context size. 
+Which is, uh, an unusual experiment to be performing. 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.33" class="footnum" href="#fnr.33" role="doc-backlink">33</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-I believe xAI does this also, with Grok Heavy. 
+A funny framing here is that this approach is an extremely difficult <a href="https://cloud.google.com/blog/products/ai-machine-learning/the-needle-in-the-haystack-test-and-how-gemini-pro-solves-it">needle in a haystack</a> test. 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.34" class="footnum" href="#fnr.34" role="doc-backlink">34</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Maybe a pedant point but I don't think it's true that this scales "arbitrarily", since if you fix the size of the report there's an upper bound to information density, and if you don't fix the size of the report it obviously can also grow beyond the context size. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.35" class="footnum" href="#fnr.35" role="doc-backlink">35</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I believe xAI does this also, with Grok Heavy. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.36" class="footnum" href="#fnr.36" role="doc-backlink">36</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+the geometric mean is also the exponent of the arithmetic mean of logs. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.37" class="footnum" href="#fnr.37" role="doc-backlink">37</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+They also provide a token-level objective variant. Some of the advantage of GRPO in the original DeepSeekMath paper is in that it was token-level rather than only being possible to formulate at the end of the sequence. For these settings (and, notably, pointed at multi-turn RL scenarios), they have a version which cuts the gradient at each token, making them all different.
+</p>
+
+
+<div id="org2313bcd" class="figure">
+<p><img src="../images/from_clipboard/20251008_161551.png" alt="20251008_161551.png" />
+</p>
+</div></div></div>
+
+<div class="footdef"><sup><a id="fn.38" class="footnum" href="#fnr.38" role="doc-backlink">38</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Indeed they show more or less as much in ablations
 </p>
 
 
-<div id="org731fef5" class="figure">
+<div id="orgaa45f4d" class="figure">
 <p><img src="../images/from_clipboard/20250926_180639.png" alt="20250926_180639.png" />
 </p>
 </div></div></div>
 
-<div class="footdef"><sup><a id="fn.35" class="footnum" href="#fnr.35" role="doc-backlink">35</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup><a id="fn.39" class="footnum" href="#fnr.39" role="doc-backlink">39</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 <i>sweats nervously</i> the robots could never take my job, right? 
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.36" class="footnum" href="#fnr.36" role="doc-backlink">36</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup><a id="fn.40" class="footnum" href="#fnr.40" role="doc-backlink">40</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 I've never been a huge RAG guy, especially as long context grows cheaper over time. <a href="https://github.com/deepseek-ai/DeepSeek-V3.2-Exp/blob/main/DeepSeek_V3_2.pdf">DeepSeek-V3.2-Exp</a> technical report is one such example of what I mean: a sparse attention mechanism that reaches performance parity with their regular latent attention but much cheaper, leading to API costs slashed by 50%. Very long context windows, sparse attention making using that context cheaper, and more natural formulations like hierarchical retrieval instead of using embeddings seems clearly much more likely to be the future of managing external sources of knowledge. 
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.37" class="footnum" href="#fnr.37" role="doc-backlink">37</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup><a id="fn.41" class="footnum" href="#fnr.41" role="doc-backlink">41</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Another instance of turn count as scaling test-time compute.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.38" class="footnum" href="#fnr.38" role="doc-backlink">38</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup><a id="fn.42" class="footnum" href="#fnr.42" role="doc-backlink">42</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Specific model kept suspiciously unmentioned. 
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.39" class="footnum" href="#fnr.39" role="doc-backlink">39</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup><a id="fn.43" class="footnum" href="#fnr.43" role="doc-backlink">43</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 This is maybe something similar in spirit to DeepSeek's reasoner distillation result, but for agentic / research setting: even with just 3k examples they can teach a much weaker model to emulate this behavior much easier than it would have been to train the model from scratch to do just as well. 
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.40" class="footnum" href="#fnr.40" role="doc-backlink">40</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup><a id="fn.44" class="footnum" href="#fnr.44" role="doc-backlink">44</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 90.89 is weaker than using a very large model but not by much: using qwen3 235b gets 93, openai deepresearch gets 91.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.41" class="footnum" href="#fnr.41" role="doc-backlink">41</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup><a id="fn.45" class="footnum" href="#fnr.45" role="doc-backlink">45</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 To me the endgame deep research output would be like a <a href="https://gwern.net/">gwern</a> post. 
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.42" class="footnum" href="#fnr.42" role="doc-backlink">42</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup><a id="fn.46" class="footnum" href="#fnr.46" role="doc-backlink">46</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 In practice for coding models I think it's usually better to kick it off from scratch before this happens, but for research models (i.e. models which are multi-turn from the model's perspective but mostly more or less single-turn from the user's perspective) it's not so doable. 
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.43" class="footnum" href="#fnr.43" role="doc-backlink">43</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup><a id="fn.47" class="footnum" href="#fnr.47" role="doc-backlink">47</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Many takes during this time period were: "agents are just an llm wrapped inside a while loop" which was certainly more literally true at the time compared to now.  
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.44" class="footnum" href="#fnr.44" role="doc-backlink">44</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup><a id="fn.48" class="footnum" href="#fnr.48" role="doc-backlink">48</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 More complicated frameworks are generally mostly bloat in my opinion.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.45" class="footnum" href="#fnr.45" role="doc-backlink">45</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup><a id="fn.49" class="footnum" href="#fnr.49" role="doc-backlink">49</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 or <a href="https://arxiv.org/abs/2309.08632">get trained on directly</a>, for that matter. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.50" class="footnum" href="#fnr.50" role="doc-backlink">50</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I'm a bit out of my depth on RL stuff but they mention in appendix C1 that this is "a simpler policy gradient approach" which I think is wrong? since rather than being a policy gradient method at all, it's a regression objective. I guess it does optimize a policy still. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.51" class="footnum" href="#fnr.51" role="doc-backlink">51</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+This is funny. Like me watching back a <a href="https://www.youtube.com/watch?v=7buwkcR0eXo">combo video</a> of my own gameplay in SSBM to tell myself that I'm so good and I should do these patterns more often. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.52" class="footnum" href="#fnr.52" role="doc-backlink">52</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Further detail: one test is temperature 0 (greedy decoding), the rest are temperature 1 (high variance)
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.53" class="footnum" href="#fnr.53" role="doc-backlink">53</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+This is a big fancy name for a technique but it's really just best-of-N with code execution tool calls. They compare it later to majority voting and also the oracle which selects the ground-truth test patch. 
+</p>
+
+
+<div id="org84173ac" class="figure">
+<p><img src="../images/from_clipboard/20251008_173443.png" alt="20251008_173443.png" />
+</p>
+</div></div></div>
+
+<div class="footdef"><sup><a id="fn.54" class="footnum" href="#fnr.54" role="doc-backlink">54</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I have a suspicion that the qwen-72B base model has probably seen the ground truth for most of swe-bench anyways, since most of it is just the django repository anyways. A cynical take here is that it's just pulling this performance out of the base model better, but that's a bit outside the scope here. 
 </p></div></div>
 
 
