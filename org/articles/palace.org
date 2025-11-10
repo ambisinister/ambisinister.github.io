@@ -1,0 +1,52 @@
+#+TITLE: Virtual Memory Palace
+
+* Building a Virtual Memory Palace
+
+#+BEGIN_EXPORT html
+<blockquote class="bluesky-embed" data-bluesky-uri="at://did:plc:yadaiiqxuhlbdenc6y4tdk7c/app.bsky.feed.post/3m5asopwy622g" data-bluesky-cid="bafyreihqysa7z5bz2765wst6ldhv7vmqfzv3vlbfy47kw4oluwjluyqwom" data-bluesky-embed-color-mode="system"><p lang="en">fuck you *re-clips your noclip*<br><br><a href="https://bsky.app/profile/did:plc:yadaiiqxuhlbdenc6y4tdk7c/post/3m5asopwy622g?ref_src=embed">[image or embed]</a></p>&mdash; Eryk (<a href="https://bsky.app/profile/did:plc:yadaiiqxuhlbdenc6y4tdk7c?ref_src=embed">@ambisinister.planetbanatt.net</a>) <a href="https://bsky.app/profile/did:plc:yadaiiqxuhlbdenc6y4tdk7c/post/3m5asopwy622g?ref_src=embed">November 9, 2025 at 8:42 PM</a></blockquote><script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>
+#+END_EXPORT
+
+I've [[https://planetbanatt.net/articles/memorycraft.html][written a little]] bit [[https://planetbanatt.net/articles/memory.html][about memory sports]] on here before. One very powerful technique is [[https://en.wikipedia.org/wiki/Method_of_loci][memory palaces]], also known as method of loci or roman rooms. I've had good success with this technique, mostly for idle stuff like memorizing playing cards in a short period of time.
+
+But I've found these techniques are mostly useful for quickly memorizing something arbitrary in a short period of time, in an ephemeral way. Compared to stuff like [[https://planetbanatt.net/articles/anki.html][anki]] it felt like these techniques were mostly targeted at high-level cramming, or winning at memory competitions. 
+
+I think this need not be the case, so I'm attempting to create a persistent store for these sorts of memories with this project. This post is more of a dev log: I want to build something useful for my own personal use, and will likely be messing with it over time. 
+
+** Baseline: Noclip.website
+
+I love [[https://noclip.website/][noclip.website]]. The people who made it are very smart and have built a really cool thing, and it's fun and nostalgic flying around everywhere in these old game maps.
+
+I am going to fork their repo for this, and add a bunch of stuff which lets me modify the world. This should let me "place things" just like how I would in a memory palace, and create a persistent world which won't degrade with time. A lot of people use journals which contain which things are supposed to be in which locations, but I'm a digital native sort of guy. 
+
+** Billboarding
+
+[11/5/25] The first big hurdle after getting everything running was spawning objects in the world. Since 3d stuff is way beyond my pay grade, I elected to do this by using billboards: 2d planes in the world which always face the camera. This way I could have them be occluded by other geometry, and have them look psuedo 3d. The intent of this is for it to all just exist in my mind when I'm not looking at it anyways, so it doesn't have to be too pretty.
+
+This was super difficult for me. I'm not a big frontend guy, so using typescript was very difficult for me. But I figured it out eventually, and was able to successfully spawn Bocchi in Kokiri Forest. 
+
+#+BEGIN_EXPORT html
+<blockquote class="bluesky-embed" data-bluesky-uri="at://did:plc:yadaiiqxuhlbdenc6y4tdk7c/app.bsky.feed.post/3m4wjpmucmc2p" data-bluesky-cid="bafyreigkziaqio5263sppoxkkjxyclytqyhgxee5viv46mfbazo5zpfary" data-bluesky-embed-color-mode="system"><p lang="en">doing stupid shit instead of something productive<br><br><a href="https://bsky.app/profile/did:plc:yadaiiqxuhlbdenc6y4tdk7c/post/3m4wjpmucmc2p?ref_src=embed">[image or embed]</a></p>&mdash; Eryk (<a href="https://bsky.app/profile/did:plc:yadaiiqxuhlbdenc6y4tdk7c?ref_src=embed">@ambisinister.planetbanatt.net</a>) <a href="https://bsky.app/profile/did:plc:yadaiiqxuhlbdenc6y4tdk7c/post/3m4wjpmucmc2p?ref_src=embed">November 5, 2025 at 6:35 PM</a></blockquote><script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>
+#+END_EXPORT
+
+** Gravity, Textboxes
+
+[11/10/25] I added gravity, interactable textboxes, and the ability to upload your own images rather than every single billboard just being Bocchi. The basic functionality is really starting to come together now! It feels almost like a game now, since I can run around and place things.
+
+#+BEGIN_EXPORT html
+<blockquote class="bluesky-embed" data-bluesky-uri="at://did:plc:yadaiiqxuhlbdenc6y4tdk7c/app.bsky.feed.post/3m5asopwy622g" data-bluesky-cid="bafyreihqysa7z5bz2765wst6ldhv7vmqfzv3vlbfy47kw4oluwjluyqwom" data-bluesky-embed-color-mode="system"><p lang="en">fuck you *re-clips your noclip*<br><br><a href="https://bsky.app/profile/did:plc:yadaiiqxuhlbdenc6y4tdk7c/post/3m5asopwy622g?ref_src=embed">[image or embed]</a></p>&mdash; Eryk (<a href="https://bsky.app/profile/did:plc:yadaiiqxuhlbdenc6y4tdk7c?ref_src=embed">@ambisinister.planetbanatt.net</a>) <a href="https://bsky.app/profile/did:plc:yadaiiqxuhlbdenc6y4tdk7c/post/3m5asopwy622g?ref_src=embed">November 9, 2025 at 8:42 PM</a></blockquote><script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<blockquote class="bluesky-embed" data-bluesky-uri="at://did:plc:yadaiiqxuhlbdenc6y4tdk7c/app.bsky.feed.post/3m5av7xatl222" data-bluesky-cid="bafyreih5373ifshu6axaxq75x5dzy6vra7jrbkkia5qt2mfo4qvt46liea" data-bluesky-embed-color-mode="system"><p lang="en">what is your wisdom<br><br><a href="https://bsky.app/profile/did:plc:yadaiiqxuhlbdenc6y4tdk7c/post/3m5av7xatl222?ref_src=embed">[image or embed]</a></p>&mdash; Eryk (<a href="https://bsky.app/profile/did:plc:yadaiiqxuhlbdenc6y4tdk7c?ref_src=embed">@ambisinister.planetbanatt.net</a>) <a href="https://bsky.app/profile/did:plc:yadaiiqxuhlbdenc6y4tdk7c/post/3m5av7xatl222?ref_src=embed">November 9, 2025 at 9:28 PM</a></blockquote><script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>
+#+END_EXPORT
+
+** More TODOs
+
+- I need to be able to modify a billboard's text value obviously
+- The billboards need to persist, they need to be loaded from a database
+- Get more maps than just kokiri forest
+- Do I need to rewrite this for non zelda games?
+- I need to add billboards which act as pseudo loading zones to go to new locations
+- I need to write in some way to generate imagery or download it via search
+- Billboard adjustment is super cumbersome right now
+- Billboard management in general, probably good to teleport to each in addition to moving around
