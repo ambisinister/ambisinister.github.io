@@ -40,13 +40,25 @@ This was super difficult for me. I'm not a big frontend guy, so using typescript
 <blockquote class="bluesky-embed" data-bluesky-uri="at://did:plc:yadaiiqxuhlbdenc6y4tdk7c/app.bsky.feed.post/3m5av7xatl222" data-bluesky-cid="bafyreih5373ifshu6axaxq75x5dzy6vra7jrbkkia5qt2mfo4qvt46liea" data-bluesky-embed-color-mode="system"><p lang="en">what is your wisdom<br><br><a href="https://bsky.app/profile/did:plc:yadaiiqxuhlbdenc6y4tdk7c/post/3m5av7xatl222?ref_src=embed">[image or embed]</a></p>&mdash; Eryk (<a href="https://bsky.app/profile/did:plc:yadaiiqxuhlbdenc6y4tdk7c?ref_src=embed">@ambisinister.planetbanatt.net</a>) <a href="https://bsky.app/profile/did:plc:yadaiiqxuhlbdenc6y4tdk7c/post/3m5av7xatl222?ref_src=embed">November 9, 2025 at 9:28 PM</a></blockquote><script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>
 #+END_EXPORT
 
+** Loading Zones, Persistence
+
+[11/20/25] Made the textboxes editable, and persist between sessions. This alone has finally enabled the original intent of the project, the use as a memory palace, to be minimally possible[fn:1]. I added the ability to manage all the billboards in a zone, and that toggling between billboards would teleport you in front of them. There was some special considerations for what camera angle and position to save for this functionality, but it's now possible to manage any billboard in the zone. 
+
+After I got that working, I pulled down the second map (inside the deku tree) and got to work creating a special billboard type which will warp you to another location when approached. Getting this smoothly functional was important; it was critical that they felt similar to a normal loading zone in a game (i.e. would not spawn you in a random location, function bidirectionally, don't warp you back and forth in a loop, etc). This, along with some new special tools for re-enabling noclip[fn:2], and I had a good virtual environment with two zones working.
+
+#+BEGIN_EXPORT html
+<blockquote class="bluesky-embed" data-bluesky-uri="at://did:plc:yadaiiqxuhlbdenc6y4tdk7c/app.bsky.feed.post/3m64pqzvdxk2z" data-bluesky-cid="bafyreigy46gquyfx2z6rnneolswochr6y3fhf3or4hezmnngpxxfw4jlai" data-bluesky-embed-color-mode="system"><p lang="en">More progress on this<br><br><a href="https://bsky.app/profile/did:plc:yadaiiqxuhlbdenc6y4tdk7c/post/3m64pqzvdxk2z?ref_src=embed">[image or embed]</a></p>&mdash; Eryk (<a href="https://bsky.app/profile/did:plc:yadaiiqxuhlbdenc6y4tdk7c?ref_src=embed">@ambisinister.planetbanatt.net</a>) <a href="https://bsky.app/profile/did:plc:yadaiiqxuhlbdenc6y4tdk7c/post/3m64pqzvdxk2z?ref_src=embed">November 20, 2025 at 11:04 PM</a></blockquote><script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>
+#+END_EXPORT
+
 ** More TODOs
 
-- I need to be able to modify a billboard's text value obviously
-- The billboards need to persist, they need to be loaded from a database
-- Get more maps than just kokiri forest
-- Do I need to rewrite this for non zelda games?
-- I need to add billboards which act as pseudo loading zones to go to new locations
-- I need to write in some way to generate imagery or download it via search
+- Get all the maps and connect all the zones with bocchi teleporters
+- Add ability to generate images with nano banana pro (or flash)
 - Billboard adjustment is super cumbersome right now
-- Billboard management in general, probably good to teleport to each in addition to moving around
+- Do I need to rewrite this for non zelda games? I'll worry about that when I completely fill OoT, but that will certainly take nontrivial time. 
+
+* Footnotes
+
+[fn:2] It's hard to fit through the tiny doors in deku tree, which makes it annoying to move around. 
+
+[fn:1] I left this for the next session deliberately because it was so easy and it was a nice quick win.
