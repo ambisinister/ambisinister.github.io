@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Major System Trainer</title>
+    <style>
+        :root {
+            --bg-color: #f4f4f9;
+            --card-bg: #ffffff;
+            --primary: #3498db;
+            --success: #2ecc71;
+            --error: #e74c3c;
+            --text: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        h1 { margin-top: 0; color: var(--primary); }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: #eee;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .number-display {
+            font-size: 3rem;
+            font-weight: bold;
+            letter-spacing: 5px;
+            margin: 20px 0;
+            min-height: 60px;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 15px;
+            font-size: 1.2rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+
+        button:hover { background-color: #2980b9; }
+
+        .result-area {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background: #fafafa;
+            border: 1px solid #eee;
+        }
+
+        .status { font-weight: bold; font-size: 1.2rem; margin-bottom: 5px; }
+        .status.correct { color: var(--success); }
+        .status.incorrect { color: var(--error); }
+
+        .debug { font-family: monospace; color: #666; font-size: 0.9rem; }
+
+        /* Cheat Sheet Table */
+        .cheat-sheet {
+            margin-top: 30px;
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        .cheat-sheet th, .cheat-sheet td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .cheat-sheet th { background-color: #f0f0f0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Major System Trainer</h1>
+
+    <div class="controls">
+        <label for="digitCount">Digits:</label>
+        <input type="number" id="digitCount" value="2" min="1" max="20" style="width: 50px; padding: 5px;">
+        <button onclick="generateNew()">New Number</button>
+    </div>
+
+    <div class="number-display" id="targetNumber">--</div>
+
+    <input type="text" id="wordInput" placeholder="Type your word here..." autocomplete="off">
+    
+    <div class="result-area" id="resultArea" style="display:none;">
+        <div id="statusText" class="status"></div>
+        <div id="translation" class="debug"></div>
+    </div>
+</div>
+
+<div class="container" style="margin-top: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <h3 style="margin: 0;">Cheat Sheet</h3>
+        <button onclick="toggleCheatSheet()" id="toggleCheatBtn">Hide</button>
+    </div>
+    <table class="cheat-sheet" id="cheatSheet">
+        <tr><th>#</th><th>Sounds</th><th>Hint</th></tr>
+        <tr><td>0</td><td>s, z, soft c</td><td>Zero starts with Z</td></tr>
+        <tr><td>1</td><td>t, d, th</td><td>T has 1 downstroke</td></tr>
+        <tr><td>2</td><td>n</td><td>N has 2 downstrokes</td></tr>
+        <tr><td>3</td><td>m</td><td>M has 3 downstrokes</td></tr>
+        <tr><td>4</td><td>r</td><td>Last letter of FouR</td></tr>
+        <tr><td>5</td><td>l</td><td>L is Roman 50</td></tr>
+        <tr><td>6</td><td>j, sh, ch, soft g</td><td>J looks like flipped 6</td></tr>
+        <tr><td>7</td><td>k, hard c, hard g, q</td><td>K is two 7s combined</td></tr>
+        <tr><td>8</td><td>f, v, ph</td><td>cursive f indicates 8</td></tr>
+        <tr><td>9</td><td>p, b</td><td>P looks like 9 or flipped b</td></tr>
+    </table>
+</div>
+
+<script>
+    /* 
+       PHONETIC PARSER LOGIC
+       Since JS doesn't have a built-in phonetic dictionary, we use a heuristic 
+       parser based on standard English spelling rules for the Major System.
+    */
+
+    // Map a character to its Major System Number
+    function getMajorVal(char) {
+        if (['s','z'].includes(char)) return "0";
+        if (['t','d'].includes(char)) return "1";
+        if (['n'].includes(char)) return "2";
+        if (['m'].includes(char)) return "3";
+        if (['r'].includes(char)) return "4";
+        if (['l'].includes(char)) return "5";
+        if (['j'].includes(char)) return "6";
+        if (['k','q'].includes(char)) return "7";
+        if (['f','v'].includes(char)) return "8";
+        if (['p','b'].includes(char)) return "9";
+        return null; // Vowels, w, h, y
+    }
+
+    function wordToMajor(input) {
+        input = input.toLowerCase().trim();
+
+        // Split by whitespace to process each word separately
+        // This ensures that sounds at word boundaries are counted separately
+        const words = input.split(/\s+/).filter(w => w.length > 0);
+
+        let finalResult = "";
+
+        for (const word of words) {
+            // Remove non-alpha from this word
+            const cleanWord = word.replace(/[^a-z]/g, '');
+            if (cleanWord.length === 0) continue;
+
+            finalResult += processSingleWord(cleanWord);
+        }
+
+        return finalResult;
+    }
+
+    function processSingleWord(word) {
+        let result = "";
+        let i = 0;
+
+        while (i < word.length) {
+            let c = word[i];
+            let next = (i + 1 < word.length) ? word[i+1] : null;
+            let afterNext = (i + 2 < word.length) ? word[i+2] : null;
+            let mapped = null;
+            let jump = 1;
+
+            // 1. Handle Triple/Double letter Digraphs
+            
+            // TCH -> 6 (Match)
+            if (c === 't' && next === 'c' && afterNext === 'h') {
+                mapped = "6"; jump = 3;
+            }
+            // DGE -> 6 (Judge)
+            else if (c === 'd' && next === 'g' && afterNext === 'e') {
+                mapped = "6"; jump = 3; // 'e' will be skipped later anyway, but logic holds
+            }
+            // NCH -> 26 (Lunch) - Standard processing handles n then ch, so strict logic not needed
+            
+            // SH, CH -> 6
+            else if ((c === 's' || c === 'c') && next === 'h') {
+                mapped = "6"; jump = 2;
+            }
+            // PH -> 8
+            else if (c === 'p' && next === 'h') {
+                mapped = "8"; jump = 2;
+            }
+            // TH -> 1
+            else if (c === 't' && next === 'h') {
+                mapped = "1"; jump = 2;
+            }
+            // NG -> 27 (Finger) or 2 (Singer)? 
+            // Standard Major often parses spelling literally: n(2) g(7). 
+            // We will treat NG as 27 (Hard G) or just 2 if suffix? 
+            // For simplicity in this static version, we parse N then G logic below.
+
+            // 2. Handle Soft/Hard C and G
+            else if (c === 'c') {
+                // Soft C before e, i, y -> 0
+                if (next && ['e','i','y'].includes(next)) {
+                    mapped = "0";
+                } 
+                // Double C logic: "Soccer" -> k-s (70). "Account" -> k (7).
+                // This is hard to preserve in simple parser. 
+                // Let's default to Hard C -> 7
+                else {
+                    mapped = "7";
+                }
+            }
+            else if (c === 'g') {
+                // Soft G before e, i, y -> 6
+                if (next && ['e','i','y'].includes(next)) {
+                    // Exception: "Get" is hard, "Gem" is soft. 
+                    // This heuristic fails on "Get", "Give".
+                    // We will assume Soft G rule applies.
+                    mapped = "6";
+                    
+                    // Handle 'gh' - usually silent 'High' or f 'Laugh' or hard g 'Ghost'.
+                    // Simplification: Ignore H in standard loop, treat G normally.
+                    // Let's specifically handle silent GH if possible? Too complex.
+                } else {
+                    mapped = "7";
+                }
+            }
+            
+            // 3. Handle X -> 70 (ks)
+            else if (c === 'x') {
+                // If word starts with X (Xylophone), it's 'z' (0)
+                if (i === 0) mapped = "0";
+                else mapped = "70";
+            }
+
+            // 4. Silent letters / Special cases
+            // Silent K (Knife)
+            else if (c === 'k' && next === 'n' && i === 0) {
+                mapped = null; // Skip K
+            }
+            // Silent W (Write)
+            else if (c === 'w' && next === 'r') {
+                mapped = null; // Skip W
+            }
+            
+            // 5. Standard Mapping
+            else {
+                mapped = getMajorVal(c);
+            }
+
+            // 6. Double Letter Check 
+            // In Major System, Double Letters = 1 digit (e.g. "Rabbit" -> 491)
+            // UNLESS they produce two distinct sounds (Accident -> 70121).
+            // Rules: If the calculated digit is the exact same as the previous digit, ignore it.
+            if (mapped) {
+                let lastDigit = result.length > 0 ? result[result.length-1] : null;
+                
+                // If mapped is "70" (x), we add both.
+                if (mapped.length > 1) {
+                    result += mapped;
+                } else {
+                    // If we just added this digit, don't add again (Double letter rule)
+                    // Be careful: "Mummy" (33) -> 3. "Cactus" (7710).
+                    // We only skip if the CHARACTERS were identical in input?
+                    // No. "CK" -> 77 -> 7. "BB" -> 99 -> 9.
+                    // Exception: "bookkeeper" (79794) but strictly K-K ?
+                    // Simple rule: If digit is same as previous digit AND the source chars were adjacent, skip.
+                    // Since our loop moves forward, handling this simplifies to: 
+                    // If result ends with 'mapped' AND we processed a double letter just now?
+                    
+                    // For this trainer, let's apply a post-processing deduplication based on logic:
+                    // If we map 'b'->9 and the very next char is 'b'->9, skip.
+                    // Actually, let's just append for now, and handle the global double letter rule.
+                    // The rule is: Double Consonants count as one sound.
+                    
+                    let isDouble = (next === c); // simple check like 'bb'
+                    
+                    // Special handling: 'ck' -> 77? No c=7, k=7.
+                    let isCK = (c === 'c' && next === 'k');
+                    
+                    if ((isDouble || isCK) && mapped !== "70") {
+                         result += mapped;
+                         jump++; // Skip the next character effectively
+                    } else {
+                        result += mapped;
+                    }
+                }
+            }
+
+            i += jump;
+        }
+
+        return result;
+    }
+
+    // --- UI Interaction ---
+
+    const targetDisplay = document.getElementById('targetNumber');
+    const digitInput = document.getElementById('digitCount');
+    const wordInput = document.getElementById('wordInput');
+    const resultArea = document.getElementById('resultArea');
+    const statusText = document.getElementById('statusText');
+    const translationText = document.getElementById('translation');
+
+    let currTarget = "";
+
+    function generateNew() {
+        let count = parseInt(digitInput.value) || 2;
+        if(count < 1) count = 1;
+        if(count > 50) count = 50;
+        
+        let str = "";
+        for(let i=0; i<count; i++) {
+            str += Math.floor(Math.random() * 10);
+        }
+        currTarget = str;
+        targetDisplay.textContent = currTarget;
+        
+        // Reset UI
+        wordInput.value = "";
+        wordInput.focus();
+        resultArea.style.display = "none";
+        targetDisplay.style.color = "black";
+    }
+
+    function checkAnswer() {
+        const word = wordInput.value;
+        if(!word) return;
+
+        const translation = wordToMajor(word);
+        
+        resultArea.style.display = "block";
+        
+        // Logic: Does the translation match the target?
+        // Exact match required? 
+        // Usually Major System training allows "Satellite" (0151) for "01".
+        // So if the translation STARTS with the target, we count it valid.
+        
+        if (translation === currTarget) {
+            statusText.textContent = "Success!";
+            statusText.className = "status correct";
+            targetDisplay.style.color = "var(--success)";
+        } else {
+            statusText.textContent = "Try Again";
+            statusText.className = "status incorrect";
+            targetDisplay.style.color = "black"; // keep black
+        }
+
+        let html = `Word: <strong>${word}</strong><br>`;
+        html += `Major Translation: <strong>${translation}</strong><br>`;
+        html += `Target: <strong>${currTarget}</strong>`;
+        
+        translationText.innerHTML = html;
+    }
+
+    // Event Listeners
+    wordInput.addEventListener('keyup', (e) => {
+        checkAnswer(); // Live checking or on Enter?
+        // Let's do live checking, it provides faster feedback loop
+        if(e.key === "Enter") {
+            // if correct and enter pressed, maybe generate new?
+            const translation = wordToMajor(wordInput.value);
+            if(translation === currTarget) {
+                generateNew();
+            }
+        }
+    });
+
+    // Toggle Cheat Sheet
+    function toggleCheatSheet() {
+        const cheatSheet = document.getElementById('cheatSheet');
+        const toggleBtn = document.getElementById('toggleCheatBtn');
+
+        if (cheatSheet.style.display === 'none') {
+            cheatSheet.style.display = 'table';
+            toggleBtn.textContent = 'Hide';
+        } else {
+            cheatSheet.style.display = 'none';
+            toggleBtn.textContent = 'Show';
+        }
+    }
+
+    // Initial Load
+    generateNew();
+
+</script>
+
+</body>
+</html>
