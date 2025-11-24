@@ -120,9 +120,10 @@
     <h1>Major System Trainer</h1>
 
     <div class="controls">
+        <button onclick="toggleMode()" id="modeBtn">Switch to Decode Mode</button>
         <label for="digitCount">Digits:</label>
         <input type="number" id="digitCount" value="2" min="1" max="20" style="width: 50px; padding: 5px;">
-        <button onclick="generateNew()">New Number</button>
+        <button onclick="generateNew()">New Challenge</button>
     </div>
 
     <div class="number-display" id="targetNumber">--</div>
@@ -343,19 +344,65 @@
     const translationText = document.getElementById('translation');
 
     let currTarget = "";
+    let isDecodeMode = false;
+    let currWord = "";
+    let wordList = [];
+
+    // Load wordlist from file
+    async function loadWordList() {
+        try {
+            const response = await fetch('../docs/wordlist.txt');
+            const text = await response.text();
+            wordList = text.split('\n').filter(w => w.trim().length > 0);
+            console.log(`Loaded ${wordList.length} words`);
+        } catch (error) {
+            console.error('Failed to load wordlist:', error);
+            wordList = ['apple', 'banana', 'cat', 'dog', 'elephant']; // Fallback
+        }
+    }
+
+    function toggleMode() {
+        isDecodeMode = !isDecodeMode;
+        const modeBtn = document.getElementById('modeBtn');
+
+        if (isDecodeMode) {
+            modeBtn.textContent = "Switch to Encode Mode";
+            wordInput.placeholder = "Type the numbers here...";
+            digitInput.disabled = true;
+        } else {
+            modeBtn.textContent = "Switch to Decode Mode";
+            wordInput.placeholder = "Type your word here...";
+            digitInput.disabled = false;
+        }
+
+        generateNew();
+    }
 
     function generateNew() {
-        let count = parseInt(digitInput.value) || 2;
-        if(count < 1) count = 1;
-        if(count > 50) count = 50;
-        
-        let str = "";
-        for(let i=0; i<count; i++) {
-            str += Math.floor(Math.random() * 10);
+        if (isDecodeMode) {
+            // Decode mode: show a random word, user types numbers
+            if (wordList.length === 0) {
+                targetDisplay.textContent = "Loading words...";
+                return;
+            }
+
+            currWord = wordList[Math.floor(Math.random() * wordList.length)];
+            currTarget = wordToMajor(currWord);
+            targetDisplay.textContent = currWord;
+        } else {
+            // Encode mode: show numbers, user types word
+            let count = parseInt(digitInput.value) || 2;
+            if(count < 1) count = 1;
+            if(count > 50) count = 50;
+
+            let str = "";
+            for(let i=0; i<count; i++) {
+                str += Math.floor(Math.random() * 10);
+            }
+            currTarget = str;
+            targetDisplay.textContent = currTarget;
         }
-        currTarget = str;
-        targetDisplay.textContent = currTarget;
-        
+
         // Reset UI
         wordInput.value = "";
         wordInput.focus();
@@ -364,43 +411,63 @@
     }
 
     function checkAnswer() {
-        const word = wordInput.value;
-        if(!word) return;
+        const input = wordInput.value;
+        if(!input) return;
 
-        const translation = wordToMajor(word);
-        
         resultArea.style.display = "block";
-        
-        // Logic: Does the translation match the target?
-        // Exact match required? 
-        // Usually Major System training allows "Satellite" (0151) for "01".
-        // So if the translation STARTS with the target, we count it valid.
-        
-        if (translation === currTarget) {
-            statusText.textContent = "Success!";
-            statusText.className = "status correct";
-            targetDisplay.style.color = "var(--success)";
-        } else {
-            statusText.textContent = "Try Again";
-            statusText.className = "status incorrect";
-            targetDisplay.style.color = "black"; // keep black
-        }
 
-        let html = `Word: <strong>${word}</strong><br>`;
-        html += `Major Translation: <strong>${translation}</strong><br>`;
-        html += `Target: <strong>${currTarget}</strong>`;
-        
-        translationText.innerHTML = html;
+        if (isDecodeMode) {
+            // In decode mode, user types numbers, we check against currTarget
+            const userNumbers = input.trim();
+
+            if (userNumbers === currTarget) {
+                statusText.textContent = "Success!";
+                statusText.className = "status correct";
+                targetDisplay.style.color = "var(--success)";
+            } else {
+                statusText.textContent = "Try Again";
+                statusText.className = "status incorrect";
+                targetDisplay.style.color = "black";
+            }
+
+            let html = `Word: <strong>${currWord}</strong><br>`;
+            html += `Correct Numbers: <strong>${currTarget}</strong><br>`;
+            html += `Your Answer: <strong>${userNumbers}</strong>`;
+
+            translationText.innerHTML = html;
+        } else {
+            // In encode mode, user types word, we check translation
+            const translation = wordToMajor(input);
+
+            if (translation === currTarget) {
+                statusText.textContent = "Success!";
+                statusText.className = "status correct";
+                targetDisplay.style.color = "var(--success)";
+            } else {
+                statusText.textContent = "Try Again";
+                statusText.className = "status incorrect";
+                targetDisplay.style.color = "black";
+            }
+
+            let html = `Word: <strong>${input}</strong><br>`;
+            html += `Major Translation: <strong>${translation}</strong><br>`;
+            html += `Target: <strong>${currTarget}</strong>`;
+
+            translationText.innerHTML = html;
+        }
     }
 
     // Event Listeners
     wordInput.addEventListener('keyup', (e) => {
-        checkAnswer(); // Live checking or on Enter?
-        // Let's do live checking, it provides faster feedback loop
+        checkAnswer(); // Live checking provides faster feedback loop
         if(e.key === "Enter") {
-            // if correct and enter pressed, maybe generate new?
-            const translation = wordToMajor(wordInput.value);
-            if(translation === currTarget) {
+            // if correct and enter pressed, generate new challenge
+            const input = wordInput.value.trim();
+            const isCorrect = isDecodeMode
+                ? (input === currTarget)
+                : (wordToMajor(input) === currTarget);
+
+            if(isCorrect) {
                 generateNew();
             }
         }
@@ -421,7 +488,9 @@
     }
 
     // Initial Load
-    generateNew();
+    loadWordList().then(() => {
+        generateNew();
+    });
 
 </script>
 
