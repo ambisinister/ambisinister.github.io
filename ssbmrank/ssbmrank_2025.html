@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --danger-color: #dc2626;
+            --neutral-color: #6b7280;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-accent: #f1f5f9;
+            --border-color: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            padding: 12px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background-color: var(--bg-primary);
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            padding: 16px 32px;
+        }
+
+        h1, h2 {
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            margin: 8px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--success-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-top: 20px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin: 0 0 12px 0;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 24px;
+        }
+
+        .stickyrow { 
+            width: 3000px; 
+        }
+
+        /* Table styling */
+        #tableContainer {
+            overflow: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            margin: 20px 0;
+            max-height: 80vh;
+        }
+
+        table {
+            table-layout: auto;
+            border-collapse: separate;
+            border-spacing: 0;
+            width: auto;
+        }
+
+        table.small-table {
+            width: auto;
+        }
+
+        table.large-table {
+            width: auto;
+        }
+        
+        /* Fixed first column and header */
+        #crossTable th, #crossTable td {
+            position: sticky;
+            border: 1px solid var(--border-color);
+        }
+        
+        /* Fixed header */
+        #crossTable th {
+            top: 0;
+            z-index: 2;
+            background: linear-gradient(135deg, var(--primary-color), #3b82f6);
+            color: white;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        /* Fixed first column */
+        #crossTable th:first-child, #crossTable td:first-child {
+            left: 0;
+            z-index: 1;
+            background: linear-gradient(135deg, var(--primary-color), #3b82f6);
+            color: white;
+            font-weight: 500;
+        }
+        
+        #crossTable th:first-child {
+            z-index: 3;
+        }
+        
+        /* First column width */
+        #crossTable th:first-child, #crossTable td:first-child {
+            width: auto;
+            white-space: nowrap;
+        }
+
+        /* Other columns - compact width */
+        #crossTable th:not(:first-child), #crossTable td:not(:first-child) {
+            width: 80px;
+            min-width: 80px;
+            max-width: 80px;
+        }
+        
+        td, th {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+            padding: 8px 12px;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        td:hover:not(.black):not(:first-child) {
+            background-color: var(--bg-accent) !important;
+            transform: scale(1.02);
+            z-index: 1;
+            box-shadow: var(--shadow-md);
+            cursor: pointer;
+        }
+
+        td:not(.black):not(:first-child) {
+            cursor: pointer;
+        }
+
+        .stickycell { 
+            background-color: var(--bg-accent);
+        }
+        
+        /* Enhanced color scheme */
+        td.white { 
+            background-color: #f1f5f9; 
+            color: var(--text-secondary);
+        }
+        td.yellow { 
+            background-color: #fef3c7; 
+            color: #92400e;
+            font-weight: 500;
+        }
+        td.green { 
+            background-color: #d1fae5; 
+            color: #065f46;
+            font-weight: 600;
+        }
+        td.red { 
+            background-color: #fee2e2; 
+            color: #991b1b;
+            font-weight: 600;
+        }
+        td.black { 
+            background-color: #1f2937; 
+            color: #9ca3af;
+            font-weight: 500;
+        }
+
+
+        /* Filter and Button Styling */
+        .filter-section {
+            background-color: var(--bg-accent);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 8px 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .radio-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .radio-group:hover {
+            background-color: var(--bg-primary);
+        }
+
+        .radio-group input[type="radio"] {
+            accent-color: var(--primary-color);
+            margin: 0;
+        }
+
+        .radio-group label {
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        /* Button Styling */
+        .btn {
+            background: linear-gradient(135deg, var(--primary-color), #3b82f6);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+            box-shadow: var(--shadow-sm);
+            margin: 8px 0;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+            background: linear-gradient(135deg, #1d4ed8, var(--primary-color));
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary-color), #475569);
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #475569, var(--secondary-color));
+        }
+
+        /* Sortable List Styling */
+        #sortable {
+            background-color: var(--bg-accent);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+            border: 1px solid var(--border-color);
+            columns: 3;
+            column-gap: 20px;
+            column-fill: balance;
+            list-style: decimal;
+            list-style-position: inside;
+        }
+
+        #sortable li {
+            background-color: var(--bg-primary);
+            margin: 4px 0;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            cursor: move;
+            font-weight: 500;
+            box-shadow: var(--shadow-sm);
+            display: inline-block;
+            width: 100%;
+            break-inside: avoid;
+            font-size: 0.875rem;
+            position: relative;
+        }
+
+        #sortable li .player-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        #sortable li .player-rank {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-right: 4px;
+        }
+
+        #sortable li .player-name {
+            flex: 1;
+            margin-right: 8px;
+        }
+
+        #sortable li .hide-btn {
+            background-color: var(--danger-color);
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 2px 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        #sortable li .hide-btn:hover {
+            background-color: #b91c1c;
+        }
+
+        #sortable li.hidden {
+            opacity: 0.5;
+            background-color: var(--neutral-color);
+        }
+
+        #sortable li.hidden .hide-btn {
+            background-color: var(--success-color);
+        }
+
+        #sortable li.hidden .hide-btn:hover {
+            background-color: #047857;
+        }
+
+        #sortable li:hover {
+            background-color: var(--bg-accent);
+            box-shadow: var(--shadow-md);
+        }
+
+        #sortable li.ui-sortable-helper {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: var(--shadow-lg);
+            width: auto;
+        }
+
+        .sortable-placeholder {
+            background-color: var(--border-color);
+            border: 2px dashed var(--primary-color);
+            margin: 4px 0;
+            height: 32px;
+            border-radius: 4px;
+            display: inline-block;
+            width: 100%;
+        }
+
+        /* Collapsible Sections */
+        .collapsible-section {
+            background-color: var(--bg-accent);
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .collapsible-content {
+            padding: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: var(--bg-primary);
+        }
+
+        .info-text {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin: 8px 0;
+        }
+
+        /* Modal Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background-color: var(--bg-primary);
+            margin: 5% auto;
+            padding: 24px;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .close {
+            color: var(--text-secondary);
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .close:hover {
+            color: var(--danger-color);
+            background-color: var(--bg-accent);
+        }
+
+        .match-item {
+            background-color: var(--bg-accent);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .match-winner {
+            font-weight: 600;
+            color: var(--success-color);
+        }
+
+        .match-loser {
+            color: var(--text-secondary);
+        }
+
+        .match-score {
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .match-event {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-top: 4px;
+        }
+
+        .no-matches {
+            text-align: center;
+            color: var(--text-secondary);
+            font-style: italic;
+            padding: 20px;
+        }
+
+    </style>
+
+    <!-- Include jQuery and jQuery UI libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>H2H Cross Table</h1>
+        <p class="subtitle">Updated: 12/25/2023</p>
+        
+        <!-- Tournament Filter Section -->
+        <div class="filter-section">
+            <h3>Tournament Filter</h3>
+            <div class="filter-options">
+                <div class="radio-group">
+                    <input type="radio" id="majorsAndRegionalsAndMonthlies" name="filter" value="all" checked>
+                    <label for="majorsAndRegionalsAndMonthlies">All Tournaments</label>
+                </div>
+                <div class="radio-group">
+                    <input type="radio" id="majorsAndRegionals" name="filter" value="majorAndRegional">
+                    <label for="majorsAndRegionals">Majors + Regionals</label>
+                </div>
+                <div class="radio-group">
+                    <input type="radio" id="majorsOnly" name="filter" value="majors">
+                    <label for="majorsOnly">Majors Only</label>
+                </div>
+            </div>
+        </div>
+
+        <div id="tableContainer">
+            <table id="crossTable">
+                <!-- Cross table data will be populated here using JavaScript -->
+            </table>
+        </div>
+
+        <!-- Player Ordering Section -->
+        <h2>Player Ranking</h2>
+        <p class="info-text">Drag players to reorder the table. Your ranking is automatically saved locally.</p>
+        
+        <div style="margin: 12px 0; display: flex; gap: 8px; flex-wrap: wrap;">
+            <button id="hide-all-btn" class="btn btn-secondary">Hide All Players</button>
+            <button id="show-all-btn" class="btn btn-secondary">Show All Players</button>
+            <button id="copy-list-btn" class="btn">Copy List to Clipboard</button>
+        </div>
+        
+        <ol id="sortable">
+            <!-- Player list will be populated here using JavaScript -->
+        </ol>
+
+        <!-- Advanced Filters Section -->
+        <h2>Advanced Filters</h2>
+        
+        <div class="collapsible-section">
+            <button id="toggle-events" class="btn btn-secondary">Show Event Tier Assignments</button>
+            <div id="events" class="collapsible-content" style="display: none;">
+                <!-- This will be populated using JavaScript -->
+            </div>
+        </div>
+
+        <div class="collapsible-section">
+            <button id="toggle-match-data" class="btn btn-secondary">Show Match Data</button>
+            <div id="match-data" class="collapsible-content" style="display: none;">
+                <!-- This will be populated using JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for showing match details -->
+    <div id="matchModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle" class="modal-title">Head-to-Head Matches</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div id="modalBody">
+                <!-- Match details will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Players and their IDs. 
+      var players = ["583c7fa9", "1e4dba1c", "a709f899", "f43678b2", "cad34404", "cfe7a825", "c9b7f9dd", "1c278ce9", "a93187a0", "de4f81e5", "0ad21baa", "c875a8c3", "2510aaeb", "d71c533a", "3352d0d8", "7e846f71", "400facfd", "cee18be6", "56e65e49", "8ab7ba54", "d7e3fe6a", "da8b9c25", "0046c6b3", "5184e09f", "89d7c7da", "ce4714ea", "5155d29c", "fbfaae48", "bb37c062", "21470bf0", "ab9ccde5", "543832b2", "75356062", "0351c73c", "2b37fc7d", "1fe81cb3", "d529de69", "7dc6fc10", "90271561", "f6ca53b8", "da0dfa11", "01592d51", "1cc373a6", "c8cd907b", "9ff819f4", "d27d8b76", "6862c854", "076502c1", "ee9105b7", "36ab3b3b", "b2526c86", "125fd3ea", "a925eb29", "2d34f47c", "4df689fb", "3e5ad50b", "dbff9f24", "c2b31cbb", "750e1ccc", "5a13ee71", "39e703a2", "3351e9c0", "985d6ac2", "658c6a49", "309b0773", "0948324b", "cddea7f7", "3a26a2ca", "2b120752", "e46a474e", "a327d9dd", "0738f756", "c383a2ce", "98db8330", "8a47edf2", "7195d612", "fcb7988b", "627d644b", "596f7b48", "ca0310c6", "05c05957", "c41d8636", "11307768", "41c65699", "c3e27b2e", "88547be1", "42226568", "39493041", "178a44b0", "d6b5a970", "f5781a84", "0c449ce1", "52eea753", "d865e317", "d2578a84", "760514b0", "a04e4aed", "a4e7d0bc", "ccb9d568", "ebb6c120", "0350ea24", "acf6aa2d", "83ae3b53", "8646af65", "7fe8638e", "1a8bfb07", "9c63d861", "a9334987", "e70a66ca", "fb51e987", "98c0b1a8", "b46a1da4", "2a371960", "cbe5cea1", "99a355dd", "4ee579fd", "aef2a867"];
+	
+      
+      var playersData = {"583c7fa9": "404Cray", "1e4dba1c": "Adwan", "a709f899": "Agent", "f43678b2": "Aklo", "cad34404": "Ampp", "cfe7a825": "aMSa", "c9b7f9dd": "Aura", "1c278ce9": "Axe", "a93187a0": "ayeGiohh", "de4f81e5": "Balloon Day", "0ad21baa": "Ben", "c875a8c3": "BING", "2510aaeb": "Bless\u00e9", "d71c533a": "Blue", "3352d0d8": "bonfire10", "7e846f71": "bonn", "400facfd": "Boyd", "cee18be6": "Chango", "56e65e49": "Chem", "8ab7ba54": "Chickenman400", "d7e3fe6a": "Cilan", "da8b9c25": "Cody Schwab", "0046c6b3": "coffee", "5184e09f": "Daniel", "89d7c7da": "DarkGenex", "ce4714ea": "Dawson", "5155d29c": "DayDream", "fbfaae48": "Drephen", "bb37c062": "dz", "21470bf0": "Epoodle", "ab9ccde5": "eve", "543832b2": "Fable", "75356062": "Faith", "0351c73c": "Faust", "2b37fc7d": "fitzy", "1fe81cb3": "Foxy Grandpa", "d529de69": "Free Palestine", "7dc6fc10": "Freezus", "90271561": "Frostbyte", "f6ca53b8": "Fudge", "da0dfa11": "Gahtzu", "01592d51": "Ginger", "1cc373a6": "Goodie", "c8cd907b": "Grab", "9ff819f4": "Graves", "d27d8b76": "Holiday", "6862c854": "HPR", "076502c1": "Hungrybox", "ee9105b7": "Inky", "36ab3b3b": "irfan", "b2526c86": "Jah Ridin'", "125fd3ea": "Jamie", "a925eb29": "JChu", "2d34f47c": "Jmook", "4df689fb": "Joey Donuts", "3e5ad50b": "JoJo", "dbff9f24": "Joshman", "c2b31cbb": "Jude", "750e1ccc": "Juicebox", "5a13ee71": "Junebug", "39e703a2": "Just", "3351e9c0": "Kacey", "985d6ac2": "Kalvar", "658c6a49": "Kevbot", "309b0773": "Kevin Maples", "0948324b": "Khryke", "cddea7f7": "Krudo", "3a26a2ca": "lexor", "2b120752": "lloD", "e46a474e": "Louis", "a327d9dd": "Lowercase hero", "0738f756": "M1sf1re", "c383a2ce": "Maelstrom", "98db8330": "Magi", "8a47edf2": "Maher", "7195d612": "Majersk", "fcb7988b": "max", "627d644b": "Medz", "596f7b48": "mgmg", "ca0310c6": "MOF", "05c05957": "moky", "c41d8636": "Mono", "11307768": "Morsecode762", "41c65699": "Mot$", "c3e27b2e": "mvlvchi", "88547be1": "n0ne", "42226568": "Namzerra", "39493041": "Nicki", "178a44b0": "Ober", "d6b5a970": "OG Kid", "f5781a84": "OkayP.", "0c449ce1": "Ossify", "52eea753": "Paladin", "d865e317": "Panda", "d2578a84": "Pleeba", "760514b0": "Preeminent", "a04e4aed": "RapMonster", "a4e7d0bc": "Rikzz", "ccb9d568": "salami", "ebb6c120": "Salt", "0350ea24": "SDJ", "acf6aa2d": "Seven", "83ae3b53": "Sirmeris", "8646af65": "Slowking", "7fe8638e": "SluG", "1a8bfb07": "Smash Papi", "9c63d861": "Soonsay", "a9334987": "Spark", "e70a66ca": "Stiv", "fb51e987": "TheRealThing", "98c0b1a8": "Trif", "b46a1da4": "Wizzrobe", "2a371960": "Zain", "cbe5cea1": "Zamu", "99a355dd": "Zanya", "4ee579fd": "Zasa", "aef2a867": "Zuppy"};
+
+        // events data.
+      var eventsData = {"0": "Supernova 2025", "1": "Genesis X2", "2": "Get On My Level: Forever - Canadian Fighting Game Championships", "3": "Riptide 2025", "4": "Tipped Off 16: Safari", "5": "Full Bloom 2025", "6": "Collision 2025", "7": "Battle of BC 7", "8": "Nouns Bowl 2025", "9": "Luminosity Makes Moves Miami 2025", "10": "Full House 2025", "11": "Nounsvitational 2025 Tokyo"};
+
+        function updateMatches(eventId, prestige) {
+            matches = matches.map(function(match) {
+                if (match[5] == eventId) {
+                    match[6] = prestige;
+                }
+                return match;
+            });
+        }
+        
+        // Match data.
+	var matches = [["Cody Schwab", "da8b9c25", "SDJ", "0350ea24", "3-2", "0", "majors"], ["Aklo", "f43678b2", "Hungrybox", "076502c1", "3-1", "0", "majors"], ["Zain", "2a371960", "Cody Schwab", "da8b9c25", "3-2", "0", "majors"], ["Cody Schwab", "da8b9c25", "Adwan", "1e4dba1c", "3-0", "0", "majors"], ["Axe", "1c278ce9", "Bless\u00e9", "2510aaeb", "3-1", "0", "majors"], ["Spark", "a9334987", "Joey Donuts", "4df689fb", "3-1", "0", "majors"], ["Nicki", "39493041", "Gahtzu", "da0dfa11", "3-2", "0", "majors"], ["Jmook", "2d34f47c", "OG Kid", "d6b5a970", "3-1", "0", "majors"], ["SDJ", "0350ea24", "Namzerra", "42226568", "3-1", "0", "majors"], ["Aklo", "f43678b2", "mgmg", "596f7b48", "3-2", "0", "majors"], ["Krudo", "cddea7f7", "bonfire10", "3352d0d8", "3-0", "0", "majors"], ["lloD", "2b120752", "Fudge", "f6ca53b8", "3-0", "0", "majors"], ["Aura", "c9b7f9dd", "Jude", "c2b31cbb", "3-0", "0", "majors"], ["n0ne", "88547be1", "Jamie", "125fd3ea", "3-1", "0", "majors"], ["Junebug", "5a13ee71", "Kalvar", "985d6ac2", "3-0", "0", "majors"], ["moky", "05c05957", "Boyd", "400facfd", "3-0", "0", "majors"], ["Hungrybox", "076502c1", "Louis", "e46a474e", "3-0", "0", "majors"], ["Frostbyte", "90271561", "Rikzz", "a4e7d0bc", "3-2", "0", "majors"], ["Ginger", "01592d51", "Grab", "c8cd907b", "3-2", "0", "majors"], ["Kacey", "3351e9c0", "Kevbot", "658c6a49", "3-0", "0", "majors"], ["OkayP.", "f5781a84", "Drephen", "fbfaae48", "3-0", "0", "majors"], ["Panda", "d865e317", "eve", "ab9ccde5", "3-1", "0", "majors"], ["Kevin Maples", "309b0773", "fitzy", "2b37fc7d", "3-0", "0", "majors"], ["Epoodle", "21470bf0", "Dawson", "ce4714ea", "3-1", "0", "majors"], ["Zanya", "99a355dd", "Preeminent", "760514b0", "3-1", "0", "majors"], ["Morsecode762", "11307768", "Seven", "acf6aa2d", "3-0", "0", "majors"], ["RapMonster", "a04e4aed", "Agent", "a709f899", "3-1", "0", "majors"], ["Sirmeris", "83ae3b53", "Faith", "75356062", "3-2", "0", "majors"], ["Khryke", "0948324b", "DarkGenex", "89d7c7da", "3-0", "0", "majors"], ["Ben", "0ad21baa", "mvlvchi", "c3e27b2e", "3-1", "0", "majors"], ["Zain", "2a371960", "Ben", "0ad21baa", "3-0", "0", "majors"], ["moky", "05c05957", "Ginger", "01592d51", "3-2", "0", "majors"], ["Juicebox", "750e1ccc", "mvlvchi", "c3e27b2e", "3-0", "0", "majors"], ["Agent", "a709f899", "Freezus", "7dc6fc10", "3-2", "0", "majors"], ["Daniel", "5184e09f", "Grab", "c8cd907b", "3-0", "0", "majors"], ["M1sf1re", "0738f756", "DarkGenex", "89d7c7da", "3-1", "0", "majors"], ["Kalvar", "985d6ac2", "Just", "39e703a2", "3-1", "0", "majors"], ["bonfire10", "3352d0d8", "dz", "bb37c062", "3-1", "0", "majors"], ["Boyd", "400facfd", "Maelstrom", "c383a2ce", "3-0", "0", "majors"], ["Khryke", "0948324b", "SDJ", "0350ea24", "3-2", "0", "majors"], ["Hungrybox", "076502c1", "Spark", "a9334987", "3-0", "0", "majors"], ["Axe", "1c278ce9", "Ben", "0ad21baa", "3-1", "0", "majors"], ["Ginger", "01592d51", "Jmook", "2d34f47c", "3-1", "0", "majors"], ["Khryke", "0948324b", "Junebug", "5a13ee71", "3-0", "0", "majors"], ["Spark", "a9334987", "RapMonster", "a04e4aed", "3-1", "0", "majors"], ["Axe", "1c278ce9", "Magi", "98db8330", "3-1", "0", "majors"], ["Jmook", "2d34f47c", "Kevin Maples", "309b0773", "3-1", "0", "majors"], ["Zain", "2a371960", "Cody Schwab", "da8b9c25", "3-1", "0", "majors"], ["Fudge", "f6ca53b8", "Freezus", "7dc6fc10", "3-1", "0", "majors"], ["OG Kid", "d6b5a970", "Juicebox", "750e1ccc", "3-2", "0", "majors"], ["Boyd", "400facfd", "bonn", "7e846f71", "3-0", "0", "majors"], ["mgmg", "596f7b48", "M1sf1re", "0738f756", "3-0", "0", "majors"], ["Jamie", "125fd3ea", "Mono", "c41d8636", "3-2", "0", "majors"], ["Jude", "c2b31cbb", "Daniel", "5184e09f", "3-2", "0", "majors"], ["Adwan", "1e4dba1c", "irfan", "36ab3b3b", "3-2", "0", "majors"], ["Zain", "2a371960", "Panda", "d865e317", "3-0", "0", "majors"], ["Ben", "0ad21baa", "Krudo", "cddea7f7", "3-2", "0", "majors"], ["moky", "05c05957", "Junebug", "5a13ee71", "3-2", "0", "majors"], ["Ginger", "01592d51", "Sirmeris", "83ae3b53", "3-1", "0", "majors"], ["Cody Schwab", "da8b9c25", "Kevin Maples", "309b0773", "3-0", "0", "majors"], ["SDJ", "0350ea24", "lloD", "2b120752", "3-2", "0", "majors"], ["Hungrybox", "076502c1", "Magi", "98db8330", "3-1", "0", "majors"], ["Aklo", "f43678b2", "n0ne", "88547be1", "3-1", "0", "majors"], ["Khryke", "0948324b", "Sirmeris", "83ae3b53", "3-0", "0", "majors"], ["Junebug", "5a13ee71", "Fudge", "f6ca53b8", "3-0", "0", "majors"], ["RapMonster", "a04e4aed", "Krudo", "cddea7f7", "3-1", "0", "majors"], ["Spark", "a9334987", "Panda", "d865e317", "3-1", "0", "majors"], ["Axe", "1c278ce9", "n0ne", "88547be1", "3-0", "0", "majors"], ["Magi", "98db8330", "Agent", "a709f899", "3-1", "0", "majors"], ["Jmook", "2d34f47c", "lloD", "2b120752", "3-0", "0", "majors"], ["Kevin Maples", "309b0773", "Nicki", "39493041", "3-1", "0", "majors"], ["Cody Schwab", "da8b9c25", "Hungrybox", "076502c1", "3-2", "0", "majors"], ["Khryke", "0948324b", "Frostbyte", "90271561", "3-0", "0", "majors"], ["Fudge", "f6ca53b8", "OkayP.", "f5781a84", "3-1", "0", "majors"], ["Spark", "a9334987", "Daniel", "5184e09f", "3-1", "0", "majors"], ["Axe", "1c278ce9", "Aura", "c9b7f9dd", "3-1", "0", "majors"], ["Agent", "a709f899", "JChu", "a925eb29", "3-1", "0", "majors"], ["Jmook", "2d34f47c", "Morsecode762", "11307768", "3-2", "0", "majors"], ["Nicki", "39493041", "Kacey", "3351e9c0", "3-1", "0", "majors"], ["Hungrybox", "076502c1", "Ginger", "01592d51", "3-0", "0", "majors"], ["Zain", "2a371960", "moky", "05c05957", "3-0", "0", "majors"], ["Zain", "2a371960", "Kacey", "3351e9c0", "3-0", "0", "majors"], ["Cody Schwab", "da8b9c25", "Aklo", "f43678b2", "3-0", "0", "majors"], ["Panda", "d865e317", "Nicki", "39493041", "3-1", "0", "majors"], ["Krudo", "cddea7f7", "Morsecode762", "11307768", "3-2", "0", "majors"], ["Ben", "0ad21baa", "Jmook", "2d34f47c", "3-0", "0", "majors"], ["Junebug", "5a13ee71", "JChu", "a925eb29", "3-0", "0", "majors"], ["Sirmeris", "83ae3b53", "Axe", "1c278ce9", "3-1", "0", "majors"], ["Ginger", "01592d51", "Aura", "c9b7f9dd", "3-1", "0", "majors"], ["Cody Schwab", "da8b9c25", "Graves", "9ff819f4", "3-0", "0", "majors"], ["Kevin Maples", "309b0773", "Spark", "a9334987", "3-0", "0", "majors"], ["SDJ", "0350ea24", "Zanya", "99a355dd", "3-2", "0", "majors"], ["lloD", "2b120752", "RapMonster", "a04e4aed", "3-0", "0", "majors"], ["Hungrybox", "076502c1", "Epoodle", "21470bf0", "3-1", "0", "majors"], ["Magi", "98db8330", "OkayP.", "f5781a84", "3-2", "0", "majors"], ["Aklo", "f43678b2", "Khryke", "0948324b", "3-1", "0", "majors"], ["n0ne", "88547be1", "Frostbyte", "90271561", "3-0", "0", "majors"], ["Frostbyte", "90271561", "Kevbot", "658c6a49", "3-2", "0", "majors"], ["Khryke", "0948324b", "Joey Donuts", "4df689fb", "3-1", "0", "majors"], ["OkayP.", "f5781a84", "Seven", "acf6aa2d", "3-1", "0", "majors"], ["Fudge", "f6ca53b8", "Epoodle", "21470bf0", "3-2", "0", "majors"], ["Spark", "a9334987", "Faith", "75356062", "3-0", "0", "majors"], ["Daniel", "5184e09f", "Graves", "9ff819f4", "3-1", "0", "majors"], ["Aura", "c9b7f9dd", "irfan", "36ab3b3b", "3-0", "0", "majors"], ["JChu", "a925eb29", "Preeminent", "760514b0", "3-0", "0", "majors"], ["Jmook", "2d34f47c", "Dawson", "ce4714ea", "3-0", "0", "majors"], ["Morsecode762", "11307768", "Kalvar", "985d6ac2", "3-0", "0", "majors"], ["Nicki", "39493041", "M1sf1re", "0738f756", "3-1", "0", "majors"], ["Kacey", "3351e9c0", "Jude", "c2b31cbb", "3-2", "0", "majors"], ["Ginger", "01592d51", "Aklo", "f43678b2", "3-2", "0", "majors"], ["Hungrybox", "076502c1", "moky", "05c05957", "3-1", "0", "majors"], ["Joey Donuts", "4df689fb", "eve", "ab9ccde5", "3-0", "0", "majors"], ["Seven", "acf6aa2d", "Namzerra", "42226568", "3-2", "0", "majors"], ["Fudge", "f6ca53b8", "Juicebox", "750e1ccc", "3-1", "0", "majors"], ["Faith", "75356062", "mgmg", "596f7b48", "3-0", "0", "majors"], ["Daniel", "5184e09f", "Jamie", "125fd3ea", "3-2", "0", "majors"], ["irfan", "36ab3b3b", "Chango", "cee18be6", "3-2", "0", "majors"], ["Preeminent", "760514b0", "bonfire10", "3352d0d8", "3-1", "0", "majors"], ["Agent", "a709f899", "OG Kid", "d6b5a970", "3-2", "0", "majors"], ["Dawson", "ce4714ea", "Boyd", "400facfd", "3-0", "0", "majors"], ["Kalvar", "985d6ac2", "Drephen", "fbfaae48", "3-2", "0", "majors"], ["M1sf1re", "0738f756", "Bless\u00e9", "2510aaeb", "3-1", "0", "majors"], ["Jude", "c2b31cbb", "Rikzz", "a4e7d0bc", "3-0", "0", "majors"], ["Ginger", "01592d51", "Axe", "1c278ce9", "3-1", "0", "majors"], ["Hungrybox", "076502c1", "Khryke", "0948324b", "3-0", "0", "majors"], ["dz", "bb37c062", "ayeGiohh", "a93187a0", "2-1", "1", "majors"], ["Wizzrobe", "b46a1da4", "Aura", "c9b7f9dd", "3-2", "1", "majors"], ["Hungrybox", "076502c1", "Junebug", "5a13ee71", "3-1", "1", "majors"], ["Hungrybox", "076502c1", "Trif", "98c0b1a8", "3-2", "1", "majors"], ["Hungrybox", "076502c1", "Trif", "98c0b1a8", "3-1", "1", "majors"], ["Trif", "98c0b1a8", "SDJ", "0350ea24", "3-1", "1", "majors"], ["moky", "05c05957", "Aura", "c9b7f9dd", "3-0", "1", "majors"], ["Cody Schwab", "da8b9c25", "Junebug", "5a13ee71", "3-2", "1", "majors"], ["Salt", "ebb6c120", "Joshman", "dbff9f24", "3-1", "1", "majors"], ["Axe", "1c278ce9", "SDJ", "0350ea24", "3-1", "1", "majors"], ["moky", "05c05957", "Aklo", "f43678b2", "3-0", "1", "majors"], ["Cody Schwab", "da8b9c25", "Krudo", "cddea7f7", "3-0", "1", "majors"], ["Joshman", "dbff9f24", "Jmook", "2d34f47c", "3-0", "1", "majors"], ["Trif", "98c0b1a8", "Wizzrobe", "b46a1da4", "3-0", "1", "majors"], ["Cody Schwab", "da8b9c25", "Lowercase hero", "a327d9dd", "3-0", "1", "majors"], ["moky", "05c05957", "Kevbot", "658c6a49", "3-2", "1", "majors"], ["Salt", "ebb6c120", "Grab", "c8cd907b", "3-1", "1", "majors"], ["Joshman", "dbff9f24", "bonfire10", "3352d0d8", "3-1", "1", "majors"], ["SDJ", "0350ea24", "Chango", "cee18be6", "3-1", "1", "majors"], ["Soonsay", "9c63d861", "JoJo", "3e5ad50b", "3-2", "1", "majors"], ["Jmook", "2d34f47c", "Juicebox", "750e1ccc", "3-0", "1", "majors"], ["Aklo", "f43678b2", "max", "fcb7988b", "3-0", "1", "majors"], ["Hungrybox", "076502c1", "salami", "ccb9d568", "3-0", "1", "majors"], ["aMSa", "cfe7a825", "Kalvar", "985d6ac2", "3-0", "1", "majors"], ["Panda", "d865e317", "Zanya", "99a355dd", "3-0", "1", "majors"], ["Medz", "627d644b", "Faust", "0351c73c", "3-1", "1", "majors"], ["Magi", "98db8330", "Namzerra", "42226568", "3-0", "1", "majors"], ["lloD", "2b120752", "Gahtzu", "da0dfa11", "3-0", "1", "majors"], ["Zamu", "cbe5cea1", "dz", "bb37c062", "3-0", "1", "majors"], ["Aura", "c9b7f9dd", "Chickenman400", "8ab7ba54", "3-1", "1", "majors"], ["Junebug", "5a13ee71", "Kacey", "3351e9c0", "3-1", "1", "majors"], ["Salt", "ebb6c120", "Maher", "8a47edf2", "3-0", "1", "majors"], ["SDJ", "0350ea24", "moky", "05c05957", "3-2", "1", "majors"], ["Trif", "98c0b1a8", "Aklo", "f43678b2", "3-1", "1", "majors"], ["Aura", "c9b7f9dd", "Soonsay", "9c63d861", "3-2", "1", "majors"], ["Junebug", "5a13ee71", "Jmook", "2d34f47c", "3-2", "1", "majors"], ["Hungrybox", "076502c1", "Joshman", "dbff9f24", "3-1", "1", "majors"], ["Aklo", "f43678b2", "Spark", "a9334987", "3-2", "1", "majors"], ["moky", "05c05957", "mvlvchi", "c3e27b2e", "3-0", "1", "majors"], ["Krudo", "cddea7f7", "lloD", "2b120752", "3-2", "1", "majors"], ["Cody Schwab", "da8b9c25", "Maher", "8a47edf2", "3-0", "1", "majors"], ["Joshman", "dbff9f24", "Chickenman400", "8ab7ba54", "3-0", "1", "majors"], ["Jmook", "2d34f47c", "Ossify", "0c449ce1", "3-0", "1", "majors"], ["Axe", "1c278ce9", "Soonsay", "9c63d861", "3-1", "1", "majors"], ["Hungrybox", "076502c1", "Wizzrobe", "b46a1da4", "3-2", "1", "majors"], ["fitzy", "2b37fc7d", "Juicebox", "750e1ccc", "3-1", "1", "majors"], ["Daniel", "5184e09f", "max", "fcb7988b", "3-1", "1", "majors"], ["Slowking", "8646af65", "404Cray", "583c7fa9", "3-0", "1", "majors"], ["Graves", "9ff819f4", "dz", "bb37c062", "3-1", "1", "majors"], ["Faust", "0351c73c", "Foxy Grandpa", "1fe81cb3", "3-1", "1", "majors"], ["Namzerra", "42226568", "Dawson", "ce4714ea", "3-0", "1", "majors"], ["Spark", "a9334987", "JoJo", "3e5ad50b", "3-0", "1", "majors"], ["mvlvchi", "c3e27b2e", "Zamu", "cbe5cea1", "3-1", "1", "majors"], ["Cody Schwab", "da8b9c25", "Magi", "98db8330", "3-0", "1", "majors"], ["Chickenman400", "8ab7ba54", "Panda", "d865e317", "3-1", "1", "majors"], ["aMSa", "cfe7a825", "Medz", "627d644b", "3-2", "1", "majors"], ["Dawson", "ce4714ea", "DarkGenex", "89d7c7da", "3-0", "1", "majors"], ["Frostbyte", "90271561", "Stiv", "e70a66ca", "3-1", "1", "majors"], ["SDJ", "0350ea24", "Goodie", "1cc373a6", "3-2", "1", "majors"], ["Hungrybox", "076502c1", "Frostbyte", "90271561", "3-0", "1", "majors"], ["Soonsay", "9c63d861", "DarkGenex", "89d7c7da", "3-1", "1", "majors"], ["Juicebox", "750e1ccc", "Graves", "9ff819f4", "3-1", "1", "majors"], ["salami", "ccb9d568", "Stiv", "e70a66ca", "3-0", "1", "majors"], ["Salt", "ebb6c120", "Axe", "1c278ce9", "3-1", "1", "majors"], ["bonfire10", "3352d0d8", "Paladin", "52eea753", "3-1", "1", "majors"], ["JoJo", "3e5ad50b", "Dawson", "ce4714ea", "3-1", "1", "majors"], ["Jah Ridin'", "b2526c86", "Foxy Grandpa", "1fe81cb3", "3-0", "1", "majors"], ["Wizzrobe", "b46a1da4", "Hungrybox", "076502c1", "3-0", "1", "majors"], ["Lowercase hero", "a327d9dd", "OG Kid", "d6b5a970", "3-1", "1", "majors"], ["Zamu", "cbe5cea1", "fitzy", "2b37fc7d", "3-1", "1", "majors"], ["Axe", "1c278ce9", "Cilan", "d7e3fe6a", "3-0", "1", "majors"], ["Aura", "c9b7f9dd", "Jamie", "125fd3ea", "3-2", "1", "majors"], ["lloD", "2b120752", "aMSa", "cfe7a825", "3-0", "1", "majors"], ["lloD", "2b120752", "Mono", "c41d8636", "3-0", "1", "majors"], ["Zanya", "99a355dd", "Daniel", "5184e09f", "3-1", "1", "majors"], ["SDJ", "0350ea24", "Ossify", "0c449ce1", "3-2", "1", "majors"], ["Aklo", "f43678b2", "Panda", "d865e317", "3-1", "1", "majors"], ["Aura", "c9b7f9dd", "Cody Schwab", "da8b9c25", "3-0", "1", "majors"], ["Soonsay", "9c63d861", "Magi", "98db8330", "3-1", "1", "majors"], ["Jmook", "2d34f47c", "Zamu", "cbe5cea1", "3-1", "1", "majors"], ["Junebug", "5a13ee71", "mvlvchi", "c3e27b2e", "3-0", "1", "majors"], ["Joshman", "dbff9f24", "Spark", "a9334987", "3-0", "1", "majors"], ["mvlvchi", "c3e27b2e", "Slowking", "8646af65", "3-0", "1", "majors"], ["Zamu", "cbe5cea1", "Agent", "a709f899", "3-2", "1", "majors"], ["Magi", "98db8330", "Zanya", "99a355dd", "3-0", "1", "majors"], ["Panda", "d865e317", "Grab", "c8cd907b", "3-0", "1", "majors"], ["Medz", "627d644b", "Graves", "9ff819f4", "3-1", "1", "majors"], ["aMSa", "cfe7a825", "Kacey", "3351e9c0", "3-2", "1", "majors"], ["Axe", "1c278ce9", "Frostbyte", "90271561", "3-0", "1", "majors"], ["Hungrybox", "076502c1", "Salt", "ebb6c120", "3-0", "1", "majors"], ["Paladin", "52eea753", "Adwan", "1e4dba1c", "3-1", "1", "majors"], ["Slowking", "8646af65", "Gahtzu", "da0dfa11", "3-1", "1", "majors"], ["Agent", "a709f899", "Faust", "0351c73c", "3-1", "1", "majors"], ["fitzy", "2b37fc7d", "Preeminent", "760514b0", "3-2", "1", "majors"], ["Zanya", "99a355dd", "salami", "ccb9d568", "3-1", "1", "majors"], ["Chickenman400", "8ab7ba54", "Ben", "0ad21baa", "3-1", "1", "majors"], ["Grab", "c8cd907b", "Namzerra", "42226568", "3-2", "1", "majors"], ["Kacey", "3351e9c0", "Chango", "cee18be6", "3-0", "1", "majors"], ["Frostbyte", "90271561", "Daniel", "5184e09f", "3-1", "1", "majors"], ["Salt", "ebb6c120", "Axe", "1c278ce9", "3-1", "1", "majors"], ["Cody Schwab", "da8b9c25", "moky", "05c05957", "3-0", "1", "majors"], ["Ginger", "01592d51", "ayeGiohh", "a93187a0", "3-0", "2", "majors"], ["TheRealThing", "fb51e987", "Adwan", "1e4dba1c", "3-0", "2", "majors"], ["Inky", "ee9105b7", "Ober", "178a44b0", "3-1", "2", "majors"], ["Kalvar", "985d6ac2", "M1sf1re", "0738f756", "3-1", "2", "majors"], ["Ampp", "cad34404", "Jah Ridin'", "b2526c86", "3-2", "2", "majors"], ["Epoodle", "21470bf0", "Mono", "c41d8636", "3-1", "2", "majors"], ["DarkGenex", "89d7c7da", "Juicebox", "750e1ccc", "3-1", "2", "majors"], ["Zain", "2a371960", "Hungrybox", "076502c1", "3-1", "2", "majors"], ["Zain", "2a371960", "SDJ", "0350ea24", "3-1", "2", "majors"], ["moky", "05c05957", "Zanya", "99a355dd", "3-0", "2", "majors"], ["Cody Schwab", "da8b9c25", "Chickenman400", "8ab7ba54", "3-0", "2", "majors"], ["Cody Schwab", "da8b9c25", "Morsecode762", "11307768", "3-1", "2", "majors"], ["Zain", "2a371960", "Dawson", "ce4714ea", "3-1", "2", "majors"], ["Hungrybox", "076502c1", "Kevin Maples", "309b0773", "3-1", "2", "majors"], ["Wizzrobe", "b46a1da4", "Chem", "56e65e49", "3-1", "2", "majors"], ["Aura", "c9b7f9dd", "MOF", "ca0310c6", "3-2", "2", "majors"], ["SDJ", "0350ea24", "Hungrybox", "076502c1", "3-2", "2", "majors"], ["SluG", "7fe8638e", "Ossify", "0c449ce1", "3-2", "2", "majors"], ["Aklo", "f43678b2", "Spark", "a9334987", "3-0", "2", "majors"], ["RapMonster", "a04e4aed", "Krudo", "cddea7f7", "3-1", "2", "majors"], ["Joshman", "dbff9f24", "Ginger", "01592d51", "3-2", "2", "majors"], ["aMSa", "cfe7a825", "Zamu", "cbe5cea1", "3-1", "2", "majors"], ["Morsecode762", "11307768", "Nicki", "39493041", "3-1", "2", "majors"], ["Zain", "2a371960", "Salt", "ebb6c120", "3-1", "2", "majors"], ["Joshman", "dbff9f24", "Wizzrobe", "b46a1da4", "3-2", "2", "majors"], ["SDJ", "0350ea24", "n0ne", "88547be1", "3-1", "2", "majors"], ["Soonsay", "9c63d861", "Inky", "ee9105b7", "3-0", "2", "majors"], ["Hungrybox", "076502c1", "moky", "05c05957", "3-2", "2", "majors"], ["Ossify", "0c449ce1", "irfan", "36ab3b3b", "3-0", "2", "majors"], ["Spark", "a9334987", "Maelstrom", "c383a2ce", "3-1", "2", "majors"], ["aMSa", "cfe7a825", "Morsecode762", "11307768", "3-0", "2", "majors"], ["Kevin Maples", "309b0773", "Preeminent", "760514b0", "3-0", "2", "majors"], ["Mot$", "41c65699", "Dawson", "ce4714ea", "3-2", "2", "majors"], ["Inky", "ee9105b7", "Freezus", "7dc6fc10", "3-0", "2", "majors"], ["Wizzrobe", "b46a1da4", "RapMonster", "a04e4aed", "3-1", "2", "majors"], ["n0ne", "88547be1", "Jude", "c2b31cbb", "3-2", "2", "majors"], ["Ginger", "01592d51", "Jah Ridin'", "b2526c86", "3-1", "2", "majors"], ["Kevbot", "658c6a49", "Nicki", "39493041", "3-2", "2", "majors"], ["Krudo", "cddea7f7", "salami", "ccb9d568", "3-2", "2", "majors"], ["Zamu", "cbe5cea1", "Frostbyte", "90271561", "3-1", "2", "majors"], ["Aura", "c9b7f9dd", "Salt", "ebb6c120", "3-2", "2", "majors"], ["Hungrybox", "076502c1", "SDJ", "0350ea24", "3-1", "2", "majors"], ["Maelstrom", "c383a2ce", "lexor", "3a26a2ca", "3-1", "2", "majors"], ["irfan", "36ab3b3b", "Foxy Grandpa", "1fe81cb3", "3-0", "2", "majors"], ["moky", "05c05957", "Zamu", "cbe5cea1", "3-1", "2", "majors"], ["Mot$", "41c65699", "Lowercase hero", "a327d9dd", "3-2", "2", "majors"], ["aMSa", "cfe7a825", "Aklo", "f43678b2", "3-1", "2", "majors"], ["Jude", "c2b31cbb", "bonfire10", "3352d0d8", "3-2", "2", "majors"], ["Agent", "a709f899", "Kalvar", "985d6ac2", "3-1", "2", "majors"], ["RapMonster", "a04e4aed", "SluG", "7fe8638e", "3-2", "2", "majors"], ["Aura", "c9b7f9dd", "Soonsay", "9c63d861", "3-0", "2", "majors"], ["Frostbyte", "90271561", "BING", "c875a8c3", "3-2", "2", "majors"], ["Kevbot", "658c6a49", "Maher", "8a47edf2", "3-1", "2", "majors"], ["Jah Ridin'", "b2526c86", "TheRealThing", "fb51e987", "3-1", "2", "majors"], ["Hungrybox", "076502c1", "Wizzrobe", "b46a1da4", "3-1", "2", "majors"], ["Cody Schwab", "da8b9c25", "Aura", "c9b7f9dd", "3-0", "2", "majors"], ["Zain", "2a371960", "Epoodle", "21470bf0", "3-0", "2", "majors"], ["SDJ", "0350ea24", "Cody Schwab", "da8b9c25", "3-1", "2", "majors"], ["moky", "05c05957", "Louis", "e46a474e", "3-2", "2", "majors"], ["Cody Schwab", "da8b9c25", "Kevbot", "658c6a49", "3-0", "2", "majors"], ["Chickenman400", "8ab7ba54", "fitzy", "2b37fc7d", "3-0", "2", "majors"], ["Kevin Maples", "309b0773", "salami", "ccb9d568", "3-0", "2", "majors"], ["Dawson", "ce4714ea", "BING", "c875a8c3", "3-2", "2", "majors"], ["Zain", "2a371960", "Joshman", "dbff9f24", "3-1", "2", "majors"], ["Morsecode762", "11307768", "Soonsay", "9c63d861", "3-1", "2", "majors"], ["Zanya", "99a355dd", "TheRealThing", "fb51e987", "3-2", "2", "majors"], ["Aklo", "f43678b2", "Agent", "a709f899", "3-0", "2", "majors"], ["Wizzrobe", "b46a1da4", "mgmg", "596f7b48", "3-0", "2", "majors"], ["Ossify", "0c449ce1", "Jude", "c2b31cbb", "3-0", "2", "majors"], ["Hungrybox", "076502c1", "SluG", "7fe8638e", "3-1", "2", "majors"], ["SDJ", "0350ea24", "RapMonster", "a04e4aed", "3-2", "2", "majors"], ["SluG", "7fe8638e", "bonfire10", "3352d0d8", "3-0", "2", "majors"], ["Spark", "a9334987", "Kalvar", "985d6ac2", "3-1", "2", "majors"], ["aMSa", "cfe7a825", "Lowercase hero", "a327d9dd", "3-0", "2", "majors"], ["Zain", "2a371960", "Aklo", "f43678b2", "3-0", "2", "majors"], ["Joshman", "dbff9f24", "DarkGenex", "89d7c7da", "3-0", "2", "majors"], ["Salt", "ebb6c120", "aMSa", "cfe7a825", "3-2", "2", "majors"], ["Zamu", "cbe5cea1", "Mot$", "41c65699", "3-0", "2", "majors"], ["RapMonster", "a04e4aed", "Preeminent", "760514b0", "3-1", "2", "majors"], ["SDJ", "0350ea24", "irfan", "36ab3b3b", "3-1", "2", "majors"], ["Wizzrobe", "b46a1da4", "moky", "05c05957", "3-1", "2", "majors"], ["Salt", "ebb6c120", "lexor", "3a26a2ca", "3-1", "2", "majors"], ["n0ne", "88547be1", "Foxy Grandpa", "1fe81cb3", "3-2", "2", "majors"], ["Joshman", "dbff9f24", "Ben", "0ad21baa", "3-1", "2", "majors"], ["Ben", "0ad21baa", "Ampp", "cad34404", "3-1", "2", "majors"], ["moky", "05c05957", "MOF", "ca0310c6", "3-0", "2", "majors"], ["aMSa", "cfe7a825", "Ginger", "01592d51", "3-1", "2", "majors"], ["Aklo", "f43678b2", "Ossify", "0c449ce1", "3-1", "2", "majors"], ["Lowercase hero", "a327d9dd", "M1sf1re", "0738f756", "3-1", "2", "majors"], ["RapMonster", "a04e4aed", "Mot$", "41c65699", "3-0", "2", "majors"], ["SluG", "7fe8638e", "Inky", "ee9105b7", "3-2", "2", "majors"], ["JoJo", "3e5ad50b", "mgmg", "596f7b48", "3-2", "2", "majors"], ["Soonsay", "9c63d861", "Krudo", "cddea7f7", "3-0", "2", "majors"], ["Maher", "8a47edf2", "fitzy", "2b37fc7d", "3-0", "2", "majors"], ["Kevbot", "658c6a49", "Ober", "178a44b0", "3-0", "2", "majors"], ["Frostbyte", "90271561", "Epoodle", "21470bf0", "3-1", "2", "majors"], ["Jah Ridin'", "b2526c86", "Louis", "e46a474e", "3-0", "2", "majors"], ["Aura", "c9b7f9dd", "Chem", "56e65e49", "3-1", "2", "majors"], ["Hungrybox", "076502c1", "Joshman", "dbff9f24", "3-2", "2", "majors"], ["Wizzrobe", "b46a1da4", "Cody Schwab", "da8b9c25", "3-2", "2", "majors"], ["Zamu", "cbe5cea1", "Ben", "0ad21baa", "3-2", "2", "majors"], ["Maelstrom", "c383a2ce", "Mono", "c41d8636", "3-0", "2", "majors"], ["Hungrybox", "076502c1", "aMSa", "cfe7a825", "3-1", "2", "majors"], ["Wizzrobe", "b46a1da4", "Aura", "c9b7f9dd", "3-0", "2", "majors"], ["Zamu", "cbe5cea1", "Chickenman400", "8ab7ba54", "3-0", "2", "majors"], ["Adwan", "1e4dba1c", "ayeGiohh", "a93187a0", "3-0", "2", "majors"], ["Ginger", "01592d51", "Kevin Maples", "309b0773", "3-2", "2", "majors"], ["Mot$", "41c65699", "Kevbot", "658c6a49", "3-2", "2", "majors"], ["Inky", "ee9105b7", "Spark", "a9334987", "3-2", "2", "majors"], ["Krudo", "cddea7f7", "Zanya", "99a355dd", "3-0", "2", "majors"], ["Chem", "56e65e49", "n0ne", "88547be1", "3-1", "2", "majors"], ["Morsecode762", "11307768", "HPR", "6862c854", "3-0", "3", "majors"], ["Jmook", "2d34f47c", "dz", "bb37c062", "3-0", "3", "majors"], ["Ben", "0ad21baa", "Just", "39e703a2", "3-2", "3", "majors"], ["n0ne", "88547be1", "Ober", "178a44b0", "3-0", "3", "majors"], ["Spark", "a9334987", "M1sf1re", "0738f756", "3-0", "3", "majors"], ["Axe", "1c278ce9", "Balloon Day", "de4f81e5", "3-0", "3", "majors"], ["Faust", "0351c73c", "Boyd", "400facfd", "3-2", "3", "majors"], ["Pleeba", "d2578a84", "Graves", "9ff819f4", "3-1", "3", "majors"], ["Free Palestine", "d529de69", "Namzerra", "42226568", "3-0", "3", "majors"], ["Drephen", "fbfaae48", "Grab", "c8cd907b", "3-0", "3", "majors"], ["salami", "ccb9d568", "OG Kid", "d6b5a970", "3-1", "3", "majors"], ["Preeminent", "760514b0", "coffee", "0046c6b3", "3-1", "3", "majors"], ["Blue", "d71c533a", "max", "fcb7988b", "3-0", "3", "majors"], ["Gahtzu", "da0dfa11", "Joey Donuts", "4df689fb", "3-1", "3", "majors"], ["Smash Papi", "1a8bfb07", "TheRealThing", "fb51e987", "3-0", "3", "majors"], ["Cody Schwab", "da8b9c25", "Zain", "2a371960", "3-1", "3", "majors"], ["Zain", "2a371960", "Cody Schwab", "da8b9c25", "3-1", "3", "majors"], ["Zain", "2a371960", "Cody Schwab", "da8b9c25", "3-0", "3", "majors"], ["Hungrybox", "076502c1", "Faust", "0351c73c", "3-0", "3", "majors"], ["Cody Schwab", "da8b9c25", "Zuppy", "aef2a867", "3-0", "3", "majors"], ["Zain", "2a371960", "n0ne", "88547be1", "3-1", "3", "majors"], ["Joshman", "dbff9f24", "Morsecode762", "11307768", "3-1", "3", "majors"], ["Wizzrobe", "b46a1da4", "MOF", "ca0310c6", "3-1", "3", "majors"], ["Smash Papi", "1a8bfb07", "RapMonster", "a04e4aed", "3-1", "3", "majors"], ["Jmook", "2d34f47c", "Aklo", "f43678b2", "3-1", "3", "majors"], ["Axe", "1c278ce9", "Preeminent", "760514b0", "3-2", "3", "majors"], ["MOF", "ca0310c6", "Lowercase hero", "a327d9dd", "3-2", "3", "majors"], ["Preeminent", "760514b0", "Spark", "a9334987", "3-1", "3", "majors"], ["Aklo", "f43678b2", "Ben", "0ad21baa", "3-0", "3", "majors"], ["Gahtzu", "da0dfa11", "RapMonster", "a04e4aed", "3-2", "3", "majors"], ["max", "fcb7988b", "Faust", "0351c73c", "3-2", "3", "majors"], ["Ginger", "01592d51", "Zuppy", "aef2a867", "3-1", "3", "majors"], ["Morsecode762", "11307768", "lexor", "3a26a2ca", "3-2", "3", "majors"], ["Cody Schwab", "da8b9c25", "Jmook", "2d34f47c", "3-1", "3", "majors"], ["lexor", "3a26a2ca", "Joey Donuts", "4df689fb", "3-1", "3", "majors"], ["max", "fcb7988b", "Pleeba", "d2578a84", "3-2", "3", "majors"], ["Jmook", "2d34f47c", "Joshman", "dbff9f24", "3-2", "3", "majors"], ["Spark", "a9334987", "Free Palestine", "d529de69", "3-0", "3", "majors"], ["Ben", "0ad21baa", "Blue", "d71c533a", "3-2", "3", "majors"], ["Lowercase hero", "a327d9dd", "Dawson", "ce4714ea", "3-1", "3", "majors"], ["Hungrybox", "076502c1", "Blue", "d71c533a", "3-1", "3", "majors"], ["Joshman", "dbff9f24", "Gahtzu", "da0dfa11", "3-1", "3", "majors"], ["Cody Schwab", "da8b9c25", "Jmook", "2d34f47c", "3-0", "3", "majors"], ["Zain", "2a371960", "Lowercase hero", "a327d9dd", "3-0", "3", "majors"], ["Cody Schwab", "da8b9c25", "Axe", "1c278ce9", "3-0", "3", "majors"], ["Cody Schwab", "da8b9c25", "Free Palestine", "d529de69", "3-1", "3", "majors"], ["Zuppy", "aef2a867", "Spark", "a9334987", "3-2", "3", "majors"], ["Jmook", "2d34f47c", "Hungrybox", "076502c1", "3-2", "3", "majors"], ["Zain", "2a371960", "Joshman", "dbff9f24", "3-2", "3", "majors"], ["Faust", "0351c73c", "Ben", "0ad21baa", "3-2", "3", "majors"], ["n0ne", "88547be1", "Dawson", "ce4714ea", "3-2", "3", "majors"], ["Smash Papi", "1a8bfb07", "SDJ", "0350ea24", "3-2", "3", "majors"], ["Wizzrobe", "b46a1da4", "Drephen", "fbfaae48", "3-2", "3", "majors"], ["Zain", "2a371960", "Wizzrobe", "b46a1da4", "3-0", "3", "majors"], ["Aklo", "f43678b2", "salami", "ccb9d568", "3-1", "3", "majors"], ["Preeminent", "760514b0", "Ginger", "01592d51", "3-2", "3", "majors"], ["Jmook", "2d34f47c", "Pleeba", "d2578a84", "3-0", "3", "majors"], ["Joshman", "dbff9f24", "Smash Papi", "1a8bfb07", "3-0", "3", "majors"], ["RapMonster", "a04e4aed", "lexor", "3a26a2ca", "3-0", "3", "majors"], ["Joshman", "dbff9f24", "Axe", "1c278ce9", "3-2", "3", "majors"], ["Jmook", "2d34f47c", "Wizzrobe", "b46a1da4", "3-2", "3", "majors"], ["Smash Papi", "1a8bfb07", "Preeminent", "760514b0", "3-2", "3", "majors"], ["Wizzrobe", "b46a1da4", "Aklo", "f43678b2", "3-1", "3", "majors"], ["Hungrybox", "076502c1", "Morsecode762", "11307768", "3-0", "3", "majors"], ["Axe", "1c278ce9", "Gahtzu", "da0dfa11", "3-0", "3", "majors"], ["Dawson", "ce4714ea", "Louis", "e46a474e", "3-1", "3", "majors"], ["Spark", "a9334987", "Balloon Day", "de4f81e5", "3-1", "3", "majors"], ["Ben", "0ad21baa", "Graves", "9ff819f4", "3-0", "3", "majors"], ["Blue", "d71c533a", "dz", "bb37c062", "3-0", "3", "majors"], ["Lowercase hero", "a327d9dd", "Grab", "c8cd907b", "3-0", "3", "majors"], ["Ginger", "01592d51", "Bless\u00e9", "2510aaeb", "3-0", "3", "majors"], ["lexor", "3a26a2ca", "Chango", "cee18be6", "3-0", "3", "majors"], ["Drephen", "fbfaae48", "Ober", "178a44b0", "3-1", "3", "majors"], ["Joey Donuts", "4df689fb", "SDJ", "0350ea24", "3-2", "3", "majors"], ["max", "fcb7988b", "salami", "ccb9d568", "3-0", "3", "majors"], ["Axe", "1c278ce9", "Hungrybox", "076502c1", "3-1", "3", "majors"], ["Wizzrobe", "b46a1da4", "Smash Papi", "1a8bfb07", "3-0", "3", "majors"], ["Preeminent", "760514b0", "max", "fcb7988b", "3-1", "3", "majors"], ["Aklo", "f43678b2", "Ginger", "01592d51", "3-1", "3", "majors"], ["Morsecode762", "11307768", "MOF", "ca0310c6", "3-0", "3", "majors"], ["Balloon Day", "de4f81e5", "Majersk", "7195d612", "3-0", "3", "majors"], ["dz", "bb37c062", "OG Kid", "d6b5a970", "3-0", "3", "majors"], ["Joey Donuts", "4df689fb", "HPR", "6862c854", "3-1", "3", "majors"], ["Namzerra", "42226568", "M1sf1re", "0738f756", "3-0", "3", "majors"], ["max", "fcb7988b", "Just", "39e703a2", "3-0", "3", "majors"], ["Majersk", "7195d612", "coffee", "0046c6b3", "3-2", "3", "majors"], ["Joey Donuts", "4df689fb", "Maher", "8a47edf2", "3-2", "3", "majors"], ["HPR", "6862c854", "Adwan", "1e4dba1c", "3-1", "3", "majors"], ["Cody Schwab", "da8b9c25", "Zain", "2a371960", "3-1", "4", "majors"], ["Cody Schwab", "da8b9c25", "Zain", "2a371960", "3-2", "4", "majors"], ["Chem", "56e65e49", "Adwan", "1e4dba1c", "3-0", "4", "majors"], ["Salt", "ebb6c120", "ayeGiohh", "a93187a0", "3-0", "4", "majors"], ["Chickenman400", "8ab7ba54", "M1sf1re", "0738f756", "3-1", "4", "majors"], ["Chango", "cee18be6", "Agent", "a709f899", "3-1", "4", "majors"], ["Fable", "543832b2", "Dawson", "ce4714ea", "3-2", "4", "majors"], ["Zasa", "4ee579fd", "Epoodle", "21470bf0", "3-1", "4", "majors"], ["Louis", "e46a474e", "Paladin", "52eea753", "3-2", "4", "majors"], ["Seven", "acf6aa2d", "max", "fcb7988b", "3-2", "4", "majors"], ["Dawson", "ce4714ea", "Bless\u00e9", "2510aaeb", "3-0", "4", "majors"], ["Zain", "2a371960", "Krudo", "cddea7f7", "3-1", "4", "majors"], ["Chem", "56e65e49", "Maelstrom", "c383a2ce", "3-1", "4", "majors"], ["moky", "05c05957", "Faust", "0351c73c", "3-0", "4", "majors"], ["Cody Schwab", "da8b9c25", "Trif", "98c0b1a8", "3-0", "4", "majors"], ["SDJ", "0350ea24", "MOF", "ca0310c6", "3-0", "4", "majors"], ["Zain", "2a371960", "lloD", "2b120752", "3-0", "4", "majors"], ["Salt", "ebb6c120", "JChu", "a925eb29", "3-1", "4", "majors"], ["Krudo", "cddea7f7", "Wizzrobe", "b46a1da4", "3-1", "4", "majors"], ["Panda", "d865e317", "Jmook", "2d34f47c", "3-0", "4", "majors"], ["aMSa", "cfe7a825", "Magi", "98db8330", "3-0", "4", "majors"], ["aMSa", "cfe7a825", "Zanya", "99a355dd", "3-1", "4", "majors"], ["Trif", "98c0b1a8", "n0ne", "88547be1", "3-1", "4", "majors"], ["Ossify", "0c449ce1", "Aklo", "f43678b2", "3-2", "4", "majors"], ["lloD", "2b120752", "Junebug", "5a13ee71", "3-0", "4", "majors"], ["MOF", "ca0310c6", "Stiv", "e70a66ca", "3-1", "4", "majors"], ["JChu", "a925eb29", "Lowercase hero", "a327d9dd", "3-0", "4", "majors"], ["Wizzrobe", "b46a1da4", "OkayP.", "f5781a84", "3-1", "4", "majors"], ["lloD", "2b120752", "Soonsay", "9c63d861", "3-2", "4", "majors"], ["Holiday", "d27d8b76", "Maelstrom", "c383a2ce", "3-1", "4", "majors"], ["Dawson", "ce4714ea", "Faust", "0351c73c", "3-2", "4", "majors"], ["Zanya", "99a355dd", "Adwan", "1e4dba1c", "3-1", "4", "majors"], ["Soonsay", "9c63d861", "n0ne", "88547be1", "L- ", "4", "majors"], ["Aklo", "f43678b2", "Mot$", "41c65699", "3-0", "4", "majors"], ["Junebug", "5a13ee71", "Grab", "c8cd907b", "3-0", "4", "majors"], ["Jmook", "2d34f47c", "Rikzz", "a4e7d0bc", "3-1", "4", "majors"], ["Spark", "a9334987", "TheRealThing", "fb51e987", "3-0", "4", "majors"], ["Magi", "98db8330", "Aklo", "f43678b2", "3-0", "4", "majors"], ["Nicki", "39493041", "Hungrybox", "076502c1", "3-1", "4", "majors"], ["Cody Schwab", "da8b9c25", "Krudo", "cddea7f7", "3-0", "4", "majors"], ["Stiv", "e70a66ca", "Gahtzu", "da0dfa11", "3-2", "4", "majors"], ["Ben", "0ad21baa", "Agent", "a709f899", "3-1", "4", "majors"], ["OkayP.", "f5781a84", "OG Kid", "d6b5a970", "3-0", "4", "majors"], ["Soonsay", "9c63d861", "Ossify", "0c449ce1", "3-1", "4", "majors"], ["Holiday", "d27d8b76", "salami", "ccb9d568", "3-1", "4", "majors"], ["SluG", "7fe8638e", "Zasa", "4ee579fd", "3-2", "4", "majors"], ["Grab", "c8cd907b", "Epoodle", "21470bf0", "3-2", "4", "majors"], ["Adwan", "1e4dba1c", "404Cray", "583c7fa9", "3-1", "4", "majors"], ["Mot$", "41c65699", "Paladin", "52eea753", "3-2", "4", "majors"], ["Drephen", "fbfaae48", "fitzy", "2b37fc7d", "3-1", "4", "majors"], ["Aklo", "f43678b2", "Panda", "d865e317", "3-1", "4", "majors"], ["Hungrybox", "076502c1", "Chango", "cee18be6", "3-0", "4", "majors"], ["Cody Schwab", "da8b9c25", "aMSa", "cfe7a825", "3-1", "4", "majors"], ["Cody Schwab", "da8b9c25", "Salt", "ebb6c120", "3-0", "4", "majors"], ["Zain", "2a371960", "Cody Schwab", "da8b9c25", "3-1", "4", "majors"], ["Cody Schwab", "da8b9c25", "Kevbot", "658c6a49", "3-0", "4", "majors"], ["Maelstrom", "c383a2ce", "Hungrybox", "076502c1", "3-1", "4", "majors"], ["Chem", "56e65e49", "Chango", "cee18be6", "3-1", "4", "majors"], ["Faust", "0351c73c", "TheRealThing", "fb51e987", "3-1", "4", "majors"], ["Trif", "98c0b1a8", "Panda", "d865e317", "3-0", "4", "majors"], ["Krudo", "cddea7f7", "aMSa", "cfe7a825", "3-0", "4", "majors"], ["Magi", "98db8330", "Seven", "acf6aa2d", "3-1", "4", "majors"], ["Krudo", "cddea7f7", "Mot$", "41c65699", "3-0", "4", "majors"], ["MOF", "ca0310c6", "Grab", "c8cd907b", "3-1", "4", "majors"], ["Zain", "2a371960", "SDJ", "0350ea24", "3-0", "4", "majors"], ["Wizzrobe", "b46a1da4", "Fable", "543832b2", "3-0", "4", "majors"], ["SDJ", "0350ea24", "lexor", "3a26a2ca", "3-0", "4", "majors"], ["lloD", "2b120752", "Axe", "1c278ce9", "3-0", "4", "majors"], ["JChu", "a925eb29", "Soonsay", "9c63d861", "3-1", "4", "majors"], ["Axe", "1c278ce9", "Zasa", "4ee579fd", "3-0", "4", "majors"], ["Magi", "98db8330", "Chem", "56e65e49", "3-0", "4", "majors"], ["Nicki", "39493041", "salami", "ccb9d568", "3-1", "4", "majors"], ["Spark", "a9334987", "Chickenman400", "8ab7ba54", "3-1", "4", "majors"], ["aMSa", "cfe7a825", "Mono", "c41d8636", "3-0", "4", "majors"], ["Aklo", "f43678b2", "OG Kid", "d6b5a970", "3-0", "4", "majors"], ["Trif", "98c0b1a8", "Lowercase hero", "a327d9dd", "3-2", "4", "majors"], ["Krudo", "cddea7f7", "moky", "05c05957", "3-0", "4", "majors"], ["Junebug", "5a13ee71", "Gahtzu", "da0dfa11", "3-1", "4", "majors"], ["Ossify", "0c449ce1", "OkayP.", "f5781a84", "3-2", "4", "majors"], ["Zanya", "99a355dd", "Ben", "0ad21baa", "3-1", "4", "majors"], ["Soonsay", "9c63d861", "moky", "05c05957", "3-2", "4", "majors"], ["Agent", "a709f899", "Mono", "c41d8636", "3-1", "4", "majors"], ["Holiday", "d27d8b76", "max", "fcb7988b", "3-2", "4", "majors"], ["Dawson", "ce4714ea", "Louis", "e46a474e", "3-1", "4", "majors"], ["Epoodle", "21470bf0", "lexor", "3a26a2ca", "3-1", "4", "majors"], ["Paladin", "52eea753", "Fable", "543832b2", "3-1", "4", "majors"], ["Adwan", "1e4dba1c", "Seven", "acf6aa2d", "3-1", "4", "majors"], ["SDJ", "0350ea24", "Nicki", "39493041", "3-0", "4", "majors"], ["Panda", "d865e317", "Wizzrobe", "b46a1da4", "3-2", "4", "majors"], ["Aklo", "f43678b2", "Salt", "ebb6c120", "3-2", "4", "majors"], ["aMSa", "cfe7a825", "lloD", "2b120752", "3-1", "4", "majors"], ["lloD", "2b120752", "Trif", "98c0b1a8", "3-1", "4", "majors"], ["Soonsay", "9c63d861", "Jmook", "2d34f47c", "3-2", "4", "majors"], ["MOF", "ca0310c6", "SluG", "7fe8638e", "3-2", "4", "majors"], ["Nicki", "39493041", "Zanya", "99a355dd", "3-0", "4", "majors"], ["Wizzrobe", "b46a1da4", "Dawson", "ce4714ea", "3-1", "4", "majors"], ["Aklo", "f43678b2", "Spark", "a9334987", "3-0", "4", "majors"], ["Krudo", "cddea7f7", "Ossify", "0c449ce1", "3-1", "5", "majors"], ["Krudo", "cddea7f7", "Salt", "ebb6c120", "3-2", "5", "majors"], ["Ossify", "0c449ce1", "Salt", "ebb6c120", "3-2", "5", "majors"], ["Ossify", "0c449ce1", "Magi", "98db8330", "3-2", "5", "majors"], ["Salt", "ebb6c120", "lloD", "2b120752", "3-1", "5", "majors"], ["Krudo", "cddea7f7", "Magi", "98db8330", "3-0", "5", "majors"], ["Paladin", "52eea753", "Bless\u00e9", "2510aaeb", "3-2", "5", "majors"], ["bonfire10", "3352d0d8", "Cilan", "d7e3fe6a", "3-2", "5", "majors"], ["Seven", "acf6aa2d", "Lowercase hero", "a327d9dd", "3-2", "5", "majors"], ["Ossify", "0c449ce1", "lloD", "2b120752", "3-2", "5", "majors"], ["Magi", "98db8330", "Aklo", "f43678b2", "3-1", "5", "majors"], ["lloD", "2b120752", "Aklo", "f43678b2", "3-1", "5", "majors"], ["Salt", "ebb6c120", "MOF", "ca0310c6", "3-1", "5", "majors"], ["Krudo", "cddea7f7", "Khryke", "0948324b", "3-2", "5", "majors"], ["Ossify", "0c449ce1", "Khryke", "0948324b", "3-0", "5", "majors"], ["Aklo", "f43678b2", "Zamu", "cbe5cea1", "3-1", "5", "majors"], ["Spark", "a9334987", "Morsecode762", "11307768", "3-1", "5", "majors"], ["Ossify", "0c449ce1", "Sirmeris", "83ae3b53", "3-0", "5", "majors"], ["Zamu", "cbe5cea1", "Wizzrobe", "b46a1da4", "3-0", "5", "majors"], ["Aklo", "f43678b2", "Sirmeris", "83ae3b53", "3-0", "5", "majors"], ["lloD", "2b120752", "Ossify", "0c449ce1", "3-2", "5", "majors"], ["MOF", "ca0310c6", "Spark", "a9334987", "3-0", "5", "majors"], ["Salt", "ebb6c120", "Morsecode762", "11307768", "3-0", "5", "majors"], ["Khryke", "0948324b", "Wizzrobe", "b46a1da4", "3-2", "5", "majors"], ["Wizzrobe", "b46a1da4", "Balloon Day", "de4f81e5", "3-0", "5", "majors"], ["Sirmeris", "83ae3b53", "Grab", "c8cd907b", "3-1", "5", "majors"], ["lloD", "2b120752", "TheRealThing", "fb51e987", "2-0", "5", "majors"], ["Ossify", "0c449ce1", "Boyd", "400facfd", "3-1", "5", "majors"], ["Salt", "ebb6c120", "Smash Papi", "1a8bfb07", "3-1", "5", "majors"], ["Spark", "a9334987", "Blue", "d71c533a", "3-0", "5", "majors"], ["Khryke", "0948324b", "Zamu", "cbe5cea1", "3-2", "5", "majors"], ["Slowking", "8646af65", "Ben", "0ad21baa", "3-0", "5", "majors"], ["Magi", "98db8330", "Free Palestine", "d529de69", "3-1", "5", "majors"], ["Krudo", "cddea7f7", "Seven", "acf6aa2d", "3-1", "5", "majors"], ["Morsecode762", "11307768", "Ober", "178a44b0", "3-0", "5", "majors"], ["Morsecode762", "11307768", "TheRealThing", "fb51e987", "3-0", "5", "majors"], ["Spark", "a9334987", "Cilan", "d7e3fe6a", "3-0", "5", "majors"], ["Ossify", "0c449ce1", "Paladin", "52eea753", "3-0", "5", "majors"], ["Sirmeris", "83ae3b53", "Blue", "d71c533a", "3-2", "5", "majors"], ["Wizzrobe", "b46a1da4", "Ben", "0ad21baa", "3-1", "5", "majors"], ["Preeminent", "760514b0", "Slowking", "8646af65", "3-1", "5", "majors"], ["Cilan", "d7e3fe6a", "Grab", "c8cd907b", "3-1", "5", "majors"], ["Paladin", "52eea753", "Ober", "178a44b0", "3-0", "5", "majors"], ["Zamu", "cbe5cea1", "Free Palestine", "d529de69", "3-0", "5", "majors"], ["Ben", "0ad21baa", "Bless\u00e9", "2510aaeb", "3-0", "5", "majors"], ["bonfire10", "3352d0d8", "mvlvchi", "c3e27b2e", "3-0", "5", "majors"], ["Lowercase hero", "a327d9dd", "Dawson", "ce4714ea", "3-2", "5", "majors"], ["Paladin", "52eea753", "Fable", "543832b2", "3-1", "5", "majors"], ["Cilan", "d7e3fe6a", "HPR", "6862c854", "3-2", "5", "majors"], ["Balloon Day", "de4f81e5", "bonfire10", "3352d0d8", "3-1", "5", "majors"], ["Sirmeris", "83ae3b53", "Preeminent", "760514b0", "3-1", "5", "majors"], ["TheRealThing", "fb51e987", "HPR", "6862c854", "3-2", "5", "majors"], ["Boyd", "400facfd", "Goodie", "1cc373a6", "3-1", "5", "majors"], ["mvlvchi", "c3e27b2e", "Pleeba", "d2578a84", "3-1", "5", "majors"], ["Blue", "d71c533a", "Paladin", "52eea753", "3-1", "5", "majors"], ["Smash Papi", "1a8bfb07", "Dawson", "ce4714ea", "3-2", "5", "majors"], ["Blue", "d71c533a", "Lowercase hero", "a327d9dd", "3-2", "5", "majors"], ["Bless\u00e9", "2510aaeb", "Seven", "acf6aa2d", "3-2", "5", "majors"], ["mvlvchi", "c3e27b2e", "Majersk", "7195d612", "3-1", "5", "majors"], ["bonfire10", "3352d0d8", "max", "fcb7988b", "3-2", "5", "majors"], ["Preeminent", "760514b0", "Pleeba", "d2578a84", "3-0", "5", "majors"], ["HPR", "6862c854", "Just", "39e703a2", "3-2", "5", "majors"], ["TheRealThing", "fb51e987", "dz", "bb37c062", "3-0", "5", "majors"], ["Grab", "c8cd907b", "Goodie", "1cc373a6", "3-0", "5", "majors"], ["Cilan", "d7e3fe6a", "Smash Papi", "1a8bfb07", "3-0", "5", "majors"], ["Ober", "178a44b0", "M1sf1re", "0738f756", "3-2", "5", "majors"], ["Paladin", "52eea753", "Boyd", "400facfd", "3-1", "5", "majors"], ["dz", "bb37c062", "RapMonster", "a04e4aed", "3-1", "5", "majors"], ["Zain", "2a371960", "Hungrybox", "076502c1", "3-1", "6", "majors"], ["Zain", "2a371960", "Hungrybox", "076502c1", "3-2", "6", "majors"], ["Joshman", "dbff9f24", "Kevbot", "658c6a49", "3-0", "6", "majors"], ["moky", "05c05957", "Chem", "56e65e49", "3-0", "6", "majors"], ["Zain", "2a371960", "Aklo", "f43678b2", "3-0", "6", "majors"], ["Zain", "2a371960", "DarkGenex", "89d7c7da", "3-0", "6", "majors"], ["lloD", "2b120752", "SDJ", "0350ea24", "3-0", "6", "majors"], ["Foxy Grandpa", "1fe81cb3", "Junebug", "5a13ee71", "3-2", "6", "majors"], ["Magi", "98db8330", "fitzy", "2b37fc7d", "3-0", "6", "majors"], ["Panda", "d865e317", "Aura", "c9b7f9dd", "3-2", "6", "majors"], ["lloD", "2b120752", "Kevin Maples", "309b0773", "3-0", "6", "majors"], ["SDJ", "0350ea24", "Faith", "75356062", "3-2", "6", "majors"], ["Axe", "1c278ce9", "max", "fcb7988b", "3-2", "6", "majors"], ["404Cray", "583c7fa9", "Salt", "ebb6c120", "3-1", "6", "majors"], ["Hungrybox", "076502c1", "Zamu", "cbe5cea1", "3-1", "6", "majors"], ["Trif", "98c0b1a8", "SluG", "7fe8638e", "3-1", "6", "majors"], ["Aklo", "f43678b2", "Zuppy", "aef2a867", "3-2", "6", "majors"], ["Zamu", "cbe5cea1", "Krudo", "cddea7f7", "3-1", "6", "majors"], ["Nicki", "39493041", "Jmook", "2d34f47c", "3-1", "6", "majors"], ["Joshman", "dbff9f24", "Axe", "1c278ce9", "3-2", "6", "majors"], ["Kevin Maples", "309b0773", "Fable", "543832b2", "3-0", "6", "majors"], ["SDJ", "0350ea24", "Trif", "98c0b1a8", "3-0", "6", "majors"], ["Aura", "c9b7f9dd", "Louis", "e46a474e", "3-1", "6", "majors"], ["Junebug", "5a13ee71", "OG Kid", "d6b5a970", "3-2", "6", "majors"], ["Chem", "56e65e49", "JoJo", "3e5ad50b", "3-1", "6", "majors"], ["Aklo", "f43678b2", "Epoodle", "21470bf0", "3-2", "6", "majors"], ["Krudo", "cddea7f7", "Kalvar", "985d6ac2", "3-2", "6", "majors"], ["Jmook", "2d34f47c", "eve", "ab9ccde5", "3-0", "6", "majors"], ["Nicki", "39493041", "Axe", "1c278ce9", "3-0", "6", "majors"], ["Salt", "ebb6c120", "Boyd", "400facfd", "3-1", "6", "majors"], ["Epoodle", "21470bf0", "max", "fcb7988b", "3-0", "6", "majors"], ["Zamu", "cbe5cea1", "Jmook", "2d34f47c", "3-0", "6", "majors"], ["Hungrybox", "076502c1", "Joshman", "dbff9f24", "3-2", "6", "majors"], ["OG Kid", "d6b5a970", "Fudge", "f6ca53b8", "3-0", "6", "majors"], ["Louis", "e46a474e", "Freezus", "7dc6fc10", "3-0", "6", "majors"], ["Trif", "98c0b1a8", "Krudo", "cddea7f7", "3-0", "6", "majors"], ["Epoodle", "21470bf0", "SluG", "7fe8638e", "3-0", "6", "majors"], ["Nicki", "39493041", "moky", "05c05957", "3-1", "6", "majors"], ["eve", "ab9ccde5", "Maher", "8a47edf2", "3-2", "6", "majors"], ["Boyd", "400facfd", "Dawson", "ce4714ea", "3-2", "6", "majors"], ["Jmook", "2d34f47c", "Spark", "a9334987", "3-0", "6", "majors"], ["Joshman", "dbff9f24", "lloD", "2b120752", "3-1", "6", "majors"], ["Zain", "2a371960", "Foxy Grandpa", "1fe81cb3", "3-0", "6", "majors"], ["Hungrybox", "076502c1", "Boyd", "400facfd", "3-0", "6", "majors"], ["Zain", "2a371960", "lloD", "2b120752", "3-1", "6", "majors"], ["DarkGenex", "89d7c7da", "Zanya", "99a355dd", "3-0", "6", "majors"], ["Kevbot", "658c6a49", "Epoodle", "21470bf0", "3-1", "6", "majors"], ["Hungrybox", "076502c1", "Joshman", "dbff9f24", "3-2", "6", "majors"], ["Aklo", "f43678b2", "Spark", "a9334987", "3-1", "6", "majors"], ["lloD", "2b120752", "moky", "05c05957", "3-1", "6", "majors"], ["lloD", "2b120752", "eve", "ab9ccde5", "3-0", "6", "majors"], ["Aura", "c9b7f9dd", "Adwan", "1e4dba1c", "3-2", "6", "majors"], ["Kevin Maples", "309b0773", "Maher", "8a47edf2", "3-0", "6", "majors"], ["Panda", "d865e317", "Kalvar", "985d6ac2", "3-2", "6", "majors"], ["SDJ", "0350ea24", "Nicki", "39493041", "3-1", "6", "majors"], ["Axe", "1c278ce9", "bonn", "7e846f71", "3-1", "6", "majors"], ["Hungrybox", "076502c1", "Panda", "d865e317", "3-0", "6", "majors"], ["404Cray", "583c7fa9", "Agent", "a709f899", "3-2", "6", "majors"], ["Zamu", "cbe5cea1", "404Cray", "583c7fa9", "3-2", "6", "majors"], ["Faith", "75356062", "JoJo", "3e5ad50b", "3-0", "6", "majors"], ["Spark", "a9334987", "Lowercase hero", "a327d9dd", "3-1", "6", "majors"], ["Joshman", "dbff9f24", "Magi", "98db8330", "3-0", "6", "majors"], ["Aklo", "f43678b2", "Fudge", "f6ca53b8", "3-2", "6", "majors"], ["Krudo", "cddea7f7", "Louis", "e46a474e", "3-0", "6", "majors"], ["Zuppy", "aef2a867", "Grab", "c8cd907b", "3-1", "6", "majors"], ["Axe", "1c278ce9", "Trif", "98c0b1a8", "3-2", "6", "majors"], ["Zamu", "cbe5cea1", "Freezus", "7dc6fc10", "3-0", "6", "majors"], ["Nicki", "39493041", "Mot$", "41c65699", "3-1", "6", "majors"], ["Krudo", "cddea7f7", "Magi", "98db8330", "3-2", "6", "majors"], ["Epoodle", "21470bf0", "404Cray", "583c7fa9", "3-0", "6", "majors"], ["SluG", "7fe8638e", "Panda", "d865e317", "3-2", "6", "majors"], ["Nicki", "39493041", "Aura", "c9b7f9dd", "3-2", "6", "majors"], ["moky", "05c05957", "Zuppy", "aef2a867", "3-1", "6", "majors"], ["Spark", "a9334987", "fitzy", "2b37fc7d", "3-0", "6", "majors"], ["Jmook", "2d34f47c", "Foxy Grandpa", "1fe81cb3", "3-1", "6", "majors"], ["Joshman", "dbff9f24", "Aklo", "f43678b2", "3-1", "6", "majors"], ["lloD", "2b120752", "Nicki", "39493041", "3-0", "6", "majors"], ["Fable", "543832b2", "Mot$", "41c65699", "3-2", "6", "majors"], ["OG Kid", "d6b5a970", "Grab", "c8cd907b", "3-1", "6", "majors"], ["Trif", "98c0b1a8", "Junebug", "5a13ee71", "3-0", "6", "majors"], ["Aklo", "f43678b2", "SDJ", "0350ea24", "3-1", "6", "majors"], ["Nicki", "39493041", "Zamu", "cbe5cea1", "3-1", "6", "majors"], ["Junebug", "5a13ee71", "Salt", "ebb6c120", "3-2", "6", "majors"], ["Krudo", "cddea7f7", "DarkGenex", "89d7c7da", "3-1", "6", "majors"], ["Epoodle", "21470bf0", "Kevin Maples", "309b0773", "3-2", "6", "majors"], ["SluG", "7fe8638e", "Chem", "56e65e49", "3-0", "6", "majors"], ["Aura", "c9b7f9dd", "Zanya", "99a355dd", "3-2", "6", "majors"], ["Zuppy", "aef2a867", "Agent", "a709f899", "3-0", "6", "majors"], ["fitzy", "2b37fc7d", "Faith", "75356062", "3-1", "6", "majors"], ["Soonsay", "9c63d861", "Ampp", "cad34404", "3-0", "7", "majors"], ["salami", "ccb9d568", "Mono", "c41d8636", "3-1", "7", "majors"], ["Inky", "ee9105b7", "DayDream", "5155d29c", "3-0", "7", "majors"], ["max", "fcb7988b", "Chango", "cee18be6", "3-0", "7", "majors"], ["Zain", "2a371960", "n0ne", "88547be1", "3-2", "7", "majors"], ["aMSa", "cfe7a825", "Wizzrobe", "b46a1da4", "3-2", "7", "majors"], ["Axe", "1c278ce9", "Joshman", "dbff9f24", "3-2", "7", "majors"], ["Jmook", "2d34f47c", "Stiv", "e70a66ca", "3-1", "7", "majors"], ["Spark", "a9334987", "Graves", "9ff819f4", "3-0", "7", "majors"], ["moky", "05c05957", "salami", "ccb9d568", "3-1", "7", "majors"], ["max", "fcb7988b", "OG Kid", "d6b5a970", "3-1", "7", "majors"], ["Zuppy", "aef2a867", "Ampp", "cad34404", "3-1", "7", "majors"], ["Preeminent", "760514b0", "Maher", "8a47edf2", "3-1", "7", "majors"], ["Hungrybox", "076502c1", "Jmook", "2d34f47c", "3-1", "7", "majors"], ["Zain", "2a371960", "Aura", "c9b7f9dd", "3-0", "7", "majors"], ["Zain", "2a371960", "Axe", "1c278ce9", "3-1", "7", "majors"], ["Soonsay", "9c63d861", "Preeminent", "760514b0", "3-1", "7", "majors"], ["Aura", "c9b7f9dd", "Spark", "a9334987", "3-0", "7", "majors"], ["n0ne", "88547be1", "Agent", "a709f899", "3-2", "7", "majors"], ["Wizzrobe", "b46a1da4", "DarkGenex", "89d7c7da", "3-1", "7", "majors"], ["Joshman", "dbff9f24", "max", "fcb7988b", "3-0", "7", "majors"], ["aMSa", "cfe7a825", "Zuppy", "aef2a867", "3-0", "7", "majors"], ["Hungrybox", "076502c1", "Jmook", "2d34f47c", "3-0", "7", "majors"], ["Graves", "9ff819f4", "moky", "05c05957", "3-2", "7", "majors"], ["Jmook", "2d34f47c", "Inky", "ee9105b7", "3-0", "7", "majors"], ["Spark", "a9334987", "salami", "ccb9d568", "3-1", "7", "majors"], ["Ampp", "cad34404", "DarkGenex", "89d7c7da", "3-2", "7", "majors"], ["max", "fcb7988b", "Goodie", "1cc373a6", "3-1", "7", "majors"], ["Preeminent", "760514b0", "DayDream", "5155d29c", "3-1", "7", "majors"], ["Hungrybox", "076502c1", "Axe", "1c278ce9", "3-1", "7", "majors"], ["Jmook", "2d34f47c", "Aura", "c9b7f9dd", "3-1", "7", "majors"], ["Spark", "a9334987", "max", "fcb7988b", "3-1", "7", "majors"], ["Axe", "1c278ce9", "Soonsay", "9c63d861", "3-2", "7", "majors"], ["Jmook", "2d34f47c", "Zuppy", "aef2a867", "3-0", "7", "majors"], ["aMSa", "cfe7a825", "n0ne", "88547be1", "3-0", "7", "majors"], ["Axe", "1c278ce9", "Spark", "a9334987", "3-1", "7", "majors"], ["Jmook", "2d34f47c", "aMSa", "cfe7a825", "3-1", "7", "majors"], ["Soonsay", "9c63d861", "Wizzrobe", "b46a1da4", "3-2", "7", "majors"], ["Zuppy", "aef2a867", "Preeminent", "760514b0", "3-1", "7", "majors"], ["n0ne", "88547be1", "Joshman", "dbff9f24", "3-2", "7", "majors"], ["Wizzrobe", "b46a1da4", "Chango", "cee18be6", "3-1", "7", "majors"], ["Soonsay", "9c63d861", "moky", "05c05957", "3-1", "7", "majors"], ["Preeminent", "760514b0", "Graves", "9ff819f4", "3-0", "7", "majors"], ["n0ne", "88547be1", "Inky", "ee9105b7", "3-2", "7", "majors"], ["Cody Schwab", "da8b9c25", "Joshman", "dbff9f24", "3-0", "8", "majors"], ["Cody Schwab", "da8b9c25", "Joshman", "dbff9f24", "3-2", "8", "majors"], ["Joshman", "dbff9f24", "Nicki", "39493041", "3-1", "8", "majors"], ["moky", "05c05957", "Balloon Day", "de4f81e5", "3-0", "8", "majors"], ["Axe", "1c278ce9", "Kalvar", "985d6ac2", "3-0", "8", "majors"], ["Magi", "98db8330", "SluG", "7fe8638e", "3-2", "8", "majors"], ["Cody Schwab", "da8b9c25", "Jude", "c2b31cbb", "3-1", "8", "majors"], ["Krudo", "cddea7f7", "Mono", "c41d8636", "3-0", "8", "majors"], ["Jmook", "2d34f47c", "Lowercase hero", "a327d9dd", "3-0", "8", "majors"], ["Nicki", "39493041", "Just", "39e703a2", "3-0", "8", "majors"], ["Joshman", "dbff9f24", "TheRealThing", "fb51e987", "3-0", "8", "majors"], ["Panda", "d865e317", "Zuppy", "aef2a867", "3-1", "8", "majors"], ["MOF", "ca0310c6", "BING", "c875a8c3", "3-1", "8", "majors"], ["Junebug", "5a13ee71", "Sirmeris", "83ae3b53", "3-0", "8", "majors"], ["Drephen", "fbfaae48", "Soonsay", "9c63d861", "3-1", "8", "majors"], ["TheRealThing", "fb51e987", "max", "fcb7988b", "3-0", "8", "majors"], ["Mono", "c41d8636", "Boyd", "400facfd", "3-1", "8", "majors"], ["DarkGenex", "89d7c7da", "SluG", "7fe8638e", "3-2", "8", "majors"], ["Just", "39e703a2", "Ampp", "cad34404", "3-1", "8", "majors"], ["Balloon Day", "de4f81e5", "Bless\u00e9", "2510aaeb", "3-1", "8", "majors"], ["JoJo", "3e5ad50b", "Kalvar", "985d6ac2", "3-2", "8", "majors"], ["Soonsay", "9c63d861", "OG Kid", "d6b5a970", "3-2", "8", "majors"], ["Sirmeris", "83ae3b53", "Maher", "8a47edf2", "3-1", "8", "majors"], ["BING", "c875a8c3", "Holiday", "d27d8b76", "3-0", "8", "majors"], ["Lowercase hero", "a327d9dd", "M1sf1re", "0738f756", "3-1", "8", "majors"], ["Cody Schwab", "da8b9c25", "Nicki", "39493041", "3-2", "8", "majors"], ["Cody Schwab", "da8b9c25", "MOF", "ca0310c6", "3-2", "8", "majors"], ["Joshman", "dbff9f24", "Jmook", "2d34f47c", "3-0", "8", "majors"], ["Balloon Day", "de4f81e5", "DarkGenex", "89d7c7da", "3-2", "8", "majors"], ["Kalvar", "985d6ac2", "Boyd", "400facfd", "3-1", "8", "majors"], ["Joshman", "dbff9f24", "ayeGiohh", "a93187a0", "3-0", "8", "majors"], ["Magi", "98db8330", "Bless\u00e9", "2510aaeb", "3-1", "8", "majors"], ["mgmg", "596f7b48", "OG Kid", "d6b5a970", "3-2", "8", "majors"], ["Lowercase hero", "a327d9dd", "Holiday", "d27d8b76", "3-1", "8", "majors"], ["Mono", "c41d8636", "JoJo", "3e5ad50b", "3-0", "8", "majors"], ["MOF", "ca0310c6", "M1sf1re", "0738f756", "3-1", "8", "majors"], ["MOF", "ca0310c6", "Jmook", "2d34f47c", "3-1", "8", "majors"], ["MOF", "ca0310c6", "Aklo", "f43678b2", "3-1", "8", "majors"], ["Cody Schwab", "da8b9c25", "moky", "05c05957", "3-0", "8", "majors"], ["Nicki", "39493041", "Junebug", "5a13ee71", "3-2", "8", "majors"], ["Joshman", "dbff9f24", "Cody Schwab", "da8b9c25", "3-0", "8", "majors"], ["Jmook", "2d34f47c", "Axe", "1c278ce9", "3-1", "8", "majors"], ["MOF", "ca0310c6", "Magi", "98db8330", "3-2", "8", "majors"], ["Aklo", "f43678b2", "Junebug", "5a13ee71", "3-1", "8", "majors"], ["moky", "05c05957", "Axe", "1c278ce9", "3-1", "8", "majors"], ["Cody Schwab", "da8b9c25", "Zain", "2a371960", "3-2", "8", "majors"], ["MOF", "ca0310c6", "Krudo", "cddea7f7", "3-2", "8", "majors"], ["Aklo", "f43678b2", "Panda", "d865e317", "3-1", "8", "majors"], ["moky", "05c05957", "TheRealThing", "fb51e987", "3-1", "8", "majors"], ["Zain", "2a371960", "mgmg", "596f7b48", "3-1", "8", "majors"], ["Junebug", "5a13ee71", "Zain", "2a371960", "3-1", "8", "majors"], ["Nicki", "39493041", "Faust", "0351c73c", "3-0", "8", "majors"], ["Magi", "98db8330", "moky", "05c05957", "3-1", "8", "majors"], ["Cody Schwab", "da8b9c25", "Panda", "d865e317", "3-1", "8", "majors"], ["Joshman", "dbff9f24", "Aklo", "f43678b2", "3-0", "8", "majors"], ["Jmook", "2d34f47c", "MOF", "ca0310c6", "3-1", "8", "majors"], ["Axe", "1c278ce9", "Krudo", "cddea7f7", "3-0", "8", "majors"], ["MOF", "ca0310c6", "Just", "39e703a2", "3-0", "8", "majors"], ["Aklo", "f43678b2", "Soonsay", "9c63d861", "3-1", "8", "majors"], ["Panda", "d865e317", "DarkGenex", "89d7c7da", "3-0", "8", "majors"], ["TheRealThing", "fb51e987", "Drephen", "fbfaae48", "3-1", "8", "majors"], ["mgmg", "596f7b48", "Faust", "0351c73c", "3-1", "8", "majors"], ["Zain", "2a371960", "Mono", "c41d8636", "3-1", "8", "majors"], ["Krudo", "cddea7f7", "Sirmeris", "83ae3b53", "3-1", "8", "majors"], ["Sirmeris", "83ae3b53", "Jude", "c2b31cbb", "3-0", "8", "majors"], ["Soonsay", "9c63d861", "Lowercase hero", "a327d9dd", "3-0", "8", "majors"], ["DarkGenex", "89d7c7da", "JoJo", "3e5ad50b", "3-1", "8", "majors"], ["mgmg", "596f7b48", "BING", "c875a8c3", "3-1", "8", "majors"], ["Mono", "c41d8636", "Balloon Day", "de4f81e5", "3-1", "8", "majors"], ["moky", "05c05957", "Hungrybox", "076502c1", "3-2", "9", "majors"], ["Hungrybox", "076502c1", "moky", "05c05957", "3-2", "9", "majors"], ["Wizzrobe", "b46a1da4", "Freezus", "7dc6fc10", "3-0", "9", "majors"], ["Preeminent", "760514b0", "Jude", "c2b31cbb", "3-0", "9", "majors"], ["Zasa", "4ee579fd", "Chem", "56e65e49", "3-1", "9", "majors"], ["Lowercase hero", "a327d9dd", "Gahtzu", "da0dfa11", "3-1", "9", "majors"], ["Ben", "0ad21baa", "Fudge", "f6ca53b8", "3-2", "9", "majors"], ["JChu", "a925eb29", "Paladin", "52eea753", "3-0", "9", "majors"], ["Gahtzu", "da0dfa11", "OG Kid", "d6b5a970", "3-2", "9", "majors"], ["Hungrybox", "076502c1", "moky", "05c05957", "3-2", "9", "majors"], ["Hungrybox", "076502c1", "Panda", "d865e317", "3-2", "9", "majors"], ["Aklo", "f43678b2", "Wizzrobe", "b46a1da4", "3-2", "9", "majors"], ["Axe", "1c278ce9", "Krudo", "cddea7f7", "3-0", "9", "majors"], ["Wizzrobe", "b46a1da4", "Ben", "0ad21baa", "3-1", "9", "majors"], ["Panda", "d865e317", "MOF", "ca0310c6", "3-2", "9", "majors"], ["JChu", "a925eb29", "Krudo", "cddea7f7", "3-2", "9", "majors"], ["moky", "05c05957", "Aklo", "f43678b2", "3-2", "9", "majors"], ["Ben", "0ad21baa", "Zain", "2a371960", "3-2", "9", "majors"], ["MOF", "ca0310c6", "Fudge", "f6ca53b8", "3-1", "9", "majors"], ["JChu", "a925eb29", "Gahtzu", "da0dfa11", "3-0", "9", "majors"], ["Aklo", "f43678b2", "Axe", "1c278ce9", "3-1", "9", "majors"], ["Hungrybox", "076502c1", "Aklo", "f43678b2", "3-0", "9", "majors"], ["moky", "05c05957", "Axe", "1c278ce9", "3-1", "9", "majors"], ["Wizzrobe", "b46a1da4", "Preeminent", "760514b0", "3-1", "9", "majors"], ["Aklo", "f43678b2", "JChu", "a925eb29", "3-1", "9", "majors"], ["moky", "05c05957", "Lowercase hero", "a327d9dd", "3-0", "9", "majors"], ["Axe", "1c278ce9", "Zasa", "4ee579fd", "3-1", "9", "majors"], ["Krudo", "cddea7f7", "Ben", "0ad21baa", "3-2", "9", "majors"], ["Zain", "2a371960", "Zasa", "4ee579fd", "3-2", "9", "majors"], ["Fudge", "f6ca53b8", "Lowercase hero", "a327d9dd", "3-1", "9", "majors"], ["Gahtzu", "da0dfa11", "Preeminent", "760514b0", "3-1", "9", "majors"], ["Axe", "1c278ce9", "Wizzrobe", "b46a1da4", "3-1", "9", "majors"], ["Aklo", "f43678b2", "JChu", "a925eb29", "3-0", "9", "majors"], ["Ben", "0ad21baa", "Mono", "c41d8636", "3-1", "9", "majors"], ["Wizzrobe", "b46a1da4", "Panda", "d865e317", "3-1", "9", "majors"], ["Fudge", "f6ca53b8", "Jude", "c2b31cbb", "3-0", "9", "majors"], ["Chem", "56e65e49", "Paladin", "52eea753", "3-2", "9", "majors"], ["Joshman", "dbff9f24", "Krudo", "cddea7f7", "3-0", "10", "majors"], ["Salt", "ebb6c120", "Soonsay", "9c63d861", "3-1", "10", "majors"], ["Axe", "1c278ce9", "Joshman", "dbff9f24", "3-2", "10", "majors"], ["Soonsay", "9c63d861", "n0ne", "88547be1", "3-2", "10", "majors"], ["Krudo", "cddea7f7", "Aura", "c9b7f9dd", "3-1", "10", "majors"], ["Zain", "2a371960", "Salt", "ebb6c120", "3-0", "10", "majors"], ["Cody Schwab", "da8b9c25", "moky", "05c05957", "3-0", "10", "majors"], ["Cody Schwab", "da8b9c25", "Hungrybox", "076502c1", "3-0", "10", "majors"], ["moky", "05c05957", "Zain", "2a371960", "3-1", "10", "majors"], ["Salt", "ebb6c120", "Krudo", "cddea7f7", "3-1", "10", "majors"], ["Joshman", "dbff9f24", "Junebug", "5a13ee71", "3-1", "10", "majors"], ["Axe", "1c278ce9", "n0ne", "88547be1", "3-1", "10", "majors"], ["Soonsay", "9c63d861", "Aklo", "f43678b2", "3-0", "10", "majors"], ["Cody Schwab", "da8b9c25", "moky", "05c05957", "3-2", "10", "majors"], ["Cody Schwab", "da8b9c25", "Salt", "ebb6c120", "3-1", "10", "majors"], ["Hungrybox", "076502c1", "Axe", "1c278ce9", "3-1", "10", "majors"], ["moky", "05c05957", "Hungrybox", "076502c1", "3-2", "10", "majors"], ["moky", "05c05957", "Joshman", "dbff9f24", "3-1", "10", "majors"], ["n0ne", "88547be1", "Trif", "98c0b1a8", "3-2", "10", "majors"], ["Junebug", "5a13ee71", "Soonsay", "9c63d861", "3-0", "10", "majors"], ["Aura", "c9b7f9dd", "Aklo", "f43678b2", "3-1", "10", "majors"], ["Hungrybox", "076502c1", "Axe", "1c278ce9", "3-0", "10", "majors"], ["moky", "05c05957", "Salt", "ebb6c120", "3-0", "10", "majors"], ["Cody Schwab", "da8b9c25", "Hungrybox", "076502c1", "3-2", "10", "majors"], ["moky", "05c05957", "Axe", "1c278ce9", "3-2", "10", "majors"], ["Cody Schwab", "da8b9c25", "Joshman", "dbff9f24", "3-1", "10", "majors"], ["Hungrybox", "076502c1", "Zain", "2a371960", "3-2", "10", "majors"], ["Cody Schwab", "da8b9c25", "n0ne", "88547be1", "3-0", "10", "majors"], ["Salt", "ebb6c120", "Trif", "98c0b1a8", "3-2", "10", "majors"], ["Hungrybox", "076502c1", "Krudo", "cddea7f7", "3-0", "10", "majors"], ["Zain", "2a371960", "Soonsay", "9c63d861", "3-2", "10", "majors"], ["Joshman", "dbff9f24", "Aura", "c9b7f9dd", "3-2", "10", "majors"], ["Axe", "1c278ce9", "Zain", "2a371960", "3-2", "10", "majors"], ["moky", "05c05957", "Aklo", "f43678b2", "3-0", "10", "majors"], ["Zain", "2a371960", "Soonsay", "9c63d861", "3-1", "10", "majors"], ["Joshman", "dbff9f24", "Aklo", "f43678b2", "3-0", "10", "majors"], ["n0ne", "88547be1", "Salt", "ebb6c120", "3-1", "10", "majors"], ["Zain", "2a371960", "Joshman", "dbff9f24", "3-1", "10", "majors"], ["Soonsay", "9c63d861", "Aura", "c9b7f9dd", "3-2", "10", "majors"], ["Trif", "98c0b1a8", "Krudo", "cddea7f7", "3-2", "10", "majors"], ["n0ne", "88547be1", "Junebug", "5a13ee71", "3-1", "10", "majors"], ["Axe", "1c278ce9", "Krudo", "cddea7f7", "3-0", "11", "majors"], ["Jmook", "2d34f47c", "Soonsay", "9c63d861", "3-2", "11", "majors"], ["lloD", "2b120752", "SDJ", "0350ea24", "3-2", "11", "majors"], ["Zain", "2a371960", "Hungrybox", "076502c1", "3-1", "11", "majors"], ["Cody Schwab", "da8b9c25", "moky", "05c05957", "3-0", "11", "majors"], ["Goodie", "1cc373a6", "Aklo", "f43678b2", "3-2", "11", "majors"], ["Nicki", "39493041", "Joshman", "dbff9f24", "3-2", "11", "majors"], ["Zain", "2a371960", "Aklo", "f43678b2", "3-0", "11", "majors"], ["Cody Schwab", "da8b9c25", "Joshman", "dbff9f24", "3-2", "11", "majors"], ["Hungrybox", "076502c1", "Jmook", "2d34f47c", "3-1", "11", "majors"], ["moky", "05c05957", "Axe", "1c278ce9", "3-1", "11", "majors"], ["Trif", "98c0b1a8", "Goodie", "1cc373a6", "3-0", "11", "majors"], ["SDJ", "0350ea24", "Nicki", "39493041", "3-1", "11", "majors"], ["lloD", "2b120752", "Krudo", "cddea7f7", "3-2", "11", "majors"], ["Cody Schwab", "da8b9c25", "Axe", "1c278ce9", "3-0", "11", "majors"], ["Zain", "2a371960", "Jmook", "2d34f47c", "3-0", "11", "majors"], ["Joshman", "dbff9f24", "SDJ", "0350ea24", "3-2", "11", "majors"], ["Trif", "98c0b1a8", "Aklo", "f43678b2", "3-2", "11", "majors"], ["moky", "05c05957", "lloD", "2b120752", "3-0", "11", "majors"], ["Nicki", "39493041", "Krudo", "cddea7f7", "3-0", "11", "majors"], ["Soonsay", "9c63d861", "Goodie", "1cc373a6", "3-2", "11", "majors"], ["Cody Schwab", "da8b9c25", "Jmook", "2d34f47c", "3-0", "11", "majors"], ["Zain", "2a371960", "Trif", "98c0b1a8", "3-2", "11", "majors"], ["Cody Schwab", "da8b9c25", "SDJ", "0350ea24", "3-2", "11", "majors"], ["Axe", "1c278ce9", "lloD", "2b120752", "3-0", "11", "majors"], ["Soonsay", "9c63d861", "Aklo", "f43678b2", "3-2", "11", "majors"], ["Joshman", "dbff9f24", "Krudo", "cddea7f7", "3-2", "11", "majors"], ["Hungrybox", "076502c1", "Goodie", "1cc373a6", "3-0", "11", "majors"], ["Nicki", "39493041", "moky", "05c05957", "3-1", "11", "majors"], ["Cody Schwab", "da8b9c25", "Jmook", "2d34f47c", "3-1", "11", "majors"], ["Cody Schwab", "da8b9c25", "lloD", "2b120752", "3-1", "11", "majors"], ["Trif", "98c0b1a8", "Soonsay", "9c63d861", "3-1", "11", "majors"], ["Krudo", "cddea7f7", "SDJ", "0350ea24", "3-2", "11", "majors"], ["Jmook", "2d34f47c", "Goodie", "1cc373a6", "3-0", "11", "majors"], ["Nicki", "39493041", "Axe", "1c278ce9", "3-0", "11", "majors"], ["moky", "05c05957", "Joshman", "dbff9f24", "3-2", "11", "majors"], ["Hungrybox", "076502c1", "Aklo", "f43678b2", "3-0", "11", "majors"], ["Jmook", "2d34f47c", "Zain", "2a371960", "3-0", "11", "majors"], ["Zain", "2a371960", "Hungrybox", "076502c1", "3-0", "11", "majors"], ["Jmook", "2d34f47c", "Zain", "2a371960", "3-2", "11", "majors"], ["Cody Schwab", "da8b9c25", "Hungrybox", "076502c1", "3-1", "11", "majors"], ["Zain", "2a371960", "Soonsay", "9c63d861", "3-2", "11", "majors"], ["Cody Schwab", "da8b9c25", "Krudo", "cddea7f7", "3-0", "11", "majors"], ["lloD", "2b120752", "Nicki", "39493041", "3-1", "11", "majors"], ["Hungrybox", "076502c1", "Trif", "98c0b1a8", "3-2", "11", "majors"], ["moky", "05c05957", "SDJ", "0350ea24", "3-0", "11", "majors"], ["Jmook", "2d34f47c", "Aklo", "f43678b2", "3-2", "11", "majors"], ["Axe", "1c278ce9", "Joshman", "dbff9f24", "3-2", "11", "majors"], ["Zain", "2a371960", "lloD", "2b120752", "3-1", "11", "majors"], ["Hungrybox", "076502c1", "Joshman", "dbff9f24", "3-0", "11", "majors"], ["lloD", "2b120752", "Soonsay", "9c63d861", "3-0", "11", "majors"], ["Joshman", "dbff9f24", "Axe", "1c278ce9", "3-0", "11", "majors"], ["Zain", "2a371960", "Axe", "1c278ce9", "3-0", "11", "majors"], ["Jmook", "2d34f47c", "moky", "05c05957", "3-2", "11", "majors"], ["Cody Schwab", "da8b9c25", "Trif", "98c0b1a8", "3-1", "11", "majors"], ["Hungrybox", "076502c1", "Nicki", "39493041", "3-0", "11", "majors"], ["Zain", "2a371960", "Goodie", "1cc373a6", "3-0", "11", "majors"], ["Cody Schwab", "da8b9c25", "Nicki", "39493041", "3-1", "11", "majors"], ["moky", "05c05957", "Krudo", "cddea7f7", "3-2", "11", "majors"], ["Hungrybox", "076502c1", "Soonsay", "9c63d861", "3-1", "11", "majors"], ["Joshman", "dbff9f24", "lloD", "2b120752", "3-0", "11", "majors"], ["SDJ", "0350ea24", "Axe", "1c278ce9", "3-1", "11", "majors"], ["Jmook", "2d34f47c", "Trif", "98c0b1a8", "3-0", "11", "majors"], ["Soonsay", "9c63d861", "Nicki", "39493041", "3-2", "11", "majors"], ["lloD", "2b120752", "Trif", "98c0b1a8", "3-2", "11", "majors"], ["Joshman", "dbff9f24", "moky", "05c05957", "3-2", "11", "majors"], ["Axe", "1c278ce9", "SDJ", "0350ea24", "3-1", "11", "majors"], ["Soonsay", "9c63d861", "Krudo", "cddea7f7", "3-2", "11", "majors"], ["lloD", "2b120752", "Goodie", "1cc373a6", "3-2", "11", "majors"], ["Joshman", "dbff9f24", "Aklo", "f43678b2", "3-1", "11", "majors"]]
+	
+	function getFilteredMatches() {
+	    var filter = $("input[name='filter']:checked").val();
+	    var excludedRows = getExcludedRows();
+	    var filteredMatches = matches.filter(function(match, index) {
+		if (excludedRows.includes(index)) {
+		    return false;
+		}
+		if (filter === "majorAndRegional") {
+		    return match[6] === 'majors' || match[6] === 'regionals';
+		}
+		return filter == "all" || match[6] == filter;
+	    });
+	    return filteredMatches;
+	}
+      
+        function createCrossTableData(filteredMatches) {
+            var data = { };
+
+            players.forEach(function(id) {
+                data[id] = {};
+                players.forEach(function(id2) {
+                    data[id][id2] = id === id2 ? "0" : "0-0";
+                });
+            });
+
+            filteredMatches.forEach(function(match) {
+		console.log(match)
+                var winnerId = match[1];
+                var loserId = match[3];
+                var score = match[4].split("-").reverse().join("-");  // swap winner-loser score
+                
+                // Update scores
+                if (data[winnerId][loserId] == "0-0") data[winnerId][loserId] = "1-0";
+                else {
+                    var scores = data[winnerId][loserId].split("-");
+                    scores[0] = (parseInt(scores[0]) + 1).toString();
+                    data[winnerId][loserId] = scores.join("-");
+                }
+
+                if (data[loserId][winnerId] == "0-0") data[loserId][winnerId] = "0-1";
+                else {
+                    var scores = data[loserId][winnerId].split("-");
+                    scores[1] = (parseInt(scores[1]) + 1).toString();
+                    data[loserId][winnerId] = scores.join("-");
+                }
+            });
+
+            return data;
+        }
+
+      function populateTable(crossTableData) {
+            $("#crossTable").empty();
+            var visiblePlayers = getVisiblePlayers();
+            
+            // Adjust table size based on number of visible players
+            if (visiblePlayers.length <= 30) {
+                $("#crossTable").removeClass("large-table").addClass("small-table");
+            } else {
+                $("#crossTable").removeClass("small-table").addClass("large-table");
+            }
+            
+            var header = $("<tr>");
+            header.append($("<th>").text("x"));
+            visiblePlayers.forEach(function(id) {
+                header.append($("<th>").addClass("cell stickycell").text(playersData[id]));
+            });
+            $("#crossTable").append(header);
+
+            visiblePlayers.forEach(function(id) {
+                var row = $("<tr>");
+                row.append($("<td>").addClass("cell stickycell stickyrow").text(playersData[id]));
+                visiblePlayers.forEach(function(id2) {
+                    var cell = $("<td>").text(crossTableData[id][id2]);
+                    if (id == id2) cell.addClass("black");  // diagonal
+                    else {
+                        var scores = crossTableData[id][id2].split("-");
+	                var wins = parseInt(scores[0]);
+	                var losses = parseInt(scores[1]);
+
+	                if (wins == 0 && losses == 0) cell.addClass("white");
+	                else if (wins == losses) cell.addClass("yellow");
+	                else if (wins > losses) cell.addClass("green");
+	                else if (wins < losses) cell.addClass("red");
+                        
+                        // Add click handler for showing matches
+                        cell.attr("data-player1", id).attr("data-player2", id2);
+                        cell.addClass("clickable-cell");
+                    }
+                    row.append(cell);
+                });
+                $("#crossTable").append(row);
+            });
+        }
+
+        function getVisiblePlayers() {
+            return players.filter(function(id) {
+                return !$("#" + id).hasClass("hidden");
+            });
+        }
+
+        function populatePlayerList() {
+            $("#sortable").empty();
+            players.forEach(function(id, index) {
+                var li = $("<li>").addClass("ui-state-default").attr("id", id);
+                var controls = $("<div>").addClass("player-controls");
+                var rank = $("<span>").addClass("player-rank").text((index + 1) + ". ");
+                var name = $("<span>").addClass("player-name").text(playersData[id]);
+                var hideBtn = $("<button>").addClass("hide-btn").text("Hide");
+                
+                controls.append(rank);
+                controls.append(name);
+                controls.append(hideBtn);
+                li.append(controls);
+                
+                $("#sortable").append(li);
+            });
+        }
+
+        function populateEvents() {
+            $("#events").empty();
+            Object.keys(eventsData).forEach(function(eventId) {
+                var eventName = eventsData[eventId];
+                var matchInfo = matches.find(function(match) {
+                    return match[5] == eventId;
+                });
+		var eventPrestige = matchInfo ? matchInfo[6] : 'majors';
+
+                var eventDiv = $(
+                    `<div id="event_${eventId}">
+                        <label>${eventName}</label>
+                        <input type="radio" name="prestige_${eventId}" value="majors" ${eventPrestige == 'majors' ? 'checked' : ''}>Majors
+                        <input type="radio" name="prestige_${eventId}" value="regionals" ${eventPrestige == 'regionals' ? 'checked' : ''}>Regionals
+                        <input type="radio" name="prestige_${eventId}" value="weeklies" ${eventPrestige == 'monthlies' ? 'checked' : ''}>Monthlies
+                    </div>`
+                );
+
+                $("#events").append(eventDiv);
+
+                $(`input[name="prestige_${eventId}"]`).change(function() {
+                    updateMatches(eventId, $(this).val());
+                    crossTableData = createCrossTableData(getFilteredMatches());
+                    populateTable(crossTableData);
+                });
+            });
+        }
+
+        function populateMatchData() {
+            $("#match-data").empty();
+            for (var i = 0; i < matches.length; i++) {
+                var match = matches[i];
+                var eventId = match[5];
+                var eventName = eventsData[eventId];
+                var matchString = `${match[0]} > ${match[2]} ${match[4]} at ${eventName}`;
+                var matchId = "match-" + i;  // create a unique ID for each match
+                var matchDiv = $(
+		    `<div data-row-index="${i}">
+                        <input type="radio" name="match-${i}" value="include" checked>Include
+                        <input type="radio" name="match-${i}" value="exclude">Exclude
+                        ${matchString}
+                    </div>`
+                );
+
+		// add change event listener for this match's exclude/include radio buttons
+		$("input[type='radio']", matchDiv).change(function() {
+		    crossTableData = createCrossTableData(getFilteredMatches());
+		    populateTable(crossTableData);
+		});
+
+		$("#match-data").append(matchDiv);
+		
+            }
+        }
+
+        function populateMatchData() {
+	    $("#match-data").empty();
+	    for (var i = 0; i < matches.length; i++) {
+		var match = matches[i];
+		var eventId = match[5];
+		var eventName = eventsData[eventId];
+		var matchString = `${match[0]} > ${match[2]} ${match[4]} at ${eventName}`;
+		var matchId = "match-" + i;  // create a unique ID for each match
+		var matchDiv = $(
+		    `<div data-row-index="${i}">
+                        <input type="radio" name="match-${i}" value="include" checked>Include
+                        <input type="radio" name="match-${i}" value="exclude">Exclude
+                        ${matchString}
+                    </div>`
+		);
+		
+		$("#match-data").append(matchDiv);
+	    }
+
+	    // add change event listener for this match's exclude/include radio buttons
+	    $("#match-data input[type='radio']").change(function() {
+		crossTableData = createCrossTableData(getFilteredMatches());
+		populateTable(crossTableData);
+	    });
+	}
+
+        function getExcludedRows() {
+	    var excludedRows = [];
+	    $("#match-data div").each(function() {
+		if ($("input[value='exclude']:checked", this).length) {
+		    var rowIndex = $(this).data('row-index');
+		    excludedRows.push(rowIndex);
+		}
+	    });
+	    return excludedRows;
+	}
+
+        // Add event listener for toggle button
+        $("#toggle-events").click(function() {
+            var isEventsVisible = $("#events").is(":visible");
+            if (isEventsVisible) {
+                $("#events").hide();
+                $(this).text('Show Event Tier Assignments');
+            } else {
+                $("#events").show();
+                $(this).text('Hide Event Tier Assignments');
+            }
+        });
+
+        // Add event listener for match data toggle button
+        $("#toggle-match-data").click(function() {
+            var isMatchDataVisible = $("#match-data").is(":visible");
+            if (isMatchDataVisible) {
+                $("#match-data").hide();
+                $(this).text('Show Match Data');
+            } else {
+                $("#match-data").show();
+                $(this).text('Hide Match Data');
+            }
+        });
+
+        function savePlayerOrder() {
+            localStorage.setItem('ssbmrank_player_order', JSON.stringify(players));
+        }
+
+        function loadPlayerOrder() {
+            var savedOrder = localStorage.getItem('ssbmrank_player_order');
+            if (savedOrder) {
+                try {
+                    var parsedOrder = JSON.parse(savedOrder);
+                    // Verify all saved players still exist in current players list
+                    var currentPlayerIds = new Set(players);
+                    var validSavedOrder = parsedOrder.filter(function(id) {
+                        return currentPlayerIds.has(id);
+                    });
+                    
+                    // Only use saved order if it contains all current players
+                    if (validSavedOrder.length === players.length) {
+                        players = validSavedOrder;
+                        return true;
+                    }
+                } catch (e) {
+                    console.log('Error loading saved player order:', e);
+                }
+            }
+            return false;
+        }
+
+        function clearSavedOrder() {
+            localStorage.removeItem('ssbmrank_player_order');
+        }
+
+
+
+        // Load saved player order before initializing
+        loadPlayerOrder();
+
+        var crossTableData = createCrossTableData(getFilteredMatches());
+        populateTable(crossTableData);
+        populatePlayerList();
+        populateEvents();
+        populateMatchData();
+
+        $( "#sortable" ).sortable({
+            tolerance: 'pointer',
+            forceHelperSize: true,
+            forcePlaceholderSize: true,
+            placeholder: 'sortable-placeholder',
+            stop: function(event, ui) {
+                players = $("#sortable").sortable("toArray");
+                populatePlayerList(); // Update rankings after reorder
+                crossTableData = createCrossTableData(getFilteredMatches());
+                populateTable(crossTableData);
+                savePlayerOrder();
+            }
+        });
+
+        // Player visibility controls
+        $(document).on('click', '.hide-btn', function(e) {
+            e.stopPropagation();
+            var li = $(this).closest('li');
+            li.toggleClass('hidden');
+            
+            if (li.hasClass('hidden')) {
+                $(this).text('Show');
+            } else {
+                $(this).text('Hide');
+            }
+            
+            crossTableData = createCrossTableData(getFilteredMatches());
+            populateTable(crossTableData);
+        });
+
+        $("#hide-all-btn").click(function() {
+            $("#sortable li").addClass('hidden');
+            $("#sortable .hide-btn").text('Show');
+            crossTableData = createCrossTableData(getFilteredMatches());
+            populateTable(crossTableData);
+        });
+
+        $("#show-all-btn").click(function() {
+            $("#sortable li").removeClass('hidden');
+            $("#sortable .hide-btn").text('Hide');
+            crossTableData = createCrossTableData(getFilteredMatches());
+            populateTable(crossTableData);
+        });
+
+        $("#copy-list-btn").click(function() {
+            var visiblePlayers = getVisiblePlayers();
+            var playerList = visiblePlayers.map(function(id, index) {
+                return (index + 1) + ". " + playersData[id];
+            }).join('\n');
+            
+            navigator.clipboard.writeText(playerList).then(function() {
+                var originalText = $("#copy-list-btn").text();
+                $("#copy-list-btn").text('Copied!');
+                setTimeout(function() {
+                    $("#copy-list-btn").text(originalText);
+                }, 2000);
+            }).catch(function(err) {
+                alert('Failed to copy to clipboard');
+            });
+        });
+
+        // Modal functionality
+        function showMatchModal(player1Id, player2Id) {
+            var player1Name = playersData[player1Id];
+            var player2Name = playersData[player2Id];
+            var matches = getMatchesBetweenPlayers(player1Id, player2Id);
+            
+            $("#modalTitle").text(player1Name + " vs " + player2Name);
+            
+            if (matches.length === 0) {
+                $("#modalBody").html('<div class="no-matches">No matches found between these players.</div>');
+            } else {
+                var html = "";
+                matches.forEach(function(match) {
+                    var eventName = eventsData[match[5]] || "Unknown Event";
+                    html += '<div class="match-item">';
+                    html += '<div><span class="match-winner">' + match[0] + '</span> defeated <span class="match-loser">' + match[2] + '</span></div>';
+                    html += '<div class="match-score">Score: ' + match[4] + '</div>';
+                    html += '<div class="match-event">at ' + eventName + '</div>';
+                    html += '</div>';
+                });
+                $("#modalBody").html(html);
+            }
+            
+            $("#matchModal").show();
+        }
+
+        function getMatchesBetweenPlayers(player1Id, player2Id) {
+            var filteredMatches = getFilteredMatches();
+            return filteredMatches.filter(function(match) {
+                var winnerId = match[1];
+                var loserId = match[3];
+                return (winnerId === player1Id && loserId === player2Id) || 
+                       (winnerId === player2Id && loserId === player1Id);
+            });
+        }
+
+        // Click handler for cells
+        $(document).on('click', '.clickable-cell', function() {
+            var player1Id = $(this).attr('data-player1');
+            var player2Id = $(this).attr('data-player2');
+            showMatchModal(player1Id, player2Id);
+        });
+
+        // Close modal handlers
+        $(".close").click(function() {
+            $("#matchModal").hide();
+        });
+
+        $(window).click(function(event) {
+            if (event.target.id === "matchModal") {
+                $("#matchModal").hide();
+            }
+        });
+
+        $("input[name='filter']").change(function() {
+            crossTableData = createCrossTableData(getFilteredMatches());
+            populateTable(crossTableData);
+        });
+      
+    </script>
+
+</body>
+</html>
