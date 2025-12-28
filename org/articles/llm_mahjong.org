@@ -42,7 +42,7 @@ We choose Llama 3.2 1.3B as the primary model for this experiment, since it's in
 
 As a quick napkin test, I finetuned llama-3.2-1B on ~500 positions and provided it with the following problem (one of my favorites, from G. Uzaku's Gold Book).
 
-[[../images/from_clipboard/20251227_160603.png]]
+[[../images/mahjongllm/question.png]]
 
 Dealer seat, 1m 2m 3m 3m 4m 5m 6m 7m 9m 3p 3p 7s 8s 9s, with 8s as the dora. 
 
@@ -54,11 +54,11 @@ This is a nice little test of a beginning player's grasp of the concepts. This h
 
 The 6m is obviously worse than the other options, but an easy mistake to make is to discard the 3m here. Ittsu (pure straight in one suit) is flashy and pretty, and a four tile wait for a hand this big is pretty good[fn:6]. But discarding the 9 gives you pinfu (i.e. destroying ittsu only loses 1 dora, not 2), lets you win with way more tiles (10 > 4), and can win with red 5 for an extra han. 
 
-[[../images/from_clipboard/20251227_160616.png]]
+[[../images/mahjongllm/answer.png]]
 
 The expected value is much better for the 9m. With just 500 examples I was happy to see the model understand that discarding the 3m was a potential candidate move, even if it's not quite correct (likely leveraging some prior knowledge about mahjong from pretraining, another nice advantage of using LLMs for a problem like this). Definitely a far cry from what we really want, but at this stage I was expecting "picks a legal move" to be a bigger hurdle than it ended up being. 
 
-[[../images/from_clipboard/20251227_160639.png]]
+[[../images/mahjongllm/discards.png]]
 
 With this I was confident enough to proceed with a larger training run.
 
