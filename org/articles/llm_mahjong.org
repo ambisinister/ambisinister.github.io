@@ -64,25 +64,31 @@ With this I was confident enough to proceed with a larger training run.
 
 *** Training Run I
 
-For the first "real" training run I scaled up to all the games in the 2016 database. This was about 250k hanchans, so it was a lot of data compared to the napkin test (but still small-ish by LLM standards). This was roughly one fifth of my data so it was a good kickstart for something like Tinker which is capacity constrained by using LoRA anyways[fn:2]. It was a minor annoyance trying to scale this data up this much while keeping under memory constraints, since I couldn't just dump everything in an array and write it to a file at the end anymore[fn:3].
+For the first "real" training run I wanted to scale up to all the games in the 2016 database. This was about 250k hanchans, so it was a lot of data compared to the napkin test (but still small-ish by LLM standards). This was roughly one fifth of my available data so I thought it was a good kickstart for something like Tinker which is capacity constrained by using LoRA anyways[fn:2]. It was a minor annoyance trying to scale this data up this much while keeping under memory constraints, since I couldn't just dump everything in an array and write it to a file at the end anymore[fn:3].
 
-We ended up with 169,379,861 total training examples. 138,798,623 3D examples, and 30,581,238 2D examples. Partway through putting all the data together I realized I probably didn't have enough compute credits to complete the project even with just this much data. Even matching the Causal Masking paper would require just 9.6 million examples. So I decided I would just go until I ran out of credits and see where we landed.
+Once we put everything together ended up with 169,379,861 total training examples. 138,798,623 3D examples, and 30,581,238 2D examples. This results in something like 40 billion tokens[fn:7]. This was a bit more than I was initially expecting. Partway through putting all the data together I realized I probably didn't have enough compute credits to complete the project even with just this much data. Even fully matching the methodology from the Causal Masking paper would require just 9.6 million examples.
+
+So I decided to subsample to target roughly 1 billion tokens instead. This would be theoretically under budget per tinker pricing for Llama 3.2 1B, and would still give us over 3 million examples to work with. We can proceed with the knowledge that with the appropriate resources we could scale to nearly a billion training examples, for something like 250 billion tokens just spent on imitation learning for riichi mahjong[fn:8]. 
 
 The training details were as follows.
 
-| Parameter           | Value                       |
-|---------------------+-----------------------------|
-| LoRA rank           | 256                         |
-| Learning rate       | 3e-4                        |
-| LR schedule         | linear                      |
-| Batch size          | min(48, numExamples // 4)   |
-| Max sequence length | 2048                        |
-| Number of epochs    | 1                           |
-| Eval every          | 50 steps                    |
-
-
+| Parameter           | Value                      |
+|---------------------+----------------------------|
+| LoRA rank           | 256                        |
+| Learning rate       | 4.9e-4                     |
+| LR schedule         | linear                     |
+| Batch size          | min(128, numExamples // 4) |
+| Max sequence length | 2048                       |
+| Training Set Size   | 3.7M Examples              |
+| Number of epochs    | 1                          |
+| Eval Set Size       | 10k Examples               |
+| Eval every          | 1500 steps                 |
 
 * Footnotes
+
+[fn:8] this would be pretty insane, but probably a complete waste of resources. This would be like a quarter of the tokens used to train [[https://arxiv.org/pdf/2305.06161][starcoder]] but literally only for human-level mahjong play. 
+
+[fn:7] napkin math at ~267 characters per example ~3.2 chars per token ~160M examples. Maybe off base, but probably too large.
 
 [fn:6] [[https://ooyamaneko.net/download/mahjong/riichi/Daina_Chiba_-_Riichi_Book_1_en.pdf][Riichi Book I]] is a good resource for judgment like this
 
@@ -90,8 +96,8 @@ The training details were as follows.
 
 [fn:4] This is definitely noteworthy but decidedly adjacent; the ultimate goal of our mahjong project here isn't to produce a strong riichi mahjong model per se (Mortal and others already do that), it's to train /a language model/ which under the right circumstances could /explain its decisions/. We need something generally capable for that, which is why we highlight the language model despite its worse performance. 
 
-[fn:3] At this stage it was simple enough to just write as we go to a file, but it ended up being very very large (~150GB compared to the db of games itself only being 1.6GB). If I scale up past this I'll need to start considering using protobuf or some other efficient mechanism for serializing data.
+[fn:3] At this stage it was simple enough to just write as we go to a file, but it ended up being very very large (~125GB compared to the db of games itself only being 1.6GB). If I scale up past this I'll need to start considering using protobuf or some other efficient mechanism for serializing data.
 
-[fn:2] It's possible that performance will saturate far below the use of all of my data regardless, so I didn't want to get ahead of myself. 
+[fn:2] I have five years of data and it's very possible that performance will saturate far below the use of all of my data regardless, so I didn't want to get ahead of myself. 
 
 [fn:1] The Elo estimation from this paper is hazy since it uses winrate against various stockfish levels instead of human opponents. However, it's definitely still very strong. I was ~1600 blitz rating when I was an active chess player and it's tough for me to beat stockfish level 5-6.
