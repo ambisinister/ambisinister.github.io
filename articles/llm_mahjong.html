@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-12-27 Sat 23:34 -->
+<!-- 2025-12-27 Sat 23:37 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Riichi Mahjong LLM</title>
@@ -152,7 +152,7 @@ Lots of work has been done on training LLMs to perform well at games, mostly pop
 </p>
 
 
-<div id="orgd6ce28b" class="figure">
+<div id="orgb80d24b" class="figure">
 <p><img src="../images/from_clipboard/20251227_190606.png" alt="20251227_190606.png" />
 </p>
 </div>
@@ -166,7 +166,7 @@ I was really impressed by this paper! A 7B parameter model distilling stockfish 
 </p>
 
 
-<div id="org0a87356" class="figure">
+<div id="org5f72d0f" class="figure">
 <p><img src="../images/from_clipboard/20251227_191336.png" alt="20251227_191336.png" />
 </p>
 </div>
@@ -222,7 +222,7 @@ As a quick napkin test, I finetuned llama-3.2-1B on ~500 positions and provided 
 </p>
 
 
-<div id="orga38de48" class="figure">
+<div id="org0fd1a43" class="figure">
 <p><img src="../images/mahjongllm/question.png" alt="question.png" />
 </p>
 </div>
@@ -246,7 +246,7 @@ The 6m is obviously worse than the other options, but an easy mistake to make is
 </p>
 
 
-<div id="org1780d76" class="figure">
+<div id="org9fea85e" class="figure">
 <p><img src="../images/mahjongllm/answer.png" alt="answer.png" />
 </p>
 </div>
@@ -256,7 +256,7 @@ The expected value is much better for the 9m. With just 500 examples I was happy
 </p>
 
 
-<div id="org8fa4ff1" class="figure">
+<div id="org495bbf2" class="figure">
 <p><img src="../images/mahjongllm/discards.png" alt="discards.png" />
 </p>
 </div>
@@ -279,7 +279,7 @@ Once we put everything together ended up with 169,379,861 total training example
 </p>
 
 <p>
-So I decided to subsample to target roughly 1 billion tokens instead. This would be theoretically under budget per tinker pricing for Llama 3.2 1B, and would still give us over 3 million examples to work with. We can proceed with the knowledge that with the appropriate resources we could scale to nearly a billion training examples, for something like 250 billion tokens just spent on imitation learning for riichi mahjong<sup><a id="fnr.8" class="footref" href="#fn.8" role="doc-backlink">8</a></sup>. 
+So I decided to subsample to target roughly 1 billion tokens instead. This would be theoretically under my toy budget (~$150)<sup><a id="fnr.8" class="footref" href="#fn.8" role="doc-backlink">8</a></sup> per tinker pricing for Llama 3.2 1B, and would still give us over 3 million examples to work with. We can proceed with the knowledge that with the appropriate resources we could scale to nearly a billion training examples, for something like 250 billion tokens just spent on imitation learning for riichi mahjong<sup><a id="fnr.9" class="footref" href="#fn.9" role="doc-backlink">9</a></sup>. 
 </p>
 
 <p>
@@ -384,6 +384,10 @@ napkin math at ~267 characters per example ~3.2 chars per token ~160M examples. 
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.8" class="footnum" href="#fnr.8" role="doc-backlink">8</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+They gave me some starter credits when I got off the beta waitlist, so I'm just trying to spend those for this project to determine my opinion.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.9" class="footnum" href="#fnr.9" role="doc-backlink">9</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 this would be pretty insane, but probably a complete waste of resources. This would be like a quarter of the tokens used to train <a href="https://arxiv.org/pdf/2305.06161">starcoder</a> but literally only for human-level mahjong play. 
 </p></div></div>
 
