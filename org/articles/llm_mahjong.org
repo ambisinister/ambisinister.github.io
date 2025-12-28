@@ -1,0 +1,61 @@
+#+TITLE: Riichi Mahjong LLM
+* Teaching LLMs to Play Mahjong
+** Abstract
+
+Riichi Mahjong hits the sweetspot for LLM-as-game-playing-agent experimentation. It has plentiful high-level data, it's well described as text, it's easily described in a markovian way, and it doesn't have lots of easily available engines for it already. In this work I teach an LLM how to get good at mahjong, and hopefully learn something interesting along the way.
+
+** Introduction and Related Work
+
+Lots of work has been done on training LLMs to perform well at games, mostly popular traditional ones like Chess. 
+
+[[https://arxiv.org/pdf/2510.27009][Causal Masking on Spatial Data: An Information-Theoretic Case for Learning Spatial Datasets with Unimodal Language Models]] trained a 1.3B LLM on chess positions annotated with Stockfish. They do 200k steps at batch size 128, gradient accumulation 32 for an effective batch size of 4096 samples per step. At 200k steps that's about 820 million positions. 
+
+[[https://openreview.net/pdf?id=baNBqpzvMT][Mixing Expert Knowledge: Bring Human Thoughts Back To the Game of Go]] trained a 7B and 32B model on Go which reached 9d strength, which is very strong (but human level, compared to superhuman RL bots). Critically, however, these models were able to provide actual reasoning for why the moves it selected were good or bad.
+
+** Gathering Data
+
+Ample data from strong players is freely available. Amber from Path of Houou has posted a large database of [[https://pathofhouou.blogspot.com/2021/04/guide-replay-analysis.html][five years' worth of Tenhou replays]] from strong players, which is a useful starting point for training something like this. Each year has about 250 thousand hanchans in it, so five years of games should result in roughly 1.25 million hanchans, which likely result in something like 800 million positions.
+
+Previous examples mentioned will distill the policy of a very strong model (e.g. stockfish) by annotating every position with the oracle's top move. There exist strong RL-powered models for riichi mahjong like [[https://mjai.ekyu.moe/][Mortal]] or MAKA, but these are not freely available to download, and do not offer batch processing for large quantities of games. However, it's possible we don't need to annotate games via the oracle at all.
+
+In [[https://arxiv.org/abs/2406.11741v1][Transcendence: Generative Models Can Outperform The Experts That Train Them]] they showed that models trained on low level chess games will produce a model which is stronger than any individual player. This is because bad moves can be framed as noise; on average bad players still play reasonable moves, and have decorrelated errors from one another. Since [[https://arxiv.org/abs/1705.10694][Deep Learning is Robust to Massive Label Noise]], the resulting model is strong even when all the annotators are weak. Similar experiments were done even way back before chess computers were ubiquitous -- [[https://en.wikipedia.org/wiki/Kasparov_versus_the_World][Garry Kasparov vs The World]] was one such game where thousands of players voted on what move to play against world champion Garry Kasparov, which produced an interesting and competitive game despite the average voter being way, way weaker than Kasparov.
+
+Ergo, we will be training the model to be a pure imitation learning model. This should simplify the workflow substantially for now, since it's now just framed as a supervised learning problem the same way any other SFT workflow would be.
+
+On top of being performant at the game, a desirable behavior of the model is the ability to solve "2d problems" (i.e. positions without context from the other players) as well as "3d ones". Many [[https://euophrys.itch.io/mahjong-efficiency-trainer][training tools]] and improvement resources are framed this way, since a 2d framing is sufficient for capturing lots of important concepts like tile efficiency, block identification, maximizing expected value, and so on. We set aside a portion of the data which masks the discards and other players, to enable the model to answer questions like "what do you discard from this hand, in general?" 
+
+** Training
+
+To actually train this, since we have a relative lack of compute resources, I'll be using [[https://tinker-docs.thinkingmachines.ai/][Tinker]] from Thinking Machines. This lab provides streamlined resources for finetuning language models of various sizes using [[https://arxiv.org/abs/2106.09685][Low Rank Adaptation]] (LoRA). Tinker is nice since it will allow us to focus on data and training loop, rather than needing to fiddle with infrastructure. There's some concern with using LoRA over full finetuning, but [[https://thinkingmachines.ai/blog/lora/][they have a blogpost]] outlining that LoRA is close enough in performance to full finetuning.
+
+We choose Llama 3.2 1.3B as the primary model for this experiment, since it's inexpensive, fast, and was shown to be performant for chess in [[https://arxiv.org/pdf/2510.27009][Causal Masking on Spatial Data]][fn:1]. 
+
+*** Napkin Test I
+
+As a quick napkin test, I finetuned llama-3.2-1B on ~500 positions and provided it with the following problem (one of my favorites, from G. Uzaku's Gold Book).
+
+[[../images/from_clipboard/20251227_160603.png]]
+
+Dealer seat, 1m 2m 3m 3m 4m 5m 6m 7m 9m 3p 3p 7s 8s 9s, with 8s as the dora. 
+
+This is a nice little test of a beginning player's grasp of the concepts. This hand is now in tenpai three different ways.
+
+- You can discard 6m and riichi for riichi dora 1 as dealer, waiting on the four 7m tiles.
+- You can discard 3m and riichi for riichi closed ittsu dora 1 as dealer, waiting on the four 7m tiles.
+- You can discard 9m and riichi for riichi pinfu dora 1 as dealer, waiting on the 10 remaining tiles of 2m/5m/8m.
+
+The 6m is obviously worse than the other options, but an easy mistake to make is to discard the 3m here. Ittsu (pure straight in one suit) is flashy and pretty, and a four tile wait for a hand this big is pretty good. But discarding the 9 gives you pinfu (only loses 1 dora), lets you win with way more tiles, and can win with red 5 for an extra han. 
+
+[[../images/from_clipboard/20251227_160616.png]]
+
+The expected value is much better for the 9. With just 500 examples I was happy to see the model understand that discarding the 3m was already one of the moves it wanted to select (likely leveraging some prior knowledge about mahjong from pretraining, another nice advantage of using LLMs for a problem like this).
+
+[[../images/from_clipboard/20251227_160639.png]]
+
+With this I was confident enough to proceed with a larger training run.
+
+*** Training Run I
+
+* Footnotes
+
+[fn:1] The elo estimation from this paper is hazy since it uses winrate against various stockfish levels instead of human opponents. However, it's definitely still very strong. I was ~1600 blitz rating when I was an active chess player and it's tough for me to beat stockfish level 5-6.   
