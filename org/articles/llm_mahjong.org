@@ -64,7 +64,7 @@ With this I was confident enough to proceed with a larger training run.
 
 *** Training Run I
 
-For the first "real" training run I wanted to scale up to all the games in the 2016 database. This was about 250k hanchans, so it was a lot of data compared to the napkin test (but still small-ish by LLM standards). This was roughly one fifth of my available data so I thought it was a good kickstart for something like Tinker which is capacity constrained by using LoRA anyways[fn:2]. It was a minor annoyance trying to scale this data up this much while keeping under memory constraints, since I couldn't just dump everything in an array and write it to a file at the end anymore[fn:3].
+For the first "real" training run I wanted to scale up to all the games in the 2016 database. This was about 250k hanchans, so it was a lot of data compared to the napkin test. This was roughly one fifth of my available data so I thought it was a good kickstart for something like Tinker which is capacity constrained by using LoRA anyways[fn:2]. It was a minor annoyance trying to scale this data up this much while keeping under memory constraints, since I couldn't just dump everything in an array and write it to a file at the end anymore[fn:3].
 
 Once we put everything together ended up with 169,379,861 total training examples. 138,798,623 3D examples, and 30,581,238 2D examples. This results in something like 40 billion tokens[fn:7]. This was a bit more than I was initially expecting. Partway through putting all the data together I realized I probably didn't have enough compute credits to complete the project even with just this much data. Even fully matching the methodology from the Causal Masking paper would require just 9.6 million examples.
 

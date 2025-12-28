@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-12-27 Sat 22:06 -->
+<!-- 2025-12-27 Sat 22:38 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Riichi Mahjong LLM</title>
@@ -152,7 +152,7 @@ Lots of work has been done on training LLMs to perform well at games, mostly pop
 </p>
 
 
-<div id="org542d2a8" class="figure">
+<div id="org3582a64" class="figure">
 <p><img src="../images/from_clipboard/20251227_190606.png" alt="20251227_190606.png" />
 </p>
 </div>
@@ -166,7 +166,7 @@ I was really impressed by this paper! A 7B parameter model distilling stockfish 
 </p>
 
 
-<div id="org83f3c9d" class="figure">
+<div id="org9a44420" class="figure">
 <p><img src="../images/from_clipboard/20251227_191336.png" alt="20251227_191336.png" />
 </p>
 </div>
@@ -222,7 +222,7 @@ As a quick napkin test, I finetuned llama-3.2-1B on ~500 positions and provided 
 </p>
 
 
-<div id="org19f2cbb" class="figure">
+<div id="org8471dfe" class="figure">
 <p><img src="../images/mahjongllm/question.png" alt="question.png" />
 </p>
 </div>
@@ -246,7 +246,7 @@ The 6m is obviously worse than the other options, but an easy mistake to make is
 </p>
 
 
-<div id="org3756e2d" class="figure">
+<div id="org5012210" class="figure">
 <p><img src="../images/mahjongllm/answer.png" alt="answer.png" />
 </p>
 </div>
@@ -256,7 +256,7 @@ The expected value is much better for the 9m. With just 500 examples I was happy
 </p>
 
 
-<div id="orgfa252fd" class="figure">
+<div id="org3db5500" class="figure">
 <p><img src="../images/mahjongllm/discards.png" alt="discards.png" />
 </p>
 </div>
@@ -271,7 +271,7 @@ With this I was confident enough to proceed with a larger training run.
 <h3 id="org0f76577">Training Run I</h3>
 <div class="outline-text-3" id="text-org0f76577">
 <p>
-For the first "real" training run I wanted to scale up to all the games in the 2016 database. This was about 250k hanchans, so it was a lot of data compared to the napkin test (but still small-ish by LLM standards). This was roughly one fifth of my available data so I thought it was a good kickstart for something like Tinker which is capacity constrained by using LoRA anyways<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>. It was a minor annoyance trying to scale this data up this much while keeping under memory constraints, since I couldn't just dump everything in an array and write it to a file at the end anymore<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
+For the first "real" training run I wanted to scale up to all the games in the 2016 database. This was about 250k hanchans, so it was a lot of data compared to the napkin test. This was roughly one fifth of my available data so I thought it was a good kickstart for something like Tinker which is capacity constrained by using LoRA anyways<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>. It was a minor annoyance trying to scale this data up this much while keeping under memory constraints, since I couldn't just dump everything in an array and write it to a file at the end anymore<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
 </p>
 
 <p>
