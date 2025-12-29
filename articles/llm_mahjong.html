@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-12-27 Sat 23:37 -->
+<!-- 2025-12-28 Sun 19:28 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Riichi Mahjong LLM</title>
@@ -120,8 +120,10 @@ $(function() {
 <ul>
 <li><a href="#orgbf7a0c5">Napkin Test I</a></li>
 <li><a href="#org0f76577">Training Run I</a></li>
+<li><a href="#org74ae94a">Napkin Test II</a></li>
 </ul>
 </li>
+<li><a href="#orgb78b4a2">Future Work</a></li>
 </ul>
 </li>
 </ul>
@@ -135,7 +137,7 @@ $(function() {
 <h2 id="org1ada0c9">Abstract</h2>
 <div class="outline-text-2" id="text-org1ada0c9">
 <p>
-Riichi Mahjong hits the sweetspot for LLM-as-game-playing-agent experimentation. It has plentiful high-level data, it's well described as text, it's easily described in a markovian way, and it doesn't have lots of easily available engines for it already. In this work I teach an LLM how to get good at mahjong. The goal is threefold: first, to train a language model to play the game better than me; second, to lay the foundation for a mahjong model which can explain why moves are good or bad; third, to reproduce some interesting papers I read recently on a novel environment. 
+Riichi Mahjong hits the sweetspot for LLM-as-game-playing-agent experimentation. It has plentiful high-level data, it's well described as text, it's easily described in a markovian way, and it doesn't have lots of easily available engines for it already. In this work I teach an LLM how to get good at mahjong. The goal is threefold: first, to train a language model to play the game properly; second, to lay the foundation for a mahjong model which can explain why moves are good or bad; third, to reproduce some interesting papers I read recently on a novel environment. 
 </p>
 </div>
 </div>
@@ -148,11 +150,11 @@ Lots of work has been done on training LLMs to perform well at games, mostly pop
 </p>
 
 <p>
-<a href="https://arxiv.org/pdf/2510.27009">Causal Masking on Spatial Data: An Information-Theoretic Case for Learning Spatial Datasets with Unimodal Language Models</a> trained a 1.3B LLM on chess positions annotated with Stockfish. They do 200k steps at batch size 128, gradient accumulation 32 for an effective batch size of 4096 samples per step. At 200k steps that's about 820 million positions. The model achieved a measured Elo of ~2600, matching roughly grandmaster strength<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>.
+<a href="https://arxiv.org/pdf/2510.27009">Causal Masking on Spatial Data: An Information-Theoretic Case for Learning Spatial Datasets with Unimodal Language Models</a> is the primary paper we are attempting to reproduce in this post. They trained a 1.3B LLM on chess positions annotated with Stockfish. They do 200k steps at batch size 128, gradient accumulation 32 for an effective batch size of 4096 samples per step. At 200k steps that's about 820 million positions, if my napkin math checks out. The model achieved a measured Elo of ~2600, matching roughly grandmaster strength<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>.
 </p>
 
 
-<div id="orgb80d24b" class="figure">
+<div id="org502afcf" class="figure">
 <p><img src="../images/from_clipboard/20251227_190606.png" alt="20251227_190606.png" />
 </p>
 </div>
@@ -166,13 +168,13 @@ I was really impressed by this paper! A 7B parameter model distilling stockfish 
 </p>
 
 
-<div id="org5f72d0f" class="figure">
+<div id="orgf7db1fa" class="figure">
 <p><img src="../images/from_clipboard/20251227_191336.png" alt="20251227_191336.png" />
 </p>
 </div>
 
 <p>
-I saw this paper and promptly <i>flipped out</i> at the implications of it, it was by far my favorite result from NeurIPS 2025. Anybody who has tried to analyze their games with an engine has lots of experience not understanding why they should have done X move instead of Y move. This paper points to a future where you could just ask! There's a lot of interesting applications this opens up if the result holds for other settings, obviously making it relevant as a north star for our mahjong project. 
+I saw this paper and promptly <i>flipped out</i> at the implications of it, it was by far my favorite result from NeurIPS 2025. Anybody who has tried to analyze a board game with an engine has lots of experience not understanding why they should have done move X instead of move Y. This paper points to a future where you could just ask! There's a lot of interesting applications this opens up if the result holds for other settings, obviously making it relevant as a north star for our mahjong project. 
 </p>
 </div>
 </div>
@@ -222,7 +224,7 @@ As a quick napkin test, I finetuned llama-3.2-1B on ~500 positions and provided 
 </p>
 
 
-<div id="org0fd1a43" class="figure">
+<div id="orge76d10f" class="figure">
 <p><img src="../images/mahjongllm/question.png" alt="question.png" />
 </p>
 </div>
@@ -246,7 +248,7 @@ The 6m is obviously worse than the other options, but an easy mistake to make is
 </p>
 
 
-<div id="org9fea85e" class="figure">
+<div id="orgbca50b6" class="figure">
 <p><img src="../images/mahjongllm/answer.png" alt="answer.png" />
 </p>
 </div>
@@ -256,7 +258,7 @@ The expected value is much better for the 9m. With just 500 examples I was happy
 </p>
 
 
-<div id="org495bbf2" class="figure">
+<div id="org3a1f29a" class="figure">
 <p><img src="../images/mahjongllm/discards.png" alt="discards.png" />
 </p>
 </div>
@@ -303,7 +305,7 @@ The training details were as follows.
 <tbody>
 <tr>
 <td class="org-left">LoRA rank</td>
-<td class="org-left">256</td>
+<td class="org-left">128</td>
 </tr>
 
 <tr>
@@ -347,7 +349,72 @@ The training details were as follows.
 </tr>
 </tbody>
 </table>
+
+<p>
+I encountered an amusing bug when kicking this off. When I launched the script, I got the following.
+</p>
+
+<pre class="example">
+Found 3702681 training examples in /Users/ebanatt/Documents/code/mahjong-llm/train_data.jsonl
+
+</pre>
+
+<p>
+After hanging here for well over an hour, I killed the process to see where it was stuck, thinking I could add print statements or tqdm or something, to see the progress. Instead it told me it was stuck at user input, meaning I needed to do something. With some digging through the source I determined it was supposed to ask me if I wanted to delete, resume, or exit, since previous training output already existed. Whoops! I just typed "delete" and it started training pretty much right away.
+</p>
+
+<pre class="example">
+Found 3702681 training examples in /Users/ebanatt/Documents/code/mahjong-llm/train_data.jsonl
+delete
+Log directory /Users/ebanatt/Documents/code/mahjong-llm/training_output already exists. What do you want to do? [delete, resume, exit]: tinker_cookbook.utils.ml_log:477 [INFO] Logging to: /Users/ebanatt/Documents/code/mahjong-llm/training_output
+</pre>
+
+<p>
+Training on all this data took about seven hours<sup><a id="fnr.10" class="footref" href="#fn.10" role="doc-backlink">10</a></sup>. It definitely did appear to learn based on the loss curves. It trained on 1.14B tokens, which cost $102.92 USD in total.
+</p>
+
+
+<div id="orgc46b39c" class="figure">
+<p><img src="../images/from_clipboard/20251228_185258.png" alt="20251228_185258.png" />
+</p>
 </div>
+</div>
+</div>
+
+<div id="outline-container-org74ae94a" class="outline-3">
+<h3 id="org74ae94a">Napkin Test II</h3>
+<div class="outline-text-3" id="text-org74ae94a">
+<p>
+Running the same test after training, we can see that it picks the 9 man this time! We have successfully defeated the allure of ittsu, demonstrating that we've learned something tangible about how to play riichi mahjong.
+</p>
+
+
+<div id="orgb3fcda4" class="figure">
+<p><img src="../images/from_clipboard/20251228_190715.png" alt="20251228_190715.png" />
+</p>
+</div>
+
+<p>
+I'll update this section with more napkin tests as I perform them upon our trained model. But, hooray, we did it!
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb78b4a2" class="outline-2">
+<h2 id="orgb78b4a2">Future Work</h2>
+<div class="outline-text-2" id="text-orgb78b4a2">
+<p>
+Lots of work left to be done with this. Scaling up training to something larger or using more data is a given. The methodology still has juice left judging from the loss curves, and as mentioned we only used about 2% of 1/5th of the data<sup><a id="fnr.11" class="footref" href="#fn.11" role="doc-backlink">11</a></sup>. With more spend we could definitely see even better results.
+</p>
+
+<p>
+Likewise, we have to do some benchmarking for this model. I'll get around to this eventually. Performance on the held out test set we used saturated really fast in training despite the training curves, so we probably need to construct a dataset which only uses interesting examples rather than a random set of discards (the vast majority of which are probably very straightforwards.)
+</p>
+
+<p>
+Finally, I'd like to make some progress towards getting it to explain its decisions. This might be a tough ask for something as small as 1.3B parameters, but now that we have a working pipeline we can focus on more productive things like assembling cold start reasoning data, generating synthetic data, reinforcement learning, and so on.
+</p>
 </div>
 </div>
 </div>
@@ -389,6 +456,14 @@ They gave me some starter credits when I got off the beta waitlist, so I'm just 
 
 <div class="footdef"><sup><a id="fn.9" class="footnum" href="#fnr.9" role="doc-backlink">9</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 this would be pretty insane, but probably a complete waste of resources. This would be like a quarter of the tokens used to train <a href="https://arxiv.org/pdf/2305.06161">starcoder</a> but literally only for human-level mahjong play. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.10" class="footnum" href="#fnr.10" role="doc-backlink">10</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Really fast, all things considered. I know in the Causal Masking paper they say they trained for two weeks on two A100 gpus for 200k steps, so an equivalent number of steps here would take just under two days. I suppose this is probably due to LoRA differences, but it sure is nice to not have to think of the infrastructure concerns when running experiments. In the future it probably would be useful to directly rent some GPUs by the hour and do a project actually confronting all of this infra stuff, but it's good that the skills can be decoupled a little bit.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.11" class="footnum" href="#fnr.11" role="doc-backlink">11</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+That is, we only used the 2016 db, and we only subsampled 2% of that data. 
 </p></div></div>
 
 
