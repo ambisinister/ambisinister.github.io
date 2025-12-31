@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-12-28 Sun 20:35 -->
+<!-- 2025-12-30 Tue 20:59 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Eryk Banatt</title>
@@ -59,34 +59,112 @@
 <ul>
 <li><a href="#org391275c">Articles</a>
 <ul>
-<li><a href="#orgaa89ec7">Recent</a></li>
-<li><a href="#orgd6e6f98">Machine Learning</a></li>
-<li><a href="#org8174d3d">SSBM</a>
+<li><a href="#orge44837e">Recent</a></li>
+<li><a href="#org8463c31">Machine Learning</a></li>
+<li><a href="#org93afc5a">SSBM</a>
 <ul>
 <li>
 <ul>
-<li><a href="#org60ec253">Rankings</a></li>
-<li><a href="#org244f1f5">Gameplay and Culture</a></li>
-<li><a href="#orgd36dcdc">Software</a></li>
-<li><a href="#org34cabf9">Hardware</a></li>
+<li><a href="#orgf6f35d9">Rankings</a></li>
+<li><a href="#org2a87fa2">Gameplay and Culture</a></li>
+<li><a href="#orgaec17f9">Software</a></li>
+<li><a href="#org0f8a2dd">Hardware</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org9d507b8">Games</a></li>
-<li><a href="#orgb542090">Cognitive Science</a></li>
-<li><a href="#org819ea2a">Math / Stats / Programming</a></li>
-<li><a href="#orgdd7ddf7">Memory</a></li>
-<li><a href="#orgd26c17d">Media</a></li>
-<li><a href="#orgb3d6238">Misc</a></li>
+<li><a href="#org897f4cf">Games</a></li>
+<li><a href="#org9b94ceb">Cognitive Science</a></li>
+<li><a href="#org5472893">Math / Stats / Programming</a></li>
+<li><a href="#org872d519">Memory</a></li>
+<li><a href="#orgbb8ac94">Media</a></li>
+<li><a href="#org4fb8635">Misc</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
+<style>
+.tag-filter { margin: 10px 0 20px 0; }
+.tag-btn { 
+    display: inline-block; 
+    padding: 4px 10px; 
+    margin: 3px; 
+    border: 1px solid #666; 
+    border-radius: 3px; 
+    cursor: pointer; 
+    font-size: 13px;
+    background: #f5f5f5;
+    transition: all 0.15s;
+}
+.tag-btn:hover { background: #e0e0e0; }
+.tag-btn.active { background: #333; color: #fff; border-color: #333; }
+body.dark-mode .tag-btn { background: #2a2a2a; border-color: #555; color: #e0e0e0; }
+body.dark-mode .tag-btn:hover { background: #3a3a3a; }
+body.dark-mode .tag-btn.active { background: #4db6e6; color: #000; border-color: #4db6e6; }
+.article-item { margin: 5px 0; }
+.article-item.hidden { display: none; }
+.tag-span { display: none; } /* hide the :tag: text */
+h2.hidden, h4.hidden { display: none; }
+</style>
 <script>
-// use emacs org mode export, they said. It "Just Works", they said.
 window.onload = function() {
+    // Parse tags from :tag: format and set data attributes
+    document.querySelectorAll('.outline-2 p, .outline-4 p').forEach(function(p) {
+        var text = p.innerHTML;
+        var tagMatch = text.match(/:(\w+):/g);
+        if (tagMatch) {
+            var tags = tagMatch.map(function(t) { return t.replace(/:/g, ''); });
+            p.classList.add('article-item');
+            p.dataset.tags = tags.join(' ');
+            // Remove the :tag: text from display
+            p.innerHTML = text.replace(/\s*:(\w+):/g, '');
+        } else {
+            p.classList.add('article-item');
+            p.dataset.tags = '';
+        }
+    });
+
+    // Tag filtering
+    var activeTags = new Set();
+    
+    window.toggleTag = function(tag, btn) {
+        if (activeTags.has(tag)) {
+            activeTags.delete(tag);
+            btn.classList.remove('active');
+        } else {
+            activeTags.add(tag);
+            btn.classList.add('active');
+        }
+        filterArticles();
+    }
+    
+    function filterArticles() {
+        var items = document.querySelectorAll('.article-item');
+        var headings = document.querySelectorAll('.outline-2 h2, .outline-4 h4');
+        
+        if (activeTags.size === 0) {
+            // No filters: show everything
+            items.forEach(function(item) { item.classList.remove('hidden'); });
+            headings.forEach(function(h) { h.classList.remove('hidden'); });
+            return;
+        }
+        
+        // Hide all headings when filtering
+        headings.forEach(function(h) { h.classList.add('hidden'); });
+        
+        // Show only matching articles
+        items.forEach(function(item) {
+            var itemTags = (item.dataset.tags || '').split(' ');
+            var match = false;
+            activeTags.forEach(function(tag) {
+                if (itemTags.includes(tag)) match = true;
+            });
+            item.classList.toggle('hidden', !match);
+        });
+    }
+
+    // Original column layout code
     var firstHr = document.querySelector('hr');
     if (firstHr) {
         var div = document.createElement('div');
@@ -134,330 +212,340 @@ This is the web page of <b>Eryk Banatt</b>, sometimes referred to by the handle 
 <div id="outline-container-org391275c" class="outline-1">
 <h1 id="org391275c">Articles</h1>
 <div class="outline-text-1" id="text-org391275c">
+<div class="tag-filter">
+<span class="tag-btn" onclick="toggleTag('best', this)">Highlights</span>
+<span class="tag-btn" onclick="toggleTag('ml', this)">ML</span>
+<span class="tag-btn" onclick="toggleTag('melee', this)">Melee</span>
+<span class="tag-btn" onclick="toggleTag('games', this)">Games</span>
+<span class="tag-btn" onclick="toggleTag('cogsci', this)">CogSci</span>
+<span class="tag-btn" onclick="toggleTag('memory', this)">Memory</span>
+<span class="tag-btn" onclick="toggleTag('media', this)">Media</span>
+<span class="tag-btn" onclick="toggleTag('fiction', this)">Fiction</span>
+</div>
 <hr>
 </div>
 
-<div id="outline-container-orgaa89ec7" class="outline-2">
-<h2 id="orgaa89ec7">Recent</h2>
-<div class="outline-text-2" id="text-orgaa89ec7">
+<div id="outline-container-orge44837e" class="outline-2">
+<h2 id="orge44837e">Recent</h2>
+<div class="outline-text-2" id="text-orge44837e">
 <p>
-<a href="https://planetbanatt.net/articles/gametypes.html">How To Win At Games</a>
+<a href="https://planetbanatt.net/articles/gametypes.html">How To Win At Games</a> :games: :best:
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgd6e6f98" class="outline-2">
-<h2 id="orgd6e6f98">Machine Learning</h2>
-<div class="outline-text-2" id="text-orgd6e6f98">
+<div id="outline-container-org8463c31" class="outline-2">
+<h2 id="org8463c31">Machine Learning</h2>
+<div class="outline-text-2" id="text-org8463c31">
 <p>
-<a href="https://planetbanatt.net/articles/deepseek.html">Understanding Modern LLMs via DeepSeek</a>
+<a href="https://planetbanatt.net/articles/deepseek.html">Understanding Modern LLMs via DeepSeek</a> :ml: :best:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/deepseek2.html">Understanding LLMs via DeepSeek Part 2</a>
+<a href="https://planetbanatt.net/articles/deepseek2.html">Understanding LLMs via DeepSeek Part 2</a> :ml: :best:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/agentic.html">Understanding Agentic LLMs</a>
+<a href="https://planetbanatt.net/articles/agentic.html">Understanding Agentic LLMs</a> :ml: :best:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/llm_mahjong.html">Teaching an LLM to Play Riichi Mahjong</a>
+<a href="https://planetbanatt.net/articles/llm_mahjong.html">Teaching an LLM to Play Riichi Mahjong</a> :ml: :games: :best:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/wason.html">WILT: Wason Inductive Logic Test for LLMs (Proof of Concept Blogpost)</a> (<a href="https://arxiv.org/abs/2410.10998">Arxiv Preprint</a>)
+<a href="https://planetbanatt.net/articles/wason.html">WILT: Wason Inductive Logic Test for LLMs (Proof of Concept Blogpost)</a> (<a href="https://arxiv.org/abs/2410.10998">Arxiv Preprint</a>) :ml: :cogsci: :best:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/mla.html">Experiments with Multi-Head Latent Attention</a>
+<a href="https://planetbanatt.net/articles/mla.html">Experiments with Multi-Head Latent Attention</a> :ml: :best:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/modelmerging.html">Model Merging and You</a>
+<a href="https://planetbanatt.net/articles/modelmerging.html">Model Merging and You</a> :ml:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/sutton.html">Notes on Sutton &amp; Barto</a>
+<a href="https://planetbanatt.net/articles/sutton.html">Notes on Sutton &amp; Barto</a> :ml:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/deeprl.html">Notes on Deep RL Papers</a>
+<a href="https://planetbanatt.net/articles/deeprl.html">Notes on Deep RL Papers</a> :ml:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/v3fermi.html">Deepseek-V3 Training Budget Fermi Estimation</a>
+<a href="https://planetbanatt.net/articles/v3fermi.html">Deepseek-V3 Training Budget Fermi Estimation</a> :ml: :math: :best:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/lastdance.pdf">LASTDANCE: Layerwise Activation Similarity to Training Data for Assessing Non-Conforming Events (pre-preprint)</a> <a href="https://github.com/ambisinister/LASTDANCE/blob/master/LASTDANCE_README.ipynb">(Notebook)</a>
+<a href="https://planetbanatt.net/articles/lastdance.pdf">LASTDANCE: Layerwise Activation Similarity to Training Data for Assessing Non-Conforming Events (pre-preprint)</a> <a href="https://github.com/ambisinister/LASTDANCE/blob/master/LASTDANCE_README.ipynb">(Notebook)</a> :ml:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/itsa17.html">Auto-Rating ITG Stamina Charts with Machine Learning</a>
+<a href="https://planetbanatt.net/articles/itsa17.html">Auto-Rating ITG Stamina Charts with Machine Learning</a> :ml: :games:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/Bracket_Stamina.pdf">Bracket Stamina: Inferring the Intent of Other Agents in a Multiplayer Kelly Coin Flip Game</a>
+<a href="https://planetbanatt.net/articles/Bracket_Stamina.pdf">Bracket Stamina: Inferring the Intent of Other Agents in a Multiplayer Kelly Coin Flip Game</a> :ml: :math: :games:
 </p>
 
 <p>
-<a href="articles/visualdistance.html">Locating Visual Jokes in Homestuck Using Rudimentary Computer Vision</a>
-</p>
-</div>
-</div>
-
-<div id="outline-container-org8174d3d" class="outline-2">
-<h2 id="org8174d3d">SSBM</h2>
-<div class="outline-text-2" id="text-org8174d3d">
-</div>
-<div id="outline-container-org60ec253" class="outline-4">
-<h4 id="org60ec253">Rankings</h4>
-<div class="outline-text-4" id="text-org60ec253">
-<p>
-<a href="articles/ambistats.html">Making Sense of Melee: The Illusion of Objective Ranks and the Real Impact of Everything</a>
-</p>
-
-<p>
-<a href="http://planetbanatt.net/articles/ensembles.html">Invasion of the Ballot Snatchers (and Other Stories) - Decorrelated Errors in Panel-Based Rank Voting</a>
-</p>
-
-<p>
-<a href="https://planetbanatt.net/articles/contradictions.html">Melee Rankings are a Game of Contradictions</a>
-</p>
-
-<p>
-<a href="https://planetbanatt.net/articles/ssbmrank2022.html">Notes on SSBMRank 2022</a>
+<a href="articles/visualdistance.html">Locating Visual Jokes in Homestuck Using Rudimentary Computer Vision</a> :ml: :media:
 </p>
 </div>
 </div>
 
-<div id="outline-container-org244f1f5" class="outline-4">
-<h4 id="org244f1f5">Gameplay and Culture</h4>
-<div class="outline-text-4" id="text-org244f1f5">
+<div id="outline-container-org93afc5a" class="outline-2">
+<h2 id="org93afc5a">SSBM</h2>
+<div class="outline-text-2" id="text-org93afc5a">
+</div>
+<div id="outline-container-orgf6f35d9" class="outline-4">
+<h4 id="orgf6f35d9">Rankings</h4>
+<div class="outline-text-4" id="text-orgf6f35d9">
 <p>
-<a href="https://planetbanatt.net/vods/index.html">Melee Vods Viewer</a>
+<a href="articles/ambistats.html">Making Sense of Melee: The Illusion of Objective Ranks and the Real Impact of Everything</a> :melee: :math: :best:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/parable.html">The Parable of the Monster</a>
+<a href="http://planetbanatt.net/articles/ensembles.html">Invasion of the Ballot Snatchers (and Other Stories) - Decorrelated Errors in Panel-Based Rank Voting</a> :melee: :math: :best:
 </p>
 
 <p>
-<a href="http://planetbanatt.net/articles/lesson_notes.html">Melee Lesson Resources for Fox Players + Thoughts on Learning in Melee</a>
+<a href="https://planetbanatt.net/articles/contradictions.html">Melee Rankings are a Game of Contradictions</a> :melee: :best:
 </p>
 
 <p>
-<a href="articles/humantheorytas.html">STARS ALIGNED - A Human Theory TAS Combo Video - Annotations</a>
-</p>
-
-<p>
-<a href="articles/potbonus.html">Do Pot Bonuses Affect Entrant Numbers at Melee Tournaments?</a>
+<a href="https://planetbanatt.net/articles/ssbmrank2022.html">Notes on SSBMRank 2022</a> :melee:
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgd36dcdc" class="outline-4">
-<h4 id="orgd36dcdc">Software</h4>
-<div class="outline-text-4" id="text-orgd36dcdc">
+<div id="outline-container-org2a87fa2" class="outline-4">
+<h4 id="org2a87fa2">Gameplay and Culture</h4>
+<div class="outline-text-4" id="text-org2a87fa2">
 <p>
-<a href="articles/groundwork_for_projection_algorithm.html">Melee Bracket Projection Algorithm</a> - <a href="articles/projection_notes.html">Notes</a>
+<a href="https://planetbanatt.net/vods/index.html">Melee Vods Viewer</a> :melee: :software:
 </p>
 
 <p>
-<a href="articles/random20xx.html">20XX Randomized Savestates in Dolphin</a>
-</p>
-</div>
-</div>
-
-<div id="outline-container-org34cabf9" class="outline-4">
-<h4 id="org34cabf9">Hardware</h4>
-<div class="outline-text-4" id="text-org34cabf9">
-<p>
-<a href="articles/hitbox.html">Analog Button Gamecube Controller</a>
+<a href="https://planetbanatt.net/articles/parable.html">The Parable of the Monster</a> :melee: :fiction:
 </p>
 
 <p>
-<a href="articles/ambiGCC.html">Building a Better Gamecube Controller</a>
+<a href="http://planetbanatt.net/articles/lesson_notes.html">Melee Lesson Resources for Fox Players + Thoughts on Learning in Melee</a> :melee: :best:
 </p>
 
 <p>
-<a href="articles/kadano_controller_review.html">Kadano Controller Review</a>
-</p>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org9d507b8" class="outline-2">
-<h2 id="org9d507b8">Games</h2>
-<div class="outline-text-2" id="text-org9d507b8">
-<p>
-<a href="https://planetbanatt.net/articles/itl2023.html">ITL Online 2023 Retrospective</a>
+<a href="articles/humantheorytas.html">STARS ALIGNED - A Human Theory TAS Combo Video - Annotations</a> :melee: :best:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/dancegames.html">Dance Games: How I Learned to Stop Worrying and Love Cardio</a>
-</p>
-
-<p>
-<a href="https://planetbanatt.net/articles/heartrate.html">ITG Players Have Unusual Heart Rate Zones</a>
-</p>
-
-<p>
-<a href="https://planetbanatt.net/articles/gungi.html">Gungi Rulebook Translation and Notes</a>
-</p>
-
-<p>
-<a href="articles/celeste.html">Just Breathe. Celeste is Game of the Decade</a>
-</p>
-
-<p>
-<a href="https://planetbanatt.net/articles/square1.html">Trying to Solve a Square-1 with No Algorithms</a>
-</p>
-
-<p>
-<a href="https://planetbanatt.net/articles/proxies.html">Proxy Printing Custom MTG Cards</a>
+<a href="articles/potbonus.html">Do Pot Bonuses Affect Entrant Numbers at Melee Tournaments?</a> :melee: :math:
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgb542090" class="outline-2">
-<h2 id="orgb542090">Cognitive Science</h2>
-<div class="outline-text-2" id="text-orgb542090">
+<div id="outline-container-orgaec17f9" class="outline-4">
+<h4 id="orgaec17f9">Software</h4>
+<div class="outline-text-4" id="text-orgaec17f9">
 <p>
-<a href="http://cogsci.yale.edu/sites/default/files/files/Thesis2017Banatt.pdf">Input Latency Detection in Expert-Level Gamers</a>
+<a href="articles/groundwork_for_projection_algorithm.html">Melee Bracket Projection Algorithm</a> - <a href="articles/projection_notes.html">Notes</a> :melee: :software:
 </p>
 
 <p>
-<a href="articles/personainsmash.html">Predicting Personality with Playstyle in Super Smash Brothers</a>
-</p>
-
-<p>
-<a href="http://planetbanatt.net/articles/lagless.html">Delays Have Dangerous Ends: On Monitors in SSBM</a>
-</p>
-
-<p>
-<a href="articles/framerate.html">"Framerate" in Visual Perception</a>
+<a href="articles/random20xx.html">20XX Randomized Savestates in Dolphin</a> :melee: :software:
 </p>
 </div>
 </div>
 
-<div id="outline-container-org819ea2a" class="outline-2">
-<h2 id="org819ea2a">Math / Stats / Programming</h2>
-<div class="outline-text-2" id="text-org819ea2a">
+<div id="outline-container-org0f8a2dd" class="outline-4">
+<h4 id="org0f8a2dd">Hardware</h4>
+<div class="outline-text-4" id="text-org0f8a2dd">
 <p>
-<a href="https://planetbanatt.net/articles/bluelock.html">Simulating the Blue Lock Second Selection</a>
+<a href="articles/hitbox.html">Analog Button Gamecube Controller</a> :melee: :hardware:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/freewill.html">The "Free Will" Test</a>
+<a href="articles/ambiGCC.html">Building a Better Gamecube Controller</a> :melee: :hardware:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/leetcode.html">On Leetcode</a>
+<a href="articles/kadano_controller_review.html">Kadano Controller Review</a> :melee: :hardware:
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org897f4cf" class="outline-2">
+<h2 id="org897f4cf">Games</h2>
+<div class="outline-text-2" id="text-org897f4cf">
+<p>
+<a href="https://planetbanatt.net/articles/itl2023.html">ITL Online 2023 Retrospective</a> :games: :best:
 </p>
 
 <p>
-<a href="articles/omron.html">How Variable Are Omron Body Composition Scales?</a>
+<a href="https://planetbanatt.net/articles/dancegames.html">Dance Games: How I Learned to Stop Worrying and Love Cardio</a> :games:
 </p>
 
 <p>
-<a href="articles/health.html">Optimizing Health with Cronometer</a>
+<a href="https://planetbanatt.net/articles/heartrate.html">ITG Players Have Unusual Heart Rate Zones</a> :games:
+</p>
+
+<p>
+<a href="https://planetbanatt.net/articles/gungi.html">Gungi Rulebook Translation and Notes</a> :games: :media:
+</p>
+
+<p>
+<a href="articles/celeste.html">Just Breathe. Celeste is Game of the Decade</a> :games: :media:
+</p>
+
+<p>
+<a href="https://planetbanatt.net/articles/square1.html">Trying to Solve a Square-1 with No Algorithms</a> :games: :math:
+</p>
+
+<p>
+<a href="https://planetbanatt.net/articles/proxies.html">Proxy Printing Custom MTG Cards</a> :games: :media:
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgdd7ddf7" class="outline-2">
-<h2 id="orgdd7ddf7">Memory</h2>
-<div class="outline-text-2" id="text-orgdd7ddf7">
+<div id="outline-container-org9b94ceb" class="outline-2">
+<h2 id="org9b94ceb">Cognitive Science</h2>
+<div class="outline-text-2" id="text-org9b94ceb">
 <p>
-<a href="https://planetbanatt.net/articles/memorycraft.html">Book Review: Memory Craft by Lynne Kelly</a>
+<a href="http://cogsci.yale.edu/sites/default/files/files/Thesis2017Banatt.pdf">Input Latency Detection in Expert-Level Gamers</a> :cogsci: :melee: :best:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/memory.html">Learning to Memorize, Cheating to Memorize Quickly</a>
+<a href="articles/personainsmash.html">Predicting Personality with Playstyle in Super Smash Brothers</a> :cogsci: :melee:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/palace.html">Building a Virtual Memory Palace</a>
+<a href="http://planetbanatt.net/articles/lagless.html">Delays Have Dangerous Ends: On Monitors in SSBM</a> :cogsci: :hardware: :melee: :best:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/majortrainer.html">Major System Trainer</a>
-</p>
-
-<p>
-<a href="https://planetbanatt.net/articles/wangfeng.html">Wang Feng Lecture on Memory Techniques (Machine Translation)</a>
-</p>
-
-<p>
-<a href="https://planetbanatt.net/articles/paocards.html">Printing Custom PAO Playing Cards</a>
-</p>
-
-<p>
-<a href="articles/anki.html">Notes on Spaced Repetition</a>
+<a href="articles/framerate.html">"Framerate" in Visual Perception</a> :cogsci:
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgd26c17d" class="outline-2">
-<h2 id="orgd26c17d">Media</h2>
-<div class="outline-text-2" id="text-orgd26c17d">
+<div id="outline-container-org5472893" class="outline-2">
+<h2 id="org5472893">Math / Stats / Programming</h2>
+<div class="outline-text-2" id="text-org5472893">
 <p>
-<a href="https://planetbanatt.net/articles/media.html">Book / Anime / Game Reviews</a>
+<a href="https://planetbanatt.net/articles/bluelock.html">Simulating the Blue Lock Second Selection</a> :math: :media: :best:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/golems.html">Humanity's Butterfly: Notes on Maimakterion</a>
+<a href="https://planetbanatt.net/articles/freewill.html">The "Free Will" Test</a> :math: :cogsci: :best:
 </p>
 
 <p>
-<a href="articles/pingpongzen.html"><i>Zen in the Art of Ping Pong The Animation</i></a>
+<a href="https://planetbanatt.net/articles/leetcode.html">On Leetcode</a> :software:
+</p>
+
+<p>
+<a href="articles/omron.html">How Variable Are Omron Body Composition Scales?</a> :math:
+</p>
+
+<p>
+<a href="articles/health.html">Optimizing Health with Cronometer</a> :math:
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgb3d6238" class="outline-2">
-<h2 id="orgb3d6238">Misc</h2>
-<div class="outline-text-2" id="text-orgb3d6238">
+<div id="outline-container-org872d519" class="outline-2">
+<h2 id="org872d519">Memory</h2>
+<div class="outline-text-2" id="text-org872d519">
+<p>
+<a href="https://planetbanatt.net/articles/memorycraft.html">Book Review: Memory Craft by Lynne Kelly</a> :memory: :media: :best:
+</p>
+
+<p>
+<a href="https://planetbanatt.net/articles/memory.html">Learning to Memorize, Cheating to Memorize Quickly</a> :memory: :best:
+</p>
+
+<p>
+<a href="https://planetbanatt.net/articles/palace.html">Building a Virtual Memory Palace</a> :memory: :software: :best:
+</p>
+
+<p>
+<a href="https://planetbanatt.net/articles/majortrainer.html">Major System Trainer</a> :memory: :software:
+</p>
+
+<p>
+<a href="https://planetbanatt.net/articles/wangfeng.html">Wang Feng Lecture on Memory Techniques (Machine Translation)</a> :memory:
+</p>
+
+<p>
+<a href="https://planetbanatt.net/articles/paocards.html">Printing Custom PAO Playing Cards</a> :memory:
+</p>
+
+<p>
+<a href="articles/anki.html">Notes on Spaced Repetition</a> :memory: :software:
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbb8ac94" class="outline-2">
+<h2 id="orgbb8ac94">Media</h2>
+<div class="outline-text-2" id="text-orgbb8ac94">
+<p>
+<a href="https://planetbanatt.net/articles/media.html">Book / Anime / Game Reviews</a> :media:
+</p>
+
+<p>
+<a href="https://planetbanatt.net/articles/golems.html">Humanity's Butterfly: Notes on Maimakterion</a> :media: :best:
+</p>
+
+<p>
+<a href="articles/pingpongzen.html"><i>Zen in the Art of Ping Pong The Animation</i></a> :media: :best:
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4fb8635" class="outline-2">
+<h2 id="org4fb8635">Misc</h2>
+<div class="outline-text-2" id="text-org4fb8635">
 <p>
 <a href="https://planetbanatt.net/articles/coolness.html">Novelty Dispersion</a>
 </p>
 
 <p>
-<a href="http://planetbanatt.net/articles/content_thoughts.html">Guitars, Quizbowl, and Bad English Classes: On What Makes Content Good</a>
+<a href="http://planetbanatt.net/articles/content_thoughts.html">Guitars, Quizbowl, and Bad English Classes: On What Makes Content Good</a> :media:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/usefulgames.html">Everybody Should Play Games</a>
+<a href="https://planetbanatt.net/articles/usefulgames.html">Everybody Should Play Games</a> :games: :best:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/gametypes.html">How To Win At Games</a>
+<a href="https://planetbanatt.net/articles/gametypes.html">How To Win At Games</a> :games: :best:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/xeroreview.html">Xero Prio Review / Thoughts on Barefoot Shoes</a>
+<a href="https://planetbanatt.net/articles/xeroreview.html">Xero Prio Review / Thoughts on Barefoot Shoes</a> :games:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/milestones.html">Gaming Milestones</a>
+<a href="https://planetbanatt.net/articles/milestones.html">Gaming Milestones</a> :games:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/genie.html">The Genie</a>
+<a href="https://planetbanatt.net/articles/genie.html">The Genie</a> :fiction:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/heaven.html">The Saccharine Prison</a>
+<a href="https://planetbanatt.net/articles/heaven.html">The Saccharine Prison</a> :fiction:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/magic.html">Not a Mage</a>
+<a href="https://planetbanatt.net/articles/magic.html">Not a Mage</a> :fiction:
 </p>
 
 <p>
-<a href="https://planetbanatt.net/articles/lains.html">Gallery of Generated Lains</a> 
+<a href="https://planetbanatt.net/articles/lains.html">Gallery of Generated Lains</a> :ml: :media:
 </p>
 
 <p>
@@ -473,7 +561,7 @@ This is the web page of <b>Eryk Banatt</b>, sometimes referred to by the handle 
 </p>
 
 <p>
-<a href="articles/360view.html">Seeing Everything: A Visual Perception Experiment Proposal</a>
+<a href="articles/360view.html">Seeing Everything: A Visual Perception Experiment Proposal</a> :cogsci:
 </p>
 
 <p>

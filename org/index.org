@@ -10,9 +10,87 @@
 #+HTML_HEAD: <link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 #+HTML_HEAD: <link  href="./css/index_20240129.css" rel="stylesheet">
 #+BEGIN_EXPORT html
+<style>
+.tag-filter { margin: 10px 0 20px 0; }
+.tag-btn { 
+    display: inline-block; 
+    padding: 4px 10px; 
+    margin: 3px; 
+    border: 1px solid #666; 
+    border-radius: 3px; 
+    cursor: pointer; 
+    font-size: 13px;
+    background: #f5f5f5;
+    transition: all 0.15s;
+}
+.tag-btn:hover { background: #e0e0e0; }
+.tag-btn.active { background: #333; color: #fff; border-color: #333; }
+body.dark-mode .tag-btn { background: #2a2a2a; border-color: #555; color: #e0e0e0; }
+body.dark-mode .tag-btn:hover { background: #3a3a3a; }
+body.dark-mode .tag-btn.active { background: #4db6e6; color: #000; border-color: #4db6e6; }
+.article-item { margin: 5px 0; }
+.article-item.hidden { display: none; }
+.tag-span { display: none; } /* hide the :tag: text */
+h2.hidden, h4.hidden { display: none; }
+</style>
 <script>
-// use emacs org mode export, they said. It "Just Works", they said.
 window.onload = function() {
+    // Parse tags from :tag: format and set data attributes
+    document.querySelectorAll('.outline-2 p, .outline-4 p').forEach(function(p) {
+        var text = p.innerHTML;
+        var tagMatch = text.match(/:(\w+):/g);
+        if (tagMatch) {
+            var tags = tagMatch.map(function(t) { return t.replace(/:/g, ''); });
+            p.classList.add('article-item');
+            p.dataset.tags = tags.join(' ');
+            // Remove the :tag: text from display
+            p.innerHTML = text.replace(/\s*:(\w+):/g, '');
+        } else {
+            p.classList.add('article-item');
+            p.dataset.tags = '';
+        }
+    });
+
+    // Tag filtering
+    var activeTags = new Set();
+    
+    window.toggleTag = function(tag, btn) {
+        if (activeTags.has(tag)) {
+            activeTags.delete(tag);
+            btn.classList.remove('active');
+        } else {
+            activeTags.add(tag);
+            btn.classList.add('active');
+        }
+        filterArticles();
+    }
+    
+    function filterArticles() {
+        var items = document.querySelectorAll('.article-item');
+        var headings = document.querySelectorAll('.outline-2 h2, .outline-4 h4');
+        
+        if (activeTags.size === 0) {
+            // No filters: show everything
+            items.forEach(function(item) { item.classList.remove('hidden'); });
+            headings.forEach(function(h) { h.classList.remove('hidden'); });
+            return;
+        }
+        
+        // Hide all headings when filtering
+        headings.forEach(function(h) { h.classList.add('hidden'); });
+        
+        // Show only matching articles
+        items.forEach(function(item) {
+            var itemTags = (item.dataset.tags || '').split(' ');
+            var match = false;
+            activeTags.forEach(function(tag) {
+                if (itemTags.includes(tag)) match = true;
+            });
+            item.classList.toggle('hidden', !match);
+        });
+    }
+
+    // Original column layout code
     var firstHr = document.querySelector('hr');
     if (firstHr) {
         var div = document.createElement('div');
@@ -64,164 +142,174 @@ This is the web page of *Eryk Banatt*, sometimes referred to by the handle *Ambi
 * Articles
 
 #+BEGIN_EXPORT html
+<div class="tag-filter">
+<span class="tag-btn" onclick="toggleTag('best', this)">Highlights</span>
+<span class="tag-btn" onclick="toggleTag('ml', this)">ML</span>
+<span class="tag-btn" onclick="toggleTag('melee', this)">Melee</span>
+<span class="tag-btn" onclick="toggleTag('games', this)">Games</span>
+<span class="tag-btn" onclick="toggleTag('cogsci', this)">CogSci</span>
+<span class="tag-btn" onclick="toggleTag('memory', this)">Memory</span>
+<span class="tag-btn" onclick="toggleTag('media', this)">Media</span>
+<span class="tag-btn" onclick="toggleTag('fiction', this)">Fiction</span>
+</div>
 <hr>
 #+END_EXPORT
 
 ** Recent
 
-[[https://planetbanatt.net/articles/gametypes.html][How To Win At Games]]
+[[https://planetbanatt.net/articles/gametypes.html][How To Win At Games]] :games: :best:
 
 ** Machine Learning
 
-[[https://planetbanatt.net/articles/deepseek.html][Understanding Modern LLMs via DeepSeek]]
+[[https://planetbanatt.net/articles/deepseek.html][Understanding Modern LLMs via DeepSeek]] :ml: :best:
 
-[[https://planetbanatt.net/articles/deepseek2.html][Understanding LLMs via DeepSeek Part 2]]
+[[https://planetbanatt.net/articles/deepseek2.html][Understanding LLMs via DeepSeek Part 2]] :ml: :best:
 
-[[https://planetbanatt.net/articles/agentic.html][Understanding Agentic LLMs]]
+[[https://planetbanatt.net/articles/agentic.html][Understanding Agentic LLMs]] :ml: :best:
 
-[[https://planetbanatt.net/articles/llm_mahjong.html][Teaching an LLM to Play Riichi Mahjong]]
+[[https://planetbanatt.net/articles/llm_mahjong.html][Teaching an LLM to Play Riichi Mahjong]] :ml: :games: :best:
 
-[[https://planetbanatt.net/articles/wason.html][WILT: Wason Inductive Logic Test for LLMs (Proof of Concept Blogpost)]] ([[https://arxiv.org/abs/2410.10998][Arxiv Preprint]])
+[[https://planetbanatt.net/articles/wason.html][WILT: Wason Inductive Logic Test for LLMs (Proof of Concept Blogpost)]] ([[https://arxiv.org/abs/2410.10998][Arxiv Preprint]]) :ml: :cogsci: :best:
 
-[[https://planetbanatt.net/articles/mla.html][Experiments with Multi-Head Latent Attention]]
+[[https://planetbanatt.net/articles/mla.html][Experiments with Multi-Head Latent Attention]] :ml: :best:
 
-[[https://planetbanatt.net/articles/modelmerging.html][Model Merging and You]]
+[[https://planetbanatt.net/articles/modelmerging.html][Model Merging and You]] :ml:
 
-[[https://planetbanatt.net/articles/sutton.html][Notes on Sutton & Barto]]
+[[https://planetbanatt.net/articles/sutton.html][Notes on Sutton & Barto]] :ml:
 
-[[https://planetbanatt.net/articles/deeprl.html][Notes on Deep RL Papers]]
+[[https://planetbanatt.net/articles/deeprl.html][Notes on Deep RL Papers]] :ml:
 
-[[https://planetbanatt.net/articles/v3fermi.html][Deepseek-V3 Training Budget Fermi Estimation]]
+[[https://planetbanatt.net/articles/v3fermi.html][Deepseek-V3 Training Budget Fermi Estimation]] :ml: :math: :best:
 
-[[https://planetbanatt.net/articles/lastdance.pdf][LASTDANCE: Layerwise Activation Similarity to Training Data for Assessing Non-Conforming Events (pre-preprint)]] [[https://github.com/ambisinister/LASTDANCE/blob/master/LASTDANCE_README.ipynb][(Notebook)]]
+[[https://planetbanatt.net/articles/lastdance.pdf][LASTDANCE: Layerwise Activation Similarity to Training Data for Assessing Non-Conforming Events (pre-preprint)]] [[https://github.com/ambisinister/LASTDANCE/blob/master/LASTDANCE_README.ipynb][(Notebook)]] :ml:
 
-[[https://planetbanatt.net/articles/itsa17.html][Auto-Rating ITG Stamina Charts with Machine Learning]]
+[[https://planetbanatt.net/articles/itsa17.html][Auto-Rating ITG Stamina Charts with Machine Learning]] :ml: :games:
 
-[[https://planetbanatt.net/articles/Bracket_Stamina.pdf][Bracket Stamina: Inferring the Intent of Other Agents in a Multiplayer Kelly Coin Flip Game]]
+[[https://planetbanatt.net/articles/Bracket_Stamina.pdf][Bracket Stamina: Inferring the Intent of Other Agents in a Multiplayer Kelly Coin Flip Game]] :ml: :math: :games:
 
-[[file:articles/visualdistance.html][Locating Visual Jokes in Homestuck Using Rudimentary Computer Vision]]
+[[file:articles/visualdistance.html][Locating Visual Jokes in Homestuck Using Rudimentary Computer Vision]] :ml: :media:
 
 ** SSBM
 
 **** Rankings
 
-[[file:articles/ambistats.html][Making Sense of Melee: The Illusion of Objective Ranks and the Real Impact of Everything]]
+[[file:articles/ambistats.html][Making Sense of Melee: The Illusion of Objective Ranks and the Real Impact of Everything]] :melee: :math: :best:
 
-[[http://planetbanatt.net/articles/ensembles.html][Invasion of the Ballot Snatchers (and Other Stories) - Decorrelated Errors in Panel-Based Rank Voting]]
+[[http://planetbanatt.net/articles/ensembles.html][Invasion of the Ballot Snatchers (and Other Stories) - Decorrelated Errors in Panel-Based Rank Voting]] :melee: :math: :best:
 
-[[https://planetbanatt.net/articles/contradictions.html][Melee Rankings are a Game of Contradictions]]
+[[https://planetbanatt.net/articles/contradictions.html][Melee Rankings are a Game of Contradictions]] :melee: :best:
 
-[[https://planetbanatt.net/articles/ssbmrank2022.html][Notes on SSBMRank 2022]]
+[[https://planetbanatt.net/articles/ssbmrank2022.html][Notes on SSBMRank 2022]] :melee:
 
 **** Gameplay and Culture
 
-[[https://planetbanatt.net/vods/index.html][Melee Vods Viewer]]
+[[https://planetbanatt.net/vods/index.html][Melee Vods Viewer]] :melee: :software:
 
-[[https://planetbanatt.net/articles/parable.html][The Parable of the Monster]]
+[[https://planetbanatt.net/articles/parable.html][The Parable of the Monster]] :melee: :fiction:
 
-[[http://planetbanatt.net/articles/lesson_notes.html][Melee Lesson Resources for Fox Players + Thoughts on Learning in Melee]]
+[[http://planetbanatt.net/articles/lesson_notes.html][Melee Lesson Resources for Fox Players + Thoughts on Learning in Melee]] :melee: :best:
 
-[[file:articles/humantheorytas.html][STARS ALIGNED - A Human Theory TAS Combo Video - Annotations]]
+[[file:articles/humantheorytas.html][STARS ALIGNED - A Human Theory TAS Combo Video - Annotations]] :melee: :best:
 
-[[file:articles/potbonus.html][Do Pot Bonuses Affect Entrant Numbers at Melee Tournaments?]]
+[[file:articles/potbonus.html][Do Pot Bonuses Affect Entrant Numbers at Melee Tournaments?]] :melee: :math:
 
 **** Software
 
-[[file:articles/groundwork_for_projection_algorithm.html][Melee Bracket Projection Algorithm]] - [[file:articles/projection_notes.html][Notes]]
+[[file:articles/groundwork_for_projection_algorithm.html][Melee Bracket Projection Algorithm]] - [[file:articles/projection_notes.html][Notes]] :melee: :software:
 
-[[file:articles/random20xx.html][20XX Randomized Savestates in Dolphin]]
+[[file:articles/random20xx.html][20XX Randomized Savestates in Dolphin]] :melee: :software:
 
 **** Hardware
 
-[[file:articles/hitbox.html][Analog Button Gamecube Controller]]
+[[file:articles/hitbox.html][Analog Button Gamecube Controller]] :melee: :hardware:
 
-[[file:articles/ambiGCC.html][Building a Better Gamecube Controller]]
+[[file:articles/ambiGCC.html][Building a Better Gamecube Controller]] :melee: :hardware:
 
-[[file:articles/kadano_controller_review.html][Kadano Controller Review]]
+[[file:articles/kadano_controller_review.html][Kadano Controller Review]] :melee: :hardware:
 
 ** Games
 
-[[https://planetbanatt.net/articles/itl2023.html][ITL Online 2023 Retrospective]]
+[[https://planetbanatt.net/articles/itl2023.html][ITL Online 2023 Retrospective]] :games: :best:
 
-[[https://planetbanatt.net/articles/dancegames.html][Dance Games: How I Learned to Stop Worrying and Love Cardio]]
+[[https://planetbanatt.net/articles/dancegames.html][Dance Games: How I Learned to Stop Worrying and Love Cardio]] :games:
 
-[[https://planetbanatt.net/articles/heartrate.html][ITG Players Have Unusual Heart Rate Zones]]
+[[https://planetbanatt.net/articles/heartrate.html][ITG Players Have Unusual Heart Rate Zones]] :games:
 
-[[https://planetbanatt.net/articles/gungi.html][Gungi Rulebook Translation and Notes]]
+[[https://planetbanatt.net/articles/gungi.html][Gungi Rulebook Translation and Notes]] :games: :media:
 
-[[file:articles/celeste.html][Just Breathe. Celeste is Game of the Decade]]
+[[file:articles/celeste.html][Just Breathe. Celeste is Game of the Decade]] :games: :media:
 
-[[https://planetbanatt.net/articles/square1.html][Trying to Solve a Square-1 with No Algorithms]]
+[[https://planetbanatt.net/articles/square1.html][Trying to Solve a Square-1 with No Algorithms]] :games: :math:
 
-[[https://planetbanatt.net/articles/proxies.html][Proxy Printing Custom MTG Cards]]
+[[https://planetbanatt.net/articles/proxies.html][Proxy Printing Custom MTG Cards]] :games: :media:
 
 ** Cognitive Science
 
-[[http://cogsci.yale.edu/sites/default/files/files/Thesis2017Banatt.pdf][Input Latency Detection in Expert-Level Gamers]]
+[[http://cogsci.yale.edu/sites/default/files/files/Thesis2017Banatt.pdf][Input Latency Detection in Expert-Level Gamers]] :cogsci: :melee: :best:
 
-[[file:articles/personainsmash.html][Predicting Personality with Playstyle in Super Smash Brothers]]
+[[file:articles/personainsmash.html][Predicting Personality with Playstyle in Super Smash Brothers]] :cogsci: :melee:
 
-[[http://planetbanatt.net/articles/lagless.html][Delays Have Dangerous Ends: On Monitors in SSBM]]
+[[http://planetbanatt.net/articles/lagless.html][Delays Have Dangerous Ends: On Monitors in SSBM]] :cogsci: :hardware: :melee: :best:
 
-[[file:articles/framerate.html]["Framerate" in Visual Perception]]
+[[file:articles/framerate.html]["Framerate" in Visual Perception]] :cogsci:
 
 ** Math / Stats / Programming
 
-[[https://planetbanatt.net/articles/bluelock.html][Simulating the Blue Lock Second Selection]]
+[[https://planetbanatt.net/articles/bluelock.html][Simulating the Blue Lock Second Selection]] :math: :media: :best:
 
-[[https://planetbanatt.net/articles/freewill.html][The "Free Will" Test]]
+[[https://planetbanatt.net/articles/freewill.html][The "Free Will" Test]] :math: :cogsci: :best:
 
-[[https://planetbanatt.net/articles/leetcode.html][On Leetcode]]
+[[https://planetbanatt.net/articles/leetcode.html][On Leetcode]] :software:
 
-[[file:articles/omron.html][How Variable Are Omron Body Composition Scales?]]
+[[file:articles/omron.html][How Variable Are Omron Body Composition Scales?]] :math:
 
-[[file:articles/health.html][Optimizing Health with Cronometer]]
+[[file:articles/health.html][Optimizing Health with Cronometer]] :math:
 
 ** Memory
 
-[[https://planetbanatt.net/articles/memorycraft.html][Book Review: Memory Craft by Lynne Kelly]]
+[[https://planetbanatt.net/articles/memorycraft.html][Book Review: Memory Craft by Lynne Kelly]] :memory: :media: :best:
 
-[[https://planetbanatt.net/articles/memory.html][Learning to Memorize, Cheating to Memorize Quickly]]
+[[https://planetbanatt.net/articles/memory.html][Learning to Memorize, Cheating to Memorize Quickly]] :memory: :best:
 
-[[https://planetbanatt.net/articles/palace.html][Building a Virtual Memory Palace]]
+[[https://planetbanatt.net/articles/palace.html][Building a Virtual Memory Palace]] :memory: :software: :best:
 
-[[https://planetbanatt.net/articles/majortrainer.html][Major System Trainer]]
+[[https://planetbanatt.net/articles/majortrainer.html][Major System Trainer]] :memory: :software:
 
-[[https://planetbanatt.net/articles/wangfeng.html][Wang Feng Lecture on Memory Techniques (Machine Translation)]]
+[[https://planetbanatt.net/articles/wangfeng.html][Wang Feng Lecture on Memory Techniques (Machine Translation)]] :memory:
 
-[[https://planetbanatt.net/articles/paocards.html][Printing Custom PAO Playing Cards]]
+[[https://planetbanatt.net/articles/paocards.html][Printing Custom PAO Playing Cards]] :memory:
 
-[[file:articles/anki.html][Notes on Spaced Repetition]]
+[[file:articles/anki.html][Notes on Spaced Repetition]] :memory: :software:
 
 ** Media
 
-[[https://planetbanatt.net/articles/media.html][Book / Anime / Game Reviews]]
+[[https://planetbanatt.net/articles/media.html][Book / Anime / Game Reviews]] :media:
 
-[[https://planetbanatt.net/articles/golems.html][Humanity's Butterfly: Notes on Maimakterion]]
+[[https://planetbanatt.net/articles/golems.html][Humanity's Butterfly: Notes on Maimakterion]] :media: :best:
 
-[[file:articles/pingpongzen.html][/Zen in the Art of Ping Pong The Animation/]]
+[[file:articles/pingpongzen.html][/Zen in the Art of Ping Pong The Animation/]] :media: :best:
 
 ** Misc
 
 [[https://planetbanatt.net/articles/coolness.html][Novelty Dispersion]]
 
-[[http://planetbanatt.net/articles/content_thoughts.html][Guitars, Quizbowl, and Bad English Classes: On What Makes Content Good]]
+[[http://planetbanatt.net/articles/content_thoughts.html][Guitars, Quizbowl, and Bad English Classes: On What Makes Content Good]] :media:
 
-[[https://planetbanatt.net/articles/usefulgames.html][Everybody Should Play Games]]
+[[https://planetbanatt.net/articles/usefulgames.html][Everybody Should Play Games]] :games: :best:
 
-[[https://planetbanatt.net/articles/gametypes.html][How To Win At Games]]
+[[https://planetbanatt.net/articles/gametypes.html][How To Win At Games]] :games: :best:
 
-[[https://planetbanatt.net/articles/xeroreview.html][Xero Prio Review / Thoughts on Barefoot Shoes]]
+[[https://planetbanatt.net/articles/xeroreview.html][Xero Prio Review / Thoughts on Barefoot Shoes]] :games:
 
-[[https://planetbanatt.net/articles/milestones.html][Gaming Milestones]]
+[[https://planetbanatt.net/articles/milestones.html][Gaming Milestones]] :games:
 
-[[https://planetbanatt.net/articles/genie.html][The Genie]]
+[[https://planetbanatt.net/articles/genie.html][The Genie]] :fiction:
 
-[[https://planetbanatt.net/articles/heaven.html][The Saccharine Prison]]
+[[https://planetbanatt.net/articles/heaven.html][The Saccharine Prison]] :fiction:
 
-[[https://planetbanatt.net/articles/magic.html][Not a Mage]]
+[[https://planetbanatt.net/articles/magic.html][Not a Mage]] :fiction:
 
-[[https://planetbanatt.net/articles/lains.html][Gallery of Generated Lains]] 
+[[https://planetbanatt.net/articles/lains.html][Gallery of Generated Lains]] :ml: :media:
 
 [[https://planetbanatt.net/articles/badguy.html][On Being The Bad Guy]]
 
@@ -229,7 +317,7 @@ This is the web page of *Eryk Banatt*, sometimes referred to by the handle *Ambi
 
 [[https://planetbanatt.net/articles/learningbyaccumulation.html][Learning by Accumulation]]
 
-[[file:articles/360view.html][Seeing Everything: A Visual Perception Experiment Proposal]]
+[[file:articles/360view.html][Seeing Everything: A Visual Perception Experiment Proposal]] :cogsci:
 
 [[http://planetbanatt.net/articles/energydrink.html][Energy Drink Tier List]]
 
