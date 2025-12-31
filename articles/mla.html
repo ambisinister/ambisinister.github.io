@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-23 Wed 15:49 -->
+<!-- 2025-12-30 Tue 22:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>On MLA</title>
@@ -317,8 +317,8 @@ Similar to using non-learned position encodings, RoPE requires you to create a 2
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">freqs = 1.0 / (rope_theta ** (torch.arange(0, self.dh, 2).float() / self.dh))
-emb = torch.outer(torch.arange(self.max_seq_len).float(), freqs)
+<pre class="src src-python"><span style="color: #FD971F;">freqs</span> = 1.0 / (rope_theta ** (torch.arange(0, <span style="color: #F92672;">self</span>.dh, 2).<span style="color: #F92672;">float</span>() / <span style="color: #F92672;">self</span>.dh))
+<span style="color: #FD971F;">emb</span> = torch.outer(torch.arange(<span style="color: #F92672;">self</span>.max_seq_len).<span style="color: #F92672;">float</span>(), freqs)
 </pre>
 </div>
 
@@ -327,14 +327,14 @@ Sine and cosine are applied to this position embedding tensor, indexed by positi
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">def rotate_half(x):
-    x1, x2 = x.chunk(2, dim=-1)
-    return torch.cat((-x2, x1), dim=-1)
+<pre class="src src-python"><span style="color: #F92672;">def</span> <span style="color: #A6E22E;">rotate_half</span>(x):
+    <span style="color: #FD971F;">x1</span>, <span style="color: #FD971F;">x2</span> = x.chunk(2, dim=-1)
+    <span style="color: #F92672;">return</span> torch.cat((-x2, x1), dim=-1)
 
-def apply_rope(q, k, cos, sin):
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">apply_rope</span>(q, k, cos, sin):
     q = (q * cos) + (rotate_half(q) * sin)
     k = (k * cos) + (rotate_half(k) * sin)
-    return q, k
+    <span style="color: #F92672;">return</span> q, k
 </pre>
 </div>
 
@@ -506,43 +506,43 @@ We also see below our training curves for each of these experiments, which seem 
 </p>
 
 
-<div id="org987c1b4" class="figure">
+<div id="org5daed89" class="figure">
 <p><img src="../images/mla/mha_rope_training_curve.png" alt="mha_rope_training_curve.png" />
 </p>
 </div>
 
 
-<div id="org65e929e" class="figure">
+<div id="orgadcff60" class="figure">
 <p><img src="../images/mla/mla_rope_training_curve.png" alt="mla_rope_training_curve.png" />
 </p>
 </div>
 
 
-<div id="orgacad3c4" class="figure">
+<div id="org316bc35" class="figure">
 <p><img src="../images/mla/mha_decoupled_rope_training_curve.png" alt="mha_decoupled_rope_training_curve.png" />
 </p>
 </div>
 
 
-<div id="org458c7d4" class="figure">
+<div id="orga53bdeb" class="figure">
 <p><img src="../images/mla/mqa_rope_training_curve.png" alt="mqa_rope_training_curve.png" />
 </p>
 </div>
 
 
-<div id="org5a24ea0" class="figure">
+<div id="org5c74063" class="figure">
 <p><img src="../images/mla/mla_training_curve.png" alt="mla_training_curve.png" />
 </p>
 </div>
 
 
-<div id="orgbf35876" class="figure">
+<div id="orgece0e26" class="figure">
 <p><img src="../images/mla/mha_training_curve.png" alt="mha_training_curve.png" />
 </p>
 </div>
 
 
-<div id="org7b95978" class="figure">
+<div id="org0c901f9" class="figure">
 <p><img src="../images/mla/mqa_training_curve.png" alt="mqa_training_curve.png" />
 </p>
 </div>
@@ -615,13 +615,13 @@ You may ask: how different is the performance between compressed caching and ful
 </p>
 
 
-<div id="org70482c8" class="figure">
+<div id="org1247a08" class="figure">
 <p><img src="../images/mla/inference_100_in.png" alt="inference_100_in.png" />
 </p>
 </div>
 
 
-<div id="org6f374d8" class="figure">
+<div id="org86fa66f" class="figure">
 <p><img src="../images/mla/inference_100_out.png" alt="inference_100_out.png" />
 </p>
 </div>

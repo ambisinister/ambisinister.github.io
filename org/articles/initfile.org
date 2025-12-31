@@ -12,7 +12,7 @@ To begin you'll want the following in your init.el file:
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives
-	     '("melpa" . "http://melpa.org/packages/"))
+	     '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
 ;; Bootstrap `use-package'
@@ -248,15 +248,18 @@ syntax highlighting for emacs org mode -> html would be nice to have for when I 
 
 
 #+BEGIN_SRC emacs-lisp
-;(require 'ox-latex)
-;(use-package htmlize)
-;(add-to-list 'org-latex-packages-alist '("" "minted"))
-;(setq org-latex-listings 'minted)
-;(setq org-latex-pdf-process
-;      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-;        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-;        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+(require 'ox-latex)
+(use-package htmlize)
+(add-to-list 'org-latex-packages-alist '("" "minted"))
+(setq org-latex-listings 'minted)
+(setq org-latex-pdf-process
+      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 #+END_SRC
+
+#+RESULTS:
+| pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f | pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f | pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f |
 
 
 ** org mode settings

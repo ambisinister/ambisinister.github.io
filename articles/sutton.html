@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-23 Wed 15:49 -->
+<!-- 2025-12-30 Tue 22:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Learning RL</title>
@@ -293,7 +293,7 @@ $(function() {
 <ul>
 <li><a href="#org2f71fd5">Exercise 11.1</a></li>
 <li><a href="#orga019a12">Exercise 11.3</a></li>
-<li><a href="#orge5dbb5a"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
+<li><a href="#orga5ad5f1"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
 </ul>
 </li>
 <li><a href="#orgd91dc01">12 - Eligibility Traces</a>
@@ -324,7 +324,7 @@ $(function() {
 <li><a href="#orgddfbd2e">Exercise 13.3</a></li>
 <li><a href="#org12f03b9">Exercise 13.4</a></li>
 <li><a href="#orgfb5dc0a">Exercise 13.5</a></li>
-<li><a href="#orga5ad5f1"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
+<li><a href="#org8d7450e"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</a></li>
 </ul>
 </li>
 <li><a href="#org0577026">14-16: No Exercises</a></li>
@@ -677,20 +677,20 @@ longer runs, say of 10,000 steps
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">import numpy as np
-import matplotlib.pyplot as plt
+<pre class="src src-python"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
 
-# define k armed bandit
-k = 10
-q_stars = [5 for _ in range(k)]
+<span style="color: #75715E;"># </span><span style="color: #75715E;">define k armed bandit
+</span><span style="color: #FD971F;">k</span> = 10
+<span style="color: #FD971F;">q_stars</span> = [5 <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(k)]
 
-def run_experiment(epsilon, method='constant'):
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">run_experiment</span>(epsilon, method=<span style="color: #E6DB74;">'constant'</span>):
 
-    num_acts = [0 for _ in q_stars]
-    q_vals = [0 for _ in q_stars]
+    num_acts = [0 <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> q_stars]
+    q_vals = [0 <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> q_stars]
 
-    if method == 'constant':
-	alpha = 0.1
+    <span style="color: #F92672;">if</span> method == <span style="color: #E6DB74;">'constant'</span>:
+        alpha = 0.1
 
     steps = 10000
 
@@ -699,46 +699,46 @@ def run_experiment(epsilon, method='constant'):
     avg_reward = 0
     optimal_actions = 0
 
-    for step in range(steps):
-	if method != 'constant':
-	    alpha = 1 / (step + 1)
+    <span style="color: #F92672;">for</span> step <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(steps):
+        <span style="color: #F92672;">if</span> method != <span style="color: #E6DB74;">'constant'</span>:
+            alpha = 1 / (step + 1)
 
-	# random walks
-	for i, bandit in enumerate(q_stars):
-	    q_stars[i] += np.random.normal(0, 0.01)
+        <span style="color: #75715E;"># </span><span style="color: #75715E;">random walks
+</span>        <span style="color: #F92672;">for</span> i, bandit <span style="color: #F92672;">in</span> <span style="color: #F92672;">enumerate</span>(q_stars):
+            q_stars[<span style="color: #FD971F;">i</span>] += np.random.normal(0, 0.01)
 
-	# epsilon-greedy
-	if np.random.random() &lt; epsilon:
-	    act = np.random.randint(0, k)
-	else:
-	    act = np.argmax(q_vals)
+        <span style="color: #75715E;"># </span><span style="color: #75715E;">epsilon-greedy
+</span>        <span style="color: #F92672;">if</span> np.random.random() &lt; epsilon:
+            act = np.random.randint(0, k)
+        <span style="color: #F92672;">else</span>:
+            act = np.argmax(q_vals)
 
-	num_acts[act] += 1
-	q_vals[act] += alpha * (q_stars[act] - q_vals[act])
+        num_acts[<span style="color: #FD971F;">act</span>] += 1
+        q_vals[<span style="color: #FD971F;">act</span>] += alpha * (q_stars[act] - q_vals[act])
 
-	avg_reward += (1 / (step + 1)) * q_stars[act]
-	avg_rewards.append(avg_reward)
+        avg_reward += (1 / (step + 1)) * q_stars[act]
+        avg_rewards.append(avg_reward)
 
-	if act == np.argmax(q_stars):
-	    optimal_actions += 1
+        <span style="color: #F92672;">if</span> act == np.argmax(q_stars):
+            optimal_actions += 1
 
-	pct_optimal = optimal_actions / (step + 1)
-	pct_optimals.append(pct_optimal)
+        pct_optimal = optimal_actions / (step + 1)
+        pct_optimals.append(pct_optimal)
 
-    return avg_rewards, pct_optimals
+    <span style="color: #F92672;">return</span> avg_rewards, pct_optimals
 
-const_rewards, const_optimals = run_experiment(0.1, method='constant')
-avg_rewards, avg_optimals = run_experiment(0.1, method='average')
+const_rewards, const_optimals = run_experiment(0.1, method=<span style="color: #E6DB74;">'constant'</span>)
+avg_rewards, avg_optimals = run_experiment(0.1, method=<span style="color: #E6DB74;">'average'</span>)
 
-plt.title("Average rewards")
-plt.plot(const_rewards, label='constant alpha')
-plt.plot(avg_rewards, label='averaging')
+plt.title(<span style="color: #E6DB74;">"Average rewards"</span>)
+plt.plot(const_rewards, label=<span style="color: #E6DB74;">'constant alpha'</span>)
+plt.plot(avg_rewards, label=<span style="color: #E6DB74;">'averaging'</span>)
 plt.legend()
 plt.show()
 
-plt.title("Optimal actions")
-plt.plot(const_optimals, label='constant alpha')
-plt.plot(avg_optimals, label='averaging')
+plt.title(<span style="color: #E6DB74;">"Optimal actions"</span>)
+plt.plot(const_optimals, label=<span style="color: #E6DB74;">'constant alpha'</span>)
+plt.plot(avg_optimals, label=<span style="color: #E6DB74;">'averaging'</span>)
 plt.legend()
 plt.show()
 </pre>
@@ -794,21 +794,21 @@ average without initial bias.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">import numpy as np
-import matplotlib.pyplot as plt
+<pre class="src src-python"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
 
-# define k armed bandit
-k = 10
-q_stars = [np.random.normal(0, 1) for _ in range(k)]
+<span style="color: #75715E;"># </span><span style="color: #75715E;">define k armed bandit
+</span><span style="color: #FD971F;">k</span> = 10
+<span style="color: #FD971F;">q_stars</span> = [np.random.normal(0, 1) <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(k)]
 
-def run_experiment(epsilon, method='constant'):
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">run_experiment</span>(epsilon, method=<span style="color: #E6DB74;">'constant'</span>):
 
-    num_acts = [0 for _ in q_stars]
-    q_vals = [5 for _ in q_stars] #optimistic reward
-
-    if method == 'constant':
-	alpha = 0.1
-	o_bar = 0
+    num_acts = [0 <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> q_stars]
+    q_vals = [5 <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> q_stars] <span style="color: #75715E;">#</span><span style="color: #75715E;">optimistic reward
+</span>
+    <span style="color: #F92672;">if</span> method == <span style="color: #E6DB74;">'constant'</span>:
+        alpha = 0.1
+        o_bar = 0
 
     steps = 10000
 
@@ -817,45 +817,45 @@ def run_experiment(epsilon, method='constant'):
     avg_reward = 0
     optimal_actions = 0
 
-    for step in range(steps):
-	if method == 'constant':
-	    o_bar += alpha * (1 - o_bar)
-	    beta = alpha / o_bar
-	else:
-	    beta = 1 / (step + 1)
+    <span style="color: #F92672;">for</span> step <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(steps):
+        <span style="color: #F92672;">if</span> method == <span style="color: #E6DB74;">'constant'</span>:
+            o_bar += alpha * (1 - o_bar)
+            beta = alpha / o_bar
+        <span style="color: #F92672;">else</span>:
+            beta = 1 / (step + 1)
 
-	# epsilon-greedy
-	if np.random.random() &lt; epsilon:
-	    act = np.random.randint(0, k)
-	else:
-	    act = np.argmax(q_vals)
+        <span style="color: #75715E;"># </span><span style="color: #75715E;">epsilon-greedy
+</span>        <span style="color: #F92672;">if</span> np.random.random() &lt; epsilon:
+            act = np.random.randint(0, k)
+        <span style="color: #F92672;">else</span>:
+            act = np.argmax(q_vals)
 
-	num_acts[act] += 1
-	q_vals[act] += beta * (q_stars[act] - q_vals[act])
+        num_acts[<span style="color: #FD971F;">act</span>] += 1
+        q_vals[<span style="color: #FD971F;">act</span>] += beta * (q_stars[act] - q_vals[act])
 
-	avg_reward += (1 / (step + 1)) * q_stars[act]
-	avg_rewards.append(avg_reward)
+        avg_reward += (1 / (step + 1)) * q_stars[act]
+        avg_rewards.append(avg_reward)
 
-	if act == np.argmax(q_stars):
-	    optimal_actions += 1
+        <span style="color: #F92672;">if</span> act == np.argmax(q_stars):
+            optimal_actions += 1
 
-	pct_optimal = optimal_actions / (step + 1)
-	pct_optimals.append(pct_optimal)
+        pct_optimal = optimal_actions / (step + 1)
+        pct_optimals.append(pct_optimal)
 
-    return avg_rewards, pct_optimals
+    <span style="color: #F92672;">return</span> avg_rewards, pct_optimals
 
-const_rewards, const_optimals = run_experiment(0.1, method='constant')
-avg_rewards, avg_optimals = run_experiment(0.1, method='average')
+const_rewards, const_optimals = run_experiment(0.1, method=<span style="color: #E6DB74;">'constant'</span>)
+avg_rewards, avg_optimals = run_experiment(0.1, method=<span style="color: #E6DB74;">'average'</span>)
 
-plt.title("Average rewards")
-plt.plot(const_rewards, label='constant alpha')
-plt.plot(avg_rewards, label='averaging')
+plt.title(<span style="color: #E6DB74;">"Average rewards"</span>)
+plt.plot(const_rewards, label=<span style="color: #E6DB74;">'constant alpha'</span>)
+plt.plot(avg_rewards, label=<span style="color: #E6DB74;">'averaging'</span>)
 plt.legend()
 plt.show()
 
-plt.title("Optimal actions")
-plt.plot(const_optimals, label='constant alpha')
-plt.plot(avg_optimals, label='averaging')
+plt.title(<span style="color: #E6DB74;">"Optimal actions"</span>)
+plt.plot(const_optimals, label=<span style="color: #E6DB74;">'constant alpha'</span>)
+plt.plot(avg_optimals, label=<span style="color: #E6DB74;">'averaging'</span>)
 plt.legend()
 plt.show()
 </pre>
@@ -970,26 +970,26 @@ parameter setting, use the average reward over the last 100,000 steps.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">import numpy as np
-import matplotlib.pyplot as plt
+<pre class="src src-python"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
 
-# define k armed bandit
-k = 10
-q_stars = [np.random.normal(0, 1) for _ in range(k)]
+<span style="color: #75715E;"># </span><span style="color: #75715E;">define k armed bandit
+</span><span style="color: #FD971F;">k</span> = 10
+<span style="color: #FD971F;">q_stars</span> = [np.random.normal(0, 1) <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(k)]
 
-def run_experiment(epsilon, method='constant'):
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">run_experiment</span>(epsilon, method=<span style="color: #E6DB74;">'constant'</span>):
 
-    num_acts = [0 for _ in q_stars]
+    num_acts = [0 <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> q_stars]
 
-    if method == 'optimistic':
-	q_vals = [5 for _ in q_stars]
-    else:
-	q_vals = [0 for _ in q_stars]
+    <span style="color: #F92672;">if</span> method == <span style="color: #E6DB74;">'optimistic'</span>:
+        q_vals = [5 <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> q_stars]
+    <span style="color: #F92672;">else</span>:
+        q_vals = [0 <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> q_stars]
 
-    #do they want the unbiased one?
-    if method == 'constant' or method == 'optimistic': 
-	alpha = 0.1
-	o_bar = 0
+    <span style="color: #75715E;">#</span><span style="color: #75715E;">do they want the unbiased one?
+</span>    <span style="color: #F92672;">if</span> method == <span style="color: #E6DB74;">'constant'</span> <span style="color: #F92672;">or</span> method == <span style="color: #E6DB74;">'optimistic'</span>: 
+        alpha = 0.1
+        o_bar = 0
 
     steps = 200000
 
@@ -998,50 +998,50 @@ def run_experiment(epsilon, method='constant'):
     avg_reward = 0
     optimal_actions = 0
 
-    for step in range(steps):
-	if method == 'constant' or method == 'optimistic':
-	    o_bar += alpha * (1 - o_bar)
-	    beta = alpha / o_bar
-	else:
-	    beta = 1 / (step + 1)
+    <span style="color: #F92672;">for</span> step <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(steps):
+        <span style="color: #F92672;">if</span> method == <span style="color: #E6DB74;">'constant'</span> <span style="color: #F92672;">or</span> method == <span style="color: #E6DB74;">'optimistic'</span>:
+            o_bar += alpha * (1 - o_bar)
+            beta = alpha / o_bar
+        <span style="color: #F92672;">else</span>:
+            beta = 1 / (step + 1)
 
-	# epsilon-greedy
-	if method != 'ucb' and np.random.random() &lt; epsilon:
-	    act = np.random.randint(0, k)
-	elif method == 'ucb':
-	    ucbs = [q_vals[i] + np.sqrt(epsilon * np.log(step+1) / \
-					num_acts[i]) for i in range(k)]
-	    act = np.argmax(ucbs)
-	else:
-	    act = np.argmax(q_vals)
+        <span style="color: #75715E;"># </span><span style="color: #75715E;">epsilon-greedy
+</span>        <span style="color: #F92672;">if</span> method != <span style="color: #E6DB74;">'ucb'</span> <span style="color: #F92672;">and</span> np.random.random() &lt; epsilon:
+            act = np.random.randint(0, k)
+        <span style="color: #F92672;">elif</span> method == <span style="color: #E6DB74;">'ucb'</span>:
+            ucbs = [q_vals[i] + np.sqrt(epsilon * np.log(step+1) / \
+                                        num_acts[i]) <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(k)]
+            act = np.argmax(ucbs)
+        <span style="color: #F92672;">else</span>:
+            act = np.argmax(q_vals)
 
-	num_acts[act] += 1
-	q_vals[act] += beta * (q_stars[act] - q_vals[act])
+        num_acts[<span style="color: #FD971F;">act</span>] += 1
+        q_vals[<span style="color: #FD971F;">act</span>] += beta * (q_stars[act] - q_vals[act])
 
-	avg_reward += (1 / (step + 1)) * q_stars[act]
-	avg_rewards.append(avg_reward)
+        avg_reward += (1 / (step + 1)) * q_stars[act]
+        avg_rewards.append(avg_reward)
 
-	if act == np.argmax(q_stars):
-	    optimal_actions += 1
+        <span style="color: #F92672;">if</span> act == np.argmax(q_stars):
+            optimal_actions += 1
 
-	pct_optimal = optimal_actions / (step + 1)
-	pct_optimals.append(pct_optimal)
+        pct_optimal = optimal_actions / (step + 1)
+        pct_optimals.append(pct_optimal)
 
-    return np.mean(avg_rewards[:100000])
+    <span style="color: #F92672;">return</span> np.mean(avg_rewards[:100000])
 
 
 vals = [1/128, 1/64, 1/32, 1/16, 1/8, 1/4, 1/2, 1, 2, 4]
 
-const_rewards = [run_experiment(x, method='constant') for x in vals]
-optimistic_rewards = [run_experiment(x, method='optimistic') for x in vals]
-ucb_rewards = [run_experiment(x, method='ucb') for x in vals]
+const_rewards = [run_experiment(x, method=<span style="color: #E6DB74;">'constant'</span>) <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> vals]
+optimistic_rewards = [run_experiment(x, method=<span style="color: #E6DB74;">'optimistic'</span>) <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> vals]
+ucb_rewards = [run_experiment(x, method=<span style="color: #E6DB74;">'ucb'</span>) <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> vals]
 
-plt.title("Parameter Study")
-plt.plot(vals, const_rewards, label='eps-greedy')
-plt.plot(vals, optimistic_rewards, label='optimistic eps-greedy')
-plt.plot(vals, ucb_rewards, label='UCB')
-plt.xlabel("epsilon")
-plt.ylabel("Average reward over last 100k steps")
+plt.title(<span style="color: #E6DB74;">"Parameter Study"</span>)
+plt.plot(vals, const_rewards, label=<span style="color: #E6DB74;">'eps-greedy'</span>)
+plt.plot(vals, optimistic_rewards, label=<span style="color: #E6DB74;">'optimistic eps-greedy'</span>)
+plt.plot(vals, ucb_rewards, label=<span style="color: #E6DB74;">'UCB'</span>)
+plt.xlabel(<span style="color: #E6DB74;">"epsilon"</span>)
+plt.ylabel(<span style="color: #E6DB74;">"Average reward over last 100k steps"</span>)
 plt.legend()
 plt.show()
 </pre>
@@ -2110,133 +2110,133 @@ original problem.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">import math
-import numpy as np
+<pre class="src src-python"><span style="color: #F92672;">import</span> math
+<span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
 
-def get_proba(n, lam):
-    return ((lam ** n)/(math.factorial(n))) * np.exp(-lam)
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">get_proba</span>(n, lam):
+    <span style="color: #F92672;">return</span> ((lam ** n)/(math.factorial(n))) * np.exp(-lam)
 
-lam_rent_l1 = 3
-lam_return_l1 = 3
-lam_rent_l2 = 4
-lam_return_l2 = 2
+<span style="color: #FD971F;">lam_rent_l1</span> = 3
+<span style="color: #FD971F;">lam_return_l1</span> = 3
+<span style="color: #FD971F;">lam_rent_l2</span> = 4
+<span style="color: #FD971F;">lam_return_l2</span> = 2
 
-max_cars = 20
-max_move = 5
+<span style="color: #FD971F;">max_cars</span> = 20
+<span style="color: #FD971F;">max_move</span> = 5
 
-gamma = 0.9
+<span style="color: #FD971F;">gamma</span> = 0.9
 
-## policy iter
-vals = [[0 for _ in range(max_cars+1)] for _ in range(max_cars+1)]
-policy = [[0 for _ in range(max_cars+1)] for _ in range(max_cars+1)]
+<span style="color: #75715E;">## </span><span style="color: #75715E;">policy iter
+</span><span style="color: #FD971F;">vals</span> = [[0 <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(max_cars+1)] <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(max_cars+1)]
+<span style="color: #FD971F;">policy</span> = [[0 <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(max_cars+1)] <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(max_cars+1)]
 
-# poisson gets very small after less than the full range so we can just ignore the tails
-rent_transition_probs_l1 = [get_proba(x, lam_rent_l1) for x in range(11)]
-rent_transition_probs_l2 = [get_proba(x, lam_rent_l2) for x in range(11)]
-ret_transition_probs_l1 = [get_proba(x, lam_return_l1) for x in range(11)]
-ret_transition_probs_l2 = [get_proba(x, lam_return_l2) for x in range(11)]
+<span style="color: #75715E;"># </span><span style="color: #75715E;">poisson gets very small after less than the full range so we can just ignore the tails
+</span><span style="color: #FD971F;">rent_transition_probs_l1</span> = [get_proba(x, lam_rent_l1) <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(11)]
+<span style="color: #FD971F;">rent_transition_probs_l2</span> = [get_proba(x, lam_rent_l2) <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(11)]
+<span style="color: #FD971F;">ret_transition_probs_l1</span> = [get_proba(x, lam_return_l1) <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(11)]
+<span style="color: #FD971F;">ret_transition_probs_l2</span> = [get_proba(x, lam_return_l2) <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(11)]
 
-# make this tractable
-def get_t_probs(a, b, c, d):
-    t_probs = [[[[1 for _ in a] for _ in b] for _ in c] for _ in d]
+<span style="color: #75715E;"># </span><span style="color: #75715E;">make this tractable
+</span><span style="color: #F92672;">def</span> <span style="color: #A6E22E;">get_t_probs</span>(a, b, c, d):
+    <span style="color: #FD971F;">t_probs</span> = [[[[1 <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> a] <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> b] <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> c] <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> d]
 
-    for i,x in enumerate(a):
-	for j,y in enumerate(b):
-	    two_prob = x * y
-	    for k,z in enumerate(c):
-		three_prob = two_prob * z
-		for l,zz in enumerate(d):
-		    t_probs[i][j][k][l] = three_prob * zz
+    <span style="color: #F92672;">for</span> i,x <span style="color: #F92672;">in</span> <span style="color: #F92672;">enumerate</span>(a):
+        <span style="color: #F92672;">for</span> j,y <span style="color: #F92672;">in</span> <span style="color: #F92672;">enumerate</span>(b):
+            <span style="color: #FD971F;">two_prob</span> = x * y
+            <span style="color: #F92672;">for</span> k,z <span style="color: #F92672;">in</span> <span style="color: #F92672;">enumerate</span>(c):
+                <span style="color: #FD971F;">three_prob</span> = two_prob * z
+                <span style="color: #F92672;">for</span> l,zz <span style="color: #F92672;">in</span> <span style="color: #F92672;">enumerate</span>(d):
+                    t_probs[i][j][k][<span style="color: #FD971F;">l</span>] = three_prob * zz
 
-    return t_probs
+    <span style="color: #F92672;">return</span> t_probs
 
-t_probs_table = get_t_probs(rent_transition_probs_l1,
-			    rent_transition_probs_l2,
-			    ret_transition_probs_l1,
-			    ret_transition_probs_l2)
+<span style="color: #FD971F;">t_probs_table</span> = get_t_probs(rent_transition_probs_l1,
+                            rent_transition_probs_l2,
+                            ret_transition_probs_l1,
+                            ret_transition_probs_l2)
 
-def expected_return(state, action, vals):
-    i,j = state
-    old_val = vals[i][j]
-    move = action
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">expected_return</span>(state, action, vals):
+    <span style="color: #FD971F;">i</span>,<span style="color: #FD971F;">j</span> = state
+    <span style="color: #FD971F;">old_val</span> = vals[i][j]
+    <span style="color: #FD971F;">move</span> = action
 
-    new_value = 0
+    <span style="color: #FD971F;">new_value</span> = 0
 
-    #for all r, s'
-    # employee is willing to move 1 car for free
-    if move &gt; 0:
-	base_reward = -2 * abs(move-1)
-    else:
-	base_reward = -2 * abs(move)
-    table_dims = 11 # hard coded for now
-    for x_sub in range(table_dims):
-	for x_add in range(table_dims):
-	    for y_sub in range(table_dims):
-		for y_add in range(table_dims):
-		    # you cannot rent out more than you have
-		    reward = 10*(min(i, x_sub) + min(j, y_sub))
-		    reward += base_reward
-		    new_i = i - move + x_add - min(i, x_sub)
-		    new_i = min(20, max(0, new_i))
-		    new_j = j + move + y_add - min(j, y_sub)
-		    new_j = min(20, max(0, new_j))
+    <span style="color: #75715E;">#</span><span style="color: #75715E;">for all r, s'
+</span>    <span style="color: #75715E;"># </span><span style="color: #75715E;">employee is willing to move 1 car for free
+</span>    <span style="color: #F92672;">if</span> move &gt; 0:
+        <span style="color: #FD971F;">base_reward</span> = -2 * <span style="color: #F92672;">abs</span>(move-1)
+    <span style="color: #F92672;">else</span>:
+        base_reward = -2 * <span style="color: #F92672;">abs</span>(move)
+    <span style="color: #FD971F;">table_dims</span> = 11 <span style="color: #75715E;"># </span><span style="color: #75715E;">hard coded for now
+</span>    <span style="color: #F92672;">for</span> x_sub <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(table_dims):
+        <span style="color: #F92672;">for</span> x_add <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(table_dims):
+            <span style="color: #F92672;">for</span> y_sub <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(table_dims):
+                <span style="color: #F92672;">for</span> y_add <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(table_dims):
+                    <span style="color: #75715E;"># </span><span style="color: #75715E;">you cannot rent out more than you have
+</span>                    <span style="color: #FD971F;">reward</span> = 10*(<span style="color: #F92672;">min</span>(i, x_sub) + <span style="color: #F92672;">min</span>(j, y_sub))
+                    <span style="color: #FD971F;">reward</span> += base_reward
+                    <span style="color: #FD971F;">new_i</span> = i - move + x_add - <span style="color: #F92672;">min</span>(i, x_sub)
+                    <span style="color: #FD971F;">new_i</span> = <span style="color: #F92672;">min</span>(20, <span style="color: #F92672;">max</span>(0, new_i))
+                    <span style="color: #FD971F;">new_j</span> = j + move + y_add - <span style="color: #F92672;">min</span>(j, y_sub)
+                    <span style="color: #FD971F;">new_j</span> = <span style="color: #F92672;">min</span>(20, <span style="color: #F92672;">max</span>(0, new_j))
 
-		    # add 2nd parking lot penalty for both locations
-		    if new_i &gt; 10:
-			reward -= 4
-		    if new_j &gt; 10:
-			reward -= 4
+                    <span style="color: #75715E;"># </span><span style="color: #75715E;">add 2nd parking lot penalty for both locations
+</span>                    <span style="color: #F92672;">if</span> new_i &gt; 10:
+                        <span style="color: #FD971F;">reward</span> -= 4
+                    <span style="color: #F92672;">if</span> new_j &gt; 10:
+                        <span style="color: #FD971F;">reward</span> -= 4
 
-		    next_state_value = vals[new_i][new_j]
-		    transition_prob = t_probs_table[x_sub][x_add][y_sub][y_add]
+                    <span style="color: #FD971F;">next_state_value</span> = vals[new_i][new_j]
+                    <span style="color: #FD971F;">transition_prob</span> = t_probs_table[x_sub][x_add][y_sub][y_add]
 
-		    new_value += transition_prob * (reward + gamma*next_state_value)
+                    <span style="color: #FD971F;">new_value</span> += transition_prob * (reward + gamma*next_state_value)
 
-    delta = abs(old_val - new_value)
-    return new_value, delta
+    <span style="color: #FD971F;">delta</span> = <span style="color: #F92672;">abs</span>(old_val - new_value)
+    <span style="color: #F92672;">return</span> new_value, delta
 
-def policy_iteration(vals, policy, probs):
-    theta = 1
-    delta = theta+1
-    while delta &gt; theta:
-	print(f"delta: {delta}, theta: {theta}")
-	delta = 0
-	#for all s
-	for i in range(max_cars+1):
-	    print(f"row i {i}")
-	    for j in range(max_cars+1):
-		new_value, obs_delta = expected_return((i,j), policy[i][j], vals)
-		vals[i][j] = new_value
-		delta = max(delta, obs_delta)
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">policy_iteration</span>(vals, policy, probs):
+    <span style="color: #FD971F;">theta</span> = 1
+    <span style="color: #FD971F;">delta</span> = theta+1
+    <span style="color: #F92672;">while</span> delta &gt; <span style="color: #FD971F;">theta</span>:
+        <span style="color: #F92672;">print</span>(f<span style="color: #E6DB74;">"delta: </span>{delta}<span style="color: #E6DB74;">, theta: </span>{theta}<span style="color: #E6DB74;">"</span>)
+        delta = 0
+        <span style="color: #75715E;">#</span><span style="color: #75715E;">for all s
+</span>        <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(max_cars+1):
+            <span style="color: #F92672;">print</span>(f<span style="color: #E6DB74;">"row i </span>{i}<span style="color: #E6DB74;">"</span>)
+            <span style="color: #F92672;">for</span> j <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(max_cars+1):
+                <span style="color: #FD971F;">new_value</span>, <span style="color: #FD971F;">obs_delta</span> = expected_return((i,j), policy[i][j], vals)
+                vals[i][<span style="color: #FD971F;">j</span>] = new_value
+                <span style="color: #FD971F;">delta</span> = <span style="color: #F92672;">max</span>(delta, obs_delta)
 
-    return vals, policy
+    <span style="color: #F92672;">return</span> vals, policy
 
-# policy improvement
-policy_stable = False
-while not policy_stable:
-    policy_stable = True
-    #if policy-stable, stop, else do policy iteration then improvement
-    print(f"doing policy iteration!")
-    vals, policy = policy_iteration(vals, policy, t_probs_table)
+<span style="color: #75715E;"># </span><span style="color: #75715E;">policy improvement
+</span><span style="color: #FD971F;">policy_stable</span> = <span style="color: #AE81FF;">False</span>
+<span style="color: #F92672;">while</span> <span style="color: #F92672;">not</span> <span style="color: #FD971F;">policy_stable</span>:
+    policy_stable = <span style="color: #AE81FF;">True</span>
+    <span style="color: #75715E;">#</span><span style="color: #75715E;">if policy-stable, stop, else do policy iteration then improvement
+</span>    <span style="color: #F92672;">print</span>(f<span style="color: #E6DB74;">"doing policy iteration!"</span>)
+    <span style="color: #FD971F;">vals</span>, <span style="color: #FD971F;">policy</span> = policy_iteration(vals, policy, t_probs_table)
 
-    print(f"improving the policy now!")
-    #for all s
-    for i in range(max_cars+1):
-	print(f"Improving row {i}")
-	for j in range(max_cars+1):
-	    old_action = policy[i][j]
-	    new_action = old_action
-	    old_action_value, _ = expected_return((i,j), policy[i][j], vals)
+    <span style="color: #F92672;">print</span>(f<span style="color: #E6DB74;">"improving the policy now!"</span>)
+    <span style="color: #75715E;">#</span><span style="color: #75715E;">for all s
+</span>    <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(max_cars+1):
+        <span style="color: #F92672;">print</span>(f<span style="color: #E6DB74;">"Improving row </span>{i}<span style="color: #E6DB74;">"</span>)
+        <span style="color: #F92672;">for</span> j <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(max_cars+1):
+            <span style="color: #FD971F;">old_action</span> = policy[i][j]
+            <span style="color: #FD971F;">new_action</span> = old_action
+            <span style="color: #FD971F;">old_action_value</span>, <span style="color: #FD971F;">_</span> = expected_return((i,j), policy[i][j], vals)
 
-	    for a in range(-max_move, max_move):
-		new_action_value, _ = expected_return((i,j), a, vals)
+            <span style="color: #F92672;">for</span> a <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(-max_move, max_move):
+                <span style="color: #FD971F;">new_action_value</span>, <span style="color: #FD971F;">_</span> = expected_return((i,j), a, vals)
 
-		if new_action_value &gt; old_action_value:
-		    new_action = a
-		    old_action_value = new_action_value
-		    policy_stable = False
+                <span style="color: #F92672;">if</span> new_action_value &gt; <span style="color: #FD971F;">old_action_value</span>:
+                    new_action = a
+                    <span style="color: #FD971F;">old_action_value</span> = new_action_value
+                    <span style="color: #FD971F;">policy_stable</span> = <span style="color: #AE81FF;">False</span>
 
-	    policy[i][j] = new_action
+            policy[i][<span style="color: #FD971F;">j</span>] = new_action
 
 </pre>
 </div>
@@ -2278,64 +2278,64 @@ Are your results stable as &theta; &rarr; 0? ⇤
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">import math
-import numpy as np
-from matplotlib import pyplot as plt
+<pre class="src src-python"><span style="color: #F92672;">import</span> math
+<span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<span style="color: #F92672;">from</span> matplotlib <span style="color: #F92672;">import</span> pyplot <span style="color: #F92672;">as</span> plt
 
-def value_iteration(vals, actions, theta, ph):
-    iters = 0
-    delta = theta+1
-    while delta &gt; theta or iters &lt; 256:
-	iters += 1
-	delta = 0
-	for s in range(1, 100):
-	    v = vals[s]
-	    max_checkval = None
-	    for bet in range(actions[s]+1):
-		check_val = (ph * vals[min(100, s + bet)]) + ((1-ph) * vals[max(0, s - bet)])
-		if not max_checkval or check_val &gt; max_checkval:
-		    max_checkval = check_val
-	    delta = max(delta, abs(v - max_checkval))
-	    vals[s] = max_checkval
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">value_iteration</span>(vals, actions, theta, ph):
+    <span style="color: #FD971F;">iters</span> = 0
+    <span style="color: #FD971F;">delta</span> = theta+1
+    <span style="color: #F92672;">while</span> delta &gt; theta <span style="color: #F92672;">or</span> iters &lt; 256:
+        <span style="color: #FD971F;">iters</span> += 1
+        <span style="color: #FD971F;">delta</span> = 0
+        <span style="color: #F92672;">for</span> s <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(1, 100):
+            <span style="color: #FD971F;">v</span> = vals[s]
+            <span style="color: #FD971F;">max_checkval</span> = <span style="color: #AE81FF;">None</span>
+            <span style="color: #F92672;">for</span> bet <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(actions[s]+1):
+                <span style="color: #FD971F;">check_val</span> = (ph * vals[<span style="color: #F92672;">min</span>(100, s + bet)]) + ((1-ph) * vals[<span style="color: #F92672;">max</span>(0, s - bet)])
+                <span style="color: #F92672;">if</span> <span style="color: #F92672;">not</span> max_checkval <span style="color: #F92672;">or</span> check_val &gt; <span style="color: #FD971F;">max_checkval</span>:
+                    max_checkval = check_val
+            <span style="color: #FD971F;">delta</span> = <span style="color: #F92672;">max</span>(delta, <span style="color: #F92672;">abs</span>(v - max_checkval))
+            <span style="color: #FD971F;">vals</span>[<span style="color: #FD971F;">s</span>] = max_checkval
 
-    policy = []
+    <span style="color: #FD971F;">policy</span> = []
 
-    for s in range(1,100):
-	greedy_act = 0
-	greedy_val = 0
-	for bet in range(1, actions[s]+1):
-	    q = (ph * vals[min(100, s + bet)]) + ((1-ph) * vals[max(0, s - bet)])
-	    if q &gt; greedy_val:
-		greedy_val = q
-		greedy_act = bet
+    <span style="color: #F92672;">for</span> s <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(1,100):
+        <span style="color: #FD971F;">greedy_act</span> = 0
+        <span style="color: #FD971F;">greedy_val</span> = 0
+        <span style="color: #F92672;">for</span> bet <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(1, actions[s]+1):
+            <span style="color: #FD971F;">q</span> = (ph * vals[<span style="color: #F92672;">min</span>(100, s + bet)]) + ((1-ph) * vals[<span style="color: #F92672;">max</span>(0, s - bet)])
+            <span style="color: #F92672;">if</span> q &gt; <span style="color: #FD971F;">greedy_val</span>:
+                greedy_val = q
+                <span style="color: #FD971F;">greedy_act</span> = bet
 
-	policy.append(greedy_act)
+        policy.append(greedy_act)
 
-    return policy, vals
+    <span style="color: #F92672;">return</span> policy, vals
 
-def viz(policy, values):
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">viz</span>(policy, values):
     plt.plot(policy)
     plt.show()
 
     plt.plot(values)
     plt.show()
 
-ph = 0.4
-vals = [0 for x in range(101)]
-vals[-1] = 1
-actions = [x for x in range(100)]
-theta = 1e-12
+<span style="color: #FD971F;">ph</span> = 0.4
+<span style="color: #FD971F;">vals</span> = [0 <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(101)]
+<span style="color: #FD971F;">vals</span>[-1] = 1
+<span style="color: #FD971F;">actions</span> = [x <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(100)]
+<span style="color: #FD971F;">theta</span> = 1e-12
 
-p_4, v_4 = value_iteration(vals, actions, theta, ph)
+<span style="color: #FD971F;">p_4</span>, <span style="color: #FD971F;">v_4</span> = value_iteration(vals, actions, theta, ph)
 viz(p_4, v_4)
 
-ph = 0.2
-vals = [0 for x in range(101)]
-vals[-1] = 1
-actions = [x for x in range(100)]
-theta = 1e-12
+<span style="color: #FD971F;">ph</span> = 0.2
+<span style="color: #FD971F;">vals</span> = [0 <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(101)]
+<span style="color: #FD971F;">vals</span>[-1] = 1
+<span style="color: #FD971F;">actions</span> = [x <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(100)]
+<span style="color: #FD971F;">theta</span> = 1e-12
 
-p_2, v_2 = value_iteration(vals, actions, theta, ph)
+<span style="color: #FD971F;">p_2</span>, <span style="color: #FD971F;">v_2</span> = value_iteration(vals, actions, theta, ph)
 viz(p_2, v_2)
 
 </pre>
@@ -2925,58 +2925,58 @@ a ninth action that causes no movement at all other than that caused by the wind
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">import numpy as np
+<pre class="src src-python"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
 
-# hardcoded for now
-def init_gridworld():
-    world = [["-" for _ in range(10)] for _ in range(6)]
-    winds = [0, 0, 0, 1, 1, 1, 2, 2, 1, 0]
-    return world, winds
+<span style="color: #75715E;"># </span><span style="color: #75715E;">hardcoded for now
+</span><span style="color: #F92672;">def</span> <span style="color: #A6E22E;">init_gridworld</span>():
+    <span style="color: #FD971F;">world</span> = [[<span style="color: #E6DB74;">"-"</span> <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(10)] <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(6)]
+    <span style="color: #FD971F;">winds</span> = [0, 0, 0, 1, 1, 1, 2, 2, 1, 0]
+    <span style="color: #F92672;">return</span> world, winds
 
-def apply_move(position, action, world, winds):
-    tall = len(world)-1
-    wide = len(world[0])-1
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">apply_move</span>(position, action, world, winds):
+    <span style="color: #FD971F;">tall</span> = <span style="color: #F92672;">len</span>(world)-1
+    <span style="color: #FD971F;">wide</span> = <span style="color: #F92672;">len</span>(world[0])-1
 
-    current_y = position[0]
-    move_y = action[0]
-    current_x = position[1] 
-    move_x = action[1]
+    <span style="color: #FD971F;">current_y</span> = position[0]
+    <span style="color: #FD971F;">move_y</span> = action[0]
+    <span style="color: #FD971F;">current_x</span> = position[1] 
+    <span style="color: #FD971F;">move_x</span> = action[1]
 
-    # this seems how it works from the figure
-    current_wind = winds[current_x]
+    <span style="color: #75715E;"># </span><span style="color: #75715E;">this seems how it works from the figure
+</span>    <span style="color: #FD971F;">current_wind</span> = winds[current_x]
 
-    new_y = max(0, min(tall, current_y + move_y - current_wind))
-    new_x = max(0, min(wide, current_x + move_x))
+    <span style="color: #FD971F;">new_y</span> = <span style="color: #F92672;">max</span>(0, <span style="color: #F92672;">min</span>(tall, current_y + move_y - current_wind))
+    <span style="color: #FD971F;">new_x</span> = <span style="color: #F92672;">max</span>(0, <span style="color: #F92672;">min</span>(wide, current_x + move_x))
 
-    return -1, (new_y, new_x)
+    <span style="color: #F92672;">return</span> -1, (new_y, new_x)
 
-def follow_policy(Q, pos, eps=0.1):
-    if pos == GOAL_STATE:
-	return (0,0)
-    if np.random.random() &lt; eps:
-	return (np.random.choice([-1,0,1]),
-		np.random.choice([-1,0,1]))
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">follow_policy</span>(Q, pos, eps=0.1):
+    <span style="color: #F92672;">if</span> pos == GOAL_STATE:
+        <span style="color: #F92672;">return</span> (0,0)
+    <span style="color: #F92672;">if</span> np.random.random() &lt; eps:
+        <span style="color: #F92672;">return</span> (np.random.choice([-1,0,1]),
+                np.random.choice([-1,0,1]))
 
     valued_actions = []
 
-    for a_y in [-1, 0, 1]:
-	for a_x in [-1, 0, 1]:
-	    if (pos, (a_y, a_x)) in Q.keys():
-		valued_actions.append(((a_y, a_x),
-				       Q[(pos, (a_y, a_x))]))
+    <span style="color: #F92672;">for</span> a_y <span style="color: #F92672;">in</span> [-1, 0, 1]:
+        <span style="color: #F92672;">for</span> a_x <span style="color: #F92672;">in</span> [-1, 0, 1]:
+            <span style="color: #F92672;">if</span> (pos, (a_y, a_x)) <span style="color: #F92672;">in</span> Q.keys():
+                valued_actions.append(((a_y, a_x),
+                                       Q[(pos, (a_y, a_x))]))
 
-    if len(valued_actions) == 0:
-	return (np.random.choice([-1,0,1]),
-		np.random.choice([-1,0,1]))
-    else:
-	return max(valued_actions, key=lambda x: x[1])[0]
+    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(valued_actions) == 0:
+        <span style="color: #F92672;">return</span> (np.random.choice([-1,0,1]),
+                np.random.choice([-1,0,1]))
+    <span style="color: #F92672;">else</span>:
+        <span style="color: #F92672;">return</span> <span style="color: #F92672;">max</span>(valued_actions, key=<span style="color: #F92672;">lambda</span> x: x[1])[0]
 
 
 GOAL_STATE = (3, 7)
 START_STATE = (3, 0)
 
-# sarsa
-world, winds = init_gridworld()
+<span style="color: #75715E;"># </span><span style="color: #75715E;">sarsa
+</span>world, winds = init_gridworld()
 alpha = 0.1
 eps = 0.1
 gamma = 1
@@ -2985,31 +2985,31 @@ n_episodes = 100
 
 Q = {}
 
-for _ in range(n_episodes):
+<span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(n_episodes):
     steps = 0
 
     pos = START_STATE
     action = follow_policy(Q, pos, eps=eps)
 
-    while pos != GOAL_STATE:
-	steps += 1
-	reward, new_pos = apply_move(pos, action, world, winds)
-	new_action = follow_policy(Q, new_pos, eps=eps)
+    <span style="color: #F92672;">while</span> pos != GOAL_STATE:
+        steps += 1
+        reward, new_pos = apply_move(pos, action, world, winds)
+        new_action = follow_policy(Q, new_pos, eps=eps)
 
-	sa = (pos, action)
-	spap = (new_pos, new_action)
+        sa = (pos, action)
+        spap = (new_pos, new_action)
 
-	if sa not in Q:
-	    Q[sa] = 0
-	if spap not in Q:
-	    Q[spap] = 0
+        <span style="color: #F92672;">if</span> sa <span style="color: #F92672;">not</span> <span style="color: #F92672;">in</span> Q:
+            Q[sa] = 0
+        <span style="color: #F92672;">if</span> spap <span style="color: #F92672;">not</span> <span style="color: #F92672;">in</span> Q:
+            Q[spap] = 0
 
-	Q[sa] = Q[sa] + alpha * (reward + gamma * Q[spap] - Q[sa])
+        Q[sa] = Q[sa] + alpha * (reward + gamma * Q[spap] - Q[sa])
 
-	pos = new_pos
-	action = new_action
+        pos = new_pos
+        action = new_action
 
-    print(f"Completed in {steps} steps")
+    <span style="color: #F92672;">print</span>(f<span style="color: #E6DB74;">"Completed in </span>{steps}<span style="color: #E6DB74;"> steps"</span>)
 </pre>
 </div>
 </div>
@@ -3030,60 +3030,60 @@ you move two cells above the goal, and one-third of the time you move to the goa
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">import numpy as np
+<pre class="src src-python"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
 
-# hardcoded for now
-def init_gridworld():
-    world = [["-" for _ in range(10)] for _ in range(6)]
-    winds = [0, 0, 0, 1, 1, 1, 2, 2, 1, 0]
-    return world, winds
+<span style="color: #75715E;"># </span><span style="color: #75715E;">hardcoded for now
+</span><span style="color: #F92672;">def</span> <span style="color: #A6E22E;">init_gridworld</span>():
+    <span style="color: #FD971F;">world</span> = [[<span style="color: #E6DB74;">"-"</span> <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(10)] <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(6)]
+    <span style="color: #FD971F;">winds</span> = [0, 0, 0, 1, 1, 1, 2, 2, 1, 0]
+    <span style="color: #F92672;">return</span> world, winds
 
-def apply_move(position, action, world, winds):
-    tall = len(world)-1
-    wide = len(world[0])-1
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">apply_move</span>(position, action, world, winds):
+    <span style="color: #FD971F;">tall</span> = <span style="color: #F92672;">len</span>(world)-1
+    <span style="color: #FD971F;">wide</span> = <span style="color: #F92672;">len</span>(world[0])-1
 
-    current_y = position[0]
-    move_y = action[0]
-    current_x = position[1] 
-    move_x = action[1]
+    <span style="color: #FD971F;">current_y</span> = position[0]
+    <span style="color: #FD971F;">move_y</span> = action[0]
+    <span style="color: #FD971F;">current_x</span> = position[1] 
+    <span style="color: #FD971F;">move_x</span> = action[1]
 
-    # stochastic
-    current_wind = np.random.choice([winds[current_x]-1,
-				     winds[current_x],
-				     winds[current_x]+1])
+    <span style="color: #75715E;"># </span><span style="color: #75715E;">stochastic
+</span>    <span style="color: #FD971F;">current_wind</span> = np.random.choice([winds[current_x]-1,
+                                     winds[current_x],
+                                     winds[current_x]+1])
 
-    new_y = max(0, min(tall, current_y + move_y - current_wind))
-    new_x = max(0, min(wide, current_x + move_x))
+    <span style="color: #FD971F;">new_y</span> = <span style="color: #F92672;">max</span>(0, <span style="color: #F92672;">min</span>(tall, current_y + move_y - current_wind))
+    <span style="color: #FD971F;">new_x</span> = <span style="color: #F92672;">max</span>(0, <span style="color: #F92672;">min</span>(wide, current_x + move_x))
 
-    return -1, (new_y, new_x)
+    <span style="color: #F92672;">return</span> -1, (new_y, new_x)
 
-def follow_policy(Q, pos, eps=0.1):
-    if pos == GOAL_STATE:
-	return (0,0)
-    if np.random.random() &lt; eps:
-	return (np.random.choice([-1,0,1]),
-		np.random.choice([-1,0,1]))
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">follow_policy</span>(Q, pos, eps=0.1):
+    <span style="color: #F92672;">if</span> pos == GOAL_STATE:
+        <span style="color: #F92672;">return</span> (0,0)
+    <span style="color: #F92672;">if</span> np.random.random() &lt; eps:
+        <span style="color: #F92672;">return</span> (np.random.choice([-1,0,1]),
+                np.random.choice([-1,0,1]))
 
     valued_actions = []
 
-    for a_y in [-1, 0, 1]:
-	for a_x in [-1, 0, 1]:
-	    if (pos, (a_y, a_x)) in Q.keys():
-		valued_actions.append(((a_y, a_x),
-				       Q[(pos, (a_y, a_x))]))
+    <span style="color: #F92672;">for</span> a_y <span style="color: #F92672;">in</span> [-1, 0, 1]:
+        <span style="color: #F92672;">for</span> a_x <span style="color: #F92672;">in</span> [-1, 0, 1]:
+            <span style="color: #F92672;">if</span> (pos, (a_y, a_x)) <span style="color: #F92672;">in</span> Q.keys():
+                valued_actions.append(((a_y, a_x),
+                                       Q[(pos, (a_y, a_x))]))
 
-    if len(valued_actions) == 0:
-	return (np.random.choice([-1,0,1]),
-		np.random.choice([-1,0,1]))
-    else:
-	return max(valued_actions, key=lambda x: x[1])[0]
+    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(valued_actions) == 0:
+        <span style="color: #F92672;">return</span> (np.random.choice([-1,0,1]),
+                np.random.choice([-1,0,1]))
+    <span style="color: #F92672;">else</span>:
+        <span style="color: #F92672;">return</span> <span style="color: #F92672;">max</span>(valued_actions, key=<span style="color: #F92672;">lambda</span> x: x[1])[0]
 
 
 GOAL_STATE = (3, 7)
 START_STATE = (3, 0)
 
-# sarsa
-world, winds = init_gridworld()
+<span style="color: #75715E;"># </span><span style="color: #75715E;">sarsa
+</span>world, winds = init_gridworld()
 alpha = 0.1
 eps = 0.1
 gamma = 1
@@ -3092,31 +3092,31 @@ n_episodes = 100
 
 Q = {}
 
-for _ in range(n_episodes):
+<span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(n_episodes):
     steps = 0
 
     pos = START_STATE
     action = follow_policy(Q, pos, eps=eps)
 
-    while pos != GOAL_STATE:
-	steps += 1
-	reward, new_pos = apply_move(pos, action, world, winds)
-	new_action = follow_policy(Q, new_pos, eps=eps)
+    <span style="color: #F92672;">while</span> pos != GOAL_STATE:
+        steps += 1
+        reward, new_pos = apply_move(pos, action, world, winds)
+        new_action = follow_policy(Q, new_pos, eps=eps)
 
-	sa = (pos, action)
-	spap = (new_pos, new_action)
+        sa = (pos, action)
+        spap = (new_pos, new_action)
 
-	if sa not in Q:
-	    Q[sa] = 0
-	if spap not in Q:
-	    Q[spap] = 0
+        <span style="color: #F92672;">if</span> sa <span style="color: #F92672;">not</span> <span style="color: #F92672;">in</span> Q:
+            Q[sa] = 0
+        <span style="color: #F92672;">if</span> spap <span style="color: #F92672;">not</span> <span style="color: #F92672;">in</span> Q:
+            Q[spap] = 0
 
-	Q[sa] = Q[sa] + alpha * (reward + gamma * Q[spap] - Q[sa])
+        Q[sa] = Q[sa] + alpha * (reward + gamma * Q[spap] - Q[sa])
 
-	pos = new_pos
-	action = new_action
+        pos = new_pos
+        action = new_action
 
-    print(f"Completed in {steps} steps")
+    <span style="color: #F92672;">print</span>(f<span style="color: #E6DB74;">"Completed in </span>{steps}<span style="color: #E6DB74;"> steps"</span>)
 </pre>
 </div>
 </div>
@@ -3294,53 +3294,53 @@ I may revisit this later but I at least still got to do some programming in this
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">import numpy as np
+<pre class="src src-python"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
 
-# hardcoded for now
-def init_gridworld():
-    world = [["-" for _ in range(10)] for _ in range(10)]
-    return world
+<span style="color: #75715E;"># </span><span style="color: #75715E;">hardcoded for now
+</span><span style="color: #F92672;">def</span> <span style="color: #A6E22E;">init_gridworld</span>():
+    <span style="color: #FD971F;">world</span> = [[<span style="color: #E6DB74;">"-"</span> <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(10)] <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(10)]
+    <span style="color: #F92672;">return</span> world
 
-def apply_move(position, action, world):
-    tall = len(world)-1
-    wide = len(world[0])-1
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">apply_move</span>(position, action, world):
+    <span style="color: #FD971F;">tall</span> = <span style="color: #F92672;">len</span>(world)-1
+    <span style="color: #FD971F;">wide</span> = <span style="color: #F92672;">len</span>(world[0])-1
 
-    current_y = position[0]
-    move_y = action[0]
-    current_x = position[1]
-    move_x = action[1]
+    <span style="color: #FD971F;">current_y</span> = position[0]
+    <span style="color: #FD971F;">move_y</span> = action[0]
+    <span style="color: #FD971F;">current_x</span> = position[1]
+    <span style="color: #FD971F;">move_x</span> = action[1]
 
-    new_y = max(0, min(tall, current_y + move_y))
-    new_x = max(0, min(wide, current_x + move_x))
+    <span style="color: #FD971F;">new_y</span> = <span style="color: #F92672;">max</span>(0, <span style="color: #F92672;">min</span>(tall, current_y + move_y))
+    <span style="color: #FD971F;">new_x</span> = <span style="color: #F92672;">max</span>(0, <span style="color: #F92672;">min</span>(wide, current_x + move_x))
 
-    return -1, (new_y, new_x)
+    <span style="color: #F92672;">return</span> -1, (new_y, new_x)
 
-def follow_policy(Q, pos, eps=0.1):
-    if pos == GOAL_STATE:
-	return (0,0)
-    if np.random.random() &lt; eps:
-	return (np.random.choice([-1,0,1]),
-		np.random.choice([-1,0,1]))
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">follow_policy</span>(Q, pos, eps=0.1):
+    <span style="color: #F92672;">if</span> pos == GOAL_STATE:
+        <span style="color: #F92672;">return</span> (0,0)
+    <span style="color: #F92672;">if</span> np.random.random() &lt; eps:
+        <span style="color: #F92672;">return</span> (np.random.choice([-1,0,1]),
+                np.random.choice([-1,0,1]))
 
     valued_actions = []
 
-    for a_y in [-1, 0, 1]:
-	for a_x in [-1, 0, 1]:
-	    if (pos, (a_y, a_x)) in Q.keys():
-		valued_actions.append(((a_y, a_x),
-				       Q[(pos, (a_y, a_x))]))
+    <span style="color: #F92672;">for</span> a_y <span style="color: #F92672;">in</span> [-1, 0, 1]:
+        <span style="color: #F92672;">for</span> a_x <span style="color: #F92672;">in</span> [-1, 0, 1]:
+            <span style="color: #F92672;">if</span> (pos, (a_y, a_x)) <span style="color: #F92672;">in</span> Q.keys():
+                valued_actions.append(((a_y, a_x),
+                                       Q[(pos, (a_y, a_x))]))
 
-    if len(valued_actions) == 0:
-	return (np.random.choice([-1,0,1]),
-		np.random.choice([-1,0,1]))
-    else:
-	return max(valued_actions, key=lambda x: x[1])[0]
+    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(valued_actions) == 0:
+        <span style="color: #F92672;">return</span> (np.random.choice([-1,0,1]),
+                np.random.choice([-1,0,1]))
+    <span style="color: #F92672;">else</span>:
+        <span style="color: #F92672;">return</span> <span style="color: #F92672;">max</span>(valued_actions, key=<span style="color: #F92672;">lambda</span> x: x[1])[0]
 
 GOAL_STATE = (3, 7)
-#START_STATE = (3, 0)
-
-# n-step sarsa
-world = init_gridworld()
+<span style="color: #75715E;">#</span><span style="color: #75715E;">START_STATE = (3, 0)
+</span>
+<span style="color: #75715E;"># </span><span style="color: #75715E;">n-step sarsa
+</span>world = init_gridworld()
 alpha = 0.1
 eps = 0.1
 gamma = 1
@@ -3350,13 +3350,13 @@ n_steps = 10
 
 Q = {}
 
-for _ in range(n_episodes):
+<span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(n_episodes):
     steps = 0
 
     pos = GOAL_STATE
-    while pos == GOAL_STATE:
-	pos = (np.random.randint(0,9),
-	       np.random.randint(0,9))
+    <span style="color: #F92672;">while</span> pos == GOAL_STATE:
+        pos = (np.random.randint(0,9),
+               np.random.randint(0,9))
 
     action = follow_policy(Q, pos, eps=eps)
 
@@ -3366,42 +3366,42 @@ for _ in range(n_episodes):
 
     T = np.inf
 
-    while steps &lt; T:
-	update_step = steps - n_steps + 1
+    <span style="color: #F92672;">while</span> steps &lt; T:
+        update_step = steps - n_steps + 1
 
-	reward, new_pos = apply_move(pos, action, world)
-	all_rewards.append(reward)
-	all_states.append(new_pos)
-	all_actions.append(action)
+        reward, new_pos = apply_move(pos, action, world)
+        all_rewards.append(reward)
+        all_states.append(new_pos)
+        all_actions.append(action)
 
-	if new_pos == GOAL_STATE:
-	    T = steps + 1
-	else:
-	    new_action = follow_policy(Q, new_pos, eps=eps)
+        <span style="color: #F92672;">if</span> new_pos == GOAL_STATE:
+            T = steps + 1
+        <span style="color: #F92672;">else</span>:
+            new_action = follow_policy(Q, new_pos, eps=eps)
 
-	if update_step &gt;= 0:
-	    StnAtn = (all_states[steps], all_actions[steps])
-	    StAt = (all_states[update_step], all_actions[update_step])
-	    if StnAtn not in Q:
-		Q[StnAtn] = 0
-	    if StAt not in Q:
-		Q[StAt] = 0
+        <span style="color: #F92672;">if</span> update_step &gt;= 0:
+            StnAtn = (all_states[steps], all_actions[steps])
+            StAt = (all_states[update_step], all_actions[update_step])
+            <span style="color: #F92672;">if</span> StnAtn <span style="color: #F92672;">not</span> <span style="color: #F92672;">in</span> Q:
+                Q[StnAtn] = 0
+            <span style="color: #F92672;">if</span> StAt <span style="color: #F92672;">not</span> <span style="color: #F92672;">in</span> Q:
+                Q[StAt] = 0
 
-	    G = 0
-	    for i in range(update_step+1, min(update_step+n_steps, T)):
-		G += gamma**(i-update_step-1) * all_rewards[i]
+            G = 0
+            <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(update_step+1, <span style="color: #F92672;">min</span>(update_step+n_steps, T)):
+                G += gamma**(i-update_step-1) * all_rewards[i]
 
-	    if update_step + n_steps &lt; T:
-		G = G + gamma**n_steps * Q[StnAtn]
+            <span style="color: #F92672;">if</span> update_step + n_steps &lt; T:
+                G = G + gamma**n_steps * Q[StnAtn]
 
-	    Q[StAt] += alpha * (G - Q[StAt])
+            Q[StAt] += alpha * (G - Q[StAt])
 
-	pos = new_pos
-	action = new_action
+        pos = new_pos
+        action = new_action
 
-	steps += 1
+        steps += 1
 
-    print(f"Completed in {steps} steps")
+    <span style="color: #F92672;">print</span>(f<span style="color: #E6DB74;">"Completed in </span>{steps}<span style="color: #E6DB74;"> steps"</span>)
 </pre>
 </div>
 </div>
@@ -3674,93 +3674,93 @@ alternate approach.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">import numpy as np
-import random
+<pre class="src src-python"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<span style="color: #F92672;">import</span> random
 
-# hardcoded for now
-def init_gridworld():
-    world = [["-" for _ in range(10)] for _ in range(10)]
-    world[7] = ["x" for _ in range(9)] + ['-']
-    return world
+<span style="color: #75715E;"># </span><span style="color: #75715E;">hardcoded for now
+</span><span style="color: #F92672;">def</span> <span style="color: #A6E22E;">init_gridworld</span>():
+    <span style="color: #FD971F;">world</span> = [[<span style="color: #E6DB74;">"-"</span> <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(10)] <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(10)]
+    <span style="color: #FD971F;">world</span>[7] = [<span style="color: #E6DB74;">"x"</span> <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(9)] + [<span style="color: #E6DB74;">'-'</span>]
+    <span style="color: #F92672;">return</span> world
 
-def apply_move(position, action, world):
-    tall = len(world)-1
-    wide = len(world[0])-1
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">apply_move</span>(position, action, world):
+    <span style="color: #FD971F;">tall</span> = <span style="color: #F92672;">len</span>(world)-1
+    <span style="color: #FD971F;">wide</span> = <span style="color: #F92672;">len</span>(world[0])-1
 
-    current_y = position[0]
-    move_y = action[0]
-    current_x = position[1]
-    move_x = action[1]
+    <span style="color: #FD971F;">current_y</span> = position[0]
+    <span style="color: #FD971F;">move_y</span> = action[0]
+    <span style="color: #FD971F;">current_x</span> = position[1]
+    <span style="color: #FD971F;">move_x</span> = action[1]
 
-    new_y = max(0, min(tall, current_y + move_y))
-    new_x = max(0, min(wide, current_x + move_x))
+    <span style="color: #FD971F;">new_y</span> = <span style="color: #F92672;">max</span>(0, <span style="color: #F92672;">min</span>(tall, current_y + move_y))
+    <span style="color: #FD971F;">new_x</span> = <span style="color: #F92672;">max</span>(0, <span style="color: #F92672;">min</span>(wide, current_x + move_x))
 
-    if world[new_y][new_x] == 'x':
-	new_y = current_y
-	new_x = current_x
+    <span style="color: #F92672;">if</span> world[new_y][new_x] == <span style="color: #E6DB74;">'x'</span>:
+        <span style="color: #FD971F;">new_y</span> = current_y
+        <span style="color: #FD971F;">new_x</span> = current_x
 
-    return -1, (new_y, new_x)
+    <span style="color: #F92672;">return</span> -1, (new_y, new_x)
 
-# not very efficient just getting working
-def revalue_actions(state, acts, model, k, history):
-    revalued_acts = []
-    for (act, val) in acts:
-	t = 0
-	for h in history[::-1]:
-	    t += 1
-	    if h == (state, act):
-		break
-	revalued_acts.append((act, val + k*np.sqrt(t)))
-    return revalued_acts
+<span style="color: #75715E;"># </span><span style="color: #75715E;">not very efficient just getting working
+</span><span style="color: #F92672;">def</span> <span style="color: #A6E22E;">revalue_actions</span>(state, acts, model, k, history):
+    <span style="color: #FD971F;">revalued_acts</span> = []
+    <span style="color: #F92672;">for</span> (act, val) <span style="color: #F92672;">in</span> <span style="color: #FD971F;">acts</span>:
+        t = 0
+        <span style="color: #F92672;">for</span> h <span style="color: #F92672;">in</span> <span style="color: #FD971F;">history</span>[::-1]:
+            t += 1
+            <span style="color: #F92672;">if</span> h == (state, act):
+                <span style="color: #F92672;">break</span>
+        revalued_acts.append((act, val + k*np.sqrt(t)))
+    <span style="color: #F92672;">return</span> revalued_acts
 
-def follow_policy(Q, pos, eps=0.1, k=0.1, model=None, history=None):
-    if pos == GOAL_STATE:
-	return (0,0)
-    if np.random.random() &lt; eps:
-	return random.choice(ACTIONS)
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">follow_policy</span>(Q, pos, eps=0.1, k=0.1, model=<span style="color: #AE81FF;">None</span>, history=<span style="color: #AE81FF;">None</span>):
+    <span style="color: #F92672;">if</span> pos == GOAL_STATE:
+        <span style="color: #F92672;">return</span> (0,0)
+    <span style="color: #F92672;">if</span> np.random.random() &lt; eps:
+        <span style="color: #F92672;">return</span> random.choice(ACTIONS)
 
     valued_actions = []
 
-    for (a_y, a_x) in ACTIONS:
-	if (pos, (a_y, a_x)) in Q.keys():
-	    valued_actions.append(((a_y, a_x),
-				   Q[(pos, (a_y, a_x))]))
+    <span style="color: #F92672;">for</span> (a_y, a_x) <span style="color: #F92672;">in</span> ACTIONS:
+        <span style="color: #F92672;">if</span> (pos, (a_y, a_x)) <span style="color: #F92672;">in</span> Q.keys():
+            valued_actions.append(((a_y, a_x),
+                                   Q[(pos, (a_y, a_x))]))
 
-    if len(valued_actions) == 0:
-	return random.choice(ACTIONS)
-    else:
-	if model is None or history is None:
-	    return max(valued_actions, key=lambda x: x[1])[0]
-	else:
-	    return max(revalue_actions(pos, valued_actions, model, k, history), 
-		       key=lambda x: x[1])[0]
+    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(valued_actions) == 0:
+        <span style="color: #F92672;">return</span> random.choice(ACTIONS)
+    <span style="color: #F92672;">else</span>:
+        <span style="color: #F92672;">if</span> model <span style="color: #F92672;">is</span> <span style="color: #AE81FF;">None</span> <span style="color: #F92672;">or</span> history <span style="color: #F92672;">is</span> <span style="color: #AE81FF;">None</span>:
+            <span style="color: #F92672;">return</span> <span style="color: #F92672;">max</span>(valued_actions, key=<span style="color: #F92672;">lambda</span> x: x[1])[0]
+        <span style="color: #F92672;">else</span>:
+            <span style="color: #F92672;">return</span> <span style="color: #F92672;">max</span>(revalue_actions(pos, valued_actions, model, k, history), 
+                       key=<span style="color: #F92672;">lambda</span> x: x[1])[0]
 
-def Q_update(Q, alpha, state, action, reward, new_state):
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">Q_update</span>(Q, alpha, state, action, reward, new_state):
     best_nextQ = -np.inf
-    for a in ACTIONS:
-	if (new_state, a) in Q:
-	    if Q[(new_state, a)] &gt; best_nextQ:
-		best_nextQ = Q[(new_state, a)]
-    if best_nextQ == -np.inf:
-	best_nextQ = 0
+    <span style="color: #F92672;">for</span> a <span style="color: #F92672;">in</span> ACTIONS:
+        <span style="color: #F92672;">if</span> (new_state, a) <span style="color: #F92672;">in</span> Q:
+            <span style="color: #F92672;">if</span> Q[(new_state, a)] &gt; best_nextQ:
+                best_nextQ = Q[(new_state, a)]
+    <span style="color: #F92672;">if</span> best_nextQ == -np.inf:
+        best_nextQ = 0
 
-    if (state, action) not in Q:
-	Q[(state, action)] = 0
+    <span style="color: #F92672;">if</span> (state, action) <span style="color: #F92672;">not</span> <span style="color: #F92672;">in</span> Q:
+        Q[(state, action)] = 0
 
     Q[(state, action)] += alpha * (reward + gamma * best_nextQ - Q[(state, action)])
 
-    return Q
+    <span style="color: #F92672;">return</span> Q
 
 GOAL_STATE = (0, 4)
 START_STATE = (9, 3)
 
 ACTIONS = []
-for a_y in [-1, 0, 1]:
-    for a_x in [-1, 0, 1]:
-	ACTIONS.append((a_y, a_x))
+<span style="color: #F92672;">for</span> a_y <span style="color: #F92672;">in</span> [-1, 0, 1]:
+    <span style="color: #F92672;">for</span> a_x <span style="color: #F92672;">in</span> [-1, 0, 1]:
+        ACTIONS.append((a_y, a_x))
 
-# Dyna-Q
-world = init_gridworld()
+<span style="color: #75715E;"># </span><span style="color: #75715E;">Dyna-Q
+</span>world = init_gridworld()
 alpha = 0.1
 eps = 0.1
 gamma = 0.9
@@ -3771,35 +3771,35 @@ n_steps = 25
 Q = {}
 model = {}
 
-for episode in range(n_episodes):
+<span style="color: #F92672;">for</span> episode <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(n_episodes):
     steps = 0
     pos = START_STATE
 
-    if episode == 100:
-	world[7][-1] = 'x'
-	world[7][0] = '-'
-	print("~~~~~~~~~~~~~~~~~")
+    <span style="color: #F92672;">if</span> episode == 100:
+        world[7][-1] = <span style="color: #E6DB74;">'x'</span>
+        world[7][0] = <span style="color: #E6DB74;">'-'</span>
+        <span style="color: #F92672;">print</span>(<span style="color: #E6DB74;">"~~~~~~~~~~~~~~~~~"</span>)
 
     history = []
 
-    while pos != GOAL_STATE:
-	action = follow_policy(Q, pos, eps=eps, 
-			       model=model, history=history)
-	reward, new_pos = apply_move(pos, action, world)
-	Q = Q_update(Q, alpha, pos, action, reward, new_pos)
-	model[(pos, action)] = (reward, new_pos)
-	history.append((pos, action))
+    <span style="color: #F92672;">while</span> pos != GOAL_STATE:
+        action = follow_policy(Q, pos, eps=eps, 
+                               model=model, history=history)
+        reward, new_pos = apply_move(pos, action, world)
+        Q = Q_update(Q, alpha, pos, action, reward, new_pos)
+        model[(pos, action)] = (reward, new_pos)
+        history.append((pos, action))
 
-	for _ in range(n_steps):
-	    (sim_s, sim_a) = random.choice(list(model.keys()))
-	    sim_r, sim_sp = model[(sim_s, sim_a)]
-	    Q = Q_update(Q, alpha, sim_s, sim_a, sim_r, sim_sp)
+        <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(n_steps):
+            (sim_s, sim_a) = random.choice(<span style="color: #F92672;">list</span>(model.keys()))
+            sim_r, sim_sp = model[(sim_s, sim_a)]
+            Q = Q_update(Q, alpha, sim_s, sim_a, sim_r, sim_sp)
 
-	pos = new_pos
+        pos = new_pos
 
-	steps += 1
+        steps += 1
 
-    print(f"Completed in {steps} steps")
+    <span style="color: #F92672;">print</span>(f<span style="color: #E6DB74;">"Completed in </span>{steps}<span style="color: #E6DB74;"> steps"</span>)
 </pre>
 </div>
 
@@ -4454,9 +4454,9 @@ Code can be found in this <a href="https://colab.research.google.com/drive/1LvCq
 </div>
 </div>
 
-<div id="outline-container-orge5dbb5a" class="outline-4">
-<h4 id="orge5dbb5a"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
-<div class="outline-text-4" id="text-orge5dbb5a">
+<div id="outline-container-orga5ad5f1" class="outline-4">
+<h4 id="orga5ad5f1"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
+<div class="outline-text-4" id="text-orga5ad5f1">
 <p>
 *Exercise 11.2 Convert the equations of n-step Q() (7.11 and 7.17) to semi-gradient
 form. Give definitions that cover both the episodic and continuing cases.
@@ -5385,9 +5385,9 @@ notice that P corresponds to a=1 and 1-P responds to a=0, meaning both are actua
 </div>
 
 
-<div id="outline-container-orga5ad5f1" class="outline-4">
-<h4 id="orga5ad5f1"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
-<div class="outline-text-4" id="text-orga5ad5f1">
+<div id="outline-container-org8d7450e" class="outline-4">
+<h4 id="org8d7450e"><span class="todo TODO">TODO</span> Starred Exercises to Complete Later</h4>
+<div class="outline-text-4" id="text-org8d7450e">
 <p>
 *Exercise 13.2 Generalize the box on page 199, the policy gradient theorem (13.5), the
 proof of the policy gradient theorem (page 325), and the steps leading to the REINFORCE

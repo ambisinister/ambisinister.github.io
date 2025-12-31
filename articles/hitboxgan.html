@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-23 Wed 15:49 -->
+<!-- 2025-12-30 Tue 22:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>This Hitbox Does Not Exist</title>
@@ -153,35 +153,35 @@ To assemble this dataset, I scraped every character's moves on ssbwiki and assem
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">import os
-from PIL import Image
-from PIL import GifImagePlugin
-import numpy as np
-import cv2
+<pre class="src src-python"><span style="color: #F92672;">import</span> os
+<span style="color: #F92672;">from</span> PIL <span style="color: #F92672;">import</span> Image
+<span style="color: #F92672;">from</span> PIL <span style="color: #F92672;">import</span> GifImagePlugin
+<span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<span style="color: #F92672;">import</span> cv2
 
-from PIL import Image, ImageSequence
+<span style="color: #F92672;">from</span> PIL <span style="color: #F92672;">import</span> Image, ImageSequence
 
-dataloc = "/home/ambi/Downloads/data/hitboxes/"
-dataput = "/home/ambi/Downloads/data/hitboxes/dataset/pngs/"
+<span style="color: #FD971F;">dataloc</span> = <span style="color: #E6DB74;">"/home/ambi/Downloads/data/hitboxes/"</span>
+<span style="color: #FD971F;">dataput</span> = <span style="color: #E6DB74;">"/home/ambi/Downloads/data/hitboxes/dataset/pngs/"</span>
 
-frames = []
+<span style="color: #FD971F;">frames</span> = []
 
-def pngify():
-    for folder in os.listdir(dataloc):
-	if folder == "dataset":
-	    continue
-	else:
-	    os.mkdir(dataput+folder)
-	for move in os.listdir(dataloc+folder):
-	    imageObject = Image.open(dataloc+folder+'/'+move)
-	    try:
-		print("{}: {} frames".format(move, imageObject.n_frames))
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">pngify</span>():
+    <span style="color: #F92672;">for</span> folder <span style="color: #F92672;">in</span> os.listdir(dataloc):
+        <span style="color: #F92672;">if</span> folder == <span style="color: #E6DB74;">"dataset"</span>:
+            <span style="color: #F92672;">continue</span>
+        <span style="color: #F92672;">else</span>:
+            os.mkdir(dataput+folder)
+        <span style="color: #F92672;">for</span> move <span style="color: #F92672;">in</span> os.listdir(dataloc+folder):
+            imageObject = Image.<span style="color: #F92672;">open</span>(dataloc+folder+<span style="color: #E6DB74;">'/'</span>+move)
+            <span style="color: #F92672;">try</span>:
+                <span style="color: #F92672;">print</span>(<span style="color: #E6DB74;">"{}: {} frames"</span>.<span style="color: #F92672;">format</span>(move, imageObject.n_frames))
 
-		for i, frame in enumerate(ImageSequence.Iterator(imageObject)):
-		    frame.save(dataput+folder+'/'+move.split('.')[0]+'_'+str(i)+'.png')
-	    except:
-		print("{} not animated: adding only frame".format(move))
-		frame.save(dataput+folder+'/'+move+'.png')
+                <span style="color: #F92672;">for</span> i, frame <span style="color: #F92672;">in</span> <span style="color: #F92672;">enumerate</span>(ImageSequence.Iterator(imageObject)):
+                    frame.save(dataput+folder+<span style="color: #E6DB74;">'/'</span>+move.split(<span style="color: #E6DB74;">'.'</span>)[0]+<span style="color: #E6DB74;">'_'</span>+<span style="color: #F92672;">str</span>(i)+<span style="color: #E6DB74;">'.png'</span>)
+            <span style="color: #F92672;">except</span>:
+                <span style="color: #F92672;">print</span>(<span style="color: #E6DB74;">"{} not animated: adding only frame"</span>.<span style="color: #F92672;">format</span>(move))
+                frame.save(dataput+folder+<span style="color: #E6DB74;">'/'</span>+move+<span style="color: #E6DB74;">'.png'</span>)
 
 </pre>
 </div>

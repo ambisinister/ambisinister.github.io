@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-23 Wed 15:49 -->
+<!-- 2025-12-30 Tue 22:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Blue Lock Second Selection Math</title>
@@ -148,11 +148,11 @@ $(function() {
 <h1 id="org8fef78d">On the Blue Lock Second Selection</h1>
 <div class="outline-text-1" id="text-org8fef78d">
 <p>
-The following contains spoilers for the first season of <b>Blue Lock</b>, or the first 100 or so chapters of the Manga. The show is quite good, so I recommend watching it if you're interested in this post.
+The following contains spoilers for the first season of <b>Blue Lock</b>, or the first 100 or so chapters of the Manga. The show is quite good, so I recommend watching it if you're interested in this post. 
 </p>
 
 
-<div id="orgd6c3fc4" class="figure">
+<div id="org480bc4b" class="figure">
 <p><img src="../images/bluelock/bluelock_banner.png" alt="bluelock_banner.png" />
 </p>
 </div>
@@ -195,69 +195,69 @@ We are going to start by writing out this process in python. The code for a roug
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-python">import random
-from functools import reduce
-from operator import mul
-import matplotlib.pyplot as plt
-import numpy as np
-import copy
+<pre class="src src-python"><span style="color: #F92672;">import</span> random
+<span style="color: #F92672;">from</span> functools <span style="color: #F92672;">import</span> <span style="color: #F92672;">reduce</span>
+<span style="color: #F92672;">from</span> operator <span style="color: #F92672;">import</span> mul
+<span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
+<span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
+<span style="color: #F92672;">import</span> copy
 
-def append_bylen(team, all_teams, new_two, new_three, new_four):
-    if len(team) == 1:
-      all_teams['dead'].append(team)
-    if len(team) == 2:
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">append_bylen</span>(team, all_teams, new_two, new_three, new_four):
+    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(team) == 1:
+      all_teams[<span style="color: #E6DB74;">'dead'</span>].append(team)
+    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(team) == 2:
       new_two.append(team)
-    if len(team) == 3:
+    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(team) == 3:
       new_three.append(team)
-    if len(team) == 4:
+    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(team) == 4:
       new_four.append(team)
-    if len(team) == 5:
-      all_teams['fives'].append(team)
+    <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(team) == 5:
+      all_teams[<span style="color: #E6DB74;">'fives'</span>].append(team)
 
-    return all_teams, new_two, new_three, new_four
+    <span style="color: #F92672;">return</span> all_teams, new_two, new_three, new_four
 
-def play(team1, team2):
-    product1 = reduce(mul, team1)
-    product2 = reduce(mul, team2)
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">play</span>(team1, team2):
+    <span style="color: #FD971F;">product1</span> = <span style="color: #F92672;">reduce</span>(mul, team1)
+    <span style="color: #FD971F;">product2</span> = <span style="color: #F92672;">reduce</span>(mul, team2)
 
-    if product1 &lt; product2:
-	winner, loser = team1, team2
-    else:
-	winner, loser = team2, team1
+    <span style="color: #F92672;">if</span> product1 &lt; <span style="color: #FD971F;">product2</span>:
+        <span style="color: #FD971F;">winner</span>, <span style="color: #FD971F;">loser</span> = team1, team2
+    <span style="color: #F92672;">else</span>:
+        <span style="color: #FD971F;">winner</span>, <span style="color: #FD971F;">loser</span> = team2, team1
 
-    return winner, loser
+    <span style="color: #F92672;">return</span> winner, loser
 
-def add_subplot(ax, all_teams, days):
-    list_lengths = [(key, len(lst)) for key, lst in all_teams.items()]
-    labels = [x[0] for x in list_lengths]
-    lengths = [x[1] for x in list_lengths]
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">add_subplot</span>(ax, all_teams, days):
+    <span style="color: #FD971F;">list_lengths</span> = [(key, <span style="color: #F92672;">len</span>(lst)) <span style="color: #F92672;">for</span> key, lst <span style="color: #F92672;">in</span> all_teams.items()]
+    <span style="color: #FD971F;">labels</span> = [x[0] <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> list_lengths]
+    <span style="color: #FD971F;">lengths</span> = [x[1] <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> list_lengths]
     ax.bar(labels, lengths)
-    ax.set_ylabel('Teams')
-    ax.set_title(f'Teams after day {days}')
-    ax.set_xticklabels(labels, rotation=45, ha='right')
+    ax.set_ylabel(<span style="color: #E6DB74;">'Teams'</span>)
+    ax.set_title(f<span style="color: #E6DB74;">'Teams after day </span>{days}<span style="color: #E6DB74;">'</span>)
+    ax.set_xticklabels(labels, rotation=45, ha=<span style="color: #E6DB74;">'right'</span>)
 
-def visualize_days(data, days):
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">visualize_days</span>(data, days):
     num_rows = (days + 2) // 3
     fig, axs = plt.subplots(num_rows, 3, figsize=(15, 5 * num_rows))
 
-    for i, ax in enumerate(axs.flat):
-	if i &lt; len(data):
-	    add_subplot(ax, data[i], i)
-	else:
-	    ax.axis('off')
+    <span style="color: #F92672;">for</span> i, ax <span style="color: #F92672;">in</span> <span style="color: #F92672;">enumerate</span>(axs.flat):
+        <span style="color: #F92672;">if</span> i &lt; <span style="color: #F92672;">len</span>(data):
+            add_subplot(ax, data[i], i)
+        <span style="color: #F92672;">else</span>:
+            ax.axis(<span style="color: #E6DB74;">'off'</span>)
 
     plt.tight_layout()
     plt.show()
 
-def second_selection(numbers, verbose=False):
-    # Step 1 (Blue Lock Man / People Can't Find Teams)
-    while len(numbers) % 3 != 0:
-	numbers.remove(min(numbers))
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">second_selection</span>(numbers, verbose=<span style="color: #AE81FF;">False</span>):
+    <span style="color: #75715E;"># </span><span style="color: #75715E;">Step 1 (Blue Lock Man / People Can't Find Teams)
+</span>    <span style="color: #F92672;">while</span> <span style="color: #F92672;">len</span>(numbers) % 3 != 0:
+        numbers.remove(<span style="color: #F92672;">min</span>(numbers))
 
-    # Step 2 (Players form teams of three)
-    all_teams = { 'dead': [], 'twos': [],
-		 'threes': [numbers[i:i + 3] for i in range(0, len(numbers), 3)],
-		 'fours': [], 'fives': []
+    <span style="color: #75715E;"># </span><span style="color: #75715E;">Step 2 (Players form teams of three)
+</span>    all_teams = { <span style="color: #E6DB74;">'dead'</span>: [], <span style="color: #E6DB74;">'twos'</span>: [],
+                 <span style="color: #E6DB74;">'threes'</span>: [numbers[i:i + 3] <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(0, <span style="color: #F92672;">len</span>(numbers), 3)],
+                 <span style="color: #E6DB74;">'fours'</span>: [], <span style="color: #E6DB74;">'fives'</span>: []
     }
 
     days = 0
@@ -265,70 +265,70 @@ def second_selection(numbers, verbose=False):
 
     subplots_data = []
 
-    if verbose:
-	subplots_data.append(copy.deepcopy(all_teams))
+    <span style="color: #F92672;">if</span> verbose:
+        subplots_data.append(copy.deepcopy(all_teams))
 
-    # Step 3 (Players play in selection until no more games can be played)
-    while any([len(x) &gt;= 2 for x in [all_teams['twos'], all_teams['threes'], all_teams['fours']]]):
-	# 3a (teams pair up)
-	random.shuffle(all_teams['twos'])
-	random.shuffle(all_teams['threes'])
-	random.shuffle(all_teams['fours'])
+    <span style="color: #75715E;"># </span><span style="color: #75715E;">Step 3 (Players play in selection until no more games can be played)
+</span>    <span style="color: #F92672;">while</span> <span style="color: #F92672;">any</span>([<span style="color: #F92672;">len</span>(x) &gt;= 2 <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> [all_teams[<span style="color: #E6DB74;">'twos'</span>], all_teams[<span style="color: #E6DB74;">'threes'</span>], all_teams[<span style="color: #E6DB74;">'fours'</span>]]]):
+        <span style="color: #75715E;"># </span><span style="color: #75715E;">3a (teams pair up)
+</span>        random.shuffle(all_teams[<span style="color: #E6DB74;">'twos'</span>])
+        random.shuffle(all_teams[<span style="color: #E6DB74;">'threes'</span>])
+        random.shuffle(all_teams[<span style="color: #E6DB74;">'fours'</span>])
 
-	new_two = []
-	new_three = []
-	new_four = []
+        new_two = []
+        new_three = []
+        new_four = []
 
-	paired_teams = []
-	for team_list in [all_teams['twos'], all_teams['threes'], all_teams['fours']]:
-	    for i in range(0, len(team_list) - 1, 2):
-		paired_teams.append((team_list[i], team_list[i + 1]))
+        paired_teams = []
+        <span style="color: #F92672;">for</span> team_list <span style="color: #F92672;">in</span> [all_teams[<span style="color: #E6DB74;">'twos'</span>], all_teams[<span style="color: #E6DB74;">'threes'</span>], all_teams[<span style="color: #E6DB74;">'fours'</span>]]:
+            <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(0, <span style="color: #F92672;">len</span>(team_list) - 1, 2):
+                paired_teams.append((team_list[i], team_list[i + 1]))
 
-	unpaired_teams = []
-	for team_list in [all_teams['twos'], all_teams['threes'], all_teams['fours']]:
-	    if len(team_list) % 2 != 0:
-		unpaired_teams.append(team_list[-1])
+        unpaired_teams = []
+        <span style="color: #F92672;">for</span> team_list <span style="color: #F92672;">in</span> [all_teams[<span style="color: #E6DB74;">'twos'</span>], all_teams[<span style="color: #E6DB74;">'threes'</span>], all_teams[<span style="color: #E6DB74;">'fours'</span>]]:
+            <span style="color: #F92672;">if</span> <span style="color: #F92672;">len</span>(team_list) % 2 != 0:
+                unpaired_teams.append(team_list[-1])
 
-	for team1, team2 in paired_teams:
-	    # 3b (teams play)
-	    matches += 1
-	    winner, loser = play(team1, team2)
+        <span style="color: #F92672;">for</span> team1, team2 <span style="color: #F92672;">in</span> paired_teams:
+            <span style="color: #75715E;"># </span><span style="color: #75715E;">3b (teams play)
+</span>            matches += 1
+            winner, loser = play(team1, team2)
 
-	    # 3c (winner steals best player of loser)
-	    max_val = max(loser)
-	    loser.remove(max_val)
-	    winner.append(max_val)
+            <span style="color: #75715E;"># </span><span style="color: #75715E;">3c (winner steals best player of loser)
+</span>            max_val = <span style="color: #F92672;">max</span>(loser)
+            loser.remove(max_val)
+            winner.append(max_val)
 
-	    for team in [loser, winner]:
-	      all_teams, new_two, new_three, new_four = append_bylen(team, all_teams, new_two, new_three, new_four)
+            <span style="color: #F92672;">for</span> team <span style="color: #F92672;">in</span> [loser, winner]:
+              all_teams, new_two, new_three, new_four = append_bylen(team, all_teams, new_two, new_three, new_four)
 
-	for team in unpaired_teams:
-	    all_teams, new_two, new_three, new_four = append_bylen(team, all_teams, new_two, new_three, new_four)
+        <span style="color: #F92672;">for</span> team <span style="color: #F92672;">in</span> unpaired_teams:
+            all_teams, new_two, new_three, new_four = append_bylen(team, all_teams, new_two, new_three, new_four)
 
-	all_teams['twos'] = new_two
-	all_teams['threes'] = new_three
-	all_teams['fours'] = new_four
+        all_teams[<span style="color: #E6DB74;">'twos'</span>] = new_two
+        all_teams[<span style="color: #E6DB74;">'threes'</span>] = new_three
+        all_teams[<span style="color: #E6DB74;">'fours'</span>] = new_four
 
-	# 3d (next day)
-	if verbose:
-	  print(f"end of day {days}, total matches {matches}")
-	  subplots_data.append(copy.deepcopy(all_teams))
-	days += 1
+        <span style="color: #75715E;"># </span><span style="color: #75715E;">3d (next day)
+</span>        <span style="color: #F92672;">if</span> verbose:
+          <span style="color: #F92672;">print</span>(f<span style="color: #E6DB74;">"end of day </span>{days}<span style="color: #E6DB74;">, total matches </span>{matches}<span style="color: #E6DB74;">"</span>)
+          subplots_data.append(copy.deepcopy(all_teams))
+        days += 1
 
-    # Step 4
-    if verbose:
-      print(f"Selection complete: total matches {matches}")
+    <span style="color: #75715E;"># </span><span style="color: #75715E;">Step 4
+</span>    <span style="color: #F92672;">if</span> verbose:
+      <span style="color: #F92672;">print</span>(f<span style="color: #E6DB74;">"Selection complete: total matches </span>{matches}<span style="color: #E6DB74;">"</span>)
       visualize_days(subplots_data, days)
 
-    return all_teams['fives']
+    <span style="color: #F92672;">return</span> all_teams[<span style="color: #E6DB74;">'fives'</span>]
 
-numbers = [np.random.normal(100, 0.2) for _ in range(51)]
-selected_teams = second_selection(numbers, verbose=True)
+numbers = [np.random.normal(100, 0.2) <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(51)]
+selected_teams = second_selection(numbers, verbose=<span style="color: #AE81FF;">True</span>)
 </pre>
 </div>
 
 
-<div id="org665fb40" class="figure">
+<div id="orgeef0a72" class="figure">
 <p><img src="../images/bluelock/teams_days.png" alt="teams_days.png" />
 </p>
 </div>
@@ -348,23 +348,23 @@ That is, \(n\) teams (or \(5n\) players) will pass the selection, \(n\) players 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">surviving_teams = []
+<pre class="src src-python"><span style="color: #FD971F;">surviving_teams</span> = []
 
-for i in range(35,125):
-  numbers = [np.random.normal(100, 0.2) for _ in range(i)]
-  selected_teams = second_selection(numbers)
-  surviving_teams.append(len(selected_teams))
+<span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(35,125):
+  <span style="color: #FD971F;">numbers</span> = [np.random.normal(100, 0.2) <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(i)]
+  <span style="color: #FD971F;">selected_teams</span> = second_selection(numbers)
+  surviving_teams.append(<span style="color: #F92672;">len</span>(selected_teams))
 
-plt.title("Surviving Teams vs Blue Lock Man Challenge")
-plt.plot(list(range(35,125)), surviving_teams)
-plt.xlabel("Players Past Blue Lock Man")
-plt.ylabel("Teams Who Clear Selection")
+plt.title(<span style="color: #E6DB74;">"Surviving Teams vs Blue Lock Man Challenge"</span>)
+plt.plot(<span style="color: #F92672;">list</span>(<span style="color: #F92672;">range</span>(35,125)), surviving_teams)
+plt.xlabel(<span style="color: #E6DB74;">"Players Past Blue Lock Man"</span>)
+plt.ylabel(<span style="color: #E6DB74;">"Teams Who Clear Selection"</span>)
 plt.show()
 </pre>
 </div>
 
 
-<div id="org58763f1" class="figure">
+<div id="org10d3850" class="figure">
 <p><img src="../images/bluelock/surviving_teams_blm.png" alt="surviving_teams_blm.png" />
 </p>
 </div>
@@ -387,25 +387,25 @@ We can run this process a large number of times to see how the distribution shif
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">all_nums = []
-all_chosen = []
+<pre class="src src-python"><span style="color: #FD971F;">all_nums</span> = []
+<span style="color: #FD971F;">all_chosen</span> = []
 
-for x in range(10000):
-  numbers = [np.random.normal(100, 15) for _ in range(51)]
-  selected_teams = second_selection(numbers)
+<span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(10000):
+  <span style="color: #FD971F;">numbers</span> = [np.random.normal(100, 15) <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(51)]
+  <span style="color: #FD971F;">selected_teams</span> = second_selection(numbers)
 
-  for n in numbers:
+  <span style="color: #F92672;">for</span> n <span style="color: #F92672;">in</span> numbers:
     all_nums.append(n)
-  for t in selected_teams:
-    for n in t:
+  <span style="color: #F92672;">for</span> t <span style="color: #F92672;">in</span> selected_teams:
+    <span style="color: #F92672;">for</span> n <span style="color: #F92672;">in</span> t:
       all_chosen.append(n)
 
-print(np.mean(all_nums))
-print(np.mean(all_chosen))
+<span style="color: #F92672;">print</span>(np.mean(all_nums))
+<span style="color: #F92672;">print</span>(np.mean(all_chosen))
 
-plt.title("Histogram of 'Skill Level' of Remaining Players")
-plt.hist(all_nums, label="Pre-Selection")
-plt.hist(all_chosen, label="Post-Selection")
+plt.title(<span style="color: #E6DB74;">"Histogram of 'Skill Level' of Remaining Players"</span>)
+plt.hist(all_nums, label=<span style="color: #E6DB74;">"Pre-Selection"</span>)
+plt.hist(all_chosen, label=<span style="color: #E6DB74;">"Post-Selection"</span>)
 plt.legend()
 plt.show()
 </pre>
@@ -416,7 +416,7 @@ Mean: 99.95 -&gt; 101.53
 </p>
 
 
-<div id="org02817d4" class="figure">
+<div id="orgbb6675c" class="figure">
 <p><img src="../images/bluelock/skilllevel.png" alt="skilllevel.png" /> 
 </p>
 </div>

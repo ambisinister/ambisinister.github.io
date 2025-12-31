@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-23 Wed 15:49 -->
+<!-- 2025-12-30 Tue 22:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Free Will</title>
@@ -161,7 +161,7 @@ This was a pretty popular viral meme at one point, so I ended up finding an exis
 </p>
 
 
-<div id="orgd7a7a55" class="figure">
+<div id="org0addb54" class="figure">
 <p><img src="../images/freewill/oracle.png" alt="oracle.png" />
 </p>
 </div>
@@ -186,7 +186,7 @@ Armed with this knowledge, I dug into their code and found the following
 </p>
 
 
-<div id="orgebdc184" class="figure">
+<div id="org555bc3a" class="figure">
 <p><img src="../images/freewill/oracle_fn.png" alt="oracle_fn.png" />
 </p>
 </div>
@@ -205,58 +205,58 @@ The code here is, as Aaronson says, very simple. The basic implementation is min
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">import random
-import itertools
-import matplotlib.pyplot as plt
+<pre class="src src-python"><span style="color: #F92672;">import</span> random
+<span style="color: #F92672;">import</span> itertools
+<span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
 
-class Predictor:
-    def __init__(self, n):
-	self.n = n
-	self.ngrams = {}
-	self.correct_predictions = 0
-	self.total_predictions = 0
-	all_combinations = itertools.product(['f', 'd'], repeat=n)
-	for combination in all_combinations:
-	    self.ngrams[''.join(combination)] = {'f': 0, 'd': 0}
+<span style="color: #F92672;">class</span> <span style="color: #66D9EF;">Predictor</span>:
+    <span style="color: #F92672;">def</span> <span style="color: #A6E22E;">__init__</span>(<span style="color: #F92672;">self</span>, n):
+        <span style="color: #F92672;">self</span>.n = n
+        <span style="color: #F92672;">self</span>.<span style="color: #FD971F;">ngrams</span> = {}
+        <span style="color: #F92672;">self</span>.<span style="color: #FD971F;">correct_predictions</span> = 0
+        <span style="color: #F92672;">self</span>.<span style="color: #FD971F;">total_predictions</span> = 0
+        <span style="color: #FD971F;">all_combinations</span> = itertools.product([<span style="color: #E6DB74;">'f'</span>, <span style="color: #E6DB74;">'d'</span>], repeat=n)
+        <span style="color: #F92672;">for</span> combination <span style="color: #F92672;">in</span> all_combinations:
+            <span style="color: #F92672;">self</span>.ngrams[<span style="color: #E6DB74;">''</span>.join(combination)] = {<span style="color: #E6DB74;">'f'</span>: 0, <span style="color: #E6DB74;">'d'</span>: 0}
 
-    def predict(self, sequence):
-	correct_predictions = 0
-	total_predictions = 0
-	history = sequence[:self.n]
-	for next_character in sequence[self.n:]:
-	    prediction = self._make_prediction(history)
-	    history = self._update_history(history, next_character)
-	    total_predictions += 1
-	    if prediction == next_character:
-		correct_predictions += 1
-	self.correct_predictions = correct_predictions
-	self.total_predictions = total_predictions
-	return correct_predictions / total_predictions if total_predictions != 0 else 0
+    <span style="color: #F92672;">def</span> <span style="color: #A6E22E;">predict</span>(<span style="color: #F92672;">self</span>, sequence):
+        correct_predictions = 0
+        total_predictions = 0
+        history = sequence[:<span style="color: #F92672;">self</span>.n]
+        <span style="color: #F92672;">for</span> next_character <span style="color: #F92672;">in</span> sequence[<span style="color: #F92672;">self</span>.n:]:
+            prediction = <span style="color: #F92672;">self</span>._make_prediction(history)
+            history = <span style="color: #F92672;">self</span>._update_history(history, next_character)
+            total_predictions += 1
+            <span style="color: #F92672;">if</span> prediction == next_character:
+                correct_predictions += 1
+        <span style="color: #F92672;">self</span>.correct_predictions = correct_predictions
+        <span style="color: #F92672;">self</span>.total_predictions = total_predictions
+        <span style="color: #F92672;">return</span> correct_predictions / total_predictions <span style="color: #F92672;">if</span> total_predictions != 0 <span style="color: #F92672;">else</span> 0
 
-    def _make_prediction(self, history):
-	prediction = self.ngrams[history]
-	if prediction['f'] &gt; prediction['d']:
-	    return 'f'
-	elif prediction['d'] &gt; prediction['f']:
-	    return 'd'
-	else:
-	    return random.choice(['f', 'd'])
+    <span style="color: #F92672;">def</span> <span style="color: #A6E22E;">_make_prediction</span>(<span style="color: #F92672;">self</span>, history):
+        prediction = <span style="color: #F92672;">self</span>.ngrams[history]
+        <span style="color: #F92672;">if</span> prediction[<span style="color: #E6DB74;">'f'</span>] &gt; prediction[<span style="color: #E6DB74;">'d'</span>]:
+            <span style="color: #F92672;">return</span> <span style="color: #E6DB74;">'f'</span>
+        <span style="color: #F92672;">elif</span> prediction[<span style="color: #E6DB74;">'d'</span>] &gt; prediction[<span style="color: #E6DB74;">'f'</span>]:
+            <span style="color: #F92672;">return</span> <span style="color: #E6DB74;">'d'</span>
+        <span style="color: #F92672;">else</span>:
+            <span style="color: #F92672;">return</span> random.choice([<span style="color: #E6DB74;">'f'</span>, <span style="color: #E6DB74;">'d'</span>])
 
-    def _update_history(self, history, next_character):
-	self.ngrams[history][next_character] += 1
-	history = history[1:] + next_character
-	return history
+    <span style="color: #F92672;">def</span> <span style="color: #A6E22E;">_update_history</span>(<span style="color: #F92672;">self</span>, history, next_character):
+        <span style="color: #F92672;">self</span>.ngrams[history][<span style="color: #FD971F;">next_character</span>] += 1
+        history = history[1:] + next_character
+        <span style="color: #F92672;">return</span> history
 
-def plot_predictions(sequence, n=3, runs=100):
+<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">plot_predictions</span>(sequence, n=3, runs=100):
     percentages = []
-    for i in range(len(sequence)):
-	avg_percentage = 0
-	for _ in range(runs):  # (break ties random)
-	    this_predictor = Predictor(n)
-	    this_predictor.predict(sequence[:i])
-	    avg_percentage += this_predictor.correct_predictions / this_predictor.total_predictions if this_predictor.total_predictions != 0 else 0
-	avg_percentage /= runs 
-	percentages.append(avg_percentage)    
+    <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(<span style="color: #F92672;">len</span>(sequence)):
+        avg_percentage = 0
+        <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(runs):  <span style="color: #75715E;"># </span><span style="color: #75715E;">(break ties random)
+</span>            this_predictor = Predictor(n)
+            this_predictor.predict(sequence[:i])
+            avg_percentage += this_predictor.correct_predictions / this_predictor.total_predictions <span style="color: #F92672;">if</span> this_predictor.total_predictions != 0 <span style="color: #F92672;">else</span> 0
+        avg_percentage /= runs 
+        percentages.append(avg_percentage)    
 </pre>
 </div>
 
@@ -269,16 +269,16 @@ Below is my attempt at it, using only general intuition and no heuristics or cou
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">sequence = 'ffdffdddfffddffddffdddffddfffdfdddffdfddfddfdfddffddfdfffdfddffdffddffddfdffdddddffdfdfffdfddffdddff'
-print(sequence.count('f'))
-print(sequence.count('d'))
-# pretty good / lucky distribution for no heuristics
+<pre class="src src-python"><span style="color: #FD971F;">sequence</span> = <span style="color: #E6DB74;">'ffdffdddfffddffddffdddffddfffdfdddffdfddfddfdfddffddfdfffdfddffdffddffddfdffdddddffdfdfffdfddffdddff'</span>
+<span style="color: #F92672;">print</span>(sequence.count(<span style="color: #E6DB74;">'f'</span>))
+<span style="color: #F92672;">print</span>(sequence.count(<span style="color: #E6DB74;">'d'</span>))
+<span style="color: #75715E;"># </span><span style="color: #75715E;">pretty good / lucky distribution for no heuristics
+</span>
+<span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(3,6):
+  <span style="color: #FD971F;">predictor</span> = plot_predictions(sequence, n=i)
 
-for i in range(3,6):
-  predictor = plot_predictions(sequence, n=i)
-
-  for fd in predictor.ngrams:
-    print(fd, predictor.ngrams[fd])
+  <span style="color: #F92672;">for</span> fd <span style="color: #F92672;">in</span> predictor.ngrams:
+    <span style="color: #F92672;">print</span>(fd, predictor.ngrams[fd])
 </pre>
 </div>
 
@@ -317,20 +317,20 @@ If you had time to think about it, could you beat this test? I think you could &
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">print("generating using 100 digits of pi")
+<pre class="src src-python"><span style="color: #F92672;">print</span>(<span style="color: #E6DB74;">"generating using 100 digits of pi"</span>)
 
-# Generate sequence using digits of pi
-pi = '3141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067'
-sequence = ''.join(['d' if int(x)%2==0 else 'f' for x in pi])
-assert sequence == 'ffdfffddfffdffffdfddddddffdfdfffdddddffffdffffffffdfdddffdfddffdfdfdfddddddddddffdddddfdddffddfffddf'
-print(sequence.count('f'))
-print(sequence.count('d'))
+<span style="color: #75715E;"># </span><span style="color: #75715E;">Generate sequence using digits of pi
+</span><span style="color: #FD971F;">pi</span> = <span style="color: #E6DB74;">'3141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067'</span>
+<span style="color: #FD971F;">sequence</span> = <span style="color: #E6DB74;">''</span>.join([<span style="color: #E6DB74;">'d'</span> <span style="color: #F92672;">if</span> <span style="color: #F92672;">int</span>(x)%2==0 <span style="color: #F92672;">else</span> <span style="color: #E6DB74;">'f'</span> <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> pi])
+<span style="color: #F92672;">assert</span> sequence == <span style="color: #E6DB74;">'ffdfffddfffdffffdfddddddffdfdfffdddddffffdffffffffdfdddffdfddffdfdfdfddddddddddffdddddfdddffddfffddf'</span>
+<span style="color: #F92672;">print</span>(sequence.count(<span style="color: #E6DB74;">'f'</span>))
+<span style="color: #F92672;">print</span>(sequence.count(<span style="color: #E6DB74;">'d'</span>))
 
-for i in range(3,6):
+<span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(3,6):
   predictor = plot_predictions(sequence, n=i)
 
-  for fd in predictor.ngrams:
-    print(fd, predictor.ngrams[fd])
+  <span style="color: #F92672;">for</span> fd <span style="color: #F92672;">in</span> predictor.ngrams:
+    <span style="color: #F92672;">print</span>(fd, predictor.ngrams[fd])
 </pre>
 </div>
 

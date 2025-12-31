@@ -160,7 +160,7 @@ $(function() {
 )
 
 ;(require 'ox-latex)
-;(use-package htmlize)
+(use-package htmlize)
 ;(add-to-list 'org-latex-packages-alist '("" "minted"))
 ;(setq org-latex-listings 'minted)
 ;(setq org-latex-pdf-process

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-23 Wed 15:49 -->
+<!-- 2025-12-30 Tue 22:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>WILT Benchmark</title>
@@ -270,17 +270,17 @@ Starting this out we will just show the results of several models on 10 very eas
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">TESTS = {
-    '1': lambda x, y, z: x &gt; y &gt; z,
-    '2': lambda x, y, z: x &lt; y &lt; z,
-    '3': lambda x, y, z: x &gt;= y &gt;= z,
-    '4': lambda x, y, z: x &lt;= y &lt;= z,
-    '5': lambda x, y, z: x == y and y == z,
-    '6': lambda x, y, z: x != y and y != z, and x != z,
-    '7': lambda x, y, z: x &lt; 0 and y &lt; 0 and z &lt; 0,
-    '8': lambda x, y, z: x + y == z,
-    '9': lambda x, y, z: x * y == z,
-    '10': lambda x, y, z: x &lt; y and y &gt; z
+<pre class="src src-python"><span style="color: #FD971F;">TESTS</span> = {
+    <span style="color: #E6DB74;">'1'</span>: <span style="color: #F92672;">lambda</span> x, y, z: x &gt; y &gt; z,
+    <span style="color: #E6DB74;">'2'</span>: <span style="color: #F92672;">lambda</span> x, y, z: x &lt; y &lt; z,
+    <span style="color: #E6DB74;">'3'</span>: <span style="color: #F92672;">lambda</span> x, y, z: x &gt;= y &gt;= z,
+    <span style="color: #E6DB74;">'4'</span>: <span style="color: #F92672;">lambda</span> x, y, z: x &lt;= y &lt;= z,
+    <span style="color: #E6DB74;">'5'</span>: <span style="color: #F92672;">lambda</span> x, y, z: x == y <span style="color: #F92672;">and</span> y == z,
+    <span style="color: #E6DB74;">'6'</span>: <span style="color: #F92672;">lambda</span> x, y, z: x != y <span style="color: #F92672;">and</span> y != z, <span style="color: #F92672;">and</span> x != z,
+    <span style="color: #E6DB74;">'7'</span>: <span style="color: #F92672;">lambda</span> x, y, z: x &lt; 0 <span style="color: #F92672;">and</span> y &lt; 0 <span style="color: #F92672;">and</span> z &lt; 0,
+    <span style="color: #E6DB74;">'8'</span>: <span style="color: #F92672;">lambda</span> x, y, z: x + y == z,
+    <span style="color: #E6DB74;">'9'</span>: <span style="color: #F92672;">lambda</span> x, y, z: x * y == z,
+    <span style="color: #E6DB74;">'10'</span>: <span style="color: #F92672;">lambda</span> x, y, z: x &lt; y <span style="color: #F92672;">and</span> y &gt; z
 }
 </pre>
 </div>
@@ -414,7 +414,7 @@ One very funny thing this model flubbed on is the "all numbers negative" test, w
 </p>
 
 
-<div id="org6713f68" class="figure">
+<div id="org6bbd108" class="figure">
 <p><img src="../images/from_clipboard/20240623_011848.png" alt="20240623_011848.png" />
 </p>
 </div>
@@ -433,7 +433,7 @@ This one below stuck out to me in the early phases of testing Llama 3 70B on it.
 </p>
 
 
-<div id="org0431230" class="figure">
+<div id="orgcd073e7" class="figure">
 <p><img src="../images/from_clipboard/20240622_200739.png" alt="20240622_200739.png" />
 </p>
 </div>
@@ -443,7 +443,7 @@ This one even more striking, where it identifies that it created a test case it 
 </p>
 
 
-<div id="org1131a3c" class="figure">
+<div id="org480833b" class="figure">
 <p><img src="../images/from_clipboard/20240622_210916.png" alt="20240622_210916.png" />
 </p>
 </div>
@@ -462,7 +462,7 @@ This one also, where it took tokens to "think". I don't even think it got the an
 </p>
 
 
-<div id="org866ddcd" class="figure">
+<div id="orgdbe3eb5" class="figure">
 <p><img src="../images/from_clipboard/20240622_202111.png" alt="20240622_202111.png" />
 </p>
 </div>
@@ -482,7 +482,7 @@ These two models did this funny thing where they started to provide their own im
 </p>
 
 
-<div id="org4086508" class="figure">
+<div id="org0d6f76b" class="figure">
 <p><img src="../images/from_clipboard/20240622_230123.png" alt="20240622_230123.png" />
 </p>
 </div>
@@ -498,7 +498,7 @@ GPT-4-turbo did quite well on this task, at least for these examples. It would o
 </p>
 
 
-<div id="org8105eb3" class="figure">
+<div id="orge3dfd3b" class="figure">
 <p><img src="../images/from_clipboard/20240622_235707.png" alt="20240622_235707.png" />
 </p>
 </div>
@@ -539,7 +539,7 @@ DeepSeek-coder behaved really similar to DeepSeek-V2 as far as general behaviors
 </p>
 
 
-<div id="org769e126" class="figure">
+<div id="org457f060" class="figure">
 <p><img src="../images/from_clipboard/20240623_003733.png" alt="20240623_003733.png" />
 </p>
 </div>

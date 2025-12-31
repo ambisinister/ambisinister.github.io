@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-23 Wed 15:49 -->
+<!-- 2025-12-30 Tue 22:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Emacs Configuration</title>
@@ -170,7 +170,7 @@ To begin you'll want the following in your init.el file:
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives
-	     '("melpa" . "http://melpa.org/packages/"))
+	     '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
 ;; Bootstrap `use-package'
@@ -201,17 +201,17 @@ should be straightforward enough, just getting rid of stuff like the toolbar / s
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(tool-bar-mode 0)
 (menu-bar-mode 0)
-(setq inhibit-startup-message t)
-(when window-system (scroll-bar-mode -1))
-(setq fill-column 80)
+(<span style="color: #F92672;">setq</span> inhibit-startup-message t)
+(<span style="color: #F92672;">when</span> window-system (scroll-bar-mode -1))
+(<span style="color: #F92672;">setq</span> fill-column 80)
 (global-visual-line-mode t)
 
-;theme
-(use-package monokai-theme :ensure t)
+<span style="color: #75715E;">;</span><span style="color: #75715E;">theme
+</span>(<span style="color: #F92672;">use-package</span> <span style="color: #AE81FF;">monokai-theme</span> <span style="color: #F92672;">:ensure</span> t)
 (load-theme 'monokai t)
 
-;encoding?
-(prefer-coding-system 'utf-8)
+<span style="color: #75715E;">;</span><span style="color: #75715E;">encoding?
+</span>(prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
@@ -223,9 +223,9 @@ as well as my <a href="https://en.wikipedia.org/wiki/Invictus">custom scratch me
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq initial-scratch-message
-"; Present Day. Present Time! (ahahaha!)
-")
+<pre class="src src-emacs-lisp">(<span style="color: #F92672;">setq</span> initial-scratch-message
+<span style="color: #E6DB74;">"; Present Day. Present Time! (ahahaha!)
+"</span>)
 </pre>
 </div>
 </div>
@@ -239,12 +239,12 @@ Don't really use for anything, might get rid of this later
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">; autosave directory hidden
-(setq
-   backup-by-copying t      ; don't clobber symlinks
-   backup-directory-alist
-    '(("." . "~/.saves/"))    ; don't litter my fs tree
-   delete-old-versions t
+<pre class="src src-emacs-lisp"><span style="color: #75715E;">; </span><span style="color: #75715E;">autosave directory hidden
+</span>(<span style="color: #F92672;">setq</span>
+   backup-by-copying t      <span style="color: #75715E;">; </span><span style="color: #75715E;">don't clobber symlinks
+</span>   backup-directory-alist
+    '((<span style="color: #E6DB74;">"."</span> . <span style="color: #E6DB74;">"~/.saves/"</span>))    <span style="color: #75715E;">; </span><span style="color: #75715E;">don't litter my fs tree
+</span>   delete-old-versions t
    kept-new-versions 6
    kept-old-versions 2
    version-control t)
@@ -258,14 +258,14 @@ Don't really use for anything, might get rid of this later
 <h3 id="org16cac87">basic custom keybinds</h3>
 <div class="outline-text-3" id="text-org16cac87">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(global-set-key (kbd "M-o") 'other-window)
-(global-set-key (kbd "C-x k") 'kill-current-buffer)
-(global-set-key (kbd "C-c C-k") 'eval-buffer)
-(global-unset-key (kbd "C-z"))
+<pre class="src src-emacs-lisp">(global-set-key (kbd <span style="color: #E6DB74;">"M-o"</span>) 'other-window)
+(global-set-key (kbd <span style="color: #E6DB74;">"C-x k"</span>) 'kill-current-buffer)
+(global-set-key (kbd <span style="color: #E6DB74;">"C-c C-k"</span>) 'eval-buffer)
+(global-unset-key (kbd <span style="color: #E6DB74;">"C-z"</span>))
 
 
-(defun kill-current-buffer ()
-  (interactive)
+(<span style="color: #F92672;">defun</span> <span style="color: #A6E22E;">kill-current-buffer</span> ()
+  (<span style="color: #F92672;">interactive</span>)
   (kill-buffer (current-buffer))
   )
 
@@ -287,12 +287,12 @@ planetbanatt org config things
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq org-export-with-section-numbers nil)
-;(setq org-export-with-title nil) ;doesn't seem to work
-(setq org-export-with-title t)
-(setq org-html-toplevel-hlevel 1)
-(setq org-html-head-include-default-style nil)
-(setq org-html-head-include-default-scripts nil)
+<pre class="src src-emacs-lisp">(<span style="color: #F92672;">setq</span> org-export-with-section-numbers nil)
+<span style="color: #75715E;">;</span><span style="color: #75715E;">(setq org-export-with-title nil) ;doesn't seem to work
+</span>(<span style="color: #F92672;">setq</span> org-export-with-title t)
+(<span style="color: #F92672;">setq</span> org-html-toplevel-hlevel 1)
+(<span style="color: #F92672;">setq</span> org-html-head-include-default-style nil)
+(<span style="color: #F92672;">setq</span> org-html-head-include-default-scripts nil)
 </pre>
 </div>
 </div>
@@ -313,8 +313,8 @@ Sort of a hacky solution to get emacs to export html files compatible with my <a
 default CSS / bootstrap, google analytics, some js functions for compatability
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq org-html-head
-      "&lt;meta charset=\"utf-8\"&gt;
+<pre class="src src-emacs-lisp">(<span style="color: #F92672;">setq</span> org-html-head
+      <span style="color: #E6DB74;">"&lt;meta charset=\"utf-8\"&gt;
 &lt;meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"&gt;
 &lt;meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"&gt;
 &lt;script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js\"&gt;&lt;/script&gt;
@@ -323,9 +323,9 @@ default CSS / bootstrap, google analytics, some js functions for compatability
 &lt;script&gt;
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  gtag('</span><span style="color: #AE81FF;">js</span><span style="color: #E6DB74;">', new Date());
 
-  gtag('config', 'UA-101739190-1');
+  gtag('</span><span style="color: #AE81FF;">config</span><span style="color: #E6DB74;">', '</span><span style="color: #AE81FF;">UA-101739190-1</span><span style="color: #E6DB74;">');
 &lt;/script&gt;
 
 
@@ -344,31 +344,31 @@ window.addEventListener(\"hashchange\", shiftWindow);
 $(function() {
     'use strict';
 
-    $(\"#text-table-of-contents ul:first\").addClass('nav')
-    $('body').attr('data-spy', 'scroll')
-    $('body').attr('data-target', '#text-table-of-contents')
-    $('body').attr('data-offset', '100')
-    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+    $(\"#text-table-of-contents ul:first\").addClass('</span><span style="color: #AE81FF;">nav</span><span style="color: #E6DB74;">')
+    $('</span><span style="color: #AE81FF;">body</span><span style="color: #E6DB74;">').attr('</span><span style="color: #AE81FF;">data-spy</span><span style="color: #E6DB74;">', '</span><span style="color: #AE81FF;">scroll</span><span style="color: #E6DB74;">')
+    $('</span><span style="color: #AE81FF;">body</span><span style="color: #E6DB74;">').attr('</span><span style="color: #AE81FF;">data-target</span><span style="color: #E6DB74;">', '#text-table-of-contents')
+    $('</span><span style="color: #AE81FF;">body</span><span style="color: #E6DB74;">').attr('</span><span style="color: #AE81FF;">data-offset</span><span style="color: #E6DB74;">', '</span><span style="color: #AE81FF;">100</span><span style="color: #E6DB74;">')
+    $('</span><span style="color: #AE81FF;">table</span><span style="color: #E6DB74;">').addClass('table table-striped table-bordered table-hover table-condensed')
 
     // Dark mode functionality
     window.toggleDarkMode = function() {
-	document.body.classList.toggle('dark-mode');
-	const isDarkMode = document.body.classList.contains('dark-mode');
-	localStorage.setItem('darkMode', isDarkMode);
-	updateToggleButton();
+        document.body.classList.toggle('</span><span style="color: #AE81FF;">dark-mode</span><span style="color: #E6DB74;">');
+        const isDarkMode = document.body.classList.contains('</span><span style="color: #AE81FF;">dark-mode</span><span style="color: #E6DB74;">');
+        localStorage.setItem('</span><span style="color: #AE81FF;">darkMode</span><span style="color: #E6DB74;">', isDarkMode);
+        updateToggleButton();
     }
 
     function updateToggleButton() {
-	const toggle = document.querySelector('.dark-mode-toggle-nav');
-	if (toggle) {
-	    toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-	}
+        const toggle = document.querySelector('</span><span style="color: #AE81FF;">.dark-mode-toggle-nav</span><span style="color: #E6DB74;">');
+        if (toggle) {
+            toggle.innerHTML = document.body.classList.contains('</span><span style="color: #AE81FF;">dark-mode</span><span style="color: #E6DB74;">') ? '</span><span style="color: #AE81FF;">&#9728;&#65039;</span><span style="color: #E6DB74;">' : '</span><span style="color: #AE81FF;">&#127769;</span><span style="color: #E6DB74;">';
+        }
     }
 
     // Initialize dark mode from localStorage
-    const savedDarkMode = localStorage.getItem('darkMode');
-    if (savedDarkMode === 'true') {
-	document.body.classList.add('dark-mode');
+    const savedDarkMode = localStorage.getItem('</span><span style="color: #AE81FF;">darkMode</span><span style="color: #E6DB74;">');
+    if (savedDarkMode === '</span><span style="color: #AE81FF;">true</span><span style="color: #E6DB74;">') {
+        document.body.classList.add('</span><span style="color: #AE81FF;">dark-mode</span><span style="color: #E6DB74;">');
     }
 
     // Update toggle button on page load
@@ -378,7 +378,7 @@ $(function() {
 
 &lt;link rel=\"stylesheet\" type=\"text/css\" href=\"https://planetbanatt.net/css/default_20240614.css\" /&gt;
 &lt;link rel=\"shortcut icon\" type=\"image/jpg\" href=\"https://planetbanatt.net/favicon.ico\" /&gt;
-")
+"</span>)
 </pre>
 </div>
 </div>
@@ -391,36 +391,36 @@ $(function() {
 navbar; will probably add header with my name later
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq org-html-preamble
-"
+<pre class="src src-emacs-lisp">(<span style="color: #F92672;">setq</span> org-html-preamble
+<span style="color: #E6DB74;">"
 &lt;!-- heading --&gt;
 &lt;!-- add here --&gt;
 
 &lt;!-- Fixed navbar --&gt;
     &lt;nav class=\"navbar navbar-default navbar-fixed-top\"&gt;
-	&lt;div class=\"navbar-header\"&gt;
-	  &lt;button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\"&gt;
-	    &lt;span class=\"sr-only\"&gt;Toggle navigation&lt;/span&gt;
-	    &lt;span class=\"icon-bar\"&gt;&lt;/span&gt;
-	    &lt;span class=\"icon-bar\"&gt;&lt;/span&gt;
-	    &lt;span class=\"icon-bar\"&gt;&lt;/span&gt;
-	  &lt;/button&gt;
-	&lt;/div&gt;
+        &lt;div class=\"navbar-header\"&gt;
+          &lt;button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\"&gt;
+            &lt;span class=\"sr-only\"&gt;Toggle navigation&lt;/span&gt;
+            &lt;span class=\"icon-bar\"&gt;&lt;/span&gt;
+            &lt;span class=\"icon-bar\"&gt;&lt;/span&gt;
+            &lt;span class=\"icon-bar\"&gt;&lt;/span&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
 
-	&lt;div id=\"navbar\" class=\"navbar-collapse collapse\"&gt;
-	  &lt;ul class=\"nav navbar-nav ml-auto\" style=\"margin-left:3%%\"&gt;
-	    &lt;li class=\"nav-item\"&gt;&lt;a href=\"http://planetbanatt.net/\"&gt;Home&lt;/a&gt;&lt;/li&gt;
-	    &lt;li&gt;&lt;a href=\"http://planetbanatt.net/about.html\"&gt;About&lt;/a&gt;&lt;/li&gt;
-	    &lt;li&gt;&lt;a href=\"http://planetbanatt.net/projects.html\"&gt;Projects&lt;/a&gt;&lt;/li&gt;
-	    &lt;li&gt;&lt;a href=\"http://planetbanatt.net/melee/index.html\"&gt;Melee&lt;/a&gt;&lt;/li&gt;
-	    &lt;li&gt;&lt;a href=\"http://planetbanatt.net/links.html\"&gt;Links&lt;/a&gt;&lt;/li&gt;
-	    &lt;li&gt;&lt;a href=\"http://planetbanatt.net/resume.pdf\"&gt;Resume&lt;/a&gt;&lt;/li&gt;
-	    &lt;li class=\"dark-mode-nav-item\"&gt;&lt;a href=\"#\" class=\"dark-mode-toggle-nav\" onclick=\"toggleDarkMode(); return false;\"&gt;🌙&lt;/a&gt;&lt;/li&gt;
-	  &lt;/ul&gt;
-	  &lt;/ul&gt;
-	&lt;/div&gt;&lt;!--/.nav-collapse --&gt;
+        &lt;div id=\"navbar\" class=\"navbar-collapse collapse\"&gt;
+          &lt;ul class=\"nav navbar-nav ml-auto\" style=\"margin-left:3%%\"&gt;
+            &lt;li class=\"nav-item\"&gt;&lt;a href=\"http://planetbanatt.net/\"&gt;Home&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=\"http://planetbanatt.net/about.html\"&gt;About&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=\"http://planetbanatt.net/projects.html\"&gt;Projects&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=\"http://planetbanatt.net/melee/index.html\"&gt;Melee&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=\"http://planetbanatt.net/links.html\"&gt;Links&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=\"http://planetbanatt.net/resume.pdf\"&gt;Resume&lt;/a&gt;&lt;/li&gt;
+            &lt;li class=\"dark-mode-nav-item\"&gt;&lt;a href=\"#\" class=\"dark-mode-toggle-nav\" onclick=\"toggleDarkMode(); return false;\"&gt;&#127769;&lt;/a&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;&lt;!--/.nav-collapse --&gt;
     &lt;/nav&gt;
-")
+"</span>)
 </pre>
 </div>
 </div>
@@ -433,8 +433,8 @@ navbar; will probably add header with my name later
 back to top
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq org-html-postamble
-      "&lt;a href=\"#top\"&gt;Back to Top&lt;/a&gt;")
+<pre class="src src-emacs-lisp">(<span style="color: #F92672;">setq</span> org-html-postamble
+      <span style="color: #E6DB74;">"&lt;a href=\"#top\"&gt;Back to Top&lt;/a&gt;"</span>)
 </pre>
 </div>
 </div>
@@ -448,15 +448,15 @@ back to top
 currently just publishing all to planetbanatt format
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq org-publish-project-alist
-      '(("planetbanatt"
-	:base-directory "~/Documents/code/ambisinister.github.io/org/"
-	:base-extension "org"
-	:publishing-directory "~/Documents/code/ambisinister.github.io/"
-	:recursive t
-	:publishing-function org-html-publish-to-html
-	:headline-levels 6             ; Just the default for this project.
-	))
+<pre class="src src-emacs-lisp">(<span style="color: #F92672;">setq</span> org-publish-project-alist
+      '((<span style="color: #E6DB74;">"planetbanatt"</span>
+        <span style="color: #F92672;">:base-directory</span> <span style="color: #E6DB74;">"~/Documents/code/ambisinister.github.io/org/"</span>
+        <span style="color: #F92672;">:base-extension</span> <span style="color: #E6DB74;">"org"</span>
+        <span style="color: #F92672;">:publishing-directory</span> <span style="color: #E6DB74;">"~/Documents/code/ambisinister.github.io/"</span>
+        <span style="color: #F92672;">:recursive</span> t
+        <span style="color: #F92672;">:publishing-function</span> org-html-publish-to-html
+        <span style="color: #F92672;">:headline-levels</span> 6             <span style="color: #75715E;">; </span><span style="color: #75715E;">Just the default for this project.
+</span>        ))
 )
 </pre>
 </div>
@@ -472,14 +472,14 @@ syntax highlighting for emacs org mode -&gt; html would be nice to have for when
 
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;(require 'ox-latex)
-;(use-package htmlize)
-;(add-to-list 'org-latex-packages-alist '("" "minted"))
-;(setq org-latex-listings 'minted)
-;(setq org-latex-pdf-process
-;      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-;        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-;        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+<pre class="src src-emacs-lisp">(<span style="color: #F92672;">require</span> '<span style="color: #AE81FF;">ox-latex</span>)
+(<span style="color: #F92672;">use-package</span> <span style="color: #AE81FF;">htmlize</span>)
+(add-to-list 'org-latex-packages-alist '(<span style="color: #E6DB74;">""</span> <span style="color: #E6DB74;">"minted"</span>))
+(<span style="color: #F92672;">setq</span> org-latex-listings 'minted)
+(<span style="color: #F92672;">setq</span> org-latex-pdf-process
+      '(<span style="color: #E6DB74;">"pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"</span>
+        <span style="color: #E6DB74;">"pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"</span>
+        <span style="color: #E6DB74;">"pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"</span>))
 </pre>
 </div>
 </div>
@@ -495,39 +495,39 @@ syntax highlighting for emacs org mode -&gt; html would be nice to have for when
 <h3 id="org013cdea">Basic display settings and hotkeys</h3>
 <div class="outline-text-3" id="text-org013cdea">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;; The following lines are always needed.  Choose your own keys.
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-cb" 'org-switchb)
+<pre class="src src-emacs-lisp"><span style="color: #75715E;">;; </span><span style="color: #75715E;">The following lines are always needed.  Choose your own keys.
+</span>(global-set-key <span style="color: #E6DB74;">"\C-cl"</span> 'org-store-link)
+(global-set-key <span style="color: #E6DB74;">"\C-ca"</span> 'org-agenda)
+(global-set-key <span style="color: #E6DB74;">"\C-cc"</span> 'org-capture)
+(global-set-key <span style="color: #E6DB74;">"\C-cb"</span> 'org-switchb)
 
-(global-set-key (kbd "C-c i") 'org-toggle-inline-images)
-(setq org-image-actual-width '(500))
-(setq org-display-inline-images t)
-(setq org-latex-create-formula-image-program 'dvipng)
-(setq org-archive-location "~/Dropbox/org/logs/archive.org::* From %s")
-(setq org-hide-leading-stars t)
-(setq org-src-tab-acts-natively t)
-(setq org-default-notes-file "~/Dropbox/org/main.org")
-
-
-(setq org-todo-keywords
-      '((sequence "TODO" "WAITING" "|" "DONE" "HOLD")))
-
-(setq org-return-follows-link 1)
+(global-set-key (kbd <span style="color: #E6DB74;">"C-c i"</span>) 'org-toggle-inline-images)
+(<span style="color: #F92672;">setq</span> org-image-actual-width '(500))
+(<span style="color: #F92672;">setq</span> org-display-inline-images t)
+(<span style="color: #F92672;">setq</span> org-latex-create-formula-image-program 'dvipng)
+(<span style="color: #F92672;">setq</span> org-archive-location <span style="color: #E6DB74;">"~/Dropbox/org/logs/archive.org::* From %s"</span>)
+(<span style="color: #F92672;">setq</span> org-hide-leading-stars t)
+(<span style="color: #F92672;">setq</span> org-src-tab-acts-natively t)
+(<span style="color: #F92672;">setq</span> org-default-notes-file <span style="color: #E6DB74;">"~/Dropbox/org/main.org"</span>)
 
 
-(use-package org-bullets :ensure t)
-(require 'org-bullets)
-(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+(<span style="color: #F92672;">setq</span> org-todo-keywords
+      '((sequence <span style="color: #E6DB74;">"TODO"</span> <span style="color: #E6DB74;">"WAITING"</span> <span style="color: #E6DB74;">"|"</span> <span style="color: #E6DB74;">"DONE"</span> <span style="color: #E6DB74;">"HOLD"</span>)))
 
-(setq org-ellipsis "⤵")
+(<span style="color: #F92672;">setq</span> org-return-follows-link 1)
 
-(setq org-src-fontify-natively t)
 
-;(setq org-bullets-bullet-list
-;'("◉" "◎" "&lt;img draggable="false" class="emoji" alt="⚫" src="https://s0.wp.com/wp-content/mu-plugins/wpcom-smileys/twemoji/2/svg/26ab.svg"&gt;" "○" "►" "◇"))
+(<span style="color: #F92672;">use-package</span> <span style="color: #AE81FF;">org-bullets</span> <span style="color: #F92672;">:ensure</span> t)
+(<span style="color: #F92672;">require</span> '<span style="color: #AE81FF;">org-bullets</span>)
+(add-hook 'org-mode-hook (<span style="color: #F92672;">lambda</span> () (org-bullets-mode 1)))
 
+(<span style="color: #F92672;">setq</span> org-ellipsis <span style="color: #E6DB74;">"&#10549;"</span>)
+
+(<span style="color: #F92672;">setq</span> org-src-fontify-natively t)
+
+<span style="color: #75715E;">;</span><span style="color: #75715E;">(setq org-bullets-bullet-list
+</span><span style="color: #75715E;">;</span><span style="color: #75715E;">'("&#9673;" "&#9678;" "&lt;img draggable="false" class="emoji" alt="&#9899;" src="https://s0.wp.com/wp-content/mu-plugins/wpcom-smileys/twemoji/2/svg/26ab.svg"&gt;" "&#9675;" "&#9658;" "&#9671;"))
+</span>
 </pre>
 </div>
 </div>
@@ -537,21 +537,21 @@ syntax highlighting for emacs org mode -&gt; html would be nice to have for when
 <h3 id="org155faf9">Clipboard Inline Image Paste</h3>
 <div class="outline-text-3" id="text-org155faf9">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">  (defun paste-clipboard-image ()
-    (interactive)
-    (let* ((image-dir (concat (file-name-directory (buffer-file-name))
-			      "../images/from_clipboard/"))
-	   (file-name (concat (format-time-string "%Y%m%d_%H%M%S") ".png"))
-	   (file-path (concat image-dir file-name)))
-      (unless (file-exists-p image-dir)
-	(make-directory image-dir t))
-      ;; replace 'pngpaste' with 'xclip' for Linux.
-      (shell-command (concat "/opt/homebrew/bin/pngpaste " file-path))
-      (insert (concat "[[../images/from_clipboard/" file-name "]]"))
+<pre class="src src-emacs-lisp">  (<span style="color: #F92672;">defun</span> <span style="color: #A6E22E;">paste-clipboard-image</span> ()
+    (<span style="color: #F92672;">interactive</span>)
+    (<span style="color: #F92672;">let*</span> ((image-dir (concat (file-name-directory (buffer-file-name))
+                              <span style="color: #E6DB74;">"../images/from_clipboard/"</span>))
+           (file-name (concat (format-time-string <span style="color: #E6DB74;">"%Y%m%d_%H%M%S"</span>) <span style="color: #E6DB74;">".png"</span>))
+           (file-path (concat image-dir file-name)))
+      (<span style="color: #F92672;">unless</span> (file-exists-p image-dir)
+        (make-directory image-dir t))
+      <span style="color: #75715E;">;; </span><span style="color: #75715E;">replace '</span><span style="color: #AE81FF;">pngpaste</span><span style="color: #75715E;">' with '</span><span style="color: #AE81FF;">xclip</span><span style="color: #75715E;">' for Linux.
+</span>      (shell-command (concat <span style="color: #E6DB74;">"/opt/homebrew/bin/pngpaste "</span> file-path))
+      (insert (concat <span style="color: #E6DB74;">"[[../images/from_clipboard/"</span> file-name <span style="color: #E6DB74;">"]]"</span>))
       (org-display-inline-images)))
 
-(with-eval-after-load 'org
-  (define-key org-mode-map (kbd "C-c C-x i") 'paste-clipboard-image))
+(<span style="color: #F92672;">with-eval-after-load</span> 'org
+  (define-key org-mode-map (kbd <span style="color: #E6DB74;">"C-c C-x i"</span>) 'paste-clipboard-image))
 
 </pre>
 </div>
@@ -562,16 +562,16 @@ syntax highlighting for emacs org mode -&gt; html would be nice to have for when
 <h3 id="org2db18be">Capture templates</h3>
 <div class="outline-text-3" id="text-org2db18be">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setq org-capture-templates
-      '(("a" "anki basic" entry (file+headline "~/Dropbox/org/logs/added_anki.org" "Basic")
-	 "* know :deck: \n** Item :note: \n\t:PROPERTIES:\n\t:ANKI_NOTE_TYPE: Basic\n\t:ANKI_TAGS: \n\t:END:\n*** Front\n%?\n*** Back\n")
-	("t" "task" entry (file+headline "~/Dropbox/org/main.org" "Assorted Things")
-	 "* TODO %?")
-	("l" "links" item (file "~/Dropbox/org/links.org")
-	 "[[%^{prompt}][%^{prompt}]] %?")
-	("j" "journal" entry (file+headline "~/Dropbox/org/logs/captains_log.org" "journal")
-	 "* %t \n%?")
-	))
+<pre class="src src-emacs-lisp">(<span style="color: #F92672;">setq</span> org-capture-templates
+      '((<span style="color: #E6DB74;">"a"</span> <span style="color: #E6DB74;">"anki basic"</span> entry (file+headline <span style="color: #E6DB74;">"~/Dropbox/org/logs/added_anki.org"</span> <span style="color: #E6DB74;">"Basic"</span>)
+         <span style="color: #E6DB74;">"* know :deck: \n** Item :note: \n\t:PROPERTIES:\n\t:ANKI_NOTE_TYPE: Basic\n\t:ANKI_TAGS: \n\t:END:\n*** Front\n%?\n*** Back\n"</span>)
+        (<span style="color: #E6DB74;">"t"</span> <span style="color: #E6DB74;">"task"</span> entry (file+headline <span style="color: #E6DB74;">"~/Dropbox/org/main.org"</span> <span style="color: #E6DB74;">"Assorted Things"</span>)
+         <span style="color: #E6DB74;">"* TODO %?"</span>)
+        (<span style="color: #E6DB74;">"l"</span> <span style="color: #E6DB74;">"links"</span> item (file <span style="color: #E6DB74;">"~/Dropbox/org/links.org"</span>)
+         <span style="color: #E6DB74;">"[[%^{prompt}][%^{prompt}]] %?"</span>)
+        (<span style="color: #E6DB74;">"j"</span> <span style="color: #E6DB74;">"journal"</span> entry (file+headline <span style="color: #E6DB74;">"~/Dropbox/org/logs/captains_log.org"</span> <span style="color: #E6DB74;">"journal"</span>)
+         <span style="color: #E6DB74;">"* %t \n%?"</span>)
+        ))
 </pre>
 </div>
 </div>
@@ -585,13 +585,13 @@ I spend a lot of time in anki, so one of my org capture templates saves things i
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(use-package anki-editor :ensure t)
+<pre class="src src-emacs-lisp">(<span style="color: #F92672;">use-package</span> <span style="color: #AE81FF;">anki-editor</span> <span style="color: #F92672;">:ensure</span> t)
 
-(global-set-key "\C-c0" 'send-to-anki)
+(global-set-key <span style="color: #E6DB74;">"\C-c0"</span> 'send-to-anki)
 
-(defun send-to-anki ()
-  (interactive)
-  (find-file "~/Dropbox/org/logs/added_anki.org")
+(<span style="color: #F92672;">defun</span> <span style="color: #A6E22E;">send-to-anki</span> ()
+  (<span style="color: #F92672;">interactive</span>)
+  (find-file <span style="color: #E6DB74;">"~/Dropbox/org/logs/added_anki.org"</span>)
   (anki-editor-submit)
   (erase-buffer)
   (save-buffer)
@@ -606,10 +606,10 @@ I spend a lot of time in anki, so one of my org capture templates saves things i
 <h3 id="org63856b2">Programming QOL Stuff</h3>
 <div class="outline-text-3" id="text-org63856b2">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">;probably change this so that it only asks once per file upon opening, since this is sort of dangerous
-(defun my-org-confirm-babel-evaluate (lang body)
-  (not (member lang '("python"))))
-(setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
+<pre class="src src-emacs-lisp"><span style="color: #75715E;">;</span><span style="color: #75715E;">probably change this so that it only asks once per file upon opening, since this is sort of dangerous
+</span>(<span style="color: #F92672;">defun</span> <span style="color: #A6E22E;">my-org-confirm-babel-evaluate</span> (lang body)
+  (not (member lang '(<span style="color: #E6DB74;">"python"</span>))))
+(<span style="color: #F92672;">setq</span> org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
 
 (org-babel-do-load-languages
  'org-babel-load-languages
@@ -624,8 +624,8 @@ I spend a lot of time in anki, so one of my org capture templates saves things i
 <h3 id="org270691d">packages</h3>
 <div class="outline-text-3" id="text-org270691d">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(use-package pdf-tools :ensure t)
-(add-to-list 'load-path "~/.emacs.d/lisp/")
+<pre class="src src-emacs-lisp">(<span style="color: #F92672;">use-package</span> <span style="color: #AE81FF;">pdf-tools</span> <span style="color: #F92672;">:ensure</span> t)
+(add-to-list 'load-path <span style="color: #E6DB74;">"~/.emacs.d/lisp/"</span>)
 (pdf-loader-install)
 </pre>
 </div>
