@@ -54,3 +54,4 @@ The way you should organize these is as follows. Do your best to not change the 
 Remember that image paths change moving things around (e.g. moving ../images hyperlink in singlestream needs to be ../../images in a subfolder).
 
 When you create a new notebook, make sure you update index.org accordingly so that all notebooks are easily accessible.
+
