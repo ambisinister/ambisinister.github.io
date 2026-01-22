@@ -159,14 +159,14 @@ $(function() {
 	))
 )
 
-;(require 'ox-latex)
+(require 'ox-latex)
 (use-package htmlize)
-;(add-to-list 'org-latex-packages-alist '("" "minted"))
-;(setq org-latex-listings 'minted)
-;(setq org-latex-pdf-process
-;      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-;        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-;        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+(add-to-list 'org-latex-packages-alist '("" "minted"))
+(setq org-latex-listings 'minted)
+(setq org-latex-pdf-process
+      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 
 ;; The following lines are always needed.  Choose your own keys.
 (global-set-key "\C-cl" 'org-store-link)
