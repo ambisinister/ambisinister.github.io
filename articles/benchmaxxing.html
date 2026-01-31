@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-01-30 Fri 16:55 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Benchmaxxing</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+    // Dark mode functionality
+    window.toggleDarkMode = function() {
+        document.body.classList.toggle('dark-mode');
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDarkMode);
+        updateToggleButton();
+    }
+
+    function updateToggleButton() {
+        const toggle = document.querySelector('.dark-mode-toggle-nav');
+        if (toggle) {
+            toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        }
+    }
+
+    // Initialize dark mode from localStorage
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+
+    // Update toggle button on page load
+    updateToggleButton();
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="https://planetbanatt.net/css/default_20240614.css" />
+<link rel="shortcut icon" type="image/jpg" href="https://planetbanatt.net/favicon.ico" />
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
+            <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<h1 class="title">Benchmaxxing</h1>
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgbcfc0f6">Benchmaxxing Mechanisms</a>
+<ul>
+<li><a href="#org8234f18">Do Imagenet Classifiers Generalize To Imagenet?</a></li>
+<li><a href="#org9df282a">Does Grade School Math Performance Generalize To Grade School Math</a></li>
+<li><a href="#org58e4188">What Are Some Reasons This Might Happen?</a>
+<ul>
+<li><a href="#org3ea9e71">Data Cleaning Angle</a></li>
+<li><a href="#org5f2e9ef">Evolutionary Angle</a></li>
+</ul>
+</li>
+<li><a href="#orgdce9118">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbcfc0f6" class="outline-1">
+<h1 id="orgbcfc0f6">Benchmaxxing Mechanisms</h1>
+<div class="outline-text-1" id="text-orgbcfc0f6">
+<p>
+I've been thinking a bit about benchmarks recently. In machine learning, once a benchmark gets released, each subsequent hill-climbing step seems to confer less and less signal about the underlying model. Performance upon the benchmark will eventually saturate, and researchers will move on to some other benchmark.
+</p>
+
+<p>
+I often see discussion around benchmarks seemingly suggesting that this phenomenon is due to all the labs directly training on the test set in order to inflate performance. While I'm certain this happens, I think there are some works which can shed some more nuanced insight into how and why this happens.
+</p>
+</div>
+
+<div id="outline-container-org8234f18" class="outline-2">
+<h2 id="org8234f18">Do Imagenet Classifiers Generalize To Imagenet?</h2>
+<div class="outline-text-2" id="text-org8234f18">
+<p>
+A paper I refer back to frequently is <a href="https://arxiv.org/abs/1902.10811">Do ImageNet Classifiers Generalize to ImageNet?</a>
+</p>
+
+<p>
+This is a 2019 computer vision paper, but the overall insight is still generally applicable in the language model era. When you train a model, that model is expected to be performant upon in-distribution data. We often use benchmarks as a proxy for "performance on things I care about", and ImageNet was such a benchmark: if your model is above the field at this benchmark with lots of different objects in it, it will probably be above the field at whatever you want to do with it, too.
+</p>
+
+<p>
+Perhaps the most in-distribution data imaginable here is the ImageNet data, but more of it. You've already trained on all of the training data, and there's only one test set. If there was a second test set consisting of more-or-less indistinguishable data from the first test set, what do you think you would get on that set? Well, we know that data would be in-distribution, and we have this first test set which says we do X% upon in-distribution data. So you might think, logically, that you would probably score around X% on the other test set, also.
+</p>
+
+
+<div id="org9128299" class="figure">
+<p><img src="../images/from_clipboard/20260130_132827.png" alt="20260130_132827.png" />
+</p>
+</div>
+
+<p>
+This paper does a funny thing: it gets more data using the same process as the original set, in order to create another test set with the closest possible in-distribution distribution possible. After painstakingly reproducing a mini-imagenet and mini-cifar10, they find that these models do way worse on the second test set despite it all being almost the exact same type of data. Oh dear.
+</p>
+
+<p>
+There are some really interesting properties here. For one, it does seem that all the improvements upon the benchmark <i>were still real improvements</i>. Models seemed to generally be in the same order<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>: a model which was better on dataset \(X\) would still be better on dataset \(X'\). The paper makes the argument that this rules out "adaptive overfitting", i.e. gains which were related to things like hyperparameter tuning rather than real gains. The line of improvement is still basically parallel with the original test set performance, just equally lowered for all models. If later models were just benefitting from "fake" hyperparameter hill climbing, you'd expect diminishing returns on the second test set.
+</p>
+
+<p>
+Likewise, if you limit the data to only the easiest examples with more aggressive data cleaning, you can reproduce the results almost exactly. This is kind of strange, when you think about it. It makes sense that when you remove the hard examples from a proxy benchmark, performance on the proxy benchmark will go up. But it seems strange that the takeaway seems shaped like "all the examples in the original dataset are easy ones".
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9df282a" class="outline-2">
+<h2 id="org9df282a">Does Grade School Math Performance Generalize To Grade School Math</h2>
+<div class="outline-text-2" id="text-org9df282a">
+<p>
+In 2024 Scale put out <a href="https://arxiv.org/abs/2405.00332">A Careful Examination of Large Language Model Performance on Grade School Arithmetic</a>, which is another great paper I talk about all the time.
+</p>
+
+<p>
+This paper is conceptually very similar to the Imagenet one from 2019: they collect 1000 examples designed to be as close as possible to the <a href="https://arxiv.org/abs/2110.14168">GSM8k</a> benchmark, and the examine which language models degrade and which ones don't. In the language model era, the notion of "in-domain" is a little different now, though. At internet scale, it's a little bit hazy to understand what data is even in your pretraining set, since the amount of data you're using is already so large. It's really easy to not even notice that the test set for a particular benchmark is literally already in your training data, which makes the entire benchmark completely moot.
+</p>
+
+<p>
+Obviously, this is even maximally assuming good faith. The test set could also just be directly put there, on purpose, to inflate the benchmarks on purpose. In a 2026 interview, Yann LeCun seems to have insinuated that Meta was doing this for the Llama models. 
+</p>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">&quot;Zuckerberg placed more pressure on the GenAI unit to accelerate AI development and deployment, which led to a communication breakdown, LeCun says.<br>...<br>[More details, see beloe]<br><br>A lot of people have left, a lot of people who haven’t yet left will leave.&quot;<br><br>(FT) <a href="https://t.co/ELjqfCqTd7">pic.twitter.com/ELjqfCqTd7</a></p>&mdash; Stefan Schubert (@StefanFSchubert) <a href="https://twitter.com/StefanFSchubert/status/2007071243179339957?ref_src=twsrc%5Etfw">January 2, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>
+Most of the labs make claims that they perform some degree of data cleaning in an attempt to avoid this. But it's difficult to know how seriously to take each of the lab's claims, since almost all of this is closed source (even among the labs that release open-weights). This paper had some interesting results: most of the closed western labs showed the highest generalization to this in-distribution data.
+</p>
+
+
+<div id="org2007f44" class="figure">
+<p><img src="../images/from_clipboard/20260130_135248.png" alt="20260130_135248.png" />
+</p>
+</div>
+
+<p>
+I have always felt that this chart communicated a lot. I've spoken in the past about my appreciation for the Phi work in particular: benchmarks are used to depict capability, but how faithful that depiction is to the <i>real capability</i> is often unclear between models. 
+</p>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Benchmarks are a funny thing. The implicit thing with these tables in most papers is &quot;this model is good at ~everything, here are some arbitrary capabilities.&quot; The Phi models are good at almost nothing except for these benchmarks. Yet the format is the same!</p>&mdash; Eryk (@erykbanatt) <a href="https://twitter.com/erykbanatt/status/1877127585550725521?ref_src=twsrc%5Etfw">January 8, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+</div>
+
+<div id="outline-container-org58e4188" class="outline-2">
+<h2 id="org58e4188">What Are Some Reasons This Might Happen?</h2>
+<div class="outline-text-2" id="text-org58e4188">
+<p>
+This is a really curious phenomenon. There are obviously nefarious explanations (shaped like "they deliberately included test examples to juice the benchmarks"), but these explanations are typically the only ones that ever get discussed. But we can see from the GSM paper that the models exhibit degradation in varying degrees, with some obviously much worse than others.
+</p>
+
+<p>
+Likewise, it seems hard to square with the ordering in the ImageNet paper, which seems to describe a related phenomenon with no real evidence of foul play (i.e. models degrade upon new ostensibly in-distribution data, but the ordering does not change in a manner that suggests anybody trained on test). It's potentially interesting to explore a few non-malicious angles which could cause stuff like this to happen. 
+</p>
+</div>
+
+<div id="outline-container-org3ea9e71" class="outline-3">
+<h3 id="org3ea9e71">Data Cleaning Angle</h3>
+<div class="outline-text-3" id="text-org3ea9e71">
+<p>
+The ImageNet paper defines three "gaps" which sum to the total degradation of the models:
+</p>
+
+<ul class="org-ul">
+<li>Generalization Gap: the standard gap between training data and in-distribution unseen data</li>
+<li>Adaptivity Gap: adapting the model to the test set via hyperparameter tuning</li>
+<li>Distribution Gap: perhaps "in-distribution" is not perfectly defined, and this seemingly in-distribution data creates a distribution shift regardless</li>
+</ul>
+
+<p>
+The original paper conjectures that an adaptivity gap would have produced diminishing returns in newer models, which was not observed. As a result, their main guess is that the annotation process they used was the primary cause of such a large drop. Using cleaner, higher-consensus labels produces a result more in-line with the actual ImageNet scores, but this more aggressive data cleaning process inevitably also makes the dataset easier<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>.
+</p>
+
+<p>
+There is a sensible angle here which attributes the majority of this purely to data cleaning. In the ImageNet example, this happens in the new test set (making it cleaner makes performance more in-line), and in the GSM1k example, it's in the pretraining phase (being more conscientious about removing test set leakage in pretraining causes less overfitting).
+</p>
+
+<p>
+One could argue that the closed and open source LLM labs have slightly different incentives on this point. Labs that release open weights have a greater incentive to push the number up, since the benchmark "victory" over other models is their win condition for getting lots of citations. The closed labs by comparison are directly selling the actual capability, so the actual model performance matters way more than the benchmarks<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>. In this case, it makes sense that the closed labs care more about cleaning their pretraining set, since an accurate picture of their own capabilities is comparatively much more important than climbing the benchmarks themselves. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5f2e9ef" class="outline-3">
+<h3 id="org5f2e9ef">Evolutionary Angle</h3>
+<div class="outline-text-3" id="text-org5f2e9ef">
+<p>
+A funny thing about hill climbing benchmarks is that the machine learning community is, in effect, performing a sort of evolutionary neural architecture search as a big collective.
+</p>
+
+<p>
+Different architectures have different inductive biases. Most ML people know this to some degree, but underestimate how powerful these actually are. Adam Gaier and David Ha showed in 2019 that if you perform a neural architecture search, you can get 92% on MNIST even if you <a href="https://weightagnostic.github.io/">literally randomize the weights of the network</a>. I've seen this referred to as "without training" but that's not quite right; it's moreso that we're training by optimizing the architecture, rather than optimizing the weights.
+</p>
+
+<p>
+Consider the worldwide process of making new ML models. Even if they aren't overfit via tuning or test set leakage, models which do not improve the frontier do not get published, and models which do improve it spawn yet more derivative works incrementing upon them. The benchmark is in some sense acting as the <a href="https://en.wikipedia.org/wiki/Fitness_function">fitness function</a>, measuring how worthy of publication each idea is. Papers which are successful "reproduce" and spawn other papers with similar conceptual DNA. All of this has the effect of essentially training upon the test set using an evolutionary algorithm, very very slowly, one paper at a time.
+</p>
+
+<p>
+Even with zero foul play at all, the longer any benchmark exists the more likely we are to arrive at methods which are overfit to specific benchmarks, just through random chance paired with this "evolutionary search". This is what underscores the need for a revolving door of benchmarks, and why sometimes benchmark performance seems to not line up so cleanly with people's experiences using the models. 
+</p>
+
+<p>
+It's worth noting that, unlike hyperparameter tuning on the test set, this does not necessarily imply diminishing returns as we improve upon the benchmark over time. The benchmarks truly just get less valuable the longer they exist, even if improvements upon them are genuine, in-distribution improvements, even if they are potentially brittle and subject to degradation from subtle domain shifts.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdce9118" class="outline-2">
+<h2 id="orgdce9118">Conclusion</h2>
+<div class="outline-text-2" id="text-orgdce9118">
+<p>
+Benchmaxxing is ubiquitous, and very easy to see everywhere in language model research. The different labs directly climb benchmarks to varying degrees, and this all should not be misconstrued as saying "open models benchmaxx and closed labs don't"<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>. But I think benchmaxxing is not "one single thing", nor is it always just "deliberate training on the test set". I think it's a more of a symptom than a disease, and there are both many possible causes and varying degrees of severity.
+</p>
+
+<p>
+Good, fresh benchmarking is very important! Goodhart's Law suggests that <a href="https://planetbanatt.net/articles/contradictions.html">it's easy for tunnel visioning on known criteria to cause problems</a>. People often think this is only due to "malicious compliance" to maximize that criteria, but it also naturally happens just by virtue of existing. 
+</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+It also seems notable that this didn't catch anybody cheating by literally training on the test set. Good job, community!
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+The imagenet paper used a consensus of Mturk annotations for the labels, and there's a little assumption here that non-unanimous, occasionally mislabeled examples are likely to be mislabeled as such due to inherent ambiguity in the data, i.e. using examples that are genuinely harder, even for the model. I think this is probably not always true (I think humans and networks probably have different notions of difficulty) but it's probably reasonable enough for the purposes of this discussion.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+There are obvious exceptions to both of these, of course, it's just a high level cartoon of the situation. This is in large part why <a href="https://www.anthropic.com/news/claude-opus-4-5">Claude Opus 4.5</a> mostly doesn't report many benchmarks at all except for coding, since that's the meat of what people want from it.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<a href="https://arena.ai/leaderboard">Arena</a> (fka LMArena fka LMsys) comes to mind as something which is quite obviously hill climbed by the closed labs, imo to the detriment of their actual usability. 
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+</div>
+</body>
+</html>
