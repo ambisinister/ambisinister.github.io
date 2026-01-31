@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-12-30 Tue 22:12 -->
+<!-- 2026-01-30 Fri 22:57 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Riichi Mahjong LLM</title>
@@ -123,6 +123,11 @@ $(function() {
 <li><a href="#org74ae94a">Napkin Test II</a></li>
 </ul>
 </li>
+<li><a href="#orgdbe7ef8">Extending to Reasoning Data</a>
+<ul>
+<li><a href="#org6174dd9">Napkin Test III</a></li>
+</ul>
+</li>
 <li><a href="#orgb78b4a2">Future Work</a></li>
 </ul>
 </li>
@@ -154,7 +159,7 @@ Lots of work has been done on training LLMs to perform well at games, mostly pop
 </p>
 
 
-<div id="org88f4b0c" class="figure">
+<div id="org396c8ce" class="figure">
 <p><img src="../images/from_clipboard/20251227_190606.png" alt="20251227_190606.png" />
 </p>
 </div>
@@ -168,7 +173,7 @@ I was really impressed by this paper! A 7B parameter model distilling stockfish 
 </p>
 
 
-<div id="orgadc0260" class="figure">
+<div id="org0437855" class="figure">
 <p><img src="../images/from_clipboard/20251227_191336.png" alt="20251227_191336.png" />
 </p>
 </div>
@@ -224,7 +229,7 @@ As a quick napkin test, I finetuned llama-3.2-1B on ~500 positions and provided 
 </p>
 
 
-<div id="org8171ab9" class="figure">
+<div id="orge7dd7b5" class="figure">
 <p><img src="../images/mahjongllm/question.png" alt="question.png" />
 </p>
 </div>
@@ -248,7 +253,7 @@ The 6m is obviously worse than the other options, but an easy mistake to make is
 </p>
 
 
-<div id="org2962104" class="figure">
+<div id="orgbaf08bc" class="figure">
 <p><img src="../images/mahjongllm/answer.png" alt="answer.png" />
 </p>
 </div>
@@ -258,7 +263,7 @@ The expected value is much better for the 9m. With just 500 examples I was happy
 </p>
 
 
-<div id="org973f9d4" class="figure">
+<div id="org54d0ec0" class="figure">
 <p><img src="../images/mahjongllm/discards.png" alt="discards.png" />
 </p>
 </div>
@@ -374,7 +379,7 @@ Training on all this data took about seven hours<sup><a id="fnr.10" class="footr
 </p>
 
 
-<div id="org6c3d107" class="figure">
+<div id="org568810a" class="figure">
 <p><img src="../images/from_clipboard/20251228_185258.png" alt="20251228_185258.png" />
 </p>
 </div>
@@ -389,13 +394,63 @@ Running the same test after training, we can see that it picks the 9 man this ti
 </p>
 
 
-<div id="orgfbd07df" class="figure">
+<div id="org9951b55" class="figure">
 <p><img src="../images/from_clipboard/20251228_190715.png" alt="20251228_190715.png" />
 </p>
 </div>
 
 <p>
 I'll update this section with more napkin tests as I perform them upon our trained model. But, hooray, we did it!
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdbe7ef8" class="outline-2">
+<h2 id="orgdbe7ef8">Extending to Reasoning Data</h2>
+<div class="outline-text-2" id="text-orgdbe7ef8">
+<p>
+[Update 1/30/26]
+</p>
+
+<p>
+After gathering lots more mahjong data for another project, I had a much cleaner and more comprehensive data pipeline which could help with this project. As a result, I took an initial stab at making the model capable of talking about its decisions.
+</p>
+
+<p>
+<b>System Prompt</b>: I had read a bit about how this reasoning mode works in studying agentic models for the <a href="https://planetbanatt.net/articles/agentic.html">Understanding Agentic LLMs</a> post. I knew that for instruction data a simple "reasoning: off" type flag is pretty effective for training these "hybrid" type models which are optionally capable of reasoning. As a result, I unified all the prompting so that I could simply toggle "Reasoning: On" vs "Reasoning: Off" in the training examples.
+</p>
+
+<p>
+<b>2D Reasoning Data</b>: I gathered about 300 examples of 2D "What Would You Discard" problems from various sources, and painstakingly made these verifiably correct. These provide a lot of actual information regarding what explanations should look like, which is great.
+</p>
+
+<p>
+<b>Synthetic 3D Reasoning Data</b>: I created a pipeline that allowed me to create some simple reasoning examples with the full 3D Byako. This was mostly some very simple stuff: asking how much a winning hand was worth, what yakus were present, how many fu it used, what the shanten of the hand is, and so on. 
+</p>
+</div>
+
+<div id="outline-container-org6174dd9" class="outline-3">
+<h3 id="org6174dd9">Napkin Test III</h3>
+<div class="outline-text-3" id="text-org6174dd9">
+<p>
+I got a small set of data for training and went ahead with another napkin test training run. This was obviously not on the scale necessary to make the model work properly. However, we already got some promising results even with just this. On our same discard example, we still correctly throw the 9 of characters (although we do not riichi), and we only provide reasoning when asked for. Some nice progress!
+</p>
+
+
+<div id="orgcccab14" class="figure">
+<p><img src="../images/from_clipboard/20260130_224035.png" alt="20260130_224035.png" />
+</p>
+</div>
+
+
+<div id="org2684653" class="figure">
+<p><img src="../images/from_clipboard/20260130_224005.png" alt="20260130_224005.png" />
+</p>
+</div>
+
+<p>
+We've already shown some nice justification for the shanten synthetic data here: we clearly do not understand tenpai yet, even if we can pick the correct tile from a lineup. But we have a nice yardstick representing our progress at making something which is more "coaching shaped" than our previous training run.
 </p>
 </div>
 </div>
@@ -414,6 +469,18 @@ Likewise, we have to do some benchmarking for this model. I'll get around to thi
 
 <p>
 Finally, I'd like to make some progress towards getting it to explain its decisions. This might be a tough ask for something as small as 1.3B parameters, but now that we have a working pipeline we can focus on more productive things like assembling cold start reasoning data, generating synthetic data, reinforcement learning, and so on.
+</p>
+
+<p>
+[Update 1/30/26]
+</p>
+
+<p>
+With some improved data pipelining, we've made sure that we have everything working nicely: red fives, closed kans, riichis, everything was much cleaner in this second run. Likewise, we have the groundwork laid for allowing the model to actually explain the decisions.
+</p>
+
+<p>
+This was a good second step &#x2013; we have the pipeline in place now, and we just have to scale up from here to see where we land. Adding reinforcement learning as the final pipeline step seems like a potential next step after that.
 </p>
 </div>
 </div>

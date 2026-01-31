@@ -111,6 +111,28 @@ Running the same test after training, we can see that it picks the 9 man this ti
 
 I'll update this section with more napkin tests as I perform them upon our trained model. But, hooray, we did it!
 
+** Extending to Reasoning Data
+
+[Update 1/30/26]
+
+After gathering lots more mahjong data for another project, I had a much cleaner and more comprehensive data pipeline which could help with this project. As a result, I took an initial stab at making the model capable of talking about its decisions.
+
+*System Prompt*: I had read a bit about how this reasoning mode works in studying agentic models for the [[https://planetbanatt.net/articles/agentic.html][Understanding Agentic LLMs]] post. I knew that for instruction data a simple "reasoning: off" type flag is pretty effective for training these "hybrid" type models which are optionally capable of reasoning. As a result, I unified all the prompting so that I could simply toggle "Reasoning: On" vs "Reasoning: Off" in the training examples.
+
+*2D Reasoning Data*: I gathered about 300 examples of 2D "What Would You Discard" problems from various sources, and painstakingly made these verifiably correct. These provide a lot of actual information regarding what explanations should look like, which is great.
+
+*Synthetic 3D Reasoning Data*: I created a pipeline that allowed me to create some simple reasoning examples with the full 3D Byako. This was mostly some very simple stuff: asking how much a winning hand was worth, what yakus were present, how many fu it used, what the shanten of the hand is, and so on. 
+
+*** Napkin Test III
+
+I got a small set of data for training and went ahead with another napkin test training run. This was obviously not on the scale necessary to make the model work properly. However, we already got some promising results even with just this. On our same discard example, we still correctly throw the 9 of characters (although we do not riichi), and we only provide reasoning when asked for. Some nice progress!
+
+[[../images/from_clipboard/20260130_224035.png]]
+
+[[../images/from_clipboard/20260130_224005.png]]
+
+We've already shown some nice justification for the shanten synthetic data here: we clearly do not understand tenpai yet, even if we can pick the correct tile from a lineup. But we have a nice yardstick representing our progress at making something which is more "coaching shaped" than our previous training run.
+
 ** Future Work
 
 Lots of work left to be done with this. Scaling up training to something larger or using more data is a given. The methodology still has juice left judging from the loss curves, and as mentioned we only used about 2% of 1/5th of the data[fn:11]. With more spend we could definitely see even better results.
@@ -118,6 +140,12 @@ Lots of work left to be done with this. Scaling up training to something larger 
 Likewise, we have to do some benchmarking for this model. I'll get around to this eventually. Performance on the held out test set we used saturated really fast in training despite the training curves, so we probably need to construct a dataset which only uses interesting examples rather than a random set of discards (the vast majority of which are probably very straightforwards.)
 
 Finally, I'd like to make some progress towards getting it to explain its decisions. This might be a tough ask for something as small as 1.3B parameters, but now that we have a working pipeline we can focus on more productive things like assembling cold start reasoning data, generating synthetic data, reinforcement learning, and so on.
+
+[Update 1/30/26]
+
+With some improved data pipelining, we've made sure that we have everything working nicely: red fives, closed kans, riichis, everything was much cleaner in this second run. Likewise, we have the groundwork laid for allowing the model to actually explain the decisions.
+
+This was a good second step -- we have the pipeline in place now, and we just have to scale up from here to see where we land. Adding reinforcement learning as the final pipeline step seems like a potential next step after that.
 
 * Footnotes
 
