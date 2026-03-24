@@ -1,0 +1,2061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Marilyn Method Trainer</title>
+  <style>
+    :root {
+      --bg-top: #f5ecd8;
+      --bg-bottom: #dcc6a6;
+      --paper: rgba(255, 248, 238, 0.9);
+      --ink: #21160f;
+      --muted: #675446;
+      --line: rgba(33, 22, 15, 0.12);
+      --accent: #b4513a;
+      --accent-soft: rgba(180, 81, 58, 0.14);
+      --lake: #2f5d62;
+      --lake-soft: rgba(47, 93, 98, 0.14);
+      --gold: #c0892c;
+      --success: #1f6a44;
+      --success-soft: rgba(31, 106, 68, 0.12);
+      --error: #8b2e2a;
+      --error-soft: rgba(139, 46, 42, 0.12);
+      --shadow: 0 24px 80px rgba(48, 30, 18, 0.12);
+      --radius: 28px;
+      color-scheme: light;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+    }
+
+    body {
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.55), transparent 28%),
+        radial-gradient(circle at top right, rgba(240, 186, 113, 0.18), transparent 24%),
+        linear-gradient(165deg, var(--bg-top) 0%, #ebddc4 38%, var(--bg-bottom) 100%);
+      font-family: "Avenir Next", "Trebuchet MS", "Segoe UI", sans-serif;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+      background-size: 24px 24px;
+      mask-image: radial-gradient(circle at center, black 30%, transparent 82%);
+      opacity: 0.4;
+    }
+
+    main {
+      width: min(980px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 2.5rem 0 3rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .board {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: calc(var(--radius) + 8px);
+      box-shadow: var(--shadow);
+      padding: clamp(1.2rem, 3vw, 2rem);
+      backdrop-filter: blur(10px);
+    }
+
+    .mode-strip {
+      margin-bottom: 1rem;
+    }
+
+    .mode-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .mode-switch {
+      display: inline-grid;
+      grid-auto-flow: column;
+      gap: 0.35rem;
+      padding: 0.35rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.56);
+    }
+
+    .mode-button {
+      appearance: none;
+      border: none;
+      border-radius: 999px;
+      padding: 0.7rem 1rem;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 140ms ease, color 140ms ease, transform 140ms ease;
+    }
+
+    .mode-button:hover,
+    .mode-button:focus-visible {
+      transform: translateY(-1px);
+    }
+
+    .mode-button.is-active {
+      background: rgba(255, 255, 255, 0.96);
+      color: var(--ink);
+      box-shadow: 0 10px 24px rgba(48, 30, 18, 0.12);
+    }
+
+    .mode-copy {
+      margin: 0.75rem 0 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+      line-height: 1.5;
+    }
+
+    .help-button {
+      display: inline-grid;
+      place-items: center;
+      width: 2.55rem;
+      height: 2.55rem;
+      border: 1px solid rgba(47, 93, 98, 0.18);
+      border-radius: 999px;
+      background: rgba(47, 93, 98, 0.1);
+      color: var(--lake);
+      font: inherit;
+      font-size: 1.1rem;
+      font-weight: 700;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 140ms ease, box-shadow 140ms ease;
+    }
+
+    .help-button:hover,
+    .help-button:focus-visible {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(47, 93, 98, 0.14);
+    }
+
+    .help-dialog {
+      width: min(560px, calc(100% - 1rem));
+      margin: auto;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background: rgba(255, 249, 241, 0.98);
+      box-shadow: var(--shadow);
+    }
+
+    .help-dialog::backdrop {
+      background: rgba(33, 22, 15, 0.24);
+      backdrop-filter: blur(4px);
+    }
+
+    .help-sheet {
+      padding: 1.2rem 1.2rem 1.1rem;
+    }
+
+    .help-header {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .help-header h2 {
+      margin: 0;
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+
+    .help-close {
+      appearance: none;
+      border: none;
+      border-radius: 999px;
+      padding: 0.45rem 0.75rem;
+      background: rgba(33, 22, 15, 0.08);
+      color: var(--ink);
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .help-copy {
+      margin: 0 0 0.85rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .help-links {
+      display: grid;
+      gap: 0.75rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .help-link {
+      display: block;
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.72);
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .help-link strong {
+      display: block;
+      margin-bottom: 0.2rem;
+      font-size: 0.98rem;
+    }
+
+    .help-link span {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.85rem;
+      margin-bottom: 1rem;
+    }
+
+    .stat {
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 0.9rem 1rem;
+    }
+
+    .stat-label {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: var(--muted);
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .prompt-line {
+      margin: 0;
+      padding: 1.15rem 1.3rem;
+      border-radius: 24px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.45)),
+        linear-gradient(120deg, var(--accent-soft), transparent 58%);
+      border: 1px solid rgba(180, 81, 58, 0.18);
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      line-height: 1.1;
+    }
+
+    .prompt-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0 1.25rem;
+    }
+
+    .prompt-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 165px;
+      padding: 1rem 1rem 1.15rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.7);
+      isolation: isolate;
+    }
+
+    .prompt-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -10% -28% 40%;
+      height: 120px;
+      border-radius: 999px;
+      background: radial-gradient(circle, var(--card-glow), transparent 72%);
+      opacity: 0.85;
+      z-index: -1;
+    }
+
+    .prompt-card--beginning {
+      --card-glow: rgba(180, 81, 58, 0.34);
+    }
+
+    .prompt-card--ending {
+      --card-glow: rgba(47, 93, 98, 0.34);
+    }
+
+    .prompt-card--tone {
+      --card-glow: rgba(192, 137, 44, 0.34);
+    }
+
+    .prompt-label {
+      margin: 0 0 0.65rem;
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .prompt-value {
+      margin: 0;
+      max-width: 14ch;
+      font-size: clamp(1.18rem, 2.4vw, 1.55rem);
+      font-weight: 700;
+      line-height: 1.12;
+    }
+
+    .prompt-subvalue {
+      margin: 0.8rem 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
+    .answer-form {
+      margin-top: 0.25rem;
+    }
+
+    .answer-form[hidden] {
+      display: none;
+    }
+
+    .input-label {
+      display: block;
+      margin-bottom: 0.55rem;
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .answer-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      gap: 0.8rem;
+      align-items: center;
+    }
+
+    .answer-input {
+      width: 100%;
+      min-width: 0;
+      padding: 0.95rem 1rem;
+      border: 1px solid rgba(33, 22, 15, 0.18);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--ink);
+      font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+      font-size: 1.14rem;
+      line-height: 1.2;
+      outline: none;
+      transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+    }
+
+    .answer-input:focus {
+      border-color: rgba(47, 93, 98, 0.45);
+      box-shadow: 0 0 0 4px rgba(47, 93, 98, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .answer-input:disabled {
+      color: rgba(33, 22, 15, 0.75);
+      background: rgba(255, 255, 255, 0.72);
+      cursor: not-allowed;
+    }
+
+    .button {
+      appearance: none;
+      border: none;
+      border-radius: 18px;
+      padding: 0.95rem 1.1rem;
+      font: inherit;
+      font-size: 0.96rem;
+      font-weight: 700;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 140ms ease, opacity 140ms ease, box-shadow 140ms ease;
+      white-space: nowrap;
+    }
+
+    .button:hover:not(:disabled),
+    .button:focus-visible:not(:disabled) {
+      transform: translateY(-1px);
+    }
+
+    .button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .button--primary {
+      background: linear-gradient(135deg, var(--accent), #cc7049);
+      color: #fff9f4;
+      box-shadow: 0 14px 30px rgba(180, 81, 58, 0.22);
+    }
+
+    .button--secondary {
+      background: rgba(47, 93, 98, 0.1);
+      color: var(--lake);
+      border: 1px solid rgba(47, 93, 98, 0.18);
+    }
+
+    .encode-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .field {
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .field-label {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .action-row {
+      display: grid;
+      grid-template-columns: auto auto;
+      justify-content: start;
+      gap: 0.8rem;
+    }
+
+    .feedback {
+      margin-top: 1rem;
+      padding: 1rem 1.1rem;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.66);
+    }
+
+    .feedback[data-kind="success"] {
+      background: var(--success-soft);
+      border-color: rgba(31, 106, 68, 0.18);
+    }
+
+    .feedback[data-kind="error"] {
+      background: var(--error-soft);
+      border-color: rgba(139, 46, 42, 0.18);
+    }
+
+    .feedback[data-kind="reveal"] {
+      background: rgba(192, 137, 44, 0.12);
+      border-color: rgba(192, 137, 44, 0.2);
+    }
+
+    .feedback-title {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .feedback-copy {
+      margin: 0.45rem 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+
+    .notes {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .note-panel {
+      padding: 1rem 1.1rem;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.58);
+    }
+
+    .note-panel h2 {
+      margin: 0 0 0.55rem;
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .note-panel ul {
+      margin: 0;
+      padding-left: 1.1rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .note-list[hidden] {
+      display: none;
+    }
+
+    .counts {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .editor-panel {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.52);
+    }
+
+    .editor-toolbar {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .editor-copy {
+      margin: 0;
+      max-width: 56ch;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .editor-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .editor-section {
+      padding: 1rem;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.74);
+    }
+
+    .editor-header {
+      margin-bottom: 0.85rem;
+    }
+
+    .editor-header h2 {
+      margin: 0 0 0.2rem;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .editor-header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.5;
+    }
+
+    .editor-list {
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .editor-row {
+      display: grid;
+      grid-template-columns: 88px minmax(0, 1fr);
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .editor-ending-row {
+      display: grid;
+      gap: 0.8rem;
+      padding: 0.85rem;
+      border: 1px solid rgba(33, 22, 15, 0.08);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .editor-ending-head {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+    }
+
+    .editor-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 74px;
+      padding: 0.45rem 0.65rem;
+      border-radius: 999px;
+      background: rgba(180, 81, 58, 0.12);
+      color: var(--accent);
+      font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+      font-size: 0.93rem;
+      font-weight: 700;
+    }
+
+    .editor-hint {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .editor-ending-fields {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.75rem;
+    }
+
+    .editor-field {
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .editor-field span {
+      color: var(--muted);
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .editor-input {
+      font-size: 0.96rem;
+    }
+
+    .editor-status {
+      margin: 1rem 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    .editor-status[data-kind="saved"] {
+      color: var(--success);
+    }
+
+    .editor-status[data-kind="error"] {
+      color: var(--error);
+    }
+
+    .count-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-bottom: 0.55rem;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .count-line:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .count-line strong {
+      color: var(--ink);
+      font-size: 1rem;
+    }
+
+    .prompt-grid.is-fresh .prompt-card {
+      animation: rise-in 380ms cubic-bezier(0.24, 0.84, 0.26, 1) both;
+    }
+
+    .prompt-grid.is-fresh .prompt-card:nth-child(2) {
+      animation-delay: 50ms;
+    }
+
+    .prompt-grid.is-fresh .prompt-card:nth-child(3) {
+      animation-delay: 100ms;
+    }
+
+    @keyframes rise-in {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @media (max-width: 760px) {
+      main {
+        width: min(100% - 1rem, 980px);
+        padding-top: 1.2rem;
+      }
+
+      .stats,
+      .prompt-grid,
+      .notes,
+      .answer-row,
+      .encode-grid,
+      .action-row,
+      .editor-row,
+      .editor-ending-fields {
+        grid-template-columns: 1fr;
+      }
+
+      .prompt-card {
+        min-height: 0;
+      }
+
+      .answer-row {
+        gap: 0.65rem;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .help-dialog {
+        width: calc(100% - 1rem);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .button,
+      .answer-input {
+        transition: none;
+      }
+
+      .prompt-grid.is-fresh .prompt-card {
+        animation: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="board">
+      <div class="mode-strip">
+        <div class="mode-row">
+          <div class="mode-switch" role="tablist" aria-label="Trainer sections">
+            <button class="mode-button is-active" id="mode-decode" data-mode="decode" type="button" role="tab" aria-selected="true">Decode</button>
+            <button class="mode-button" id="mode-encode" data-mode="encode" type="button" role="tab" aria-selected="false">Encode</button>
+            <button class="mode-button" id="mode-edit" data-mode="edit" type="button" role="tab" aria-selected="false">Associations</button>
+          </div>
+          <button class="help-button" id="help-button" type="button" aria-haspopup="dialog" aria-controls="help-dialog" aria-label="Reference links">?</button>
+        </div>
+        <p class="mode-copy" id="mode-copy">Decode from person and location clues back into numbered pinyin.</p>
+      </div>
+
+      <div class="stats" id="stats-panel" aria-label="Scoreboard">
+        <div class="stat">
+          <span class="stat-label">Correct</span>
+          <span class="stat-value" id="correct-count">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Attempts</span>
+          <span class="stat-value" id="attempt-count">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Accuracy</span>
+          <span class="stat-value" id="accuracy-count">0%</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Streak</span>
+          <span class="stat-value" id="streak-count">0</span>
+        </div>
+      </div>
+
+      <p class="prompt-line" id="prompt-line">Loading prompt…</p>
+
+      <div class="prompt-grid" id="prompt-grid">
+        <article class="prompt-card prompt-card--beginning">
+          <p class="prompt-label" id="card-1-label">Beginning</p>
+          <p class="prompt-value" id="card-1-value">-</p>
+          <p class="prompt-subvalue" id="card-1-subvalue">Person clue for the initial chunk.</p>
+        </article>
+
+        <article class="prompt-card prompt-card--ending">
+          <p class="prompt-label" id="card-2-label">Ending</p>
+          <p class="prompt-value" id="card-2-value">-</p>
+          <p class="prompt-subvalue" id="card-2-subvalue">Broad location for the final chunk.</p>
+        </article>
+
+        <article class="prompt-card prompt-card--tone">
+          <p class="prompt-label" id="card-3-label">Tone</p>
+          <p class="prompt-value" id="card-3-value">-</p>
+          <p class="prompt-subvalue" id="card-3-subvalue">Specific sub-location for tone 1-4.</p>
+        </article>
+      </div>
+
+      <form class="answer-form" id="decode-form" autocomplete="off">
+        <label class="input-label" for="decode-answer-input">Type the decoded answer</label>
+        <div class="answer-row">
+          <input
+            class="answer-input"
+            id="decode-answer-input"
+            name="answer"
+            type="text"
+            spellcheck="false"
+            autocapitalize="off"
+            autocomplete="off"
+            inputmode="text"
+            placeholder="shan1"
+          >
+          <button class="button button--primary" id="decode-check-button" type="submit">Check</button>
+          <button class="button button--secondary" id="decode-reveal-button" type="button">Reveal</button>
+        </div>
+      </form>
+
+      <form class="answer-form" id="encode-form" autocomplete="off" hidden>
+        <div class="encode-grid">
+          <label class="field" for="encode-beginning-input">
+            <span class="field-label">Person clue</span>
+            <input
+              class="answer-input"
+              id="encode-beginning-input"
+              name="beginning"
+              type="text"
+              spellcheck="false"
+              autocapitalize="off"
+              autocomplete="off"
+              inputmode="text"
+              placeholder="Shinji"
+            >
+          </label>
+
+          <label class="field" for="encode-location-input">
+            <span class="field-label">Specific location</span>
+            <input
+              class="answer-input"
+              id="encode-location-input"
+              name="location"
+              type="text"
+              spellcheck="false"
+              autocapitalize="off"
+              autocomplete="off"
+              inputmode="text"
+              placeholder="Rope Bridge Skull"
+            >
+          </label>
+        </div>
+
+        <div class="action-row">
+          <button class="button button--primary" id="encode-check-button" type="submit">Check</button>
+          <button class="button button--secondary" id="encode-reveal-button" type="button">Reveal</button>
+        </div>
+      </form>
+
+      <section class="feedback" id="feedback" data-kind="neutral" aria-live="polite">
+        <p class="feedback-title" id="feedback-title">Press Enter to check the current card.</p>
+        <p class="feedback-copy" id="feedback-details">
+          When a card is finished, press Enter again or click Next to move on.
+        </p>
+      </section>
+
+      <div class="notes" id="notes-panel">
+        <section class="note-panel">
+          <h2>Practice Notes</h2>
+          <ul class="note-list" id="decode-notes">
+            <li><code>nü</code> is typed as <code>nyu</code>.</li>
+            <li><code>lü</code> is typed as <code>lyu</code>.</li>
+            <li><code>Ø-</code> and <code>-Ø</code> may be omitted or typed with a period. The checker ignores periods.</li>
+            <li><code>-(e)n</code> and <code>-(e)ng</code> accept both forms.</li>
+          </ul>
+          <ul class="note-list" id="encode-notes" hidden>
+            <li>Only single-syllable entries from <code>wordlist.csv</code> that map cleanly to the current encoding table are included.</li>
+            <li>Type the person clue and the specific location clue.</li>
+            <li>Full clue text works, and distinctive short forms like <code>shinji</code> or <code>rope bridge</code> are accepted.</li>
+          </ul>
+        </section>
+
+        <section class="note-panel">
+          <h2>Current Pool</h2>
+          <div class="counts">
+            <div class="count-line">
+              <span id="pool-label-1">Beginning clues</span>
+              <strong id="pool-value-1">0</strong>
+            </div>
+            <div class="count-line">
+              <span id="pool-label-2">Ending locations</span>
+              <strong id="pool-value-2">0</strong>
+            </div>
+            <div class="count-line">
+              <span id="pool-label-3">Total tone markers</span>
+              <strong id="pool-value-3">0</strong>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="editor-panel" id="editor-view" hidden>
+        <div class="editor-toolbar">
+          <p class="editor-copy">
+            Edit the clue text for beginnings, broad locations, and tone-specific locations. Changes save automatically
+            in this browser and will be used by both practice modes.
+          </p>
+          <button class="button button--secondary" id="reset-associations-button" type="button">Reset Defaults</button>
+        </div>
+
+        <div class="editor-grid">
+          <section class="editor-section">
+            <div class="editor-header">
+              <h2>Beginnings</h2>
+              <p>Person associations for each onset.</p>
+            </div>
+            <div class="editor-list" id="beginning-editor"></div>
+          </section>
+
+          <section class="editor-section">
+            <div class="editor-header">
+              <h2>Endings</h2>
+              <p>Broad locations and their tone-specific locations.</p>
+            </div>
+            <div class="editor-list" id="ending-editor"></div>
+          </section>
+        </div>
+
+        <p class="editor-status" id="editor-status" data-kind="saved">Changes save automatically in this browser.</p>
+      </section>
+    </section>
+  </main>
+
+  <dialog class="help-dialog" id="help-dialog" aria-labelledby="help-title">
+    <div class="help-sheet">
+      <div class="help-header">
+        <div>
+          <h2 id="help-title">Method References</h2>
+        </div>
+        <button class="help-close" id="help-close-button" type="button">Close</button>
+      </div>
+      <p class="help-copy">
+        These are the two writeups this trainer is meant to sit beside while you refine your own Chinese association system.
+      </p>
+      <ul class="help-links">
+        <li>
+          <a class="help-link" href="https://countryoftheblind.blogspot.com/2012/01/mnemonics-for-pronouncing-chinese.html" target="_blank" rel="noreferrer">
+            <strong>Original method</strong>
+            <span>Country of the Blind blog post on mnemonics for pronouncing Chinese.</span>
+          </a>
+        </li>
+        <li>
+          <a class="help-link" href="https://mullenmemory.com/memory-palace/chinese-system-part-2" target="_blank" rel="noreferrer">
+            <strong>Alex Mullen writeup</strong>
+            <span>Part 2 of Alex Mullen’s Chinese system and memory palace explanation.</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </dialog>
+
+  <script>
+    const BEGINNINGS = [
+      { phoneme: "b-", clue: "Biscuit Krueger (HxH)" },
+      { phoneme: "y-", clue: "Yann Lecun" },
+      { phoneme: "w-", clue: "Wizzrobe" },
+      { phoneme: "yu-", clue: "Eryk" },
+      { phoneme: "p-", clue: "Pikachu" },
+      { phoneme: "bi-", clue: "Beyonce" },
+      { phoneme: "bu-", clue: "Chillindude" },
+      { phoneme: "nü-", clue: "Maria" },
+      { phoneme: "m-", clue: "Mewtwo" },
+      { phoneme: "pi-", clue: "Brad Pitt" },
+      { phoneme: "pu-", clue: "PPMD" },
+      { phoneme: "lü-", clue: "David" },
+      { phoneme: "f-", clue: "Freiren" },
+      { phoneme: "mi-", clue: "Michelle Obama" },
+      { phoneme: "mu-", clue: "Mew2King" },
+      { phoneme: "ju-", clue: "Grant" },
+      { phoneme: "d-", clue: "Denji (Chainsaw Man)" },
+      { phoneme: "di-", clue: "Dwayne The Rock" },
+      { phoneme: "fu-", clue: "Fiction" },
+      { phoneme: "qu-", clue: "Liam" },
+      { phoneme: "t-", clue: "Tatsumaki (OPM)" },
+      { phoneme: "ti-", clue: "Trump" },
+      { phoneme: "du-", clue: "Druggedfox" },
+      { phoneme: "xu-", clue: "Vickram" },
+      { phoneme: "n-", clue: "Netero (HxH)" },
+      { phoneme: "ni-", clue: "Nicki Minaj" },
+      { phoneme: "tu-", clue: "Toph" },
+      { phoneme: "l-", clue: "L (death note)" },
+      { phoneme: "li-", clue: "leonardo dicaprio" },
+      { phoneme: "nu-", clue: "n0ne" },
+      { phoneme: "g-", clue: "Goku" },
+      { phoneme: "ji-", clue: "Jackie Chan" },
+      { phoneme: "lu-", clue: "leffen" },
+      { phoneme: "k-", clue: "Komugi (HxH)" },
+      { phoneme: "qi-", clue: "quentin tarantino" },
+      { phoneme: "gu-", clue: "Gimmedatwheat" },
+      { phoneme: "h-", clue: "Haruhi" },
+      { phoneme: "xi-", clue: "Xi Jinping" },
+      { phoneme: "ku-", clue: "KJH" },
+      { phoneme: "zh-", clue: "Zangeif (SF)" },
+      { phoneme: "hu-", clue: "Hungrybox" },
+      { phoneme: "ch-", clue: "Chihaya (Chihayafuru)" },
+      { phoneme: "zhu-", clue: "Zhu" },
+      { phoneme: "sh-", clue: "Shinji (Evangelion)" },
+      { phoneme: "chu-", clue: "Chudat" },
+      { phoneme: "r-", clue: "Ryuk (Death Note)" },
+      { phoneme: "shu-", clue: "Cody Schwab" },
+      { phoneme: "z-", clue: "Zim (Invader Zim)" },
+      { phoneme: "ru-", clue: "Armada" },
+      { phoneme: "c-", clue: "Chika Fujiwara (Love is War)" },
+      { phoneme: "zu-", clue: "Zain" },
+      { phoneme: "s-", clue: "Saiki (Saiki K)" },
+      { phoneme: "cu-", clue: "PC Chris" },
+      { phoneme: "Ø-", clue: "Sora (NGNL)" },
+      { phoneme: "su-", clue: "Soonsay" }
+    ];
+
+    const ENDINGS = [
+      {
+        phoneme: "-a",
+        clue: "Zora's Domain",
+        tones: ["Zora's River", "King Zora", "Frozen Waterfall", "Zora's Fountain"]
+      },
+      {
+        phoneme: "-o",
+        clue: "Kakariko Village",
+        tones: ["Front Gate", "Cucco Lady", "Graveyard", "Bongo Fight"]
+      },
+      {
+        phoneme: "-e",
+        clue: "Deku Tree",
+        tones: ["Mouth Entrance", "Big Web", "2-3-1 scrubs", "Ghoma Fight"]
+      },
+      {
+        phoneme: "-ai",
+        clue: "Lake Hylia",
+        tones: ["Patches of grass", "Top of the tree", "Fishing", "The Watchtower"]
+      },
+      {
+        phoneme: "-ei",
+        clue: "Gerudo Valley",
+        tones: ["Jumping the Bridge", "Freeing the Craftsmen", "Haunted Wasteland", "Desert Colossus"]
+      },
+      {
+        phoneme: "-ao",
+        clue: "Water Temple",
+        tones: ["Swimming Up Entrance", "Meet Ruto", "Toilet Room", "Morpha Fight"]
+      },
+      {
+        phoneme: "-ou",
+        clue: "Dodongo's Cavern",
+        tones: ["Initial Bomb Wall", "Big Dodongo Skull", "Lizalfos Fight", "King Dodongo Fight"]
+      },
+      {
+        phoneme: "-an",
+        clue: "Goron City",
+        tones: ["Rope Bridge Skull", "Stone Maze", "Spinning Pot / Shop", "Darunia Dance"]
+      },
+      {
+        phoneme: "-(e)n",
+        clue: "Lon Lon Ranch",
+        tones: ["Cows Near Entrance", "Cucco Minigame", "Horse Race", "Jumping the Fence"]
+      },
+      {
+        phoneme: "-ang",
+        clue: "Jabu Jabu Belly",
+        tones: ["Jabu's Mouth", "Encounter Ruto", "Boomerang Area", "Barinade Fight"]
+      },
+      {
+        phoneme: "-(e)ng",
+        clue: "Ganon's Castle",
+        tones: ["Rainbow Bridge", "Central Trials Area", "Big Staircase", "Ganon Fight"]
+      },
+      {
+        phoneme: "-Ø",
+        clue: "Hyrule Field",
+        tones: ["Kokiri entrance", "Zora/Kakariko side", "The bridge", "Lake entrance"]
+      }
+    ];
+
+    const ENCODE_POOL = [["wo3","wǒ","我","Wizzrobe","Kakariko Village","Graveyard"],["hao3","hǎo","好","Haruhi","Water Temple","Toilet Room"],["ni3","nǐ","你","Nicki Minaj","Hyrule Field","The bridge"],["ren2","rén","人","Ryuk (Death Note)","Lon Lon Ranch","Cucco Minigame"],["ta1","tā","他 / 她 / 它","Tatsumaki (OPM)","Zora's Domain","Zora's River"],["bu4","bù","不","Chillindude","Hyrule Field","Lake entrance"],["shuo1","shuō","说","Cody Schwab","Kakariko Village","Front Gate"],["dou1","dōu","都","Denji (Chainsaw Man)","Dodongo's Cavern","Initial Bomb Wall"],["xue2","xué","学","Vickram","Deku Tree","Big Web"],["ye3","yě","也","Yann Lecun","Deku Tree","2-3-1 scrubs"],["xie3","xiě","写","Xi Jinping","Deku Tree","2-3-1 scrubs"],["he2","hé","和 / 河","Haruhi","Deku Tree","Big Web"],["he1","hē","喝","Haruhi","Deku Tree","Mouth Entrance"],["cha2","chá","茶","Chihaya (Chihayafuru)","Zora's Domain","King Zora"],["xiang3","xiǎng","想","Xi Jinping","Jabu Jabu Belly","Boomerang Area"],["mai3","mǎi","买","Mewtwo","Lake Hylia","Fishing"],["liang3","liǎng","两","leonardo dicaprio","Jabu Jabu Belly","Boomerang Area"],["san1","sān","三","Saiki (Saiki K)","Goron City","Rope Bridge Skull"],["kuai4","kuài","块 / 快","KJH","Lake Hylia","The Watchtower"],["qian2","qián","钱 / 前","quentin tarantino","Goron City","Stone Maze"],["qi1","qī","七","quentin tarantino","Hyrule Field","Kokiri entrance"],["ba1","bā","八","Biscuit Krueger (HxH)","Zora's Domain","Zora's River"],["ge4","gè","个 / 各","Goku","Deku Tree","Ghoma Fight"],["ping2","píng","瓶","Brad Pitt","Ganon's Castle","Central Trials Area"],["bei1","bēi","杯","Biscuit Krueger (HxH)","Gerudo Valley","Jumping the Bridge"],["bai3","bǎi","百","Biscuit Krueger (HxH)","Lake Hylia","Fishing"],["you3","yǒu","有","Yann Lecun","Dodongo's Cavern","Lizalfos Fight"],["ji3","jǐ","几","Jackie Chan","Hyrule Field","The bridge"],["kou3","kǒu","口","Komugi (HxH)","Dodongo's Cavern","Lizalfos Fight"],["jia1","jiā","家","Jackie Chan","Zora's Domain","Zora's River"],["zhe4","zhè","这","Zangeif (SF)","Deku Tree","Ghoma Fight"],["na4","nà","那","Netero (HxH)","Zora's Domain","Zora's Fountain"],["mao1","māo","猫","Mewtwo","Water Temple","Swimming Up Entrance"],["gou3","gǒu","狗","Goku","Dodongo's Cavern","Lizalfos Fight"],["yue4","yuè","月 / 越","Eryk","Deku Tree","Ghoma Fight"],["hao4","hào","号","Haruhi","Water Temple","Morpha Fight"],["nian2","nián","年","Nicki Minaj","Goron City","Stone Maze"],["ling2","líng","零","leonardo dicaprio","Ganon's Castle","Central Trials Area"],["qu4","qù","去","Liam","Hyrule Field","Lake entrance"],["zai4","zài","在 / 再","Zim (Invader Zim)","Lake Hylia","The Watchtower"],["jiao4","jiào","叫","Jackie Chan","Water Temple","Morpha Fight"],["xing4","xìng","姓","Xi Jinping","Ganon's Castle","Ganon Fight"],["shei2","shéi","谁","Shinji (Evangelion)","Gerudo Valley","Freeing the Craftsmen"],["na3","nǎ","哪","Netero (HxH)","Zora's Domain","Frozen Waterfall"],["guo2","guó","国","Gimmedatwheat","Kakariko Village","Cucco Lady"],["dian3","diǎn","点","Dwayne The Rock","Goron City","Spinning Pot / Shop"],["fen1","fēn","分","Freiren","Lon Lon Ranch","Cows Near Entrance"],["hen3","hěn","很","Haruhi","Lon Lon Ranch","Horse Race"],["da4","dà","大","Denji (Chainsaw Man)","Zora's Domain","Zora's Fountain"],["xiao3","xiǎo","小","Xi Jinping","Water Temple","Toilet Room"],["leng3","lěng","冷","L (death note)","Ganon's Castle","Big Staircase"],["re4","rè","热","Ryuk (Death Note)","Deku Tree","Ghoma Fight"],["zhen1","zhēn","真","Zangeif (SF)","Lon Lon Ranch","Cows Near Entrance"],["suan1","suān","酸","Soonsay","Goron City","Rope Bridge Skull"],["tian2","tián","甜","Trump","Goron City","Stone Maze"],["tai4","tài","太","Tatsumaki (OPM)","Lake Hylia","The Watchtower"],["cai4","cài","菜","Chika Fujiwara (Love is War)","Lake Hylia","The Watchtower"],["la4","là","辣","L (death note)","Zora's Domain","Zora's Fountain"],["ku3","kǔ","苦","KJH","Hyrule Field","The bridge"],["xian2","xián","咸","Xi Jinping","Goron City","Stone Maze"],["yao4","yào","要 / 药","Yann Lecun","Water Temple","Morpha Fight"],["fen4","fèn","份","Freiren","Lon Lon Ranch","Jumping the Fence"],["tang1","tāng","汤","Tatsumaki (OPM)","Jabu Jabu Belly","Jabu's Mouth"],["wan3","wǎn","碗 / 晚","Wizzrobe","Goron City","Spinning Pot / Shop"],["shuang1","shuāng","双","Cody Schwab","Jabu Jabu Belly","Jabu's Mouth"],["gei3","gěi","给","Goku","Gerudo Valley","Haunted Wasteland"],["lai2","lái","来","L (death note)","Lake Hylia","Top of the tree"],["neng2","néng","能","Netero (HxH)","Ganon's Castle","Central Trials Area"],["ting1","tīng","听","Trump","Ganon's Castle","Rainbow Bridge"],["wan2","wán","玩 / 完","Wizzrobe","Goron City","Stone Maze"],["kan4","kàn","看","Komugi (HxH)","Goron City","Darunia Dance"],["shu1","shū","书 / 输","Cody Schwab","Hyrule Field","Kokiri entrance"],["gen1","gēn","跟","Goku","Lon Lon Ranch","Cows Near Entrance"],["pang4","pàng","胖","Pikachu","Jabu Jabu Belly","Barinade Fight"],["shou4","shòu","瘦","Shinji (Evangelion)","Dodongo's Cavern","King Dodongo Fight"],["bi3","bǐ","比 / 笔","Beyonce","Hyrule Field","The bridge"],["shuai4","shuài","帅","Cody Schwab","Lake Hylia","The Watchtower"],["gao1","gāo","高","Goku","Water Temple","Swimming Up Entrance"],["ai3","ǎi","矮","Sora (NGNL)","Lake Hylia","Fishing"],["lian3","liǎn","脸","leonardo dicaprio","Goron City","Spinning Pot / Shop"],["chang2","cháng","长 / 尝","Chihaya (Chihayafuru)","Jabu Jabu Belly","Encounter Ruto"],["duan3","duǎn","短","Druggedfox","Goron City","Spinning Pot / Shop"],["geng4","gèng","更","Goku","Ganon's Castle","Ganon Fight"],["jian4","jiàn","件 / 见","Jackie Chan","Goron City","Darunia Dance"],["tiao2","tiáo","条","Trump","Water Temple","Meet Ruto"],["xie2","xié","鞋","Xi Jinping","Deku Tree","Big Web"],["guang4","guàng","逛","Gimmedatwheat","Jabu Jabu Belly","Barinade Fight"],["da3","dǎ","打","Denji (Chainsaw Man)","Zora's Domain","Frozen Waterfall"],["ti1","tī","踢","Trump","Hyrule Field","Kokiri entrance"],["cha4","chà","差","Chihaya (Chihayafuru)","Zora's Domain","Zora's Fountain"],["qi2","qí","骑","quentin tarantino","Hyrule Field","Zora/Kakariko side"],["man4","màn","慢","Mewtwo","Goron City","Darunia Dance"],["xi3","xǐ","洗","Xi Jinping","Hyrule Field","The bridge"],["mei2","méi","没","Mewtwo","Gerudo Valley","Freeing the Craftsmen"],["zuo4","zuò","坐 / 做 / 座","Zain","Kakariko Village","Bongo Fight"],["chuan2","chuán","船","Chudat","Goron City","Stone Maze"],["li2","lí","离","leonardo dicaprio","Hyrule Field","Zora/Kakariko side"],["yuan3","yuǎn","远","Eryk","Goron City","Spinning Pot / Shop"],["jin4","jìn","近 / 进","Jackie Chan","Lon Lon Ranch","Jumping the Fence"],["dao4","dào","到 / 倒","Denji (Chainsaw Man)","Water Temple","Morpha Fight"],["zou3","zǒu","走","Zim (Invader Zim)","Dodongo's Cavern","Lizalfos Fight"],["xiang4","xiàng","向","Xi Jinping","Jabu Jabu Belly","Barinade Fight"],["hou4","hòu","后","Haruhi","Dodongo's Cavern","King Dodongo Fight"],["yan2","yán","沿 / 盐","Yann Lecun","Goron City","Stone Maze"],["lu4","lù","路","leffen","Hyrule Field","Lake entrance"],["wang3","wǎng","往","Wizzrobe","Jabu Jabu Belly","Boomerang Area"],["di4","dì","第 / 地","Dwayne The Rock","Hyrule Field","Lake entrance"],["guai3","guǎi","拐","Gimmedatwheat","Lake Hylia","Fishing"],["zuo3","zuǒ","左","Zain","Kakariko Village","Graveyard"],["you4","yòu","右 / 又","Yann Lecun","Dodongo's Cavern","King Dodongo Fight"],["deng1","dēng","灯","Denji (Chainsaw Man)","Ganon's Castle","Rainbow Bridge"],["chuang2","chuáng","床","Chudat","Jabu Jabu Belly","Encounter Ruto"],["wei4","wèi","喂 / 为","Wizzrobe","Gerudo Valley","Desert Colossus"],["zhao3","zhǎo","找","Zangeif (SF)","Water Temple","Toilet Room"],["fa1","fā","发","Freiren","Zora's Domain","Zora's River"],["jie1","jiē","接","Jackie Chan","Deku Tree","Mouth Entrance"],["shou1","shōu","收","Shinji (Evangelion)","Dodongo's Cavern","Initial Bomb Wall"],["deng3","děng","等","Denji (Chainsaw Man)","Ganon's Castle","Big Staircase"],["pian4","piàn","片 / 骗","Brad Pitt","Goron City","Darunia Dance"],["yang3","yǎng","养","Yann Lecun","Jabu Jabu Belly","Boomerang Area"],["niao3","niǎo","鸟","Nicki Minaj","Water Temple","Toilet Room"],["guai1","guāi","乖","Gimmedatwheat","Lake Hylia","Patches of grass"],["lan3","lǎn","懒","L (death note)","Goron City","Spinning Pot / Shop"],["sha3","shǎ","傻","Shinji (Evangelion)","Zora's Domain","Frozen Waterfall"],["chou3","chǒu","丑","Chihaya (Chihayafuru)","Dodongo's Cavern","Lizalfos Fight"],["yu2","yú","鱼","Eryk","Hyrule Field","Zora/Kakariko side"],["gan3","gǎn","敢 / 赶","Goku","Goron City","Spinning Pot / Shop"],["mo1","mō","摸","Mewtwo","Kakariko Village","Front Gate"],["e4","è","饿","Sora (NGNL)","Deku Tree","Ghoma Fight"],["ke3","kě","渴","Komugi (HxH)","Deku Tree","2-3-1 scrubs"],["kun4","kùn","困","KJH","Lon Lon Ranch","Jumping the Fence"],["lei4","lèi","累","L (death note)","Gerudo Valley","Desert Colossus"],["bao3","bǎo","饱","Biscuit Krueger (HxH)","Water Temple","Toilet Room"],["qing3","qǐng","请","quentin tarantino","Ganon's Castle","Big Staircase"],["pei2","péi","陪","Pikachu","Gerudo Valley","Freeing the Craftsmen"],["teng2","téng","疼","Tatsumaki (OPM)","Ganon's Castle","Central Trials Area"],["tou2","tóu","头","Tatsumaki (OPM)","Dodongo's Cavern","Big Dodongo Skull"],["ya2","yá","牙","Yann Lecun","Zora's Domain","King Zora"],["bie2","bié","别","Beyonce","Deku Tree","Big Web"],["rang4","ràng","让","Ryuk (Death Note)","Jabu Jabu Belly","Barinade Fight"],["tang4","tàng","烫","Tatsumaki (OPM)","Jabu Jabu Belly","Barinade Fight"],["xian1","xiān","先","Xi Jinping","Goron City","Rope Bridge Skull"],["kai1","kāi","开","Komugi (HxH)","Lake Hylia","Patches of grass"],["guan1","guān","关","Gimmedatwheat","Goron City","Rope Bridge Skull"],["men2","mén","门","Mewtwo","Lon Lon Ranch","Cucco Minigame"],["bang1","bāng","帮","Biscuit Krueger (HxH)","Jabu Jabu Belly","Jabu's Mouth"],["pai1","pāi","拍","Pikachu","Lake Hylia","Patches of grass"],["ban1","bān","搬","Biscuit Krueger (HxH)","Goron City","Rope Bridge Skull"],["huan4","huàn","换","Hungrybox","Goron City","Darunia Dance"],["duo3","duǒ","朵","Druggedfox","Kakariko Village","Graveyard"],["jin1","jīn","斤","Jackie Chan","Lon Lon Ranch","Cows Near Entrance"],["hua1","huā","花","Hungrybox","Zora's Domain","Zora's River"],["mai4","mài","卖","Mewtwo","Lake Hylia","The Watchtower"],["tiao1","tiāo","挑","Trump","Water Temple","Swimming Up Entrance"],["xing2","xíng","行","Xi Jinping","Ganon's Castle","Central Trials Area"],["nan2","nán","难","Netero (HxH)","Goron City","Stone Maze"],["shang4","shàng","上","Shinji (Evangelion)","Jabu Jabu Belly","Barinade Fight"],["gai1","gāi","该","Goku","Lake Hylia","Patches of grass"],["xie1","xiē","些","Xi Jinping","Deku Tree","Mouth Entrance"],["fang4","fàng","放","Freiren","Jabu Jabu Belly","Barinade Fight"],["dang1","dāng","当","Denji (Chainsaw Man)","Jabu Jabu Belly","Jabu's Mouth"],["xiao4","xiào","笑","Xi Jinping","Water Temple","Morpha Fight"],["ku1","kū","哭","KJH","Hyrule Field","Kokiri entrance"],["ben4","bèn","笨","Biscuit Krueger (HxH)","Lon Lon Ranch","Jumping the Fence"],["lao3","lǎo","老","L (death note)","Water Temple","Toilet Room"],["mang2","máng","忙","Mewtwo","Jabu Jabu Belly","Encounter Ruto"],["dai4","dài","带 / 戴","Denji (Chainsaw Man)","Lake Hylia","The Watchtower"],["ban4","bàn","办","Biscuit Krueger (HxH)","Goron City","Darunia Dance"],["piao4","piào","票","Brad Pitt","Water Temple","Morpha Fight"],["ji4","jì","寄 / 记","Jackie Chan","Hyrule Field","Lake entrance"],["xia4","xià","下","Xi Jinping","Zora's Domain","Zora's Fountain"],["nin2","nín","您","Nicki Minaj","Lon Lon Ranch","Cucco Minigame"],["hai2","hái","还","Haruhi","Lake Hylia","Top of the tree"],["chao3","chǎo","吵","Chihaya (Chihayafuru)","Water Temple","Toilet Room"],["xin1","xīn","新","Xi Jinping","Lon Lon Ranch","Cows Near Entrance"],["duo1","duō","多","Druggedfox","Kakariko Village","Front Gate"],["shao3","shǎo","少","Shinji (Evangelion)","Water Temple","Toilet Room"],["zhu4","zhù","住","Zhu","Hyrule Field","Lake entrance"],["na2","ná","拿","Netero (HxH)","Zora's Domain","King Zora"],["shua1","shuā","刷","Cody Schwab","Zora's Domain","Zora's River"],["guo1","guō","锅","Gimmedatwheat","Kakariko Village","Front Gate"],["ba3","bǎ","把","Biscuit Krueger (HxH)","Zora's Domain","Frozen Waterfall"],["tuo1","tuō","脱","Toph","Kakariko Village","Front Gate"],["ca1","cā","擦","Chika Fujiwara (Love is War)","Zora's Domain","Zora's River"],["reng1","rēng","扔","Ryuk (Death Note)","Ganon's Castle","Rainbow Bridge"],["bao1","bāo","包","Biscuit Krueger (HxH)","Water Temple","Swimming Up Entrance"],["cu4","cù","醋","PC Chris","Hyrule Field","Lake entrance"],["tang2","táng","糖","Tatsumaki (OPM)","Jabu Jabu Belly","Encounter Ruto"],["cuo4","cuò","错","PC Chris","Kakariko Village","Bongo Fight"],["chuan1","chuān","穿","Chudat","Goron City","Rope Bridge Skull"],["gua4","guà","挂","Gimmedatwheat","Zora's Domain","Zora's Fountain"],["qiang2","qiáng","墙","quentin tarantino","Jabu Jabu Belly","Encounter Ruto"],["zhang1","zhāng","张","Zangeif (SF)","Jabu Jabu Belly","Jabu's Mouth"],["zhan4","zhàn","站","Zangeif (SF)","Goron City","Darunia Dance"],["wen4","wèn","问","Wizzrobe","Lon Lon Ranch","Jumping the Fence"],["cai2","cái","才","Chika Fujiwara (Love is War)","Lake Hylia","Top of the tree"],["zhang3","zhǎng","涨","Zangeif (SF)","Jabu Jabu Belly","Boomerang Area"],["dei3","děi","得","Denji (Chainsaw Man)","Gerudo Valley","Haunted Wasteland"],["bei4","bèi","被 / 倍","Biscuit Krueger (HxH)","Gerudo Valley","Desert Colossus"],["tou1","tōu","偷","Tatsumaki (OPM)","Dodongo's Cavern","Initial Bomb Wall"],["ma4","mà","骂","Mewtwo","Zora's Domain","Zora's Fountain"],["huai4","huài","坏","Hungrybox","Lake Hylia","The Watchtower"],["po4","pò","破","Pikachu","Kakariko Village","Bongo Fight"],["guang1","guāng","光","Gimmedatwheat","Jabu Jabu Belly","Jabu's Mouth"],["san3","sǎn","伞","Saiki (Saiki K)","Goron City","Spinning Pot / Shop"],["ting3","tǐng","挺","Trump","Ganon's Castle","Big Staircase"],["guo4","guò","过","Gimmedatwheat","Kakariko Village","Bongo Fight"],["lia3","liǎ","俩","leonardo dicaprio","Zora's Domain","Frozen Waterfall"],["tian1","tiān","天","Trump","Goron City","Rope Bridge Skull"],["jia4","jià","假","Jackie Chan","Zora's Domain","Zora's Fountain"],["jiao1","jiāo","教","Jackie Chan","Water Temple","Swimming Up Entrance"],["zhao4","Zhào","赵","Zangeif (SF)","Water Temple","Morpha Fight"],["bian4","biàn","遍","Beyonce","Goron City","Darunia Dance"],["qian1","qiān","签 / 千","quentin tarantino","Goron City","Rope Bridge Skull"],["chang3","chǎng","场","Chihaya (Chihayafuru)","Jabu Jabu Belly","Boomerang Area"],["de2","dé","得","Denji (Chainsaw Man)","Deku Tree","Big Web"],["ming2","míng","名","Michelle Obama","Ganon's Castle","Central Trials Area"],["tiao4","tiào","跳","Trump","Water Temple","Morpha Fight"],["pa2","pá","爬","Pikachu","Zora's Domain","King Zora"],["yu3","yǔ","与","Eryk","Hyrule Field","The bridge"],["zhuan4","zhuàn","赚","Zhu","Goron City","Darunia Dance"],["cun2","cún","存","PC Chris","Lon Lon Ranch","Cucco Minigame"],["zao3","zǎo","早","Zim (Invader Zim)","Water Temple","Toilet Room"],["wan4","wàn","万","Wizzrobe","Goron City","Darunia Dance"],["jiang3","jiǎng","讲","Jackie Chan","Jabu Jabu Belly","Boomerang Area"],["fan4","fàn","犯","Freiren","Goron City","Darunia Dance"],["qu3","qǔ","取","Liam","Hyrule Field","The bridge"],["zang1","zāng","脏","Zim (Invader Zim)","Jabu Jabu Belly","Jabu's Mouth"],["dao3","dǎo","倒","Denji (Chainsaw Man)","Water Temple","Toilet Room"],["an4","àn","暗","Sora (NGNL)","Goron City","Darunia Dance"],["liao3","liǎo","了","leonardo dicaprio","Water Temple","Toilet Room"],["chu1","chū","出","Chudat","Hyrule Field","Kokiri entrance"],["lian2","lián","连","leonardo dicaprio","Goron City","Stone Maze"],["pa4","pà","怕","Pikachu","Zora's Domain","Zora's Fountain"],["wei2","wéi","为","Wizzrobe","Gerudo Valley","Freeing the Craftsmen"],["zhu3","zhǔ","主","Zhu","Hyrule Field","The bridge"],["you2","yóu","由","Yann Lecun","Dodongo's Cavern","Big Dodongo Skull"],["shu4","shù","树","Cody Schwab","Hyrule Field","Lake entrance"],["shan1","shān","山","Shinji (Evangelion)","Goron City","Rope Bridge Skull"]];
+
+    const ENCODE_WORDLIST_ENTRY_TOTAL = 293;
+    const STORAGE_KEY = "marilyn-method-associations-v1";
+    const COMMON_CLUE_TOKENS = new Set([
+      "area",
+      "belly",
+      "big",
+      "bridge",
+      "castle",
+      "cavern",
+      "city",
+      "dance",
+      "domain",
+      "entrance",
+      "fight",
+      "field",
+      "gate",
+      "graveyard",
+      "inside",
+      "just",
+      "lake",
+      "maze",
+      "middle",
+      "mouth",
+      "near",
+      "pot",
+      "race",
+      "ranch",
+      "river",
+      "room",
+      "shop",
+      "side",
+      "skull",
+      "staircase",
+      "stone",
+      "temple",
+      "tower",
+      "tree",
+      "valley",
+      "village",
+      "wall",
+      "watchtower",
+      "water"
+    ]);
+    const ENCODE_SPECS = buildEncodeSpecs(ENCODE_POOL, BEGINNINGS, ENDINGS);
+
+    const MODE_META = {
+      decode: {
+        description: "Decode from person and location clues back into numbered pinyin.",
+        pool: [
+          ["Beginning clues", BEGINNINGS.length],
+          ["Ending locations", ENDINGS.length],
+          ["Tone markers", ENDINGS.length * 4]
+        ]
+      },
+      encode: {
+        description: "Encode covered single-syllable wordlist prompts into a person clue and a specific location clue.",
+        pool: [
+          ["Unique syllables", ENCODE_SPECS.length],
+          ["Wordlist entries", ENCODE_WORDLIST_ENTRY_TOTAL],
+          ["Alternate examples", ENCODE_WORDLIST_ENTRY_TOTAL - ENCODE_SPECS.length]
+        ]
+      },
+      edit: {
+        description: "Edit your beginning and location associations. Changes save automatically in this browser."
+      }
+    };
+
+    const state = {
+      mode: "decode",
+      current: null,
+      locked: false,
+      associations: loadAssociations(),
+      stats: {
+        decode: { correct: 0, attempts: 0, streak: 0 },
+        encode: { correct: 0, attempts: 0, streak: 0 }
+      }
+    };
+
+    const ui = {
+      modeButtons: Array.from(document.querySelectorAll(".mode-button")),
+      modeCopy: document.getElementById("mode-copy"),
+      helpButton: document.getElementById("help-button"),
+      helpDialog: document.getElementById("help-dialog"),
+      helpCloseButton: document.getElementById("help-close-button"),
+      statsPanel: document.getElementById("stats-panel"),
+      promptGrid: document.getElementById("prompt-grid"),
+      promptLine: document.getElementById("prompt-line"),
+      card1Label: document.getElementById("card-1-label"),
+      card1Value: document.getElementById("card-1-value"),
+      card1Subvalue: document.getElementById("card-1-subvalue"),
+      card2Label: document.getElementById("card-2-label"),
+      card2Value: document.getElementById("card-2-value"),
+      card2Subvalue: document.getElementById("card-2-subvalue"),
+      card3Label: document.getElementById("card-3-label"),
+      card3Value: document.getElementById("card-3-value"),
+      card3Subvalue: document.getElementById("card-3-subvalue"),
+      decodeForm: document.getElementById("decode-form"),
+      decodeInput: document.getElementById("decode-answer-input"),
+      decodeCheckButton: document.getElementById("decode-check-button"),
+      decodeRevealButton: document.getElementById("decode-reveal-button"),
+      encodeForm: document.getElementById("encode-form"),
+      encodeBeginningInput: document.getElementById("encode-beginning-input"),
+      encodeLocationInput: document.getElementById("encode-location-input"),
+      encodeCheckButton: document.getElementById("encode-check-button"),
+      encodeRevealButton: document.getElementById("encode-reveal-button"),
+      feedback: document.getElementById("feedback"),
+      feedbackTitle: document.getElementById("feedback-title"),
+      feedbackDetails: document.getElementById("feedback-details"),
+      notesPanel: document.getElementById("notes-panel"),
+      correctCount: document.getElementById("correct-count"),
+      attemptCount: document.getElementById("attempt-count"),
+      accuracyCount: document.getElementById("accuracy-count"),
+      streakCount: document.getElementById("streak-count"),
+      decodeNotes: document.getElementById("decode-notes"),
+      encodeNotes: document.getElementById("encode-notes"),
+      poolLabel1: document.getElementById("pool-label-1"),
+      poolValue1: document.getElementById("pool-value-1"),
+      poolLabel2: document.getElementById("pool-label-2"),
+      poolValue2: document.getElementById("pool-value-2"),
+      poolLabel3: document.getElementById("pool-label-3"),
+      poolValue3: document.getElementById("pool-value-3"),
+      editorView: document.getElementById("editor-view"),
+      beginningEditor: document.getElementById("beginning-editor"),
+      endingEditor: document.getElementById("ending-editor"),
+      editorStatus: document.getElementById("editor-status"),
+      resetAssociationsButton: document.getElementById("reset-associations-button")
+    };
+
+    function cloneAssociations(seed) {
+      return {
+        beginnings: seed.beginnings.map((item) => ({
+          phoneme: item.phoneme,
+          clue: item.clue
+        })),
+        endings: seed.endings.map((item) => ({
+          phoneme: item.phoneme,
+          clue: item.clue,
+          tones: item.tones.slice()
+        }))
+      };
+    }
+
+    function hydrateAssociations(raw) {
+      const safeBeginnings = BEGINNINGS.map((item, index) => {
+        const saved = raw && Array.isArray(raw.beginnings) ? raw.beginnings[index] : null;
+        return {
+          phoneme: item.phoneme,
+          clue: saved && typeof saved.clue === "string" ? saved.clue : item.clue
+        };
+      });
+
+      const safeEndings = ENDINGS.map((item, index) => {
+        const saved = raw && Array.isArray(raw.endings) ? raw.endings[index] : null;
+        const tones = item.tones.map((tone, toneIndex) => {
+          return saved && Array.isArray(saved.tones) && typeof saved.tones[toneIndex] === "string"
+            ? saved.tones[toneIndex]
+            : tone;
+        });
+
+        return {
+          phoneme: item.phoneme,
+          clue: saved && typeof saved.clue === "string" ? saved.clue : item.clue,
+          tones
+        };
+      });
+
+      return {
+        beginnings: safeBeginnings,
+        endings: safeEndings
+      };
+    }
+
+    function loadAssociations() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return hydrateAssociations(raw ? JSON.parse(raw) : null);
+      } catch (error) {
+        return hydrateAssociations(null);
+      }
+    }
+
+    function serializeAssociations(associations) {
+      return {
+        beginnings: associations.beginnings.map((item) => ({ clue: item.clue })),
+        endings: associations.endings.map((item) => ({
+          clue: item.clue,
+          tones: item.tones.slice()
+        }))
+      };
+    }
+
+    function updateEditorStatus(message, kind = "saved") {
+      ui.editorStatus.dataset.kind = kind;
+      ui.editorStatus.textContent = message;
+    }
+
+    function persistAssociations(message = "Saved locally.", kind = "saved") {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(serializeAssociations(state.associations)));
+        updateEditorStatus(message, kind);
+      } catch (error) {
+        updateEditorStatus("Could not save these changes in local storage.", "error");
+      }
+    }
+
+    function buildEncodeSpecs(seedEntries, beginnings, endings) {
+      const beginningByClue = new Map(beginnings.map((item) => [item.clue, item.phoneme]));
+      const endingByClueAndTone = new Map();
+
+      endings.forEach((ending) => {
+        ending.tones.forEach((toneClue, toneIndex) => {
+          endingByClueAndTone.set(`${ending.clue}||${toneClue}`, {
+            endingPhoneme: ending.phoneme,
+            toneNumber: toneIndex + 1
+          });
+        });
+      });
+
+      return seedEntries.flatMap(([syllable, display, examples, beginningClue, endingClue, toneClue]) => {
+        const beginningPhoneme = beginningByClue.get(beginningClue);
+        const endingRef = endingByClueAndTone.get(`${endingClue}||${toneClue}`);
+
+        if (!beginningPhoneme || !endingRef) {
+          return [];
+        }
+
+        return [{
+          syllable,
+          display,
+          examples,
+          beginningPhoneme,
+          endingPhoneme: endingRef.endingPhoneme,
+          toneNumber: endingRef.toneNumber
+        }];
+      });
+    }
+
+    function currentBeginning(phoneme) {
+      return state.associations.beginnings.find((item) => item.phoneme === phoneme)
+        || BEGINNINGS.find((item) => item.phoneme === phoneme);
+    }
+
+    function currentEnding(phoneme) {
+      return state.associations.endings.find((item) => item.phoneme === phoneme)
+        || ENDINGS.find((item) => item.phoneme === phoneme);
+    }
+
+    function resolveEncodeEntry(spec) {
+      const beginning = currentBeginning(spec.beginningPhoneme);
+      const ending = currentEnding(spec.endingPhoneme);
+
+      return {
+        syllable: spec.syllable,
+        display: spec.display,
+        examples: spec.examples,
+        beginningClue: beginning ? beginning.clue : "",
+        endingClue: ending ? ending.clue : "",
+        toneClue: ending ? ending.tones[spec.toneNumber - 1] : "",
+        toneNumber: spec.toneNumber,
+        beginningPhoneme: spec.beginningPhoneme,
+        endingPhoneme: spec.endingPhoneme
+      };
+    }
+
+    function pickRandom(list) {
+      return list[Math.floor(Math.random() * list.length)];
+    }
+
+    function stripDiacritics(value) {
+      return value.normalize("NFKD").replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function normalizeInput(value) {
+      return value
+        .toLowerCase()
+        .normalize("NFKC")
+        .replace(/\s+/g, "")
+        .replace(/[.-]/g, "")
+        .replace(/nü/g, "nyu")
+        .replace(/lü/g, "lyu")
+        .replace(/nv/g, "nyu")
+        .replace(/lv/g, "lyu")
+        .replace(/nu:/g, "nyu")
+        .replace(/lu:/g, "lyu");
+    }
+
+    function normalizeClue(value) {
+      return stripDiacritics(value.toLowerCase())
+        .replace(/\bthe\b/g, " ")
+        .replace(/&/g, " and ")
+        .replace(/[^a-z0-9]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function matchesClue(guess, expected) {
+      const guessNorm = normalizeClue(guess);
+      const expectedNorm = normalizeClue(expected);
+
+      if (!guessNorm) {
+        return false;
+      }
+
+      if (guessNorm === expectedNorm) {
+        return true;
+      }
+
+      const guessTokens = guessNorm.split(" ").filter(Boolean);
+      const expectedTokens = expectedNorm.split(" ").filter(Boolean);
+
+      if (guessTokens.length === 1) {
+        const token = guessTokens[0];
+        return token === expectedTokens[0]
+          || (token.length >= 4 && !COMMON_CLUE_TOKENS.has(token) && expectedTokens.includes(token));
+      }
+
+      return guessTokens.every((token) => expectedTokens.includes(token));
+    }
+
+    function onsetToken(phoneme) {
+      if (phoneme === "nü-") {
+        return "nyu";
+      }
+
+      if (phoneme === "lü-") {
+        return "lyu";
+      }
+
+      if (phoneme === "Ø-") {
+        return "";
+      }
+
+      return phoneme.replace(/-$/, "");
+    }
+
+    function endingTokens(phoneme) {
+      if (phoneme === "-Ø") {
+        return [""];
+      }
+
+      if (phoneme === "-(e)n") {
+        return ["en", "n"];
+      }
+
+      if (phoneme === "-(e)ng") {
+        return ["eng", "ng"];
+      }
+
+      return [phoneme.replace(/^-/, "")];
+    }
+
+    function acceptedDecodeAnswers(round) {
+      const answers = new Set();
+      const onset = onsetToken(round.beginning.phoneme);
+
+      for (const ending of endingTokens(round.ending.phoneme)) {
+        answers.add(`${onset}${ending}${round.toneNumber}`);
+      }
+
+      return Array.from(answers);
+    }
+
+    function primaryDecodeAnswer(round) {
+      return acceptedDecodeAnswers(round)[0];
+    }
+
+    function decodeAnswerDetails(round) {
+      const answers = acceptedDecodeAnswers(round);
+      const primary = answers[0];
+      const alternates = answers.slice(1);
+      const parts = [`Target pieces: ${round.beginning.phoneme} + ${round.ending.phoneme} + tone ${round.toneNumber}.`];
+
+      if (alternates.length > 0) {
+        parts.push(`Accepted input: ${primary}. Also accepted: ${alternates.join(", ")}.`);
+      } else {
+        parts.push(`Accepted input: ${primary}.`);
+      }
+
+      return parts.join(" ");
+    }
+
+    function encodeAnswerDetails(round) {
+      const entry = resolveEncodeEntry(round.spec);
+      return `Target syllable: ${entry.display} (${entry.syllable}). Expected clues: ${entry.beginningClue} / ${entry.toneClue}.`;
+    }
+
+    function roundKey(round) {
+      if (!round) {
+        return "";
+      }
+
+      if (round.kind === "decode") {
+        return `${round.beginning.phoneme}|${round.ending.phoneme}|${round.toneNumber}`;
+      }
+
+      return `encode|${round.spec.syllable}`;
+    }
+
+    function activeStats() {
+      return state.stats[state.mode] || null;
+    }
+
+    function setCard(slot, label, value, subvalue) {
+      ui[`card${slot}Label`].textContent = label;
+      ui[`card${slot}Value`].textContent = value;
+      ui[`card${slot}Subvalue`].textContent = subvalue;
+    }
+
+    function updatePoolCounts() {
+      const meta = MODE_META[state.mode];
+
+      if (!meta || !meta.pool) {
+        return;
+      }
+
+      ui.poolLabel1.textContent = meta.pool[0][0];
+      ui.poolValue1.textContent = String(meta.pool[0][1]);
+      ui.poolLabel2.textContent = meta.pool[1][0];
+      ui.poolValue2.textContent = String(meta.pool[1][1]);
+      ui.poolLabel3.textContent = meta.pool[2][0];
+      ui.poolValue3.textContent = String(meta.pool[2][1]);
+    }
+
+    function updateStats() {
+      const stats = activeStats();
+
+      if (!stats) {
+        return;
+      }
+
+      const accuracy = stats.attempts === 0
+        ? "0%"
+        : `${Math.round((stats.correct / stats.attempts) * 100)}%`;
+
+      ui.correctCount.textContent = String(stats.correct);
+      ui.attemptCount.textContent = String(stats.attempts);
+      ui.accuracyCount.textContent = accuracy;
+      ui.streakCount.textContent = String(stats.streak);
+    }
+
+    function showFeedback(kind, title, details) {
+      ui.feedback.dataset.kind = kind;
+      ui.feedbackTitle.textContent = title;
+      ui.feedbackDetails.textContent = details;
+    }
+
+    function triggerPromptAnimation() {
+      ui.promptGrid.classList.remove("is-fresh");
+      void ui.promptGrid.offsetWidth;
+      ui.promptGrid.classList.add("is-fresh");
+    }
+
+    function syncControls() {
+      const isDecode = state.mode === "decode";
+      const isEncode = state.mode === "encode";
+
+      ui.decodeInput.disabled = !isDecode || state.locked;
+      ui.encodeBeginningInput.disabled = !isEncode || state.locked;
+      ui.encodeLocationInput.disabled = !isEncode || state.locked;
+      ui.decodeCheckButton.textContent = isDecode && state.locked ? "Next" : "Check";
+      ui.encodeCheckButton.textContent = isEncode && state.locked ? "Next" : "Check";
+      ui.decodeRevealButton.disabled = !isDecode || state.locked;
+      ui.encodeRevealButton.disabled = !isEncode || state.locked;
+    }
+
+    function syncModeUi() {
+      const isDecode = state.mode === "decode";
+      const isEncode = state.mode === "encode";
+      const isEdit = state.mode === "edit";
+
+      ui.modeButtons.forEach((button) => {
+        const selected = button.dataset.mode === state.mode;
+        button.classList.toggle("is-active", selected);
+        button.setAttribute("aria-selected", String(selected));
+      });
+
+      ui.modeCopy.textContent = MODE_META[state.mode].description;
+      ui.statsPanel.hidden = isEdit;
+      ui.promptLine.hidden = isEdit;
+      ui.promptGrid.hidden = isEdit;
+      ui.feedback.hidden = isEdit;
+      ui.notesPanel.hidden = isEdit;
+      ui.editorView.hidden = !isEdit;
+      ui.decodeForm.hidden = !isDecode;
+      ui.encodeForm.hidden = !isEncode;
+      ui.decodeNotes.hidden = !isDecode;
+      ui.encodeNotes.hidden = !isEncode;
+
+      if (!isEdit) {
+        updatePoolCounts();
+      }
+
+      syncControls();
+    }
+
+    function focusPrimaryInput() {
+      if (state.mode === "decode") {
+        ui.decodeInput.focus();
+        return;
+      }
+
+      if (state.mode === "encode") {
+        ui.encodeBeginningInput.focus();
+      }
+    }
+
+    function idleFeedback() {
+      if (state.mode === "decode") {
+        return {
+          title: "Press Enter to check the current card.",
+          details: "When a card is finished, press Enter again or click Next to move on."
+        };
+      }
+
+      return {
+        title: "Type the two clues, then press Enter.",
+        details: "Use the person and specific-location fields. When a card is finished, press Enter again or click Next to move on."
+      };
+    }
+
+    function buildDecodeRound() {
+      const beginning = pickRandom(state.associations.beginnings);
+      const ending = pickRandom(state.associations.endings);
+      const toneIndex = Math.floor(Math.random() * 4);
+
+      return {
+        kind: "decode",
+        beginning,
+        ending,
+        toneNumber: toneIndex + 1,
+        toneClue: ending.tones[toneIndex]
+      };
+    }
+
+    function buildEncodeRound() {
+      return {
+        kind: "encode",
+        spec: pickRandom(ENCODE_SPECS)
+      };
+    }
+
+    function nextRound() {
+      if (state.mode === "edit") {
+        return;
+      }
+
+      const previousKey = roundKey(state.current);
+      let candidate = null;
+      let attempts = 0;
+
+      while (attempts < 24) {
+        candidate = state.mode === "decode" ? buildDecodeRound() : buildEncodeRound();
+
+        if (roundKey(candidate) !== previousKey) {
+          break;
+        }
+
+        attempts += 1;
+      }
+
+      state.current = candidate;
+      state.locked = false;
+      renderRound();
+    }
+
+    function renderDecodeRound(round) {
+      ui.promptLine.textContent = `${round.beginning.clue}, ${round.ending.clue}, ${round.toneClue}`;
+      setCard(1, "Beginning", round.beginning.clue, "Person clue for the initial chunk.");
+      setCard(2, "Ending", round.ending.clue, "Broad location for the final chunk.");
+      setCard(3, "Tone", round.toneClue, "Specific sub-location for tone 1-4.");
+      ui.decodeInput.value = "";
+    }
+
+    function renderEncodeRound(round) {
+      const entry = resolveEncodeEntry(round.spec);
+      const examplesLabel = entry.examples.includes("/") || entry.examples.includes("+") ? "Wordlist examples" : "Wordlist example";
+
+      ui.promptLine.textContent = `${entry.examples}, ${entry.display}, ${entry.syllable}`;
+      setCard(1, "Characters", entry.examples, `${examplesLabel} from wordlist.csv.`);
+      setCard(2, "Tone-Mark Pinyin", entry.display, "The tone is part of the prompt.");
+      setCard(3, "Numbered Pinyin", entry.syllable, "Encode this into a person clue and specific location clue.");
+      ui.encodeBeginningInput.value = "";
+      ui.encodeLocationInput.value = "";
+    }
+
+    function renderRound() {
+      if (state.mode === "edit" || !state.current) {
+        return;
+      }
+
+      if (state.mode === "decode") {
+        renderDecodeRound(state.current);
+      } else {
+        renderEncodeRound(state.current);
+      }
+
+      syncControls();
+      const feedback = idleFeedback();
+      showFeedback("neutral", feedback.title, feedback.details);
+      triggerPromptAnimation();
+      focusPrimaryInput();
+    }
+
+    function fillExpectedAnswers(round) {
+      if (round.kind === "decode") {
+        ui.decodeInput.value = primaryDecodeAnswer(round);
+        return;
+      }
+
+      const entry = resolveEncodeEntry(round.spec);
+      ui.encodeBeginningInput.value = entry.beginningClue;
+      ui.encodeLocationInput.value = entry.toneClue;
+    }
+
+    function finishRound(kind, title) {
+      state.locked = true;
+      fillExpectedAnswers(state.current);
+      syncControls();
+      showFeedback(
+        kind,
+        title,
+        state.current.kind === "decode" ? decodeAnswerDetails(state.current) : encodeAnswerDetails(state.current)
+      );
+    }
+
+    function checkDecodeRound() {
+      const rawGuess = ui.decodeInput.value.trim();
+
+      if (rawGuess === "") {
+        showFeedback("neutral", "Enter an answer first.", "Example: shan1");
+        return;
+      }
+
+      const guess = normalizeInput(rawGuess);
+      const answers = acceptedDecodeAnswers(state.current);
+      const stats = activeStats();
+      stats.attempts += 1;
+
+      if (answers.includes(guess)) {
+        stats.correct += 1;
+        stats.streak += 1;
+        updateStats();
+        finishRound("success", "Correct.");
+        return;
+      }
+
+      stats.streak = 0;
+      updateStats();
+      finishRound("error", "Not this one.");
+    }
+
+    function checkEncodeRound() {
+      const beginningGuess = ui.encodeBeginningInput.value.trim();
+      const locationGuess = ui.encodeLocationInput.value.trim();
+      const entry = resolveEncodeEntry(state.current.spec);
+
+      if (!beginningGuess || !locationGuess) {
+        showFeedback("neutral", "Fill both clues first.", "Example: Shinji / Rope Bridge Skull");
+        return;
+      }
+
+      const checks = [
+        matchesClue(beginningGuess, entry.beginningClue),
+        matchesClue(locationGuess, entry.toneClue)
+      ];
+      const correctParts = checks.filter(Boolean).length;
+      const stats = activeStats();
+      stats.attempts += 1;
+
+      if (correctParts === 2) {
+        stats.correct += 1;
+        stats.streak += 1;
+        updateStats();
+        finishRound("success", "Correct.");
+        return;
+      }
+
+      stats.streak = 0;
+      updateStats();
+      finishRound("error", `${correctParts} / 2 correct.`);
+    }
+
+    function checkCurrentRound() {
+      if (state.mode === "decode") {
+        checkDecodeRound();
+        return;
+      }
+
+      if (state.mode === "encode") {
+        checkEncodeRound();
+      }
+    }
+
+    function revealCurrentRound() {
+      if (state.locked) {
+        return;
+      }
+
+      const stats = activeStats();
+      stats.attempts += 1;
+      stats.streak = 0;
+      updateStats();
+      finishRound("reveal", "Revealed.");
+    }
+
+    function createEditorInput(value, dataset) {
+      const input = document.createElement("input");
+      input.className = "answer-input editor-input";
+      input.type = "text";
+      input.autocomplete = "off";
+      input.autocapitalize = "off";
+      input.spellcheck = false;
+      input.value = value;
+      Object.entries(dataset).forEach(([key, dataValue]) => {
+        input.dataset[key] = String(dataValue);
+      });
+      return input;
+    }
+
+    function createEditorField(labelText, value, dataset) {
+      const field = document.createElement("label");
+      field.className = "editor-field";
+
+      const label = document.createElement("span");
+      label.textContent = labelText;
+
+      field.append(label, createEditorInput(value, dataset));
+      return field;
+    }
+
+    function renderEditor() {
+      ui.beginningEditor.replaceChildren();
+      ui.endingEditor.replaceChildren();
+
+      state.associations.beginnings.forEach((item, index) => {
+        const row = document.createElement("label");
+        row.className = "editor-row";
+
+        const chip = document.createElement("span");
+        chip.className = "editor-chip";
+        chip.textContent = item.phoneme;
+
+        row.append(chip, createEditorInput(item.clue, {
+          group: "beginning",
+          index
+        }));
+
+        ui.beginningEditor.append(row);
+      });
+
+      state.associations.endings.forEach((item, index) => {
+        const row = document.createElement("section");
+        row.className = "editor-ending-row";
+
+        const head = document.createElement("div");
+        head.className = "editor-ending-head";
+
+        const chip = document.createElement("span");
+        chip.className = "editor-chip";
+        chip.textContent = item.phoneme;
+
+        const hint = document.createElement("span");
+        hint.className = "editor-hint";
+        hint.textContent = "Broad location and tone-specific locations.";
+
+        head.append(chip, hint);
+
+        const fields = document.createElement("div");
+        fields.className = "editor-ending-fields";
+        fields.append(
+          createEditorField("Broad", item.clue, { group: "ending", index }),
+          createEditorField("Tone 1", item.tones[0], { group: "tone", index, tone: 0 }),
+          createEditorField("Tone 2", item.tones[1], { group: "tone", index, tone: 1 }),
+          createEditorField("Tone 3", item.tones[2], { group: "tone", index, tone: 2 }),
+          createEditorField("Tone 4", item.tones[3], { group: "tone", index, tone: 3 })
+        );
+
+        row.append(head, fields);
+        ui.endingEditor.append(row);
+      });
+    }
+
+    function handleEditorInput(event) {
+      const target = event.target;
+
+      if (!(target instanceof HTMLInputElement)) {
+        return;
+      }
+
+      const index = Number(target.dataset.index);
+      if (Number.isNaN(index)) {
+        return;
+      }
+
+      if (target.dataset.group === "beginning" && state.associations.beginnings[index]) {
+        state.associations.beginnings[index].clue = target.value;
+      }
+
+      if (target.dataset.group === "ending" && state.associations.endings[index]) {
+        state.associations.endings[index].clue = target.value;
+      }
+
+      if (target.dataset.group === "tone" && state.associations.endings[index]) {
+        const toneIndex = Number(target.dataset.tone);
+        if (!Number.isNaN(toneIndex)) {
+          state.associations.endings[index].tones[toneIndex] = target.value;
+        }
+      }
+
+      persistAssociations();
+    }
+
+    function resetAssociations() {
+      if (!window.confirm("Reset all associations to the defaults from this file?")) {
+        return;
+      }
+
+      state.associations = cloneAssociations({
+        beginnings: BEGINNINGS,
+        endings: ENDINGS
+      });
+      renderEditor();
+      persistAssociations("Defaults restored.", "saved");
+    }
+
+    function openHelpDialog() {
+      if (typeof ui.helpDialog.showModal === "function") {
+        ui.helpDialog.showModal();
+        return;
+      }
+
+      ui.helpDialog.setAttribute("open", "");
+    }
+
+    function closeHelpDialog() {
+      if (typeof ui.helpDialog.close === "function" && ui.helpDialog.open) {
+        ui.helpDialog.close();
+        return;
+      }
+
+      ui.helpDialog.removeAttribute("open");
+    }
+
+    function setMode(mode) {
+      if (mode === state.mode) {
+        return;
+      }
+
+      state.mode = mode;
+      state.locked = false;
+      syncModeUi();
+
+      if (mode === "edit") {
+        renderEditor();
+        updateEditorStatus("Changes save automatically in this browser.", "saved");
+        return;
+      }
+
+      updateStats();
+      nextRound();
+    }
+
+    ui.modeButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        setMode(button.dataset.mode);
+      });
+    });
+
+    ui.helpButton.addEventListener("click", () => {
+      openHelpDialog();
+    });
+
+    ui.helpCloseButton.addEventListener("click", () => {
+      closeHelpDialog();
+    });
+
+    ui.helpDialog.addEventListener("click", (event) => {
+      if (event.target === ui.helpDialog) {
+        closeHelpDialog();
+      }
+    });
+
+    ui.decodeForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      if (state.mode !== "decode") {
+        return;
+      }
+
+      if (state.locked) {
+        nextRound();
+        return;
+      }
+
+      checkCurrentRound();
+    });
+
+    ui.encodeForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      if (state.mode !== "encode") {
+        return;
+      }
+
+      if (state.locked) {
+        nextRound();
+        return;
+      }
+
+      checkCurrentRound();
+    });
+
+    ui.decodeRevealButton.addEventListener("click", () => {
+      if (state.mode === "decode") {
+        revealCurrentRound();
+      }
+    });
+
+    ui.encodeRevealButton.addEventListener("click", () => {
+      if (state.mode === "encode") {
+        revealCurrentRound();
+      }
+    });
+
+    ui.beginningEditor.addEventListener("input", handleEditorInput);
+    ui.endingEditor.addEventListener("input", handleEditorInput);
+    ui.resetAssociationsButton.addEventListener("click", resetAssociations);
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "/" || event.metaKey || event.ctrlKey || event.altKey) {
+        return;
+      }
+
+      if (state.mode === "edit" || ui.helpDialog.open) {
+        return;
+      }
+
+      const activeInputs = [
+        ui.decodeInput,
+        ui.encodeBeginningInput,
+        ui.encodeLocationInput
+      ];
+
+      if (!activeInputs.includes(document.activeElement)) {
+        event.preventDefault();
+        focusPrimaryInput();
+      }
+    });
+
+    renderEditor();
+    syncModeUi();
+    updateStats();
+    nextRound();
+  </script>
+</body>
+</html>
