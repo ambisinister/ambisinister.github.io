@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-03-25 Wed 17:43 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Learning Chinese</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+    // Dark mode functionality
+    window.toggleDarkMode = function() {
+        document.body.classList.toggle('dark-mode');
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDarkMode);
+        updateToggleButton();
+    }
+
+    function updateToggleButton() {
+        const toggle = document.querySelector('.dark-mode-toggle-nav');
+        if (toggle) {
+            toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        }
+    }
+
+    // Initialize dark mode from localStorage
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+
+    // Update toggle button on page load
+    updateToggleButton();
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="https://planetbanatt.net/css/default_20240614.css" />
+<link rel="shortcut icon" type="image/jpg" href="https://planetbanatt.net/favicon.ico" />
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
+            <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<h1 class="title">Learning Chinese</h1>
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org2ec2639">Learning Mandarin</a>
+<ul>
+<li><a href="#org45fc5ca">Hanzi</a></li>
+<li><a href="#org246feee">Vocabulary Core</a>
+<ul>
+<li><a href="#org33c522d">HelloChinese + Anki</a></li>
+<li><a href="#org502a8e8">Remembering Pronounciation</a></li>
+</ul>
+</li>
+<li><a href="#org7dabe76">Speaking</a></li>
+<li><a href="#org6bd0ec7">Reading</a></li>
+<li><a href="#org8486d6c">Mining</a>
+<ul>
+<li><a href="#org2b02750">Using Language Models for Mining</a></li>
+</ul>
+</li>
+<li><a href="#org0292938">Addendum A: Foreign Language Study Goals</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org2ec2639" class="outline-1">
+<h1 id="org2ec2639">Learning Mandarin</h1>
+<div class="outline-text-1" id="text-org2ec2639">
+<p>
+This is, for now, mostly a collection of links to resources I use to learn Mandarin.
+</p>
+</div>
+
+<div id="outline-container-org45fc5ca" class="outline-2">
+<h2 id="org45fc5ca">Hanzi</h2>
+<div class="outline-text-2" id="text-org45fc5ca">
+<p>
+I am working through <a href="https://www.amazon.com/Remembering-Simplified-Hanzi-Meaning-Characters/dp/0824833236">Remembering Simplified Hanzi</a> by Heisig and Richardson.
+</p>
+
+<p>
+Much ink has been spilled about whether this book is useful for Chinese language learners. The "No pronounciation, no compound word, pure meaning-character mapping" approach definitely makes a lot more sense for Japanese, where Kanji can often be pronounced in all sorts of different ways (unlike in Chinese where it's unambiguously mapped to a single syllable every time).
+</p>
+
+<p>
+However, I have found working through the book to be very worthwhile. I have some experience with memory techniques so the wordlist linking approach (<i>"imaginative memory"</i>) has been fairly natural for me. Likewise, I've had a lot of trouble absorbing characters in the times I've tried to learn Mandarin in the past. I would use pinyin to learn how to pronounce things, and then I would enable "show pinyin and hanzi" on whatever app I was using, and then continue to just look at the pinyin instead of the character. I tried all sorts of stuff to make relying on the pinyin more annoying, but no amount of annoyance would result in me looking at the character rather than the pinyin.
+</p>
+
+<p>
+After numerous failed attempts at learning the language, this book is what made things start moving again for me. My wife will regularly make fun of me for pointing to characters I encounter in the real world and using some strange, archaic combination of words to "read" it (I encountered a drugstore in Mountain View which had 天然 on the front, which I pointed to and said "heavenly sort of thing" instead of "natural" which she thought was funny). It was a lot of effort to learn in this totally decoupled way, and felt very strange, but it did allow me to start my regular study over from scratch without using pinyin at all except alongside the answers, which made me feel like I was actually doing it properly.
+</p>
+
+<p>
+I have an anki deck for these. I just grabbed the most popular one in the shared decks, and it's working great. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org246feee" class="outline-2">
+<h2 id="org246feee">Vocabulary Core</h2>
+<div class="outline-text-2" id="text-org246feee">
+</div>
+<div id="outline-container-org33c522d" class="outline-3">
+<h3 id="org33c522d">HelloChinese + Anki</h3>
+<div class="outline-text-3" id="text-org33c522d">
+<p>
+I made an anki deck of the words from <a href="https://www.hellochinese.cc/">hellochinese</a>, helpfully compiled <a href="https://docs.google.com/spreadsheets/d/1PppWybtv_ch5QMqtWlU4kAm08uFuhYK-6HGVnGeT63Y/edit?usp=sharing">here</a>. I like hellochinese a lot despite some of it's more bombastic claims ("30 minutes a day, fluent in 3 months!" yeah, right). But I think the app does not do it all &#x2013; it seems designed to help you be able to recognize things in context, or to understand what people are saying, rather than really producing any output yourself. I generally recommend it (it's been well worth the money for me) but I do think some external legwork of reviewing on anki rather than their very sparse daily drills is necessary to get appropriate value from it.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org502a8e8" class="outline-3">
+<h3 id="org502a8e8">Remembering Pronounciation</h3>
+<div class="outline-text-3" id="text-org502a8e8">
+<p>
+I'm working on the <a href="https://planetbanatt.net/articles/marilyntrainer.html">Marilyn Method</a> for encoding the pronounciation of characters. This is a nifty system that lets you encode any viable syllable in Mandarin to a person+location pairing, which you can use to create a mnemonic for the way to say whatever you're reading.
+</p>
+
+<p>
+This pairs nicely with the whole "don't learn the pronounciation" thing in Heisig. I think it's helpful to "flatten" everything to tuples like this. Heisig deals with (character, meaning) tuples, this anki deck + mnemonic technique is useful for (meaning, pronounciation) tuples.
+</p>
+
+<p>
+Normally for learning new words / foreign languages, the default recommendation is to use the substitute word method. This is much easier for languages that are not Chinese, where substitute word will inevitably destroy all information about the tones. This is certainly more involved, but hopefully it sticks a little better. 
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7dabe76" class="outline-2">
+<h2 id="org7dabe76">Speaking</h2>
+<div class="outline-text-2" id="text-org7dabe76">
+<p>
+Maria is fluent in Mandarin. It helps for this. I don't have any useful advice for you here. Perhaps if you are fortunate a wife will fall out of the sky for you, also. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6bd0ec7" class="outline-2">
+<h2 id="org6bd0ec7">Reading</h2>
+<div class="outline-text-2" id="text-org6bd0ec7">
+<p>
+<a href="https://duchinese.net/">Duchinese</a> is pretty good from my cursory experiences. This is helpful for practicing actual reading (i.e. not just selecting between a number of options). Pulling stuff out of this to use in a real flashcard app is annoying, but the words are in plaintext in the page source of each story, so it is usable. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8486d6c" class="outline-2">
+<h2 id="org8486d6c">Mining</h2>
+<div class="outline-text-2" id="text-org8486d6c">
+<p>
+I'm not really at this stage yet, but it's useful to get stuff compiled anticipating it. A lot of this content is aimed more directly at learning Japanese but the overall idea can obviously be adapted for any language<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>. 
+</p>
+
+<p>
+<a href="https://yomitan.wiki/">Yomitan extension</a>
+</p>
+
+<p>
+<a href="https://soyuz18.notion.site/Sentence-mining-from-Netflix-and-YouTube-with-asbplayer-83a03590cd8349ba81ca10340645b565#92ca8ce0251f4eeba89776950b8cef11">Mining from Netflix with asbplayer + anki</a>
+</p>
+
+<p>
+<a href="https://www.youtube.com/watch?v=wSexzzsJSqA">animecards youtube tutorial</a>
+</p>
+
+<p>
+<a href="https://animecards.site/">animecards.site</a>
+</p>
+</div>
+
+<div id="outline-container-org2b02750" class="outline-3">
+<h3 id="org2b02750">Using Language Models for Mining</h3>
+<div class="outline-text-3" id="text-org2b02750">
+<p>
+<a href="https://www.youtube.com/watch?v=St_Fk0_5jgA">Vaughn Gene</a> has an interesting video on his approach to language learning which has some useful reference to getting value from language models as a language learner. An interesting strategy he mentions in this video is to ask a language model for some number of sentences surrounding a certain topic<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>.
+</p>
+
+<p>
+I think this is an interesting approach &#x2013; I often see people complain about not being able to find 20 new sentences worth of anki cards in X hours of study, and it's probably pretty efficient to just front-load some minimum level of base learning and then to not stress as much during the mining process.
+</p>
+
+<p>
+Using the language model this way feels more like generating a new unit of a textbook, just about some topic very unlikely to be in a textbook. For example: imagine a short textbook unit about "going to the mahjong parlor", complete with a bunch of vocabulary about gambling or whatever. That's closer to the ideal output here, a never ending textbook of straightforward sentences in your target language.
+</p>
+
+<p>
+In any case, probably unnecessary for now.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0292938" class="outline-2">
+<h2 id="org0292938">Addendum A: Foreign Language Study Goals</h2>
+<div class="outline-text-2" id="text-org0292938">
+<p>
+<i>Goals 2026-03-24</i>
+</p>
+
+<p>
+It would probably be helpful for me to write down what the point of all of this is, so I can refer back to it.
+</p>
+
+<p>
+I don't have any plans to move to China or anything, and I don't spend a lot of time consuming Chinese media which would feel extra fun for me to consume without subtitles or translation. I do, however, have family members that speak Mandarin Chinese, so being able to interact with them properly is the highest priority item.
+</p>
+
+<p>
+I am also anticipating eventually having children, who will likely need to learn some Chinese in order to interact with their family. The worst case scenario for me is living in a household where everybody speaks Mandarin except for me. I often lie awake at night panicking about such a future. It absolutely must not come to pass, so I must learn to read and write at least moderately well.
+</p>
+
+<p>
+It is important for me to speak and understand Spanish as well. My Spanish could certainly use some work also, but I did speak a good amount of it in childhood (maybe less than I should have, but some). There will probably come a time where I add some spanish language core deck / sentence mining practices to my daily anki routine. But this is quite a bit less interesting than learning something as difficult as Mandarin, and probably doesn't require a big writeup. In any case, certainly more of a concern once my Mandarin comes anywhere close to my Spanish. 
+</p>
+
+<p>
+I don't have any interest in taking proficiency exams. If you hear me refer to somethink like HSK or whatever, just assume it's a vague reference to either a skill level or a required level for a graded reader or something. 
+</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+If for some reason I ever want to study for the GRE or the LSAT I think I have even heard of people using sentence mining decks for their native language. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Pointed out in this video is that this is not the same as having a conversation with the language model per se. 
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+</div>
+</body>
+</html>
