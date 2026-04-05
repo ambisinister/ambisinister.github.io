@@ -1,0 +1,144 @@
+#+TITLE: Auto-Dubbing BOTW
+
+* Cheaply Auto-Dubbing Breath of the Wild with Local Models
+
+In this post, I outline a straightforward pipeline for automatically dubbing a The Legend of Zelda: Breath of the Wild (BoTW) into Mandarin Chinese. We do this with no finetuning, no external API usage, and at no cost, completing the entire project using local models that run on my home computer.
+
+<<maybe a video would be good here>>
+
+** Context
+
+The switch version of Breath of the Wild has a chinese language translation for all the text in the game, but not for the voice acting. Properly dubbing this at the level required for release in a mainline Nintendo game would obviously be a huge and expensive project, requiring a very high bar of quality for release. But for people who just want to play in their native language, something passable might still be a big improvement.
+
+I wanted to take a crack at creating a mod for Breath of the Wild which replaced all the audio in the game with Mandarin Chinese. I thought this would be a fun weekend project[fn:1], especially if I could get this working using only models which run locally on my computer, rather than spending money on API calls. I do not speak Mandarin very well[fn:2], so overcoming the various roadblocks was an interesting exercise in prototyping a simple ML pipeline even outside my normal expertise.
+
+** Pipeline
+
+*** Making the Audio Usable
+
+Game files for BoTW are in this proprietary format called [[https://nintendo-formats.com/libs/nw/bfstm.html][BFSTM]]. This is unfortunate for us, since everything we would want to use generally requires audio to be in formats people typically use for actual everyday things.
+
+Thankfully there's tools like [[https://github.com/vgmstream/vgmstream][vgmstream]] which will allow us to convert BFSTM to more common formats like WAV. So before we can do anything else, we need to be able to preprocess the audio files so they can actually be used and listened to. 
+
+*** Coordinating the Script
+
+Dumps of Breath of the Wild contain all the text data in /pack files/ which exist for several different languages in the game. The very first step here is getting all the data wrangled up together. Each voice line in the script is linked to a particular voice sound file in the game. Thankfully, this data is nicely formatted in a way which allows us to immediately know the contents of every voice file in the game, which saves us a ton of time figuring out how to transcribe all of this ourselves.
+
+It's not so hard to create a big set of tuples $(V, E, C)$ where $V$ is the audio file for the English version, $E$ is the English text associated with that file, and $C$ is the Simplified Chinese translation of that text. We can frame our problem in a very simple way from here: $(V, E, C) \rightarrow V'$, where $V'$ is $V$ converted into Mandarin Chinese. This actually fully describes our problem: if you play with Chinese text and English audio, $(V, C)$ is what you will see in regular gameplay, so we just need to solve this single domain shift problem for every tuple in the set.
+
+**** Reference Audio Verification + More Filtering
+
+Unfortunately, it's not as easy at it sounds once it gets scaled all the way up. There are a number of voice lines which are "in English" which are not really english at all. For example, when you complete a shrine, the monk will tell you that you did a good job and give you a spirit orb. But this isn't really english words, it's more like "[[https://www.youtube.com/watch?v=QIGz9qRS3iI][bwahhhhhh]]" which has a subtitle. Likewise, there's lots of grunts and sounds performed by the characters which get labels in one language or the other (something like "hah!" or "ugh!") which we don't really need to dub to a new language. 
+
+Likewise, the text is not always perfectly right at describing /all/ of the audio in the voice lines. Sometimes there's an extra sentence or two at the end, which is very annoying since this will destroy our reference text <-> reference audio mapping.
+
+So, we need to do a transcription pass anyways. That's okay, it's mostly a one-time cost. To do this, we use a small local model -- [[https://huggingface.co/blog/CohereLabs/cohere-transcribe-03-2026-release][Cohere-transcribe]], a recent 2b parameter speech recognition model designed to transcribe text in many languages[fn:5]. We can do an initial screening pass at the very start for all the lines which are not really words (or get transcribed as empty strings, as in the case of the monks), or for lines which are much different from the associated english text[fn:10]. 
+
+*** Generating the Audio
+
+The obvious model to use for this project, at the time of writing, is [[https://github.com/QwenLM/Qwen3-TTS][Qwen3-TTS]]. This model is 1.7B parameters so it easily fits on my RTX 3090. It is obviously specifically performant upon generating voices in Chinese, which is a hugely important part of this particular project. And, importantly, it allows for cloning a particular voice, when provided text-audio pairing. That is to say, you can provide Qwen3-TTS $(V,E)$ and it will produce a function $f(C) \rightarrow V'$ [fn:7]. That looks suspiciously like what we just said we wanted!
+
+And indeed, it does do a pretty good job right out of the box. The output of this model is crazy impressive, especially for something just 1.7B parameters.
+
+*English Example*
+
+#+BEGIN_EXPORT html
+<audio controls>
+  <source src="../images/autodub/daruk_en.wav" type="audio/wav">
+  Your browser does not support the audio element.
+</audio>
+#+END_EXPORT
+
+*Chinese Example*
+
+#+BEGIN_EXPORT html
+<audio controls>
+  <source src="../images/autodub/daruk_zh.wav" type="audio/wav">
+  Your browser does not support the audio element.
+</audio>
+#+END_EXPORT
+
+*Bonus*
+
+#+BEGIN_EXPORT html
+<audio controls>
+  <source src="../images/autodub/daruk_pijiu.wav" type="audio/wav">
+  Your browser does not support the audio element.
+</audio>
+#+END_EXPORT
+
+However, it's not perfect. It's not consistent enough to just let it rip on the entire game and to just call it a day[fn:4]. There are a number of roadblocks which need to be overcome before we can run this on the whole game.
+
+*** Detecting Early Exits
+
+Many times, Qwen3-TTS will emit the end-of-sequence token early, and produce an output which is cut off early before reading the entire line. There is [[https://github.com/QwenLM/Qwen3-TTS/discussions/75][much discussion]] around tricks to make it more likely to pause at the end: stuff like adding '\n' or '...' at the end of your prompt, and so on. I didn't see too much success with these methods, there was always just a huge risk of this happening anyways no matter what I put at the end.
+
+A solution that actually worked was simply retrying until it managed to generate the line without ending early. None of the lines in our set are so long that the early-exit problem is a sure-thing. However, we need some way to programatically check if the early exit occurred or not, otherwise we'll be stuck manually checking tons of files.
+
+Again, we lean on our good friend Cohere-transcribe for solving this problem. Our filtering step here will first generate audio with Qwen3-TTS. Then it will feed that generated audio into Cohere-transcribe, in order to figure out what the audio says. If the audio spoken doesn't match the original line, we need to try again. If it does match, then we've generated something which should be intelligible.
+
+Going further, we convert both lines into [[https://en.wikipedia.org/wiki/Pinyin][hanyu pinyin]] with [[https://github.com/mozillazg/python-pinyin][pipinyin]] in order to minimize false positives caused by cohere-transcribe selecting the wrong character. For example, one of Daruk's lines in Chinese is "小心那家伙的大剑！", which Cohere-transcribe wrote as "小心那家伙的大贱。" These lines are read and spoken in the exact same way, but the original line uses 大剑, meaning "greatsword", whereas the transcription uses 大贱, meaning something vaguely like "big nasty"[fn:6]. As long as the readings match, we can be pretty confident the cut-off problem isn't too bad.
+
+*** Dealing with "Sticky" Lines
+
+Qwen3-TTS is not perfect. Certain things it struggles to say, like <<calamity ganon problem>>
+
+<<currently working on solving this>>
+
+*** Improving Line Delivery
+
+Sometimes the audio generated by Qwen3-TTS is intelligible and sounds good, but produces a delivery which is totally off from the original line. Since we don't provide the original audio in generating the audio generation step (remember: we have a function $f(C) \rightarrow V'$ which we get by using Qwen3-TTS voice cloning $q(V, E) \rightarrow f$), we will sometimes lose the emotional delivery of the line.
+
+Again, heavier and more sophisticated pipelines often have bespoke solutions to this, and we can probably go down a big rabbit hole to finetune these capabilities into Qwen3-TTS somehow. But also good is our old reliable friend Best-of-N.
+
+In short, we will just generate a bunch of examples, and then use the best one. Picking the best reading out of a big group of short audio clips, when provided a reference audio in another language, seems like a relatively easy task. But doing it yourself for every line in the game seems super tedious, so we will leverage [[https://en.wikipedia.org/wiki/LLM-as-a-Judge][LLM-as-judge]] using a multimodal model capable of ingesting audio directly.
+
+For this, we can keep with our local models focus and use [[https://ai.google.dev/gemma/docs/core][Gemma 4 26B E4B]]. This model is a bit heavier than the other two big models we've used in this pipeline so far, but it still comfortably fits on my 3090, and it being a mixture of experts means that the judgments are all pretty fast. Likewise, this model has native support for ingesting audio, which means it's quite nice for something simple like this. We provide this model the original English line reading plus all the candidates, and ask it to select the one which matches the original most closely. A simple napkin test verified that this did tend to pick the candidate audio that I preferred as well[fn:8].
+
+*** Improving Volume Balance
+
+Ideally, the generated audio will be at the same volume as the original line delivery, even if the line is slightly different after translation. Qwen3-TTS doesn't have access to this information in our pipeline, so sometimes it will produce text which is far too quiet compared to the original line.
+
+Thankfully there are really simple postprocessing approaches which work well for this. Pretty standard in the audio mixing world is [[https://majormixing.com/what-is-rms-in-audio-world/][Root Mean Square (RMS)]] scaling, which is something thankfully looks familiar to people who spend a lot of time doing machine learning. We measure the loudness of the source audio and try to scale the output of Qwen3-TTS such that it's a similar volume[fn:11]. 
+
+*** Repackaging Back Into The Game
+
+I use [[https://github.com/thealexbarney/vgaudio][VGAudio]] to repackage all of these generated final candidate audio files back into the necessary BFSTM format. This also requires a simple ffmpeg layer to convert the audio to the appropriate sampling rate and back up into stereo.
+
+From here <<I figure out how to get this shit into CEMU>>.
+
+** Results
+
+<<here are some examples>>
+
+Of course, this is not anything close to the quality bar of actual voice actors reading all of the lines in the game, in consistent character, using the same voice every single time. That is totally okay -- this all ran on my desktop computer and cost me $0.00 to complete[fn:3] so I consider the lower quality to be a fair trade for how much time and money such a project would have cost doing it the normal way.
+
+Overall I was quite pleased with the result of this project. There were many rough edges even after all the little things we added, but it was gratifying seeing it just emerge from my computer after a couple of hours. I know that [[https://bsky.app/profile/tobyfox.undertale.com/post/3mia4smxehk2a][some discourse on official translations]] has transpired in recent months, and I think a reasonable takeaway is that expecting developers to localize their game to a language you're interested in playing it in is not always super feasible.
+
+[[https://mother3.fobby.net/][Fan translations]] are almost always really awesome projects, and I think it's probably a very good thing for the world that the difficulty of these sorts of projects keeps on falling. [[https://en.wikipedia.org/wiki/Le_Ton_beau_de_Marot][Douglas Hofstadter]] has a lot of [[https://en.wikipedia.org/wiki/Le_Ton_beau_de_Marot][beautiful thoughts on the problem of translation]], and I suspect that the value of human translators for artistic text will remain at a premium for a very long time. It makes sense that creators are so hesitant to localize their game in a language they don't speak, since it yields a lot of creative control away from their original artistic intent. <<this paragraph is meandering and need to be cleaned up substantially>>
+
+But at the same time, sometimes people just want to play the damn game, even if the translation they use is a little bit scuffed[fn:9]. The big takeaway here is that machine translation tools are super powerful now, even ones which run directly on mid-tier consumer hardware. If someone doesn't want to localize their product for you, there may be a near future where you can just localize it yourself in a weekend. 
+
+* Footnotes
+
+[fn:11] This is not perfect and this sort of thing is usually the job of a dedicated sound team. But it's pretty good as a first pass, so we can just roll with it.
+
+[fn:10] It's funny to say about a game like Breath of the Wild, but thankfully the game is not /that big/. These can be pretty easily spot-checked based on what fails from the first pass. 
+
+[fn:9] I can't even begin to think about how much manga I've read with totally unreasonable english scanlations. 
+
+[fn:8] A minor annoyance here was that Gemma 4 required transformers 5.5 and Qwen3-TTS required a hardcoded earlier version of transformers. This resulted in me needing to do some submodule juggling with two venvs to make it actually work in a single pipeline. Classic python.
+
+[fn:7] For completeness, consider this a function $q(V, E) \rightarrow f$ where $q$ is the voice cloning function and $f$ is the resulting text-to-speech function using that cloned voice.
+
+[fn:6] For example, [[https://zh.wikipedia.org/zh-cn/%E7%8E%8B%E7%89%8C%E5%A4%A7%E8%B3%A4%E8%AB%9C_(%E9%9B%BB%E5%BD%B1)][Austin Powers in Chinese is 王牌大賤諜]]
+
+[fn:5] Cohere is sort of known for being really strong at multi-lingual stuff, so I chose this model over other transcription models in hopes that it would keep the approach flexible. 
+
+[fn:4] Well, I guess that would be fine for a weekend project like this. But we can aim a little higher. 
+
+[fn:3] Obviously not counting the cost of like, electricity powering my computer during the time it runs, or what have you. The models involved in this project are all super, super lightweight. Better results could probably be achieved using much heavier tools like Elevenlabs, Gemini 3.1 Pro, and so on. This would have cost considerably more, taken much longer, and probably ran into almost all of the same objections.
+
+[fn:2] Not for [[https://planetbanatt.net/articles/mandarin.html][lack of trying]] but I have a long way before this sort of media becomes available for me to understand. 
+
+[fn:1] Very 2026 couple of sentences. 

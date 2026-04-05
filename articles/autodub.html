@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-04-05 Sun 01:04 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Auto-Dubbing BOTW</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+    // Dark mode functionality
+    window.toggleDarkMode = function() {
+        document.body.classList.toggle('dark-mode');
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDarkMode);
+        updateToggleButton();
+    }
+
+    function updateToggleButton() {
+        const toggle = document.querySelector('.dark-mode-toggle-nav');
+        if (toggle) {
+            toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        }
+    }
+
+    // Initialize dark mode from localStorage
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+
+    // Update toggle button on page load
+    updateToggleButton();
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="https://planetbanatt.net/css/default_20240614.css" />
+<link rel="shortcut icon" type="image/jpg" href="https://planetbanatt.net/favicon.ico" />
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
+            <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<h1 class="title">Auto-Dubbing BOTW</h1>
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgce85399">Cheaply Auto-Dubbing Breath of the Wild with Local Models</a>
+<ul>
+<li><a href="#org2349f16">Context</a></li>
+<li><a href="#org039b7ea">Pipeline</a>
+<ul>
+<li><a href="#orgbffcfa0">Making the Audio Usable</a></li>
+<li><a href="#org651c15f">Coordinating the Script</a>
+<ul>
+<li><a href="#orgfbfbc00">Reference Audio Verification + More Filtering</a></li>
+</ul>
+</li>
+<li><a href="#orgcc316b9">Generating the Audio</a></li>
+<li><a href="#org0a84d9f">Detecting Early Exits</a></li>
+<li><a href="#org02c976f">Dealing with "Sticky" Lines</a></li>
+<li><a href="#orgb5efd3e">Improving Line Delivery</a></li>
+<li><a href="#orgb008360">Improving Volume Balance</a></li>
+<li><a href="#org8768cb5">Repackaging Back Into The Game</a></li>
+</ul>
+</li>
+<li><a href="#org7ea7b8b">Results</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgce85399" class="outline-1">
+<h1 id="orgce85399">Cheaply Auto-Dubbing Breath of the Wild with Local Models</h1>
+<div class="outline-text-1" id="text-orgce85399">
+<p>
+In this post, I outline a straightforward pipeline for automatically dubbing a The Legend of Zelda: Breath of the Wild (BoTW) into Mandarin Chinese. We do this with no finetuning, no external API usage, and at no cost, completing the entire project using local models that run on my home computer.
+</p>
+
+<p>
+<a id="org6b82841"></a>
+</p>
+</div>
+
+<div id="outline-container-org2349f16" class="outline-2">
+<h2 id="org2349f16">Context</h2>
+<div class="outline-text-2" id="text-org2349f16">
+<p>
+The switch version of Breath of the Wild has a chinese language translation for all the text in the game, but not for the voice acting. Properly dubbing this at the level required for release in a mainline Nintendo game would obviously be a huge and expensive project, requiring a very high bar of quality for release. But for people who just want to play in their native language, something passable might still be a big improvement.
+</p>
+
+<p>
+I wanted to take a crack at creating a mod for Breath of the Wild which replaced all the audio in the game with Mandarin Chinese. I thought this would be a fun weekend project<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>, especially if I could get this working using only models which run locally on my computer, rather than spending money on API calls. I do not speak Mandarin very well<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>, so overcoming the various roadblocks was an interesting exercise in prototyping a simple ML pipeline even outside my normal expertise.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org039b7ea" class="outline-2">
+<h2 id="org039b7ea">Pipeline</h2>
+<div class="outline-text-2" id="text-org039b7ea">
+</div>
+<div id="outline-container-orgbffcfa0" class="outline-3">
+<h3 id="orgbffcfa0">Making the Audio Usable</h3>
+<div class="outline-text-3" id="text-orgbffcfa0">
+<p>
+Game files for BoTW are in this proprietary format called <a href="https://nintendo-formats.com/libs/nw/bfstm.html">BFSTM</a>. This is unfortunate for us, since everything we would want to use generally requires audio to be in formats people typically use for actual everyday things.
+</p>
+
+<p>
+Thankfully there's tools like <a href="https://github.com/vgmstream/vgmstream">vgmstream</a> which will allow us to convert BFSTM to more common formats like WAV. So before we can do anything else, we need to be able to preprocess the audio files so they can actually be used and listened to. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org651c15f" class="outline-3">
+<h3 id="org651c15f">Coordinating the Script</h3>
+<div class="outline-text-3" id="text-org651c15f">
+<p>
+Dumps of Breath of the Wild contain all the text data in <i>pack files</i> which exist for several different languages in the game. The very first step here is getting all the data wrangled up together. Each voice line in the script is linked to a particular voice sound file in the game. Thankfully, this data is nicely formatted in a way which allows us to immediately know the contents of every voice file in the game, which saves us a ton of time figuring out how to transcribe all of this ourselves.
+</p>
+
+<p>
+It's not so hard to create a big set of tuples \((V, E, C)\) where \(V\) is the audio file for the English version, \(E\) is the English text associated with that file, and \(C\) is the Simplified Chinese translation of that text. We can frame our problem in a very simple way from here: \((V, E, C) \rightarrow V'\), where \(V'\) is \(V\) converted into Mandarin Chinese. This actually fully describes our problem: if you play with Chinese text and English audio, \((V, C)\) is what you will see in regular gameplay, so we just need to solve this single domain shift problem for every tuple in the set.
+</p>
+</div>
+
+<div id="outline-container-orgfbfbc00" class="outline-4">
+<h4 id="orgfbfbc00">Reference Audio Verification + More Filtering</h4>
+<div class="outline-text-4" id="text-orgfbfbc00">
+<p>
+Unfortunately, it's not as easy at it sounds once it gets scaled all the way up. There are a number of voice lines which are "in English" which are not really english at all. For example, when you complete a shrine, the monk will tell you that you did a good job and give you a spirit orb. But this isn't really english words, it's more like "<a href="https://www.youtube.com/watch?v=QIGz9qRS3iI">bwahhhhhh</a>" which has a subtitle. Likewise, there's lots of grunts and sounds performed by the characters which get labels in one language or the other (something like "hah!" or "ugh!") which we don't really need to dub to a new language. 
+</p>
+
+<p>
+Likewise, the text is not always perfectly right at describing <i>all</i> of the audio in the voice lines. Sometimes there's an extra sentence or two at the end, which is very annoying since this will destroy our reference text &lt;-&gt; reference audio mapping.
+</p>
+
+<p>
+So, we need to do a transcription pass anyways. That's okay, it's mostly a one-time cost. To do this, we use a small local model &#x2013; <a href="https://huggingface.co/blog/CohereLabs/cohere-transcribe-03-2026-release">Cohere-transcribe</a>, a recent 2b parameter speech recognition model designed to transcribe text in many languages<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>. We can do an initial screening pass at the very start for all the lines which are not really words (or get transcribed as empty strings, as in the case of the monks), or for lines which are much different from the associated english text<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>. 
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcc316b9" class="outline-3">
+<h3 id="orgcc316b9">Generating the Audio</h3>
+<div class="outline-text-3" id="text-orgcc316b9">
+<p>
+The obvious model to use for this project, at the time of writing, is <a href="https://github.com/QwenLM/Qwen3-TTS">Qwen3-TTS</a>. This model is 1.7B parameters so it easily fits on my RTX 3090. It is obviously specifically performant upon generating voices in Chinese, which is a hugely important part of this particular project. And, importantly, it allows for cloning a particular voice, when provided text-audio pairing. That is to say, you can provide Qwen3-TTS \((V,E)\) and it will produce a function \(f(C) \rightarrow V'\) <sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>. That looks suspiciously like what we just said we wanted!
+</p>
+
+<p>
+And indeed, it does do a pretty good job right out of the box. The output of this model is crazy impressive, especially for something just 1.7B parameters.
+</p>
+
+<p>
+<b>English Example</b>
+</p>
+
+<audio controls>
+  <source src="../images/autodub/daruk_en.wav" type="audio/wav">
+  Your browser does not support the audio element.
+</audio>
+
+<p>
+<b>Chinese Example</b>
+</p>
+
+<audio controls>
+  <source src="../images/autodub/daruk_zh.wav" type="audio/wav">
+  Your browser does not support the audio element.
+</audio>
+
+<p>
+<b>Bonus</b>
+</p>
+
+<audio controls>
+  <source src="../images/autodub/daruk_pijiu.wav" type="audio/wav">
+  Your browser does not support the audio element.
+</audio>
+
+<p>
+However, it's not perfect. It's not consistent enough to just let it rip on the entire game and to just call it a day<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>. There are a number of roadblocks which need to be overcome before we can run this on the whole game.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0a84d9f" class="outline-3">
+<h3 id="org0a84d9f">Detecting Early Exits</h3>
+<div class="outline-text-3" id="text-org0a84d9f">
+<p>
+Many times, Qwen3-TTS will emit the end-of-sequence token early, and produce an output which is cut off early before reading the entire line. There is <a href="https://github.com/QwenLM/Qwen3-TTS/discussions/75">much discussion</a> around tricks to make it more likely to pause at the end: stuff like adding '\n' or '&#x2026;' at the end of your prompt, and so on. I didn't see too much success with these methods, there was always just a huge risk of this happening anyways no matter what I put at the end.
+</p>
+
+<p>
+A solution that actually worked was simply retrying until it managed to generate the line without ending early. None of the lines in our set are so long that the early-exit problem is a sure-thing. However, we need some way to programatically check if the early exit occurred or not, otherwise we'll be stuck manually checking tons of files.
+</p>
+
+<p>
+Again, we lean on our good friend Cohere-transcribe for solving this problem. Our filtering step here will first generate audio with Qwen3-TTS. Then it will feed that generated audio into Cohere-transcribe, in order to figure out what the audio says. If the audio spoken doesn't match the original line, we need to try again. If it does match, then we've generated something which should be intelligible.
+</p>
+
+<p>
+Going further, we convert both lines into <a href="https://en.wikipedia.org/wiki/Pinyin">hanyu pinyin</a> with <a href="https://github.com/mozillazg/python-pinyin">pipinyin</a> in order to minimize false positives caused by cohere-transcribe selecting the wrong character. For example, one of Daruk's lines in Chinese is "小心那家伙的大剑！", which Cohere-transcribe wrote as "小心那家伙的大贱。" These lines are read and spoken in the exact same way, but the original line uses 大剑, meaning "greatsword", whereas the transcription uses 大贱, meaning something vaguely like "big nasty"<sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></sup>. As long as the readings match, we can be pretty confident the cut-off problem isn't too bad.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org02c976f" class="outline-3">
+<h3 id="org02c976f">Dealing with "Sticky" Lines</h3>
+<div class="outline-text-3" id="text-org02c976f">
+<p>
+Qwen3-TTS is not perfect. Certain things it struggles to say, like <a id="orgadde60b"></a>
+</p>
+
+<p>
+<a id="org18e1b3f"></a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb5efd3e" class="outline-3">
+<h3 id="orgb5efd3e">Improving Line Delivery</h3>
+<div class="outline-text-3" id="text-orgb5efd3e">
+<p>
+Sometimes the audio generated by Qwen3-TTS is intelligible and sounds good, but produces a delivery which is totally off from the original line. Since we don't provide the original audio in generating the audio generation step (remember: we have a function \(f(C) \rightarrow V'\) which we get by using Qwen3-TTS voice cloning \(q(V, E) \rightarrow f\)), we will sometimes lose the emotional delivery of the line.
+</p>
+
+<p>
+Again, heavier and more sophisticated pipelines often have bespoke solutions to this, and we can probably go down a big rabbit hole to finetune these capabilities into Qwen3-TTS somehow. But also good is our old reliable friend Best-of-N.
+</p>
+
+<p>
+In short, we will just generate a bunch of examples, and then use the best one. Picking the best reading out of a big group of short audio clips, when provided a reference audio in another language, seems like a relatively easy task. But doing it yourself for every line in the game seems super tedious, so we will leverage <a href="https://en.wikipedia.org/wiki/LLM-as-a-Judge">LLM-as-judge</a> using a multimodal model capable of ingesting audio directly.
+</p>
+
+<p>
+For this, we can keep with our local models focus and use <a href="https://ai.google.dev/gemma/docs/core">Gemma 4 26B E4B</a>. This model is a bit heavier than the other two big models we've used in this pipeline so far, but it still comfortably fits on my 3090, and it being a mixture of experts means that the judgments are all pretty fast. Likewise, this model has native support for ingesting audio, which means it's quite nice for something simple like this. We provide this model the original English line reading plus all the candidates, and ask it to select the one which matches the original most closely. A simple napkin test verified that this did tend to pick the candidate audio that I preferred as well<sup><a id="fnr.8" class="footref" href="#fn.8" role="doc-backlink">8</a></sup>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb008360" class="outline-3">
+<h3 id="orgb008360">Improving Volume Balance</h3>
+<div class="outline-text-3" id="text-orgb008360">
+<p>
+Ideally, the generated audio will be at the same volume as the original line delivery, even if the line is slightly different after translation. Qwen3-TTS doesn't have access to this information in our pipeline, so sometimes it will produce text which is far too quiet compared to the original line.
+</p>
+
+<p>
+Thankfully there are really simple postprocessing approaches which work well for this. Pretty standard in the audio mixing world is <a href="https://majormixing.com/what-is-rms-in-audio-world/">Root Mean Square (RMS)</a> scaling, which is something thankfully looks familiar to people who spend a lot of time doing machine learning. We measure the loudness of the source audio and try to scale the output of Qwen3-TTS such that it's a similar volume<sup><a id="fnr.9" class="footref" href="#fn.9" role="doc-backlink">9</a></sup>. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8768cb5" class="outline-3">
+<h3 id="org8768cb5">Repackaging Back Into The Game</h3>
+<div class="outline-text-3" id="text-org8768cb5">
+<p>
+I use <a href="https://github.com/thealexbarney/vgaudio">VGAudio</a> to repackage all of these generated final candidate audio files back into the necessary BFSTM format. This also requires a simple ffmpeg layer to convert the audio to the appropriate sampling rate and back up into stereo.
+</p>
+
+<p>
+From here <a id="org22afd5d"></a>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7ea7b8b" class="outline-2">
+<h2 id="org7ea7b8b">Results</h2>
+<div class="outline-text-2" id="text-org7ea7b8b">
+<p>
+<a id="orge434969"></a>
+</p>
+
+<p>
+Of course, this is not anything close to the quality bar of actual voice actors reading all of the lines in the game, in consistent character, using the same voice every single time. That is totally okay &#x2013; this all ran on my desktop computer and cost me $0.00 to complete<sup><a id="fnr.10" class="footref" href="#fn.10" role="doc-backlink">10</a></sup> so I consider the lower quality to be a fair trade for how much time and money such a project would have cost doing it the normal way.
+</p>
+
+<p>
+Overall I was quite pleased with the result of this project. There were many rough edges even after all the little things we added, but it was gratifying seeing it just emerge from my computer after a couple of hours. I know that <a href="https://bsky.app/profile/tobyfox.undertale.com/post/3mia4smxehk2a">some discourse on official translations</a> has transpired in recent months, and I think a reasonable takeaway is that expecting developers to localize their game to a language you're interested in playing it in is not always super feasible.
+</p>
+
+<p>
+<a href="https://mother3.fobby.net/">Fan translations</a> are almost always really awesome projects, and I think it's probably a very good thing for the world that the difficulty of these sorts of projects keeps on falling. <a href="https://en.wikipedia.org/wiki/Le_Ton_beau_de_Marot">Douglas Hofstadter</a> has a lot of <a href="https://en.wikipedia.org/wiki/Le_Ton_beau_de_Marot">beautiful thoughts on the problem of translation</a>, and I suspect that the value of human translators for artistic text will remain at a premium for a very long time. It makes sense that creators are so hesitant to localize their game in a language they don't speak, since it yields a lot of creative control away from their original artistic intent. <a id="orgcdd42d8"></a>
+</p>
+
+<p>
+But at the same time, sometimes people just want to play the damn game, even if the translation they use is a little bit scuffed<sup><a id="fnr.11" class="footref" href="#fn.11" role="doc-backlink">11</a></sup>. The big takeaway here is that machine translation tools are super powerful now, even ones which run directly on mid-tier consumer hardware. If someone doesn't want to localize their product for you, there may be a near future where you can just localize it yourself in a weekend. 
+</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Very 2026 couple of sentences. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Not for <a href="https://planetbanatt.net/articles/mandarin.html">lack of trying</a> but I have a long way before this sort of media becomes available for me to understand. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Cohere is sort of known for being really strong at multi-lingual stuff, so I chose this model over other transcription models in hopes that it would keep the approach flexible. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+It's funny to say about a game like Breath of the Wild, but thankfully the game is not <i>that big</i>. These can be pretty easily spot-checked based on what fails from the first pass. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+For completeness, consider this a function \(q(V, E) \rightarrow f\) where \(q\) is the voice cloning function and \(f\) is the resulting text-to-speech function using that cloned voice.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6" role="doc-backlink">6</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Well, I guess that would be fine for a weekend project like this. But we can aim a little higher. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.7" class="footnum" href="#fnr.7" role="doc-backlink">7</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+For example, <a href="https://zh.wikipedia.org/zh-cn/%E7%8E%8B%E7%89%8C%E5%A4%A7%E8%B3%A4%E8%AB%9C_(%E9%9B%BB%E5%BD%B1)">Austin Powers in Chinese is 王牌大賤諜</a>
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.8" class="footnum" href="#fnr.8" role="doc-backlink">8</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+A minor annoyance here was that Gemma 4 required transformers 5.5 and Qwen3-TTS required a hardcoded earlier version of transformers. This resulted in me needing to do some submodule juggling with two venvs to make it actually work in a single pipeline. Classic python.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.9" class="footnum" href="#fnr.9" role="doc-backlink">9</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+This is not perfect and this sort of thing is usually the job of a dedicated sound team. But it's pretty good as a first pass, so we can just roll with it.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.10" class="footnum" href="#fnr.10" role="doc-backlink">10</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Obviously not counting the cost of like, electricity powering my computer during the time it runs, or what have you. The models involved in this project are all super, super lightweight. Better results could probably be achieved using much heavier tools like Elevenlabs, Gemini 3.1 Pro, and so on. This would have cost considerably more, taken much longer, and probably ran into almost all of the same objections.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.11" class="footnum" href="#fnr.11" role="doc-backlink">11</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I can't even begin to think about how much manga I've read with totally unreasonable english scanlations. 
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+</div>
+</body>
+</html>
