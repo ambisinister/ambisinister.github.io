@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-04-05 Sun 01:12 -->
+<!-- 2026-04-05 Sun 01:15 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Auto-Dubbing BOTW</title>
@@ -238,7 +238,7 @@ The obvious model to use for this project, at the time of writing, is <a href="h
 </p>
 
 <p>
-And indeed, it does do a pretty good job right out of the box. The output of this model is crazy impressive, especially for something just 1.7B parameters.
+And indeed, it does do a pretty good job right out of the box. The output of this model is crazy impressive<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>, especially for something just 1.7B parameters.
 </p>
 
 <p>
@@ -260,16 +260,7 @@ And indeed, it does do a pretty good job right out of the box. The output of thi
 </audio>
 
 <p>
-<b>Bonus</b>
-</p>
-
-<audio controls>
-  <source src="../images/autodub/daruk_pijiu.wav" type="audio/wav">
-  Your browser does not support the audio element.
-</audio>
-
-<p>
-However, it's not perfect. It's not consistent enough to just let it rip on the entire game and to just call it a day<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>. There are a number of roadblocks which need to be overcome before we can run this on the whole game.
+However, it's not perfect. It's not consistent enough to just let it rip on the entire game and to just call it a day<sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></sup>. There are a number of roadblocks which need to be overcome before we can run this on the whole game.
 </p>
 </div>
 </div>
@@ -290,7 +281,7 @@ Again, we lean on our good friend Cohere-transcribe for solving this problem. Ou
 </p>
 
 <p>
-Going further, we convert both lines into <a href="https://en.wikipedia.org/wiki/Pinyin">hanyu pinyin</a> with <a href="https://github.com/mozillazg/python-pinyin">pipinyin</a> in order to minimize false positives caused by cohere-transcribe selecting the wrong character. For example, one of Daruk's lines in Chinese is "小心那家伙的大剑！", which Cohere-transcribe wrote as "小心那家伙的大贱。" These lines are read and spoken in the exact same way, but the original line uses 大剑, meaning "greatsword", whereas the transcription uses 大贱, meaning something vaguely like "big nasty"<sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></sup>. As long as the readings match, we can be pretty confident the cut-off problem isn't too bad.
+Going further, we convert both lines into <a href="https://en.wikipedia.org/wiki/Pinyin">hanyu pinyin</a> with <a href="https://github.com/mozillazg/python-pinyin">pipinyin</a> in order to minimize false positives caused by cohere-transcribe selecting the wrong character. For example, one of Daruk's lines in Chinese is "小心那家伙的大剑！", which Cohere-transcribe wrote as "小心那家伙的大贱。" These lines are read and spoken in the exact same way, but the original line uses 大剑, meaning "greatsword", whereas the transcription uses 大贱, meaning something vaguely like "big nasty"<sup><a id="fnr.8" class="footref" href="#fn.8" role="doc-backlink">8</a></sup>. As long as the readings match, we can be pretty confident the cut-off problem isn't too bad.
 </p>
 </div>
 </div>
@@ -324,7 +315,7 @@ In short, we will just generate a bunch of examples, and then use the best one. 
 </p>
 
 <p>
-For this, we can keep with our local models focus and use <a href="https://ai.google.dev/gemma/docs/core">Gemma 4 26B E4B</a>. This model is a bit heavier than the other two big models we've used in this pipeline so far, but it still comfortably fits on my 3090, and it being a mixture of experts means that the judgments are all pretty fast. Likewise, this model has native support for ingesting audio, which means it's quite nice for something simple like this. We provide this model the original English line reading plus all the candidates, and ask it to select the one which matches the original most closely. A simple napkin test verified that this did tend to pick the candidate audio that I preferred as well<sup><a id="fnr.8" class="footref" href="#fn.8" role="doc-backlink">8</a></sup>.
+For this, we can keep with our local models focus and use <a href="https://ai.google.dev/gemma/docs/core">Gemma 4 26B E4B</a>. This model is a bit heavier than the other two big models we've used in this pipeline so far, but it still comfortably fits on my 3090, and it being a mixture of experts means that the judgments are all pretty fast. Likewise, this model has native support for ingesting audio, which means it's quite nice for something simple like this. We provide this model the original English line reading plus all the candidates, and ask it to select the one which matches the original most closely. A simple napkin test verified that this did tend to pick the candidate audio that I preferred as well<sup><a id="fnr.9" class="footref" href="#fn.9" role="doc-backlink">9</a></sup>.
 </p>
 </div>
 </div>
@@ -337,7 +328,7 @@ Ideally, the generated audio will be at the same volume as the original line del
 </p>
 
 <p>
-Thankfully there are really simple postprocessing approaches which work well for this. Pretty standard in the audio mixing world is <a href="https://majormixing.com/what-is-rms-in-audio-world/">Root Mean Square (RMS)</a> scaling, which is something thankfully looks familiar to people who spend a lot of time doing machine learning. We measure the loudness of the source audio and try to scale the output of Qwen3-TTS such that it's a similar volume<sup><a id="fnr.9" class="footref" href="#fn.9" role="doc-backlink">9</a></sup>. 
+Thankfully there are really simple postprocessing approaches which work well for this. Pretty standard in the audio mixing world is <a href="https://majormixing.com/what-is-rms-in-audio-world/">Root Mean Square (RMS)</a> scaling, which is something thankfully looks familiar to people who spend a lot of time doing machine learning. We measure the loudness of the source audio and try to scale the output of Qwen3-TTS such that it's a similar volume<sup><a id="fnr.10" class="footref" href="#fn.10" role="doc-backlink">10</a></sup>. 
 </p>
 </div>
 </div>
@@ -364,7 +355,7 @@ From here <a id="org22afd5d"></a>.
 </p>
 
 <p>
-Of course, this is not anything close to the quality bar of actual voice actors reading all of the lines in the game, in consistent character, using the same voice every single time. That is totally okay &#x2013; this all ran on my desktop computer and cost me $0.00 to complete<sup><a id="fnr.10" class="footref" href="#fn.10" role="doc-backlink">10</a></sup> so I consider the lower quality to be a fair trade for how much time and money such a project would have cost doing it the normal way.
+Of course, this is not anything close to the quality bar of actual voice actors reading all of the lines in the game, in consistent character, using the same voice every single time. That is totally okay &#x2013; this all ran on my desktop computer and cost me $0.00 to complete<sup><a id="fnr.11" class="footref" href="#fn.11" role="doc-backlink">11</a></sup> so I consider the lower quality to be a fair trade for how much time and money such a project would have cost doing it the normal way.
 </p>
 
 <p>
@@ -376,7 +367,7 @@ Overall I was quite pleased with the result of this project. There were many rou
 </p>
 
 <p>
-But at the same time, sometimes people just want to play the damn game, even if the translation they use is a little bit scuffed<sup><a id="fnr.11" class="footref" href="#fn.11" role="doc-backlink">11</a></sup>. The big takeaway here is that machine translation tools are super powerful now, even ones which run directly on mid-tier consumer hardware. If someone doesn't want to localize their product for you, there may be a near future where you can just localize it yourself in a weekend. 
+But at the same time, sometimes people just want to play the damn game, even if the translation they use is a little bit scuffed<sup><a id="fnr.12" class="footref" href="#fn.12" role="doc-backlink">12</a></sup>. The big takeaway here is that machine translation tools are super powerful now, even ones which run directly on mid-tier consumer hardware. If someone doesn't want to localize their product for you, there may be a near future where you can just localize it yourself in a weekend. 
 </p>
 </div>
 </div>
@@ -406,26 +397,35 @@ For completeness, consider this a function \(q(V, E) \rightarrow f\) where \(q\)
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6" role="doc-backlink">6</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+I think there's not a good place to put more examples of this which are fun and silly, rather than more serious attempts at solving the problems. So I'll put a few here.
+</p>
+
+<audio controls>
+  <source src="../images/autodub/daruk_pijiu.wav" type="audio/wav">
+  Your browser does not support the audio element.
+</audio></div></div>
+
+<div class="footdef"><sup><a id="fn.7" class="footnum" href="#fnr.7" role="doc-backlink">7</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Well, I guess that would be fine for a weekend project like this. But we can aim a little higher. 
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.7" class="footnum" href="#fnr.7" role="doc-backlink">7</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup><a id="fn.8" class="footnum" href="#fnr.8" role="doc-backlink">8</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 For example, <a href="https://zh.wikipedia.org/zh-cn/%E7%8E%8B%E7%89%8C%E5%A4%A7%E8%B3%A4%E8%AB%9C_(%E9%9B%BB%E5%BD%B1)">Austin Powers in Chinese is 王牌大賤諜</a>
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.8" class="footnum" href="#fnr.8" role="doc-backlink">8</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup><a id="fn.9" class="footnum" href="#fnr.9" role="doc-backlink">9</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 A minor annoyance here was that Gemma 4 required transformers 5.5 and Qwen3-TTS required a hardcoded earlier version of transformers. This resulted in me needing to do some submodule juggling with two venvs to make it actually work in a single pipeline. Classic python.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.9" class="footnum" href="#fnr.9" role="doc-backlink">9</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup><a id="fn.10" class="footnum" href="#fnr.10" role="doc-backlink">10</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 This is not perfect and this sort of thing is usually the job of a dedicated sound team. But it's pretty good as a first pass, so we can just roll with it.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.10" class="footnum" href="#fnr.10" role="doc-backlink">10</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup><a id="fn.11" class="footnum" href="#fnr.11" role="doc-backlink">11</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Obviously not counting the cost of like, electricity powering my computer during the time it runs, or what have you. The models involved in this project are all super, super lightweight. Better results could probably be achieved using much heavier tools like Elevenlabs, Gemini 3.1 Pro, and so on. This would have cost considerably more, taken much longer, and probably ran into almost all of the same objections.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.11" class="footnum" href="#fnr.11" role="doc-backlink">11</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup><a id="fn.12" class="footnum" href="#fnr.12" role="doc-backlink">12</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 I can't even begin to think about how much manga I've read with totally unreasonable english scanlations. 
 </p></div></div>
 

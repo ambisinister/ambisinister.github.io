@@ -38,7 +38,7 @@ So, we need to do a transcription pass anyways. That's okay, it's mostly a one-t
 
 The obvious model to use for this project, at the time of writing, is [[https://github.com/QwenLM/Qwen3-TTS][Qwen3-TTS]]. This model is 1.7B parameters so it easily fits on my RTX 3090. It is obviously specifically performant upon generating voices in Chinese, which is a hugely important part of this particular project. And, importantly, it allows for cloning a particular voice, when provided text-audio pairing. That is to say, you can provide Qwen3-TTS $(V,E)$ and it will produce a function $f(C) \rightarrow V'$ [fn:7]. That looks suspiciously like what we just said we wanted!
 
-And indeed, it does do a pretty good job right out of the box. The output of this model is crazy impressive, especially for something just 1.7B parameters.
+And indeed, it does do a pretty good job right out of the box. The output of this model is crazy impressive[fn:12], especially for something just 1.7B parameters.
 
 *English Example*
 
@@ -54,15 +54,6 @@ And indeed, it does do a pretty good job right out of the box. The output of thi
 #+BEGIN_EXPORT html
 <audio controls>
   <source src="../images/autodub/daruk_zh.wav" type="audio/wav">
-  Your browser does not support the audio element.
-</audio>
-#+END_EXPORT
-
-*Bonus*
-
-#+BEGIN_EXPORT html
-<audio controls>
-  <source src="../images/autodub/daruk_pijiu.wav" type="audio/wav">
   Your browser does not support the audio element.
 </audio>
 #+END_EXPORT
@@ -119,7 +110,29 @@ Overall I was quite pleased with the result of this project. There were many rou
 
 But at the same time, sometimes people just want to play the damn game, even if the translation they use is a little bit scuffed[fn:9]. The big takeaway here is that machine translation tools are super powerful now, even ones which run directly on mid-tier consumer hardware. If someone doesn't want to localize their product for you, there may be a near future where you can just localize it yourself in a weekend. 
 
+** Appendix A: Possible Extensions
+
+There are some interesting models out there which would have been great additions to this workflow if they were in a slightly different project (for example, auto-dubbing a movie).
+
+*** Adjusting Lip Sync
+
+Dubbed audio will not always match super well when overlaid upon these character-driven examples.
+
+In cases where we are just re-syncing the video to the audio, we can use some models which is intended to align a video with a difference voice line. [[https://hjrphoebus.github.io/X-Dub/][X-Dub]] by the Kling team is a lightweight 1.5B parameter model which will do just this, to excellent results.
+
+<<Here's an example of this model being used upon one of the scenes from this project. Inserting this back into the game as a modification is not so straightforward, so it's not a part of the actual pipeline. But in games where these assets are more explicitly just full motion videos, rather than in-game cutscenes with different audio files, an approach like this could yield good results with a similarly low computation footprint.>> 
+
 * Footnotes
+
+[fn:12] I think there's not a good place to put more examples of this which are fun and silly, rather than more serious attempts at solving the problems. So I'll put a few here.
+
+#+BEGIN_EXPORT html
+<audio controls>
+  <source src="../images/autodub/daruk_pijiu.wav" type="audio/wav">
+  Your browser does not support the audio element.
+</audio>
+#+END_EXPORT
+
 
 [fn:11] This is not perfect and this sort of thing is usually the job of a dedicated sound team. But it's pretty good as a first pass, so we can just roll with it.
 
