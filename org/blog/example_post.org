@@ -1,0 +1,17 @@
+#+TITLE: This is an Example Post
+
+* This is an Example Post
+
+This is what a blog post looks like. You write it in org-mode the same way you write articles. The key difference is that blog posts are shorter, more casual, and live under =org/blog/= instead of =org/articles/=.
+
+When you export with =C-c C-e h h= (or =org-publish-project=), this file will end up at =blog/example_post.html=.
+
+To add a new post:
+
+1. Create a new =.org= file in =org/blog/= (e.g. =my_thoughts.org=)
+2. Write your post with =#+TITLE: Your Title= at the top
+3. Export to HTML
+4. Add a link to it in =org/blog/index.org= at the top of the post list (newest first)
+5. Push to GitHub
+
+That's it. The navbar, CSS, dark mode, and everything else come along for free because =org-publish= is recursive and the preamble/head are applied globally.
