@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-06-26 Fri 15:05 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ambi Dextrous Postmortem</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+    // Dark mode functionality
+    window.toggleDarkMode = function() {
+        document.body.classList.toggle('dark-mode');
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDarkMode);
+        updateToggleButton();
+    }
+
+    function updateToggleButton() {
+        const toggle = document.querySelector('.dark-mode-toggle-nav');
+        if (toggle) {
+            toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        }
+    }
+
+    // Initialize dark mode from localStorage
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+
+    // Update toggle button on page load
+    updateToggleButton();
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="https://planetbanatt.net/css/default_20240614.css" />
+<link rel="shortcut icon" type="image/jpg" href="https://planetbanatt.net/favicon.ico" />
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
+            <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<h1 class="title">Ambi Dextrous Postmortem</h1>
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org93aac33">Postmortem: Ambi Dextrous</a>
+<ul>
+<li><a href="#org4f1ce6d">Recurring Themes</a>
+<ul>
+<li><a href="#org8f8336c">Mono Direction</a></li>
+<li><a href="#org191de64">Making Tech "Worth It"</a></li>
+<li><a href="#orgf118d7d">Taste Stuff</a></li>
+<li><a href="#org8af9cd3">Foot Dominance</a></li>
+</ul>
+</li>
+<li><a href="#orgaf62ed1">(Charting Lowers) Number One Boy</a></li>
+<li><a href="#orgfbce131">(Charting BXF) Another Life (feat. Rema)</a></li>
+<li><a href="#org78337f5">(Charting BTs) Crazy (feat. PinkPanthress)</a></li>
+<li><a href="#org4f5f2fe">(Charting FS/KS) Fly Away</a></li>
+<li><a href="#org075cbff">(Charting No Tech) Heads Will Roll (A-Trak Remix)</a></li>
+<li><a href="#orga86ab15">(Charting Stamtech) Overtime</a></li>
+<li><a href="#orgb8c7f93">(Charting Stamtech) Stupid (can't run from the urge)</a></li>
+<li><a href="#orgdf587c2">(Charting Gimmicks) Time Traveler</a></li>
+<li><a href="#org165d7e8">(Charting Uppers) The Third Sanctuary</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org93aac33" class="outline-1">
+<h1 id="org93aac33">Postmortem: Ambi Dextrous</h1>
+<div class="outline-text-1" id="text-org93aac33">
+<p>
+Here's a running document of takeaways downstream of feedback from players playing my charts. 
+</p>
+</div>
+
+<div id="outline-container-org4f1ce6d" class="outline-2">
+<h2 id="org4f1ce6d">Recurring Themes</h2>
+<div class="outline-text-2" id="text-org4f1ce6d">
+</div>
+<div id="outline-container-org8f8336c" class="outline-3">
+<h3 id="org8f8336c">Mono Direction</h3>
+<div class="outline-text-3" id="text-org8f8336c">
+<p>
+This is probably the biggest takeaway to improve future charts. I did try to pay some attention to facing direction in my charting, but I think an insufficient amount for what is expected in modern charting. This was a repeated error across this pack, since my threshold for "how much is too much mono" threshold was something like "7 measures" and not like "a whole measure".
+</p>
+
+<p>
+Switching facing direction is not super complicated, just use a second staircase with up and down swapped, etc.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org191de64" class="outline-3">
+<h3 id="org191de64">Making Tech "Worth It"</h3>
+<div class="outline-text-3" id="text-org191de64">
+<p>
+Lots of tech in stuff like Number One Boy, Another Life, Fly Away, etc are all things which are straightforwardly easier to perform if you do not do the form. I had pretty much the exact opposite mindset making virtually all of these charts (e.g. "I'd like them to be easy to learn the form on! So they have to be unthreatening to skip and let you do the form only if you really want to"). 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf118d7d" class="outline-3">
+<h3 id="orgf118d7d">Taste Stuff</h3>
+<div class="outline-text-3" id="text-orgf118d7d">
+<p>
+I sort of expected people to not vibe with the 270 footswitch in <i>Another Life</i>, and it was definitely a risk I willingly took releasing the chart with it still in it. I included it in there because I find that pattern very fun to play, and I tried to make it resolve cleanly if doublestepped. But I think people were more averse to it than I was expecting. I think a good amount of this goes back to making tech worth it &#x2013; as fun as I found the 270 footswitch it does lead the player down a path and then punishing them for doing so, which is less subjective than I thought while making the chart.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8af9cd3" class="outline-3">
+<h3 id="org8af9cd3">Foot Dominance</h3>
+<div class="outline-text-3" id="text-org8af9cd3">
+<p>
+There are a couple of charts in this pack where I make everything happen on the same foot (e.g. crossover onto right, crossunder onto right, cross over onto right, crossunder onto right). Making sure that the patterns are distributed so that they "happen" evenly is a good takeaway. In this case a lot of these were because I cut the song after writing the chart for the full thing, and then didn't properly adjust the chart after cropping the steps to match the now-cut version. I shouldn't do that, but I somehow got halfway through the project not realizing I should cut the songs at all, so hopefully this should be reduced in future charts. 
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgaf62ed1" class="outline-2">
+<h2 id="orgaf62ed1">(Charting Lowers) Number One Boy</h2>
+<div class="outline-text-2" id="text-orgaf62ed1">
+<p>
+Well, I originally had it as an 8, and people thought it was an 8, so I probably should not have lowered it just because I thought it was easy.
+</p>
+
+<p>
+One of the more pressing things about this chart was that there's a lot of empty space where sounds happen, and adding a little bit more density to it would have made the chart more fun to play without adding way too much difficulty to it. Lots of spots where I could have added in 8th notes just to keep the beat moving, which would have been better for something around the 8 block. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfbce131" class="outline-2">
+<h2 id="orgfbce131">(Charting BXF) Another Life (feat. Rema)</h2>
+<div class="outline-text-2" id="text-orgfbce131">
+<p>
+If I submit this to e.g. ITL 2027 I'm pretty sure I just have to remove the 270 footswitch. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org78337f5" class="outline-2">
+<h2 id="org78337f5">(Charting BTs) Crazy (feat. PinkPanthress)</h2>
+<div class="outline-text-2" id="text-org78337f5">
+<p>
+When you do hold taps, it's very helpful to have the first hold be a bracket to ensure the facing direction stays consistent.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4f5f2fe" class="outline-2">
+<h2 id="org4f5f2fe">(Charting FS/KS) Fly Away</h2>
+<div class="outline-text-2" id="text-org4f5f2fe">
+<p>
+Kickswitches should be marked with holds on the second FS note, which are a really important part of making them sightreadable. Mine placement for these is also different. There are a few mines in this chart which do not really serve any purpose signalling anything about the pattern they're attached to. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org075cbff" class="outline-2">
+<h2 id="org075cbff">(Charting No Tech) Heads Will Roll (A-Trak Remix)</h2>
+<div class="outline-text-2" id="text-org075cbff">
+<p>
+If you are going to use two versions of the same type of pattern for a repeating musical phrase, make the hardest one come second. This chart starts with jumps and then goes down to normal steps, but it would probably be better dynamics to start with normal steps and then finish that section with jumps.
+</p>
+
+<p>
+The mono in the stream for the part of the song where she says "heads will roll" is actually good, since it highlights the high note. Mono is not <i>never useful</i>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga86ab15" class="outline-2">
+<h2 id="orga86ab15">(Charting Stamtech) Overtime</h2>
+<div class="outline-text-2" id="text-orga86ab15">
+<p>
+The candle xo in the stream is fine, but what would have eased the player in to the idea is if the first set was a non-candle crossover / non-candle crossunder, and then in the second 2 repetitions instead of making the patterns just mirrored they were now candles. This adds variety and also escalates the chart to make it feel like its building.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb8c7f93" class="outline-2">
+<h2 id="orgb8c7f93">(Charting Stamtech) Stupid (can't run from the urge)</h2>
+<div class="outline-text-2" id="text-orgb8c7f93">
+<p>
+The slow BRFS before the snare roll needed a mine. I never needed this mine in pad testing because I knew it was there, but neglecting it made it confusing on sightread. A lot of the XO / SS stuff in the break sections are a good example of charts which don't really reward you for doing the tech.
+</p>
+
+<p>
+This chart does everything on the right foot (because it originally did everything on the left foot later, but then I cut the chart in half).
+</p>
+
+<p>
+The roll fs motif needed to be tutorialized a little bit, it makes sense once you're in it but it's a jumpscare because there's no roll tech anywhere earlier before it appears in the stream. I introduce everything else nicely before except for this, and it makes this feel out of nowhere. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdf587c2" class="outline-2">
+<h2 id="orgdf587c2">(Charting Gimmicks) Time Traveler</h2>
+<div class="outline-text-2" id="text-orgdf587c2">
+<p>
+The kickswitch section at the beginning of this not being marked by holds is really punishing, it makes it very difficult to read even without the gimmick. The entrance is "super mean" as Snap put it, and the mines would be easier to read if they were moved up a 32nd 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org165d7e8" class="outline-2">
+<h2 id="org165d7e8">(Charting Uppers) The Third Sanctuary</h2>
+<div class="outline-text-2" id="text-org165d7e8">
+<p>
+BRFS on up arrows needs to be limited to 2 at the most, because its so forcing for heels out it feels really uncomfortable to play. This is a meaningful difference from down BRFS, where you can do a lot of them and it's totally fine.
+</p>
+
+<p>
+Triple candle BR FS is just too aggressive for the difficulty level called for by the chart.
+</p>
+
+<p>
+The candle XOs at 180 are just not really needed.
+</p>
+
+<p>
+Starting the BT section on a bracket is very helpful for leading the player where they are supposed to be facing to not get lost in the pattern. Likewise, adding the jacks in this section instead of just alternating feet is just way too much &#x2013; I didn't like them there either but it's helpful to know that's not just me being bad.
+</p>
+
+<p>
+If there's 8th note gap footswitch you should always mark with mine. 16th it can sometimes be optional if it's very clear playing it as jack would be unreasonable.
+</p>
+
+<p>
+erictran0 thinks that the middle part of the chart is not hard enough relative to the first and third parts of the chart. I think either nerfing the other two sections down to this level and making the chart e.g. a 12 or making this part a little more difficult both make sense, it does feel like a psuedo-break the way the chart is currently written.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+</div>
+</body>
+</html>
