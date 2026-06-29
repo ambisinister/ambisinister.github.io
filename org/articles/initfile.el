@@ -149,6 +149,17 @@ $(function() {
 (setq org-html-postamble
       "<a href=\"#top\">Back to Top</a>")
 
+(defun eryk/generate-blog-index (pl-alist)
+  "Regenerate blog index before publishing.
+Runs the Python script that scans org/blog/ for posts and rewrites
+the post list in org/blog/index.org."
+  (let* ((default-directory (expand-file-name "~/Documents/code/ambisinister.github.io/"))
+         (script (expand-file-name "scripts/generate_blog_index.py" default-directory)))
+    (when (file-exists-p script)
+      (message "Regenerating blog index...")
+      (shell-command (format "python3 %s" (shell-quote-argument script)))
+      (message "Blog index regenerated."))))
+
 (setq org-publish-project-alist
       '(("planetbanatt"
 	:base-directory "~/Documents/code/ambisinister.github.io/org/"
@@ -157,6 +168,7 @@ $(function() {
 	:recursive t
 	:publishing-function org-html-publish-to-html
 	:headline-levels 6             ; Just the default for this project.
+	:preparation-function eryk/generate-blog-index
 	))
 )
 
