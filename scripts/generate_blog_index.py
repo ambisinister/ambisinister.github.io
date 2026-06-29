@@ -39,7 +39,7 @@ NO_POSTS_LINE = "No posts yet."
 DATE_RE = re.compile(r"^(\d{4}-\d{2}-\d{2})")
 TITLE_RE = re.compile(r"^#\+TITLE:\s*(.+)$", re.MULTILINE)
 POST_LINK_RE = re.compile(
-    r"^\[\[https?://planetbanatt\.net/blog/[^][]+\.html\]\[[^][]+\]\]$"
+    r"^(?:-\s+)?\[\[https?://planetbanatt\.net/blog/[^][]+\.html\]\[[^][]+\]\]$"
 )
 
 
@@ -92,7 +92,7 @@ def generate_index_section():
     posts = get_blog_posts()
     if not posts:
         return NO_POSTS_LINE
-    return "\n".join(format_post_link(post) for post in posts)
+    return "\n".join(f"- {format_post_link(post)}" for post in posts)
 
 
 def is_managed_post_line(line):
