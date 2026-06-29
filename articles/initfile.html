@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-12-30 Tue 22:12 -->
+<!-- 2026-06-28 Sun 23:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Emacs Configuration</title>
@@ -98,6 +98,7 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
             <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
             <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
@@ -447,8 +448,24 @@ back to top
 <p>
 currently just publishing all to planetbanatt format
 </p>
+
+<p>
+The blog index is auto-generated before each publish run via a preparation function that calls <code>scripts/generate_blog_index.py</code>. This scans <code>org/blog/</code> for post files and rewrites the post list in <code>org/blog/index.org</code> so I don't have to maintain it manually.
+</p>
+
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #F92672;">setq</span> org-publish-project-alist
+<pre class="src src-emacs-lisp">(<span style="color: #F92672;">defun</span> <span style="color: #A6E22E;">eryk/generate-blog-index</span> (pl-alist)
+  <span style="color: #E6DB74;">"Regenerate blog index before publishing.
+Runs the Python script that scans org/blog/ for posts and rewrites
+the post list in org/blog/index.org."</span>
+  (<span style="color: #F92672;">let*</span> ((default-directory (expand-file-name <span style="color: #E6DB74;">"~/Documents/code/ambisinister.github.io/"</span>))
+         (script (expand-file-name <span style="color: #E6DB74;">"scripts/generate_blog_index.py"</span> default-directory)))
+    (<span style="color: #F92672;">when</span> (file-exists-p script)
+      (message <span style="color: #E6DB74;">"Regenerating blog index..."</span>)
+      (shell-command (format <span style="color: #E6DB74;">"python3 %s"</span> (shell-quote-argument script)))
+      (message <span style="color: #E6DB74;">"Blog index regenerated."</span>))))
+
+(<span style="color: #F92672;">setq</span> org-publish-project-alist
       '((<span style="color: #E6DB74;">"planetbanatt"</span>
         <span style="color: #F92672;">:base-directory</span> <span style="color: #E6DB74;">"~/Documents/code/ambisinister.github.io/org/"</span>
         <span style="color: #F92672;">:base-extension</span> <span style="color: #E6DB74;">"org"</span>
@@ -456,12 +473,14 @@ currently just publishing all to planetbanatt format
         <span style="color: #F92672;">:recursive</span> t
         <span style="color: #F92672;">:publishing-function</span> org-html-publish-to-html
         <span style="color: #F92672;">:headline-levels</span> 6             <span style="color: #75715E;">; </span><span style="color: #75715E;">Just the default for this project.
-</span>        ))
+</span>        <span style="color: #F92672;">:preparation-function</span> eryk/generate-blog-index
+        ))
 )
 </pre>
 </div>
 </div>
 </div>
+
 
 <div id="outline-container-org2197c7c" class="outline-3">
 <h3 id="org2197c7c">minted, hopefully</h3>

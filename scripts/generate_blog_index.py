@@ -2,7 +2,8 @@
 """Auto-generate the blog post listing in org/blog/index.org.
 
 Scans org/blog/ for .org files (excluding index.org), extracts titles and
-dates, and rewrites the post list section between the marker comments.
+dates, and rewrites the post list below the "Posts are listed newest first."
+line. Legacy marker comments are removed if they are still present.
 
 Usage:
     python3 scripts/generate_blog_index.py [--dry-run]
@@ -22,7 +23,6 @@ Workflow:
     3. Export with org-publish (C-c C-e h h) as usual
 """
 
-import os
 import re
 import sys
 from datetime import datetime
@@ -33,9 +33,14 @@ INDEX_FILE = BLOG_DIR / "index.org"
 
 BEGIN_MARKER = "<!-- BEGIN AUTO-GENERATED POST LIST -->"
 END_MARKER = "<!-- END AUTO-GENERATED POST LIST -->"
+POST_LIST_ANCHOR = "Posts are listed newest first."
+NO_POSTS_LINE = "No posts yet."
 
 DATE_RE = re.compile(r"^(\d{4}-\d{2}-\d{2})")
 TITLE_RE = re.compile(r"^#\+TITLE:\s*(.+)$", re.MULTILINE)
+POST_LINK_RE = re.compile(
+    r"^\[\[https?://planetbanatt\.net/blog/[^][]+\.html\]\[[^][]+\]\]$"
+)
 
 
 def extract_title(filepath):
@@ -86,37 +91,102 @@ def generate_index_section():
     """Generate the org-mode content for the post list."""
     posts = get_blog_posts()
     if not posts:
-        return f"{BEGIN_MARKER}\n\nNo posts yet.\n\n{END_MARKER}"
-    lines = [BEGIN_MARKER, ""]
-    for post in posts:
-        lines.append(format_post_link(post))
-    lines.append("")
-    lines.append(END_MARKER)
-    return "\n".join(lines)
+        return NO_POSTS_LINE
+    return "\n".join(format_post_link(post) for post in posts)
+
+
+def is_managed_post_line(line):
+    """Return True for lines owned by this generator."""
+    return line == NO_POSTS_LINE or bool(POST_LINK_RE.match(line))
+
+
+def split_legacy_marker_block(content):
+    """Return before/after text for old marker-based indexes, if present."""
+    has_begin = BEGIN_MARKER in content
+    has_end = END_MARKER in content
+
+    if has_begin != has_end:
+        print("ERROR: Incomplete legacy marker comments found in index.org.",
+              file=sys.stderr)
+        sys.exit(1)
+
+    if not has_begin:
+        return None
+
+    begin_pos = content.index(BEGIN_MARKER)
+    try:
+        end_pos = content.index(END_MARKER, begin_pos) + len(END_MARKER)
+    except ValueError:
+        print("ERROR: Legacy end marker appears before begin marker in index.org.",
+              file=sys.stderr)
+        sys.exit(1)
+
+    return content[:begin_pos], content[end_pos:]
+
+
+def split_anchor_block(content):
+    """Return before/after text around the managed post list."""
+    lines = content.splitlines(keepends=True)
+    anchor_idx = None
+
+    for idx, line in enumerate(lines):
+        if line.strip() == POST_LIST_ANCHOR:
+            anchor_idx = idx
+            break
+
+    if anchor_idx is None:
+        print("ERROR: Blog index anchor not found in index.org.", file=sys.stderr)
+        print("Add this line where the generated post list should go:",
+              file=sys.stderr)
+        print(f"  {POST_LIST_ANCHOR}", file=sys.stderr)
+        sys.exit(1)
+
+    start = anchor_idx + 1
+    while start < len(lines) and lines[start].strip() == "":
+        start += 1
+
+    end = start
+    while end < len(lines):
+        stripped = lines[end].strip()
+
+        if is_managed_post_line(stripped):
+            end += 1
+            continue
+
+        if stripped == "":
+            next_idx = end + 1
+            while next_idx < len(lines) and lines[next_idx].strip() == "":
+                next_idx += 1
+            if (next_idx < len(lines)
+                    and is_managed_post_line(lines[next_idx].strip())):
+                end = next_idx
+                continue
+
+        break
+
+    return "".join(lines[:anchor_idx + 1]), "".join(lines[end:])
+
+
+def build_index_content(before, new_section, after):
+    """Assemble the index with clean spacing around the generated list."""
+    before = before.rstrip()
+    after = after.lstrip("\n")
+
+    if after:
+        return f"{before}\n\n{new_section}\n\n{after}"
+    return f"{before}\n\n{new_section}\n"
 
 
 def update_index_file(dry_run=False):
-    """Replace the content between markers in index.org."""
+    """Replace the generated post list in index.org."""
     content = INDEX_FILE.read_text(encoding="utf-8")
-
-    # If markers don't exist yet, we can't proceed
-    if BEGIN_MARKER not in content or END_MARKER not in content:
-        print("ERROR: Marker comments not found in index.org.", file=sys.stderr)
-        print(f"Add these lines to org/blog/index.org where the post list should go:",
-              file=sys.stderr)
-        print(f"  {BEGIN_MARKER}", file=sys.stderr)
-        print(f"  {END_MARKER}", file=sys.stderr)
-        sys.exit(1)
-
-    # Extract before/after sections
-    begin_pos = content.index(BEGIN_MARKER)
-    end_pos = content.index(END_MARKER) + len(END_MARKER)
-
-    before = content[:begin_pos]
-    after = content[end_pos:]
+    legacy_parts = split_legacy_marker_block(content)
+    if legacy_parts:
+        before, after = legacy_parts
+    else:
+        before, after = split_anchor_block(content)
     new_section = generate_index_section()
-
-    new_content = before + new_section + after
+    new_content = build_index_content(before, new_section, after)
 
     if dry_run:
         print("=== DRY RUN: New index.org post list section ===")
