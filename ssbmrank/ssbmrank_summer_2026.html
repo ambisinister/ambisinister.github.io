@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --danger-color: #dc2626;
+            --neutral-color: #6b7280;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-accent: #f1f5f9;
+            --border-color: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            padding: 12px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background-color: var(--bg-primary);
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            padding: 16px 32px;
+        }
+
+        h1, h2 {
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            margin: 8px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--success-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-top: 20px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin: 0 0 12px 0;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 24px;
+        }
+
+        .stickyrow { 
+            width: 3000px; 
+        }
+
+        /* Table styling */
+        #tableContainer {
+            overflow: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            margin: 20px 0;
+            max-height: 80vh;
+        }
+
+        table {
+            table-layout: auto;
+            border-collapse: separate;
+            border-spacing: 0;
+            width: auto;
+        }
+
+        table.small-table {
+            width: auto;
+        }
+
+        table.large-table {
+            width: auto;
+        }
+        
+        /* Fixed first column and header */
+        #crossTable th, #crossTable td {
+            position: sticky;
+            border: 1px solid var(--border-color);
+        }
+        
+        /* Fixed header */
+        #crossTable th {
+            top: 0;
+            z-index: 2;
+            background: linear-gradient(135deg, var(--primary-color), #3b82f6);
+            color: white;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        /* Fixed first column */
+        #crossTable th:first-child, #crossTable td:first-child {
+            left: 0;
+            z-index: 1;
+            background: linear-gradient(135deg, var(--primary-color), #3b82f6);
+            color: white;
+            font-weight: 500;
+        }
+        
+        #crossTable th:first-child {
+            z-index: 3;
+        }
+        
+        /* First column width */
+        #crossTable th:first-child, #crossTable td:first-child {
+            width: auto;
+            white-space: nowrap;
+        }
+
+        /* Other columns - compact width */
+        #crossTable th:not(:first-child), #crossTable td:not(:first-child) {
+            width: 80px;
+            min-width: 80px;
+            max-width: 80px;
+        }
+        
+        td, th {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+            padding: 8px 12px;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        td:hover:not(.black):not(:first-child) {
+            background-color: var(--bg-accent) !important;
+            transform: scale(1.02);
+            z-index: 1;
+            box-shadow: var(--shadow-md);
+            cursor: pointer;
+        }
+
+        td:not(.black):not(:first-child) {
+            cursor: pointer;
+        }
+
+        .stickycell { 
+            background-color: var(--bg-accent);
+        }
+        
+        /* Enhanced color scheme */
+        td.white { 
+            background-color: #f1f5f9; 
+            color: var(--text-secondary);
+        }
+        td.yellow { 
+            background-color: #fef3c7; 
+            color: #92400e;
+            font-weight: 500;
+        }
+        td.green { 
+            background-color: #d1fae5; 
+            color: #065f46;
+            font-weight: 600;
+        }
+        td.red { 
+            background-color: #fee2e2; 
+            color: #991b1b;
+            font-weight: 600;
+        }
+        td.black { 
+            background-color: #1f2937; 
+            color: #9ca3af;
+            font-weight: 500;
+        }
+
+
+        /* Filter and Button Styling */
+        .filter-section {
+            background-color: var(--bg-accent);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 8px 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .radio-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .radio-group:hover {
+            background-color: var(--bg-primary);
+        }
+
+        .radio-group input[type="radio"] {
+            accent-color: var(--primary-color);
+            margin: 0;
+        }
+
+        .radio-group label {
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        /* Button Styling */
+        .btn {
+            background: linear-gradient(135deg, var(--primary-color), #3b82f6);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+            box-shadow: var(--shadow-sm);
+            margin: 8px 0;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+            background: linear-gradient(135deg, #1d4ed8, var(--primary-color));
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary-color), #475569);
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #475569, var(--secondary-color));
+        }
+
+        /* Sortable List Styling */
+        #sortable {
+            background-color: var(--bg-accent);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+            border: 1px solid var(--border-color);
+            columns: 3;
+            column-gap: 20px;
+            column-fill: balance;
+            list-style: decimal;
+            list-style-position: inside;
+        }
+
+        #sortable li {
+            background-color: var(--bg-primary);
+            margin: 4px 0;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            cursor: move;
+            font-weight: 500;
+            box-shadow: var(--shadow-sm);
+            display: inline-block;
+            width: 100%;
+            break-inside: avoid;
+            font-size: 0.875rem;
+            position: relative;
+        }
+
+        #sortable li .player-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        #sortable li .player-rank {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-right: 4px;
+        }
+
+        #sortable li .player-name {
+            flex: 1;
+            margin-right: 8px;
+        }
+
+        #sortable li .hide-btn {
+            background-color: var(--danger-color);
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 2px 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        #sortable li .hide-btn:hover {
+            background-color: #b91c1c;
+        }
+
+        #sortable li.hidden {
+            opacity: 0.5;
+            background-color: var(--neutral-color);
+        }
+
+        #sortable li.hidden .hide-btn {
+            background-color: var(--success-color);
+        }
+
+        #sortable li.hidden .hide-btn:hover {
+            background-color: #047857;
+        }
+
+        #sortable li:hover {
+            background-color: var(--bg-accent);
+            box-shadow: var(--shadow-md);
+        }
+
+        #sortable li.ui-sortable-helper {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: var(--shadow-lg);
+            width: auto;
+        }
+
+        .sortable-placeholder {
+            background-color: var(--border-color);
+            border: 2px dashed var(--primary-color);
+            margin: 4px 0;
+            height: 32px;
+            border-radius: 4px;
+            display: inline-block;
+            width: 100%;
+        }
+
+        /* Collapsible Sections */
+        .collapsible-section {
+            background-color: var(--bg-accent);
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .collapsible-content {
+            padding: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: var(--bg-primary);
+        }
+
+        .info-text {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin: 8px 0;
+        }
+
+        /* Modal Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background-color: var(--bg-primary);
+            margin: 5% auto;
+            padding: 24px;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .close {
+            color: var(--text-secondary);
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .close:hover {
+            color: var(--danger-color);
+            background-color: var(--bg-accent);
+        }
+
+        .match-item {
+            background-color: var(--bg-accent);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .match-winner {
+            font-weight: 600;
+            color: var(--success-color);
+        }
+
+        .match-loser {
+            color: var(--text-secondary);
+        }
+
+        .match-score {
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .match-event {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-top: 4px;
+        }
+
+        .no-matches {
+            text-align: center;
+            color: var(--text-secondary);
+            font-style: italic;
+            padding: 20px;
+        }
+
+    </style>
+
+    <!-- Include jQuery and jQuery UI libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>H2H Cross Table</h1>
+        <p class="subtitle">Updated: 07/14/2026</p>
+        
+        <!-- Tournament Filter Section -->
+        <div class="filter-section">
+            <h3>Tournament Filter</h3>
+            <div class="filter-options">
+                <div class="radio-group">
+                    <input type="radio" id="majorsAndRegionalsAndMonthlies" name="filter" value="all" checked>
+                    <label for="majorsAndRegionalsAndMonthlies">All Tournaments</label>
+                </div>
+                <div class="radio-group">
+                    <input type="radio" id="majorsAndRegionals" name="filter" value="majorAndRegional">
+                    <label for="majorsAndRegionals">Majors + Regionals</label>
+                </div>
+                <div class="radio-group">
+                    <input type="radio" id="majorsOnly" name="filter" value="majors">
+                    <label for="majorsOnly">Majors Only</label>
+                </div>
+            </div>
+        </div>
+
+        <div id="tableContainer">
+            <table id="crossTable">
+                <!-- Cross table data will be populated here using JavaScript -->
+            </table>
+        </div>
+
+        <!-- Player Ordering Section -->
+        <h2>Player Ranking</h2>
+        <p class="info-text">Drag players to reorder the table. Your ranking is automatically saved locally.</p>
+        
+        <div style="margin: 12px 0; display: flex; gap: 8px; flex-wrap: wrap;">
+            <button id="hide-all-btn" class="btn btn-secondary">Hide All Players</button>
+            <button id="show-all-btn" class="btn btn-secondary">Show All Players</button>
+            <button id="copy-list-btn" class="btn">Copy List to Clipboard</button>
+        </div>
+        
+        <ol id="sortable">
+            <!-- Player list will be populated here using JavaScript -->
+        </ol>
+
+        <!-- Advanced Filters Section -->
+        <h2>Advanced Filters</h2>
+        
+        <div class="collapsible-section">
+            <button id="toggle-events" class="btn btn-secondary">Show Event Tier Assignments</button>
+            <div id="events" class="collapsible-content" style="display: none;">
+                <!-- This will be populated using JavaScript -->
+            </div>
+        </div>
+
+        <div class="collapsible-section">
+            <button id="toggle-match-data" class="btn btn-secondary">Show Match Data</button>
+            <div id="match-data" class="collapsible-content" style="display: none;">
+                <!-- This will be populated using JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for showing match details -->
+    <div id="matchModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle" class="modal-title">Head-to-Head Matches</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div id="modalBody">
+                <!-- Match details will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Players and their IDs. 
+      var players = ["583c7fa9", "a709f899", "f43678b2", "c9b7f9dd", "1c278ce9", "0ad21baa", "56e65e49", "5184e09f", "89d7c7da", "ce4714ea", "de19d076", "94b7911b", "90271561", "01592d51", "9ff819f4", "076502c1", "2d34f47c", "dbff9f24", "3351e9c0", "658c6a49", "e1a864f0", "3d48f6c2", "cddea7f7", "a327d9dd", "98db8330", "05c05957", "88547be1", "760514b0", "a04e4aed", "3fa79e5d", "ebb6c120", "0350ea24", "8646af65", "7fe8638e", "9c63d861", "a9334987", "15d1ee11", "c1c6b231", "292b1b08", "b46a1da4", "2a371960", "4ee579fd", "138825ed"];
+	
+      
+      var playersData = {"583c7fa9": "404Cray", "a709f899": "Agent", "f43678b2": "Aklo", "c9b7f9dd": "Aura", "1c278ce9": "Axe", "0ad21baa": "Ben", "56e65e49": "Chem", "5184e09f": "Daniel", "89d7c7da": "DarkGenex", "ce4714ea": "Dawson", "de19d076": "Dial M", "94b7911b": "Fiction", "90271561": "Frostbyte", "01592d51": "Ginger", "9ff819f4": "Graves", "076502c1": "Hungrybox", "2d34f47c": "Jmook", "dbff9f24": "Joshman", "3351e9c0": "Kacey", "658c6a49": "Kevbot", "e1a864f0": "KJH", "3d48f6c2": "KoDoRiN", "cddea7f7": "Krudo", "a327d9dd": "Lowercase hero", "98db8330": "Magi", "05c05957": "moky", "88547be1": "n0ne", "760514b0": "Preeminent", "a04e4aed": "RapMonster", "3fa79e5d": "Reesch", "ebb6c120": "Salt", "0350ea24": "SDJ", "8646af65": "Slowking", "7fe8638e": "SluG", "9c63d861": "Soonsay", "a9334987": "Spark", "15d1ee11": "Squid", "c1c6b231": "The Weapon", "292b1b08": "Ultra", "b46a1da4": "Wizzrobe", "2a371960": "Zain", "4ee579fd": "Zasa", "138825ed": "Zoey"};
+
+        // events data.
+      var eventsData = {"0": "Genesis X3", "1": "Out of the Blue 5", "2": "Pat's House 5", "3": "Battle of BC 8", "4": "Full House: Siege", "5": "Creed V", "6": "Super Fusion #1 - The Fusion Supermajor", "7": "Garden Brawl 2026", "8": "Smash Valley: The Last Dance ($1000+ Pot Bonus)", "9": "Camp Heartlands", "10": "Bair Necessities - A Richmond Melee Regional [$300 Pot Bonus!]", "11": "Fight at the Museum 2", "12": "House of Paign 25", "13": "Sunset Melee", "14": "Minnesota Monthly Melee #33: Mega Minnesota Monthly Melee", "15": "Eggdog House Party June 2026", "16": "Run, Don't Walk 2026 ($1,000 in Pot Bonuses!)", "17": "KREWE 2", "18": "|Scarlet Classic XI || $1000 Pot Bonus|", "19": "Eggdog House Party February 2026", "20": "Eggdog House Party May 2026", "21": "Patchwork 2026: A Love Letter"};
+
+        function updateMatches(eventId, prestige) {
+            matches = matches.map(function(match) {
+                if (match[5] == eventId) {
+                    match[6] = prestige;
+                }
+                return match;
+            });
+        }
+        
+        // Match data.
+	var matches = [["Soonsay", "9c63d861", "Hungrybox", "076502c1", "3-2", "0", "majors"], ["Wizzrobe", "b46a1da4", "RapMonster", "a04e4aed", "3-0", "0", "majors"], ["Jmook", "2d34f47c", "Joshman", "dbff9f24", "3-1", "0", "majors"], ["Krudo", "cddea7f7", "Magi", "98db8330", "3-1", "0", "majors"], ["Salt", "ebb6c120", "RapMonster", "a04e4aed", "3-1", "0", "majors"], ["Krudo", "cddea7f7", "moky", "05c05957", "3-0", "0", "majors"], ["Salt", "ebb6c120", "KoDoRiN", "3d48f6c2", "3-2", "0", "majors"], ["Jmook", "2d34f47c", "Soonsay", "9c63d861", "3-1", "0", "majors"], ["Wizzrobe", "b46a1da4", "Ultra", "292b1b08", "3-0", "0", "majors"], ["Frostbyte", "90271561", "Fiction", "94b7911b", "3-0", "0", "majors"], ["Graves", "9ff819f4", "Kevbot", "658c6a49", "3-1", "0", "majors"], ["Agent", "a709f899", "Spark", "a9334987", "3-1", "0", "majors"], ["Zasa", "4ee579fd", "Preeminent", "760514b0", "3-2", "0", "majors"], ["RapMonster", "a04e4aed", "Zain", "2a371960", "3-1", "0", "majors"], ["Wizzrobe", "b46a1da4", "SDJ", "0350ea24", "3-1", "0", "majors"], ["Joshman", "dbff9f24", "Krudo", "cddea7f7", "3-0", "0", "majors"], ["Jmook", "2d34f47c", "Aklo", "f43678b2", "3-1", "0", "majors"], ["Hungrybox", "076502c1", "Salt", "ebb6c120", "3-1", "0", "majors"], ["Soonsay", "9c63d861", "KoDoRiN", "3d48f6c2", "3-1", "0", "majors"], ["moky", "05c05957", "Aklo", "f43678b2", "3-1", "0", "majors"], ["Krudo", "cddea7f7", "Dial M", "de19d076", "3-1", "0", "majors"], ["KoDoRiN", "3d48f6c2", "n0ne", "88547be1", "3-1", "0", "majors"], ["Salt", "ebb6c120", "Kacey", "3351e9c0", "3-1", "0", "majors"], ["Spark", "a9334987", "Axe", "1c278ce9", "3-1", "0", "majors"], ["moky", "05c05957", "Fiction", "94b7911b", "3-0", "0", "majors"], ["Dial M", "de19d076", "Daniel", "5184e09f", "3-0", "0", "majors"], ["Spark", "a9334987", "Ben", "0ad21baa", "3-2", "0", "majors"], ["Lowercase hero", "a327d9dd", "Reesch", "3fa79e5d", "3-2", "0", "majors"], ["Jmook", "2d34f47c", "Wizzrobe", "b46a1da4", "3-2", "0", "majors"], ["Zain", "2a371960", "Graves", "9ff819f4", "3-0", "0", "majors"], ["RapMonster", "a04e4aed", "Aura", "c9b7f9dd", "3-1", "0", "majors"], ["KoDoRiN", "3d48f6c2", "Reesch", "3fa79e5d", "3-0", "0", "majors"], ["Wizzrobe", "b46a1da4", "Ben", "0ad21baa", "3-1", "0", "majors"], ["Kacey", "3351e9c0", "Squid", "15d1ee11", "3-0", "0", "majors"], ["SDJ", "0350ea24", "Frostbyte", "90271561", "3-0", "0", "majors"], ["Aklo", "f43678b2", "n0ne", "88547be1", "3-0", "0", "majors"], ["Magi", "98db8330", "Ginger", "01592d51", "3-0", "0", "majors"], ["Axe", "1c278ce9", "KJH", "e1a864f0", "3-2", "0", "majors"], ["Hungrybox", "076502c1", "Zasa", "4ee579fd", "3-0", "0", "majors"], ["Salt", "ebb6c120", "Dial M", "de19d076", "3-0", "0", "majors"], ["KoDoRiN", "3d48f6c2", "moky", "05c05957", "3-2", "0", "majors"], ["Soonsay", "9c63d861", "Agent", "a709f899", "3-0", "0", "majors"], ["Fiction", "94b7911b", "Agent", "a709f899", "3-1", "0", "majors"], ["Daniel", "5184e09f", "Zasa", "4ee579fd", "3-2", "0", "majors"], ["Spark", "a9334987", "Frostbyte", "90271561", "3-2", "0", "majors"], ["Preeminent", "760514b0", "Graves", "9ff819f4", "3-2", "0", "majors"], ["Daniel", "5184e09f", "Kevbot", "658c6a49", "3-1", "0", "majors"], ["Salt", "ebb6c120", "Joshman", "dbff9f24", "3-2", "0", "majors"], ["moky", "05c05957", "Hungrybox", "076502c1", "3-1", "1", "majors"], ["Wizzrobe", "b46a1da4", "SluG", "7fe8638e", "3-2", "1", "majors"], ["Wizzrobe", "b46a1da4", "SluG", "7fe8638e", "3-2", "1", "majors"], ["Zain", "2a371960", "Ginger", "01592d51", "3-0", "1", "majors"], ["Wizzrobe", "b46a1da4", "Joshman", "dbff9f24", "3-1", "1", "majors"], ["Hungrybox", "076502c1", "Spark", "a9334987", "3-0", "1", "majors"], ["Joshman", "dbff9f24", "Jmook", "2d34f47c", "3-1", "1", "majors"], ["Aklo", "f43678b2", "Preeminent", "760514b0", "3-1", "1", "majors"], ["Spark", "a9334987", "Chem", "56e65e49", "3-0", "1", "majors"], ["Jmook", "2d34f47c", "Krudo", "cddea7f7", "3-1", "1", "majors"], ["SluG", "7fe8638e", "Wizzrobe", "b46a1da4", "3-2", "1", "majors"], ["Zain", "2a371960", "Chem", "56e65e49", "3-0", "1", "majors"], ["Ginger", "01592d51", "Spark", "a9334987", "3-1", "1", "majors"], ["Joshman", "dbff9f24", "Preeminent", "760514b0", "3-1", "1", "majors"], ["Wizzrobe", "b46a1da4", "Aklo", "f43678b2", "3-1", "1", "majors"], ["SluG", "7fe8638e", "Jmook", "2d34f47c", "3-1", "1", "majors"], ["moky", "05c05957", "Magi", "98db8330", "3-1", "1", "majors"], ["Preeminent", "760514b0", "Ben", "0ad21baa", "3-2", "1", "majors"], ["KJH", "e1a864f0", "Magi", "98db8330", "3-2", "1", "majors"], ["Wizzrobe", "b46a1da4", "Hungrybox", "076502c1", "3-2", "1", "majors"], ["Hungrybox", "076502c1", "moky", "05c05957", "3-1", "1", "majors"], ["Wizzrobe", "b46a1da4", "Zain", "2a371960", "3-2", "1", "majors"], ["SluG", "7fe8638e", "moky", "05c05957", "3-2", "1", "majors"], ["Preeminent", "760514b0", "Dial M", "de19d076", "3-1", "1", "majors"], ["Aklo", "f43678b2", "KJH", "e1a864f0", "3-0", "1", "majors"], ["Magi", "98db8330", "Lowercase hero", "a327d9dd", "3-0", "1", "majors"], ["moky", "05c05957", "Ginger", "01592d51", "3-0", "1", "majors"], ["Hungrybox", "076502c1", "Zain", "2a371960", "3-1", "1", "majors"], ["Ginger", "01592d51", "Joshman", "dbff9f24", "3-1", "1", "majors"], ["Hungrybox", "076502c1", "Aklo", "f43678b2", "3-2", "1", "majors"], ["Zain", "2a371960", "RapMonster", "a04e4aed", "3-0", "2", "majors"], ["Zain", "2a371960", "RapMonster", "a04e4aed", "3-1", "2", "majors"], ["Aura", "c9b7f9dd", "moky", "05c05957", "3-1", "2", "majors"], ["Jmook", "2d34f47c", "Fiction", "94b7911b", "3-0", "2", "majors"], ["moky", "05c05957", "KoDoRiN", "3d48f6c2", "3-0", "2", "majors"], ["RapMonster", "a04e4aed", "moky", "05c05957", "3-2", "2", "majors"], ["Krudo", "cddea7f7", "Preeminent", "760514b0", "3-0", "2", "majors"], ["moky", "05c05957", "Aura", "c9b7f9dd", "3-1", "2", "majors"], ["RapMonster", "a04e4aed", "Aura", "c9b7f9dd", "3-2", "2", "majors"], ["Zain", "2a371960", "Jmook", "2d34f47c", "3-0", "2", "majors"], ["Aura", "c9b7f9dd", "Axe", "1c278ce9", "3-1", "2", "majors"], ["Jmook", "2d34f47c", "Preeminent", "760514b0", "3-2", "2", "majors"], ["Fiction", "94b7911b", "Krudo", "cddea7f7", "3-2", "2", "majors"], ["Zain", "2a371960", "KoDoRiN", "3d48f6c2", "3-2", "2", "majors"], ["Krudo", "cddea7f7", "Lowercase hero", "a327d9dd", "3-0", "2", "majors"], ["Hungrybox", "076502c1", "Axe", "1c278ce9", "3-2", "2", "majors"], ["moky", "05c05957", "Jmook", "2d34f47c", "3-1", "2", "majors"], ["Zain", "2a371960", "Hungrybox", "076502c1", "3-1", "3", "majors"], ["Zain", "2a371960", "moky", "05c05957", "3-0", "3", "majors"], ["Wizzrobe", "b46a1da4", "Lowercase hero", "a327d9dd", "3-0", "3", "majors"], ["Jmook", "2d34f47c", "Spark", "a9334987", "3-0", "3", "majors"], ["Axe", "1c278ce9", "Soonsay", "9c63d861", "3-1", "3", "majors"], ["Hungrybox", "076502c1", "Dawson", "ce4714ea", "3-0", "3", "majors"], ["moky", "05c05957", "The Weapon", "c1c6b231", "3-1", "3", "majors"], ["Salt", "ebb6c120", "Fiction", "94b7911b", "3-2", "3", "majors"], ["Joshman", "dbff9f24", "Aura", "c9b7f9dd", "3-0", "3", "majors"], ["Hungrybox", "076502c1", "moky", "05c05957", "3-1", "3", "majors"], ["Hungrybox", "076502c1", "Joshman", "dbff9f24", "3-1", "3", "majors"], ["moky", "05c05957", "Wizzrobe", "b46a1da4", "3-0", "3", "majors"], ["Wizzrobe", "b46a1da4", "Axe", "1c278ce9", "3-1", "3", "majors"], ["Zain", "2a371960", "Joshman", "dbff9f24", "3-2", "3", "majors"], ["moky", "05c05957", "Salt", "ebb6c120", "3-2", "3", "majors"], ["Zain", "2a371960", "Jmook", "2d34f47c", "3-0", "3", "majors"], ["Joshman", "dbff9f24", "Hungrybox", "076502c1", "3-2", "3", "majors"], ["The Weapon", "c1c6b231", "n0ne", "88547be1", "3-0", "3", "majors"], ["Joshman", "dbff9f24", "Salt", "ebb6c120", "3-0", "3", "majors"], ["Hungrybox", "076502c1", "Wizzrobe", "b46a1da4", "3-2", "3", "majors"], ["Salt", "ebb6c120", "Aura", "c9b7f9dd", "3-0", "3", "majors"], ["Axe", "1c278ce9", "Spark", "a9334987", "3-2", "3", "majors"], ["Hungrybox", "076502c1", "Fiction", "94b7911b", "3-1", "3", "majors"], ["Jmook", "2d34f47c", "Soonsay", "9c63d861", "3-1", "3", "majors"], ["Salt", "ebb6c120", "Axe", "1c278ce9", "3-1", "3", "majors"], ["Hungrybox", "076502c1", "Jmook", "2d34f47c", "3-2", "3", "majors"], ["Aura", "c9b7f9dd", "Dawson", "ce4714ea", "3-0", "3", "majors"], ["Fiction", "94b7911b", "The Weapon", "c1c6b231", "3-0", "3", "majors"], ["Soonsay", "9c63d861", "Lowercase hero", "a327d9dd", "3-1", "3", "majors"], ["Spark", "a9334987", "n0ne", "88547be1", "3-2", "3", "majors"], ["Jmook", "2d34f47c", "n0ne", "88547be1", "3-0", "4", "majors"], ["moky", "05c05957", "Magi", "98db8330", "3-1", "4", "majors"], ["RapMonster", "a04e4aed", "Wizzrobe", "b46a1da4", "3-1", "4", "majors"], ["Salt", "ebb6c120", "moky", "05c05957", "3-1", "4", "majors"], ["Jmook", "2d34f47c", "Aura", "c9b7f9dd", "3-0", "4", "majors"], ["Magi", "98db8330", "Dawson", "ce4714ea", "3-1", "4", "majors"], ["RapMonster", "a04e4aed", "Soonsay", "9c63d861", "3-0", "4", "majors"], ["Joshman", "dbff9f24", "n0ne", "88547be1", "3-1", "4", "majors"], ["Zain", "2a371960", "Wizzrobe", "b46a1da4", "3-1", "4", "majors"], ["Hungrybox", "076502c1", "Joshman", "dbff9f24", "3-2", "4", "majors"], ["Aura", "c9b7f9dd", "DarkGenex", "89d7c7da", "3-0", "4", "majors"], ["moky", "05c05957", "Jmook", "2d34f47c", "3-1", "4", "majors"], ["n0ne", "88547be1", "RapMonster", "a04e4aed", "3-1", "4", "majors"], ["Salt", "ebb6c120", "Magi", "98db8330", "3-2", "4", "majors"], ["Wizzrobe", "b46a1da4", "Soonsay", "9c63d861", "3-0", "4", "majors"], ["moky", "05c05957", "Wizzrobe", "b46a1da4", "3-2", "4", "majors"], ["Hungrybox", "076502c1", "Salt", "ebb6c120", "3-2", "4", "majors"], ["Zain", "2a371960", "Jmook", "2d34f47c", "3-0", "4", "majors"], ["Joshman", "dbff9f24", "Wizzrobe", "b46a1da4", "3-1", "4", "majors"], ["n0ne", "88547be1", "Dawson", "ce4714ea", "3-0", "4", "majors"], ["Salt", "ebb6c120", "DarkGenex", "89d7c7da", "3-1", "4", "majors"], ["Hungrybox", "076502c1", "Magi", "98db8330", "3-1", "4", "majors"], ["Soonsay", "9c63d861", "Aura", "c9b7f9dd", "3-2", "4", "majors"], ["Wizzrobe", "b46a1da4", "Zain", "2a371960", "3-1", "4", "majors"], ["moky", "05c05957", "Salt", "ebb6c120", "3-1", "4", "majors"], ["Wizzrobe", "b46a1da4", "Aura", "c9b7f9dd", "3-2", "4", "majors"], ["moky", "05c05957", "Joshman", "dbff9f24", "3-2", "4", "majors"], ["Zain", "2a371960", "Joshman", "dbff9f24", "3-0", "4", "majors"], ["Hungrybox", "076502c1", "RapMonster", "a04e4aed", "3-1", "4", "majors"], ["Salt", "ebb6c120", "Jmook", "2d34f47c", "3-1", "4", "majors"], ["Jmook", "2d34f47c", "Dawson", "ce4714ea", "3-1", "4", "majors"], ["Zain", "2a371960", "n0ne", "88547be1", "3-1", "4", "majors"], ["Wizzrobe", "b46a1da4", "DarkGenex", "89d7c7da", "3-2", "4", "majors"], ["Joshman", "dbff9f24", "Salt", "ebb6c120", "3-0", "4", "majors"], ["RapMonster", "a04e4aed", "moky", "05c05957", "3-2", "4", "majors"], ["Hungrybox", "076502c1", "Aura", "c9b7f9dd", "3-1", "4", "majors"], ["Magi", "98db8330", "Soonsay", "9c63d861", "3-2", "4", "majors"], ["Wizzrobe", "b46a1da4", "Jmook", "2d34f47c", "3-0", "4", "majors"], ["Aura", "c9b7f9dd", "RapMonster", "a04e4aed", "3-1", "4", "majors"], ["Joshman", "dbff9f24", "Magi", "98db8330", "3-1", "4", "majors"], ["moky", "05c05957", "Soonsay", "9c63d861", "3-1", "4", "majors"], ["Aura", "c9b7f9dd", "n0ne", "88547be1", "3-0", "4", "majors"], ["Magi", "98db8330", "DarkGenex", "89d7c7da", "3-0", "4", "majors"], ["Soonsay", "9c63d861", "Dawson", "ce4714ea", "3-1", "4", "majors"], ["Kevbot", "658c6a49", "Squid", "15d1ee11", "3-2", "5", "regionals"], ["Hungrybox", "076502c1", "Jmook", "2d34f47c", "3-1", "5", "regionals"], ["Hungrybox", "076502c1", "Jmook", "2d34f47c", "3-0", "5", "regionals"], ["Hungrybox", "076502c1", "404Cray", "583c7fa9", "3-0", "5", "regionals"], ["Krudo", "cddea7f7", "RapMonster", "a04e4aed", "3-1", "5", "regionals"], ["RapMonster", "a04e4aed", "SluG", "7fe8638e", "3-0", "5", "regionals"], ["Jmook", "2d34f47c", "Krudo", "cddea7f7", "3-0", "5", "regionals"], ["Dawson", "ce4714ea", "Squid", "15d1ee11", "3-1", "5", "regionals"], ["Krudo", "cddea7f7", "RapMonster", "a04e4aed", "3-1", "5", "regionals"], ["Hungrybox", "076502c1", "Aklo", "f43678b2", "3-1", "5", "regionals"], ["Hungrybox", "076502c1", "Frostbyte", "90271561", "3-0", "5", "regionals"], ["Jmook", "2d34f47c", "Krudo", "cddea7f7", "3-2", "5", "regionals"], ["404Cray", "583c7fa9", "Kevbot", "658c6a49", "3-0", "5", "regionals"], ["RapMonster", "a04e4aed", "Dawson", "ce4714ea", "3-0", "5", "regionals"], ["Krudo", "cddea7f7", "Agent", "a709f899", "3-1", "5", "regionals"], ["Krudo", "cddea7f7", "404Cray", "583c7fa9", "3-2", "5", "regionals"], ["RapMonster", "a04e4aed", "Aklo", "f43678b2", "3-1", "5", "regionals"], ["Squid", "15d1ee11", "Agent", "a709f899", "3-2", "5", "regionals"], ["404Cray", "583c7fa9", "SluG", "7fe8638e", "3-2", "6", "regionals"], ["SluG", "7fe8638e", "404Cray", "583c7fa9", "3-2", "6", "regionals"], ["SluG", "7fe8638e", "404Cray", "583c7fa9", "3-0", "6", "regionals"], ["Kevbot", "658c6a49", "Frostbyte", "90271561", "3-0", "6", "regionals"], ["Agent", "a709f899", "Daniel", "5184e09f", "3-1", "6", "regionals"], ["Kevbot", "658c6a49", "404Cray", "583c7fa9", "3-2", "7", "regionals"], ["RapMonster", "a04e4aed", "SluG", "7fe8638e", "3-0", "8", "regionals"], ["RapMonster", "a04e4aed", "SluG", "7fe8638e", "3-1", "8", "regionals"], ["RapMonster", "a04e4aed", "Chem", "56e65e49", "3-1", "8", "regionals"], ["SluG", "7fe8638e", "Krudo", "cddea7f7", "3-1", "8", "regionals"], ["SluG", "7fe8638e", "Krudo", "cddea7f7", "3-2", "8", "regionals"], ["Krudo", "cddea7f7", "Chem", "56e65e49", "3-1", "8", "regionals"], ["Chem", "56e65e49", "SDJ", "0350ea24", "3-2", "8", "regionals"], ["Salt", "ebb6c120", "Kacey", "3351e9c0", "3-1", "9", "regionals"], ["Salt", "ebb6c120", "Kacey", "3351e9c0", "3-1", "9", "regionals"], ["Kacey", "3351e9c0", "Ben", "0ad21baa", "3-2", "9", "regionals"], ["Ben", "0ad21baa", "Slowking", "8646af65", "3-1", "9", "regionals"], ["Preeminent", "760514b0", "Zasa", "4ee579fd", "3-0", "9", "regionals"], ["Salt", "ebb6c120", "Ben", "0ad21baa", "3-2", "9", "regionals"], ["Kacey", "3351e9c0", "Preeminent", "760514b0", "3-2", "9", "regionals"], ["Salt", "ebb6c120", "Preeminent", "760514b0", "3-1", "9", "regionals"], ["Salt", "ebb6c120", "Slowking", "8646af65", "3-1", "9", "regionals"], ["Dawson", "ce4714ea", "Frostbyte", "90271561", "2-0", "10", "regionals"], ["Zasa", "4ee579fd", "RapMonster", "a04e4aed", "3-0", "10", "regionals"], ["Zasa", "4ee579fd", "Dawson", "ce4714ea", "3-2", "10", "regionals"], ["RapMonster", "a04e4aed", "Frostbyte", "90271561", "3-1", "10", "regionals"], ["Dawson", "ce4714ea", "Daniel", "5184e09f", "3-1", "10", "regionals"], ["Zain", "2a371960", "Dawson", "ce4714ea", "3-0", "10", "regionals"], ["Zasa", "4ee579fd", "RapMonster", "a04e4aed", "3-1", "10", "regionals"], ["Frostbyte", "90271561", "Kevbot", "658c6a49", "3-0", "10", "regionals"], ["Salt", "ebb6c120", "Joshman", "dbff9f24", "3-1", "11", "regionals"], ["Salt", "ebb6c120", "Joshman", "dbff9f24", "3-0", "11", "regionals"], ["Joshman", "dbff9f24", "Salt", "ebb6c120", "3-2", "11", "regionals"], ["Salt", "ebb6c120", "Magi", "98db8330", "3-1", "11", "regionals"], ["Magi", "98db8330", "Ultra", "292b1b08", "3-2", "11", "regionals"], ["Joshman", "dbff9f24", "Dial M", "de19d076", "3-2", "11", "regionals"], ["Salt", "ebb6c120", "Magi", "98db8330", "3-1", "11", "regionals"], ["Ultra", "292b1b08", "Dial M", "de19d076", "3-0", "11", "regionals"], ["Magi", "98db8330", "The Weapon", "c1c6b231", "3-0", "11", "regionals"], ["Ultra", "292b1b08", "Graves", "9ff819f4", "3-1", "11", "regionals"], ["The Weapon", "c1c6b231", "Aura", "c9b7f9dd", "3-1", "11", "regionals"], ["Joshman", "dbff9f24", "The Weapon", "c1c6b231", "3-1", "11", "regionals"], ["Dial M", "de19d076", "Aura", "c9b7f9dd", "3-1", "11", "regionals"], ["Ultra", "292b1b08", "Zoey", "138825ed", "3-1", "11", "regionals"], ["Salt", "ebb6c120", "Ultra", "292b1b08", "3-1", "11", "regionals"], ["Magi", "98db8330", "Graves", "9ff819f4", "3-0", "11", "regionals"], ["Aura", "c9b7f9dd", "Zoey", "138825ed", "3-0", "11", "regionals"], ["Reesch", "3fa79e5d", "Preeminent", "760514b0", "3-2", "12", "regionals"], ["Slowking", "8646af65", "Zasa", "4ee579fd", "3-1", "12", "regionals"], ["Slowking", "8646af65", "Preeminent", "760514b0", "3-0", "12", "regionals"], ["Preeminent", "760514b0", "Reesch", "3fa79e5d", "3-0", "12", "regionals"], ["Slowking", "8646af65", "Reesch", "3fa79e5d", "3-0", "12", "regionals"], ["Preeminent", "760514b0", "Zasa", "4ee579fd", "3-2", "12", "regionals"], ["SDJ", "0350ea24", "RapMonster", "a04e4aed", "3-0", "13", "regionals"], ["SDJ", "0350ea24", "RapMonster", "a04e4aed", "3-2", "13", "regionals"], ["RapMonster", "a04e4aed", "SDJ", "0350ea24", "3-2", "13", "regionals"], ["SDJ", "0350ea24", "Spark", "a9334987", "3-2", "13", "regionals"], ["SDJ", "0350ea24", "Spark", "a9334987", "3-1", "13", "regionals"], ["RapMonster", "a04e4aed", "KoDoRiN", "3d48f6c2", "3-0", "13", "regionals"], ["RapMonster", "a04e4aed", "Squid", "15d1ee11", "3-0", "13", "regionals"], ["Ginger", "01592d51", "Preeminent", "760514b0", "3-2", "14", "regionals"], ["Ginger", "01592d51", "Preeminent", "760514b0", "3-0", "14", "regionals"], ["Preeminent", "760514b0", "Lowercase hero", "a327d9dd", "3-2", "14", "regionals"], ["Lowercase hero", "a327d9dd", "Slowking", "8646af65", "3-1", "14", "regionals"], ["Ginger", "01592d51", "Slowking", "8646af65", "3-0", "14", "regionals"], ["Preeminent", "760514b0", "Ben", "0ad21baa", "3-1", "14", "regionals"], ["Lowercase hero", "a327d9dd", "Ben", "0ad21baa", "3-1", "14", "regionals"], ["Slowking", "8646af65", "Lowercase hero", "a327d9dd", "3-1", "14", "regionals"], ["The Weapon", "c1c6b231", "Graves", "9ff819f4", "3-2", "15", "regionals"], ["Soonsay", "9c63d861", "Fiction", "94b7911b", "3-2", "15", "regionals"], ["Soonsay", "9c63d861", "The Weapon", "c1c6b231", "3-0", "15", "regionals"], ["Fiction", "94b7911b", "DarkGenex", "89d7c7da", "3-1", "15", "regionals"], ["Graves", "9ff819f4", "Zoey", "138825ed", "3-0", "15", "regionals"], ["Preeminent", "760514b0", "Krudo", "cddea7f7", "3-2", "16", "regionals"], ["Preeminent", "760514b0", "Krudo", "cddea7f7", "3-1", "16", "regionals"], ["Krudo", "cddea7f7", "Preeminent", "760514b0", "3-2", "16", "regionals"], ["Preeminent", "760514b0", "Reesch", "3fa79e5d", "3-2", "16", "regionals"], ["Ultra", "292b1b08", "Slowking", "8646af65", "3-0", "16", "regionals"], ["Dial M", "de19d076", "Slowking", "8646af65", "3-2", "16", "regionals"], ["Preeminent", "760514b0", "Ultra", "292b1b08", "3-2", "16", "regionals"], ["Ultra", "292b1b08", "Ben", "0ad21baa", "3-1", "16", "regionals"], ["Krudo", "cddea7f7", "Ben", "0ad21baa", "3-0", "16", "regionals"], ["Preeminent", "760514b0", "Ultra", "292b1b08", "3-1", "16", "regionals"], ["Ben", "0ad21baa", "Dial M", "de19d076", "3-0", "16", "regionals"], ["Dial M", "de19d076", "Reesch", "3fa79e5d", "3-1", "16", "regionals"], ["SDJ", "0350ea24", "RapMonster", "a04e4aed", "3-0", "17", "regionals"], ["SDJ", "0350ea24", "RapMonster", "a04e4aed", "3-1", "17", "regionals"], ["SDJ", "0350ea24", "Aklo", "f43678b2", "3-1", "17", "regionals"], ["SDJ", "0350ea24", "Joshman", "dbff9f24", "3-0", "17", "regionals"], ["RapMonster", "a04e4aed", "Magi", "98db8330", "3-0", "17", "regionals"], ["Aklo", "f43678b2", "Magi", "98db8330", "3-0", "17", "regionals"], ["Aklo", "f43678b2", "Kevbot", "658c6a49", "3-2", "18", "regionals"], ["Salt", "ebb6c120", "Graves", "9ff819f4", "3-2", "19", "regionals"], ["Spark", "a9334987", "Salt", "ebb6c120", "3-0", "19", "regionals"], ["Salt", "ebb6c120", "Zoey", "138825ed", "3-0", "19", "regionals"], ["Graves", "9ff819f4", "Zoey", "138825ed", "3-2", "20", "regionals"], ["Magi", "98db8330", "The Weapon", "c1c6b231", "3-1", "20", "regionals"], ["Salt", "ebb6c120", "RapMonster", "a04e4aed", "3-2", "21", "regionals"], ["Salt", "ebb6c120", "RapMonster", "a04e4aed", "3-1", "21", "regionals"], ["RapMonster", "a04e4aed", "Ginger", "01592d51", "3-1", "21", "regionals"], ["Ginger", "01592d51", "Zasa", "4ee579fd", "3-1", "21", "regionals"]]
+	
+	function getFilteredMatches() {
+	    var filter = $("input[name='filter']:checked").val();
+	    var excludedRows = getExcludedRows();
+	    var filteredMatches = matches.filter(function(match, index) {
+		if (excludedRows.includes(index)) {
+		    return false;
+		}
+		if (filter === "majorAndRegional") {
+		    return match[6] === 'majors' || match[6] === 'regionals';
+		}
+		return filter == "all" || match[6] == filter;
+	    });
+	    return filteredMatches;
+	}
+      
+        function createCrossTableData(filteredMatches) {
+            var data = { };
+
+            players.forEach(function(id) {
+                data[id] = {};
+                players.forEach(function(id2) {
+                    data[id][id2] = id === id2 ? "0" : "0-0";
+                });
+            });
+
+            filteredMatches.forEach(function(match) {
+		console.log(match)
+                var winnerId = match[1];
+                var loserId = match[3];
+                var score = match[4].split("-").reverse().join("-");  // swap winner-loser score
+                
+                // Update scores
+                if (data[winnerId][loserId] == "0-0") data[winnerId][loserId] = "1-0";
+                else {
+                    var scores = data[winnerId][loserId].split("-");
+                    scores[0] = (parseInt(scores[0]) + 1).toString();
+                    data[winnerId][loserId] = scores.join("-");
+                }
+
+                if (data[loserId][winnerId] == "0-0") data[loserId][winnerId] = "0-1";
+                else {
+                    var scores = data[loserId][winnerId].split("-");
+                    scores[1] = (parseInt(scores[1]) + 1).toString();
+                    data[loserId][winnerId] = scores.join("-");
+                }
+            });
+
+            return data;
+        }
+
+      function populateTable(crossTableData) {
+            $("#crossTable").empty();
+            var visiblePlayers = getVisiblePlayers();
+            
+            // Adjust table size based on number of visible players
+            if (visiblePlayers.length <= 30) {
+                $("#crossTable").removeClass("large-table").addClass("small-table");
+            } else {
+                $("#crossTable").removeClass("small-table").addClass("large-table");
+            }
+            
+            var header = $("<tr>");
+            header.append($("<th>").text("x"));
+            visiblePlayers.forEach(function(id) {
+                header.append($("<th>").addClass("cell stickycell").text(playersData[id]));
+            });
+            $("#crossTable").append(header);
+
+            visiblePlayers.forEach(function(id) {
+                var row = $("<tr>");
+                row.append($("<td>").addClass("cell stickycell stickyrow").text(playersData[id]));
+                visiblePlayers.forEach(function(id2) {
+                    var cell = $("<td>").text(crossTableData[id][id2]);
+                    if (id == id2) cell.addClass("black");  // diagonal
+                    else {
+                        var scores = crossTableData[id][id2].split("-");
+	                var wins = parseInt(scores[0]);
+	                var losses = parseInt(scores[1]);
+
+	                if (wins == 0 && losses == 0) cell.addClass("white");
+	                else if (wins == losses) cell.addClass("yellow");
+	                else if (wins > losses) cell.addClass("green");
+	                else if (wins < losses) cell.addClass("red");
+                        
+                        // Add click handler for showing matches
+                        cell.attr("data-player1", id).attr("data-player2", id2);
+                        cell.addClass("clickable-cell");
+                    }
+                    row.append(cell);
+                });
+                $("#crossTable").append(row);
+            });
+        }
+
+        function getVisiblePlayers() {
+            return players.filter(function(id) {
+                return !$("#" + id).hasClass("hidden");
+            });
+        }
+
+        function populatePlayerList() {
+            $("#sortable").empty();
+            players.forEach(function(id, index) {
+                var li = $("<li>").addClass("ui-state-default").attr("id", id);
+                var controls = $("<div>").addClass("player-controls");
+                var rank = $("<span>").addClass("player-rank").text((index + 1) + ". ");
+                var name = $("<span>").addClass("player-name").text(playersData[id]);
+                var hideBtn = $("<button>").addClass("hide-btn").text("Hide");
+                
+                controls.append(rank);
+                controls.append(name);
+                controls.append(hideBtn);
+                li.append(controls);
+                
+                $("#sortable").append(li);
+            });
+        }
+
+        function populateEvents() {
+            $("#events").empty();
+            Object.keys(eventsData).forEach(function(eventId) {
+                var eventName = eventsData[eventId];
+                var matchInfo = matches.find(function(match) {
+                    return match[5] == eventId;
+                });
+		var eventPrestige = matchInfo ? matchInfo[6] : 'majors';
+
+                var eventDiv = $(
+                    `<div id="event_${eventId}">
+                        <label>${eventName}</label>
+                        <input type="radio" name="prestige_${eventId}" value="majors" ${eventPrestige == 'majors' ? 'checked' : ''}>Majors
+                        <input type="radio" name="prestige_${eventId}" value="regionals" ${eventPrestige == 'regionals' ? 'checked' : ''}>Regionals
+                        <input type="radio" name="prestige_${eventId}" value="weeklies" ${eventPrestige == 'monthlies' ? 'checked' : ''}>Monthlies
+                    </div>`
+                );
+
+                $("#events").append(eventDiv);
+
+                $(`input[name="prestige_${eventId}"]`).change(function() {
+                    updateMatches(eventId, $(this).val());
+                    crossTableData = createCrossTableData(getFilteredMatches());
+                    populateTable(crossTableData);
+                });
+            });
+        }
+
+        function populateMatchData() {
+            $("#match-data").empty();
+            for (var i = 0; i < matches.length; i++) {
+                var match = matches[i];
+                var eventId = match[5];
+                var eventName = eventsData[eventId];
+                var matchString = `${match[0]} > ${match[2]} ${match[4]} at ${eventName}`;
+                var matchId = "match-" + i;  // create a unique ID for each match
+                var matchDiv = $(
+		    `<div data-row-index="${i}">
+                        <input type="radio" name="match-${i}" value="include" checked>Include
+                        <input type="radio" name="match-${i}" value="exclude">Exclude
+                        ${matchString}
+                    </div>`
+                );
+
+		// add change event listener for this match's exclude/include radio buttons
+		$("input[type='radio']", matchDiv).change(function() {
+		    crossTableData = createCrossTableData(getFilteredMatches());
+		    populateTable(crossTableData);
+		});
+
+		$("#match-data").append(matchDiv);
+		
+            }
+        }
+
+        function populateMatchData() {
+	    $("#match-data").empty();
+	    for (var i = 0; i < matches.length; i++) {
+		var match = matches[i];
+		var eventId = match[5];
+		var eventName = eventsData[eventId];
+		var matchString = `${match[0]} > ${match[2]} ${match[4]} at ${eventName}`;
+		var matchId = "match-" + i;  // create a unique ID for each match
+		var matchDiv = $(
+		    `<div data-row-index="${i}">
+                        <input type="radio" name="match-${i}" value="include" checked>Include
+                        <input type="radio" name="match-${i}" value="exclude">Exclude
+                        ${matchString}
+                    </div>`
+		);
+		
+		$("#match-data").append(matchDiv);
+	    }
+
+	    // add change event listener for this match's exclude/include radio buttons
+	    $("#match-data input[type='radio']").change(function() {
+		crossTableData = createCrossTableData(getFilteredMatches());
+		populateTable(crossTableData);
+	    });
+	}
+
+        function getExcludedRows() {
+	    var excludedRows = [];
+	    $("#match-data div").each(function() {
+		if ($("input[value='exclude']:checked", this).length) {
+		    var rowIndex = $(this).data('row-index');
+		    excludedRows.push(rowIndex);
+		}
+	    });
+	    return excludedRows;
+	}
+
+        // Add event listener for toggle button
+        $("#toggle-events").click(function() {
+            var isEventsVisible = $("#events").is(":visible");
+            if (isEventsVisible) {
+                $("#events").hide();
+                $(this).text('Show Event Tier Assignments');
+            } else {
+                $("#events").show();
+                $(this).text('Hide Event Tier Assignments');
+            }
+        });
+
+        // Add event listener for match data toggle button
+        $("#toggle-match-data").click(function() {
+            var isMatchDataVisible = $("#match-data").is(":visible");
+            if (isMatchDataVisible) {
+                $("#match-data").hide();
+                $(this).text('Show Match Data');
+            } else {
+                $("#match-data").show();
+                $(this).text('Hide Match Data');
+            }
+        });
+
+        function savePlayerOrder() {
+            localStorage.setItem('ssbmrank_player_order', JSON.stringify(players));
+        }
+
+        function loadPlayerOrder() {
+            var savedOrder = localStorage.getItem('ssbmrank_player_order');
+            if (savedOrder) {
+                try {
+                    var parsedOrder = JSON.parse(savedOrder);
+                    // Verify all saved players still exist in current players list
+                    var currentPlayerIds = new Set(players);
+                    var validSavedOrder = parsedOrder.filter(function(id) {
+                        return currentPlayerIds.has(id);
+                    });
+                    
+                    // Only use saved order if it contains all current players
+                    if (validSavedOrder.length === players.length) {
+                        players = validSavedOrder;
+                        return true;
+                    }
+                } catch (e) {
+                    console.log('Error loading saved player order:', e);
+                }
+            }
+            return false;
+        }
+
+        function clearSavedOrder() {
+            localStorage.removeItem('ssbmrank_player_order');
+        }
+
+
+
+        // Load saved player order before initializing
+        loadPlayerOrder();
+
+        var crossTableData = createCrossTableData(getFilteredMatches());
+        populateTable(crossTableData);
+        populatePlayerList();
+        populateEvents();
+        populateMatchData();
+
+        $( "#sortable" ).sortable({
+            tolerance: 'pointer',
+            forceHelperSize: true,
+            forcePlaceholderSize: true,
+            placeholder: 'sortable-placeholder',
+            stop: function(event, ui) {
+                players = $("#sortable").sortable("toArray");
+                populatePlayerList(); // Update rankings after reorder
+                crossTableData = createCrossTableData(getFilteredMatches());
+                populateTable(crossTableData);
+                savePlayerOrder();
+            }
+        });
+
+        // Player visibility controls
+        $(document).on('click', '.hide-btn', function(e) {
+            e.stopPropagation();
+            var li = $(this).closest('li');
+            li.toggleClass('hidden');
+            
+            if (li.hasClass('hidden')) {
+                $(this).text('Show');
+            } else {
+                $(this).text('Hide');
+            }
+            
+            crossTableData = createCrossTableData(getFilteredMatches());
+            populateTable(crossTableData);
+        });
+
+        $("#hide-all-btn").click(function() {
+            $("#sortable li").addClass('hidden');
+            $("#sortable .hide-btn").text('Show');
+            crossTableData = createCrossTableData(getFilteredMatches());
+            populateTable(crossTableData);
+        });
+
+        $("#show-all-btn").click(function() {
+            $("#sortable li").removeClass('hidden');
+            $("#sortable .hide-btn").text('Hide');
+            crossTableData = createCrossTableData(getFilteredMatches());
+            populateTable(crossTableData);
+        });
+
+        $("#copy-list-btn").click(function() {
+            var visiblePlayers = getVisiblePlayers();
+            var playerList = visiblePlayers.map(function(id, index) {
+                return (index + 1) + ". " + playersData[id];
+            }).join('\n');
+            
+            navigator.clipboard.writeText(playerList).then(function() {
+                var originalText = $("#copy-list-btn").text();
+                $("#copy-list-btn").text('Copied!');
+                setTimeout(function() {
+                    $("#copy-list-btn").text(originalText);
+                }, 2000);
+            }).catch(function(err) {
+                alert('Failed to copy to clipboard');
+            });
+        });
+
+        // Modal functionality
+        function showMatchModal(player1Id, player2Id) {
+            var player1Name = playersData[player1Id];
+            var player2Name = playersData[player2Id];
+            var matches = getMatchesBetweenPlayers(player1Id, player2Id);
+            
+            $("#modalTitle").text(player1Name + " vs " + player2Name);
+            
+            if (matches.length === 0) {
+                $("#modalBody").html('<div class="no-matches">No matches found between these players.</div>');
+            } else {
+                var html = "";
+                matches.forEach(function(match) {
+                    var eventName = eventsData[match[5]] || "Unknown Event";
+                    html += '<div class="match-item">';
+                    html += '<div><span class="match-winner">' + match[0] + '</span> defeated <span class="match-loser">' + match[2] + '</span></div>';
+                    html += '<div class="match-score">Score: ' + match[4] + '</div>';
+                    html += '<div class="match-event">at ' + eventName + '</div>';
+                    html += '</div>';
+                });
+                $("#modalBody").html(html);
+            }
+            
+            $("#matchModal").show();
+        }
+
+        function getMatchesBetweenPlayers(player1Id, player2Id) {
+            var filteredMatches = getFilteredMatches();
+            return filteredMatches.filter(function(match) {
+                var winnerId = match[1];
+                var loserId = match[3];
+                return (winnerId === player1Id && loserId === player2Id) || 
+                       (winnerId === player2Id && loserId === player1Id);
+            });
+        }
+
+        // Click handler for cells
+        $(document).on('click', '.clickable-cell', function() {
+            var player1Id = $(this).attr('data-player1');
+            var player2Id = $(this).attr('data-player2');
+            showMatchModal(player1Id, player2Id);
+        });
+
+        // Close modal handlers
+        $(".close").click(function() {
+            $("#matchModal").hide();
+        });
+
+        $(window).click(function(event) {
+            if (event.target.id === "matchModal") {
+                $("#matchModal").hide();
+            }
+        });
+
+        $("input[name='filter']").change(function() {
+            crossTableData = createCrossTableData(getFilteredMatches());
+            populateTable(crossTableData);
+        });
+      
+    </script>
+
+</body>
+</html>
