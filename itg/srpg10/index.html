@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1117">
+  <title>SRPG10 Stamina Surface</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div>
+        <a class="eyebrow" href="/">PLANETBANATT / ITG</a>
+        <h1>Stamina surface</h1>
+        <p class="lede">SRPG10 · shoes · personal bests across speed and length</p>
+      </div>
+      <div class="snapshot" aria-label="Data snapshot">
+        <span class="live-dot" aria-hidden="true"></span>
+        <div><strong id="snapshot-date">Loading snapshot…</strong><small id="snapshot-meta"></small></div>
+      </div>
+    </header>
+
+    <section class="targets" aria-label="Priority personal bests">
+      <button class="target-card" data-target="32" data-mode="unbroken">
+        <span class="target-label"><i class="target-icon">32</i> unbroken</span>
+        <strong class="target-value" id="target-32">—</strong>
+        <small id="target-32-note">Finding best pass…</small>
+      </button>
+      <button class="target-card" data-target="64" data-mode="unbroken">
+        <span class="target-label"><i class="target-icon">64</i> unbroken</span>
+        <strong class="target-value" id="target-64">—</strong>
+        <small id="target-64-note">Finding best pass…</small>
+      </button>
+      <button class="target-card target-card--gold" data-target="400" data-mode="total">
+        <span class="target-label"><i class="target-icon">400</i> total</span>
+        <strong class="target-value" id="target-400">—</strong>
+        <small id="target-400-note">Finding best pass…</small>
+      </button>
+    </section>
+
+    <section class="surface-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="kicker">PASS LANDSCAPE</p>
+          <h2>Your stamina surface</h2>
+          <p id="surface-summary">Each square is a speed × length benchmark.</p>
+        </div>
+        <div class="view-toggle" role="group" aria-label="Measure type">
+          <button class="active" data-view="unbroken">Unbroken</button>
+          <button data-view="total">Total</button>
+        </div>
+      </div>
+
+      <div class="controls">
+        <label class="select-control">BPM step
+          <select id="bpm-step">
+            <option value="5" selected>5 BPM</option>
+            <option value="10">10 BPM</option>
+            <option value="20">20 BPM</option>
+          </select>
+        </label>
+        <label class="select-control">Measure steps
+          <select id="measure-set">
+            <option value="difficulty" selected>Difficulty chart</option>
+            <option value="core">Core milestones</option>
+          </select>
+        </label>
+        <label class="switch-control">
+          <input id="trickle" type="checkbox" checked>
+          <span class="switch" aria-hidden="true"></span>
+          <span><strong>Trickle-down</strong><small>Faster passes count below</small></span>
+        </label>
+        <label class="switch-control">
+          <input id="hide-fails" type="checkbox" checked>
+          <span class="switch" aria-hidden="true"></span>
+          <span><strong>Hide fails</strong><small id="fail-count">Exclude failed runs</small></span>
+        </label>
+      </div>
+
+      <div class="surface-key" aria-label="Surface legend">
+        <span><i class="key-cell key-cell--direct"></i> Direct pass</span>
+        <span><i class="key-cell key-cell--inferred"></i> Trickle-down</span>
+        <span><i class="key-cell key-cell--open"></i> Open</span>
+        <span class="key-hint">Cell number = estimated block level</span>
+      </div>
+
+      <div class="grid-wrap" id="grid-wrap">
+        <div class="loading-state">Building stamina surface…</div>
+      </div>
+    </section>
+
+    <section class="detail-panel" id="detail-panel" aria-live="polite">
+      <div class="detail-copy">
+        <p class="kicker">PR EVOLUTION</p>
+        <h2 id="detail-title">Select a cell</h2>
+        <p id="detail-subtitle">Click anywhere on the surface to inspect how that benchmark changed over time.</p>
+        <div class="selected-status" id="selected-status" hidden></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-heading">
+          <div><strong id="chart-label">Best BPM over time</strong><small id="chart-note">No benchmark selected</small></div>
+          <strong class="chart-latest" id="chart-latest">—</strong>
+        </div>
+        <div class="chart" id="history-chart">
+          <div class="chart-empty">Choose a surface cell to see its history.</div>
+        </div>
+        <ol class="history-events" id="history-events"></ol>
+      </div>
+    </section>
+
+    <footer>
+      <span>SRPG10 stamina tracker</span>
+      <span>Difficulty model from <code>difficulty.csv</code></span>
+    </footer>
+  </main>
+
+  <div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+  <div class="fatal-error" id="fatal-error" hidden></div>
+  <script src="dashboard.js"></script>
+</body>
+</html>
