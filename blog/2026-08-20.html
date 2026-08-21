@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-08-21 Fri 14:43 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Games As Ecosystems</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+    // Dark mode functionality
+    window.toggleDarkMode = function() {
+        document.body.classList.toggle('dark-mode');
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDarkMode);
+        updateToggleButton();
+    }
+
+    function updateToggleButton() {
+        const toggle = document.querySelector('.dark-mode-toggle-nav');
+        if (toggle) {
+            toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        }
+    }
+
+    // Initialize dark mode from localStorage
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+
+    // Update toggle button on page load
+    updateToggleButton();
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="https://planetbanatt.net/css/default_20240614.css" />
+<link rel="shortcut icon" type="image/jpg" href="https://planetbanatt.net/favicon.ico" />
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
+            <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<h1 class="title">Games As Ecosystems</h1>
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org4d968ef">Games are Media Ecosystems, Not Software</a>
+<ul>
+<li><a href="#org30485fd">Introduction</a></li>
+<li><a href="#org7dc02ba">The Arguments</a></li>
+<li><a href="#org415d6a2">Why Do People Get Good At Basketball?</a></li>
+<li><a href="#orgf5bb149">Why Do People Read <i>The Hobbit</i>?</a></li>
+<li><a href="#org6422baf">All Art Is Argumentative</a></li>
+<li><a href="#org45403d4">Is Superhuman AI "Useless" for Making Games?</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org4d968ef" class="outline-1">
+<h1 id="org4d968ef">Games are Media Ecosystems, Not Software</h1>
+<div class="outline-text-1" id="text-org4d968ef">
+</div>
+<div id="outline-container-org30485fd" class="outline-2">
+<h2 id="org30485fd">Introduction</h2>
+<div class="outline-text-2" id="text-org30485fd">
+<p>
+I've seen a lot of fear and uncertainty regarding how LLMs will change the landscape for games. In particular there's a specific <i>type</i> of fear which I think is misplaced: the idea that video game developers will be "replaced" by AIs which will make everything de novo for each individual user.
+</p>
+
+<p>
+There are a lot of fields where this sort of fear has merit, but for gaming I believe it to be misplaced. Elucidating that opinion seems like it might be a good exercise for outlining how I think about games, and how I view AI's role in the industry in the near future. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7dc02ba" class="outline-2">
+<h2 id="org7dc02ba">The Arguments</h2>
+<div class="outline-text-2" id="text-org7dc02ba">
+<p>
+LLMs and adjacent technologies continue to improve month over month, and are increasingly able to one-shot complicated problems. It's straightforward to project that this improvement will continue happening, and not-so-straightforward to determine all of the second-order effects that follow those improvements. LLMs might eat software, math, and other similar domains with verifiable modelable outcomes.
+</p>
+
+<p>
+You could make the argument that they will eat the gaming industry, also. If you imagine some sort of superintelligent AI system that knows your specific preferences and can easily one-shot a complex piece of software, it's not so difficult to conclude that AIs could make entire video games tailor-made for your specific interests, perfectly to your taste, potentially for pennies on the dollar compared to development costs for video games in 2026.
+</p>
+
+<p>
+The primary error in this line of thinking is mentally abstracting video games as <i>a piece of software</i> and not as a <i>media ecosystem</i>. It's certainly possible that advanced AI systems could one-shot video games exactly as described, it is not even necessarily <i>wrong</i> per se. But it is a category error to tie this to the death of the industry, because people do not engage with games in the same way they engage with regular software.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org415d6a2" class="outline-2">
+<h2 id="org415d6a2">Why Do People Get Good At Basketball?</h2>
+<div class="outline-text-2" id="text-org415d6a2">
+<p>
+Imagine that we create a super powerful AI which can invent new sports. These sports are COOLER and BETTER than all the existing sports. The AI can create a super interesting sport just for you, guaranteed to be more fun than any sport out there. Indeed, it can do this for everybody. 8.3 billion new sports created, one for each human on Earth, all way better than anything out there now.
+</p>
+
+<p>
+The problem with this, of course, is that you need other people to play a sport. Someone out there is going to have to take one for the team, and play your inferior dream sport instead of their superior dream sport, just for you to play it at all. Even if your dream sport is a single-player sort of deal, like rock climbing or archery, the existence of the Other is necessary contextualization for you to understand your own journey through the sport. What things are possible for humans? What does it mean to be average, or strong?
+</p>
+
+<p>
+Even totally siloed sports like powerlifting require this sort of contextualization from the Other in order to become navigable. What are good milestones for lifters? How different are athletes of different genders? What are the records for each movement? What movements are the most important? It's true that you can probably go to the gym and just randomly lift things in random ways, but that's not really how any gym-goer engages with the gym. The presence of the Other is felt, even when minimized as much as possible.
+</p>
+
+<p>
+In many ways, these takes about LLMs eating the game industry do not answer the question of "why do people get good at basketball?" There are probably lots of really good answers to this question, unique to each player's personal journey through the sport. But if you squint, a whole lot of them seem roughly like "because lots of other people get good at basketball, too."
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf5bb149" class="outline-2">
+<h2 id="orgf5bb149">Why Do People Read <i>The Hobbit</i>?</h2>
+<div class="outline-text-2" id="text-orgf5bb149">
+<p>
+Imagine that we create a super powerful AI which can write new books. These books are COOLER and BETTER than all the books that have been written before. The AI can write a super interesting book just for you, guaranteed to be deeper and more profound than any book out there. Indeed, it can do this for everybody. 8.3 billion new books created, one for each human on Earth, all way better than anything out there now.
+</p>
+
+<p>
+Unlike with the sport, you don't really need other people to read a book. You can just read it, and that's that. In this hypothetical world where LLMs can write beautiful, superhuman, perfectly targeted prose, it is not too big of a stretch to imagine people would prefer reading AI-generated works to human ones.
+</p>
+
+<p>
+The problem is what you do after you have completed reading the book. Nobody read the book before you did, because it did not exist before you read it. Nobody knows anything about it, nothing about the characters, nothing about the themes, nothing at all. It does not exist in the shared consciousness of the outside world. Maybe you could share that book with some other people, who are now subjected to reading a book which is targeted at you, and not at them. 
+</p>
+
+<p>
+In this way, the fear that personalized, AI-generated narratives will replace human writers is making a similar category error as the "superior basketball" take above. It characterizes the reason that you would read a book as "to be entertained" totally in a vacuum isolated from other people. Furthermore, it characterizes the reason you would <i>write</i> a book as "to entertain people," and telling a story which doesn't communicate anything or have any real point to it. In reality, writers tell stories that are wrapped around their personal worldviews, and readers engage with these stories by attempting to twist their own worldviews around the events in the story. "Superhuman writing will make people stop writing" reads as "people will stop having opinions" and "Superhuman writing will make people stop reading human writing" reads as "people will stop caring about other peoples' opinions."
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6422baf" class="outline-2">
+<h2 id="org6422baf">All Art Is Argumentative</h2>
+<div class="outline-text-2" id="text-org6422baf">
+<p>
+Games are an interactive form of art. There are many famous maxims about whether art can exist independent of its surrounding context. <a href="https://usabroad.unibo.it/article/view/7177/7504">W.E.B Du Bois</a> made an argument in 1926 that "All art is propaganda and ever must be, despite the wailing of the purists," which was famously echoed by <a href="https://archive.org/details/AllArtIsPropagandaCriticalEssays/page/n9/mode/2up">George Orwell</a> in an essay about Charles Dickens. In contemporary art conversations, this usually gets reworded to "all art is political," usually attributed to <a href="https://novacharlotte.com/2026/02/02/the-politics-of-art/">Toni Morrison</a>.
+</p>
+
+<p>
+But this isn't necessarily ubiquitous. Briefly walking through arguments about <a href="https://en.wikipedia.org/wiki/Art_for_art%27s_sake">art for art's sake</a>, there is also the belief that quote-unquote "true art" should exist independent of all social values or surrounding context. Many people have been arguing about this for hundreds of years, and they still do today.
+</p>
+
+<p>
+So I'll stop just short of saying all art is political by saying instead that all art is <i>argumentative</i>. This is a weaker and easier-to-understand claim compared to analyzing the political ramifications of every choice in a piece of art, and more neatly allows us to understand what this could mean for Video Games As Art. <i>Making things</i> in general requires you to make decisions, all intended to communicate <i>something</i> instead of <i>something else</i><sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>.
+</p>
+
+<p>
+Video games are created in order to be played by other people<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>. In this sense, decisions like "what genre should the game be" or "which mechanics should be built into this game" are decisions that reflect the creator's beliefs about how the Other will engage with their art. That is, they are <i>arguments</i>.
+</p>
+
+<p>
+These arguments create a shared social context which is necessary for navigating the ecosystem. This is straightforward to understand for multiplayer games (which require the Other) and narrative-based games (which are preauthored, shared social contexts), but is true even for games where the experience differs from playthrough to playthrough. Rougelikes like <i><a href="https://en.wikipedia.org/wiki/The_Binding_of_Isaac_(video_game)">The Binding of Isaac</a></i>, for example, are procedurally generated and different every time, but have a mechanical layer underneath which are easily identifiable as <i>Isaac</i>. This is true for sandbox games like <a href="https://en.wikipedia.org/wiki/Minecraft">Minecraft</a>, simulation games like <a href="https://en.wikipedia.org/wiki/Dwarf_Fortress">Dwarf Fortress</a>, and even emerged as a core component of how people engaged with Latitude's <a href="https://en.wikipedia.org/wiki/AI_Dungeon">AI Dungeon</a>.
+</p>
+
+<p>
+Even in these sorts of games, where the intended gameplay experience is not explicitly pre-authored in any way, the space of possible gameplay is constrained by a designer who made decisions to shape the possible problems, challenges, experiences. This, in turn, gives us a way to talk about our games with other people who weren't there for them. All of this is downstream of decisions that are made by the gamedevs, which are then inflicted upon the audience.
+</p>
+
+<p>
+Bespoke, single-user games lack this social context, they lack the <i>Isaac</i>. For these games to develop the necessary social context, they would need to be shared. The player would need to share the mechanism for their experience, they would need to feel a need for other people to experience a game crafted around their own preferences, wrapped around their own worldviews. That is, well, the games industry. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org45403d4" class="outline-2">
+<h2 id="org45403d4">Is Superhuman AI "Useless" for Making Games?</h2>
+<div class="outline-text-2" id="text-org45403d4">
+<p>
+There is a false dichotomy which emerges when engaging with this topic: that is, superintelligent AI will either completely devour the games industry, or it's useless and will do nothing at all. Both of these seem plainly unlikely to me. Obviously, there are nuances, as there always are. AI-generated personally targeted bespoke games will indeed likely be possible in the relatively near future, and it's important to engage with what sorts of things this actually will change. This list is nonzero, and I don't want the argument to be misconstrued as "LLMs will do nothing to the games industry."
+</p>
+
+<p>
+There are some corners of the industry which are directly threatened by this sort of capability. Studios which make comparatively low-effort video games tied to some already existing IP, for example, are going to have a difficult time finding work: most of the heavy lifting for these products is done by the original IP they are attached to, and the value of replacement-level software which wraps around it is going to quickly evaporate. Things which are shaped like this are going to be easy for consumers to just create themselves, and the sections above mostly do not apply.
+</p>
+
+<p>
+Powerful AIs are still going to be valuable and important for the development of regular games, also. Software becoming cheaper, faster, and easier to produce is going to substantially improve games, and make less technical people more capable of influencing the development process. If AI-generated superhuman writing becomes possible<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>, that will of course be super valuable also. I'd go so far as to say that a superintelligent AI as-is popularly imagined will substantially transform nearly every role involved with making a game exist, start-to-finish. Things like "agency" or "taste" or potentially even "imagination" are not necessarily qualities which are impossible for AIs to replicate. I don't subscribe to these beliefs that any role is totally immune from influence from these systems, especially as they grow more powerful. 
+</p>
+
+<p>
+But AIs cannot play the games for you, and AIs are not your audience<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>. People do not play games on islands isolated from the rest of humanity. As long as people are out there forming opinions about media ecosystems, as long as people have opinions about other people's opinions, the "games industry" will continue to exist, even if every role transforms irrecognizably. This goes for every little corner of what goes into making a game: the need for artists, the need for musicians, the need for developers, the need for designers, and so on. Even if all of these roles are "performed" by AIs in a technical sense, the end product is something intended to be experienced by a human being, with embodiment, with flesh and blood and emotions and limitations. 
+</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+People will occasionally draw nonsense in an attempt to demonstrate that it's possible to make art with no political undertones whatsoever. These conversations usually devolve into arguing about whether or not "deliberately making art with no political undertones" is, itself, a political act, but it's pretty evident these pieces are argumentative even if they are not political. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+This may potentially not be perfectly true, i.e. games which are "intended to create playthroughs which are then watched," but this is perhaps a topic of discussion for another post. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+This potentially is much harder than it sounds, especially if AI writing remains <a href="http://pangram.com/">easy to detect</a> and noticeably kind of icky to read. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+There is a particular objection that I think potentially warrants further thought, which is the idea of the Simulated Other. It's possible that in some future that AIs could be buying and playing games for themselves, that your audience as a gamedev could be AIs instead of people, and that people who want to talk about their experiences with generated content would just talk about those experiences with AI instead of with other people. I suppose this is, in principle, possible. But it feels a bit too dystopian to me: I suspect that in such a world where people prefer to not engage with each other about media, we would have larger existential problems to worry about than what is happening to the games industry. In any case, the median sentiment around AI seems very negative to me overall, so it's difficult for me to imagine a path from here to there, unlike the more technical components of the game development pipeline. 
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+</div>
+</body>
+</html>
