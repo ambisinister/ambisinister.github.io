@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-22 Sat 16:16 -->
+<!-- 2026-08-22 Sat 16:22 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Notes on SRS</title>
@@ -98,6 +98,7 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
             <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
             <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
@@ -111,63 +112,62 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org7d5df16">Notes on Spaced Repetition</a>
+<li><a href="#org3dd3abd">Notes on Spaced Repetition</a>
 <ul>
-<li><a href="#org8bb64f9">What is Spaced Repetition?</a></li>
-<li><a href="#orge099c3b">Spaced Repetition as a Deep Reading Tool</a></li>
-<li><a href="#orga78cb57">Spaced Repetition as Removal of "XP Waste"</a></li>
-<li><a href="#org86a0543">Useful Habits for Using Spaced Repetition</a>
+<li><a href="#org81ea883">What is Spaced Repetition?</a></li>
+<li><a href="#orge483099">Spaced Repetition as a Deep Reading Tool</a></li>
+<li><a href="#orgcfdadc3">Spaced Repetition as Removal of "XP Waste"</a></li>
+<li><a href="#org4d6fa48">Useful Habits for Using Spaced Repetition</a>
 <ul>
-<li><a href="#orgc56469c">Making Anki a default part of your learning</a>
+<li><a href="#org1bc9b9b">Making Anki a default part of your learning</a>
 <ul>
-<li><a href="#orgca04c70">Interrupting confusion</a></li>
-<li><a href="#orgae8a0fb">Reading</a></li>
+<li><a href="#orgeee83fd">Interrupting confusion</a></li>
+<li><a href="#orgc35b054">Reading</a></li>
 </ul>
 </li>
-<li><a href="#orgad4a21d">Card Creation advice</a>
+<li><a href="#org785810e">Card Creation advice</a>
 <ul>
-<li><a href="#orgdbdee61">Card Atomization</a>
+<li><a href="#orgc547c19">Card Atomization</a>
 <ul>
-<li><a href="#org602ac76">Minimum Information Principle</a></li>
-<li><a href="#orgabe69c8">Sets and Enumerations are almost always bad</a></li>
+<li><a href="#org7495684">Minimum Information Principle</a></li>
+<li><a href="#org33f6cac">Sets and Enumerations are almost always bad</a></li>
 </ul>
 </li>
-<li><a href="#org99e2edb">"Visualize"</a></li>
-<li><a href="#orgd9268d4">Generally Avoiding Card Islands</a></li>
+<li><a href="#org3c286ee">"Visualize"</a></li>
+<li><a href="#org301d3c9">Generally Avoiding Card Islands</a></li>
 </ul>
 </li>
-<li><a href="#org979d7ee">Deckbuilding / actively reviewing</a>
+<li><a href="#org9f148af">Deckbuilding / actively reviewing</a>
 <ul>
-<li><a href="#org8a7f23a">Mixed Practice and The Single Deck</a></li>
-<li><a href="#org5c3e8ef">Reviewing Practices</a></li>
+<li><a href="#orgb42a356">Mixed Practice and The Single Deck</a></li>
+<li><a href="#org19e8388">Reviewing Practices</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orgd604a92">Some Musings on Finding Things to Learn</a>
+<li><a href="#orge3632ad">Some Musings on Finding Things to Learn</a>
 <ul>
-<li><a href="#orge7f9a20">Quizbowl as a Content Aggregator</a></li>
+<li><a href="#org6e80569">Quizbowl as a Content Aggregator</a></li>
 </ul>
 </li>
-<li><a href="#org3de496f">Closing</a></li>
+<li><a href="#org8b7002c">Closing</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org7d5df16" class="outline-1">
-<h1 id="org7d5df16">Notes on Spaced Repetition</h1>
-<div class="outline-text-1" id="text-org7d5df16">
+<div id="outline-container-org3dd3abd" class="outline-1">
+<h1 id="org3dd3abd">Notes on Spaced Repetition</h1>
+<div class="outline-text-1" id="text-org3dd3abd">
 <blockquote>
 <p>
 Draft: v1.0 | Posted: 6/8/2018 | Updated: 6/8/2018 | confidence of success: 85% | estimated time to completion: 3/5/2018 | importance: Medium
 </p>
 </blockquote>
 </div>
-
-<div id="outline-container-org8bb64f9" class="outline-2">
-<h2 id="org8bb64f9">What is Spaced Repetition?</h2>
-<div class="outline-text-2" id="text-org8bb64f9">
+<div id="outline-container-org81ea883" class="outline-2">
+<h2 id="org81ea883">What is Spaced Repetition?</h2>
+<div class="outline-text-2" id="text-org81ea883">
 <p>
 Spaced Reptition is a method of efficiently reviewing flashcards by scheduling them based upon how easily you remember something. The gist of the idea is that it's much easier to remember something in your long-term memory than your short-term memory, so if you are trying to memorize a large body of information you should prioritize things you don't know very well and things you are just about to forget. Below is a good video explaining the concept and the relevant research behind it.
 </p>
@@ -179,10 +179,9 @@ The cool thing about spaced repetition is that it allows you to review and manag
 </p>
 </div>
 </div>
-
-<div id="outline-container-orge099c3b" class="outline-2">
-<h2 id="orge099c3b">Spaced Repetition as a Deep Reading Tool</h2>
-<div class="outline-text-2" id="text-orge099c3b">
+<div id="outline-container-orge483099" class="outline-2">
+<h2 id="orge483099">Spaced Repetition as a Deep Reading Tool</h2>
+<div class="outline-text-2" id="text-orge483099">
 <p>
 I am a chronic skimmer - I often read books very quickly, consume a lot of books in a short window, and then forget everything in them after a short while. My first solution to this was very <a href="https://www.goodreads.com/user/show/25277520-eryk-banatt">detailed reviews on goodreads</a>. It didn't help me much in committing my reading to memory, but at least I was able to go back and reread my notes as a refresher whenever I needed to. I find that I have relatively weak retention when I read<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>,  so spaced repetition (more specifically, the use of a single, uncategorized deck separated by tags rather than decks) was a gamechanger for me in this respect - I started reading things with my phone open next to me (I shelled out the money for Anki's ridiculously overpriced app, and have since recouped the value spent on it by using it for literally hundreds of hours), and making a short flashcard for any detail or quote I felt like I wanted to remember. This, in turn, let me do three things:
 </p>
@@ -208,10 +207,9 @@ The third point was pretty useful because actively reading almost anything while
 </p>
 </div>
 </div>
-
-<div id="outline-container-orga78cb57" class="outline-2">
-<h2 id="orga78cb57">Spaced Repetition as Removal of "XP Waste"</h2>
-<div class="outline-text-2" id="text-orga78cb57">
+<div id="outline-container-orgcfdadc3" class="outline-2">
+<h2 id="orgcfdadc3">Spaced Repetition as Removal of "XP Waste"</h2>
+<div class="outline-text-2" id="text-orgcfdadc3">
 <p>
 <a href="http://runescape.wikia.com/wiki/Old_School_RuneScape">Old School Runescape</a> Players have a wonderful concept that they refer to as "XP waste". Playing Runescape is mostly about maximizing your experienced gained per unit time (the game doesn't exactly involve much else), so players will often calculate how much experience they ought to gain performing a certain task (e.g. "if you cut this type of tree for an hour, you should gain 10,000 experience per hour"). However, there are many reasons why you might not actually hit that amount of experience in one hour - trips to the in-game bank, going to the bathroom in real life, deciding to take a nap, getting bored, etc. Therefore, the difference between experience gained and theoretical experience possible is referred to as "XP waste" (i.e. "you could have earned this much more experience but you wasted your time and lost out on it"). Granted, people have differing levels of commitment to eliminating XP waste (e.g using better training spots vs optimizing for global timer vs not sleeping), but the overall idea I think is pretty interesting.
 </p>
@@ -221,32 +219,29 @@ The nice thing, I find, about spaced repetition, is the low effective time cost 
 </p>
 </div>
 </div>
-
-<div id="outline-container-org86a0543" class="outline-2">
-<h2 id="org86a0543">Useful Habits for Using Spaced Repetition</h2>
-<div class="outline-text-2" id="text-org86a0543">
+<div id="outline-container-org4d6fa48" class="outline-2">
+<h2 id="org4d6fa48">Useful Habits for Using Spaced Repetition</h2>
+<div class="outline-text-2" id="text-org4d6fa48">
 <p>
 I think being <i>good at using anki</i> is a weirdly not trivial thing, and it's something I have been continually working on as I've dumped hundreds of hours into this program. Here are some useful tidbits.
 </p>
 </div>
-
-<div id="outline-container-orgc56469c" class="outline-3">
-<h3 id="orgc56469c">Making Anki a default part of your learning</h3>
-<div class="outline-text-3" id="text-orgc56469c">
+<div id="outline-container-org1bc9b9b" class="outline-3">
+<h3 id="org1bc9b9b">Making Anki a default part of your learning</h3>
+<div class="outline-text-3" id="text-org1bc9b9b">
 </div>
-<div id="outline-container-orgca04c70" class="outline-4">
-<h4 id="orgca04c70">Interrupting confusion</h4>
-<div class="outline-text-4" id="text-orgca04c70">
+<div id="outline-container-orgeee83fd" class="outline-4">
+<h4 id="orgeee83fd">Interrupting confusion</h4>
+<div class="outline-text-4" id="text-orgeee83fd">
 <ul class="org-ul">
 <li>Every time you look something reasonably useful up (e.g. "wait, what does this word mean?" Or "didn't they do a study on football causing CTE?") make a flashcard about it (usually takes 20 seconds)<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup></li>
 <li>Associate feeling of being bored and waiting for something with the act of doing flashcards</li>
 </ul>
 </div>
 </div>
-
-<div id="outline-container-orgae8a0fb" class="outline-4">
-<h4 id="orgae8a0fb">Reading</h4>
-<div class="outline-text-4" id="text-orgae8a0fb">
+<div id="outline-container-orgc35b054" class="outline-4">
+<h4 id="orgc35b054">Reading</h4>
+<div class="outline-text-4" id="text-orgc35b054">
 <p>
 Given that anki lets you remember things, it's popular among people who do a lot of reading and want to remember things they read. 
 </p>
@@ -283,18 +278,17 @@ Incremental Reading is definitely a bit too manic for me to actually do with an 
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgad4a21d" class="outline-3">
-<h3 id="orgad4a21d">Card Creation advice</h3>
-<div class="outline-text-3" id="text-orgad4a21d">
+<div id="outline-container-org785810e" class="outline-3">
+<h3 id="org785810e">Card Creation advice</h3>
+<div class="outline-text-3" id="text-org785810e">
 </div>
-<div id="outline-container-orgdbdee61" class="outline-4">
-<h4 id="orgdbdee61">Card Atomization</h4>
-<div class="outline-text-4" id="text-orgdbdee61">
+<div id="outline-container-orgc547c19" class="outline-4">
+<h4 id="orgc547c19">Card Atomization</h4>
+<div class="outline-text-4" id="text-orgc547c19">
 </div>
-<div id="outline-container-org602ac76" class="outline-5">
-<h5 id="org602ac76">Minimum Information Principle</h5>
-<div class="outline-text-5" id="text-org602ac76">
+<div id="outline-container-org7495684" class="outline-5">
+<h5 id="org7495684">Minimum Information Principle</h5>
+<div class="outline-text-5" id="text-org7495684">
 <p>
 Another point about SRS which has been around since the 90s is <a href="https://www.supermemo.com/en/archives1990-2015/articles/20rules">the minimum information principle</a> which is also called "atomization" in some anki circles. (Neilsen, med students). 
 </p>
@@ -356,30 +350,27 @@ etc.
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgabe69c8" class="outline-5">
-<h5 id="orgabe69c8">Sets and Enumerations are almost always bad</h5>
-<div class="outline-text-5" id="text-orgabe69c8">
+<div id="outline-container-org33f6cac" class="outline-5">
+<h5 id="org33f6cac">Sets and Enumerations are almost always bad</h5>
+<div class="outline-text-5" id="text-org33f6cac">
 <p>
 unless you specifically want to remember a small list of things, "what are the six topics described in X book" is an annoying card to get while reviewing. It makes you stop going through cards as you mentally go through all of them, and you have to make sure you aren't double counting anything in your head, and you end up getting it wrong even if you know the answers for this sort of reason. 
 </p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org99e2edb" class="outline-4">
-<h4 id="org99e2edb">"Visualize"</h4>
-<div class="outline-text-4" id="text-org99e2edb">
+<div id="outline-container-org3c286ee" class="outline-4">
+<h4 id="org3c286ee">"Visualize"</h4>
+<div class="outline-text-4" id="text-org3c286ee">
 <ul class="org-ul">
 <li>Use images often, and make drawings when applicable - they can be terrible ms paint drawings, if you don't plan on sharing them then nobody will judge you for your art and it will help you remember.</li>
 <li>Just doing "visualize diagram explaining X from book Y" is usually good enough for the card to be useful later, making the card memorable and useful is all you really need so don't go crazy making detailed contexts for all the image cards</li>
 </ul>
 </div>
 </div>
-
-<div id="outline-container-orgd9268d4" class="outline-4">
-<h4 id="orgd9268d4">Generally Avoiding Card Islands</h4>
-<div class="outline-text-4" id="text-orgd9268d4">
+<div id="outline-container-org301d3c9" class="outline-4">
+<h4 id="org301d3c9">Generally Avoiding Card Islands</h4>
+<div class="outline-text-4" id="text-org301d3c9">
 <p>
 I have noticed when I am doing flashcards sleep deprived that I sometimes glaze over a card and do not really absorb the meaning of certain questions, but think something like "oh it's this card, and the answer to this card is Krebs Cycle". Remember that you are trying to learn facts about the world, not the answer to your flashcards. Remembering the answers based on some meta-reasoning about your deckbuilding itself is <a href="https://arxiv.org/pdf/2004.07780.pdf">a shortcut</a> and in cognitive science goes by the name "unintended cue learning". 
 </p>
@@ -398,15 +389,13 @@ I think the solution to these cards is adding, rather than subtracting. In a sor
 </div>
 </div>
 </div>
-
-
-<div id="outline-container-org979d7ee" class="outline-3">
-<h3 id="org979d7ee">Deckbuilding / actively reviewing</h3>
-<div class="outline-text-3" id="text-org979d7ee">
+<div id="outline-container-org9f148af" class="outline-3">
+<h3 id="org9f148af">Deckbuilding / actively reviewing</h3>
+<div class="outline-text-3" id="text-org9f148af">
 </div>
-<div id="outline-container-org8a7f23a" class="outline-4">
-<h4 id="org8a7f23a">Mixed Practice and The Single Deck</h4>
-<div class="outline-text-4" id="text-org8a7f23a">
+<div id="outline-container-orgb42a356" class="outline-4">
+<h4 id="orgb42a356">Mixed Practice and The Single Deck</h4>
+<div class="outline-text-4" id="text-orgb42a356">
 <p>
 Use one big deck, and separate things by tags instead. 
 </p>
@@ -428,10 +417,9 @@ With regards to productivity, there's explicit value in being unable to tell ahe
 </p>
 </div>
 </div>
-
-<div id="outline-container-org5c3e8ef" class="outline-4">
-<h4 id="org5c3e8ef">Reviewing Practices</h4>
-<div class="outline-text-4" id="text-org5c3e8ef">
+<div id="outline-container-org19e8388" class="outline-4">
+<h4 id="org19e8388">Reviewing Practices</h4>
+<div class="outline-text-4" id="text-org19e8388">
 <ul class="org-ul">
 <li>If you encounter a card that sucks, or a card which needs to be refactored into multiple smaller cards, just do it then and then delete the card.</li>
 <li>Don't add things you don't care about, or you will not want to actually do your reviews. I have made it a point to delete anything I come across during reviews that I decide is a badly made card or a card on something I don't care about.</li>
@@ -440,14 +428,13 @@ With regards to productivity, there's explicit value in being unable to tell ahe
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgd604a92" class="outline-2">
-<h2 id="orgd604a92">Some Musings on Finding Things to Learn</h2>
-<div class="outline-text-2" id="text-orgd604a92">
+<div id="outline-container-orge3632ad" class="outline-2">
+<h2 id="orge3632ad">Some Musings on Finding Things to Learn</h2>
+<div class="outline-text-2" id="text-orge3632ad">
 </div>
-<div id="outline-container-orge7f9a20" class="outline-3">
-<h3 id="orge7f9a20">Quizbowl as a Content Aggregator</h3>
-<div class="outline-text-3" id="text-orge7f9a20">
+<div id="outline-container-org6e80569" class="outline-3">
+<h3 id="org6e80569">Quizbowl as a Content Aggregator</h3>
+<div class="outline-text-3" id="text-org6e80569">
 <p>
 Something I think is fun and heavily applicable to spaced repetition is <a href="https://www.qbwiki.com/wiki/Quizbowl">Quizbowl</a>, or more broadly "trivia"<sup><a id="fnr.8" class="footref" href="#fn.8" role="doc-backlink">8</a></sup>
 </p>
@@ -476,10 +463,9 @@ What's really exciting about quizbowl is that it's quite literally structured to
 </div>
 </div>
 </div>
-
-<div id="outline-container-org3de496f" class="outline-2">
-<h2 id="org3de496f">Closing</h2>
-<div class="outline-text-2" id="text-org3de496f">
+<div id="outline-container-org8b7002c" class="outline-2">
+<h2 id="org8b7002c">Closing</h2>
+<div class="outline-text-2" id="text-org8b7002c">
 <p>
 I plan to periodically add to this page as I come up with useful thoughts on flashcarding, but overall I think that using flashcards is one of those "Real-Life Cheat Codes" that I wish I found out earlier. It's one of those things like Counting Calories or Index Funds that is actually capable of producing <a href="https://en.wikipedia.org/wiki/Pareto_principle">large changes with minimal effort</a>, and I think things like that deserve some good documentation even if it isn't entirely complete.
 </p>
@@ -514,10 +500,11 @@ my rule of thumb is thinking of gwern's estimation of a card roughly equaling 5 
 On top of that, since I always have emacs open these days I have a (very very basic) capture template that creates an anki card which makes the process pretty straightforward - no matter what I'm looking at I can do Win-3 C-c c a and be in the process of making a card.
 </p>
 
-<pre class="example">
-("a" "anki basic" entry (file+headline "~/Dropbox/org/logs/added_anki.org" "Basic")
+<div class="org-src-container">
+<pre class="src src-nil">("a" "anki basic" entry (file+headline "~/Dropbox/org/logs/added_anki.org" "Basic")
      "* know :deck: \n** Item :note: \n\t:PROPERTIES:\n\t:ANKI_NOTE_TYPE: Basic\n\t:ANKI_TAGS: \n\t:END:\n*** Front\n%?\n*** Back\n")
-</pre></div></div>
+</pre>
+</div></div></div>
 
 <div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6" role="doc-backlink">6</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 <a href="https://www.researchgate.net/publication/5277058_Learning_Concepts_and_Categories_Is_Spacing_the_Enemy_of_Induction">https://www.researchgate.net/publication/5277058_Learning_Concepts_and_Categories_Is_Spacing_the_Enemy_of_Induction</a>

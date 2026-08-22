@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-22 Sat 16:16 -->
+<!-- 2026-08-22 Sat 16:22 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Prove It</title>
@@ -73,27 +73,38 @@ $(function() {
 
 <link rel="stylesheet" type="text/css" href="https://planetbanatt.net/css/default_20240614.css" />
 <link rel="shortcut icon" type="image/jpg" href="https://planetbanatt.net/favicon.ico" />
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
-
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "AMS"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
-});
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -119,6 +130,7 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
             <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
             <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
@@ -132,80 +144,80 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org8e26275">How To Prove It - Notebook</a>
+<li><a href="#org93ec93e">How To Prove It - Notebook</a>
 <ul>
-<li><a href="#orgdcd25ac">Notes and Review</a></li>
-<li><a href="#orgd8bf0f9">Selected Exercises</a>
+<li><a href="#orgcb78a4d">Notes and Review</a></li>
+<li><a href="#orgca1d5ba">Selected Exercises</a>
 <ul>
-<li><a href="#orgcf4e9aa">Chapter 0</a>
+<li><a href="#org16432b5">Chapter 0</a>
 <ul>
-<li><a href="#org8e6136b">1</a></li>
-<li><a href="#org7ff2d40">2</a></li>
-<li><a href="#orgd8a0ca1">3</a></li>
-<li><a href="#org694a8b4">4</a></li>
-<li><a href="#orgfeb274d">5</a></li>
-<li><a href="#org04db5aa">6</a></li>
-</ul>
-</li>
-<li><a href="#org9a0f34f">Chapter 1</a>
-<ul>
-<li><a href="#org9e71a24">1.2 Exercises</a>
-<ul>
-<li><a href="#orga8170e6">Make truth tables</a></li>
-<li><a href="#orgaa4a19a">4</a></li>
-</ul>
-</li>
-<li><a href="#org2e83c5a">1.3 Exercises</a>
-<ul>
-<li><a href="#org56ef4bf">1</a></li>
+<li><a href="#orgd4f6734">1</a></li>
+<li><a href="#orgf6f21c8">2</a></li>
 <li><a href="#org1041ac0">3</a></li>
+<li><a href="#org803ec3e">4</a></li>
+<li><a href="#orga5d1536">5</a></li>
+<li><a href="#orgcb9f0f9">6</a></li>
 </ul>
 </li>
-<li><a href="#orgc1380b8">1.4 Exercises</a>
+<li><a href="#org03136b8">Chapter 1</a>
 <ul>
-<li><a href="#org8520459">1</a></li>
+<li><a href="#orgfa56eb4">1.2 Exercises</a>
+<ul>
+<li><a href="#org44e199e">Make truth tables</a></li>
+<li><a href="#org3321c90">4</a></li>
+</ul>
+</li>
+<li><a href="#org5cf849b">1.3 Exercises</a>
+<ul>
+<li><a href="#org6a3e411">1</a></li>
+<li><a href="#orgec6d6de">3</a></li>
+</ul>
+</li>
+<li><a href="#orgc6e0e4c">1.4 Exercises</a>
+<ul>
+<li><a href="#org0fd6afa">1</a></li>
 <li><a href="#org4f488a3">10</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org7c8c981">Chapter 2</a>
+<li><a href="#orga3ec99d">Chapter 2</a>
 <ul>
-<li><a href="#org12341ca">2.1 exercises</a>
+<li><a href="#orga867ee3">2.1 exercises</a>
 <ul>
-<li><a href="#orgd4f6734">1</a></li>
-<li><a href="#orgf6f21c8">2</a></li>
-<li><a href="#org803ec3e">4</a></li>
-<li><a href="#orge1b0d18">5</a></li>
-<li><a href="#org2d7193e">6</a></li>
-<li><a href="#orge398302">7</a></li>
-<li><a href="#org6f41857">8</a></li>
-<li><a href="#orgc9a97dc">9</a></li>
-</ul>
-</li>
-<li><a href="#org4b908bf">2.2 exercises</a>
-<ul>
-<li><a href="#orgd96c5ce">8</a></li>
-<li><a href="#orga6811a5">11</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#org7e03dce">Chapter 3</a>
-<ul>
-<li><a href="#org089147c">3.1 Exercises</a>
-<ul>
-<li><a href="#orga5d1536">5</a></li>
-<li><a href="#orgcb9f0f9">6</a></li>
+<li><a href="#orge1c2ac4">1</a></li>
+<li><a href="#orgbd66671">2</a></li>
+<li><a href="#org991d7d5">4</a></li>
+<li><a href="#orgd6c8625">5</a></li>
+<li><a href="#org04cc7ad">6</a></li>
 <li><a href="#org067e849">7</a></li>
-<li><a href="#org7f6de90">8</a></li>
+<li><a href="#org0412e85">8</a></li>
 <li><a href="#org7ea102f">9</a></li>
+</ul>
+</li>
+<li><a href="#orgf69d69a">2.2 exercises</a>
+<ul>
+<li><a href="#orgdf5419c">8</a></li>
 <li><a href="#orgb15d4ef">11</a></li>
 </ul>
 </li>
-<li><a href="#org2320a49">3.2 Exercises</a>
+</ul>
+</li>
+<li><a href="#orgbc48964">Chapter 3</a>
 <ul>
-<li><a href="#org0412e85">8</a></li>
+<li><a href="#org49cebcb">3.1 Exercises</a>
+<ul>
+<li><a href="#orge1e42ff">5</a></li>
+<li><a href="#org8070bbb">6</a></li>
+<li><a href="#orgac4cc1d">7</a></li>
+<li><a href="#org57b634d">8</a></li>
+<li><a href="#org7dbf55d">9</a></li>
+<li><a href="#orgb3bea97">11</a></li>
+</ul>
+</li>
+<li><a href="#orgb6ccca5">3.2 Exercises</a>
+<ul>
+<li><a href="#orge73151f">8</a></li>
 </ul>
 </li>
 </ul>
@@ -217,13 +229,13 @@ $(function() {
 </ul>
 </div>
 </div>
-<div id="outline-container-org8e26275" class="outline-1">
-<h1 id="org8e26275">How To Prove It - Notebook</h1>
-<div class="outline-text-1" id="text-org8e26275">
+<div id="outline-container-org93ec93e" class="outline-1">
+<h1 id="org93ec93e">How To Prove It - Notebook</h1>
+<div class="outline-text-1" id="text-org93ec93e">
 </div>
-<div id="outline-container-orgdcd25ac" class="outline-2">
-<h2 id="orgdcd25ac">Notes and Review</h2>
-<div class="outline-text-2" id="text-orgdcd25ac">
+<div id="outline-container-orgcb78a4d" class="outline-2">
+<h2 id="orgcb78a4d">Notes and Review</h2>
+<div class="outline-text-2" id="text-orgcb78a4d">
 <p>
 My decision to work through this book was two-fold:
 </p>
@@ -237,30 +249,29 @@ Velleman's <i>How to Prove It</i> was ideal for both of these, funnily enough, f
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgd8bf0f9" class="outline-2">
-<h2 id="orgd8bf0f9">Selected Exercises</h2>
-<div class="outline-text-2" id="text-orgd8bf0f9">
+<div id="outline-container-orgca1d5ba" class="outline-2">
+<h2 id="orgca1d5ba">Selected Exercises</h2>
+<div class="outline-text-2" id="text-orgca1d5ba">
 </div>
-<div id="outline-container-orgcf4e9aa" class="outline-3">
-<h3 id="orgcf4e9aa">Chapter 0</h3>
-<div class="outline-text-3" id="text-orgcf4e9aa">
+<div id="outline-container-org16432b5" class="outline-3">
+<h3 id="org16432b5">Chapter 0</h3>
+<div class="outline-text-3" id="text-org16432b5">
 </div>
-<div id="outline-container-org8e6136b" class="outline-4">
-<h4 id="org8e6136b">1</h4>
-<div class="outline-text-4" id="text-org8e6136b">
+<div id="outline-container-orgd4f6734" class="outline-4">
+<h4 id="orgd4f6734">1</h4>
+<div class="outline-text-4" id="text-orgd4f6734">
 <p>
 <i>(a) factor 2<sup>15</sup> - 1 = 32767 into a product of two smaller positive integers</i>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
-<span style="color: #FD971F;">target</span> = 32767
-<span style="color: #FD971F;">factors</span> = []
-<span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(<span style="color: #F92672;">int</span>(np.sqrt(target))):
-  <span style="color: #F92672;">if</span> target % (x+1) == 0:
+<pre class="src src-python"><span style="font-weight: bold;">import</span> numpy <span style="font-weight: bold;">as</span> np
+<span style="font-weight: bold; font-style: italic;">target</span> = 32767
+<span style="font-weight: bold; font-style: italic;">factors</span> = []
+<span style="font-weight: bold;">for</span> x <span style="font-weight: bold;">in</span> <span style="font-weight: bold;">range</span>(<span style="font-weight: bold;">int</span>(np.sqrt(target))):
+  <span style="font-weight: bold;">if</span> target % (x+1) == 0:
     factors.append(x+1)
-<span style="color: #F92672;">return</span> factors[1], target/factors[1]
+<span style="font-weight: bold;">return</span> factors[1], target/factors[1]
 </pre>
 </div>
 
@@ -281,10 +292,9 @@ Check: <a href="https://www.wolframalpha.com/input/?i=2%5E32767+-+1+mod+127">htt
 </p>
 </div>
 </div>
-
-<div id="outline-container-org7ff2d40" class="outline-4">
-<h4 id="org7ff2d40">2</h4>
-<div class="outline-text-4" id="text-org7ff2d40">
+<div id="outline-container-orgf6f21c8" class="outline-4">
+<h4 id="orgf6f21c8">2</h4>
+<div class="outline-text-4" id="text-orgf6f21c8">
 <p>
 <i>Make some conjectures about the values of n for which 3<sup>n</sup> − 1 is prime or the values of n for which 3<sup>n</sup> − 2<sup>n</sup> is prime. (You might start by making a table similar to Figure 1.)</i>
 </p>
@@ -353,10 +363,9 @@ conjecture: 3<sup>n</sup> - 2<sup>n</sup> will be prime in cases where n is prim
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgd8a0ca1" class="outline-4">
-<h4 id="orgd8a0ca1">3</h4>
-<div class="outline-text-4" id="text-orgd8a0ca1">
+<div id="outline-container-org1041ac0" class="outline-4">
+<h4 id="org1041ac0">3</h4>
+<div class="outline-text-4" id="text-org1041ac0">
 <p>
 <i>The proof of Theorem 3 gives a method for finding a prime number different from any in a given list of prime numbers.</i>
 </p>
@@ -378,10 +387,9 @@ let \(m = 2*3*11 + 1\), so \(m = 67\); m is not divisible by 2, 3, or 11 so 67 m
 </p>
 </div>
 </div>
-
-<div id="outline-container-org694a8b4" class="outline-4">
-<h4 id="org694a8b4">4</h4>
-<div class="outline-text-4" id="text-org694a8b4">
+<div id="outline-container-org803ec3e" class="outline-4">
+<h4 id="org803ec3e">4</h4>
+<div class="outline-text-4" id="text-org803ec3e">
 <p>
 <i>Find five consecutive integers that are not prime.</i>
 </p>
@@ -400,10 +408,9 @@ let \(m = 2*3*11 + 1\), so \(m = 67\); m is not divisible by 2, 3, or 11 so 67 m
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgfeb274d" class="outline-4">
-<h4 id="orgfeb274d">5</h4>
-<div class="outline-text-4" id="text-orgfeb274d">
+<div id="outline-container-orga5d1536" class="outline-4">
+<h4 id="orga5d1536">5</h4>
+<div class="outline-text-4" id="text-orga5d1536">
 <p>
 <i>Use the table in Figure 1 and the discussion on p. 5 to find two more perfect numbers.</i>
 </p>
@@ -418,10 +425,9 @@ if \(2^n - 1\) is prime, \(2^{n-1}(2^n - 1)\) is perfect
 </p>
 </div>
 </div>
-
-<div id="outline-container-org04db5aa" class="outline-4">
-<h4 id="org04db5aa">6</h4>
-<div class="outline-text-4" id="text-org04db5aa">
+<div id="outline-container-orgcb9f0f9" class="outline-4">
+<h4 id="orgcb9f0f9">6</h4>
+<div class="outline-text-4" id="text-orgcb9f0f9">
 <p>
 <i>The sequence 3, 5, 7 is a list of three prime numbers such that each pair of adjacent numbers in the list differ by two. Are there any more such “triplet primes”?</i>
 </p>
@@ -432,32 +438,28 @@ let the set of three "triplet primes" be \(\{n, n+2, n+4\}\). For any value of n
 </div>
 </div>
 </div>
-
-
-<div id="outline-container-org9a0f34f" class="outline-3">
-<h3 id="org9a0f34f">Chapter 1</h3>
-<div class="outline-text-3" id="text-org9a0f34f">
+<div id="outline-container-org03136b8" class="outline-3">
+<h3 id="org03136b8">Chapter 1</h3>
+<div class="outline-text-3" id="text-org03136b8">
 <p>
 For the most part this was just set theory review / what unions and intersections meant / etc. so I didn't do most of the exercises.
 </p>
 </div>
-
-<div id="outline-container-org9e71a24" class="outline-4">
-<h4 id="org9e71a24">1.2 Exercises</h4>
-<div class="outline-text-4" id="text-org9e71a24">
+<div id="outline-container-orgfa56eb4" class="outline-4">
+<h4 id="orgfa56eb4">1.2 Exercises</h4>
+<div class="outline-text-4" id="text-orgfa56eb4">
 </div>
-<div id="outline-container-orga8170e6" class="outline-5">
-<h5 id="orga8170e6">Make truth tables</h5>
-<div class="outline-text-5" id="text-orga8170e6">
+<div id="outline-container-org44e199e" class="outline-5">
+<h5 id="org44e199e">Make truth tables</h5>
+<div class="outline-text-5" id="text-org44e199e">
 <p>
 Pass
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgaa4a19a" class="outline-5">
-<h5 id="orgaa4a19a">4</h5>
-<div class="outline-text-5" id="text-orgaa4a19a">
+<div id="outline-container-org3321c90" class="outline-5">
+<h5 id="org3321c90">4</h5>
+<div class="outline-text-5" id="text-org3321c90">
 <p>
 <i>Find a formula using only the connectives ∧ and ¬ that is equivalent to P ∨ Q.</i>
 </p>
@@ -472,14 +474,13 @@ This is just negated Demorgan's.
 </div>
 </div>
 </div>
-
-<div id="outline-container-org2e83c5a" class="outline-4">
-<h4 id="org2e83c5a">1.3 Exercises</h4>
-<div class="outline-text-4" id="text-org2e83c5a">
+<div id="outline-container-org5cf849b" class="outline-4">
+<h4 id="org5cf849b">1.3 Exercises</h4>
+<div class="outline-text-4" id="text-org5cf849b">
 </div>
-<div id="outline-container-org56ef4bf" class="outline-5">
-<h5 id="org56ef4bf">1</h5>
-<div class="outline-text-5" id="text-org56ef4bf">
+<div id="outline-container-org6a3e411" class="outline-5">
+<h5 id="org6a3e411">1</h5>
+<div class="outline-text-5" id="text-org6a3e411">
 <p>
 <i>Analyze the logical forms of the following statements</i>
 <i>(a) 3 is a common divisor of 6, 9, and 15. (Note: You did this in exercise 2 of Section 1.1, but you should be able to give a better answer now.)</i>
@@ -506,10 +507,9 @@ This is just negated Demorgan's.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org1041ac0" class="outline-5">
-<h5 id="org1041ac0">3</h5>
-<div class="outline-text-5" id="text-org1041ac0">
+<div id="outline-container-orgec6d6de" class="outline-5">
+<h5 id="orgec6d6de">3</h5>
+<div class="outline-text-5" id="text-orgec6d6de">
 <p>
 (a) the set of all celestial objects presently or formally referred to as planets in the solar system
 (b) the set of elite american universities \(\cup\) Cornell University
@@ -519,14 +519,13 @@ This is just negated Demorgan's.
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgc1380b8" class="outline-4">
-<h4 id="orgc1380b8">1.4 Exercises</h4>
-<div class="outline-text-4" id="text-orgc1380b8">
+<div id="outline-container-orgc6e0e4c" class="outline-4">
+<h4 id="orgc6e0e4c">1.4 Exercises</h4>
+<div class="outline-text-4" id="text-orgc6e0e4c">
 </div>
-<div id="outline-container-org8520459" class="outline-5">
-<h5 id="org8520459">1</h5>
-<div class="outline-text-5" id="text-org8520459">
+<div id="outline-container-org0fd6afa" class="outline-5">
+<h5 id="org0fd6afa">1</h5>
+<div class="outline-text-5" id="text-org0fd6afa">
 <p>
 <i>Let A = {1, 3, 12, 35}, B = {3, 7, 12, 20}, and C = {x | x is a prime number}. List the elements of the following sets. Are any of the sets below disjoint from any of the others? Are any of the sets below subsets of any others?</i>
 </p>
@@ -544,7 +543,6 @@ c = {1, 12, 20, 35}
 </p>
 </div>
 </div>
-
 <div id="outline-container-org4f488a3" class="outline-5">
 <h5 id="org4f488a3">10</h5>
 <div class="outline-text-5" id="text-org4f488a3">
@@ -571,18 +569,17 @@ You can use a graph, I suppose.
 </div>
 </div>
 </div>
-
-<div id="outline-container-org7c8c981" class="outline-3">
-<h3 id="org7c8c981">Chapter 2</h3>
-<div class="outline-text-3" id="text-org7c8c981">
+<div id="outline-container-orga3ec99d" class="outline-3">
+<h3 id="orga3ec99d">Chapter 2</h3>
+<div class="outline-text-3" id="text-orga3ec99d">
 </div>
-<div id="outline-container-org12341ca" class="outline-4">
-<h4 id="org12341ca">2.1 exercises</h4>
-<div class="outline-text-4" id="text-org12341ca">
+<div id="outline-container-orga867ee3" class="outline-4">
+<h4 id="orga867ee3">2.1 exercises</h4>
+<div class="outline-text-4" id="text-orga867ee3">
 </div>
-<div id="outline-container-orgd4f6734" class="outline-5">
-<h5 id="orgd4f6734">1</h5>
-<div class="outline-text-5" id="text-orgd4f6734">
+<div id="outline-container-orge1c2ac4" class="outline-5">
+<h5 id="orge1c2ac4">1</h5>
+<div class="outline-text-5" id="text-orge1c2ac4">
 <p>
 <i>Analyze the logical forms of the following statements.</i>
 <i>(a) Anyone who has forgiven at least one person is a saint.</i>
@@ -625,10 +622,9 @@ You can use a graph, I suppose.
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgf6f21c8" class="outline-5">
-<h5 id="orgf6f21c8">2</h5>
-<div class="outline-text-5" id="text-orgf6f21c8">
+<div id="outline-container-orgbd66671" class="outline-5">
+<h5 id="orgbd66671">2</h5>
+<div class="outline-text-5" id="text-orgbd66671">
 <p>
 Giving up on reprinting the question starting now
 </p>
@@ -643,30 +639,27 @@ Giving up on reprinting the question starting now
 </p>
 </div>
 </div>
-
-<div id="outline-container-org803ec3e" class="outline-5">
-<h5 id="org803ec3e">4</h5>
-<div class="outline-text-5" id="text-org803ec3e">
+<div id="outline-container-org991d7d5" class="outline-5">
+<h5 id="org991d7d5">4</h5>
+<div class="outline-text-5" id="text-org991d7d5">
 <p>
 (a) if any man is unmarried, he is unhappy
 (b) there exists a person with a child and a sister
 </p>
 </div>
 </div>
-
-<div id="outline-container-orge1b0d18" class="outline-5">
-<h5 id="orge1b0d18">5</h5>
-<div class="outline-text-5" id="text-orge1b0d18">
+<div id="outline-container-orgd6c8625" class="outline-5">
+<h5 id="orgd6c8625">5</h5>
+<div class="outline-text-5" id="text-orgd6c8625">
 <p>
 (a) Any number which is prime and not 2 is odd
 (b) There exists a biggest perfect number
 </p>
 </div>
 </div>
-
-<div id="outline-container-org2d7193e" class="outline-5">
-<h5 id="org2d7193e">6</h5>
-<div class="outline-text-5" id="text-org2d7193e">
+<div id="outline-container-org04cc7ad" class="outline-5">
+<h5 id="org04cc7ad">6</h5>
+<div class="outline-text-5" id="text-org04cc7ad">
 <p>
 (a) false
 (b) false
@@ -676,10 +669,9 @@ Giving up on reprinting the question starting now
 </p>
 </div>
 </div>
-
-<div id="outline-container-orge398302" class="outline-5">
-<h5 id="orge398302">7</h5>
-<div class="outline-text-5" id="text-orge398302">
+<div id="outline-container-org067e849" class="outline-5">
+<h5 id="org067e849">7</h5>
+<div class="outline-text-5" id="text-org067e849">
 <p>
 (a) true
 (b) false
@@ -690,34 +682,30 @@ Giving up on reprinting the question starting now
 </p>
 </div>
 </div>
-
-<div id="outline-container-org6f41857" class="outline-5">
-<h5 id="org6f41857">8</h5>
-<div class="outline-text-5" id="text-org6f41857">
+<div id="outline-container-org0412e85" class="outline-5">
+<h5 id="org0412e85">8</h5>
+<div class="outline-text-5" id="text-org0412e85">
 <p>
 c is now true, d is now false, f is now true
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgc9a97dc" class="outline-5">
-<h5 id="orgc9a97dc">9</h5>
-<div class="outline-text-5" id="text-orgc9a97dc">
+<div id="outline-container-org7ea102f" class="outline-5">
+<h5 id="org7ea102f">9</h5>
+<div class="outline-text-5" id="text-org7ea102f">
 <p>
 f is now true
 </p>
 </div>
 </div>
 </div>
-
-
-<div id="outline-container-org4b908bf" class="outline-4">
-<h4 id="org4b908bf">2.2 exercises</h4>
-<div class="outline-text-4" id="text-org4b908bf">
+<div id="outline-container-orgf69d69a" class="outline-4">
+<h4 id="orgf69d69a">2.2 exercises</h4>
+<div class="outline-text-4" id="text-orgf69d69a">
 </div>
-<div id="outline-container-orgd96c5ce" class="outline-5">
-<h5 id="orgd96c5ce">8</h5>
-<div class="outline-text-5" id="text-orgd96c5ce">
+<div id="outline-container-orgdf5419c" class="outline-5">
+<h5 id="orgdf5419c">8</h5>
+<div class="outline-text-5" id="text-orgdf5419c">
 <p>
 \((\forall x \in AP(x)) \wedge (\forall x \in B(P(x)))\)
 </p>
@@ -731,10 +719,9 @@ f is now true
 </p>
 </div>
 </div>
-
-<div id="outline-container-orga6811a5" class="outline-5">
-<h5 id="orga6811a5">11</h5>
-<div class="outline-text-5" id="text-orga6811a5">
+<div id="outline-container-orgb15d4ef" class="outline-5">
+<h5 id="orgb15d4ef">11</h5>
+<div class="outline-text-5" id="text-orgb15d4ef">
 <p>
 \(\forall x (x \in A \rightarrow x \in B)\)
 </p>
@@ -758,36 +745,33 @@ f is now true
 </div>
 </div>
 </div>
-
-<div id="outline-container-org7e03dce" class="outline-3">
-<h3 id="org7e03dce">Chapter 3</h3>
-<div class="outline-text-3" id="text-org7e03dce">
+<div id="outline-container-orgbc48964" class="outline-3">
+<h3 id="orgbc48964">Chapter 3</h3>
+<div class="outline-text-3" id="text-orgbc48964">
 </div>
-<div id="outline-container-org089147c" class="outline-4">
-<h4 id="org089147c">3.1 Exercises</h4>
-<div class="outline-text-4" id="text-org089147c">
+<div id="outline-container-org49cebcb" class="outline-4">
+<h4 id="org49cebcb">3.1 Exercises</h4>
+<div class="outline-text-4" id="text-org49cebcb">
 </div>
-<div id="outline-container-orga5d1536" class="outline-5">
-<h5 id="orga5d1536">5</h5>
-<div class="outline-text-5" id="text-orga5d1536">
+<div id="outline-container-orge1e42ff" class="outline-5">
+<h5 id="orge1e42ff">5</h5>
+<div class="outline-text-5" id="text-orge1e42ff">
 <p>
 assume a &lt; b &lt; 0. Then, -a &gt; -b &gt; 0. Since (-a)<sup>2</sup> &gt; (-b)<sup>2</sup> &gt; 0 and (-x)<sup>2</sup> = x<sup>2</sup>, a<sup>2</sup> &gt; b<sup>2</sup>.
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgcb9f0f9" class="outline-5">
-<h5 id="orgcb9f0f9">6</h5>
-<div class="outline-text-5" id="text-orgcb9f0f9">
+<div id="outline-container-org8070bbb" class="outline-5">
+<h5 id="org8070bbb">6</h5>
+<div class="outline-text-5" id="text-org8070bbb">
 <p>
 Assume \(1/b \geq 1/a\). Then, \(ab/b \geq ab/a\) and therefore \(a \geq b\). However, \(0 < a < b\), which is a contradiction. You could just divide both sides by \(ab\) but what's the fun in that. 
 </p>
 </div>
 </div>
-
-<div id="outline-container-org067e849" class="outline-5">
-<h5 id="org067e849">7</h5>
-<div class="outline-text-5" id="text-org067e849">
+<div id="outline-container-orgac4cc1d" class="outline-5">
+<h5 id="orgac4cc1d">7</h5>
+<div class="outline-text-5" id="text-orgac4cc1d">
 <p>
 assume a<sup>3</sup> &gt; a. Then, a<sup>3</sup> - a &gt; 0. 
 </p>
@@ -805,42 +789,38 @@ Therefore, a<sup>5</sup> &gt; a
 </p>
 </div>
 </div>
-
-<div id="outline-container-org7f6de90" class="outline-5">
-<h5 id="org7f6de90">8</h5>
-<div class="outline-text-5" id="text-org7f6de90">
+<div id="outline-container-org57b634d" class="outline-5">
+<h5 id="org57b634d">8</h5>
+<div class="outline-text-5" id="text-org57b634d">
 <p>
 assume \(x \notin D\). Then, \(x \notin C \cap D\). Since \(x \in A\) and \(A \setminus B \subseteq, C \cap D\), then x must have been removed from A, meaning \(x \in B\)
 </p>
 </div>
 </div>
-
-<div id="outline-container-org7ea102f" class="outline-5">
-<h5 id="org7ea102f">9</h5>
-<div class="outline-text-5" id="text-org7ea102f">
+<div id="outline-container-org7dbf55d" class="outline-5">
+<h5 id="org7dbf55d">9</h5>
+<div class="outline-text-5" id="text-org7dbf55d">
 <p>
 assume \(a<b\). Then, \(a+b<b+b\). Therefore \(\frac{a+b}{2} < \frac{2b}{2} = b\)
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgb15d4ef" class="outline-5">
-<h5 id="orgb15d4ef">11</h5>
-<div class="outline-text-5" id="text-orgb15d4ef">
+<div id="outline-container-orgb3bea97" class="outline-5">
+<h5 id="orgb3bea97">11</h5>
+<div class="outline-text-5" id="text-orgb3bea97">
 <p>
 suppose \(ac \geq bd\). Since \(a < b\), we have \(ac \geq bd > ad\) and therefore \(ac > ad\). Therefore, \(c > d\)
 </p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org2320a49" class="outline-4">
-<h4 id="org2320a49">3.2 Exercises</h4>
-<div class="outline-text-4" id="text-org2320a49">
+<div id="outline-container-orgb6ccca5" class="outline-4">
+<h4 id="orgb6ccca5">3.2 Exercises</h4>
+<div class="outline-text-4" id="text-orgb6ccca5">
 </div>
-<div id="outline-container-org0412e85" class="outline-5">
-<h5 id="org0412e85">8</h5>
-<div class="outline-text-5" id="text-org0412e85">
+<div id="outline-container-orge73151f" class="outline-5">
+<h5 id="orge73151f">8</h5>
+<div class="outline-text-5" id="text-orge73151f">
 <p>
 assume \(a \geq -1\). 
 </p>

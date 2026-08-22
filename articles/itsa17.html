@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-22 Sat 16:16 -->
+<!-- 2026-08-22 Sat 16:22 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Rating ITG Charts with ML</title>
@@ -98,6 +98,7 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
             <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
             <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
@@ -111,44 +112,43 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org0a7328b">Auto-Rating ITG Stamina Charts with Machine Learning</a>
+<li><a href="#orgf3dba10">Auto-Rating ITG Stamina Charts with Machine Learning</a>
 <ul>
-<li><a href="#org5b64562">Abstract</a></li>
-<li><a href="#org12f00fb">Introduction</a></li>
-<li><a href="#org129fc9a">Getting Data</a></li>
-<li><a href="#org75b810f">Baselines</a>
+<li><a href="#org699c560">Abstract</a></li>
+<li><a href="#orgc990efb">Introduction</a></li>
+<li><a href="#orgce08562">Getting Data</a></li>
+<li><a href="#orged710b7">Baselines</a>
 <ul>
-<li><a href="#orgaed5582">Lookup Table with Longest Stream</a></li>
-<li><a href="#org6496001">Classification w/ Length and Percent Stream</a></li>
+<li><a href="#orgd12a37a">Lookup Table with Longest Stream</a></li>
+<li><a href="#org737c5fe">Classification w/ Length and Percent Stream</a></li>
 </ul>
 </li>
-<li><a href="#orgd5dda6d">Sequence Models</a>
+<li><a href="#orgcaa8bb3">Sequence Models</a>
 <ul>
-<li><a href="#orga115813">Recurrent Neural Network (RNN)</a></li>
+<li><a href="#org887eab8">Recurrent Neural Network (RNN)</a></li>
 </ul>
 </li>
-<li><a href="#orgd810438">Discussion</a></li>
+<li><a href="#org7a71352">Discussion</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org0a7328b" class="outline-1">
-<h1 id="org0a7328b">Auto-Rating ITG Stamina Charts with Machine Learning</h1>
-<div class="outline-text-1" id="text-org0a7328b">
+<div id="outline-container-orgf3dba10" class="outline-1">
+<h1 id="orgf3dba10">Auto-Rating ITG Stamina Charts with Machine Learning</h1>
+<div class="outline-text-1" id="text-orgf3dba10">
 </div>
-<div id="outline-container-org5b64562" class="outline-2">
-<h2 id="org5b64562">Abstract</h2>
-<div class="outline-text-2" id="text-org5b64562">
+<div id="outline-container-org699c560" class="outline-2">
+<h2 id="org699c560">Abstract</h2>
+<div class="outline-text-2" id="text-org699c560">
 <p>
 I use machine learning to automatically rate ITG Stamina charts based on the "measure breakdown" commonly used as shorthand to describe charts. I use classical ML techniques and get fairly strong results, but I play around with sequence-to-one models anyways just for fun. I perform some visualization on how different features affect the rating, and suggest future directions this can go in. Code for this project can be found on <a href="https://github.com/ambisinister/itsa17">github</a>.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org12f00fb" class="outline-2">
-<h2 id="org12f00fb">Introduction</h2>
-<div class="outline-text-2" id="text-org12f00fb">
+<div id="outline-container-orgc990efb" class="outline-2">
+<h2 id="orgc990efb">Introduction</h2>
+<div class="outline-text-2" id="text-orgc990efb">
 <p>
 I am a <a href="https://www.youtube.com/watch?v=Kkrlbx6Fp0o&amp;ab_channel=AmbiTraining">novice level ITG Stamina player</a>. If you haven't heard of ITG Stamina, you can briefly refer to <a href="https://planetbanatt.net/articles/dancegames.html">my post</a> on it, or on <a href="https://www.youtube.com/watch?v=q3uaWqtmVwg">Dom's youtube introduction</a> to it. Basically, it's a 4 panel rhythm game where you have to hit a lot of notes with your feet very fast without stopping. Each song you play will have a stepchart, which is the "level" containing all of the arrows you have to hit to pass the song. Some of these stepcharts are harder than others, and you can arbitrarily change the speed of any stepchart to make it easier or harder (e.g. playing it on 1.5x speed).
 </p>
@@ -170,10 +170,9 @@ We would like to rate these somehow, automatically. How can we do that?
 </p>
 </div>
 </div>
-
-<div id="outline-container-org129fc9a" class="outline-2">
-<h2 id="org129fc9a">Getting Data</h2>
-<div class="outline-text-2" id="text-org129fc9a">
+<div id="outline-container-orgce08562" class="outline-2">
+<h2 id="orgce08562">Getting Data</h2>
+<div class="outline-text-2" id="text-orgce08562">
 <p>
 Breakdowns are relatively easy to get directly from a .sm file. The way <a href="https://simplyloveitg.com/">Simply Love</a> does breakdowns is very simple: if a measure has 16 notes in it, it's a stream<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>. For now we will proceed with that, and revisit this heuristic if there are too many songs with 24th/32nd note quantization which throw things off. I also trimmed out leading and trailing break (which shouldn't affect difficulty of the chart at all, since it is just break). 
 </p>
@@ -195,14 +194,13 @@ Test: Stamina RPG 6
 </p>
 </div>
 </div>
-
-<div id="outline-container-org75b810f" class="outline-2">
-<h2 id="org75b810f">Baselines</h2>
-<div class="outline-text-2" id="text-org75b810f">
+<div id="outline-container-orged710b7" class="outline-2">
+<h2 id="orged710b7">Baselines</h2>
+<div class="outline-text-2" id="text-orged710b7">
 </div>
-<div id="outline-container-orgaed5582" class="outline-3">
-<h3 id="orgaed5582">Lookup Table with Longest Stream</h3>
-<div class="outline-text-3" id="text-orgaed5582">
+<div id="outline-container-orgd12a37a" class="outline-3">
+<h3 id="orgd12a37a">Lookup Table with Longest Stream</h3>
+<div class="outline-text-3" id="text-orgd12a37a">
 <p>
 A very simple heuristic you can use is a table which describes the rating of a song with just one block of stream at a given bpm, and then using your chart's longest stream (or, alternatively, total number of stream). The logic for this is very simple; stream is the hardest part of the chart, so we can lower bound the difficulty by what it would be if the long stream would be by itself, and we can upper bound the difficulty by what it would be if there were no breaks.
 </p>
@@ -212,7 +210,7 @@ This exists, and is a common first-order benchmark used by step artists when rat
 </p>
 
 
-<div id="org84d88e4" class="figure">
+<div id="org8c2f594" class="figure">
 <p><img src="../images/itsa17/lookup_table.png" alt="lookup_table.png" />
 </p>
 </div>
@@ -227,23 +225,21 @@ Running some this on our SRPG5 set we get a result which makes sense: this serve
 
 
 
-<div id="orga6c9b81" class="figure">
+<div id="org9e84f5f" class="figure">
 <p><img src="../images/itsa17/Lookup Table Interpolation.png" alt="Lookup Table Interpolation.png" />
 </p>
 </div>
 
 
-<div id="orgd15653c" class="figure">
+<div id="org382ff2f" class="figure">
 <p><img src="../images/itsa17/Lookup Table Interpolation (Sum of Total Stream).png" alt="Lookup Table Interpolation (Sum of Total Stream).png" />
 </p>
 </div>
 </div>
 </div>
-
-
-<div id="outline-container-org6496001" class="outline-3">
-<h3 id="org6496001">Classification w/ Length and Percent Stream</h3>
-<div class="outline-text-3" id="text-org6496001">
+<div id="outline-container-org737c5fe" class="outline-3">
+<h3 id="org737c5fe">Classification w/ Length and Percent Stream</h3>
+<div class="outline-text-3" id="text-org737c5fe">
 <p>
 We can leverage our collected data and create a model which uses three features:
 </p>
@@ -259,7 +255,7 @@ and then classifies a value based upon these three. This is still a pretty featu
 </p>
 
 
-<div id="orgf3820b8" class="figure">
+<div id="org80b360e" class="figure">
 <p><img src="../images/itsa17/umap_3feat.png" alt="umap_3feat.png" />
 </p>
 </div>
@@ -277,19 +273,19 @@ Running this on our SRPG5 set, we see that Linear Regression it scores exactly t
 </p>
 
 
-<div id="org389ffb4" class="figure">
+<div id="org5588d18" class="figure">
 <p><img src="../images/itsa17/Linear Regression.png" alt="Linear Regression.png" />
 </p>
 </div>
 
 
-<div id="org4c33081" class="figure">
+<div id="orgeff3707" class="figure">
 <p><img src="../images/itsa17/kNN.png" alt="kNN.png" />
 </p>
 </div>
 
 
-<div id="orgb9879d0" class="figure">
+<div id="orgb654b10" class="figure">
 <p><img src="../images/itsa17/SVM Classifier.png" alt="SVM Classifier.png" />
 </p>
 </div>
@@ -300,10 +296,9 @@ This isn't bad; it's certainly usable. However, I think we can do better. More i
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgd5dda6d" class="outline-2">
-<h2 id="orgd5dda6d">Sequence Models</h2>
-<div class="outline-text-2" id="text-orgd5dda6d">
+<div id="outline-container-orgcaa8bb3" class="outline-2">
+<h2 id="orgcaa8bb3">Sequence Models</h2>
+<div class="outline-text-2" id="text-orgcaa8bb3">
 <p>
 What we would like is to take a stepchart, find its breakdown, and directly infer the difficulty based upon the breakdown and bpm. However, unlike the baseline problems, we recognize there is a problem: the breakdowns can by any length, which doesn't play nice with our more standard neural networks which want an input which is a fixed size.
 </p>
@@ -312,16 +307,15 @@ What we would like is to take a stepchart, find its breakdown, and directly infe
 The solution here is to use a sequence model, which can take a variable length input!
 </p>
 </div>
-
-<div id="outline-container-orga115813" class="outline-3">
-<h3 id="orga115813">Recurrent Neural Network (RNN)</h3>
-<div class="outline-text-3" id="text-orga115813">
+<div id="outline-container-org887eab8" class="outline-3">
+<h3 id="org887eab8">Recurrent Neural Network (RNN)</h3>
+<div class="outline-text-3" id="text-org887eab8">
 <p>
 I build a simple RNN in pytorch on the above problem, feed it breakdowns, and penalize it based on Mean Squared Error loss. Out of the box, it appears to learn quite well! Just look at this 79% accurate model (when testing on the training data)
 </p>
 
 
-<div id="orgec7c564" class="figure">
+<div id="orgfd1af9c" class="figure">
 <p><img src="../images/itsa17/RNN_overfitting.png" alt="RNN_overfitting.png" />
 </p>
 </div>
@@ -331,7 +325,7 @@ However, what is actually happening is that we are horribly overfitting to our t
 </p>
 
 
-<div id="orge5ddc59" class="figure">
+<div id="orgb95d980" class="figure">
 <p><img src="../images/itsa17/RNN_overfitting_val.png" alt="RNN_overfitting_val.png" />
 </p>
 </div>
@@ -341,7 +335,7 @@ I switched to a more direct implementation of RNNs instead of using the shipped-
 </p>
 
 
-<div id="orgede912c" class="figure">
+<div id="org88545a4" class="figure">
 <p><img src="../images/itsa17/RNN.png" alt="RNN.png" />
 </p>
 </div>
@@ -352,10 +346,9 @@ That's more like it! It's clearly learned something which generalizes to the val
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgd810438" class="outline-2">
-<h2 id="orgd810438">Discussion</h2>
-<div class="outline-text-2" id="text-orgd810438">
+<div id="outline-container-org7a71352" class="outline-2">
+<h2 id="org7a71352">Discussion</h2>
+<div class="outline-text-2" id="text-org7a71352">
 <p>
 Ultimately, if you want something quick and easy, the Support Vector Classifier is a pretty safe choice. It performs well, it's rarely off by more than a block level, and it doesn't require substantial computational power. If you want to get a rating estimate, and you don't want to bother someone about it, it's a good pick. If people want to play with this, I could probably try serving the model in a browser or something.
 </p>

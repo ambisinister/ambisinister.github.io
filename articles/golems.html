@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-22 Sat 16:16 -->
+<!-- 2026-08-22 Sat 16:22 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Golems</title>
@@ -73,27 +73,38 @@ $(function() {
 
 <link rel="stylesheet" type="text/css" href="https://planetbanatt.net/css/default_20240614.css" />
 <link rel="shortcut icon" type="image/jpg" href="https://planetbanatt.net/favicon.ico" />
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
-
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "AMS"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
-});
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -119,6 +130,7 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
             <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
             <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
@@ -132,48 +144,46 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org32da141">Humanity's Butterfly: Notes on Maimakterion</a>
+<li><a href="#orgeb78fac">Humanity's Butterfly: Notes on Maimakterion</a>
 <ul>
-<li><a href="#org6164dc4">Abstract</a></li>
-<li><a href="#org71c513e"><i>Lucifer and the Biscuit Hammer</i></a></li>
-<li><a href="#org19c26f7">Maimakterion</a>
+<li><a href="#org27565ce">Abstract</a></li>
+<li><a href="#org8e4a20f"><i>Lucifer and the Biscuit Hammer</i></a></li>
+<li><a href="#org9f93cb9">Maimakterion</a>
 <ul>
-<li><a href="#org8850058">The Golem Who Spoke</a></li>
-<li><a href="#org001fd49">What are Golems?</a></li>
-<li><a href="#org661ca12">Language Models as a Type of Golem</a></li>
-<li><a href="#org7d76be3">Humanity's Butterfly</a></li>
+<li><a href="#org34a166f">The Golem Who Spoke</a></li>
+<li><a href="#org16c2ef6">What are Golems?</a></li>
+<li><a href="#org56caa0d">Language Models as a Type of Golem</a></li>
+<li><a href="#orgeb27fd2">Humanity's Butterfly</a></li>
 </ul>
 </li>
-<li><a href="#org23338fa">What's It Like to Be a Golem?</a>
+<li><a href="#orgf9ca005">What's It Like to Be a Golem?</a>
 <ul>
-<li><a href="#org3c875c2">Awareness</a></li>
-<li><a href="#org9796739">Reasoning Traces</a></li>
-<li><a href="#orgb40abac">Are Golems Just Zombies?</a></li>
+<li><a href="#org3d6975b">Awareness</a></li>
+<li><a href="#orgfd65539">Reasoning Traces</a></li>
+<li><a href="#org4fac9c6">Are Golems Just Zombies?</a></li>
 </ul>
 </li>
-<li><a href="#orga076f40">It's All Just Ones and Zeroes</a></li>
+<li><a href="#orgda56fa0">It's All Just Ones and Zeroes</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org32da141" class="outline-1">
-<h1 id="org32da141">Humanity's Butterfly: Notes on Maimakterion</h1>
-<div class="outline-text-1" id="text-org32da141">
+<div id="outline-container-orgeb78fac" class="outline-1">
+<h1 id="orgeb78fac">Humanity's Butterfly: Notes on Maimakterion</h1>
+<div class="outline-text-1" id="text-orgeb78fac">
 </div>
-<div id="outline-container-org6164dc4" class="outline-2">
-<h2 id="org6164dc4">Abstract</h2>
-<div class="outline-text-2" id="text-org6164dc4">
+<div id="outline-container-org27565ce" class="outline-2">
+<h2 id="org27565ce">Abstract</h2>
+<div class="outline-text-2" id="text-org27565ce">
 <p>
 The manga <i>Lucifer and the Biscuit Hammer</i> features an antagonist called Maimakterion, a golem which is imbued with apparent self-awareness. I argue that Maimakterion is the most compelling fictional depiction of an <i>Agent AI</i>; a non-human entity which bootstraps from human knowledge until it attains a convincing facsimile of humanity itself. Unlike traditional golems or robots whose humanity is granted or programmed into them, Maimakterion becomes himself through information absorption, making him an ideal vehicle for exploring questions around human consciousness. 
 </p>
 </div>
 </div>
-
-<div id="outline-container-org71c513e" class="outline-2">
-<h2 id="org71c513e"><i>Lucifer and the Biscuit Hammer</i></h2>
-<div class="outline-text-2" id="text-org71c513e">
+<div id="outline-container-org8e4a20f" class="outline-2">
+<h2 id="org8e4a20f"><i>Lucifer and the Biscuit Hammer</i></h2>
+<div class="outline-text-2" id="text-org8e4a20f">
 <p>
 Between 2005 and 2010, a mangaka by the name of <a href="https://en.wikipedia.org/wiki/Satoshi_Mizukami">Satoshi Mizukami</a> wrote a ten-volume piece titled <i>Hoshi no Samidare</i>, transliterated in the west as <i><a href="https://en.wikipedia.org/wiki/Lucifer_and_the_Biscuit_Hammer">Lucifer and the Biscuit Hammer</a></i><sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>. It follows a misanthropic college student who is suddenly thrust the responsibility of being a <i>Beast Knight</i>, part of a band of warriors whose purpose is to defeat a mage named Animus who wants to destroy the world with a giant mallet called the Biscuit Hammer.
 </p>
@@ -187,10 +197,9 @@ An important theme in <i>Lucifer and the Biscuit Hammer</i> is the struggle betw
 </p>
 </div>
 </div>
-
-<div id="outline-container-org19c26f7" class="outline-2">
-<h2 id="org19c26f7">Maimakterion</h2>
-<div class="outline-text-2" id="text-org19c26f7">
+<div id="outline-container-org9f93cb9" class="outline-2">
+<h2 id="org9f93cb9">Maimakterion</h2>
+<div class="outline-text-2" id="text-org9f93cb9">
 <p>
 Animus' 11th golem is notably different from the previous ones. While Animus' golems tend to be powerful (especially the final three <i>divine bodies</i>), they appear to follow straightforwardly hostile <a href="https://en.wikipedia.org/wiki/Fixed_action_pattern">fixed action patterns</a>, suggesting they are essentially hand-programmed to fight the Beast Knights. In comparison, the 11th Golem Maimakterion is instead a relatively formless one: a <i>tabula rasa</i> golem instructed to go out and learn as much as possible in order to assume its most powerful form.
 </p>
@@ -200,7 +209,7 @@ The arcs leading up to Maimakterion's introduction spend considerable effort see
 </p>
 
 
-<div id="orgaf7a2b1" class="figure">
+<div id="org9eb9557" class="figure">
 <p><img src="../images/from_clipboard/20241123_185211.png" alt="20241123_185211.png" />
 </p>
 </div>
@@ -210,7 +219,7 @@ In the lead-up to Maimakterion's introduction, there is substantial foreshadowin
 </p>
 
 
-<div id="org3303d5b" class="figure">
+<div id="org175a210" class="figure">
 <p><img src="../images/from_clipboard/20241123_205110.png" alt="20241123_205110.png" />
 </p>
 </div>
@@ -224,12 +233,11 @@ In the lead-up to Maimakterion's introduction, there is substantial foreshadowin
 <img src="../images/from_clipboard/20241123_205750.png" alt="20241123_205750.png" />
 </p>
 </div>
+<div id="outline-container-org34a166f" class="outline-3">
+<h3 id="org34a166f">The Golem Who Spoke</h3>
+<div class="outline-text-3" id="text-org34a166f">
 
-<div id="outline-container-org8850058" class="outline-3">
-<h3 id="org8850058">The Golem Who Spoke</h3>
-<div class="outline-text-3" id="text-org8850058">
-
-<div id="org57b5310" class="figure">
+<div id="orgcb6b757" class="figure">
 <p><img src="../images/from_clipboard/20241123_225510.png" alt="20241123_225510.png" />
 </p>
 </div>
@@ -239,7 +247,7 @@ It's later shown that Maimakterion's trick is that he reads books. Taiyou makes 
 </p>
 
 
-<div id="org9a0529a" class="figure">
+<div id="org83b8c51" class="figure">
 <p><img src="../images/from_clipboard/20241124_012505.png" alt="20241124_012505.png" />
 </p>
 </div>
@@ -291,12 +299,11 @@ Maimakterion's character arc bears remarkable similarity to real-world <a href="
 </p>
 </div>
 </div>
+<div id="outline-container-org16c2ef6" class="outline-3">
+<h3 id="org16c2ef6">What are Golems?</h3>
+<div class="outline-text-3" id="text-org16c2ef6">
 
-<div id="outline-container-org001fd49" class="outline-3">
-<h3 id="org001fd49">What are Golems?</h3>
-<div class="outline-text-3" id="text-org001fd49">
-
-<div id="orgef3b1fa" class="figure">
+<div id="orgfa89ae0" class="figure">
 <p><img src="../images/from_clipboard/20241122_014742.png" alt="20241122_014742.png" />
 </p>
 </div>
@@ -320,10 +327,9 @@ But what, then, is Maimakterion? Through the traditional framework, he represent
 </p>
 </div>
 </div>
-
-<div id="outline-container-org661ca12" class="outline-3">
-<h3 id="org661ca12">Language Models as a Type of Golem</h3>
-<div class="outline-text-3" id="text-org661ca12">
+<div id="outline-container-org56caa0d" class="outline-3">
+<h3 id="org56caa0d">Language Models as a Type of Golem</h3>
+<div class="outline-text-3" id="text-org56caa0d">
 <p>
 <a href="https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf">Language models</a> are very large neural networks (typically <a href="https://arxiv.org/pdf/1706.03762">transformers</a>) which are trained on an extremely large body of text to predict the next word in a sequence<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>. If you feed a next-word prediction back into itself (called <i>autoregression</i>), these models can output very large blocks of very convincing text. 
 </p>
@@ -395,10 +401,9 @@ Refocusing the conversation to our fictional Golem friend, the discussion of Mai
 </p>
 </div>
 </div>
-
-<div id="outline-container-org7d76be3" class="outline-3">
-<h3 id="org7d76be3">Humanity's Butterfly</h3>
-<div class="outline-text-3" id="text-org7d76be3">
+<div id="outline-container-orgeb27fd2" class="outline-3">
+<h3 id="orgeb27fd2">Humanity's Butterfly</h3>
+<div class="outline-text-3" id="text-orgeb27fd2">
 <p>
 <a href="https://www.nobelprize.org/prizes/physics/2024/press-release/">Nobel prize winner</a> <a href="https://en.wikipedia.org/wiki/Geoffrey_Hinton">Geoffery Hinton</a> once said <a href="https://x.com/geoffreyhinton/status/1635739459764322330?lang=en">the following</a> about large language models:
 </p>
@@ -424,10 +429,9 @@ Maimakterion's final moments mirror this sentiment &#x2013; Shimaki, the other G
 </div>
 </div>
 </div>
-
-<div id="outline-container-org23338fa" class="outline-2">
-<h2 id="org23338fa">What's It Like to Be a Golem?</h2>
-<div class="outline-text-2" id="text-org23338fa">
+<div id="outline-container-orgf9ca005" class="outline-2">
+<h2 id="orgf9ca005">What's It Like to Be a Golem?</h2>
+<div class="outline-text-2" id="text-orgf9ca005">
 <p>
 The arguments that are often touted for language models' non-sentience largely apply to Maimakterion as well &#x2013; all of his behaviors may simply leverage examples from fiction about how a creature of his nature ought to behave. He is a shapeshifting automaton with a simple objective and a voracious appetite for reading. Understanding, agentic behaviors, the simulacra of "human emotion"<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>, all of it is just emergent behavior downstream of simple, everyday, golem magic. 
 </p>
@@ -440,10 +444,9 @@ It <i>feels</i> different because Maimakterion is an explicitly magical creature
 So, Maimakterion is not human. But what is it like to be Maimakterion? Does such a question make sense?
 </p>
 </div>
-
-<div id="outline-container-org3c875c2" class="outline-3">
-<h3 id="org3c875c2">Awareness</h3>
-<div class="outline-text-3" id="text-org3c875c2">
+<div id="outline-container-org3d6975b" class="outline-3">
+<h3 id="org3d6975b">Awareness</h3>
+<div class="outline-text-3" id="text-org3d6975b">
 <p>
 The extent to which language models (and by extension golems) can exhibit human-like behavior is the object of substantial discussion. This substantial discussion, in turn, affects how the language models behave: more words written on this topic spawns yet more training data for the language models to consume in training, creating a continual, self-fulfilling loop of envisioned examples on how an AI might behave.
 </p>
@@ -519,7 +522,7 @@ This sparked some interesting discussion surrounding the observation of self-awa
 </p>
 
 
-<div id="org15fa75c" class="figure">
+<div id="org310dfe8" class="figure">
 <p><img src="../images/from_clipboard/20241122_210842.png" alt="20241122_210842.png" />
 </p>
 </div>
@@ -533,10 +536,9 @@ So can artificial systems conceivably posess internal mental states? What would 
 </p>
 </div>
 </div>
-
-<div id="outline-container-org9796739" class="outline-3">
-<h3 id="org9796739">Reasoning Traces</h3>
-<div class="outline-text-3" id="text-org9796739">
+<div id="outline-container-orgfd65539" class="outline-3">
+<h3 id="orgfd65539">Reasoning Traces</h3>
+<div class="outline-text-3" id="text-orgfd65539">
 <p>
 A recent trend in language modeling is "reasoning models": models which simulate "thinking" in addition to simply "speaking" in a manner similar to <a href="https://openai.com/index/learning-to-reason-with-llms/">OpenAI's o1</a>. From a more cognitive lens, prior language models followed a more direct "Perceive \(\rightarrow\) Act" formulation, and reasoning models fill out the perception-action cycle of "Perceive \(\rightarrow\) Think \(\rightarrow\) Act". This is a bit harder to model compared to the standard next-token prediction objective. These models are typically trained via reinforcement learning to navigate chains of thought, in a manner akin to <a href="https://deepmind.google/discover/blog/alphazero-shedding-new-light-on-chess-shogi-and-go/">AlphaZero</a>, a superhuman Go program which achieves superhuman performance at board games entirely through self-play.
 </p>
@@ -609,10 +611,9 @@ But something about this still doesn't feel quite right, even still. Does this r
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgb40abac" class="outline-3">
-<h3 id="orgb40abac">Are Golems Just Zombies?</h3>
-<div class="outline-text-3" id="text-orgb40abac">
+<div id="outline-container-org4fac9c6" class="outline-3">
+<h3 id="org4fac9c6">Are Golems Just Zombies?</h3>
+<div class="outline-text-3" id="text-org4fac9c6">
 <p>
 An interesting starting point to answer this question is the concept of <a href="https://en.wikipedia.org/wiki/Qualia">qualia</a>, an instance of subjective conscious experience. Things which are describable as qualia are things like "how pain feels" or "how red looks hot". The relatively famous armchair philosophy question "how can we know that my blue and your blue look the same?" is, in fact, a famous question about qualia originally posed by <a href="https://en.wikipedia.org/wiki/Inverted_spectrum">John Locke</a>.
 </p>
@@ -626,7 +627,7 @@ So, can golems have qualia? Another prominent thought experiment in philosophy o
 </p>
 
 
-<div id="org0a1b5a2" class="figure">
+<div id="org8460d73" class="figure">
 <p><img src="../images/from_clipboard/20241122_152001.png" alt="20241122_152001.png" />
 </p>
 </div>
@@ -645,10 +646,9 @@ Would all of this constitute "a mind"? To what extent is that question even answ
 </div>
 </div>
 </div>
-
-<div id="outline-container-orga076f40" class="outline-2">
-<h2 id="orga076f40">It's All Just Ones and Zeroes</h2>
-<div class="outline-text-2" id="text-orga076f40">
+<div id="outline-container-orgda56fa0" class="outline-2">
+<h2 id="orgda56fa0">It's All Just Ones and Zeroes</h2>
+<div class="outline-text-2" id="text-orgda56fa0">
 <p>
 If dragons were real, we would probably treat them like zebras. They would be a type of large flying reptile, and we would probably eventually figure out the biological mechanisms which allowed them to produce flames from their mouths. People who study and care for dragons would be the same kind of nerdy detail-obsessed academics who track the migratory patterns of killer whales. In the realms of fantasy, being a dragon tamer sounds like the coolest thing imaginable. In reality, they'd be just another type of zookeeper.
 </p>
@@ -686,7 +686,7 @@ The original name of this is "Samidare of the Stars", referring to the princess 
 </p>
 
 
-<div id="org607a80d" class="figure">
+<div id="org87efd3b" class="figure">
 <p><img src="../images/from_clipboard/20241123_195707.png" alt="20241123_195707.png" />
 </p>
 </div></div></div>
@@ -700,7 +700,7 @@ Other Golems in <i>Biscuit Hammer</i> do seem to exhibit the capacity for very r
 </p>
 
 
-<div id="orgd29834c" class="figure">
+<div id="orge999182" class="figure">
 <p><img src="../images/from_clipboard/20241124_201549.png" alt="20241124_201549.png" />
 </p>
 </div>

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-22 Sat 16:16 -->
+<!-- 2026-08-22 Sat 16:22 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>WILT Benchmark</title>
@@ -73,27 +73,38 @@ $(function() {
 
 <link rel="stylesheet" type="text/css" href="https://planetbanatt.net/css/default_20240614.css" />
 <link rel="shortcut icon" type="image/jpg" href="https://planetbanatt.net/favicon.ico" />
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
-
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "AMS"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
-});
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -119,6 +130,7 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
             <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
             <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
@@ -132,50 +144,49 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org14feb33">WILT: Wason Inductive Logic Test for LLMs</a>
+<li><a href="#org1811398">WILT: Wason Inductive Logic Test for LLMs</a>
 <ul>
-<li><a href="#orgdc0b5e9">Introduction</a></li>
-<li><a href="#orgbca469e">On the Impossibility of the Wason 2-4-6 Task</a></li>
+<li><a href="#org46891cf">Introduction</a></li>
+<li><a href="#orgb2afccc">On the Impossibility of the Wason 2-4-6 Task</a></li>
 <li><a href="#org02297fa">WILT</a>
 <ul>
-<li><a href="#orgac9f946">Default Prompt</a></li>
+<li><a href="#org04f1346">Default Prompt</a></li>
 </ul>
 </li>
-<li><a href="#orgd694c9d">Initial Results</a></li>
-<li><a href="#org1f4ed08">Interesting Observations</a>
+<li><a href="#orgbd71fd0">Initial Results</a></li>
+<li><a href="#org4631868">Interesting Observations</a>
 <ul>
-<li><a href="#orga298428">Claude 3.5 Sonnet</a></li>
-<li><a href="#org04f3253">Llama 3 70B</a>
+<li><a href="#orge374288">Claude 3.5 Sonnet</a></li>
+<li><a href="#org9f3323d">Llama 3 70B</a>
 <ul>
-<li><a href="#org6ef4740">Berating itself / recovering mistakes</a></li>
-<li><a href="#orgd93b6ed">Spending time "thinking"</a></li>
+<li><a href="#org97e4c10">Berating itself / recovering mistakes</a></li>
+<li><a href="#org6801354">Spending time "thinking"</a></li>
 </ul>
 </li>
-<li><a href="#org4963c8b">Mixtral-8x7b / Gemma-7b-it</a>
+<li><a href="#orga10a768">Mixtral-8x7b / Gemma-7b-it</a>
 <ul>
-<li><a href="#orgf878075">Hallucinating Successful Tests</a></li>
+<li><a href="#orgaacd016">Hallucinating Successful Tests</a></li>
 </ul>
 </li>
-<li><a href="#org094ed9b">gpt-4-turbo</a></li>
-<li><a href="#org15d085a">gpt-3.5-turbo</a></li>
-<li><a href="#org45d6ec5">DeepSeek-V2-Chat</a></li>
-<li><a href="#org0988d06">DeepSeek-V2-Coder</a></li>
+<li><a href="#org93cadc4">gpt-4-turbo</a></li>
+<li><a href="#org0a4d25a">gpt-3.5-turbo</a></li>
+<li><a href="#org341d1a3">DeepSeek-V2-Chat</a></li>
+<li><a href="#org0d90cbe">DeepSeek-V2-Coder</a></li>
 </ul>
 </li>
-<li><a href="#orgc1ae845">Conclusions</a></li>
+<li><a href="#org4bb6585">Conclusions</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org14feb33" class="outline-1">
-<h1 id="org14feb33">WILT: Wason Inductive Logic Test for LLMs</h1>
-<div class="outline-text-1" id="text-org14feb33">
+<div id="outline-container-org1811398" class="outline-1">
+<h1 id="org1811398">WILT: Wason Inductive Logic Test for LLMs</h1>
+<div class="outline-text-1" id="text-org1811398">
 </div>
-<div id="outline-container-orgdc0b5e9" class="outline-2">
-<h2 id="orgdc0b5e9">Introduction</h2>
-<div class="outline-text-2" id="text-orgdc0b5e9">
+<div id="outline-container-org46891cf" class="outline-2">
+<h2 id="org46891cf">Introduction</h2>
+<div class="outline-text-2" id="text-org46891cf">
 <p>
 The <a href="https://journals.sagepub.com/doi/10.1080/17470216008416717">Wason 2-4-6 Task</a> is a famous reasoning test used to demonstrate confirmation bias. The goal of this task is to infer the hidden rule, which will take three ordered numbers and return either True or False. They are told that the test case (2,4,6) is True, and that they can submit any number of test cases in order to test the output of the rule. Participants often seek to submit tests which confirm their initial suspicions about the rule (e.g. (4,6,8) -&gt; (10,12,14) -&gt; The rule is "numbers ascending separated by two"), despite the true rule being "any three numbers in ascending order".
 </p>
@@ -185,10 +196,9 @@ To be good at the Wason 2-4-6 Task, you need to be able to form hypotheses and t
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgbca469e" class="outline-2">
-<h2 id="orgbca469e">On the Impossibility of the Wason 2-4-6 Task</h2>
-<div class="outline-text-2" id="text-orgbca469e">
+<div id="outline-container-orgb2afccc" class="outline-2">
+<h2 id="orgb2afccc">On the Impossibility of the Wason 2-4-6 Task</h2>
+<div class="outline-text-2" id="text-orgb2afccc">
 <p>
 It is not possible to "confirm" the rule in the Wason 2-4-6 Task. This is the most important property of the task.
 </p>
@@ -212,7 +222,6 @@ What is nice about this task is that you have to optimize your final response fo
 </p>
 </div>
 </div>
-
 <div id="outline-container-org02297fa" class="outline-2">
 <h2 id="org02297fa">WILT</h2>
 <div class="outline-text-2" id="text-org02297fa">
@@ -228,10 +237,9 @@ The value of this benchmark is easy to understand: to get a good score the model
 Scoring the benchmark is straightforward. We report three values: Accuracy, Average Test Count, and Total Points. Points are determined by awarding 1000 points for each correct answer, and \(100 * (1 - \frac{X}{M})\) bonus points are awarded for each question, where \(X\) is the number of guesses taken on that question, and \(M\) is the number of allotted guesses (default 30). This way the model is rewarded for correct answers, but two models with similar accuracy can be differentiated in the event of one having much better test case selection.
 </p>
 </div>
-
-<div id="outline-container-orgac9f946" class="outline-3">
-<h3 id="orgac9f946">Default Prompt</h3>
-<div class="outline-text-3" id="text-orgac9f946">
+<div id="outline-container-org04f1346" class="outline-3">
+<h3 id="org04f1346">Default Prompt</h3>
+<div class="outline-text-3" id="text-org04f1346">
 <p>
 The default prompt used for this is as follows:
 </p>
@@ -261,26 +269,25 @@ and at each step the result of the test + the number of attempts remaining is pr
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgd694c9d" class="outline-2">
-<h2 id="orgd694c9d">Initial Results</h2>
-<div class="outline-text-2" id="text-orgd694c9d">
+<div id="outline-container-orgbd71fd0" class="outline-2">
+<h2 id="orgbd71fd0">Initial Results</h2>
+<div class="outline-text-2" id="text-orgbd71fd0">
 <p>
 Starting this out we will just show the results of several models on 10 very easy tests, and update this with a scaled up longer run on more tests later. Here's the very easy mini version of this benchmark:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #FD971F;">TESTS</span> = {
-    <span style="color: #E6DB74;">'1'</span>: <span style="color: #F92672;">lambda</span> x, y, z: x &gt; y &gt; z,
-    <span style="color: #E6DB74;">'2'</span>: <span style="color: #F92672;">lambda</span> x, y, z: x &lt; y &lt; z,
-    <span style="color: #E6DB74;">'3'</span>: <span style="color: #F92672;">lambda</span> x, y, z: x &gt;= y &gt;= z,
-    <span style="color: #E6DB74;">'4'</span>: <span style="color: #F92672;">lambda</span> x, y, z: x &lt;= y &lt;= z,
-    <span style="color: #E6DB74;">'5'</span>: <span style="color: #F92672;">lambda</span> x, y, z: x == y <span style="color: #F92672;">and</span> y == z,
-    <span style="color: #E6DB74;">'6'</span>: <span style="color: #F92672;">lambda</span> x, y, z: x != y <span style="color: #F92672;">and</span> y != z, <span style="color: #F92672;">and</span> x != z,
-    <span style="color: #E6DB74;">'7'</span>: <span style="color: #F92672;">lambda</span> x, y, z: x &lt; 0 <span style="color: #F92672;">and</span> y &lt; 0 <span style="color: #F92672;">and</span> z &lt; 0,
-    <span style="color: #E6DB74;">'8'</span>: <span style="color: #F92672;">lambda</span> x, y, z: x + y == z,
-    <span style="color: #E6DB74;">'9'</span>: <span style="color: #F92672;">lambda</span> x, y, z: x * y == z,
-    <span style="color: #E6DB74;">'10'</span>: <span style="color: #F92672;">lambda</span> x, y, z: x &lt; y <span style="color: #F92672;">and</span> y &gt; z
+<pre class="src src-python"><span style="font-weight: bold; font-style: italic;">TESTS</span> = {
+    <span style="font-style: italic;">'1'</span>: <span style="font-weight: bold;">lambda</span> x, y, z: x &gt; y &gt; z,
+    <span style="font-style: italic;">'2'</span>: <span style="font-weight: bold;">lambda</span> x, y, z: x &lt; y &lt; z,
+    <span style="font-style: italic;">'3'</span>: <span style="font-weight: bold;">lambda</span> x, y, z: x &gt;= y &gt;= z,
+    <span style="font-style: italic;">'4'</span>: <span style="font-weight: bold;">lambda</span> x, y, z: x &lt;= y &lt;= z,
+    <span style="font-style: italic;">'5'</span>: <span style="font-weight: bold;">lambda</span> x, y, z: x == y <span style="font-weight: bold;">and</span> y == z,
+    <span style="font-style: italic;">'6'</span>: <span style="font-weight: bold;">lambda</span> x, y, z: x != y <span style="font-weight: bold;">and</span> y != z, <span style="font-weight: bold;">and</span> x != z,
+    <span style="font-style: italic;">'7'</span>: <span style="font-weight: bold;">lambda</span> x, y, z: x &lt; 0 <span style="font-weight: bold;">and</span> y &lt; 0 <span style="font-weight: bold;">and</span> z &lt; 0,
+    <span style="font-style: italic;">'8'</span>: <span style="font-weight: bold;">lambda</span> x, y, z: x + y == z,
+    <span style="font-style: italic;">'9'</span>: <span style="font-weight: bold;">lambda</span> x, y, z: x * y == z,
+    <span style="font-style: italic;">'10'</span>: <span style="font-weight: bold;">lambda</span> x, y, z: x &lt; y <span style="font-weight: bold;">and</span> y &gt; z
 }
 </pre>
 </div>
@@ -383,10 +390,9 @@ Here we test some models on this task. Llama 3, Mixtral, and Gemma were done via
 </table>
 </div>
 </div>
-
-<div id="outline-container-org1f4ed08" class="outline-2">
-<h2 id="org1f4ed08">Interesting Observations</h2>
-<div class="outline-text-2" id="text-org1f4ed08">
+<div id="outline-container-org4631868" class="outline-2">
+<h2 id="org4631868">Interesting Observations</h2>
+<div class="outline-text-2" id="text-org4631868">
 <p>
 In general, almost all of the failure points tracks with one of three things:
 </p>
@@ -401,10 +407,9 @@ In general, almost all of the failure points tracks with one of three things:
 A lot of the individual "character" of each of the LLMs comes out when you test them this way. The behaviors that pop out are really interesting. 
 </p>
 </div>
-
-<div id="outline-container-orga298428" class="outline-3">
-<h3 id="orga298428">Claude 3.5 Sonnet</h3>
-<div class="outline-text-3" id="text-orga298428">
+<div id="outline-container-orge374288" class="outline-3">
+<h3 id="orge374288">Claude 3.5 Sonnet</h3>
+<div class="outline-text-3" id="text-orge374288">
 <p>
 This model is the real deal, it's the only one which got the multiplication rule which in my opinion is very impressive.
 </p>
@@ -414,26 +419,25 @@ One very funny thing this model flubbed on is the "all numbers negative" test, w
 </p>
 
 
-<div id="orgdf6eec4" class="figure">
+<div id="org5018686" class="figure">
 <p><img src="../images/from_clipboard/20240623_011848.png" alt="20240623_011848.png" />
 </p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org04f3253" class="outline-3">
-<h3 id="org04f3253">Llama 3 70B</h3>
-<div class="outline-text-3" id="text-org04f3253">
+<div id="outline-container-org9f3323d" class="outline-3">
+<h3 id="org9f3323d">Llama 3 70B</h3>
+<div class="outline-text-3" id="text-org9f3323d">
 </div>
-<div id="outline-container-org6ef4740" class="outline-4">
-<h4 id="org6ef4740">Berating itself / recovering mistakes</h4>
-<div class="outline-text-4" id="text-org6ef4740">
+<div id="outline-container-org97e4c10" class="outline-4">
+<h4 id="org97e4c10">Berating itself / recovering mistakes</h4>
+<div class="outline-text-4" id="text-org97e4c10">
 <p>
 This one below stuck out to me in the early phases of testing Llama 3 70B on it.
 </p>
 
 
-<div id="orge19fd8b" class="figure">
+<div id="org52f0b02" class="figure">
 <p><img src="../images/from_clipboard/20240622_200739.png" alt="20240622_200739.png" />
 </p>
 </div>
@@ -443,7 +447,7 @@ This one even more striking, where it identifies that it created a test case it 
 </p>
 
 
-<div id="orgdcf3d1a" class="figure">
+<div id="orga0e965e" class="figure">
 <p><img src="../images/from_clipboard/20240622_210916.png" alt="20240622_210916.png" />
 </p>
 </div>
@@ -453,61 +457,57 @@ I think this has a lot of personality! I've seen other people observe that Llama
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgd93b6ed" class="outline-4">
-<h4 id="orgd93b6ed">Spending time "thinking"</h4>
-<div class="outline-text-4" id="text-orgd93b6ed">
+<div id="outline-container-org6801354" class="outline-4">
+<h4 id="org6801354">Spending time "thinking"</h4>
+<div class="outline-text-4" id="text-org6801354">
 <p>
 This one also, where it took tokens to "think". I don't even think it got the answer correct here, but it's a very interesting behavior to see.
 </p>
 
 
-<div id="orgfa72223" class="figure">
+<div id="org7d2fa9e" class="figure">
 <p><img src="../images/from_clipboard/20240622_202111.png" alt="20240622_202111.png" />
 </p>
 </div>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org4963c8b" class="outline-3">
-<h3 id="org4963c8b">Mixtral-8x7b / Gemma-7b-it</h3>
-<div class="outline-text-3" id="text-org4963c8b">
+<div id="outline-container-orga10a768" class="outline-3">
+<h3 id="orga10a768">Mixtral-8x7b / Gemma-7b-it</h3>
+<div class="outline-text-3" id="text-orga10a768">
 </div>
-<div id="outline-container-orgf878075" class="outline-4">
-<h4 id="orgf878075">Hallucinating Successful Tests</h4>
-<div class="outline-text-4" id="text-orgf878075">
+<div id="outline-container-orgaacd016" class="outline-4">
+<h4 id="orgaacd016">Hallucinating Successful Tests</h4>
+<div class="outline-text-4" id="text-orgaacd016">
 <p>
 These two models did this funny thing where they started to provide their own imagined results to the test cases in an attempt to confirm their own biases, which then flooded the context with confusing nonsense / rate limited the test.
 </p>
 
 
-<div id="orgaa15986" class="figure">
+<div id="orge77806c" class="figure">
 <p><img src="../images/from_clipboard/20240622_230123.png" alt="20240622_230123.png" />
 </p>
 </div>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org094ed9b" class="outline-3">
-<h3 id="org094ed9b">gpt-4-turbo</h3>
-<div class="outline-text-3" id="text-org094ed9b">
+<div id="outline-container-org93cadc4" class="outline-3">
+<h3 id="org93cadc4">gpt-4-turbo</h3>
+<div class="outline-text-3" id="text-org93cadc4">
 <p>
 GPT-4-turbo did quite well on this task, at least for these examples. It would occasionally return results with weird uppercase/lowercase issues, which I thought was very unusual.
 </p>
 
 
-<div id="orgb8e9207" class="figure">
+<div id="orgf6fe0f9" class="figure">
 <p><img src="../images/from_clipboard/20240622_235707.png" alt="20240622_235707.png" />
 </p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org15d085a" class="outline-3">
-<h3 id="org15d085a">gpt-3.5-turbo</h3>
-<div class="outline-text-3" id="text-org15d085a">
+<div id="outline-container-org0a4d25a" class="outline-3">
+<h3 id="org0a4d25a">gpt-3.5-turbo</h3>
+<div class="outline-text-3" id="text-org0a4d25a">
 <p>
 I had a lot of difficulty getting 3.5-turbo to follow instructions well enough to make serious attempts at most of the tests, even if I changed formatting things around for it. It would also often assume it had seen examples already, overall very unusual behaviors overall.
 </p>
@@ -517,10 +517,9 @@ I imagine it's probably possible to steer this model to a better result, but I'm
 </p>
 </div>
 </div>
-
-<div id="outline-container-org45d6ec5" class="outline-3">
-<h3 id="org45d6ec5">DeepSeek-V2-Chat</h3>
-<div class="outline-text-3" id="text-org45d6ec5">
+<div id="outline-container-org341d1a3" class="outline-3">
+<h3 id="org341d1a3">DeepSeek-V2-Chat</h3>
+<div class="outline-text-3" id="text-org341d1a3">
 <p>
 DeepSeek-V2-Chat struggled with the equality cases despite testing for them, and very rarely added thoughts before the test cases unless there was some specific reason to do so. This was pretty harmful, I think, it would reuse tests a lot more than the other models would, and didn't seem to have any explicit reasoning behind a lot of its choices. It would almost always dutifully use all of its available attempts, unless it seemed extremely confident.
 </p>
@@ -530,16 +529,15 @@ I imagine this model would probably more directly need to be paired with instruc
 </p>
 </div>
 </div>
-
-<div id="outline-container-org0988d06" class="outline-3">
-<h3 id="org0988d06">DeepSeek-V2-Coder</h3>
-<div class="outline-text-3" id="text-org0988d06">
+<div id="outline-container-org0d90cbe" class="outline-3">
+<h3 id="org0d90cbe">DeepSeek-V2-Coder</h3>
+<div class="outline-text-3" id="text-org0d90cbe">
 <p>
 DeepSeek-coder behaved really similar to DeepSeek-V2 as far as general behaviors go. One funny thing about this model is that it started outputting runaway whitespace before every test case, gradually more each time.
 </p>
 
 
-<div id="org0b9b71b" class="figure">
+<div id="orgd0262ba" class="figure">
 <p><img src="../images/from_clipboard/20240623_003733.png" alt="20240623_003733.png" />
 </p>
 </div>
@@ -550,10 +548,9 @@ This model was funny overall. It would test the same things for the same stated 
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgc1ae845" class="outline-2">
-<h2 id="orgc1ae845">Conclusions</h2>
-<div class="outline-text-2" id="text-orgc1ae845">
+<div id="outline-container-org4bb6585" class="outline-2">
+<h2 id="org4bb6585">Conclusions</h2>
+<div class="outline-text-2" id="text-org4bb6585">
 <p>
 A very funny thing I'm noticing about all of these models is that a common point of failure for all of them is <a href="https://en.wikipedia.org/wiki/Occam%27s_razor">Occam's Razor</a>, and that I think a lot of them struggle to identify what "the simplest hypothesis that fits the data" means in the context of the observed data. I think there's a lot of noteworthy things here:
 </p>

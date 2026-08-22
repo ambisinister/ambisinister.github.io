@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-22 Sat 16:16 -->
+<!-- 2026-08-22 Sat 16:22 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>On MLA</title>
@@ -73,27 +73,38 @@ $(function() {
 
 <link rel="stylesheet" type="text/css" href="https://planetbanatt.net/css/default_20240614.css" />
 <link rel="shortcut icon" type="image/jpg" href="https://planetbanatt.net/favicon.ico" />
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
-
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "AMS"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
-});
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -119,6 +130,7 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
             <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
             <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
@@ -132,38 +144,38 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgfeefd85">Understanding Multi-Head Latent Attention</a>
+<li><a href="#orge4f8ed3">Understanding Multi-Head Latent Attention</a>
 <ul>
-<li><a href="#orge7c8cef">Why Low-Rank Factorization?</a>
+<li><a href="#org9a34668">Why Low-Rank Factorization?</a>
 <ul>
-<li><a href="#org8f21af5">Aside: Perturbations in Low-Rank Decomposition</a></li>
+<li><a href="#org4df5728">Aside: Perturbations in Low-Rank Decomposition</a></li>
 </ul>
 </li>
-<li><a href="#org8a45379">Related Work</a>
+<li><a href="#org1c7ea1d">Related Work</a>
 <ul>
-<li><a href="#org6952b25">KV Cache</a></li>
-<li><a href="#org3997496">MHA Variants</a></li>
-<li><a href="#orgdfd79ce">Rotary Position Embeddings (RoPE)</a></li>
+<li><a href="#orgf3b16d3">KV Cache</a></li>
+<li><a href="#orgce5f15f">MHA Variants</a></li>
+<li><a href="#org35ab0ee">Rotary Position Embeddings (RoPE)</a></li>
 </ul>
 </li>
-<li><a href="#orgafa7123">Experiments</a>
+<li><a href="#orgba8652a">Experiments</a>
 <ul>
-<li><a href="#org8d4c686">Experiment 1</a></li>
-<li><a href="#org383698e">Experiment 2</a></li>
-<li><a href="#org3e2f7fa">Experiment 3</a></li>
+<li><a href="#org5ecf2d9">Experiment 1</a></li>
+<li><a href="#orga1cf3bb">Experiment 2</a></li>
+<li><a href="#orgd40a1b2">Experiment 3</a></li>
 </ul>
 </li>
-<li><a href="#orgeb2a52f">Results</a>
+<li><a href="#org8d51f52">Results</a>
 <ul>
-<li><a href="#org20000d6">Modeling Results</a></li>
-<li><a href="#org8b20688">Inference Time Experiments</a></li>
+<li><a href="#org241d70e">Modeling Results</a></li>
+<li><a href="#org89e3e60">Inference Time Experiments</a></li>
 </ul>
 </li>
-<li><a href="#orgea841f6">Discussion</a></li>
-<li><a href="#org854a880">Appendix: Other Learnings</a>
+<li><a href="#org3ebfb30">Discussion</a></li>
+<li><a href="#org23359b7">Appendix: Other Learnings</a>
 <ul>
-<li><a href="#orgeb88080">Extra Experiments</a></li>
-<li><a href="#orga498fa4">Interesting Pytorch Things</a></li>
+<li><a href="#org9a2f094">Extra Experiments</a></li>
+<li><a href="#org7d23c54">Interesting Pytorch Things</a></li>
 </ul>
 </li>
 </ul>
@@ -171,10 +183,9 @@ $(function() {
 </ul>
 </div>
 </div>
-
-<div id="outline-container-orgfeefd85" class="outline-1">
-<h1 id="orgfeefd85">Understanding Multi-Head Latent Attention</h1>
-<div class="outline-text-1" id="text-orgfeefd85">
+<div id="outline-container-orge4f8ed3" class="outline-1">
+<h1 id="orge4f8ed3">Understanding Multi-Head Latent Attention</h1>
+<div class="outline-text-1" id="text-orge4f8ed3">
 <div style="display: flex; justify-content: center; padding: 2em 0;">
   <video style="width: 80%; max-width: 640px;" controls autoplay loop muted>
     <source src="../images/mla/mla.mp4" type="video/mp4">
@@ -201,10 +212,9 @@ In comparison, MLA accomplishes this by using a low-rank factorized projection m
 There is also an additional component of MLA which outlines <i>decoupled RoPE</i>. In this component, they make MLA compatible with RoPE by extracting two types of "sub-heads" for Q and K from the compressed latent vectors: one which will not contain position encoding information, and one whose purpose is to carry RoPE. They stitch these "sub-heads" together to create full-sized heads, allowing a finer degree of control over how much of each head is responsible for position encoding information. For simplicity's sake, we start with a version which only uses the low-rank factorization, and then add this decoupled RoPE back in later. Code for this project can be found on <a href="https://github.com/ambisinister/mla-experiments">github</a>.
 </p>
 </div>
-
-<div id="outline-container-orge7c8cef" class="outline-2">
-<h2 id="orge7c8cef">Why Low-Rank Factorization?</h2>
-<div class="outline-text-2" id="text-orge7c8cef">
+<div id="outline-container-org9a34668" class="outline-2">
+<h2 id="org9a34668">Why Low-Rank Factorization?</h2>
+<div class="outline-text-2" id="text-org9a34668">
 <p>
 Using two matrices instead of one, in theory, has some tradeoffs. The practice of factorizing a matrix (in this case the Q and KV matrices) into a product of matrices (in this case the compression and decompression matrices) is called <i>matrix decomposition</i>. The case here, where we are decomposing a matrix \((a, b)\) into two matrices \((a, r)\), \((r, b)\), is called <i>rank factorization</i>. A matrix of any shape can be decomposed into two matrices this way, but the lower the value of \(r\) the smaller the space of possible matrices that can be perfectly reconstructed<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>.
 </p>
@@ -228,10 +238,9 @@ The weaknesses of doing this are that we now have to perform 2 operations for ev
 In our case, we are hoping that we can preserve the functionality of \(W_{qkv}\) as much as possible while reducing the size of the cache by as much as we can. This should, in theory, allow us to enjoy the performance of normal multi-head attention while keeping the kv cache overhead minimal.
 </p>
 </div>
-
-<div id="outline-container-org8f21af5" class="outline-3">
-<h3 id="org8f21af5">Aside: Perturbations in Low-Rank Decomposition</h3>
-<div class="outline-text-3" id="text-org8f21af5">
+<div id="outline-container-org4df5728" class="outline-3">
+<h3 id="org4df5728">Aside: Perturbations in Low-Rank Decomposition</h3>
+<div class="outline-text-3" id="text-org4df5728">
 <p>
 When we apply gradient updates to these decomposed matrices, it's mathematically a little different from perturbing the full size matrix. Specifically, when you apply a gradient update perturbation to the decomposed matrix, their composition will remain of rank \(r\) no matter what &#x2013; you are only able to travel from rank \(r\) matrix to rank \(r\) matrix, and this is immutable because of the shape of the matrices. This contrasts with a regular, non-decomposed matrix, where our perturbation can move us in any direction, even if that increases the rank. To be a little more precise, if you have a rank \(r\) \((n, n)\) matrix, and you assume a uniform distribution of possible perturbation directions, applying a randomly sampled perturbation will turn your matrix from rank \(r\) to rank \(n\) with probability 1<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>. This is really different behavior! It's useful to spend some time thinking about what perturbations inside the low-rank decomposition space actually do. 
 </p>
@@ -262,14 +271,13 @@ For more information on this particular rabbit hole, I've spun this off into its
 </div>
 </div>
 </div>
-
-<div id="outline-container-org8a45379" class="outline-2">
-<h2 id="org8a45379">Related Work</h2>
-<div class="outline-text-2" id="text-org8a45379">
+<div id="outline-container-org1c7ea1d" class="outline-2">
+<h2 id="org1c7ea1d">Related Work</h2>
+<div class="outline-text-2" id="text-org1c7ea1d">
 </div>
-<div id="outline-container-org6952b25" class="outline-3">
-<h3 id="org6952b25">KV Cache</h3>
-<div class="outline-text-3" id="text-org6952b25">
+<div id="outline-container-orgf3b16d3" class="outline-3">
+<h3 id="orgf3b16d3">KV Cache</h3>
+<div class="outline-text-3" id="text-orgf3b16d3">
 <p>
 The core problem being tackled by Multi-head Latent Attention is the KV caching problem. In autoregressive generation, you predict the next token given some context of previous tokens, and then add that token back into the context repeatedly. Naively, this means you have to recompute the same K and V computations over and over again, since you have to do the full attention computation on N tokens, then N+1 tokens, then N+2 tokens, etc. 
 </p>
@@ -287,10 +295,9 @@ Scaling these models to very large sizes with very large context windows means t
 </p>
 </div>
 </div>
-
-<div id="outline-container-org3997496" class="outline-3">
-<h3 id="org3997496">MHA Variants</h3>
-<div class="outline-text-3" id="text-org3997496">
+<div id="outline-container-orgce5f15f" class="outline-3">
+<h3 id="orgce5f15f">MHA Variants</h3>
+<div class="outline-text-3" id="text-orgce5f15f">
 <p>
 There are many MHA variants which use fewer K and V heads in an attempt to reduce the size of the KV cache. The most prominent of these are Multi-Query Attention<sup><a id="fnr.10" class="footref" href="#fn.10" role="doc-backlink">10</a></sup> (MQA), which uses a single shared K head and V head for each attention computation, and Grouped-Query Attention<sup><a id="fnr.11" class="footref" href="#fn.11" role="doc-backlink">11</a></sup> (GQA), which uses a number of heads greater than 1 and less than the number of Q heads, and makes adjacent Q heads share the same K and V heads. Both of these reduce the KV cache burden by explicitly reducing the amount of performed computation altogether, which makes them common staples in architecture design. However, all of these explicitly underperform regular multi-head attention, and their use in large language models can be thought of as acknowledging an explicit performance tradeoff in exchange for their inference speed and caching benefits.
 </p>
@@ -304,10 +311,9 @@ MLA is comparatively very understudied. Some work exists for exploring the prope
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgdfd79ce" class="outline-3">
-<h3 id="orgdfd79ce">Rotary Position Embeddings (RoPE)</h3>
-<div class="outline-text-3" id="text-orgdfd79ce">
+<div id="outline-container-org35ab0ee" class="outline-3">
+<h3 id="org35ab0ee">Rotary Position Embeddings (RoPE)</h3>
+<div class="outline-text-3" id="text-org35ab0ee">
 <p>
 RoPE is largely considered the de facto standard for position embeddings in modern LLMs. It works by breaking a vector up into chunks of two and performing a rotation upon adjacent pairs of values in the complex plane.
 </p>
@@ -317,8 +323,8 @@ Similar to using non-learned position encodings, RoPE requires you to create a 2
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #FD971F;">freqs</span> = 1.0 / (rope_theta ** (torch.arange(0, <span style="color: #F92672;">self</span>.dh, 2).<span style="color: #F92672;">float</span>() / <span style="color: #F92672;">self</span>.dh))
-<span style="color: #FD971F;">emb</span> = torch.outer(torch.arange(<span style="color: #F92672;">self</span>.max_seq_len).<span style="color: #F92672;">float</span>(), freqs)
+<pre class="src src-python"><span style="font-weight: bold; font-style: italic;">freqs</span> = 1.0 / (rope_theta ** (torch.arange(0, <span style="font-weight: bold;">self</span>.dh, 2).<span style="font-weight: bold;">float</span>() / <span style="font-weight: bold;">self</span>.dh))
+<span style="font-weight: bold; font-style: italic;">emb</span> = torch.outer(torch.arange(<span style="font-weight: bold;">self</span>.max_seq_len).<span style="font-weight: bold;">float</span>(), freqs)
 </pre>
 </div>
 
@@ -327,14 +333,14 @@ Sine and cosine are applied to this position embedding tensor, indexed by positi
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #F92672;">def</span> <span style="color: #A6E22E;">rotate_half</span>(x):
-    <span style="color: #FD971F;">x1</span>, <span style="color: #FD971F;">x2</span> = x.chunk(2, dim=-1)
-    <span style="color: #F92672;">return</span> torch.cat((-x2, x1), dim=-1)
+<pre class="src src-python"><span style="font-weight: bold;">def</span> <span style="font-weight: bold;">rotate_half</span>(x):
+    <span style="font-weight: bold; font-style: italic;">x1</span>, <span style="font-weight: bold; font-style: italic;">x2</span> = x.chunk(2, dim=-1)
+    <span style="font-weight: bold;">return</span> torch.cat((-x2, x1), dim=-1)
 
-<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">apply_rope</span>(q, k, cos, sin):
-    q = (q * cos) + (rotate_half(q) * sin)
-    k = (k * cos) + (rotate_half(k) * sin)
-    <span style="color: #F92672;">return</span> q, k
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">apply_rope</span>(q, k, cos, sin):
+    <span style="font-weight: bold; font-style: italic;">q</span> = (q * cos) + (rotate_half(q) * sin)
+    <span style="font-weight: bold; font-style: italic;">k</span> = (k * cos) + (rotate_half(k) * sin)
+    <span style="font-weight: bold;">return</span> q, k
 </pre>
 </div>
 
@@ -363,10 +369,9 @@ In principle, it is possible to do this type of decoupling for vanilla multi-hea
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgafa7123" class="outline-2">
-<h2 id="orgafa7123">Experiments</h2>
-<div class="outline-text-2" id="text-orgafa7123">
+<div id="outline-container-orgba8652a" class="outline-2">
+<h2 id="orgba8652a">Experiments</h2>
+<div class="outline-text-2" id="text-orgba8652a">
 <p>
 MLA has two components which make it different from standard multi-head attention. First, it has compression and uncompression matrices. Second, it splits the Q and K heads such that a specific section of each head's purpose is to carry RoPE position embeddings, which is abnormal practice for RoPE embeddings which are normally applied to the full Q and K vectors.
 </p>
@@ -375,10 +380,9 @@ MLA has two components which make it different from standard multi-head attentio
 It's not immediately clear which of these practices contribute to MLA's viability, assuming DeepSeek's claimed improved performance is true. For example, it's possible the low-rank factorization adds a lot, and the RoPE extension salvages some of the lost capability from the effectiveness of RoPE.  It's also possible that a dedicated part of the vector whose purpose is to carry RoPE information is the more beneficial component, and the low-rank steps are a marginal benefit which mostly just saves KV cache space. Likewise, it's also possible both of these by themselves are insufficient to see substantial gains, but together they synergize to perform well. Finally, it's possible that MLA is not inherently superior to MHA at all, but the ability to reduce the burden upon the KV cache makes it worthwhile to use anyways. We need to do some experiments to try to get at this question.
 </p>
 </div>
-
-<div id="outline-container-org8d4c686" class="outline-3">
-<h3 id="org8d4c686">Experiment 1</h3>
-<div class="outline-text-3" id="text-org8d4c686">
+<div id="outline-container-org5ecf2d9" class="outline-3">
+<h3 id="org5ecf2d9">Experiment 1</h3>
+<div class="outline-text-3" id="text-org5ecf2d9">
 <p>
 To investigate this, we implement a variant of Multi-head Latent Attention which does not include RoPE. We instead use standard learned position encodings, and compare this to vanilla Multi-Head Attention using standard position encodings. This way, we can decouple the pros and cons of the RoPE components of MLA, as an ablation study. We also <a href="https://github.com/ambisinister/mla-experiments/blob/main/modeling/attention/mqa.py">implement a baseline multi-query</a> attention implementation, as a point of comparison.
 </p>
@@ -400,10 +404,9 @@ We use a sequence length of 1024, and a batch size of 12. For all models we trai
 </p>
 </div>
 </div>
-
-<div id="outline-container-org383698e" class="outline-3">
-<h3 id="org383698e">Experiment 2</h3>
-<div class="outline-text-3" id="text-org383698e">
+<div id="outline-container-orga1cf3bb" class="outline-3">
+<h3 id="orga1cf3bb">Experiment 2</h3>
+<div class="outline-text-3" id="text-orga1cf3bb">
 <p>
 With experiment 1 in mind, we re-introduce Rotary Position Embeddings (RoPE) for MLA, MQA, and MHA. RoPE yields substantial performance gains in most language modeling tasks, and the important ablation from experiment 1 will tell us a substantial degree about why MLA performs the way it does. 
 </p>
@@ -413,10 +416,9 @@ In addition, we <a href="https://github.com/ambisinister/mla-experiments/blob/ma
 </p>
 </div>
 </div>
-
-<div id="outline-container-org3e2f7fa" class="outline-3">
-<h3 id="org3e2f7fa">Experiment 3</h3>
-<div class="outline-text-3" id="text-org3e2f7fa">
+<div id="outline-container-orgd40a1b2" class="outline-3">
+<h3 id="orgd40a1b2">Experiment 3</h3>
+<div class="outline-text-3" id="text-orgd40a1b2">
 <p>
 We also want to test inference speed with the new KV caching method, and how the additional matmuls affect the throughput. For this experiment, we use a fixed prompt of 100 tokens and measure the time to generate between 20 and 100 tokens, to observe how the token count affects the speed of autoregressive output. For an intermediate point of comparison, we also implement a version of MLA which uses full KV caching, which would be expected to have higher throughput than the compressed caching variant, but lower throughput than the original MHA model which has fewer total matrix multiplications.
 </p>
@@ -427,14 +429,13 @@ Likewise, we invert the previous test and use a variable prompt of between 20 an
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgeb2a52f" class="outline-2">
-<h2 id="orgeb2a52f">Results</h2>
-<div class="outline-text-2" id="text-orgeb2a52f">
+<div id="outline-container-org8d51f52" class="outline-2">
+<h2 id="org8d51f52">Results</h2>
+<div class="outline-text-2" id="text-org8d51f52">
 </div>
-<div id="outline-container-org20000d6" class="outline-3">
-<h3 id="org20000d6">Modeling Results</h3>
-<div class="outline-text-3" id="text-org20000d6">
+<div id="outline-container-org241d70e" class="outline-3">
+<h3 id="org241d70e">Modeling Results</h3>
+<div class="outline-text-3" id="text-org241d70e">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -506,43 +507,43 @@ We also see below our training curves for each of these experiments, which seem 
 </p>
 
 
-<div id="org498f394" class="figure">
+<div id="org8d600d9" class="figure">
 <p><img src="../images/mla/mha_rope_training_curve.png" alt="mha_rope_training_curve.png" />
 </p>
 </div>
 
 
-<div id="orge3154d9" class="figure">
+<div id="orgb8fbd81" class="figure">
 <p><img src="../images/mla/mla_rope_training_curve.png" alt="mla_rope_training_curve.png" />
 </p>
 </div>
 
 
-<div id="org98f2fac" class="figure">
+<div id="orgf8024bb" class="figure">
 <p><img src="../images/mla/mha_decoupled_rope_training_curve.png" alt="mha_decoupled_rope_training_curve.png" />
 </p>
 </div>
 
 
-<div id="org7ce8790" class="figure">
+<div id="orga7e94dc" class="figure">
 <p><img src="../images/mla/mqa_rope_training_curve.png" alt="mqa_rope_training_curve.png" />
 </p>
 </div>
 
 
-<div id="org609fdf5" class="figure">
+<div id="orge4c1876" class="figure">
 <p><img src="../images/mla/mla_training_curve.png" alt="mla_training_curve.png" />
 </p>
 </div>
 
 
-<div id="org753928b" class="figure">
+<div id="org90c188d" class="figure">
 <p><img src="../images/mla/mha_training_curve.png" alt="mha_training_curve.png" />
 </p>
 </div>
 
 
-<div id="orgf52f53f" class="figure">
+<div id="org12ef751" class="figure">
 <p><img src="../images/mla/mqa_training_curve.png" alt="mqa_training_curve.png" />
 </p>
 </div>
@@ -598,10 +599,9 @@ Overall we can see MLA remain competitive with MHA and outperforming MQA despite
 </p>
 </div>
 </div>
-
-<div id="outline-container-org8b20688" class="outline-3">
-<h3 id="org8b20688">Inference Time Experiments</h3>
-<div class="outline-text-3" id="text-org8b20688">
+<div id="outline-container-org89e3e60" class="outline-3">
+<h3 id="org89e3e60">Inference Time Experiments</h3>
+<div class="outline-text-3" id="text-org89e3e60">
 <p>
 Contrary to what they describe in the DeepSeek-V2 paper, the modeling code for the open-sourced DeepSeek-V2 weights just uses regular full KV caching, rather than compressing KV and caching that. 
 </p>
@@ -615,13 +615,13 @@ You may ask: how different is the performance between compressed caching and ful
 </p>
 
 
-<div id="orga2eacea" class="figure">
+<div id="orge44cb40" class="figure">
 <p><img src="../images/mla/inference_100_in.png" alt="inference_100_in.png" />
 </p>
 </div>
 
 
-<div id="orgab31639" class="figure">
+<div id="org38c73bf" class="figure">
 <p><img src="../images/mla/inference_100_out.png" alt="inference_100_out.png" />
 </p>
 </div>
@@ -636,10 +636,9 @@ In all cases, we substantially see improved autoregressive generation time compa
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgea841f6" class="outline-2">
-<h2 id="orgea841f6">Discussion</h2>
-<div class="outline-text-2" id="text-orgea841f6">
+<div id="outline-container-org3ebfb30" class="outline-2">
+<h2 id="org3ebfb30">Discussion</h2>
+<div class="outline-text-2" id="text-org3ebfb30">
 <p>
 In both cases, the network performed admirably. Likewise, in both cases, we substantially address the KV cache problem of scaling the model to very large sizes &#x2013; that the KV cache burden can be reduced substantially with not too much loss in performance is significant. In addition, the memory saved will grow with the size of the network: whereas Multi-Head Attention uses \((2 * n_{heads} * d_{heads} * layers)\) KV cache per token, in comparison the ropeless MLA uses \((d_{compression} * layer)\) or roughly \((4 * d_{heads} * layers)\) per the original paper's hyperparameters. At large model size with many heads, this is extremely, extremely large. <a href="https://github.com/madsys-dev/deepseekv2-profile/blob/924174cb5dc11fad24bdaad3fd820ebf87506368/workspace/blog/optimizing-mla.md">Madsys-dev</a> with a larger model saw a reduction from 81.92 kB cache per token to 1.15 kB per token, a reduction of 98.6% in size. To bring the KV cache from a major architectural bottleneck to a relative non-issue is certainly extremely noteworthy, even if the claimed superiority may not be a blanket case.
 </p>
@@ -682,27 +681,24 @@ MLA has demonstrated it's usefulness here for scaling up very large models. Howe
 </p>
 </div>
 </div>
-
-<div id="outline-container-org854a880" class="outline-2">
-<h2 id="org854a880">Appendix: Other Learnings</h2>
-<div class="outline-text-2" id="text-org854a880">
+<div id="outline-container-org23359b7" class="outline-2">
+<h2 id="org23359b7">Appendix: Other Learnings</h2>
+<div class="outline-text-2" id="text-org23359b7">
 <p>
 This section holds some very brief things I had to learn to enable me to write this writeup / code up the experiments. These are not that relevant to the main body of work, this is mostly just a log for me to hold adjacent things I had to learn while doing this project. 
 </p>
 </div>
-
-<div id="outline-container-orgeb88080" class="outline-3">
-<h3 id="orgeb88080">Extra Experiments</h3>
-<div class="outline-text-3" id="text-orgeb88080">
+<div id="outline-container-org9a2f094" class="outline-3">
+<h3 id="org9a2f094">Extra Experiments</h3>
+<div class="outline-text-3" id="text-org9a2f094">
 <p>
 Designating specific Q and K heads in MLA as "RoPE heads" does much much worse. This was originally performed because I misunderstood the design of MLA's decoupled RoPE, and thought that it was designating specific heads as purposed ones to carry position information. This still outperforms using learned position encoding (RoPE is very powerful), but does worse than MQA with RoPE so overall it's not recommended.
 </p>
 </div>
 </div>
-
-<div id="outline-container-orga498fa4" class="outline-3">
-<h3 id="orga498fa4">Interesting Pytorch Things</h3>
-<div class="outline-text-3" id="text-orga498fa4">
+<div id="outline-container-org7d23c54" class="outline-3">
+<h3 id="org7d23c54">Interesting Pytorch Things</h3>
+<div class="outline-text-3" id="text-org7d23c54">
 <p>
 Efficient training was done using <a href="https://pytorch.org/docs/stable/notes/amp_examples.html">torch's mixed precision training</a> functions. I wrote everything from scratch rather than defaulting to something like a huggingface model / the huggingface trainer because I wanted to design a fair experiment and also specifically ensure I understood all the components very well. Things performed to enable this include gradient scaling, gradient accumulation, autocast to fp16, and some other minor things.
 </p>

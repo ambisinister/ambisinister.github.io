@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-22 Sat 16:16 -->
+<!-- 2026-08-22 Sat 16:22 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SSBMRank 2022</title>
@@ -98,6 +98,7 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
             <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
             <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
@@ -111,30 +112,28 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org8f5cf92">Notes on SSBMRank 2022</a>
+<li><a href="#org4ed28c4">Notes on SSBMRank 2022</a>
 <ul>
-<li><a href="#org888deb9">Standard Deviations, and What They Mean</a></li>
-<li><a href="#org366fb0d">Point Estimates for Irregular Distributions</a></li>
-<li><a href="#org8fba1b1">Violin Plots</a></li>
-<li><a href="#orgb94e709">How Close is Close</a></li>
-<li><a href="#org1715b98">Closing Thoughts</a></li>
+<li><a href="#orgab601d1">Standard Deviations, and What They Mean</a></li>
+<li><a href="#org500dcda">Point Estimates for Irregular Distributions</a></li>
+<li><a href="#orgcaa2e3a">Violin Plots</a></li>
+<li><a href="#org85a487c">How Close is Close</a></li>
+<li><a href="#org2c71cbc">Closing Thoughts</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org8f5cf92" class="outline-1">
-<h1 id="org8f5cf92">Notes on SSBMRank 2022</h1>
-<div class="outline-text-1" id="text-org8f5cf92">
+<div id="outline-container-org4ed28c4" class="outline-1">
+<h1 id="org4ed28c4">Notes on SSBMRank 2022</h1>
+<div class="outline-text-1" id="text-org4ed28c4">
 <p>
 Somehow, I have ended up with the role as <a href="https://blog.start.gg/ssbmrank-2022-750dca52548a">data lead for SSBMRank 2022</a>. This meant I was responsible for stuff like assembling the final list, dealing with outlier votes, normalizing the ballots, and the like. Since I have access to the ballots, I'm going to be posting some more nuanced information about the list beyond simply the point value used to determine the placements. I talk about some things people keep wanting to hear about, with respect to this years ranks.
 </p>
 </div>
-
-<div id="outline-container-org888deb9" class="outline-2">
-<h2 id="org888deb9">Standard Deviations, and What They Mean</h2>
-<div class="outline-text-2" id="text-org888deb9">
+<div id="outline-container-orgab601d1" class="outline-2">
+<h2 id="orgab601d1">Standard Deviations, and What They Mean</h2>
+<div class="outline-text-2" id="text-orgab601d1">
 <p>
 Probably the single ask with the most important implications are for there to be standard deviations published alongside the scores. Below I've provided this information alongside the list, without commentary.
 </p>
@@ -879,7 +878,7 @@ Roughly speaking, there are two effects you can notice. The first, is that the p
 
 
 
-<div id="orgef2d0da" class="figure">
+<div id="orgd3d23a5" class="figure">
 <p><img src="../images/ssbmrank22/689599.jpg" alt="689599.jpg" />
 </p>
 </div>
@@ -893,10 +892,9 @@ It's important to appreciate what this tells us about roughly where these player
 </p>
 </div>
 </div>
-
-<div id="outline-container-org366fb0d" class="outline-2">
-<h2 id="org366fb0d">Point Estimates for Irregular Distributions</h2>
-<div class="outline-text-2" id="text-org366fb0d">
+<div id="outline-container-org500dcda" class="outline-2">
+<h2 id="org500dcda">Point Estimates for Irregular Distributions</h2>
+<div class="outline-text-2" id="text-org500dcda">
 <p>
 That "center" value is actually a somewhat trickier thing to determine than it might appear at first. In fact, sometimes it's simply impossible. 
 </p>
@@ -910,7 +908,7 @@ However, this problem becomes annoying when you have a player for whom you get n
 </p>
 
 
-<div id="orgda167df" class="figure">
+<div id="org77c4449" class="figure">
 <p><img src="../images/ssbmrank22/non-normal.png" alt="non-normal.png" />
 </p>
 </div>
@@ -932,16 +930,15 @@ Maybe a detail which could have just been ignored. But that's not really how I d
 </p>
 </div>
 </div>
-
-<div id="outline-container-org8fba1b1" class="outline-2">
-<h2 id="org8fba1b1">Violin Plots</h2>
-<div class="outline-text-2" id="text-org8fba1b1">
+<div id="outline-container-orgcaa2e3a" class="outline-2">
+<h2 id="orgcaa2e3a">Violin Plots</h2>
+<div class="outline-text-2" id="text-orgcaa2e3a">
 <p>
 Something I did about 5 years ago was generate <a href="https://imgur.com/a/jUfST">violin plots</a> for KayB's <a href="https://www.reddit.com/r/SSBM/comments/7rbxeg/assessing_west_coast_bias_on_ssbmrank_and_why_it/">West Coast Bias in SSBMRank and Why it Doesn't Exist</a>. These were pretty popular for the time, and I think people appreciated the insight they provided to understanding how the panel voted for specific players. Since I have access to the ballots again, I'll do the same as I did then (with outlier votes removed so nobody gets too upset). 
 </p>
 
 
-<div id="orgd7f5d4b" class="figure">
+<div id="org87d3ab1" class="figure">
 <p><img src="../images/ssbmrank22/glanceviolin.png" alt="glanceviolin.png" />
 </p>
 </div>
@@ -964,10 +961,9 @@ Notable about these is that Zain's "violin" seems to be invisible. This is becau
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgb94e709" class="outline-2">
-<h2 id="orgb94e709">How Close is Close</h2>
-<div class="outline-text-2" id="text-orgb94e709">
+<div id="outline-container-org85a487c" class="outline-2">
+<h2 id="org85a487c">How Close is Close</h2>
+<div class="outline-text-2" id="text-org85a487c">
 <p>
 I recognize most of you are probably here about Mango vs aMSa, and I have tricked you into 
 scrolling past a bunch of charts and numbers before getting here. Please understand this is for my own sanity, as I would prefer discussion around this topic to be had among people who are willing to look at lots of charts and numbers before engaging. 
@@ -978,7 +974,7 @@ First, without any commentary, let's look at a zoomed in violin plot of Mango an
 </p>
 
 
-<div id="orgaa91643" class="figure">
+<div id="org547e24c" class="figure">
 <p><img src="../images/ssbmrank22/mangovsamsa_violin.png" alt="mangovsamsa_violin.png" />
 </p>
 </div>
@@ -1002,10 +998,9 @@ I'm not privy to the voting distributions of any of the previous top 100 lists, 
 </p>
 </div>
 </div>
-
-<div id="outline-container-org1715b98" class="outline-2">
-<h2 id="org1715b98">Closing Thoughts</h2>
-<div class="outline-text-2" id="text-org1715b98">
+<div id="outline-container-org2c71cbc" class="outline-2">
+<h2 id="org2c71cbc">Closing Thoughts</h2>
+<div class="outline-text-2" id="text-org2c71cbc">
 <p>
 There's lots I didn't go into in this writeup (normalization, outlier supression, etc), but these were just some thoughts I thought were interesting enough to share with others. With more time, I'm confident this process will grow more sophisticated. However, I'm really just glad we got the list out, and that people generally seemed to like the result. It meant a lot to me to be trusted to fill this important sort of role, and I'm thrilled that the death of Panda was not, in turn, the death of a community-agreed ranking of the top players. We got it all done under severe time crunch (and I had covid during my time working on all of this), so if it went as well as it did I'm sure it will only get better from here.
 </p>

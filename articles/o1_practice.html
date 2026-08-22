@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-22 Sat 16:16 -->
+<!-- 2026-08-22 Sat 16:23 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>&lrm;</title>
@@ -98,6 +98,7 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
             <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
             <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
@@ -110,19 +111,19 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgac9979a">Building a Piano Training App with o1 Models</a>
+<li><a href="#org73dc42e">Building a Piano Training App with o1 Models</a>
 <ul>
-<li><a href="#org88e4d86">The Piano App</a></li>
-<li><a href="#orgac98cf1">Thoughts on o1 models</a></li>
-<li><a href="#orgedc71cc">Thoughts on LLM-driven Coding Projects</a></li>
+<li><a href="#org2313ac8">The Piano App</a></li>
+<li><a href="#org9792099">Thoughts on o1 models</a></li>
+<li><a href="#org0956989">Thoughts on LLM-driven Coding Projects</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgac9979a" class="outline-1">
-<h1 id="orgac9979a">Building a Piano Training App with o1 Models</h1>
-<div class="outline-text-1" id="text-orgac9979a">
+<div id="outline-container-org73dc42e" class="outline-1">
+<h1 id="org73dc42e">Building a Piano Training App with o1 Models</h1>
+<div class="outline-text-1" id="text-org73dc42e">
 <p>
 I get a lot of value out of using LLMs for code. I have <a href="https://planetbanatt.net/articles/leetcode.html">written before</a> about my efforts to remain (somewhat) sharp at my ability to write code without assistance, but ultimately there is a certain degree of necessary humility to recognize that frontier language models tend to write cleaner and prettier code than me when provided the same problem. Luckily<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>, something that LLMs are less good at is navigating large code repos. <i>Writing code</i> is a comparatively small<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> part of "being a programmer", so I'm not shy about admitting the machines have eclipsed me at it<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>.
 </p>
@@ -135,10 +136,9 @@ It feels relatively important to have a clear picture of what these models are c
 You can find the resulting application <a href="https://planetbanatt.net/articles/pianotrainer.html">here</a>. For now, I'm fairly comfortable calling something at this level of sophistication roughly the limit of what o1-mini and o1-preview can cook up by themselves, without much human help. It runs about 1300 lines of code, and beyond this it starts to struggle to understand all the plumbing between functions to make effective changes. I think this is pretty good &#x2013; if I have a clear vision of a roughly-1000-LOC-sized subproject, I can mentally expect the o1 models to be useful in helping me figure things out. 
 </p>
 </div>
-
-<div id="outline-container-org88e4d86" class="outline-2">
-<h2 id="org88e4d86">The Piano App</h2>
-<div class="outline-text-2" id="text-org88e4d86">
+<div id="outline-container-org2313ac8" class="outline-2">
+<h2 id="org2313ac8">The Piano App</h2>
+<div class="outline-text-2" id="text-org2313ac8">
 <p>
 The app has the following simple features:
 </p>
@@ -162,10 +162,9 @@ In general I think this is a fairly substantial number of features &#x2013; I di
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgac98cf1" class="outline-2">
-<h2 id="orgac98cf1">Thoughts on o1 models</h2>
-<div class="outline-text-2" id="text-orgac98cf1">
+<div id="outline-container-org9792099" class="outline-2">
+<h2 id="org9792099">Thoughts on o1 models</h2>
+<div class="outline-text-2" id="text-org9792099">
 <p>
 The smaller your code is, the easier it will generally be for LLMs to understand. Overall this took ~20-30 prompts in total from o1-mini and o1-preview (I tended to use the former for coding tasks and the latter for more understanding tasks, since those are what the benchmarks suggested was the most effective way to do things). Overall my impression of these models are that the extra thinking time helps it logically follow through longer files a lot better than other very good coding models (e.g. Sonnet 3.5), but was not that much better on function-level changes.
 </p>
@@ -183,10 +182,9 @@ Overall I came away from this project with a pretty positive opinion of what the
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgedc71cc" class="outline-2">
-<h2 id="orgedc71cc">Thoughts on LLM-driven Coding Projects</h2>
-<div class="outline-text-2" id="text-orgedc71cc">
+<div id="outline-container-org0956989" class="outline-2">
+<h2 id="org0956989">Thoughts on LLM-driven Coding Projects</h2>
+<div class="outline-text-2" id="text-org0956989">
 <p>
 Using this as a "I'm not going to code this, I'm going to mostly let the LLM code it and just supervise" sort of project was admittedly just a tad unnerving for me. There were some spots where trying to make changes via natural language was too annoying and I just went in and fixed a bug myself, but for the most part this is a rare sort of project for me where I did it mostly just by asking o1-mini to do things. I could have tried to make it prettier, but I felt like adding as many features as possible was a better way to get a handle on what it was really capable of. 
 </p>

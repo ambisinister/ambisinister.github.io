@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-22 Sat 16:16 -->
+<!-- 2026-08-22 Sat 16:22 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Deep RL</title>
@@ -73,27 +73,38 @@ $(function() {
 
 <link rel="stylesheet" type="text/css" href="https://planetbanatt.net/css/default_20240614.css" />
 <link rel="shortcut icon" type="image/jpg" href="https://planetbanatt.net/favicon.ico" />
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
-
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "AMS"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
-});
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -119,6 +130,7 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
             <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
             <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
@@ -132,34 +144,34 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org7967382">Deep RL Notes</a>
+<li><a href="#orgffb4ce2">Deep RL Notes</a>
 <ul>
-<li><a href="#orgd629682">Papers</a>
+<li><a href="#org4e1ece2">Papers</a>
 <ul>
-<li><a href="#org479d3e5">Playing Atari with Deep Reinforcement Learning (DQN)</a></li>
-<li><a href="#org58664e8">Asynchronous Methods for Deep Reinforcement Learning (A3C)</a></li>
-<li><a href="#org23d46d5">Rainbow: Combining Improvements in Deep Reinforcement Learning</a></li>
-<li><a href="#org34ea4c4">Continuous Control with Deep Reinforcement Learning (DDPG)</a></li>
-<li><a href="#org0319125">Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor (SAC)</a></li>
-<li><a href="#org38c83bc">High-Dimensional Continuous Control Using Generalized Advantage Estimation (GAE)</a></li>
-<li><a href="#orgdb28ab8">Proximal Policy Optimization Algorithms (PPO)</a></li>
-<li><a href="#org073320f">Interpolated Policy Gradient: Merging On-Policy and Off-Policy Gradient Estimation for Deep Reinforcement Learning (IPG)</a></li>
-<li><a href="#org1576a9b">Dota 2 with Large Scale Deep Reinforcement Learning (OpenAI Five)</a></li>
-<li><a href="#orgd75b37d">Grandmaster level in StarCraft II using multi-agent reinforcement learning (AlphaStar)</a></li>
-<li><a href="#orgb38a242">Learning Dextrous In-Hand Manipulation</a></li>
-<li><a href="#orgd9547c7">Emergent Tool Use From Multi-Agent Autocurricula (Hide and Seek)</a></li>
-<li><a href="#org694d798">Human-Level performance in 3D multiplayer games with population-based reinforcement learning (CTF)</a></li>
-<li><a href="#org0b03c40">Successor Features for Transfer in Reinforcement Learning</a></li>
-<li><a href="#org13bd075">Policy Manifold Search for Improving Diversity-based Neuroevolution</a></li>
+<li><a href="#org20f6dbb">Playing Atari with Deep Reinforcement Learning (DQN)</a></li>
+<li><a href="#orgf2889f8">Asynchronous Methods for Deep Reinforcement Learning (A3C)</a></li>
+<li><a href="#orgf7992c5">Rainbow: Combining Improvements in Deep Reinforcement Learning</a></li>
+<li><a href="#org4e60a35">Continuous Control with Deep Reinforcement Learning (DDPG)</a></li>
+<li><a href="#org6df4973">Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor (SAC)</a></li>
+<li><a href="#org37ae5f7">High-Dimensional Continuous Control Using Generalized Advantage Estimation (GAE)</a></li>
+<li><a href="#org13bbeff">Proximal Policy Optimization Algorithms (PPO)</a></li>
+<li><a href="#orgfc24ecc">Interpolated Policy Gradient: Merging On-Policy and Off-Policy Gradient Estimation for Deep Reinforcement Learning (IPG)</a></li>
+<li><a href="#orgd6967a6">Dota 2 with Large Scale Deep Reinforcement Learning (OpenAI Five)</a></li>
+<li><a href="#org11d286b">Grandmaster level in StarCraft II using multi-agent reinforcement learning (AlphaStar)</a></li>
+<li><a href="#org3271657">Learning Dextrous In-Hand Manipulation</a></li>
+<li><a href="#org683ce4a">Emergent Tool Use From Multi-Agent Autocurricula (Hide and Seek)</a></li>
+<li><a href="#org208c4a8">Human-Level performance in 3D multiplayer games with population-based reinforcement learning (CTF)</a></li>
+<li><a href="#org4d48cf9">Successor Features for Transfer in Reinforcement Learning</a></li>
+<li><a href="#org799292d">Policy Manifold Search for Improving Diversity-based Neuroevolution</a></li>
 </ul>
 </li>
-<li><a href="#orgb4af155">Code</a>
+<li><a href="#orgd398783">Code</a>
 <ul>
-<li><a href="#org9c92a85">CleanRL dqn<sub>atari</sub></a></li>
-<li><a href="#orga1fe5f3">CleanRL PPO</a>
+<li><a href="#orgcc413bf">CleanRL dqn<sub>atari</sub></a></li>
+<li><a href="#org90c349f">CleanRL PPO</a>
 <ul>
-<li><a href="#orgf97dbb5">Core Idea</a></li>
-<li><a href="#org539e5fa">Implementation Tricks</a></li>
+<li><a href="#org9406740">Core Idea</a></li>
+<li><a href="#orga50193f">Implementation Tricks</a></li>
 </ul>
 </li>
 </ul>
@@ -169,10 +181,9 @@ $(function() {
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org7967382" class="outline-1">
-<h1 id="org7967382">Deep RL Notes</h1>
-<div class="outline-text-1" id="text-org7967382">
+<div id="outline-container-orgffb4ce2" class="outline-1">
+<h1 id="orgffb4ce2">Deep RL Notes</h1>
+<div class="outline-text-1" id="text-orgffb4ce2">
 <p>
 I have managed to complete Sutton and Barto's <i><a href="https://planetbanatt.net/articles/sutton.html">Reinforcement Learning</a></i>. I would like to now learn enough deep reinforcement learning to do some useful, novel things with it.
 </p>
@@ -189,14 +200,13 @@ This page is going to contain two things. It will contain notes on code, and not
 I'm going to try to read at least a couple papers each day in deep RL. 
 </p>
 </div>
-
-<div id="outline-container-orgd629682" class="outline-2">
-<h2 id="orgd629682">Papers</h2>
-<div class="outline-text-2" id="text-orgd629682">
+<div id="outline-container-org4e1ece2" class="outline-2">
+<h2 id="org4e1ece2">Papers</h2>
+<div class="outline-text-2" id="text-org4e1ece2">
 </div>
-<div id="outline-container-org479d3e5" class="outline-3">
-<h3 id="org479d3e5">Playing Atari with Deep Reinforcement Learning (DQN)</h3>
-<div class="outline-text-3" id="text-org479d3e5">
+<div id="outline-container-org20f6dbb" class="outline-3">
+<h3 id="org20f6dbb">Playing Atari with Deep Reinforcement Learning (DQN)</h3>
+<div class="outline-text-3" id="text-org20f6dbb">
 <p>
 Original DQN paper from 2013, very short (there's a longer Nature version which was released later)
 </p>
@@ -206,7 +216,7 @@ Notable about this paper is the fact that all the games are deterministic, so th
 </p>
 
 
-<div id="org60ead85" class="figure">
+<div id="orgf449dab" class="figure">
 <p><img src="../images/from_clipboard/20241029_111102.png" alt="20241029_111102.png" />
 </p>
 </div>
@@ -220,10 +230,9 @@ The claim here is that nonlinear function-approximation Q-learning is likely to 
 </p>
 </div>
 </div>
-
-<div id="outline-container-org58664e8" class="outline-3">
-<h3 id="org58664e8">Asynchronous Methods for Deep Reinforcement Learning (A3C)</h3>
-<div class="outline-text-3" id="text-org58664e8">
+<div id="outline-container-orgf2889f8" class="outline-3">
+<h3 id="orgf2889f8">Asynchronous Methods for Deep Reinforcement Learning (A3C)</h3>
+<div class="outline-text-3" id="text-orgf2889f8">
 <p>
 found <a href="https://arxiv.org/abs/1602.01783">here</a>, from 2016.
 </p>
@@ -246,10 +255,9 @@ Running this does much better than DQN on atari, ~6x better and ~20x faster to r
 </p>
 </div>
 </div>
-
-<div id="outline-container-org23d46d5" class="outline-3">
-<h3 id="org23d46d5">Rainbow: Combining Improvements in Deep Reinforcement Learning</h3>
-<div class="outline-text-3" id="text-org23d46d5">
+<div id="outline-container-orgf7992c5" class="outline-3">
+<h3 id="orgf7992c5">Rainbow: Combining Improvements in Deep Reinforcement Learning</h3>
+<div class="outline-text-3" id="text-orgf7992c5">
 <p>
 Paper <a href="https://arxiv.org/pdf/1710.02298">here</a>. Basically, there's lots of DQN-compatible algorithms, and most of them are not actually mutually exclusive, so if you just do all of them combined then you get the best results. This is a really nice paper because it directly provides high level summaries of all the stuff between DQN and this paper.
 </p>
@@ -281,10 +289,9 @@ They run this on Atari 2600 games and it does better than anything else by itsel
 </p>
 </div>
 </div>
-
-<div id="outline-container-org34ea4c4" class="outline-3">
-<h3 id="org34ea4c4">Continuous Control with Deep Reinforcement Learning (DDPG)</h3>
-<div class="outline-text-3" id="text-org34ea4c4">
+<div id="outline-container-org4e60a35" class="outline-3">
+<h3 id="org4e60a35">Continuous Control with Deep Reinforcement Learning (DDPG)</h3>
+<div class="outline-text-3" id="text-org4e60a35">
 <p>
 A notable limitation with DQN is low-dim and discrete action spaces &#x2013; it will fail if either of those is changed.
 </p>
@@ -294,7 +301,7 @@ This paper introduces Deep Deterministic Policy Gradient (DDPG) which adds the e
 </p>
 
 
-<div id="org8825b39" class="figure">
+<div id="org59c491a" class="figure">
 <p><img src="../images/from_clipboard/20241102_173841.png" alt="20241102_173841.png" />
 </p>
 </div>
@@ -308,10 +315,9 @@ They show it working well on a bunch of mujoco environments.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org0319125" class="outline-3">
-<h3 id="org0319125">Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor (SAC)</h3>
-<div class="outline-text-3" id="text-org0319125">
+<div id="outline-container-org6df4973" class="outline-3">
+<h3 id="org6df4973">Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor (SAC)</h3>
+<div class="outline-text-3" id="text-org6df4973">
 <p>
 Paper <a href="https://arxiv.org/pdf/1801.01290">here</a>. My understanding is that this is currently roughly the most popular off-policy method. The basic idea is that the actor has a joint objective: maximize expected reward, and maximize entropy; i.e. maximize the reward while acting as randomly as possible. This has two advantages: A) it is strong, B) it is more stable than other methods.
 </p>
@@ -321,7 +327,7 @@ This has a similar effect to the noisy nets work; the network is incentivized to
 </p>
 
 
-<div id="orgad8977c" class="figure">
+<div id="org13b7485" class="figure">
 <p><img src="../images/from_clipboard/20241109_150359.png" alt="20241109_150359.png" />
 </p>
 </div>
@@ -331,7 +337,7 @@ They derive a soft version of policy iteration (i.e. a soft policy evaluation + 
 </p>
 
 
-<div id="org46ae782" class="figure">
+<div id="org661b682" class="figure">
 <p><img src="../images/from_clipboard/20241109_154829.png" alt="20241109_154829.png" />
 </p>
 </div>
@@ -341,10 +347,9 @@ It's a bit involved since we're optimizing four different sets of parameters, bu
 </p>
 </div>
 </div>
-
-<div id="outline-container-org38c83bc" class="outline-3">
-<h3 id="org38c83bc">High-Dimensional Continuous Control Using Generalized Advantage Estimation (GAE)</h3>
-<div class="outline-text-3" id="text-org38c83bc">
+<div id="outline-container-org37ae5f7" class="outline-3">
+<h3 id="org37ae5f7">High-Dimensional Continuous Control Using Generalized Advantage Estimation (GAE)</h3>
+<div class="outline-text-3" id="text-org37ae5f7">
 <p>
 Paper <a href="https://arxiv.org/pdf/1506.02438">here</a>, from 2015. Two paragraph abstract is kind of a fun curiosity.
 </p>
@@ -380,10 +385,9 @@ They applied this variant of advantage function to Trust Region Policy Optimizat
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgdb28ab8" class="outline-3">
-<h3 id="orgdb28ab8">Proximal Policy Optimization Algorithms (PPO)</h3>
-<div class="outline-text-3" id="text-orgdb28ab8">
+<div id="outline-container-org13bbeff" class="outline-3">
+<h3 id="org13bbeff">Proximal Policy Optimization Algorithms (PPO)</h3>
+<div class="outline-text-3" id="text-org13bbeff">
 <p>
 Paper <a href="https://arxiv.org/abs/1707.06347">here</a>. You could call this, vaguely, sota for deep RL algorithms; it's what was used for stuff like OpenAI Five, it's extremely powerful.
 </p>
@@ -393,7 +397,7 @@ The actual PPO algorithm is super simple:
 </p>
 
 
-<div id="orgfbece4d" class="figure">
+<div id="org3040fe2" class="figure">
 <p><img src="../images/from_clipboard/20241102_210014.png" alt="20241102_210014.png" />
 </p>
 </div>
@@ -447,10 +451,9 @@ There are some other objectives explored in the paper here but the clipped one i
 </p>
 </div>
 </div>
-
-<div id="outline-container-org073320f" class="outline-3">
-<h3 id="org073320f">Interpolated Policy Gradient: Merging On-Policy and Off-Policy Gradient Estimation for Deep Reinforcement Learning (IPG)</h3>
-<div class="outline-text-3" id="text-org073320f">
+<div id="outline-container-orgfc24ecc" class="outline-3">
+<h3 id="orgfc24ecc">Interpolated Policy Gradient: Merging On-Policy and Off-Policy Gradient Estimation for Deep Reinforcement Learning (IPG)</h3>
+<div class="outline-text-3" id="text-orgfc24ecc">
 <p>
 Paper is <a href="https://arxiv.org/pdf/1706.00387">here</a>. The on-policy and off-policy distinction can be bridged, it's possible for methods to leverage both ideas.
 </p>
@@ -464,7 +467,7 @@ Specifically, for Q-prop we have the following:
 </p>
 
 
-<div id="org716f18c" class="figure">
+<div id="org81b5aaf" class="figure">
 <p><img src="../images/from_clipboard/20241116_210832.png" alt="20241116_210832.png" />
 </p>
 </div>
@@ -478,7 +481,7 @@ The core contribution in this paper is the notion of interpolating these two ter
 </p>
 
 
-<div id="org96b474d" class="figure">
+<div id="orgc5a6b38" class="figure">
 <p><img src="../images/from_clipboard/20241116_211600.png" alt="20241116_211600.png" />
 </p>
 </div>
@@ -492,7 +495,7 @@ With this framing you can recover lots of the other methods in entirety using sp
 </p>
 
 
-<div id="org7448160" class="figure">
+<div id="orgb57de45" class="figure">
 <p><img src="../images/from_clipboard/20241116_213623.png" alt="20241116_213623.png" />
 </p>
 </div>
@@ -502,10 +505,9 @@ Shown on a variety of benchmarks, this seems to improve sample efficiency, in ad
 </p>
 </div>
 </div>
-
-<div id="outline-container-org1576a9b" class="outline-3">
-<h3 id="org1576a9b">Dota 2 with Large Scale Deep Reinforcement Learning (OpenAI Five)</h3>
-<div class="outline-text-3" id="text-org1576a9b">
+<div id="outline-container-orgd6967a6" class="outline-3">
+<h3 id="orgd6967a6">Dota 2 with Large Scale Deep Reinforcement Learning (OpenAI Five)</h3>
+<div class="outline-text-3" id="text-orgd6967a6">
 <p>
 Paper <a href="https://arxiv.org/pdf/1912.06680">here</a>. OpenAI defeats world champion DoTA 2 team using a deep RL system trained via PPO.
 </p>
@@ -515,7 +517,7 @@ The majority of this paper deals with the necessary architectural challenges pre
 </p>
 
 
-<div id="org727be16" class="figure">
+<div id="org84c7272" class="figure">
 <p><img src="../images/from_clipboard/20241103_114232.png" alt="20241103_114232.png" />
 </p>
 </div>
@@ -525,7 +527,7 @@ They train this such that each hero uses the same network, and the actor-critic 
 </p>
 
 
-<div id="org0ba1f32" class="figure">
+<div id="orgd1ce141" class="figure">
 <p><img src="../images/from_clipboard/20241103_114809.png" alt="20241103_114809.png" />
 </p>
 </div>
@@ -564,10 +566,9 @@ Notable about surgery is that it never touches the reward (and thereby the behav
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgd75b37d" class="outline-3">
-<h3 id="orgd75b37d">Grandmaster level in StarCraft II using multi-agent reinforcement learning (AlphaStar)</h3>
-<div class="outline-text-3" id="text-orgd75b37d">
+<div id="outline-container-org11d286b" class="outline-3">
+<h3 id="org11d286b">Grandmaster level in StarCraft II using multi-agent reinforcement learning (AlphaStar)</h3>
+<div class="outline-text-3" id="text-org11d286b">
 <p>
 Paper <a href="https://www.seas.upenn.edu/~cis520/papers/RL_for_starcraft.pdf">here</a>. Using largely the same architecture as OpenAI Five, but with imitation-learning-driven RL instead of entirely self-play, DeepMind trains an agent which gets GM level at StarCraft II. There's a thesis from one of the first authors which goes into more detail <a href="https://uwspace.uwaterloo.ca/items/a01fd348-ae31-4a81-8164-3c7314fdfe09">here</a> which I haven't read through yet.
 </p>
@@ -593,7 +594,7 @@ A core component of starcraft is that there are three races. To be good at starc
 </p>
 
 
-<div id="orga477a4c" class="figure">
+<div id="org0388f8a" class="figure">
 <p><img src="../images/from_clipboard/20241103_155450.png" alt="20241103_155450.png" />
 </p>
 </div>
@@ -607,16 +608,15 @@ Why can't they use self-play for this type of thing? Well for one, self-play col
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgb38a242" class="outline-3">
-<h3 id="orgb38a242">Learning Dextrous In-Hand Manipulation</h3>
-<div class="outline-text-3" id="text-orgb38a242">
+<div id="outline-container-org3271657" class="outline-3">
+<h3 id="org3271657">Learning Dextrous In-Hand Manipulation</h3>
+<div class="outline-text-3" id="text-org3271657">
 <p>
 Paper <a href="https://arxiv.org/pdf/1808.00177">here</a>.
 </p>
 
 
-<div id="org8eb07d5" class="figure">
+<div id="org8591a4c" class="figure">
 <p><img src="../images/from_clipboard/20241109_181542.png" alt="20241109_181542.png" />
 </p>
 </div>
@@ -644,7 +644,7 @@ The critic isn't actually used at inference time so it can leverage information 
 </p>
 
 
-<div id="org9e91de5" class="figure">
+<div id="org25dc813" class="figure">
 <p><img src="../images/from_clipboard/20241109_183231.png" alt="20241109_183231.png" />
 </p>
 </div>
@@ -662,12 +662,11 @@ As you would expect, there's some degradation in the real world performance comp
 </p>
 </div>
 </div>
+<div id="outline-container-org683ce4a" class="outline-3">
+<h3 id="org683ce4a">Emergent Tool Use From Multi-Agent Autocurricula (Hide and Seek)</h3>
+<div class="outline-text-3" id="text-org683ce4a">
 
-<div id="outline-container-orgd9547c7" class="outline-3">
-<h3 id="orgd9547c7">Emergent Tool Use From Multi-Agent Autocurricula (Hide and Seek)</h3>
-<div class="outline-text-3" id="text-orgd9547c7">
-
-<div id="org6523614" class="figure">
+<div id="org43767cc" class="figure">
 <p><img src="../images/from_clipboard/20241109_185336.png" alt="20241109_185336.png" />
 </p>
 </div>
@@ -681,7 +680,7 @@ Yet again, this is trained with PPO. But this time we get to use self-attention 
 </p>
 
 
-<div id="org42063a0" class="figure">
+<div id="org5727d7f" class="figure">
 <p><img src="../images/from_clipboard/20241109_190605.png" alt="20241109_190605.png" />
 </p>
 </div>
@@ -691,18 +690,17 @@ There's also some interesting stuff in here about using finetuning as a measure 
 </p>
 
 
-<div id="org6e630d6" class="figure">
+<div id="orgc3e66e6" class="figure">
 <p><img src="../images/from_clipboard/20241109_191307.png" alt="20241109_191307.png" />
 </p>
 </div>
 </div>
 </div>
+<div id="outline-container-org208c4a8" class="outline-3">
+<h3 id="org208c4a8">Human-Level performance in 3D multiplayer games with population-based reinforcement learning (CTF)</h3>
+<div class="outline-text-3" id="text-org208c4a8">
 
-<div id="outline-container-org694d798" class="outline-3">
-<h3 id="org694d798">Human-Level performance in 3D multiplayer games with population-based reinforcement learning (CTF)</h3>
-<div class="outline-text-3" id="text-org694d798">
-
-<div id="org3051b96" class="figure">
+<div id="org1c85829" class="figure">
 <p><img src="../images/from_clipboard/20241109_191615.png" alt="20241109_191615.png" />
 </p>
 </div>
@@ -716,7 +714,7 @@ The way they handle the multi-agent problem is to frame the problem as having tw
 </p>
 
 
-<div id="org0f2c97a" class="figure">
+<div id="orga4e1cdb" class="figure">
 <p><img src="../images/from_clipboard/20241109_193028.png" alt="20241109_193028.png" />
 </p>
 </div>
@@ -738,10 +736,9 @@ As in alphastar there's lots of tournament-based framing / evaluation in this wo
 </p>
 </div>
 </div>
-
-<div id="outline-container-org0b03c40" class="outline-3">
-<h3 id="org0b03c40">Successor Features for Transfer in Reinforcement Learning</h3>
-<div class="outline-text-3" id="text-org0b03c40">
+<div id="outline-container-org4d48cf9" class="outline-3">
+<h3 id="org4d48cf9">Successor Features for Transfer in Reinforcement Learning</h3>
+<div class="outline-text-3" id="text-org4d48cf9">
 <p>
 Found <a href="https://arxiv.org/pdf/1606.05312">here</a>, from 2018.
 </p>
@@ -763,7 +760,7 @@ where \(\phi(s, a, s')\) describes features, and \(w\) represents weights which 
 </p>
 
 
-<div id="org1c4410e" class="figure">
+<div id="org835f0c9" class="figure">
 <p><img src="../images/from_clipboard/20241031_131631.png" alt="20241031_131631.png" />
 </p>
 </div>
@@ -793,12 +790,11 @@ There's some additional guarantees here that if the distance between your new ta
 </p>
 </div>
 </div>
+<div id="outline-container-org799292d" class="outline-3">
+<h3 id="org799292d">Policy Manifold Search for Improving Diversity-based Neuroevolution</h3>
+<div class="outline-text-3" id="text-org799292d">
 
-<div id="outline-container-org13bd075" class="outline-3">
-<h3 id="org13bd075">Policy Manifold Search for Improving Diversity-based Neuroevolution</h3>
-<div class="outline-text-3" id="text-org13bd075">
-
-<div id="orgca80b53" class="figure">
+<div id="org8b86643" class="figure">
 <p><img src="../images/from_clipboard/20241104_143220.png" alt="20241104_143220.png" />
 </p>
 </div>
@@ -816,7 +812,7 @@ An interesting component of this work is the concept of a <i>Behavior Descriptor
 </p>
 
 
-<div id="orgef9a74c" class="figure">
+<div id="orgd112088" class="figure">
 <p><img src="../images/from_clipboard/20241104_150117.png" alt="20241104_150117.png" />
 </p>
 </div>
@@ -831,20 +827,19 @@ There's some other interesting details in here about mutating in the AE latent s
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgb4af155" class="outline-2">
-<h2 id="orgb4af155">Code</h2>
-<div class="outline-text-2" id="text-orgb4af155">
+<div id="outline-container-orgd398783" class="outline-2">
+<h2 id="orgd398783">Code</h2>
+<div class="outline-text-2" id="text-orgd398783">
 </div>
-<div id="outline-container-org9c92a85" class="outline-3">
-<h3 id="org9c92a85">CleanRL dqn<sub>atari</sub></h3>
-<div class="outline-text-3" id="text-org9c92a85">
+<div id="outline-container-orgcc413bf" class="outline-3">
+<h3 id="orgcc413bf">CleanRL dqn<sub>atari</sub></h3>
+<div class="outline-text-3" id="text-orgcc413bf">
 <p>
 code is <a href="https://github.com/vwxyzjn/cleanrl/blob/master/cleanrl/dqn_atari.py">here</a>. This is a ~200 line implementation of the original DQN experiment, using convolutional nns etc. 
 </p>
 
 
-<div id="org3cabc17" class="figure">
+<div id="orga100dd7" class="figure">
 <p><img src="../images/from_clipboard/20241029_114628.png" alt="20241029_114628.png" />
 </p>
 </div>
@@ -858,7 +853,7 @@ Likewise implementing this using a frozen "target network" and optimizing a sepa
 </p>
 
 
-<div id="orga8c4fad" class="figure">
+<div id="orgbba5b13" class="figure">
 <p><img src="../images/from_clipboard/20241029_114822.png" alt="20241029_114822.png" />
 </p>
 </div>
@@ -868,20 +863,18 @@ Specifically, they copy this over to the target network using this soft update m
 </p>
 </div>
 </div>
-
-<div id="outline-container-orga1fe5f3" class="outline-3">
-<h3 id="orga1fe5f3">CleanRL PPO</h3>
-<div class="outline-text-3" id="text-orga1fe5f3">
+<div id="outline-container-org90c349f" class="outline-3">
+<h3 id="org90c349f">CleanRL PPO</h3>
+<div class="outline-text-3" id="text-org90c349f">
 <p>
 Code is <a href="https://github.com/vwxyzjn/cleanrl/blob/master/cleanrl/ppo.py">here</a>. This code just is for cartpole.
 </p>
 </div>
+<div id="outline-container-org9406740" class="outline-4">
+<h4 id="org9406740">Core Idea</h4>
+<div class="outline-text-4" id="text-org9406740">
 
-<div id="outline-container-orgf97dbb5" class="outline-4">
-<h4 id="orgf97dbb5">Core Idea</h4>
-<div class="outline-text-4" id="text-orgf97dbb5">
-
-<div id="org52d2c74" class="figure">
+<div id="org2691d09" class="figure">
 <p><img src="../images/from_clipboard/20241102_235702.png" alt="20241102_235702.png" />
 </p>
 </div>
@@ -891,7 +884,7 @@ Critic estimates value (regression problem), Actor selects action (here discrete
 </p>
 
 
-<div id="orgdebdde6" class="figure">
+<div id="orga1b2fbe" class="figure">
 <p><img src="../images/from_clipboard/20241103_002142.png" alt="20241103_002142.png" />
 </p>
 </div>
@@ -901,7 +894,7 @@ Get T timesteps from each actor (i.e. one actor)
 </p>
 
 
-<div id="orgf443151" class="figure">
+<div id="org92e13de" class="figure">
 <p><img src="../images/from_clipboard/20241103_003738.png" alt="20241103_003738.png" />
 </p>
 </div>
@@ -911,13 +904,13 @@ Get advantages
 </p>
 
 
-<div id="org28eee31" class="figure">
+<div id="org884e99e" class="figure">
 <p><img src="../images/from_clipboard/20241103_005013.png" alt="20241103_005013.png" />
 </p>
 </div>
 
 
-<div id="orgbb1defa" class="figure">
+<div id="orgc4ce09c" class="figure">
 <p><img src="../images/from_clipboard/20241103_005146.png" alt="20241103_005146.png" />
 </p>
 </div>
@@ -927,16 +920,15 @@ over epochs and minibatches, optimize clipped surrogate objective + simple regre
 </p>
 </div>
 </div>
-
-<div id="outline-container-org539e5fa" class="outline-4">
-<h4 id="org539e5fa">Implementation Tricks</h4>
-<div class="outline-text-4" id="text-org539e5fa">
+<div id="outline-container-orga50193f" class="outline-4">
+<h4 id="orga50193f">Implementation Tricks</h4>
+<div class="outline-text-4" id="text-orga50193f">
 <p>
 The layer init using orthogonal initialization + using different std for actor and critic is apparently common practice in PPO
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #F92672;">def</span> <span style="color: #A6E22E;">layer_init</span>(layer, std=np.sqrt(2), bias_const=0.0):
+<pre class="src src-python"><span style="font-weight: bold;">def</span> <span style="font-weight: bold;">layer_init</span>(layer, std=np.sqrt(2), bias_const=0.0):
     torch.nn.init.orthogonal_(layer.weight, std)
     torch.nn.init.constant_(layer.bias, bias_const)
 </pre>

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-22 Sat 16:16 -->
+<!-- 2026-08-22 Sat 16:22 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Low Rank Pertrubations</title>
@@ -73,27 +73,38 @@ $(function() {
 
 <link rel="stylesheet" type="text/css" href="https://planetbanatt.net/css/default_20240614.css" />
 <link rel="shortcut icon" type="image/jpg" href="https://planetbanatt.net/favicon.ico" />
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
-
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "AMS"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
-});
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -119,6 +130,7 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
             <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
             <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
@@ -132,21 +144,20 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org38f621e">Perturbations in Low-Rank Decomposition</a>
+<li><a href="#orgde439e0">Perturbations in Low-Rank Decomposition</a>
 <ul>
-<li><a href="#org617954b">Illegal Transformations</a></li>
-<li><a href="#orgd5c9a57">High Dimensions</a></li>
-<li><a href="#orgdce788a">More Things</a></li>
-<li><a href="#org7fbc854">Low Rank Reading List</a></li>
+<li><a href="#orgb1856bf">Illegal Transformations</a></li>
+<li><a href="#orgdeadf1d">High Dimensions</a></li>
+<li><a href="#orgc50c3f2">More Things</a></li>
+<li><a href="#orgce4453e">Low Rank Reading List</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org38f621e" class="outline-1">
-<h1 id="org38f621e">Perturbations in Low-Rank Decomposition</h1>
-<div class="outline-text-1" id="text-org38f621e">
+<div id="outline-container-orgde439e0" class="outline-1">
+<h1 id="orgde439e0">Perturbations in Low-Rank Decomposition</h1>
+<div class="outline-text-1" id="text-orgde439e0">
 <p>
 I wrote <a href="https://planetbanatt.net/articles/mla.html#org8f21af5">briefly</a> about what gradient updates inside decomposed matrices do, semantically, compared to gradient updates in full-dimension matrices. The core idea I alluded to in that post was that a perturbation inside the low-rank decomposition matrices corresponds to a perturbation along a manifold inside the full matrix. We can define a subspace of dimension \(r\) inside the full space, and a perturbation in the decomposed matrix can only ever travel along that subspace, compared to a random perturbation in the full matrix which can go in any direction. This was mostly sufficient for weakly understanding Multi-Head Latent Attention: we limit the types of legal transformations to ones able to be written via a certain rank, and we hope those are sufficient for good results. 
 </p>
@@ -162,10 +173,9 @@ I wanted to understand this a little better, so I wrote a very simple <a href="h
   </video>
 </div>
 </div>
-
-<div id="outline-container-org617954b" class="outline-2">
-<h2 id="org617954b">Illegal Transformations</h2>
-<div class="outline-text-2" id="text-org617954b">
+<div id="outline-container-orgb1856bf" class="outline-2">
+<h2 id="orgb1856bf">Illegal Transformations</h2>
+<div class="outline-text-2" id="text-orgb1856bf">
 <p>
 In this little toy application, we start with a unit cube 1x1x1, and we can think of a 3x3 matrix being some sort of 3D transformation applied to this unit cube. As a result, we can understand what a 3x3 transformation does, at least vaguely, by understanding what it does to this cube after you apply it.
 </p>
@@ -187,10 +197,9 @@ In general, any rank 3 transformation becomes "illegal", and we lose the ability
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgd5c9a57" class="outline-2">
-<h2 id="orgd5c9a57">High Dimensions</h2>
-<div class="outline-text-2" id="text-orgd5c9a57">
+<div id="outline-container-orgdeadf1d" class="outline-2">
+<h2 id="orgdeadf1d">High Dimensions</h2>
+<div class="outline-text-2" id="text-orgdeadf1d">
 <blockquote>
 <p>
 To deal with hyperplanes in a 14-dimensional space, visualize a 3D space and say "fourteen" to yourself very loudly. Everyone does it.
@@ -210,7 +219,7 @@ One useful one to mention is that the majority of the volume in a high dimension
 </p>
 
 
-<div id="org9c1c730" class="figure">
+<div id="org6db5413" class="figure">
 <p><img src="../images/misc/hypercube_dim.png" alt="hypercube_dim.png" />
 </p>
 </div>
@@ -220,10 +229,9 @@ We can see that as we increase the dimensionality, the hypersphere slowly shrink
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgdce788a" class="outline-2">
-<h2 id="orgdce788a">More Things</h2>
-<div class="outline-text-2" id="text-orgdce788a">
+<div id="outline-container-orgc50c3f2" class="outline-2">
+<h2 id="orgc50c3f2">More Things</h2>
+<div class="outline-text-2" id="text-orgc50c3f2">
 <p>
 I may continue to update this sub-post as I continue thinking about low-rank stuff. For now here's some further reading.
 </p>
@@ -241,11 +249,9 @@ I may continue to update this sub-post as I continue thinking about low-rank stu
 </p>
 </div>
 </div>
-
-
-<div id="outline-container-org7fbc854" class="outline-2">
-<h2 id="org7fbc854">Low Rank Reading List</h2>
-<div class="outline-text-2" id="text-org7fbc854">
+<div id="outline-container-orgce4453e" class="outline-2">
+<h2 id="orgce4453e">Low Rank Reading List</h2>
+<div class="outline-text-2" id="text-orgce4453e">
 <p>
 These are papers I still need to read on low-rank stuff, but these are mostly limited to the above's application in machine learning. Specifically, these are mostly neural network papers earlier than <a href="https://planetbanatt.net/articles/mla.html">multi-latent attention</a> which in some capacity have low-rank factorization as a major component &#x2013; This has definitely been done before, but not for attention.
 </p>

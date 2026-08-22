@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-22 Sat 16:16 -->
+<!-- 2026-08-22 Sat 16:22 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Model Merging</title>
@@ -73,27 +73,38 @@ $(function() {
 
 <link rel="stylesheet" type="text/css" href="https://planetbanatt.net/css/default_20240614.css" />
 <link rel="shortcut icon" type="image/jpg" href="https://planetbanatt.net/favicon.ico" />
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
-
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "AMS"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
-});
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -119,6 +130,7 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
             <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
             <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
@@ -132,39 +144,39 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org8ed27b3">Model Merging and You</a>
+<li><a href="#orgbf80b48">Model Merging and You</a>
 <ul>
-<li><a href="#org9b6353b">Some Prerequisite Info + Acknowledgements</a></li>
-<li><a href="#org9bba2ea">Convergent Learning: Do Different Neural Networks Learn the Same Representations?</a></li>
-<li><a href="#org82f9a08">(SLERP) Sampling Generative Networks</a></li>
-<li><a href="#org7742a88">Model Soups: averaging weights of multiple fine-tuned models improves accuracy without increasing inference time</a></li>
-<li><a href="#org8a3180c">Fusing Finetuned Models for Better Pretraining</a></li>
-<li><a href="#org35bb97b">Merging Models with Fisher-Weighted Averaging</a></li>
-<li><a href="#org79b97ec">Git Re-Basin</a></li>
-<li><a href="#org70f8b25">Editing Models with Task Arithmetic</a></li>
+<li><a href="#orgf718129">Some Prerequisite Info + Acknowledgements</a></li>
+<li><a href="#org1f8aecc">Convergent Learning: Do Different Neural Networks Learn the Same Representations?</a></li>
+<li><a href="#org38688e3">(SLERP) Sampling Generative Networks</a></li>
+<li><a href="#orgd5e4214">Model Soups: averaging weights of multiple fine-tuned models improves accuracy without increasing inference time</a></li>
+<li><a href="#orgefa1129">Fusing Finetuned Models for Better Pretraining</a></li>
+<li><a href="#orge5047b2">Merging Models with Fisher-Weighted Averaging</a></li>
+<li><a href="#org1e8b1bf">Git Re-Basin</a></li>
+<li><a href="#orgef60829">Editing Models with Task Arithmetic</a></li>
 <li><a href="#orgfdaf940">TIES-MERGING</a></li>
-<li><a href="#orga3478e5">(DARE) Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch</a></li>
-<li><a href="#org2f3723e">Model Breadcrumbs: Scaling Multi-Task Model Merging with Sparse Masks</a></li>
-<li><a href="#orgdbddd1a">Model Stock: All we need is just a few fine-tuned models</a></li>
-<li><a href="#org3450da0">DELLA-Merging: Reducing Interference in Model Merging through Magnitude-Based Sampling</a></li>
-<li><a href="#org3120d32">Evolutionary Optimization of Model Merging Recipes</a>
+<li><a href="#org0cccf7c">(DARE) Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch</a></li>
+<li><a href="#orgeb869cf">Model Breadcrumbs: Scaling Multi-Task Model Merging with Sparse Masks</a></li>
+<li><a href="#orga93cc87">Model Stock: All we need is just a few fine-tuned models</a></li>
+<li><a href="#org9782951">DELLA-Merging: Reducing Interference in Model Merging through Magnitude-Based Sampling</a></li>
+<li><a href="#org69dcde8">Evolutionary Optimization of Model Merging Recipes</a>
 <ul>
-<li><a href="#orge9c94b7">Merging Parameters</a></li>
-<li><a href="#org0f067bb">Merging Data Flow</a></li>
-<li><a href="#orgb7b6d62">Thoughts</a></li>
+<li><a href="#org2da6e47">Merging Parameters</a></li>
+<li><a href="#org1108d34">Merging Data Flow</a></li>
+<li><a href="#org2894f3f">Thoughts</a></li>
 </ul>
 </li>
-<li><a href="#org0d438b8">Frankenmerging</a>
+<li><a href="#orge04cbb9">Frankenmerging</a>
 <ul>
-<li><a href="#org6f9cd95">Understanding Robustness of Transformers for Image Classification</a></li>
-<li><a href="#orgad6fbef">Transformer Layers as Painters</a></li>
-<li><a href="#orgf613f37">SOLAR 10.7B: Scaling Large Language Models with Simple yet Effective Depth Up-Scaling</a></li>
+<li><a href="#orged35b77">Understanding Robustness of Transformers for Image Classification</a></li>
+<li><a href="#org3a79469">Transformer Layers as Painters</a></li>
+<li><a href="#org92b91f2">SOLAR 10.7B: Scaling Large Language Models with Simple yet Effective Depth Up-Scaling</a></li>
 </ul>
 </li>
-<li><a href="#org85127e9">Appendix: Other Papers</a>
+<li><a href="#orgdf31469">Appendix: Other Papers</a>
 <ul>
-<li><a href="#org30c3264">Dataless Knowledge Fusion by Merging Weights of Language Models</a></li>
-<li><a href="#orgc0a56fa">Reading List</a></li>
+<li><a href="#orgb063f0e">Dataless Knowledge Fusion by Merging Weights of Language Models</a></li>
+<li><a href="#org8660258">Reading List</a></li>
 </ul>
 </li>
 </ul>
@@ -172,10 +184,9 @@ $(function() {
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org8ed27b3" class="outline-1">
-<h1 id="org8ed27b3">Model Merging and You</h1>
-<div class="outline-text-1" id="text-org8ed27b3">
+<div id="outline-container-orgbf80b48" class="outline-1">
+<h1 id="orgbf80b48">Model Merging and You</h1>
+<div class="outline-text-1" id="text-orgbf80b48">
 <p>
 Model Merging is a weird and experimental technique which lets you take two models and combine them together to get a new model. This is primarily used in Large Language Models, where the likely convergent representations allow this technique to work somewhat better than you might expect, given the concept. Model merging techniques are interesting since they allow researchers to create new models which are somehow performant in new ways despite not doing any additional training. I think this is really weird, so I need to know about it.
 </p>
@@ -192,10 +203,9 @@ There are many good <a href="https://huggingface.co/blog/mlabonne/merge-models">
 This document is a work in progress: I will be spending some cycles on model merging and will periodically update this page as I continue to read about it.
 </p>
 </div>
-
-<div id="outline-container-org9b6353b" class="outline-2">
-<h2 id="org9b6353b">Some Prerequisite Info + Acknowledgements</h2>
-<div class="outline-text-2" id="text-org9b6353b">
+<div id="outline-container-orgf718129" class="outline-2">
+<h2 id="orgf718129">Some Prerequisite Info + Acknowledgements</h2>
+<div class="outline-text-2" id="text-orgf718129">
 <p>
 For actually performing the merging, at least for LLMs, <a href="https://github.com/arcee-ai/mergekit?tab=readme-ov-file#merge-methods">mergekit</a> is a popular repo. It has a bunch of different methods, as well as it's own <a href="https://arxiv.org/pdf/2403.13257">paper</a> which I'll include for completeness.
 </p>
@@ -213,10 +223,9 @@ Many thanks to the Sakana AI team, specifically Yujin Tang, Takuya Akiba, and Qi
 </p>
 </div>
 </div>
-
-<div id="outline-container-org9bba2ea" class="outline-2">
-<h2 id="org9bba2ea">Convergent Learning: Do Different Neural Networks Learn the Same Representations?</h2>
-<div class="outline-text-2" id="text-org9bba2ea">
+<div id="outline-container-org1f8aecc" class="outline-2">
+<h2 id="org1f8aecc">Convergent Learning: Do Different Neural Networks Learn the Same Representations?</h2>
+<div class="outline-text-2" id="text-org1f8aecc">
 <p>
 Paper can be found <a href="https://arxiv.org/abs/1511.07543">here</a>. This is an old paper from 2016, but we're starting with it because it was an early paper which explored the idea that two independent networks trained on similar data could converge upon similar features, even if they happen to be permuted.
 </p>
@@ -238,7 +247,7 @@ To run these experiments, they do multiple training runs with the same architect
 </p>
 
 
-<div id="orgdce1553" class="figure">
+<div id="org59b91be" class="figure">
 <p><img src="../images/from_clipboard/20240731_101104.png" alt="20240731_101104.png" />
 </p>
 </div>
@@ -248,7 +257,7 @@ To really show how the two are related, they learn a single "mapping" layer (a L
 </p>
 
 
-<div id="org7eea6cc" class="figure">
+<div id="orgcdb6db1" class="figure">
 <p><img src="../images/from_clipboard/20240731_102448.png" alt="20240731_102448.png" />
 </p>
 </div>
@@ -272,10 +281,9 @@ Also probably the biggest takeaway: these models are start from unique initializ
 </p>
 </div>
 </div>
-
-<div id="outline-container-org82f9a08" class="outline-2">
-<h2 id="org82f9a08">(SLERP) Sampling Generative Networks</h2>
-<div class="outline-text-2" id="text-org82f9a08">
+<div id="outline-container-org38688e3" class="outline-2">
+<h2 id="org38688e3">(SLERP) Sampling Generative Networks</h2>
+<div class="outline-text-2" id="text-org38688e3">
 <p>
 Paper can be found <a href="https://arxiv.org/pdf/1609.04468">here</a>. This paper is also an older one, from 2016.
 </p>
@@ -293,7 +301,7 @@ They propose using <i>SLERP</i>, which is a spherical linear interpolation along
 </p>
 
 
-<div id="org0b62272" class="figure">
+<div id="orga4f1ddc" class="figure">
 <p><img src="../images/from_clipboard/20240731_110449.png" alt="20240731_110449.png" />
 </p>
 </div>
@@ -303,10 +311,9 @@ Stable Diffusion finetunes are commonly SLERPed together like this &#x2013; ofte
 </p>
 </div>
 </div>
-
-<div id="outline-container-org7742a88" class="outline-2">
-<h2 id="org7742a88">Model Soups: averaging weights of multiple fine-tuned models improves accuracy without increasing inference time</h2>
-<div class="outline-text-2" id="text-org7742a88">
+<div id="outline-container-orgd5e4214" class="outline-2">
+<h2 id="orgd5e4214">Model Soups: averaging weights of multiple fine-tuned models improves accuracy without increasing inference time</h2>
+<div class="outline-text-2" id="text-orgd5e4214">
 <p>
 Paper can be found <a href="https://arxiv.org/abs/2203.05482">here</a>. This paper is from 2022, and was one of the early modern "model merging" works<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>.
 </p>
@@ -320,7 +327,7 @@ A lot of this relies on an <a href="https://arxiv.org/pdf/2008.11687">earlier re
 </p>
 
 
-<div id="org7f23969" class="figure">
+<div id="orgaf6d3cc" class="figure">
 <p><img src="../images/from_clipboard/20240731_131554.png" alt="20240731_131554.png" />
 </p>
 </div>
@@ -334,16 +341,15 @@ The related work has some interesting caveats: <a href="https://arxiv.org/pdf/19
 </p>
 </div>
 </div>
-
-<div id="outline-container-org8a3180c" class="outline-2">
-<h2 id="org8a3180c">Fusing Finetuned Models for Better Pretraining</h2>
-<div class="outline-text-2" id="text-org8a3180c">
+<div id="outline-container-orgefa1129" class="outline-2">
+<h2 id="orgefa1129">Fusing Finetuned Models for Better Pretraining</h2>
+<div class="outline-text-2" id="text-orgefa1129">
 <p>
 <a href="https://arxiv.org/pdf/2204.03044">Paper can be found here</a>. This is a 2022 model averaging paper which concludes that for adapting a model to a new task, it's often better to average together different finetunes compared to using pretrained models.
 </p>
 
 
-<div id="orgd569d17" class="figure">
+<div id="org9799178" class="figure">
 <p><img src="../images/from_clipboard/20240819_170843.png" alt="20240819_170843.png" />
 </p>
 </div>
@@ -361,10 +367,9 @@ There's also some notes in here about how weight decay empirically destroys the 
 </p>
 </div>
 </div>
-
-<div id="outline-container-org35bb97b" class="outline-2">
-<h2 id="org35bb97b">Merging Models with Fisher-Weighted Averaging</h2>
-<div class="outline-text-2" id="text-org35bb97b">
+<div id="outline-container-orge5047b2" class="outline-2">
+<h2 id="orge5047b2">Merging Models with Fisher-Weighted Averaging</h2>
+<div class="outline-text-2" id="text-orge5047b2">
 <p>
 The paper can be found <a href="https://arxiv.org/pdf/2111.09832">here</a>. 
 </p>
@@ -378,13 +383,13 @@ In contrast, they think a better way to approximate this posterior would yield a
 </p>
 
 
-<div id="org7eb903d" class="figure">
+<div id="orgf678fdf" class="figure">
 <p><img src="../images/from_clipboard/20240731_173548.png" alt="20240731_173548.png" />
 </p>
 </div>
 
 
-<div id="org81e8ae6" class="figure">
+<div id="org0d1f5ef" class="figure">
 <p><img src="../images/from_clipboard/20240731_173631.png" alt="20240731_173631.png" />
 </p>
 </div>
@@ -394,10 +399,9 @@ The difference here is pretty subtle, but it does seem a little bit better than 
 </p>
 </div>
 </div>
-
-<div id="outline-container-org79b97ec" class="outline-2">
-<h2 id="org79b97ec">Git Re-Basin</h2>
-<div class="outline-text-2" id="text-org79b97ec">
+<div id="outline-container-org1e8b1bf" class="outline-2">
+<h2 id="org1e8b1bf">Git Re-Basin</h2>
+<div class="outline-text-2" id="text-org1e8b1bf">
 <p>
 This paper can be found <a href="https://arxiv.org/abs/2209.04836">here</a>. 
 </p>
@@ -411,7 +415,7 @@ Basically, this paper tries to solve the permutation problem we saw in the conve
 </p>
 
 
-<div id="org2d247e4" class="figure">
+<div id="orgc25905f" class="figure">
 <p><img src="../images/from_clipboard/20240731_211709.png" alt="20240731_211709.png" />
 </p>
 </div>
@@ -427,7 +431,7 @@ They provide three methods for matching units between two different models.
 </ol>
 
 
-<div id="orgf897f12" class="figure">
+<div id="orgde39ca2" class="figure">
 <p><img src="../images/from_clipboard/20240731_215742.png" alt="20240731_215742.png" />
 </p>
 </div>
@@ -445,10 +449,9 @@ This isn't used that much in the papers which follow, which mostly deal with mer
 </p>
 </div>
 </div>
-
-<div id="outline-container-org70f8b25" class="outline-2">
-<h2 id="org70f8b25">Editing Models with Task Arithmetic</h2>
-<div class="outline-text-2" id="text-org70f8b25">
+<div id="outline-container-orgef60829" class="outline-2">
+<h2 id="orgef60829">Editing Models with Task Arithmetic</h2>
+<div class="outline-text-2" id="text-orgef60829">
 <p>
 Paper can be found <a href="https://arxiv.org/pdf/2212.04089">here</a>. 
 </p>
@@ -462,7 +465,7 @@ This is interesting because we can <i>remove</i> things by training models which
 </p>
 
 
-<div id="orga9fcd3d" class="figure">
+<div id="org25f849e" class="figure">
 <p><img src="../images/from_clipboard/20240731_145513.png" alt="20240731_145513.png" />
 </p>
 </div>
@@ -480,7 +483,6 @@ Overall this seems like a promising merging direction, and in general seems like
 </p>
 </div>
 </div>
-
 <div id="outline-container-orgfdaf940" class="outline-2">
 <h2 id="orgfdaf940">TIES-MERGING</h2>
 <div class="outline-text-2" id="text-orgfdaf940">
@@ -497,13 +499,13 @@ TIES-MERGING stands for&#x2026; TrIm, Elect Sign and MERGE<sup><a id="fnr.7" cla
 </p>
 
 
-<div id="org147c0f3" class="figure">
+<div id="org908c2f8" class="figure">
 <p><img src="../images/from_clipboard/20240731_154456.png" alt="20240731_154456.png" />
 </p>
 </div>
 
 
-<div id="orgf687ca5" class="figure">
+<div id="org411258f" class="figure">
 <p><img src="../images/from_clipboard/20240731_155253.png" alt="20240731_155253.png" />
 </p>
 </div>
@@ -517,7 +519,7 @@ Why does this work? Don't we need the little updates too, given that the gradien
 </p>
 
 
-<div id="orga84bf36" class="figure">
+<div id="orgfb81603" class="figure">
 <p><img src="../images/from_clipboard/20240731_161638.png" alt="20240731_161638.png" />
 </p>
 </div>
@@ -531,10 +533,9 @@ For sign disagreements, they pick the one with the highest total magnitude acros
 </p>
 </div>
 </div>
-
-<div id="outline-container-orga3478e5" class="outline-2">
-<h2 id="orga3478e5">(DARE) Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch</h2>
-<div class="outline-text-2" id="text-orga3478e5">
+<div id="outline-container-org0cccf7c" class="outline-2">
+<h2 id="org0cccf7c">(DARE) Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch</h2>
+<div class="outline-text-2" id="text-org0cccf7c">
 <p>
 This paper can be found <a href="https://arxiv.org/pdf/2311.03099">here</a>. The framing of this paper is EXTREMELY funny. Language models are Super Mario! You know, because they absorb, uh, items.
 </p>
@@ -544,7 +545,7 @@ DARE is another method which zeros out small differences, it stands for Drop And
 </p>
 
 
-<div id="orgf8d7f6f" class="figure">
+<div id="org894e9cc" class="figure">
 <p><img src="../images/from_clipboard/20240731_165605.png" alt="20240731_165605.png" />
 </p>
 </div>
@@ -554,7 +555,7 @@ This has the most unnavigable figure I've ever seen in a paper, ever. Check this
 </p>
 
 
-<div id="orgdaac99f" class="figure">
+<div id="orgb1dc1cd" class="figure">
 <p><img src="../images/from_clipboard/20240731_165912.png" alt="20240731_165912.png" />
 </p>
 </div>
@@ -572,10 +573,9 @@ This is definitely the most hacky of the papers so far &#x2013; there's even a w
 </p>
 </div>
 </div>
-
-<div id="outline-container-org2f3723e" class="outline-2">
-<h2 id="org2f3723e">Model Breadcrumbs: Scaling Multi-Task Model Merging with Sparse Masks</h2>
-<div class="outline-text-2" id="text-org2f3723e">
+<div id="outline-container-orgeb869cf" class="outline-2">
+<h2 id="orgeb869cf">Model Breadcrumbs: Scaling Multi-Task Model Merging with Sparse Masks</h2>
+<div class="outline-text-2" id="text-orgeb869cf">
 <p>
 This paper can be found <a href="https://arxiv.org/pdf/2312.06795">here</a>.
 </p>
@@ -585,7 +585,7 @@ This paper might help us answer the question of why random drop in DARE seems to
 </p>
 
 
-<div id="org033ca75" class="figure">
+<div id="org8616cd2" class="figure">
 <p><img src="../images/from_clipboard/20240731_231314.png" alt="20240731_231314.png" />
 </p>
 </div>
@@ -595,17 +595,15 @@ There's not much to say past that &#x2013; it's DARES with top masking too.
 </p>
 
 
-<div id="org1e21eb0" class="figure">
+<div id="org967e0ef" class="figure">
 <p><img src="../images/from_clipboard/20240731_232108.png" alt="20240731_232108.png" />
 </p>
 </div>
 </div>
 </div>
-
-
-<div id="outline-container-orgdbddd1a" class="outline-2">
-<h2 id="orgdbddd1a">Model Stock: All we need is just a few fine-tuned models</h2>
-<div class="outline-text-2" id="text-orgdbddd1a">
+<div id="outline-container-orga93cc87" class="outline-2">
+<h2 id="orga93cc87">Model Stock: All we need is just a few fine-tuned models</h2>
+<div class="outline-text-2" id="text-orga93cc87">
 <p>
 This paper can be found <a href="https://arxiv.org/pdf/2403.19522">here</a>.
 </p>
@@ -623,14 +621,13 @@ Using this, you can do some <i>math</i>. And this math lets you infer the locati
 </p>
 
 <p>
-<a id="org0969cba"></a> 
+<a id="orga0dce4f"></a> 
 </p>
 </div>
 </div>
-
-<div id="outline-container-org3450da0" class="outline-2">
-<h2 id="org3450da0">DELLA-Merging: Reducing Interference in Model Merging through Magnitude-Based Sampling</h2>
-<div class="outline-text-2" id="text-org3450da0">
+<div id="outline-container-org9782951" class="outline-2">
+<h2 id="org9782951">DELLA-Merging: Reducing Interference in Model Merging through Magnitude-Based Sampling</h2>
+<div class="outline-text-2" id="text-org9782951">
 <p>
 This paper can be found <a href="https://arxiv.org/pdf/2406.11617">here</a>.
 </p>
@@ -640,7 +637,7 @@ If you are like me, and you read the DARE paper and thought "random drop seems l
 </p>
 
 
-<div id="org52d0f34" class="figure">
+<div id="org2903d65" class="figure">
 <p><img src="../images/from_clipboard/20240731_233451.png" alt="20240731_233451.png" />
 </p>
 </div>
@@ -650,10 +647,9 @@ Otherwise this is functionally identical to DARE. They generalize the rescale fa
 </p>
 </div>
 </div>
-
-<div id="outline-container-org3120d32" class="outline-2">
-<h2 id="org3120d32">Evolutionary Optimization of Model Merging Recipes</h2>
-<div class="outline-text-2" id="text-org3120d32">
+<div id="outline-container-org69dcde8" class="outline-2">
+<h2 id="org69dcde8">Evolutionary Optimization of Model Merging Recipes</h2>
+<div class="outline-text-2" id="text-org69dcde8">
 <p>
 This paper can be found <a href="https://arxiv.org/pdf/2403.13187">here</a>. Here's their <a href="https://github.com/SakanaAI/evolutionary-model-merge">repo</a> which doesn't have the actual code for the method&#x2026;
 </p>
@@ -682,28 +678,25 @@ There are two ways models can be evolved:
 That is: we can modify the weights, or we can modify the shape of the model, and we have several models' worth of weights and layers to work with.
 </p>
 </div>
-
-<div id="outline-container-orge9c94b7" class="outline-3">
-<h3 id="orge9c94b7">Merging Parameters</h3>
-<div class="outline-text-3" id="text-orge9c94b7">
+<div id="outline-container-org2da6e47" class="outline-3">
+<h3 id="org2da6e47">Merging Parameters</h3>
+<div class="outline-text-3" id="text-org2da6e47">
 <p>
 Merging parameters between layers is done with DARE + TIES-Merging, which is not too surprising. The configurations are optimized using "an evolutionary algorithm, such as <a href="https://en.wikipedia.org/wiki/CMA-ES">CMA-ES</a>" which I suppose means they're using some custom thing which they don't want to release.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org0f067bb" class="outline-3">
-<h3 id="org0f067bb">Merging Data Flow</h3>
-<div class="outline-text-3" id="text-org0f067bb">
+<div id="outline-container-org1108d34" class="outline-3">
+<h3 id="org1108d34">Merging Data Flow</h3>
+<div class="outline-text-3" id="text-org1108d34">
 <p>
 Basically this is the frankenmerging component, where you can add or remove layers from various models, verbatim, and stitch them together. This part is pretty similar in spirit to earlier work by David Ha <a href="https://arxiv.org/pdf/1906.04358">Weight Agnostic Neural Networks</a> where this is performed at the neuron-to-neuron level. Instead of connecting together neurons and activation functions, this step just adds one of the available transformer layers. It's likely this also uses something like CMA-ES (WANNs used NEAT, but mentions CMA-ES as a footnote being potentially better)
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgb7b6d62" class="outline-3">
-<h3 id="orgb7b6d62">Thoughts</h3>
-<div class="outline-text-3" id="text-orgb7b6d62">
+<div id="outline-container-org2894f3f" class="outline-3">
+<h3 id="org2894f3f">Thoughts</h3>
+<div class="outline-text-3" id="text-org2894f3f">
 <p>
 Like other methods for model merging, we don't have to do any training after this, the models are just usable immediately. Merging data flow is really weird &#x2013; we can merge any layer from any model, and often we seem to want to just combine random pieces of different models together. I don't think conceptually I understand how this doesn't completely destroy the output.
 </p>
@@ -714,10 +707,9 @@ Maybe there's some funny space here for some sort of evolved <a href="https://ar
 </div>
 </div>
 </div>
-
-<div id="outline-container-org0d438b8" class="outline-2">
-<h2 id="org0d438b8">Frankenmerging</h2>
-<div class="outline-text-2" id="text-org0d438b8">
+<div id="outline-container-orge04cbb9" class="outline-2">
+<h2 id="orge04cbb9">Frankenmerging</h2>
+<div class="outline-text-2" id="text-orge04cbb9">
 <p>
 Frankenmerging is really understudied, especially relative to how often it gets talked about in the community. There are a bunch of notable frankenmerges, like <a href="https://huggingface.co/alpindale/goliath-120b">Goliath-120b</a>, but there's not much published work which points us towards why this doesn't make the network explode. There's no citation in the Evolutionary Optimization paper with respect tof Frankenmerging, and it is not included at all in the <a href="https://arxiv.org/pdf/2309.15698">survey paper</a> I read on the topic, which only examines mode connectivity, alignment, weight averaging, and ensemble learning.
 </p>
@@ -726,22 +718,21 @@ Frankenmerging is really understudied, especially relative to how often it gets 
 This section is slightly different from the section above in that it's going to be less "papers about model (franken) merging" and more "papers which help understand where and why frankenmerging might be useful".
 </p>
 </div>
-
-<div id="outline-container-org6f9cd95" class="outline-3">
-<h3 id="org6f9cd95">Understanding Robustness of Transformers for Image Classification</h3>
-<div class="outline-text-3" id="text-org6f9cd95">
+<div id="outline-container-orged35b77" class="outline-3">
+<h3 id="orged35b77">Understanding Robustness of Transformers for Image Classification</h3>
+<div class="outline-text-3" id="text-orged35b77">
 <p>
 A hint for why frankenmerging works can be found in <a href="https://arxiv.org/pdf/2103.14586">this paper</a> from 2021, which looked at imagenet classification performance in ViT. Specifically, section 4 <i>Robustness to Model Perturbations</i> has two results which are of interest to us. First, that the hidden features of each transformer block, ignoring the first (few) layers, are generally highly correlated. Second, that removing transformer blocks, self-attention layers, or MLPs will only degrade performance a relatively small amount, rather than destroying performance.
 </p>
 
 
-<div id="orgebe4bb4" class="figure">
+<div id="orgcd753c9" class="figure">
 <p><img src="../images/from_clipboard/20240820_154435.png" alt="20240820_154435.png" />
 </p>
 </div>
 
 
-<div id="org459691f" class="figure">
+<div id="org2a70f5b" class="figure">
 <p><img src="../images/from_clipboard/20240820_154452.png" alt="20240820_154452.png" />
 </p>
 </div>
@@ -755,16 +746,15 @@ One point of interest here: this paper finds that more training data leads to in
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgad6fbef" class="outline-3">
-<h3 id="orgad6fbef">Transformer Layers as Painters</h3>
-<div class="outline-text-3" id="text-orgad6fbef">
+<div id="outline-container-org3a79469" class="outline-3">
+<h3 id="org3a79469">Transformer Layers as Painters</h3>
+<div class="outline-text-3" id="text-org3a79469">
 <p>
 This paper can be found <a href="https://arxiv.org/pdf/2407.09298">here</a>. This is another Sakana AI work, and is likely the most directly related to frankenmerging: they show that intermediate transformer layers (i.e. not the first and last layers) are relatively uniform, and are often robust to being skipped, repeated, or reordered. They use the analogy of "an assembly line of painters" where each layer is responsible for painting something upon the canvas, and reordering the painters will often not catastrophically destroy the final image.
 </p>
 
 
-<div id="org8d683db" class="figure">
+<div id="org65e21b9" class="figure">
 <p><img src="../images/from_clipboard/20240820_132805.png" alt="20240820_132805.png" />
 </p>
 </div>
@@ -778,7 +768,7 @@ They show the cosine similarity between hidden states and their results are cert
 </p>
 
 
-<div id="org282f107" class="figure">
+<div id="org7bc8a8a" class="figure">
 <p><img src="../images/from_clipboard/20240820_133452.png" alt="20240820_133452.png" />
 </p>
 </div>
@@ -807,22 +797,21 @@ How do these properties help us understand frankenmerging? Well since they are r
 </p>
 
 
-<div id="orgfe7b884" class="figure">
+<div id="orgc91f440" class="figure">
 <p><img src="../images/from_clipboard/20240820_155907.png" alt="20240820_155907.png" />
 </p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgf613f37" class="outline-3">
-<h3 id="orgf613f37">SOLAR 10.7B: Scaling Large Language Models with Simple yet Effective Depth Up-Scaling</h3>
-<div class="outline-text-3" id="text-orgf613f37">
+<div id="outline-container-org92b91f2" class="outline-3">
+<h3 id="org92b91f2">SOLAR 10.7B: Scaling Large Language Models with Simple yet Effective Depth Up-Scaling</h3>
+<div class="outline-text-3" id="text-org92b91f2">
 <p>
 Adjacent to frankenmerging is this paper on <i>Depth Upscaling</i> (DUS). This paper essentially adapts frankenmerging as the starting point for continued pretraining of a larger language model starting from a pair of smaller language models: creating a base for a bigger model by stacking layers from two models offset from one another.
 </p>
 
 
-<div id="org6f22af2" class="figure">
+<div id="org5d49759" class="figure">
 <p><img src="../images/from_clipboard/20240820_145254.png" alt="20240820_145254.png" />
 </p>
 </div>
@@ -836,7 +825,7 @@ There is actually a connection here to <a href="https://arxiv.org/pdf/1905.11946
 </p>
 
 
-<div id="orge501561" class="figure">
+<div id="orgcc8687e" class="figure">
 <p><img src="../images/from_clipboard/20240820_150549.png" alt="20240820_150549.png" />
 </p>
 </div>
@@ -847,18 +836,16 @@ This ends up working quite well &#x2013; this paper can be thought of as an inte
 </div>
 </div>
 </div>
-
-<div id="outline-container-org85127e9" class="outline-2">
-<h2 id="org85127e9">Appendix: Other Papers</h2>
-<div class="outline-text-2" id="text-org85127e9">
+<div id="outline-container-orgdf31469" class="outline-2">
+<h2 id="orgdf31469">Appendix: Other Papers</h2>
+<div class="outline-text-2" id="text-orgdf31469">
 <p>
 By default, papers will be put in here as I read them, and they will remain here if they seem unimportant enough to graduate above to the level of "paper necessary to understand the model merging space".
 </p>
 </div>
-
-<div id="outline-container-org30c3264" class="outline-3">
-<h3 id="org30c3264">Dataless Knowledge Fusion by Merging Weights of Language Models</h3>
-<div class="outline-text-3" id="text-org30c3264">
+<div id="outline-container-orgb063f0e" class="outline-3">
+<h3 id="orgb063f0e">Dataless Knowledge Fusion by Merging Weights of Language Models</h3>
+<div class="outline-text-3" id="text-orgb063f0e">
 <p>
 <a href="https://openreview.net/pdf?id=FCnohuR6AnM">Paper can be found here</a>. This paper from 2023 introduced <i>RegMean</i> (Regression Mean), sort of a combination of fisher merging and simple linear merging, which minimizes l2 distance to individual model predictions on the training sets.
 </p>
@@ -876,10 +863,9 @@ RegMean seems to perform quite well, but as mentioned requires you to run the mo
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgc0a56fa" class="outline-3">
-<h3 id="orgc0a56fa">Reading List</h3>
-<div class="outline-text-3" id="text-orgc0a56fa">
+<div id="outline-container-org8660258" class="outline-3">
+<h3 id="org8660258">Reading List</h3>
+<div class="outline-text-3" id="text-org8660258">
 <p>
 Here's papers yet to be read.
 </p>
@@ -924,7 +910,7 @@ They really lean into this "soup" analogy
 </p>
 
 
-<div id="orgd450c64" class="figure">
+<div id="org5562a76" class="figure">
 <p><img src="../images/from_clipboard/20240731_112528.png" alt="20240731_112528.png" />
 </p>
 </div></div></div>

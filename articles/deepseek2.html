@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-22 Sat 16:16 -->
+<!-- 2026-08-22 Sat 16:23 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Deepseek Continued</title>
@@ -73,27 +73,38 @@ $(function() {
 
 <link rel="stylesheet" type="text/css" href="https://planetbanatt.net/css/default_20240614.css" />
 <link rel="shortcut icon" type="image/jpg" href="https://planetbanatt.net/favicon.ico" />
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
-
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "AMS"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
-});
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -119,6 +130,7 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
             <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
             <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
@@ -132,111 +144,110 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org0099209">DeepSeek Overview Part 2</a>
+<li><a href="#orgf912a34">DeepSeek Overview Part 2</a>
 <ul>
-<li><a href="#org05c392d">Intro</a></li>
-<li><a href="#org443dbc9">Works With No Technical Report</a>
+<li><a href="#org3d95296">Intro</a></li>
+<li><a href="#org6be64f1">Works With No Technical Report</a>
 <ul>
-<li><a href="#org006fae5">DeepSeek-V2.5</a></li>
-<li><a href="#org977c284">DeepSeek-R1-lite</a></li>
-<li><a href="#orgee38092">DeepSeek-V3.1 Line</a></li>
+<li><a href="#orgc8fd933">DeepSeek-V2.5</a></li>
+<li><a href="#orgf601f9c">DeepSeek-R1-lite</a></li>
+<li><a href="#org6926251">DeepSeek-V3.1 Line</a></li>
 </ul>
 </li>
-<li><a href="#org3827c12">Expert-Specialized Fine-Tuning</a>
+<li><a href="#org2dff337">Expert-Specialized Fine-Tuning</a>
 <ul>
-<li><a href="#org5f43325">LoRA</a></li>
+<li><a href="#org0a03cbd">LoRA</a></li>
 <li><a href="#org60d06b6">ESFT</a></li>
 </ul>
 </li>
-<li><a href="#orgdef3f71">DeepSeek-Prover-V1.5</a>
+<li><a href="#orgef54de3">DeepSeek-Prover-V1.5</a>
 <ul>
-<li><a href="#org87e3b6b">Aside: Monte-Carlo Tree Search</a></li>
+<li><a href="#org8f1ebfb">Aside: Monte-Carlo Tree Search</a></li>
 <li><a href="#orgc2f9951">SFT</a></li>
-<li><a href="#orge01bb6c">Reinforcement Learning from Proof Assistant Feedback</a></li>
-<li><a href="#org9dff850">Exploration-oriented MCTS</a>
+<li><a href="#orgca9ee90">Reinforcement Learning from Proof Assistant Feedback</a></li>
+<li><a href="#org01f173d">Exploration-oriented MCTS</a>
 <ul>
-<li><a href="#orgebbd270">Applying MCTS</a></li>
-<li><a href="#org4000868">Intrinsic Rewards and Parallelization</a></li>
+<li><a href="#org948d210">Applying MCTS</a></li>
+<li><a href="#org0960bcd">Intrinsic Rewards and Parallelization</a></li>
 </ul>
 </li>
-<li><a href="#org3bbbc57">Takeaways</a></li>
+<li><a href="#orgd8b0441">Takeaways</a></li>
 </ul>
 </li>
-<li><a href="#orgb2693e9">Auxiliary-Loss-Free Load Balancing Strategy for Mixture-of-Experts</a></li>
-<li><a href="#orgc422e6a">Janus: Decoupling Visual Encoding for Unified Multimodal Understanding and Generation</a>
+<li><a href="#org1470c46">Auxiliary-Loss-Free Load Balancing Strategy for Mixture-of-Experts</a></li>
+<li><a href="#org3bdf5d6">Janus: Decoupling Visual Encoding for Unified Multimodal Understanding and Generation</a>
 <ul>
-<li><a href="#orgac6b14d">Chameleon</a></li>
-<li><a href="#org31edcfc">LlamaGen</a></li>
-<li><a href="#org008d79e">Janus</a></li>
+<li><a href="#org49abec7">Chameleon</a></li>
+<li><a href="#orgb53fb2b">LlamaGen</a></li>
+<li><a href="#org035d50e">Janus</a></li>
 </ul>
 </li>
-<li><a href="#org624facc">JanusFlow: Harmonizing Autoregression and Rectified Flow for Unified Multimodal Understanding and Generation</a>
+<li><a href="#org1d8064f">JanusFlow: Harmonizing Autoregression and Rectified Flow for Unified Multimodal Understanding and Generation</a>
 <ul>
-<li><a href="#org29c0ddd">Rectified Flow</a></li>
-<li><a href="#org75827e9">Representation Alignment for Generation</a></li>
-<li><a href="#orgc0c5c26">ConvNeXt</a></li>
-<li><a href="#org1b09666">JanusFlow</a></li>
+<li><a href="#org1dd9b6e">Rectified Flow</a></li>
+<li><a href="#org3c22d5d">Representation Alignment for Generation</a></li>
+<li><a href="#org74fc7a0">ConvNeXt</a></li>
+<li><a href="#orgfea1080">JanusFlow</a></li>
 </ul>
 </li>
-<li><a href="#org4e0b6b1">DeepSeek-VL2</a>
+<li><a href="#org3d963a8">DeepSeek-VL2</a>
 <ul>
-<li><a href="#orgc5daf88">InternVL</a></li>
-<li><a href="#org5bacadb">Architecture and Training</a></li>
-<li><a href="#orga2dcbc5">New Capabilities</a></li>
-<li><a href="#org4aea3e4">Preregistered Future Work</a></li>
+<li><a href="#orgbc018b2">InternVL</a></li>
+<li><a href="#org899a36f">Architecture and Training</a></li>
+<li><a href="#org1f006d5">New Capabilities</a></li>
+<li><a href="#orgf4b560e">Preregistered Future Work</a></li>
 </ul>
 </li>
-<li><a href="#org38bb93c">DeepSeek-V3</a>
+<li><a href="#orgd0a8793">DeepSeek-V3</a>
 <ul>
-<li><a href="#org99024e7">Aside A: Speculative Decoding</a></li>
-<li><a href="#orgaf9fc7e">Aside B: Multi-Token Prediction</a></li>
-<li><a href="#org49d3009">Something old, something new, something borrowed, something blue</a></li>
-<li><a href="#org4a6e61d">Notes on Architecture</a>
+<li><a href="#org80342bb">Aside A: Speculative Decoding</a></li>
+<li><a href="#org4825696">Aside B: Multi-Token Prediction</a></li>
+<li><a href="#org39a7afb">Something old, something new, something borrowed, something blue</a></li>
+<li><a href="#orgb98269c">Notes on Architecture</a>
 <ul>
-<li><a href="#orgd15d377">Sequence-Wise Auxiliary Loss</a></li>
-<li><a href="#org2b6e1de">Token-Dropping</a></li>
-<li><a href="#orgc9bfa6c">First Three Layers</a></li>
+<li><a href="#orge19b21d">Sequence-Wise Auxiliary Loss</a></li>
+<li><a href="#org3ef39ca">Token-Dropping</a></li>
+<li><a href="#orge36edec">First Three Layers</a></li>
 </ul>
 </li>
-<li><a href="#orgb8ae80c">DeepSeek-V3 Multi-Token Prediction</a></li>
-<li><a href="#org055b0ca">Infrastructure</a>
+<li><a href="#orgd40570c">DeepSeek-V3 Multi-Token Prediction</a></li>
+<li><a href="#org6b5663a">Infrastructure</a>
 <ul>
-<li><a href="#org5e94261">DualPipe</a></li>
-<li><a href="#orgc1c6da1">FP8 Training</a></li>
-<li><a href="#org22d7627">Suggestions on Hardware Design</a></li>
+<li><a href="#orgf1e6985">DualPipe</a></li>
+<li><a href="#org9730153">FP8 Training</a></li>
+<li><a href="#orgd152515">Suggestions on Hardware Design</a></li>
 </ul>
 </li>
-<li><a href="#org463a564">Training</a></li>
-<li><a href="#org4a1fcf1">Post-Training</a></li>
-<li><a href="#org3cce19d">Benchmarks</a></li>
-<li><a href="#org210904c">Discussion</a></li>
-<li><a href="#orge5321d1">Future Directions</a></li>
+<li><a href="#org8566bf9">Training</a></li>
+<li><a href="#org91be8f1">Post-Training</a></li>
+<li><a href="#orga863c29">Benchmarks</a></li>
+<li><a href="#orgbb4db94">Discussion</a></li>
+<li><a href="#orgb9c16d2">Future Directions</a></li>
 </ul>
 </li>
-<li><a href="#org9cf2026">DeepSeek R1</a>
+<li><a href="#orgfc98c24">DeepSeek R1</a>
 <ul>
-<li><a href="#org126a4dc">Reinforcement Learning with Verifiable Rewards (RLVR)</a></li>
-<li><a href="#orgedc0c28">Making Internal CoT Readable</a></li>
-<li><a href="#org5e2754a">Distillation to Smaller Models</a></li>
-<li><a href="#org1fa9c69">Unsuccessful Attempts</a></li>
-<li><a href="#org7a75244">Additional Thoughts on Reasoners</a></li>
+<li><a href="#org3c73909">Reinforcement Learning with Verifiable Rewards (RLVR)</a></li>
+<li><a href="#orgbd23e73">Making Internal CoT Readable</a></li>
+<li><a href="#orga02b281">Distillation to Smaller Models</a></li>
+<li><a href="#org39f4234">Unsuccessful Attempts</a></li>
+<li><a href="#org63b0e9a">Additional Thoughts on Reasoners</a></li>
 </ul>
 </li>
-<li><a href="#orgf91f49b">Conclusion</a></li>
-<li><a href="#org943fb71"><span class="todo TODO">TODO</span> List</a></li>
+<li><a href="#org06252e4">Conclusion</a></li>
+<li><a href="#org0d42a1c"><span class="todo TODO">TODO</span> List</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org0099209" class="outline-1">
-<h1 id="org0099209">DeepSeek Overview Part 2</h1>
-<div class="outline-text-1" id="text-org0099209">
+<div id="outline-container-orgf912a34" class="outline-1">
+<h1 id="orgf912a34">DeepSeek Overview Part 2</h1>
+<div class="outline-text-1" id="text-orgf912a34">
 </div>
-<div id="outline-container-org05c392d" class="outline-2">
-<h2 id="org05c392d">Intro</h2>
-<div class="outline-text-2" id="text-org05c392d">
+<div id="outline-container-org3d95296" class="outline-2">
+<h2 id="org3d95296">Intro</h2>
+<div class="outline-text-2" id="text-org3d95296">
 <p>
 Perhaps unsurprisingly, DeepSeek has continued to publish papers since <a href="https://planetbanatt.net/articles/deepseek.html">my previous overview</a> on their published works. That overview covered the path from DeepSeek-LLM to DeepSeek-V2-Coder, and rather than make it even longer<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>, I decided to spin off a new literature review for their journey from V2-Coder to R1.
 </p>
@@ -265,18 +276,16 @@ As a slight spoiler, we will tackle all of these in some capacity in the papers 
 </p>
 </div>
 </div>
-
-<div id="outline-container-org443dbc9" class="outline-2">
-<h2 id="org443dbc9">Works With No Technical Report</h2>
-<div class="outline-text-2" id="text-org443dbc9">
+<div id="outline-container-org6be64f1" class="outline-2">
+<h2 id="org6be64f1">Works With No Technical Report</h2>
+<div class="outline-text-2" id="text-org6be64f1">
 <p>
 Currently there are a number of things that DeepSeek has publicly shown, which have no technical reports attached to them. It's sort of important to lead with this: some of these things are used and referenced in the papers that follow despite being sort of loosely floating products, and the context behind them is necessary to understand.
 </p>
 </div>
-
-<div id="outline-container-org006fae5" class="outline-3">
-<h3 id="org006fae5">DeepSeek-V2.5</h3>
-<div class="outline-text-3" id="text-org006fae5">
+<div id="outline-container-orgc8fd933" class="outline-3">
+<h3 id="orgc8fd933">DeepSeek-V2.5</h3>
+<div class="outline-text-3" id="text-orgc8fd933">
 <p>
 DeepSeek released this very interesting <a href="https://x.com/deepseek_ai/status/1832026579180163260">V2.5</a> model on September 6th, 2024. This model seemed to combine the two versions (deepseek-chat and deepseek-coder) into a single endpoint, which was roughly the same level as the best of each model on a given task.
 </p>
@@ -286,29 +295,26 @@ This seemed to be achieved with some sort of model merging technique (a separate
 </p>
 </div>
 </div>
-
-<div id="outline-container-org977c284" class="outline-3">
-<h3 id="org977c284">DeepSeek-R1-lite</h3>
-<div class="outline-text-3" id="text-org977c284">
+<div id="outline-container-orgf601f9c" class="outline-3">
+<h3 id="orgf601f9c">DeepSeek-R1-lite</h3>
+<div class="outline-text-3" id="text-orgf601f9c">
 <p>
 DeepSeek released the lite preview of an o1-preview-like model with fully visible reasoning chains <a href="https://x.com/deepseek_ai/status/1859200141355536422">here</a>, on November 20th, 2024. This was a very interesting release: they reproduced OpenAI's AIME test-time scaling results, and the reasoning chains are a real joy to look at. This model was never released, but presumably was trained the same way as their R1 Technical report.
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgee38092" class="outline-3">
-<h3 id="orgee38092">DeepSeek-V3.1 Line</h3>
-<div class="outline-text-3" id="text-orgee38092">
+<div id="outline-container-org6926251" class="outline-3">
+<h3 id="org6926251">DeepSeek-V3.1 Line</h3>
+<div class="outline-text-3" id="text-org6926251">
 <p>
 DeepSeek has since in 2025 released some updates to DeepSeek-V3 which turn it into a hybrid/agentic model which is more specialized for operating inside harnesses like <a href="https://claude.com/product/claude-code">Claude Code</a>. There is no technical report for this change at the time of writing.
 </p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org3827c12" class="outline-2">
-<h2 id="org3827c12">Expert-Specialized Fine-Tuning</h2>
-<div class="outline-text-2" id="text-org3827c12">
+<div id="outline-container-org2dff337" class="outline-2">
+<h2 id="org2dff337">Expert-Specialized Fine-Tuning</h2>
+<div class="outline-text-2" id="text-org2dff337">
 <p>
 This paper can be found <a href="https://arxiv.org/abs/2407.01906">here</a>. It came out on July 2nd, 2024. Their twitter thread can be found <a href="https://x.com/deepseek_ai/status/1809086412991705550">here</a>. A minor note is that the lead author of this paper, <a href="https://x.com/wzihanw">Zihan Wang</a>, will regularly post translated interviews <a href="https://x.com/wzihanw/status/1861263524242042923">from Liang Wenfeng</a>, the <a href="https://x.com/wzihanw/status/1861671211261936038">founder of DeepSeek</a> &#x2013; these are also very insightful but slightly outside the scope of these writeups<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>.
 </p>
@@ -317,10 +323,9 @@ This paper can be found <a href="https://arxiv.org/abs/2407.01906">here</a>. It 
 This is the first of DeepSeek's post-V2-coder improvements to MoE training. An important concept for fine-tuning large language models is Parameter Efficient Fine-Tuning, or PEFT. A good rule of thumb is that to train a language model, you need 4 times the memory compared to what you need to run it. This is because you have your model's parameters (1x), optimizer states for each parameter (<a href="https://arxiv.org/pdf/1412.6980">Adam</a> has two values, \(\alpha\) and \(\beta\), so 2x) and gradients for each parameter (1x). If you don't have a huge cluster, this really sucks, so a lot of time and energy has been put into figuring out how to finetune these models while using less computational resources<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>.
 </p>
 </div>
-
-<div id="outline-container-org5f43325" class="outline-3">
-<h3 id="org5f43325">LoRA</h3>
-<div class="outline-text-3" id="text-org5f43325">
+<div id="outline-container-org0a03cbd" class="outline-3">
+<h3 id="org0a03cbd">LoRA</h3>
+<div class="outline-text-3" id="text-org0a03cbd">
 <p>
 If you've happened to read my post on <a href="https://planetbanatt.net/articles/mla.html">MLA</a> (or recall it from DeepSeek-V2), you might be familiar with <i>Rank Factorization</i>. This is the idea in linear algebra where you can turn one matrix \((a,b)\) into two matrices \((a, r), (r, b)\). A matrix of any shape can be decomposed into two matrices this way, but the lower the value of r the smaller the space of possible matrices that can be perfectly reconstructed.
 </p>
@@ -337,7 +342,7 @@ We've already seen in DeepSeek-V2 that this idea can be used really effectively 
 </p>
 
 
-<div id="orge558741" class="figure">
+<div id="org871b7a5" class="figure">
 <p><img src="../images/from_clipboard/20241227_202228.png" alt="20241227_202228.png" />
 </p>
 </div>
@@ -355,12 +360,11 @@ Relatedly, it feels sort of antithetical to the way MoE works in the first place
 </p>
 </div>
 </div>
-
 <div id="outline-container-org60d06b6" class="outline-3">
 <h3 id="org60d06b6">ESFT</h3>
 <div class="outline-text-3" id="text-org60d06b6">
 
-<div id="org3b55ca9" class="figure">
+<div id="orgdacae2e" class="figure">
 <p><img src="../images/from_clipboard/20241227_203350.png" alt="20241227_203350.png" />
 </p>
 </div>
@@ -380,7 +384,7 @@ This all fundamentally depends on the insight that, in this highly specialized r
 </p>
 
 
-<div id="org1c1a90b" class="figure">
+<div id="orgc6d730c" class="figure">
 <p><img src="../images/from_clipboard/20241227_204437.png" alt="20241227_204437.png" />
 </p>
 </div>
@@ -390,7 +394,7 @@ The method they use isn't too different from what you'd expect, given the result
 </p>
 
 
-<div id="org217266d" class="figure">
+<div id="org441f7bd" class="figure">
 <p><img src="../images/from_clipboard/20241227_205635.png" alt="20241227_205635.png" />
 </p>
 </div>
@@ -404,17 +408,16 @@ To me this just makes perfect sense: for unrelated tasks, it's possible that the
 </p>
 
 
-<div id="org1154312" class="figure">
+<div id="org76a6312" class="figure">
 <p><img src="../images/from_clipboard/20241227_210629.png" alt="20241227_210629.png" />
 </p>
 </div>
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgdef3f71" class="outline-2">
-<h2 id="orgdef3f71">DeepSeek-Prover-V1.5</h2>
-<div class="outline-text-2" id="text-orgdef3f71">
+<div id="outline-container-orgef54de3" class="outline-2">
+<h2 id="orgef54de3">DeepSeek-Prover-V1.5</h2>
+<div class="outline-text-2" id="text-orgef54de3">
 <p>
 This paper can be found <a href="https://arxiv.org/abs/2408.08152">here</a>. It came out on August 15th, 2024. Their twitter thread can be found <a href="https://x.com/deepseek_ai/status/1824291724887208040">here</a>.
 </p>
@@ -423,10 +426,9 @@ This paper can be found <a href="https://arxiv.org/abs/2408.08152">here</a>. It 
 You don't need to be too plugged into theorem proving literature to see the value here: it's a language model that uses Monte-Carlo Tree Search. I'm not super informed on the nuances of computer theorem proving, so my overview of this paper will again be more focused on this paper's implications for language modeling in general.
 </p>
 </div>
-
-<div id="outline-container-org87e3b6b" class="outline-3">
-<h3 id="org87e3b6b">Aside: Monte-Carlo Tree Search</h3>
-<div class="outline-text-3" id="text-org87e3b6b">
+<div id="outline-container-org8f1ebfb" class="outline-3">
+<h3 id="org8f1ebfb">Aside: Monte-Carlo Tree Search</h3>
+<div class="outline-text-3" id="text-org8f1ebfb">
 <p>
 <a href="https://en.wikipedia.org/wiki/Monte_Carlo_tree_search">Monte Carlo Tree Search</a>, or MCTS, is a search algorithm most commonly associated with board game solvers. <a href="https://www.davidsilver.uk/wp-content/uploads/2020/03/unformatted_final_mastering_go.pdf">AlphaGo</a> made heavy use of MCTS when it <a href="https://en.wikipedia.org/wiki/AlphaGo_versus_Lee_Sedol">defeated Lee Sedol</a> in 2016 (as did <a href="https://arxiv.org/pdf/1712.01815">AlphaZero</a> later on). The fundamental idea is searching a very large space of many possible moves by leveraging your ability to A: estimate the value of positions, and B: simulate a game from a given position ("rollout").
 </p>
@@ -436,7 +438,7 @@ MCTS works in four steps. First, selection: MCTS will traverse the tree by sampl
 </p>
 
 
-<div id="org7f326b6" class="figure">
+<div id="org6ce32d1" class="figure">
 <p><img src="../images/from_clipboard/20241228_213907.png" alt="20241228_213907.png" />
 </p>
 </div>
@@ -446,7 +448,6 @@ This method of heuristic random search inside the space of possible actions is i
 </p>
 </div>
 </div>
-
 <div id="outline-container-orgc2f9951" class="outline-3">
 <h3 id="orgc2f9951">SFT</h3>
 <div class="outline-text-3" id="text-orgc2f9951">
@@ -467,10 +468,9 @@ They trained their 7b parameter model on 9 billion tokens like this, using the s
 </p>
 </div>
 </div>
-
-<div id="outline-container-orge01bb6c" class="outline-3">
-<h3 id="orge01bb6c">Reinforcement Learning from Proof Assistant Feedback</h3>
-<div class="outline-text-3" id="text-orge01bb6c">
+<div id="outline-container-orgca9ee90" class="outline-3">
+<h3 id="orgca9ee90">Reinforcement Learning from Proof Assistant Feedback</h3>
+<div class="outline-text-3" id="text-orgca9ee90">
 <p>
 Recall from DeepSeekMath that DeepSeek's method for RL-based posttraining (Group Relative Policy Optimization) does not require a separately trained value model. They only need to sample a lot of responses, and to use a reward model to determine which of these responses are better than the average among the group samples.
 </p>
@@ -495,10 +495,9 @@ But no details on how this works.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org9dff850" class="outline-3">
-<h3 id="org9dff850">Exploration-oriented MCTS</h3>
-<div class="outline-text-3" id="text-org9dff850">
+<div id="outline-container-org01f173d" class="outline-3">
+<h3 id="org01f173d">Exploration-oriented MCTS</h3>
+<div class="outline-text-3" id="text-org01f173d">
 <p>
 So far we have a pretty straightforward pretraining \(\rightarrow\) SFT \(\rightarrow\) RL language modeling pipeline. The model being good at outputting lean means that now we can do some interesting things in inference: we can treat the language model as the rollout policy, and we can cut searches off based on the lean verifier failing at specific steps. Given that we know how MCTS works, using this framing and arming our lean proof generation model with MCTS is surprisingly doable. DeepSeek comes up with a strategy appropriately called "Truncate-and-Resume".
 </p>
@@ -508,15 +507,14 @@ We now have one of the gnarliest figures in the DeepSeek Corpus:
 </p>
 
 
-<div id="orge2089ca" class="figure">
+<div id="org0bb3c39" class="figure">
 <p><img src="../images/from_clipboard/20241227_214920.png" alt="20241227_214920.png" />
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgebbd270" class="outline-4">
-<h4 id="orgebbd270">Applying MCTS</h4>
-<div class="outline-text-4" id="text-orgebbd270">
+<div id="outline-container-org948d210" class="outline-4">
+<h4 id="org948d210">Applying MCTS</h4>
+<div class="outline-text-4" id="text-org948d210">
 <p>
 Lean theorems will fail to compile once there is an error in the proof. We can treat each lean tactic as a node in a tree. We first will attempt to create a full proof. Once we run this whole proof, we can see if there's a node that fails: if there is, we truncate the node that fails, and we expand our search tree using Monte Carlo Tree Search, and terminate if we find a solution that compiles. So how can we make this compatible with the MCTS framing?
 </p>
@@ -534,10 +532,9 @@ For backpropagation, the extrinsic reward is 1 for a solved proof and 0 for an u
 </p>
 </div>
 </div>
-
-<div id="outline-container-org4000868" class="outline-4">
-<h4 id="org4000868">Intrinsic Rewards and Parallelization</h4>
-<div class="outline-text-4" id="text-org4000868">
+<div id="outline-container-org0960bcd" class="outline-4">
+<h4 id="org0960bcd">Intrinsic Rewards and Parallelization</h4>
+<div class="outline-text-4" id="text-org0960bcd">
 <p>
 Because the reward being used in this framing is 1 for solved proof and 0 for unsolved proof, you get an extremely sparse reward signal. That is, it's very difficult to tell if you're making any useful progress at all, even if you're searching for a very long time. To fix this, they use something called "RMax" which just provides the maximum amount of reward whenever the agent creates a new node in the tree.
 </p>
@@ -558,10 +555,9 @@ Likewise, because the LLM in this work is not so large, efforts to search the tr
 </div>
 </div>
 </div>
-
-<div id="outline-container-org3bbbc57" class="outline-3">
-<h3 id="org3bbbc57">Takeaways</h3>
-<div class="outline-text-3" id="text-org3bbbc57">
+<div id="outline-container-orgd8b0441" class="outline-3">
+<h3 id="orgd8b0441">Takeaways</h3>
+<div class="outline-text-3" id="text-orgd8b0441">
 <p>
 The core objective of this paper is a direct line to the reasoning work. If we replaced the lean verifier in the RLPAF section with a regular reward model, and we replaced the truncation step in the Exploration-oriented MCTS with some sort of generic verifier, it seems possible to build a bridge from this work to building strong reasoning capability in any other topic.
 </p>
@@ -572,10 +568,9 @@ This remains a very difficult problem &#x2013; easier for code, math, theorem pr
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgb2693e9" class="outline-2">
-<h2 id="orgb2693e9">Auxiliary-Loss-Free Load Balancing Strategy for Mixture-of-Experts</h2>
-<div class="outline-text-2" id="text-orgb2693e9">
+<div id="outline-container-org1470c46" class="outline-2">
+<h2 id="org1470c46">Auxiliary-Loss-Free Load Balancing Strategy for Mixture-of-Experts</h2>
+<div class="outline-text-2" id="text-org1470c46">
 <p>
 This paper can be found <a href="https://arxiv.org/abs/2408.15664">here</a>. It came out on August 28th, 2024. Their twitter thread can be found <a href="https://x.com/deepseek_ai/status/1829140827127292246">here</a>.
 </p>
@@ -589,7 +584,7 @@ Recall from DeepSeekMoE that, in Mixture-of-Experts, the FFN component of the tr
 </p>
 
 
-<div id="orgadff50e" class="figure">
+<div id="org19c0560" class="figure">
 <p><img src="../images/from_clipboard/20240603_132441.png" alt="20240603_132441.png" />
 </p>
 </div>
@@ -599,7 +594,7 @@ A core problem of MoE models is that the router can just pick the same few exper
 </p>
 
 
-<div id="orga901701" class="figure">
+<div id="org46298ec" class="figure">
 <p><img src="../images/from_clipboard/20240612_143124.png" alt="20240612_143124.png" />
 </p>
 </div>
@@ -609,7 +604,7 @@ This is usually sufficient for getting the experts to be selected evenly. The pr
 </p>
 
 
-<div id="org11a6b44" class="figure">
+<div id="orgcd69790" class="figure">
 <p><img src="../images/from_clipboard/20241227_185215.png" alt="20241227_185215.png" />
 </p>
 </div>
@@ -619,7 +614,7 @@ To fix this problem, they introduce a bias term during training. This bias term 
 </p>
 
 
-<div id="orgf634feb" class="figure">
+<div id="org02f3467" class="figure">
 <p><img src="../images/from_clipboard/20241227_185622.png" alt="20241227_185622.png" />
 </p>
 </div>
@@ -633,7 +628,7 @@ Here's my quick writeup of their algorithm in code; it's not too hard to underst
 </p>
 
 
-<div id="org9549215" class="figure">
+<div id="org0acfd1d" class="figure">
 <p><img src="../images/from_clipboard/20241227_190419.png" alt="20241227_190419.png" />
 </p>
 </div>
@@ -643,7 +638,7 @@ Here's my quick writeup of their algorithm in code; it's not too hard to underst
 </p>
 
 
-<div id="org739adba" class="figure">
+<div id="orga7a7e1e" class="figure">
 <p><img src="../images/from_clipboard/20241227_190854.png" alt="20241227_190854.png" />
 </p>
 </div>
@@ -658,10 +653,9 @@ That is pretty much the entirety of this paper: if you do this, you get to take 
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgc422e6a" class="outline-2">
-<h2 id="orgc422e6a">Janus: Decoupling Visual Encoding for Unified Multimodal Understanding and Generation</h2>
-<div class="outline-text-2" id="text-orgc422e6a">
+<div id="outline-container-org3bdf5d6" class="outline-2">
+<h2 id="org3bdf5d6">Janus: Decoupling Visual Encoding for Unified Multimodal Understanding and Generation</h2>
+<div class="outline-text-2" id="text-org3bdf5d6">
 <p>
 This paper can be found <a href="https://arxiv.org/abs/2410.13848">here</a>. It came out on October 17th, 2024. Their twitter thread can be found <a href="https://x.com/deepseek_ai/status/1847191319464300652">here</a>.
 </p>
@@ -670,10 +664,9 @@ This paper can be found <a href="https://arxiv.org/abs/2410.13848">here</a>. It 
 Janus is the first step towards a multimodal model, which can natively input and output images. The big claim in this paper is that most multimodal models use the same vision encoder for understanding (input) and generation (output), which is unnecessary: you can use two different encoders, which will remove the need for a tradeoff between the different demands of generating an image and understanding it.
 </p>
 </div>
-
-<div id="outline-container-orgac6b14d" class="outline-3">
-<h3 id="orgac6b14d">Chameleon</h3>
-<div class="outline-text-3" id="text-orgac6b14d">
+<div id="outline-container-org49abec7" class="outline-3">
+<h3 id="org49abec7">Chameleon</h3>
+<div class="outline-text-3" id="text-org49abec7">
 <p>
 <a href="https://arxiv.org/pdf/2405.09818">Chameleon</a> is Meta's early-fusion token-based mixed-modal model. Put plainly, this is Meta's first big attempt to clone GPT-4o, a model which can understand images as if they were just regular words, and reply with their own images.
 </p>
@@ -700,7 +693,7 @@ Way back in 2017 a paper <a href="https://arxiv.org/pdf/1711.00937">Neural Discr
 </p>
 
 
-<div id="orgba43f5e" class="figure">
+<div id="org1ef054c" class="figure">
 <p><img src="../images/from_clipboard/20241228_122508.png" alt="20241228_122508.png" />
 </p>
 </div>
@@ -718,10 +711,9 @@ This is really just scratching the surface: GPT-4o has a <a href="https://openai
 </p>
 </div>
 </div>
-
-<div id="outline-container-org31edcfc" class="outline-3">
-<h3 id="org31edcfc">LlamaGen</h3>
-<div class="outline-text-3" id="text-org31edcfc">
+<div id="outline-container-orgb53fb2b" class="outline-3">
+<h3 id="orgb53fb2b">LlamaGen</h3>
+<div class="outline-text-3" id="text-orgb53fb2b">
 <p>
 <a href="https://arxiv.org/pdf/2406.06525">LlamaGen</a> is an interesting work related specifically to the generation component. Generally speaking, at the time of writing <a href="https://en.wikipedia.org/wiki/Stable_Diffusion">diffusion models</a> are the king of image generation models. They have been the method of choice for quite some time now.
 </p>
@@ -739,16 +731,15 @@ The important artifact we need from this paper is their released image tokenizer
 </p>
 
 
-<div id="org71e4b2a" class="figure">
+<div id="org1b0d33a" class="figure">
 <p><img src="../images/from_clipboard/20241228_153011.png" alt="20241228_153011.png" />
 </p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org008d79e" class="outline-3">
-<h3 id="org008d79e">Janus</h3>
-<div class="outline-text-3" id="text-org008d79e">
+<div id="outline-container-org035d50e" class="outline-3">
+<h3 id="org035d50e">Janus</h3>
+<div class="outline-text-3" id="text-org035d50e">
 <p>
 Cycling back to Janus<sup><a id="fnr.12" class="footref" href="#fn.12" role="doc-backlink">12</a></sup>, this is DeepSeek's initial foray into this multimodal space. The main contribution in this paper is that the Chameleon approach actually pulls the codebook tokens in two directions: features that would be good for understanding the content of images, and features that would be good for generating a good image. We already know that we can build a model like Chameleon which can do both tasks, but we also know that we can put all the focus on generation and get way better results than we would from a joint-task encoder. How do we bridge this gap?
 </p>
@@ -771,7 +762,7 @@ same space will lead to conflicts and trade-offs.
 </blockquote>
 
 
-<div id="orgf68452a" class="figure">
+<div id="org10382ee" class="figure">
 <p><img src="../images/from_clipboard/20241228_141017.png" alt="20241228_141017.png" />
 </p>
 </div>
@@ -785,7 +776,7 @@ The encoders themselves are composed of things we have seen already. For image u
 </p>
 
 
-<div id="org41355cc" class="figure">
+<div id="org61b9add" class="figure">
 <p><img src="../images/from_clipboard/20241228_143227.png" alt="20241228_143227.png" />
 </p>
 </div>
@@ -820,10 +811,9 @@ The comparisons are pretty interesting: there are clearly better image generatio
 </div>
 </div>
 </div>
-
-<div id="outline-container-org624facc" class="outline-2">
-<h2 id="org624facc">JanusFlow: Harmonizing Autoregression and Rectified Flow for Unified Multimodal Understanding and Generation</h2>
-<div class="outline-text-2" id="text-org624facc">
+<div id="outline-container-org1d8064f" class="outline-2">
+<h2 id="org1d8064f">JanusFlow: Harmonizing Autoregression and Rectified Flow for Unified Multimodal Understanding and Generation</h2>
+<div class="outline-text-2" id="text-org1d8064f">
 <p>
 This paper can be found <a href="https://arxiv.org/abs/2411.07975">here</a>. It came out on November 12th, 2024. Their twitter thread can be found <a href="https://x.com/deepseek_ai/status/1856552494379520510">here</a>. 
 </p>
@@ -832,10 +822,9 @@ This paper can be found <a href="https://arxiv.org/abs/2411.07975">here</a>. It 
 JanusFlow is the next step in the Janus series. Specifically, it replaces the vector quantization component in generation with rectified flow instead. On top of this, JanusFlow adds the idea of <i>representation alignment</i> during training, where the model aligns intermediate features from the understanding encoder with the internal representations. This leads to an overall more streamlined architecture compared to Janus, but with notably better performance.
 </p>
 </div>
-
-<div id="outline-container-org29c0ddd" class="outline-3">
-<h3 id="org29c0ddd">Rectified Flow</h3>
-<div class="outline-text-3" id="text-org29c0ddd">
+<div id="outline-container-org1dd9b6e" class="outline-3">
+<h3 id="org1dd9b6e">Rectified Flow</h3>
+<div class="outline-text-3" id="text-org1dd9b6e">
 <p>
 Rectified Flow is a pretty big topic, probably worthy of an entirely separate post all on its own. I am not going to do it justice here, but I am hopeful that I can at least briefly cover what it <i>is</i> and why it might be useful to swap into a multimodal model.
 </p>
@@ -845,7 +834,7 @@ A paper which might be worth studying in more detail is <a href="https://arxiv.o
 </p>
 
 
-<div id="org006a7e3" class="figure">
+<div id="org9a41ff9" class="figure">
 <p><img src="../images/from_clipboard/20241228_192622.png" alt="20241228_192622.png" />
 </p>
 </div>
@@ -915,10 +904,9 @@ That's rectified flow at a very high level, but there's lots of other work we ar
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org75827e9" class="outline-3">
-<h3 id="org75827e9">Representation Alignment for Generation</h3>
-<div class="outline-text-3" id="text-org75827e9">
+<div id="outline-container-org3c22d5d" class="outline-3">
+<h3 id="org3c22d5d">Representation Alignment for Generation</h3>
+<div class="outline-text-3" id="text-org3c22d5d">
 <p>
 <a href="https://arxiv.org/pdf/2410.06940">Representation Alignment</a>, or REPA, is a method for making diffusion transformer training significantly easier. The core insight from this paper is downstream of another paper <a href="https://arxiv.org/pdf/2303.09769">Denoising Diffusion Autoencoders are Unified Self-Supervised Learners</a>, which says that diffusion models learn features which let it discriminate between classes, and that better diffusion models have internal representations which are more discriminative.
 </p>
@@ -932,7 +920,7 @@ It does this by adding the following objective alongside the normal diffusion tr
 </p>
 
 
-<div id="org3e0be26" class="figure">
+<div id="orge6f5660" class="figure">
 <p><img src="../images/from_clipboard/20241228_175530.png" alt="20241228_175530.png" />
 </p>
 </div>
@@ -942,16 +930,15 @@ That is: we break the image into patches, and we check the similarity<sup><a id=
 </p>
 
 
-<div id="org85c2403" class="figure">
+<div id="orgc63c515" class="figure">
 <p><img src="../images/from_clipboard/20241228_180232.png" alt="20241228_180232.png" />
 </p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgc0c5c26" class="outline-3">
-<h3 id="orgc0c5c26">ConvNeXt</h3>
-<div class="outline-text-3" id="text-orgc0c5c26">
+<div id="outline-container-org74fc7a0" class="outline-3">
+<h3 id="org74fc7a0">ConvNeXt</h3>
+<div class="outline-text-3" id="text-org74fc7a0">
 <p>
 <a href="https://arxiv.org/pdf/2201.03545">ConvNeXt</a> is a type of "modern" convolutional neural network which brings in a bunch of innovations used by vision transformers. The main argument of this paper is that lots of little changes to vision transformers like <a href="https://arxiv.org/pdf/2103.14030">Swin Transformers</a> are applicable to ConvNets as well.
 </p>
@@ -961,18 +948,17 @@ Some things which are commonly attributed to "superior transformer architectures
 </p>
 
 
-<div id="orge24d0c1" class="figure">
+<div id="org056b779" class="figure">
 <p><img src="../images/from_clipboard/20241228_172648.png" alt="20241228_172648.png" />
 </p>
 </div>
 </div>
 </div>
+<div id="outline-container-orgfea1080" class="outline-3">
+<h3 id="orgfea1080">JanusFlow</h3>
+<div class="outline-text-3" id="text-orgfea1080">
 
-<div id="outline-container-org1b09666" class="outline-3">
-<h3 id="org1b09666">JanusFlow</h3>
-<div class="outline-text-3" id="text-org1b09666">
-
-<div id="org9ff1669" class="figure">
+<div id="orga02eca1" class="figure">
 <p><img src="../images/from_clipboard/20241228_163316.png" alt="20241228_163316.png" />
 </p>
 </div>
@@ -1015,10 +1001,9 @@ They get some good results with these new changes. Definitely an incremental imp
 </div>
 </div>
 </div>
-
-<div id="outline-container-org4e0b6b1" class="outline-2">
-<h2 id="org4e0b6b1">DeepSeek-VL2</h2>
-<div class="outline-text-2" id="text-org4e0b6b1">
+<div id="outline-container-org3d963a8" class="outline-2">
+<h2 id="org3d963a8">DeepSeek-VL2</h2>
+<div class="outline-text-2" id="text-org3d963a8">
 <p>
 This paper can be found <a href="https://arxiv.org/abs/2412.10302">here</a>. It came out on December 13th, 2024. Their twitter thread can be found <a href="https://x.com/deepseek_ai/status/1867545550910017563">here</a>.
 </p>
@@ -1027,10 +1012,9 @@ This paper can be found <a href="https://arxiv.org/abs/2412.10302">here</a>. It 
 At last, DeepSeek's MoE Vision-Language model. Their largest is a 27B Mixture-of-Experts model with 4.1B active, still fairly small as far as DeepSeek releases go. If you're already familiar with the original DeepSeek-VL and the DeepSeek-V2 architectures, this doesn't actually have too much new stuff: it's an MoE with multi-head latent attention, and it uses SigLIP as the encoder. Still, there are some interesting vision-specific nuance worth diving into.
 </p>
 </div>
-
-<div id="outline-container-orgc5daf88" class="outline-3">
-<h3 id="orgc5daf88">InternVL</h3>
-<div class="outline-text-3" id="text-orgc5daf88">
+<div id="outline-container-orgbc018b2" class="outline-3">
+<h3 id="orgbc018b2">InternVL</h3>
+<div class="outline-text-3" id="text-orgbc018b2">
 <p>
 There is one important related work to cover. InternVL is a powerful open-source vision-language model from Shanghai AI Laboratory. Their v1.5 paper can be found <a href="https://arxiv.org/pdf/2404.16821">here</a>, and their v2.5 paper can be found <a href="https://arxiv.org/pdf/2412.05271v1">here</a><sup><a id="fnr.16" class="footref" href="#fn.16" role="doc-backlink">16</a></sup>.
 </p>
@@ -1040,7 +1024,7 @@ The notable component of InternVL is their dynamic high resolution. Otherwise, i
 </p>
 
 
-<div id="org19b8add" class="figure">
+<div id="orgc8aaed0" class="figure">
 <p><img src="../images/from_clipboard/20241228_101609.png" alt="20241228_101609.png" />
 </p>
 </div>
@@ -1050,7 +1034,7 @@ Recall from DeepSeek-VL that they used two vision encoders: one for high resolut
 </p>
 
 
-<div id="org85dc344" class="figure">
+<div id="org894aee3" class="figure">
 <p><img src="../images/from_clipboard/20241228_102307.png" alt="20241228_102307.png" />
 </p>
 </div>
@@ -1064,12 +1048,11 @@ Various other VLMs have adopted similar strategies, like <a href="https://arxiv.
 </p>
 </div>
 </div>
+<div id="outline-container-org899a36f" class="outline-3">
+<h3 id="org899a36f">Architecture and Training</h3>
+<div class="outline-text-3" id="text-org899a36f">
 
-<div id="outline-container-org5bacadb" class="outline-3">
-<h3 id="org5bacadb">Architecture and Training</h3>
-<div class="outline-text-3" id="text-org5bacadb">
-
-<div id="orge6a407d" class="figure">
+<div id="orge179357" class="figure">
 <p><img src="../images/from_clipboard/20241227_222742.png" alt="20241227_222742.png" />
 </p>
 </div>
@@ -1095,7 +1078,7 @@ dimensions per tile.
 </blockquote>
 
 
-<div id="org8e97683" class="figure">
+<div id="org9568b17" class="figure">
 <p><img src="../images/from_clipboard/20241227_223552.png" alt="20241227_223552.png" />
 </p>
 </div>
@@ -1109,16 +1092,15 @@ Aside from data collection woes, the infrastructure section has some potential i
 </p>
 </div>
 </div>
-
-<div id="outline-container-orga2dcbc5" class="outline-3">
-<h3 id="orga2dcbc5">New Capabilities</h3>
-<div class="outline-text-3" id="text-orga2dcbc5">
+<div id="outline-container-org1f006d5" class="outline-3">
+<h3 id="org1f006d5">New Capabilities</h3>
+<div class="outline-text-3" id="text-org1f006d5">
 <p>
 A surprisingly interesting claim of this paper is that DeepSeek-VL2 can understand the humor in memes, and provide explanations for them. A NeurIPS 2024 paper, <a href="https://arxiv.org/pdf/2406.10522">Humor in AI: Massive Scale Crowd-Sourced Preferences and Benchmarks for Cartoon Captioning</a>, suggests a similar setting (New Yorker Weekly Cartoon Captions) is very challenging for VLMs. One component of this which might point to why is the fact that RLHF seems to incentivize the models to be much less funny, and this step was notably absent in the DeepSeek-VL2 training pipeline<sup><a id="fnr.21" class="footref" href="#fn.21" role="doc-backlink">21</a></sup>. 
 </p>
 
 
-<div id="orgc79f7c9" class="figure">
+<div id="orgf2a5438" class="figure">
 <p><img src="../images/from_clipboard/20241228_092028.png" alt="20241228_092028.png" />
 </p>
 </div>
@@ -1128,7 +1110,7 @@ Likewise, a new capability to this paper compared to VL1 is <i>Visual Grounding<
 </p>
 
 
-<div id="org8ac5c72" class="figure">
+<div id="orgdc8327a" class="figure">
 <p><img src="../images/from_clipboard/20241228_093146.png" alt="20241228_093146.png" />
 </p>
 </div>
@@ -1138,7 +1120,7 @@ Being a little more specific, this is actually a little different from SAM, in t
 </p>
 
 
-<div id="org499c8e7" class="figure">
+<div id="orgec2a094" class="figure">
 <p><img src="../images/from_clipboard/20241228_094011.png" alt="20241228_094011.png" />
 </p>
 </div>
@@ -1148,10 +1130,9 @@ There's quite a bit of focus here on how this could be used for embodied AI or a
 </p>
 </div>
 </div>
-
-<div id="outline-container-org4aea3e4" class="outline-3">
-<h3 id="org4aea3e4">Preregistered Future Work</h3>
-<div class="outline-text-3" id="text-org4aea3e4">
+<div id="outline-container-orgf4b560e" class="outline-3">
+<h3 id="orgf4b560e">Preregistered Future Work</h3>
+<div class="outline-text-3" id="text-orgf4b560e">
 <p>
 As usual, DeepSeek concludes a larger release with some hints on what they're working on next:
 </p>
@@ -1164,10 +1145,9 @@ As usual, DeepSeek concludes a larger release with some hints on what they're wo
 </div>
 </div>
 </div>
-
-<div id="outline-container-org38bb93c" class="outline-2">
-<h2 id="org38bb93c">DeepSeek-V3</h2>
-<div class="outline-text-2" id="text-org38bb93c">
+<div id="outline-container-orgd0a8793" class="outline-2">
+<h2 id="orgd0a8793">DeepSeek-V3</h2>
+<div class="outline-text-2" id="text-orgd0a8793">
 <p>
 This paper can be found <a href="https://github.com/deepseek-ai/DeepSeek-V3/blob/main/DeepSeek_V3.pdf">here</a>. It came out on December 25th, 2024<sup><a id="fnr.23" class="footref" href="#fn.23" role="doc-backlink">23</a></sup>. Their twitter thread can be found <a href="https://x.com/deepseek_ai/status/1872242657348710721">here</a>. 
 </p>
@@ -1180,10 +1160,9 @@ DeepSeek-V3 is a 671B, 37B active<sup><a id="fnr.24" class="footref" href="#fn.2
 Perhaps most important about this paper is the cost claim: DeepSeek-V3 was trained in 2.788M H800 GPU hours, priced at $5.576M USD. In comparison, the Llama 3.1 405B <a href="https://huggingface.co/meta-llama/Llama-3.1-8B">cost meta 30.84M</a> GPU hours for a similar 15 Trillion tokens. This claim is a fairly ludicrous one &#x2013; there was substantial discussion about whether this was an outright lie<sup><a id="fnr.28" class="footref" href="#fn.28" role="doc-backlink">28</a></sup>. So, how's it possible? How would you train a performant language model with 2048 GPUs, $5 million dollars, and a dream?
 </p>
 </div>
-
-<div id="outline-container-org99024e7" class="outline-3">
-<h3 id="org99024e7">Aside A: Speculative Decoding</h3>
-<div class="outline-text-3" id="text-org99024e7">
+<div id="outline-container-org80342bb" class="outline-3">
+<h3 id="org80342bb">Aside A: Speculative Decoding</h3>
+<div class="outline-text-3" id="text-org80342bb">
 <p>
 <a href="https://arxiv.org/pdf/2211.17192">Speculative Decoding</a> is a method for speeding up inference of large language models. The idea behind this is very easy to understand.
 </p>
@@ -1197,7 +1176,7 @@ In speculative decoding, you use both a big and a small model, together. You mak
 </p>
 
 
-<div id="org9362d0f" class="figure">
+<div id="org10e3f1c" class="figure">
 <p><img src="../images/from_clipboard/20241229_212557.png" alt="20241229_212557.png" />
 </p>
 </div>
@@ -1207,16 +1186,15 @@ There are lots of different methods for this now, but the core idea is all we wi
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgaf9fc7e" class="outline-3">
-<h3 id="orgaf9fc7e">Aside B: Multi-Token Prediction</h3>
-<div class="outline-text-3" id="text-orgaf9fc7e">
+<div id="outline-container-org4825696" class="outline-3">
+<h3 id="org4825696">Aside B: Multi-Token Prediction</h3>
+<div class="outline-text-3" id="text-org4825696">
 <p>
 <a href="https://arxiv.org/abs/2404.19737">Better &amp; Faster Large Language Models via Multi-token Prediction</a> was a hotly discussed paper when it was released back in April 2024. This one is also not so complicated: if predicting the next token is so great, why can't they predict the next two tokens?
 </p>
 
 
-<div id="orgbbbd181" class="figure">
+<div id="orgb83af17" class="figure">
 <p><img src="../images/from_clipboard/20241229_212727.png" alt="20241229_212727.png" />
 </p>
 </div>
@@ -1238,7 +1216,7 @@ They posit there are two "types" of tokens, "choice points" and "inconsequential
 </p>
 
 
-<div id="org1c8cb18" class="figure">
+<div id="org2cacd33" class="figure">
 <p><img src="../images/from_clipboard/20241229_215852.png" alt="20241229_215852.png" />
 </p>
 </div>
@@ -1248,10 +1226,9 @@ Likewise, there's some interesting ideas for using this for <i>self-speculative 
 </p>
 </div>
 </div>
-
-<div id="outline-container-org49d3009" class="outline-3">
-<h3 id="org49d3009">Something old, something new, something borrowed, something blue</h3>
-<div class="outline-text-3" id="text-org49d3009">
+<div id="outline-container-org39a7afb" class="outline-3">
+<h3 id="org39a7afb">Something old, something new, something borrowed, something blue</h3>
+<div class="outline-text-3" id="text-org39a7afb">
 <p>
 At a high level, DeepSeek-V3's training is an eclectic mix of ideas both familiar and unfamiliar:
 </p>
@@ -1273,24 +1250,22 @@ But on benchmarks, it comes out strong. While I think claims that it's dethroned
 </p>
 </div>
 </div>
-
-<div id="outline-container-org4a6e61d" class="outline-3">
-<h3 id="org4a6e61d">Notes on Architecture</h3>
-<div class="outline-text-3" id="text-org4a6e61d">
+<div id="outline-container-orgb98269c" class="outline-3">
+<h3 id="orgb98269c">Notes on Architecture</h3>
+<div class="outline-text-3" id="text-orgb98269c">
 <p>
 For the most part, the architecture is what you would expect given the description above, most of the figures and formulas are reused from DeepSeek-V2, Auxiliary-Loss-Free Load Balancing, etc. There are a few minor notes which are different as a consequence of the changes.
 </p>
 </div>
-
-<div id="outline-container-orgd15d377" class="outline-4">
-<h4 id="orgd15d377">Sequence-Wise Auxiliary Loss</h4>
-<div class="outline-text-4" id="text-orgd15d377">
+<div id="outline-container-orge19b21d" class="outline-4">
+<h4 id="orge19b21d">Sequence-Wise Auxiliary Loss</h4>
+<div class="outline-text-4" id="text-orge19b21d">
 <p>
 New to V3 is this Sequence-Wise loss, intended to keep the balance even within a single sequence. Globally speaking, the bias method tends to produce very evenly balanced experts. But if you have a single sequence with, for example, a very large number of math tokens all in a sequence, it's possible these tokens will get selected with a locally small pool of the same experts over and over again. This can cause bottlenecks during training, so they add an additional balance loss
 </p>
 
 
-<div id="orgd1d3b55" class="figure">
+<div id="org6715824" class="figure">
 <p><img src="../images/from_clipboard/20241229_163101.png" alt="20241229_163101.png" />
 </p>
 </div>
@@ -1300,25 +1275,23 @@ Basically, this is avoiding situations where, for example, the same subnetwork i
 </p>
 </div>
 </div>
-
-<div id="outline-container-org2b6e1de" class="outline-4">
-<h4 id="org2b6e1de">Token-Dropping</h4>
-<div class="outline-text-4" id="text-org2b6e1de">
+<div id="outline-container-org3ef39ca" class="outline-4">
+<h4 id="org3ef39ca">Token-Dropping</h4>
+<div class="outline-text-4" id="text-org3ef39ca">
 <p>
 This part is kept sort of mysterious. In training of DeepSeek-V2, they used an additional token-dropping strategy, where tokens with low affinity for the experts on a particular device are dropped and redirected to other experts, to keep everything within a computational budget. In V3, because of the load balancing strategy, they don't drop tokens at all. This is completely removed, with allusions to "specific deployment strategies" which ensure load balance during inference. 
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgc9bfa6c" class="outline-4">
-<h4 id="orgc9bfa6c">First Three Layers</h4>
-<div class="outline-text-4" id="text-orgc9bfa6c">
+<div id="outline-container-orge36edec" class="outline-4">
+<h4 id="orge36edec">First Three Layers</h4>
+<div class="outline-text-4" id="text-orge36edec">
 <p>
 The first three layers in DeepSeek-V3 are dense layers, not MoE layers. A hint for why this is the case can be found in the wonderfully readable paper <a href="https://arxiv.org/pdf/2407.09298">Transformer Layers as Painters</a>, by the team at Sakana AI. In this work they were trying to study if transformer models were robust to layer deletion or rearrangement. It turns out, for the most part, they are, and the majority of layers can be thought of as "painting something" on the representation, and adding it via the residual connection at the end. The exception here is the first few layers, which convert the token embeddings to a "canvas" that the layers can operate upon<sup><a id="fnr.31" class="footref" href="#fn.31" role="doc-backlink">31</a></sup>. 
 </p>
 
 
-<div id="org1507310" class="figure">
+<div id="org3e65388" class="figure">
 <p><img src="../images/from_clipboard/20241229_200946.png" alt="20241229_200946.png" />
 </p>
 </div>
@@ -1329,12 +1302,11 @@ It makes some sense that MoE would be less valuable for these layers than the ot
 </div>
 </div>
 </div>
+<div id="outline-container-orgd40570c" class="outline-3">
+<h3 id="orgd40570c">DeepSeek-V3 Multi-Token Prediction</h3>
+<div class="outline-text-3" id="text-orgd40570c">
 
-<div id="outline-container-orgb8ae80c" class="outline-3">
-<h3 id="orgb8ae80c">DeepSeek-V3 Multi-Token Prediction</h3>
-<div class="outline-text-3" id="text-orgb8ae80c">
-
-<div id="org6fc5a4c" class="figure">
+<div id="orgb5c5faa" class="figure">
 <p><img src="../images/from_clipboard/20241229_165509.png" alt="20241229_165509.png" />
 </p>
 </div>
@@ -1348,7 +1320,7 @@ These are sort of like a halfway point between speculative decoding and multi-to
 </p>
 
 
-<div id="orgba3ce15" class="figure">
+<div id="orgda56abc" class="figure">
 <p><img src="../images/from_clipboard/20241229_184539.png" alt="20241229_184539.png" />
 </p>
 </div>
@@ -1366,10 +1338,9 @@ This has some nice effects. The autoregressive framing of LLMs makes an implicit
 </p>
 </div>
 </div>
-
-<div id="outline-container-org055b0ca" class="outline-3">
-<h3 id="org055b0ca">Infrastructure</h3>
-<div class="outline-text-3" id="text-org055b0ca">
+<div id="outline-container-org6b5663a" class="outline-3">
+<h3 id="org6b5663a">Infrastructure</h3>
+<div class="outline-text-3" id="text-org6b5663a">
 <p>
 <i>I'll be the first to admit that the infra stuff is not my primary area of expertise<sup><a id="fnr.34" class="footref" href="#fn.34" role="doc-backlink">34</a></sup>. But it is a very important part of this paper, so I'll do my best to cover a few points.</i>
 </p>
@@ -1382,10 +1353,9 @@ DeepSeek-V3 is trained on a cluster of 2048 H800 GPUs, on machines that have 8 G
 I won't cover everything in this writeup: there's a lot in here about making the model more suitable for the hardware available. Some things I won't cover are: fine-grained quantization, increasing accumulation precision, mantissa over exponents, online quantization, low-precision storage and communication, deployment<sup><a id="fnr.35" class="footref" href="#fn.35" role="doc-backlink">35</a></sup>, and some other optimizations. There is a high level of detail available here, and for those more plugged into the infra-level stuff I'd recommend just reading the paper. 
 </p>
 </div>
-
-<div id="outline-container-org5e94261" class="outline-4">
-<h4 id="org5e94261">DualPipe</h4>
-<div class="outline-text-4" id="text-org5e94261">
+<div id="outline-container-orgf1e6985" class="outline-4">
+<h4 id="orgf1e6985">DualPipe</h4>
+<div class="outline-text-4" id="text-orgf1e6985">
 <p>
 The first new optimization is <i>DualPipe</i>, which is a pipeline parallelism algorithm. When you do cross-node expert parallelism, there are two fundamental things each node can be doing at a particular time. It can send something to another machine / wait for something from another machine (communication), or it can perform operations on itself (computation). Ideally, you want to overlap these as much as possible &#x2013; you want to maximize the amount of time each node spends doing computation, minimize the time it spends doing communication, and make sure it has something to do while waiting. The biggest enemy here is the GPU sitting idle waiting for something else to finish (called a "pipeline bubble").
 </p>
@@ -1395,16 +1365,15 @@ DualPipe is their solution to this, it maximizes these overlaps and attempts to 
 </p>
 
 
-<div id="orgf6bcac0" class="figure">
+<div id="org9be5139" class="figure">
 <p><img src="../images/from_clipboard/20241229_192735.png" alt="20241229_192735.png" />
 </p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgc1c6da1" class="outline-4">
-<h4 id="orgc1c6da1">FP8 Training</h4>
-<div class="outline-text-4" id="text-orgc1c6da1">
+<div id="outline-container-org9730153" class="outline-4">
+<h4 id="org9730153">FP8 Training</h4>
+<div class="outline-text-4" id="text-org9730153">
 <p>
 There's a paper from December 2023 called <a href="https://arxiv.org/pdf/2310.18313">FP8-LM</a>, which showed that most parameters in training large language models can use fp8 data formats, as opposed to the more common fp16 and bf16 formats. Quantizing models to these types of formats is a common practice for fitting them into smaller memory footprints, and they are almost universally associated with a degradation in quality<sup><a id="fnr.36" class="footref" href="#fn.36" role="doc-backlink">36</a></sup>. A hint to why is the so-called <a href="https://arxiv.org/pdf/2405.19279">outlier features</a> that sometimes pop up: it's not so uncommon for a stray neuron in a transformer to have a magnitude which is massively larger than the others for some reason. It seems promising, but making it work well seems tricky.
 </p>
@@ -1414,7 +1383,7 @@ There are <a href="https://arxiv.org/pdf/2409.12517">not very many other tries</
 </p>
 
 
-<div id="orgbabdf1d" class="figure">
+<div id="org55a8195" class="figure">
 <p><img src="../images/from_clipboard/20241229_194339.png" alt="20241229_194339.png" />
 </p>
 </div>
@@ -1424,26 +1393,24 @@ Overall, most things are kept in fp8. As a rule of thumb, anything cast to fp8 s
 </p>
 </div>
 </div>
-
-<div id="outline-container-org22d7627" class="outline-4">
-<h4 id="org22d7627">Suggestions on Hardware Design</h4>
-<div class="outline-text-4" id="text-org22d7627">
+<div id="outline-container-orgd152515" class="outline-4">
+<h4 id="orgd152515">Suggestions on Hardware Design</h4>
+<div class="outline-text-4" id="text-orgd152515">
 <p>
 More of an interesting note, pages 20-21 of this paper are spent on a sort of christmas list<sup><a id="fnr.38" class="footref" href="#fn.38" role="doc-backlink">38</a></sup> for GPU manufacturers. These are things that they believe to be possible with the optimizations they made on the software side, but are gated by a lack of features on the hardware side. I have never seen something like this in a paper before, so I thought it was super interesting:
 </p>
 
 
-<div id="orgcc1c9c2" class="figure">
+<div id="org70a2bcd" class="figure">
 <p><img src="../images/from_clipboard/20241229_200742.png" alt="20241229_200742.png" />
 </p>
 </div>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org463a564" class="outline-3">
-<h3 id="org463a564">Training</h3>
-<div class="outline-text-3" id="text-org463a564">
+<div id="outline-container-org8566bf9" class="outline-3">
+<h3 id="org8566bf9">Training</h3>
+<div class="outline-text-3" id="text-org8566bf9">
 <p>
 For the most part, training DeepSeek-V3 follows DeepSeek-V2 pretty closely. The learning rate schedule is really weird<sup><a id="fnr.39" class="footref" href="#fn.39" role="doc-backlink">39</a></sup>, but they use the same batch size scheduler and general ideas from previous papers.
 </p>
@@ -1453,10 +1420,9 @@ The Long Context extension uses YaRN, like in DeepSeek-V2, but this time using t
 </p>
 </div>
 </div>
-
-<div id="outline-container-org4a1fcf1" class="outline-3">
-<h3 id="org4a1fcf1">Post-Training</h3>
-<div class="outline-text-3" id="text-org4a1fcf1">
+<div id="outline-container-org91be8f1" class="outline-3">
+<h3 id="org91be8f1">Post-Training</h3>
+<div class="outline-text-3" id="text-org91be8f1">
 <p>
 For post-training, they create 1.5M instances of SFT data<sup><a id="fnr.41" class="footref" href="#fn.41" role="doc-backlink">41</a></sup>. These instances are largely generated with R1 for reasoning data, and DeepSeek-V2.5 for everything else<sup><a id="fnr.42" class="footref" href="#fn.42" role="doc-backlink">42</a></sup>.
 </p>
@@ -1470,10 +1436,9 @@ The reinforcement learning step in V3 follows V2 somewhat closely: a rule-based 
 </p>
 </div>
 </div>
-
-<div id="outline-container-org3cce19d" class="outline-3">
-<h3 id="org3cce19d">Benchmarks</h3>
-<div class="outline-text-3" id="text-org3cce19d">
+<div id="outline-container-orga863c29" class="outline-3">
+<h3 id="orga863c29">Benchmarks</h3>
+<div class="outline-text-3" id="text-orga863c29">
 <p>
 Like all language modeling papers, they report impressive benchmarks. There are a few standouts that I think are worth special mention.
 </p>
@@ -1487,16 +1452,15 @@ RewardBench results are interesting too &#x2013; building good reward models see
 </p>
 </div>
 </div>
-
-<div id="outline-container-org210904c" class="outline-3">
-<h3 id="org210904c">Discussion</h3>
-<div class="outline-text-3" id="text-org210904c">
+<div id="outline-container-orgbb4db94" class="outline-3">
+<h3 id="orgbb4db94">Discussion</h3>
+<div class="outline-text-3" id="text-orgbb4db94">
 <p>
 The big story in discussion is the self-rewarding section, where they make an off-handed mention of using <a href="https://arxiv.org/pdf/2212.08073">Constitutional AI</a> similar to what was used to train Claude over at Anthropic. That is, "RL from AI Feedback" or RLAIF, where the model generates samples, evaluates itself, and finetunes based on it's internal critiques.
 </p>
 
 
-<div id="orgaadf156" class="figure">
+<div id="org1454588" class="figure">
 <p><img src="../images/from_clipboard/20241229_210019.png" alt="20241229_210019.png" />
 </p>
 </div>
@@ -1506,10 +1470,9 @@ The CAI paper is pretty old now, having been released back in 2022. We can see f
 </p>
 </div>
 </div>
-
-<div id="outline-container-orge5321d1" class="outline-3">
-<h3 id="orge5321d1">Future Directions</h3>
-<div class="outline-text-3" id="text-orge5321d1">
+<div id="outline-container-orgb9c16d2" class="outline-3">
+<h3 id="orgb9c16d2">Future Directions</h3>
+<div class="outline-text-3" id="text-orgb9c16d2">
 <p>
 This paper was pretty heavy on technical detail, even compared to the other deepseek work<sup><a id="fnr.46" class="footref" href="#fn.46" role="doc-backlink">46</a></sup>. But we got to see a lot about DeepSeek's future direction, rather than waiting around for a model drop, or navigating leaks on social media.
 </p>
@@ -1543,10 +1506,9 @@ Depending on how you consider the Constitutional AI work in this paper, these ha
 </div>
 </div>
 </div>
-
-<div id="outline-container-org9cf2026" class="outline-2">
-<h2 id="org9cf2026">DeepSeek R1</h2>
-<div class="outline-text-2" id="text-org9cf2026">
+<div id="outline-container-orgfc98c24" class="outline-2">
+<h2 id="orgfc98c24">DeepSeek R1</h2>
+<div class="outline-text-2" id="text-orgfc98c24">
 <p>
 This is what DeepSeek had been building to the entire time &#x2013; their bona fide entry to the frontier, a faithful reproduction of OpenAI's o1 reasoning model. The ramifications of this work were enormous: DeepSeek became a household name virtually overnight, with <a href="https://planetbanatt.net/articles/v3fermi.html">sudden objections</a> to the claims in previous papers, extensive news coverage, an extremely popular iphone app, and so on. Months later, this paper would go on to <a href="https://www.nature.com/articles/s41586-025-09422-z">get published in <i>Nature</i></a>, certainly a rarity for ML papers in this day and age.
 </p>
@@ -1565,16 +1527,15 @@ At its core, the R1 paper is a relatively simple paper, at least compared to mos
 These are fairly easy to understand! So we will go through them each in detail.
 </p>
 </div>
-
-<div id="outline-container-org126a4dc" class="outline-3">
-<h3 id="org126a4dc">Reinforcement Learning with Verifiable Rewards (RLVR)</h3>
-<div class="outline-text-3" id="text-org126a4dc">
+<div id="outline-container-org3c73909" class="outline-3">
+<h3 id="org3c73909">Reinforcement Learning with Verifiable Rewards (RLVR)</h3>
+<div class="outline-text-3" id="text-org3c73909">
 <p>
 The very striking thing about this paper is how little is actually in it. Compared to several other models attempting to reproduce OpenAI o1, the DeepSeek strategy lacks any complicated reward hacking or process supervision at all. You can compare this to <a href="https://qwen.ai/blog?id=c07674ffdf6f7267f6907c2a3d921550dbf4281e&amp;from=research.research-list">team Qwen</a> who released their QwQ-32B thinking model around the same time, using elaborate process supervision models to achieve the desired result. In contrast, AI2's <a href="https://arxiv.org/pdf/2411.15124">Tulu 3</a> work makes a great case for using <i>Reinforcement Learning with Verifiable Rewards</i> (RLVR) in order to produce a targeted improvement in specific verifiable domains<sup><a id="fnr.49" class="footref" href="#fn.49" role="doc-backlink">49</a></sup>.
 </p>
 
 
-<div id="org60a31b2" class="figure">
+<div id="org85273c6" class="figure">
 <p><img src="../images/from_clipboard/20250923_170715.png" alt="20250923_170715.png" />
 </p>
 </div>
@@ -1584,7 +1545,7 @@ DeepSeek-R1-Zero is a model DeepSeek released to show off what happens with more
 </p>
 
 
-<div id="org5d370e5" class="figure">
+<div id="org479eb17" class="figure">
 <p><img src="../images/from_clipboard/20250923_160727.png" alt="20250923_160727.png" />
 </p>
 </div>
@@ -1599,10 +1560,9 @@ What they find is that given this environment, the model will learn that outputt
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgedc0c28" class="outline-3">
-<h3 id="orgedc0c28">Making Internal CoT Readable</h3>
-<div class="outline-text-3" id="text-orgedc0c28">
+<div id="outline-container-orgbd23e73" class="outline-3">
+<h3 id="orgbd23e73">Making Internal CoT Readable</h3>
+<div class="outline-text-3" id="text-orgbd23e73">
 <p>
 When you do this naturally, you get a model that will mix languages and use some very strange turn of phrases. DeepSeek takes the extra step to produce a version of R1 which has more readable internal thoughts, in a way which will seem pretty simple to anyone following this long.
 </p>
@@ -1620,22 +1580,21 @@ After this, they perform mostly typical LLM post-training (reasoning/non-reasoni
 </p>
 
 
-<div id="org62849c5" class="figure">
+<div id="orgb0df64e" class="figure">
 <p><img src="../images/from_clipboard/20250923_163516.png" alt="20250923_163516.png" />
 </p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org5e2754a" class="outline-3">
-<h3 id="org5e2754a">Distillation to Smaller Models</h3>
-<div class="outline-text-3" id="text-org5e2754a">
+<div id="outline-container-orga02b281" class="outline-3">
+<h3 id="orga02b281">Distillation to Smaller Models</h3>
+<div class="outline-text-3" id="text-orga02b281">
 <p>
 The distillation component of this paper is likewise extremely simple, and packs a punch. They collect reasoning traces from R1 and perform SFT on a number of smaller models ranging from 1.5B to 70B. This, vaguely, "turns them into reasoner models"<sup><a id="fnr.53" class="footref" href="#fn.53" role="doc-backlink">53</a></sup>
 </p>
 
 
-<div id="org5274fcb" class="figure">
+<div id="org90d1b31" class="figure">
 <p><img src="../images/from_clipboard/20250923_163920.png" alt="20250923_163920.png" />
 </p>
 </div>
@@ -1645,7 +1604,7 @@ My favorite thing about this result is their demonstration that distilling R1 th
 </p>
 
 
-<div id="org85c9413" class="figure">
+<div id="org261fcf3" class="figure">
 <p><img src="../images/from_clipboard/20250923_164346.png" alt="20250923_164346.png" />
 </p>
 </div>
@@ -1655,10 +1614,9 @@ This introduces a pretty interesting frontier funnel effect. It's resource-ineff
 </p>
 </div>
 </div>
-
-<div id="outline-container-org1fa9c69" class="outline-3">
-<h3 id="org1fa9c69">Unsuccessful Attempts</h3>
-<div class="outline-text-3" id="text-org1fa9c69">
+<div id="outline-container-org39f4234" class="outline-3">
+<h3 id="org39f4234">Unsuccessful Attempts</h3>
+<div class="outline-text-3" id="text-org39f4234">
 <p>
 I love when papers include what doesn't work - it's good for the field. The two things in this section of the paper are very noteworthy: Process Reward Models (PRMs) and Monte Carlo Tree Search (MCTS).
 </p>
@@ -1678,10 +1636,9 @@ Likewise, many people thought that MCTS would exist in the formula somewhere. De
 </p>
 </div>
 </div>
-
-<div id="outline-container-org7a75244" class="outline-3">
-<h3 id="org7a75244">Additional Thoughts on Reasoners</h3>
-<div class="outline-text-3" id="text-org7a75244">
+<div id="outline-container-org63b0e9a" class="outline-3">
+<h3 id="org63b0e9a">Additional Thoughts on Reasoners</h3>
+<div class="outline-text-3" id="text-org63b0e9a">
 <p>
 R1 exhibits some interesting shared flaws with o1, which lends authority to the claim that it's a faithful-ish reproduction. It's called out explicitly <a href="https://x.com/erykbanatt/status/1881445256111292651">that R1 performs worse at multi-turn</a> due to the RLVR inductive bias towards single-turn solutions. This seems like it was worked on explicitly by other labs as part of the "hybrid" / "agentic" model wave, which is out of the scope of this article for now.
 </p>
@@ -1692,10 +1649,9 @@ Likewise, the Chain-of-thought SFT part of this paper was highly amusing to me. 
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgf91f49b" class="outline-2">
-<h2 id="orgf91f49b">Conclusion</h2>
-<div class="outline-text-2" id="text-orgf91f49b">
+<div id="outline-container-org06252e4" class="outline-2">
+<h2 id="org06252e4">Conclusion</h2>
+<div class="outline-text-2" id="text-org06252e4">
 <p>
 On January 5th, 2024, DeepSeek released DeepSeek-LLM, a recreation of Llama 2 specifically oriented for Chinese Language. 12 months and 15 papers later, we arrive at the current day: a released V3 <i>(and r1)</i> model, <del>with r1-full on the horizon</del><sup><a id="fnr.55" class="footref" href="#fn.55" role="doc-backlink">55</a></sup>. All things considered, their lab is still fairly nascent: their post-training lags behind <a href="https://www.anthropic.com/research/claude-character">the top western labs</a>, they <a href="https://arxiv.org/pdf/2410.10998">struggle</a> in <a href="https://x.com/erykbanatt/status/1872049104546848793">multi-turn settings</a>, and the narrow focus on math and code makes talking to the model feel much more like talking to a calculator, compared with other models with similar capabilities.
 </p>
@@ -1717,10 +1673,9 @@ For comments, errata, suggestions, etc, you can reach me on <a href="https://x.c
 </p>
 </div>
 </div>
-
-<div id="outline-container-org943fb71" class="outline-2">
-<h2 id="org943fb71"><span class="todo TODO">TODO</span> List</h2>
-<div class="outline-text-2" id="text-org943fb71">
+<div id="outline-container-org0d42a1c" class="outline-2">
+<h2 id="org0d42a1c"><span class="todo TODO">TODO</span> List</h2>
+<div class="outline-text-2" id="text-org0d42a1c">
 <ul class="org-ul">
 <li>Pixel Shuffle section in JanusFlow might be necessary, it's mentioned twice in this writeup.</li>
 <li>I'm not happy with the Rectified Flow section, probably because it's a lot to learn.</li>
@@ -1904,7 +1859,7 @@ It has the original warmup-and-decay as DeepSeek-V2, but with a period that uses
 </p>
 
 
-<div id="orga21006a" class="figure">
+<div id="orge2fbde7" class="figure">
 <p><img src="../images/from_clipboard/20241229_201540.png" alt="20241229_201540.png" />
 </p>
 </div></div></div>

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-22 Sat 16:16 -->
+<!-- 2026-08-22 Sat 16:22 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>LLMs for Self-Tutoring</title>
@@ -98,6 +98,7 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
             <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
             <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
@@ -111,29 +112,28 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org3d0fa79">Self-Tutoring with LLMs as Generalized Policy Iteration</a>
+<li><a href="#org73f0aa0">Self-Tutoring with LLMs as Generalized Policy Iteration</a>
 <ul>
-<li><a href="#org8519bf6">Generalized Policy Iteration</a></li>
-<li><a href="#org8edfb44">A Strategy for Self-Tutoring with LLMs</a>
+<li><a href="#org97353d3">Generalized Policy Iteration</a></li>
+<li><a href="#orgf672040">A Strategy for Self-Tutoring with LLMs</a>
 <ul>
-<li><a href="#orge4c428c">You Still Have To Read</a></li>
-<li><a href="#orge829507">LLM Summaries as Abstracts</a></li>
-<li><a href="#org735f6e3">Keep Track of What You Don't Understand</a></li>
-<li><a href="#orga6236a8">Give The LLM Your Text</a></li>
-<li><a href="#orga92ed7d">Ask It About Things You Don't Understand</a></li>
-<li><a href="#orgef0b171">Do The Exercises, Get Active Feedback</a></li>
+<li><a href="#org0ff327e">You Still Have To Read</a></li>
+<li><a href="#org2b55a11">LLM Summaries as Abstracts</a></li>
+<li><a href="#org25d5d11">Keep Track of What You Don't Understand</a></li>
+<li><a href="#org6e02f29">Give The LLM Your Text</a></li>
+<li><a href="#org3ca1e57">Ask It About Things You Don't Understand</a></li>
+<li><a href="#org7b137d7">Do The Exercises, Get Active Feedback</a></li>
 </ul>
 </li>
-<li><a href="#org2ef6dbe">Thoughts on LLMs as the Driver for Modern Montessori</a></li>
+<li><a href="#org9673eca">Thoughts on LLMs as the Driver for Modern Montessori</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org3d0fa79" class="outline-1">
-<h1 id="org3d0fa79">Self-Tutoring with LLMs as Generalized Policy Iteration</h1>
-<div class="outline-text-1" id="text-org3d0fa79">
+<div id="outline-container-org73f0aa0" class="outline-1">
+<h1 id="org73f0aa0">Self-Tutoring with LLMs as Generalized Policy Iteration</h1>
+<div class="outline-text-1" id="text-org73f0aa0">
 <p>
 A core result from education research is <a href="https://en.wikipedia.org/wiki/Bloom%27s_2_sigma_problem">Bloom's 2 sigma problem</a>, which roughly states that the average student that recieves one-on-one tutoring scores higher than 98% of students who learn just through classroom settings. This is fairly outrageous: even just elevating the median student to 70th percentile would feel like an extremely large discrepancy.
 </p>
@@ -146,16 +146,15 @@ Classroom settings are therefore remarkably suspect. A one-size-fits-all setting
 But in the real world, tutors are outside the price range of most middle-class-and-below students, regardless of their potential membership in the upper percentiles. LLMs offer a potential opportunity to disrupt this, and provide high-quality tutoring for meager costs (or free). Looming fear of hallucination means that this has not taken off as a widespread solution: can this be mitigated?
 </p>
 </div>
-
-<div id="outline-container-org8519bf6" class="outline-2">
-<h2 id="org8519bf6">Generalized Policy Iteration</h2>
-<div class="outline-text-2" id="text-org8519bf6">
+<div id="outline-container-org97353d3" class="outline-2">
+<h2 id="org97353d3">Generalized Policy Iteration</h2>
+<div class="outline-text-2" id="text-org97353d3">
 <p>
 A good framework for getting practical value out of LLMs is to frame the problem in terms of <a href="http://incompleteideas.net/book/first/ebook/node46.html">Generalized Policy Iteration</a>. The overall idea of GPI is that you have a policy which determines your actions, and a value function which tells you how good your policy is. These two update each other in a cycle: the value function is adjusted based on the current policy, and then the policy is adjusted to pick the best action in each state. If you do this cycle over and over again, these two will converge to the same spot, where neither changes because you have the optimal value function and policy.
 </p>
 
 
-<div id="orgfb5f9eb" class="figure">
+<div id="org667d546" class="figure">
 <p><img src="../images/from_clipboard/20241129_143515.png" alt="20241129_143515.png" />
 </p>
 </div>
@@ -166,18 +165,16 @@ The core idea here is that you need to build up some understanding yourself, and
 </p>
 </div>
 </div>
-
-<div id="outline-container-org8edfb44" class="outline-2">
-<h2 id="org8edfb44">A Strategy for Self-Tutoring with LLMs</h2>
-<div class="outline-text-2" id="text-org8edfb44">
+<div id="outline-container-orgf672040" class="outline-2">
+<h2 id="orgf672040">A Strategy for Self-Tutoring with LLMs</h2>
+<div class="outline-text-2" id="text-orgf672040">
 <p>
 I have found LLMs tremendously helpful at learning new material, despite admittedly frequent hallucination. You have to be careful to use it in a way that enables you to actually, reliably, learn in an effective way. 
 </p>
 </div>
-
-<div id="outline-container-orge4c428c" class="outline-3">
-<h3 id="orge4c428c">You Still Have To Read</h3>
-<div class="outline-text-3" id="text-orge4c428c">
+<div id="outline-container-org0ff327e" class="outline-3">
+<h3 id="org0ff327e">You Still Have To Read</h3>
+<div class="outline-text-3" id="text-org0ff327e">
 <p>
 A very common use-case for LLMs seems to be summarization. Very often you will LLM evangelists show off how good a model is at summarizing lots of text, and you will see questions from potential new users like "how can I be certain that this text is accurate?" To me, this completely misses the forest for the trees.
 </p>
@@ -191,10 +188,9 @@ There is a great divide in LLM usage which is roughly shaped like the above: peo
 </p>
 </div>
 </div>
-
-<div id="outline-container-orge829507" class="outline-3">
-<h3 id="orge829507">LLM Summaries as Abstracts</h3>
-<div class="outline-text-3" id="text-orge829507">
+<div id="outline-container-org2b55a11" class="outline-3">
+<h3 id="org2b55a11">LLM Summaries as Abstracts</h3>
+<div class="outline-text-3" id="text-org2b55a11">
 <p>
 LLM Summaries are not useless, despite the point we just raised. A good way to think about this is that LLMs can read a huge amount of text very, very fast compared to you. As a result, you can think of LLM-generated summaries as ways to direct your reading, in scenarios where you have a lot of things to read.
 </p>
@@ -208,28 +204,25 @@ If you just read the abstract, it would be silly to act like you've read the who
 </p>
 </div>
 </div>
-
-<div id="outline-container-org735f6e3" class="outline-3">
-<h3 id="org735f6e3">Keep Track of What You Don't Understand</h3>
-<div class="outline-text-3" id="text-org735f6e3">
+<div id="outline-container-org25d5d11" class="outline-3">
+<h3 id="org25d5d11">Keep Track of What You Don't Understand</h3>
+<div class="outline-text-3" id="text-org25d5d11">
 <p>
 When you read something challenging, you should pay close attention to the things which feel hazy vs the things that feel straightforward. 
 </p>
 </div>
 </div>
-
-<div id="outline-container-orga6236a8" class="outline-3">
-<h3 id="orga6236a8">Give The LLM Your Text</h3>
-<div class="outline-text-3" id="text-orga6236a8">
+<div id="outline-container-org6e02f29" class="outline-3">
+<h3 id="org6e02f29">Give The LLM Your Text</h3>
+<div class="outline-text-3" id="text-org6e02f29">
 <p>
 If you're reading something in pdf form, you usually can put the pdf in the window. If it's too large, you can trim it with print to pdf. 
 </p>
 </div>
 </div>
-
-<div id="outline-container-orga92ed7d" class="outline-3">
-<h3 id="orga92ed7d">Ask It About Things You Don't Understand</h3>
-<div class="outline-text-3" id="text-orga92ed7d">
+<div id="outline-container-org3ca1e57" class="outline-3">
+<h3 id="org3ca1e57">Ask It About Things You Don't Understand</h3>
+<div class="outline-text-3" id="text-org3ca1e57">
 <p>
 Generally speaking, when you don't understand something you are reading, there's a specific single threshold you are struggling with.
 </p>
@@ -243,10 +236,9 @@ If the LLM hallucinates and provides you something nonsensical or incorrect, it'
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgef0b171" class="outline-3">
-<h3 id="orgef0b171">Do The Exercises, Get Active Feedback</h3>
-<div class="outline-text-3" id="text-orgef0b171">
+<div id="outline-container-org7b137d7" class="outline-3">
+<h3 id="org7b137d7">Do The Exercises, Get Active Feedback</h3>
+<div class="outline-text-3" id="text-org7b137d7">
 <p>
 If the thing you're doing has exercises, you should try to do them, ideally with as little assistance as you can manage. LLMs are very good at homework-problem-shaped things, so even if you get stuck and want a hint you should be explicit saying something like "point me in the right direction but don't solve the problem for me".
 </p>
@@ -265,10 +257,9 @@ It requires you to actually care about the topic, though.
 </div>
 </div>
 </div>
-
-<div id="outline-container-org2ef6dbe" class="outline-2">
-<h2 id="org2ef6dbe">Thoughts on LLMs as the Driver for Modern Montessori</h2>
-<div class="outline-text-2" id="text-org2ef6dbe">
+<div id="outline-container-org9673eca" class="outline-2">
+<h2 id="org9673eca">Thoughts on LLMs as the Driver for Modern Montessori</h2>
+<div class="outline-text-2" id="text-org9673eca">
 <p>
 I think that of all possible applications, education is the single industry most likely to be significantly positively disrupted by LLM-driven technologies.
 </p>

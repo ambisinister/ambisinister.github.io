@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-22 Sat 16:16 -->
+<!-- 2026-08-22 Sat 16:22 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Emacs Configuration</title>
@@ -98,6 +98,7 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
             <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
             <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
@@ -111,38 +112,38 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org02a33dd">Emacs configuration</a>
+<li><a href="#org19f2b56">Emacs configuration</a>
 <ul>
-<li><a href="#orga6fdf34">Init File</a></li>
-<li><a href="#orgab7d7fa">Basic customization</a>
+<li><a href="#org4195abb">Init File</a></li>
+<li><a href="#org5ba95a8">Basic customization</a>
 <ul>
-<li><a href="#org1143775">Appearance settings</a></li>
-<li><a href="#org2a6d89f">autosave settings</a></li>
-<li><a href="#org16cac87">basic custom keybinds</a></li>
+<li><a href="#orgcff6d89">Appearance settings</a></li>
+<li><a href="#org374d7ee">autosave settings</a></li>
+<li><a href="#org52b3e8a">basic custom keybinds</a></li>
 </ul>
 </li>
-<li><a href="#orgc78c30a">HTML Export</a>
+<li><a href="#org16a830b">HTML Export</a>
 <ul>
-<li><a href="#org3b2f642">settings</a></li>
-<li><a href="#orgcc24082">org-html head/pre/postamble</a>
+<li><a href="#org6c15d6c">settings</a></li>
+<li><a href="#org94aa6f0">org-html head/pre/postamble</a>
 <ul>
-<li><a href="#org125f142">head</a></li>
-<li><a href="#orgd5028c9">preamble</a></li>
-<li><a href="#orgee5f36c">postamble</a></li>
+<li><a href="#org3e09abf">head</a></li>
+<li><a href="#orgd09eec5">preamble</a></li>
+<li><a href="#org9142cd1">postamble</a></li>
 </ul>
 </li>
-<li><a href="#orge9e116d">publish projects</a></li>
-<li><a href="#org2197c7c">minted, hopefully</a></li>
+<li><a href="#orgc46f329">publish projects</a></li>
+<li><a href="#org961f21b">minted, hopefully</a></li>
 </ul>
 </li>
-<li><a href="#orgb26c70b">org mode settings</a>
+<li><a href="#orgc56be35">org mode settings</a>
 <ul>
-<li><a href="#org013cdea">Basic display settings and hotkeys</a></li>
-<li><a href="#org155faf9">Clipboard Inline Image Paste</a></li>
-<li><a href="#org2db18be">Capture templates</a></li>
-<li><a href="#org3b8e899">Anki</a></li>
-<li><a href="#org63856b2">Programming QOL Stuff</a></li>
-<li><a href="#org270691d">packages</a></li>
+<li><a href="#org09dc546">Basic display settings and hotkeys</a></li>
+<li><a href="#org9685226">Clipboard Inline Image Paste</a></li>
+<li><a href="#org1488975">Capture templates</a></li>
+<li><a href="#org723bf32">Anki</a></li>
+<li><a href="#orgcbffea0">Programming QOL Stuff</a></li>
+<li><a href="#orgeb22cbe">packages</a></li>
 </ul>
 </li>
 </ul>
@@ -150,50 +151,48 @@ $(function() {
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org02a33dd" class="outline-1">
-<h1 id="org02a33dd">Emacs configuration</h1>
-<div class="outline-text-1" id="text-org02a33dd">
+<div id="outline-container-org19f2b56" class="outline-1">
+<h1 id="org19f2b56">Emacs configuration</h1>
+<div class="outline-text-1" id="text-org19f2b56">
 <p>
 I'm a mediocre emacs user and I have an init file just like everybody else.
 </p>
 </div>
-
-<div id="outline-container-orga6fdf34" class="outline-2">
-<h2 id="orga6fdf34">Init File</h2>
-<div class="outline-text-2" id="text-orga6fdf34">
+<div id="outline-container-org4195abb" class="outline-2">
+<h2 id="org4195abb">Init File</h2>
+<div class="outline-text-2" id="text-org4195abb">
 <p>
 To begin you'll want the following in your init.el file:
 </p>
 
-<pre class="example">
-(require 'package)
+<div class="org-src-container">
+<pre class="src src-nil">(require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/"))
+             '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
-	(package-refresh-contents)
-	(package-install 'use-package))
+        (package-refresh-contents)
+        (package-install 'use-package))
 
 (org-babel-load-file (expand-file-name "&lt;&lt;whatever location&gt;&gt;"))
 </pre>
+</div>
 
 <p>
 The rest is handled inside the org document full of emacs-lisp src blocks (that is, this document)
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgab7d7fa" class="outline-2">
-<h2 id="orgab7d7fa">Basic customization</h2>
-<div class="outline-text-2" id="text-orgab7d7fa">
+<div id="outline-container-org5ba95a8" class="outline-2">
+<h2 id="org5ba95a8">Basic customization</h2>
+<div class="outline-text-2" id="text-org5ba95a8">
 </div>
-<div id="outline-container-org1143775" class="outline-3">
-<h3 id="org1143775">Appearance settings</h3>
-<div class="outline-text-3" id="text-org1143775">
+<div id="outline-container-orgcff6d89" class="outline-3">
+<h3 id="orgcff6d89">Appearance settings</h3>
+<div class="outline-text-3" id="text-orgcff6d89">
 <p>
 should be straightforward enough, just getting rid of stuff like the toolbar / setting visual 
 </p>
@@ -201,16 +200,16 @@ should be straightforward enough, just getting rid of stuff like the toolbar / s
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(tool-bar-mode 0)
 (menu-bar-mode 0)
-(<span style="color: #F92672;">setq</span> inhibit-startup-message t)
-(<span style="color: #F92672;">when</span> window-system (scroll-bar-mode -1))
-(<span style="color: #F92672;">setq</span> fill-column 80)
+(<span style="font-weight: bold;">setq</span> inhibit-startup-message t)
+(<span style="font-weight: bold;">when</span> window-system (scroll-bar-mode -1))
+(<span style="font-weight: bold;">setq</span> fill-column 80)
 (global-visual-line-mode t)
 
-<span style="color: #75715E;">;</span><span style="color: #75715E;">theme
-</span>(<span style="color: #F92672;">use-package</span> <span style="color: #AE81FF;">monokai-theme</span> <span style="color: #F92672;">:ensure</span> t)
+<span style="font-weight: bold; font-style: italic;">;</span><span style="font-weight: bold; font-style: italic;">theme
+</span>(<span style="font-weight: bold;">use-package</span> <span style="font-weight: bold; text-decoration: underline;">monokai-theme</span> <span style="font-weight: bold;">:ensure</span> t)
 (load-theme 'monokai t)
 
-<span style="color: #75715E;">;</span><span style="color: #75715E;">encoding?
+<span style="font-weight: bold; font-style: italic;">;</span><span style="font-weight: bold; font-style: italic;">encoding?
 </span>(prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
@@ -223,27 +222,26 @@ as well as my <a href="https://en.wikipedia.org/wiki/Invictus">custom scratch me
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #F92672;">setq</span> initial-scratch-message
-<span style="color: #E6DB74;">"; Present Day. Present Time! (ahahaha!)
+<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> initial-scratch-message
+<span style="font-style: italic;">"; Present Day. Present Time! (ahahaha!)
 "</span>)
 </pre>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org2a6d89f" class="outline-3">
-<h3 id="org2a6d89f">autosave settings</h3>
-<div class="outline-text-3" id="text-org2a6d89f">
+<div id="outline-container-org374d7ee" class="outline-3">
+<h3 id="org374d7ee">autosave settings</h3>
+<div class="outline-text-3" id="text-org374d7ee">
 <p>
 Don't really use for anything, might get rid of this later
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #75715E;">; </span><span style="color: #75715E;">autosave directory hidden
-</span>(<span style="color: #F92672;">setq</span>
-   backup-by-copying t      <span style="color: #75715E;">; </span><span style="color: #75715E;">don't clobber symlinks
+<pre class="src src-emacs-lisp"><span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">autosave directory hidden
+</span>(<span style="font-weight: bold;">setq</span>
+   backup-by-copying t      <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">don't clobber symlinks
 </span>   backup-directory-alist
-    '((<span style="color: #E6DB74;">"."</span> . <span style="color: #E6DB74;">"~/.saves/"</span>))    <span style="color: #75715E;">; </span><span style="color: #75715E;">don't litter my fs tree
+    '((<span style="font-style: italic;">"."</span> . <span style="font-style: italic;">"~/.saves/"</span>))    <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">don't litter my fs tree
 </span>   delete-old-versions t
    kept-new-versions 6
    kept-old-versions 2
@@ -253,19 +251,18 @@ Don't really use for anything, might get rid of this later
 </div>
 </div>
 </div>
-
-<div id="outline-container-org16cac87" class="outline-3">
-<h3 id="org16cac87">basic custom keybinds</h3>
-<div class="outline-text-3" id="text-org16cac87">
+<div id="outline-container-org52b3e8a" class="outline-3">
+<h3 id="org52b3e8a">basic custom keybinds</h3>
+<div class="outline-text-3" id="text-org52b3e8a">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(global-set-key (kbd <span style="color: #E6DB74;">"M-o"</span>) 'other-window)
-(global-set-key (kbd <span style="color: #E6DB74;">"C-x k"</span>) 'kill-current-buffer)
-(global-set-key (kbd <span style="color: #E6DB74;">"C-c C-k"</span>) 'eval-buffer)
-(global-unset-key (kbd <span style="color: #E6DB74;">"C-z"</span>))
+<pre class="src src-emacs-lisp">(global-set-key (kbd <span style="font-style: italic;">"M-o"</span>) 'other-window)
+(global-set-key (kbd <span style="font-style: italic;">"C-x k"</span>) 'kill-current-buffer)
+(global-set-key (kbd <span style="font-style: italic;">"C-c C-k"</span>) 'eval-buffer)
+(global-unset-key (kbd <span style="font-style: italic;">"C-z"</span>))
 
 
-(<span style="color: #F92672;">defun</span> <span style="color: #A6E22E;">kill-current-buffer</span> ()
-  (<span style="color: #F92672;">interactive</span>)
+(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">kill-current-buffer</span> ()
+  (<span style="font-weight: bold;">interactive</span>)
   (kill-buffer (current-buffer))
   )
 
@@ -274,47 +271,44 @@ Don't really use for anything, might get rid of this later
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgc78c30a" class="outline-2">
-<h2 id="orgc78c30a">HTML Export</h2>
-<div class="outline-text-2" id="text-orgc78c30a">
+<div id="outline-container-org16a830b" class="outline-2">
+<h2 id="org16a830b">HTML Export</h2>
+<div class="outline-text-2" id="text-org16a830b">
 </div>
-<div id="outline-container-org3b2f642" class="outline-3">
-<h3 id="org3b2f642">settings</h3>
-<div class="outline-text-3" id="text-org3b2f642">
+<div id="outline-container-org6c15d6c" class="outline-3">
+<h3 id="org6c15d6c">settings</h3>
+<div class="outline-text-3" id="text-org6c15d6c">
 <p>
 planetbanatt org config things
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #F92672;">setq</span> org-export-with-section-numbers nil)
-<span style="color: #75715E;">;</span><span style="color: #75715E;">(setq org-export-with-title nil) ;doesn't seem to work
-</span>(<span style="color: #F92672;">setq</span> org-export-with-title t)
-(<span style="color: #F92672;">setq</span> org-html-toplevel-hlevel 1)
-(<span style="color: #F92672;">setq</span> org-html-head-include-default-style nil)
-(<span style="color: #F92672;">setq</span> org-html-head-include-default-scripts nil)
+<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> org-export-with-section-numbers nil)
+<span style="font-weight: bold; font-style: italic;">;</span><span style="font-weight: bold; font-style: italic;">(setq org-export-with-title nil) ;doesn't seem to work
+</span>(<span style="font-weight: bold;">setq</span> org-export-with-title t)
+(<span style="font-weight: bold;">setq</span> org-html-toplevel-hlevel 1)
+(<span style="font-weight: bold;">setq</span> org-html-head-include-default-style nil)
+(<span style="font-weight: bold;">setq</span> org-html-head-include-default-scripts nil)
 </pre>
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgcc24082" class="outline-3">
-<h3 id="orgcc24082">org-html head/pre/postamble</h3>
-<div class="outline-text-3" id="text-orgcc24082">
+<div id="outline-container-org94aa6f0" class="outline-3">
+<h3 id="org94aa6f0">org-html head/pre/postamble</h3>
+<div class="outline-text-3" id="text-org94aa6f0">
 <p>
 Sort of a hacky solution to get emacs to export html files compatible with my <a href="https://planetbanatt.net/">personal website</a>, but I basically accomplish everything by appending a default head, preamble, and postamble to everything. I use <a href="https://getbootstrap.com/">bootstrap</a> as a framework but it's not straightforward to edit the classes of elements done via html export in emacs. To get around this, I have a small javascript function that sets classes / attributes to things and makes them roughly usable by bootstrap. It looks pretty strange but it works for what I'm using it for!
 </p>
 </div>
-
-<div id="outline-container-org125f142" class="outline-4">
-<h4 id="org125f142">head</h4>
-<div class="outline-text-4" id="text-org125f142">
+<div id="outline-container-org3e09abf" class="outline-4">
+<h4 id="org3e09abf">head</h4>
+<div class="outline-text-4" id="text-org3e09abf">
 <p>
 default CSS / bootstrap, google analytics, some js functions for compatability
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #F92672;">setq</span> org-html-head
-      <span style="color: #E6DB74;">"&lt;meta charset=\"utf-8\"&gt;
+<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> org-html-head
+      <span style="font-style: italic;">"&lt;meta charset=\"utf-8\"&gt;
 &lt;meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"&gt;
 &lt;meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"&gt;
 &lt;script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js\"&gt;&lt;/script&gt;
@@ -323,9 +317,9 @@ default CSS / bootstrap, google analytics, some js functions for compatability
 &lt;script&gt;
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  gtag('</span><span style="color: #AE81FF;">js</span><span style="color: #E6DB74;">', new Date());
+  gtag('</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">js</span><span style="font-style: italic;">', new Date());
 
-  gtag('</span><span style="color: #AE81FF;">config</span><span style="color: #E6DB74;">', '</span><span style="color: #AE81FF;">UA-101739190-1</span><span style="color: #E6DB74;">');
+  gtag('</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">config</span><span style="font-style: italic;">', '</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">UA-101739190-1</span><span style="font-style: italic;">');
 &lt;/script&gt;
 
 
@@ -344,31 +338,31 @@ window.addEventListener(\"hashchange\", shiftWindow);
 $(function() {
     'use strict';
 
-    $(\"#text-table-of-contents ul:first\").addClass('</span><span style="color: #AE81FF;">nav</span><span style="color: #E6DB74;">')
-    $('</span><span style="color: #AE81FF;">body</span><span style="color: #E6DB74;">').attr('</span><span style="color: #AE81FF;">data-spy</span><span style="color: #E6DB74;">', '</span><span style="color: #AE81FF;">scroll</span><span style="color: #E6DB74;">')
-    $('</span><span style="color: #AE81FF;">body</span><span style="color: #E6DB74;">').attr('</span><span style="color: #AE81FF;">data-target</span><span style="color: #E6DB74;">', '#text-table-of-contents')
-    $('</span><span style="color: #AE81FF;">body</span><span style="color: #E6DB74;">').attr('</span><span style="color: #AE81FF;">data-offset</span><span style="color: #E6DB74;">', '</span><span style="color: #AE81FF;">100</span><span style="color: #E6DB74;">')
-    $('</span><span style="color: #AE81FF;">table</span><span style="color: #E6DB74;">').addClass('table table-striped table-bordered table-hover table-condensed')
+    $(\"#text-table-of-contents ul:first\").addClass('</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">nav</span><span style="font-style: italic;">')
+    $('</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">body</span><span style="font-style: italic;">').attr('</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">data-spy</span><span style="font-style: italic;">', '</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">scroll</span><span style="font-style: italic;">')
+    $('</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">body</span><span style="font-style: italic;">').attr('</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">data-target</span><span style="font-style: italic;">', '#text-table-of-contents')
+    $('</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">body</span><span style="font-style: italic;">').attr('</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">data-offset</span><span style="font-style: italic;">', '</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">100</span><span style="font-style: italic;">')
+    $('</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">table</span><span style="font-style: italic;">').addClass('table table-striped table-bordered table-hover table-condensed')
 
     // Dark mode functionality
     window.toggleDarkMode = function() {
-        document.body.classList.toggle('</span><span style="color: #AE81FF;">dark-mode</span><span style="color: #E6DB74;">');
-        const isDarkMode = document.body.classList.contains('</span><span style="color: #AE81FF;">dark-mode</span><span style="color: #E6DB74;">');
-        localStorage.setItem('</span><span style="color: #AE81FF;">darkMode</span><span style="color: #E6DB74;">', isDarkMode);
+        document.body.classList.toggle('</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">dark-mode</span><span style="font-style: italic;">');
+        const isDarkMode = document.body.classList.contains('</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">dark-mode</span><span style="font-style: italic;">');
+        localStorage.setItem('</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">darkMode</span><span style="font-style: italic;">', isDarkMode);
         updateToggleButton();
     }
 
     function updateToggleButton() {
-        const toggle = document.querySelector('</span><span style="color: #AE81FF;">.dark-mode-toggle-nav</span><span style="color: #E6DB74;">');
+        const toggle = document.querySelector('</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">.dark-mode-toggle-nav</span><span style="font-style: italic;">');
         if (toggle) {
-            toggle.innerHTML = document.body.classList.contains('</span><span style="color: #AE81FF;">dark-mode</span><span style="color: #E6DB74;">') ? '</span><span style="color: #AE81FF;">&#9728;&#65039;</span><span style="color: #E6DB74;">' : '</span><span style="color: #AE81FF;">&#127769;</span><span style="color: #E6DB74;">';
+            toggle.innerHTML = document.body.classList.contains('</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">dark-mode</span><span style="font-style: italic;">') ? '</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">&#9728;&#65039;</span><span style="font-style: italic;">' : '</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">&#127769;</span><span style="font-style: italic;">';
         }
     }
 
     // Initialize dark mode from localStorage
-    const savedDarkMode = localStorage.getItem('</span><span style="color: #AE81FF;">darkMode</span><span style="color: #E6DB74;">');
-    if (savedDarkMode === '</span><span style="color: #AE81FF;">true</span><span style="color: #E6DB74;">') {
-        document.body.classList.add('</span><span style="color: #AE81FF;">dark-mode</span><span style="color: #E6DB74;">');
+    const savedDarkMode = localStorage.getItem('</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">darkMode</span><span style="font-style: italic;">');
+    if (savedDarkMode === '</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">true</span><span style="font-style: italic;">') {
+        document.body.classList.add('</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">dark-mode</span><span style="font-style: italic;">');
     }
 
     // Update toggle button on page load
@@ -383,16 +377,15 @@ $(function() {
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgd5028c9" class="outline-4">
-<h4 id="orgd5028c9">preamble</h4>
-<div class="outline-text-4" id="text-orgd5028c9">
+<div id="outline-container-orgd09eec5" class="outline-4">
+<h4 id="orgd09eec5">preamble</h4>
+<div class="outline-text-4" id="text-orgd09eec5">
 <p>
 navbar; will probably add header with my name later
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #F92672;">setq</span> org-html-preamble
-<span style="color: #E6DB74;">"
+<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> org-html-preamble
+<span style="font-style: italic;">"
 &lt;!-- heading --&gt;
 &lt;!-- add here --&gt;
 
@@ -414,6 +407,7 @@ navbar; will probably add header with my name later
             &lt;li&gt;&lt;a href=\"http://planetbanatt.net/projects.html\"&gt;Projects&lt;/a&gt;&lt;/li&gt;
             &lt;li&gt;&lt;a href=\"http://planetbanatt.net/melee/index.html\"&gt;Melee&lt;/a&gt;&lt;/li&gt;
             &lt;li&gt;&lt;a href=\"http://planetbanatt.net/links.html\"&gt;Links&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=\"http://planetbanatt.net/blog/\"&gt;Blog&lt;/a&gt;&lt;/li&gt;
             &lt;li&gt;&lt;a href=\"http://planetbanatt.net/resume.pdf\"&gt;Resume&lt;/a&gt;&lt;/li&gt;
             &lt;li class=\"dark-mode-nav-item\"&gt;&lt;a href=\"#\" class=\"dark-mode-toggle-nav\" onclick=\"toggleDarkMode(); return false;\"&gt;&#127769;&lt;/a&gt;&lt;/li&gt;
           &lt;/ul&gt;
@@ -425,25 +419,23 @@ navbar; will probably add header with my name later
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgee5f36c" class="outline-4">
-<h4 id="orgee5f36c">postamble</h4>
-<div class="outline-text-4" id="text-orgee5f36c">
+<div id="outline-container-org9142cd1" class="outline-4">
+<h4 id="org9142cd1">postamble</h4>
+<div class="outline-text-4" id="text-org9142cd1">
 <p>
 back to top
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #F92672;">setq</span> org-html-postamble
-      <span style="color: #E6DB74;">"&lt;a href=\"#top\"&gt;Back to Top&lt;/a&gt;"</span>)
+<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> org-html-postamble
+      <span style="font-style: italic;">"&lt;a href=\"#top\"&gt;Back to Top&lt;/a&gt;"</span>)
 </pre>
 </div>
 </div>
 </div>
 </div>
-
-<div id="outline-container-orge9e116d" class="outline-3">
-<h3 id="orge9e116d">publish projects</h3>
-<div class="outline-text-3" id="text-orge9e116d">
+<div id="outline-container-orgc46f329" class="outline-3">
+<h3 id="orgc46f329">publish projects</h3>
+<div class="outline-text-3" id="text-orgc46f329">
 <p>
 currently just publishing all to planetbanatt format
 </p>
@@ -453,163 +445,156 @@ The blog index is auto-generated before each publish run via a preparation funct
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #F92672;">defun</span> <span style="color: #A6E22E;">eryk/generate-blog-index</span> (pl-alist)
-  <span style="color: #E6DB74;">"Regenerate blog index before publishing.
+<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">eryk/generate-blog-index</span> (pl-alist)
+  <span style="font-style: italic;">"Regenerate blog index before publishing.
 Runs the Python script that scans org/blog/ for posts and rewrites
 the post list in org/blog/index.org."</span>
-  (<span style="color: #F92672;">let*</span> ((default-directory (expand-file-name <span style="color: #E6DB74;">"~/Documents/code/ambisinister.github.io/"</span>))
-         (script (expand-file-name <span style="color: #E6DB74;">"scripts/generate_blog_index.py"</span> default-directory)))
-    (<span style="color: #F92672;">when</span> (file-exists-p script)
-      (message <span style="color: #E6DB74;">"Regenerating blog index..."</span>)
-      (shell-command (format <span style="color: #E6DB74;">"python3 %s"</span> (shell-quote-argument script)))
-      (message <span style="color: #E6DB74;">"Blog index regenerated."</span>))))
+  (<span style="font-weight: bold;">let*</span> ((default-directory (expand-file-name <span style="font-style: italic;">"~/Documents/code/ambisinister.github.io/"</span>))
+         (script (expand-file-name <span style="font-style: italic;">"scripts/generate_blog_index.py"</span> default-directory)))
+    (<span style="font-weight: bold;">when</span> (file-exists-p script)
+      (message <span style="font-style: italic;">"Regenerating blog index..."</span>)
+      (shell-command (format <span style="font-style: italic;">"python3 %s"</span> (shell-quote-argument script)))
+      (message <span style="font-style: italic;">"Blog index regenerated."</span>))))
 
-(<span style="color: #F92672;">setq</span> org-publish-project-alist
-      '((<span style="color: #E6DB74;">"planetbanatt"</span>
-        <span style="color: #F92672;">:base-directory</span> <span style="color: #E6DB74;">"~/Documents/code/ambisinister.github.io/org/"</span>
-        <span style="color: #F92672;">:base-extension</span> <span style="color: #E6DB74;">"org"</span>
-        <span style="color: #F92672;">:publishing-directory</span> <span style="color: #E6DB74;">"~/Documents/code/ambisinister.github.io/"</span>
-        <span style="color: #F92672;">:recursive</span> t
-        <span style="color: #F92672;">:publishing-function</span> org-html-publish-to-html
-        <span style="color: #F92672;">:headline-levels</span> 6             <span style="color: #75715E;">; </span><span style="color: #75715E;">Just the default for this project.
-</span>        <span style="color: #F92672;">:preparation-function</span> eryk/generate-blog-index
+(<span style="font-weight: bold;">setq</span> org-publish-project-alist
+      '((<span style="font-style: italic;">"planetbanatt"</span>
+        <span style="font-weight: bold;">:base-directory</span> <span style="font-style: italic;">"~/Documents/code/ambisinister.github.io/org/"</span>
+        <span style="font-weight: bold;">:base-extension</span> <span style="font-style: italic;">"org"</span>
+        <span style="font-weight: bold;">:publishing-directory</span> <span style="font-style: italic;">"~/Documents/code/ambisinister.github.io/"</span>
+        <span style="font-weight: bold;">:recursive</span> t
+        <span style="font-weight: bold;">:publishing-function</span> org-html-publish-to-html
+        <span style="font-weight: bold;">:headline-levels</span> 6             <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">Just the default for this project.
+</span>        <span style="font-weight: bold;">:preparation-function</span> eryk/generate-blog-index
         ))
 )
 </pre>
 </div>
 </div>
 </div>
-
-
-<div id="outline-container-org2197c7c" class="outline-3">
-<h3 id="org2197c7c">minted, hopefully</h3>
-<div class="outline-text-3" id="text-org2197c7c">
+<div id="outline-container-org961f21b" class="outline-3">
+<h3 id="org961f21b">minted, hopefully</h3>
+<div class="outline-text-3" id="text-org961f21b">
 <p>
 syntax highlighting for emacs org mode -&gt; html would be nice to have for when I export things with code in them
 </p>
 
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #F92672;">require</span> '<span style="color: #AE81FF;">ox-latex</span>)
-(<span style="color: #F92672;">use-package</span> <span style="color: #AE81FF;">htmlize</span>)
-(add-to-list 'org-latex-packages-alist '(<span style="color: #E6DB74;">""</span> <span style="color: #E6DB74;">"minted"</span>))
-(<span style="color: #F92672;">setq</span> org-latex-listings 'minted)
-(<span style="color: #F92672;">setq</span> org-latex-pdf-process
-      '(<span style="color: #E6DB74;">"pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"</span>
-        <span style="color: #E6DB74;">"pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"</span>
-        <span style="color: #E6DB74;">"pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"</span>))
+<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">require</span> '<span style="font-weight: bold; text-decoration: underline;">ox-latex</span>)
+(<span style="font-weight: bold;">use-package</span> <span style="font-weight: bold; text-decoration: underline;">htmlize</span>)
+(add-to-list 'org-latex-packages-alist '(<span style="font-style: italic;">""</span> <span style="font-style: italic;">"minted"</span>))
+(<span style="font-weight: bold;">setq</span> org-latex-listings 'minted)
+(<span style="font-weight: bold;">setq</span> org-latex-pdf-process
+      '(<span style="font-style: italic;">"pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"</span>
+        <span style="font-style: italic;">"pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"</span>
+        <span style="font-style: italic;">"pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"</span>))
 </pre>
 </div>
 </div>
 </div>
 </div>
-
-
-<div id="outline-container-orgb26c70b" class="outline-2">
-<h2 id="orgb26c70b">org mode settings</h2>
-<div class="outline-text-2" id="text-orgb26c70b">
+<div id="outline-container-orgc56be35" class="outline-2">
+<h2 id="orgc56be35">org mode settings</h2>
+<div class="outline-text-2" id="text-orgc56be35">
 </div>
-<div id="outline-container-org013cdea" class="outline-3">
-<h3 id="org013cdea">Basic display settings and hotkeys</h3>
-<div class="outline-text-3" id="text-org013cdea">
+<div id="outline-container-org09dc546" class="outline-3">
+<h3 id="org09dc546">Basic display settings and hotkeys</h3>
+<div class="outline-text-3" id="text-org09dc546">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #75715E;">;; </span><span style="color: #75715E;">The following lines are always needed.  Choose your own keys.
-</span>(global-set-key <span style="color: #E6DB74;">"\C-cl"</span> 'org-store-link)
-(global-set-key <span style="color: #E6DB74;">"\C-ca"</span> 'org-agenda)
-(global-set-key <span style="color: #E6DB74;">"\C-cc"</span> 'org-capture)
-(global-set-key <span style="color: #E6DB74;">"\C-cb"</span> 'org-switchb)
+<pre class="src src-emacs-lisp"><span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">The following lines are always needed.  Choose your own keys.
+</span>(global-set-key <span style="font-style: italic;">"\C-cl"</span> 'org-store-link)
+(global-set-key <span style="font-style: italic;">"\C-ca"</span> 'org-agenda)
+(global-set-key <span style="font-style: italic;">"\C-cc"</span> 'org-capture)
+(global-set-key <span style="font-style: italic;">"\C-cb"</span> 'org-switchb)
 
-(global-set-key (kbd <span style="color: #E6DB74;">"C-c i"</span>) 'org-toggle-inline-images)
-(<span style="color: #F92672;">setq</span> org-image-actual-width '(500))
-(<span style="color: #F92672;">setq</span> org-display-inline-images t)
-(<span style="color: #F92672;">setq</span> org-latex-create-formula-image-program 'dvipng)
-(<span style="color: #F92672;">setq</span> org-archive-location <span style="color: #E6DB74;">"~/Dropbox/org/logs/archive.org::* From %s"</span>)
-(<span style="color: #F92672;">setq</span> org-hide-leading-stars t)
-(<span style="color: #F92672;">setq</span> org-src-tab-acts-natively t)
-(<span style="color: #F92672;">setq</span> org-default-notes-file <span style="color: #E6DB74;">"~/Dropbox/org/main.org"</span>)
-
-
-(<span style="color: #F92672;">setq</span> org-todo-keywords
-      '((sequence <span style="color: #E6DB74;">"TODO"</span> <span style="color: #E6DB74;">"WAITING"</span> <span style="color: #E6DB74;">"|"</span> <span style="color: #E6DB74;">"DONE"</span> <span style="color: #E6DB74;">"HOLD"</span>)))
-
-(<span style="color: #F92672;">setq</span> org-return-follows-link 1)
+(global-set-key (kbd <span style="font-style: italic;">"C-c i"</span>) 'org-toggle-inline-images)
+(<span style="font-weight: bold;">setq</span> org-image-actual-width '(500))
+(<span style="font-weight: bold;">setq</span> org-display-inline-images t)
+(<span style="font-weight: bold;">setq</span> org-latex-create-formula-image-program 'dvipng)
+(<span style="font-weight: bold;">setq</span> org-archive-location <span style="font-style: italic;">"~/Dropbox/org/logs/archive.org::* From %s"</span>)
+(<span style="font-weight: bold;">setq</span> org-hide-leading-stars t)
+(<span style="font-weight: bold;">setq</span> org-src-tab-acts-natively t)
+(<span style="font-weight: bold;">setq</span> org-default-notes-file <span style="font-style: italic;">"~/Dropbox/org/main.org"</span>)
 
 
-(<span style="color: #F92672;">use-package</span> <span style="color: #AE81FF;">org-bullets</span> <span style="color: #F92672;">:ensure</span> t)
-(<span style="color: #F92672;">require</span> '<span style="color: #AE81FF;">org-bullets</span>)
-(add-hook 'org-mode-hook (<span style="color: #F92672;">lambda</span> () (org-bullets-mode 1)))
+(<span style="font-weight: bold;">setq</span> org-todo-keywords
+      '((sequence <span style="font-style: italic;">"TODO"</span> <span style="font-style: italic;">"WAITING"</span> <span style="font-style: italic;">"|"</span> <span style="font-style: italic;">"DONE"</span> <span style="font-style: italic;">"HOLD"</span>)))
 
-(<span style="color: #F92672;">setq</span> org-ellipsis <span style="color: #E6DB74;">"&#10549;"</span>)
+(<span style="font-weight: bold;">setq</span> org-return-follows-link 1)
 
-(<span style="color: #F92672;">setq</span> org-src-fontify-natively t)
 
-<span style="color: #75715E;">;</span><span style="color: #75715E;">(setq org-bullets-bullet-list
-</span><span style="color: #75715E;">;</span><span style="color: #75715E;">'("&#9673;" "&#9678;" "&lt;img draggable="false" class="emoji" alt="&#9899;" src="https://s0.wp.com/wp-content/mu-plugins/wpcom-smileys/twemoji/2/svg/26ab.svg"&gt;" "&#9675;" "&#9658;" "&#9671;"))
+(<span style="font-weight: bold;">use-package</span> <span style="font-weight: bold; text-decoration: underline;">org-bullets</span> <span style="font-weight: bold;">:ensure</span> t)
+(<span style="font-weight: bold;">require</span> '<span style="font-weight: bold; text-decoration: underline;">org-bullets</span>)
+(add-hook 'org-mode-hook (<span style="font-weight: bold;">lambda</span> () (org-bullets-mode 1)))
+
+(<span style="font-weight: bold;">setq</span> org-ellipsis <span style="font-style: italic;">"&#10549;"</span>)
+
+(<span style="font-weight: bold;">setq</span> org-src-fontify-natively t)
+
+<span style="font-weight: bold; font-style: italic;">;</span><span style="font-weight: bold; font-style: italic;">(setq org-bullets-bullet-list
+</span><span style="font-weight: bold; font-style: italic;">;</span><span style="font-weight: bold; font-style: italic;">'("&#9673;" "&#9678;" "&lt;img draggable="false" class="emoji" alt="&#9899;" src="https://s0.wp.com/wp-content/mu-plugins/wpcom-smileys/twemoji/2/svg/26ab.svg"&gt;" "&#9675;" "&#9658;" "&#9671;"))
 </span>
 </pre>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org155faf9" class="outline-3">
-<h3 id="org155faf9">Clipboard Inline Image Paste</h3>
-<div class="outline-text-3" id="text-org155faf9">
+<div id="outline-container-org9685226" class="outline-3">
+<h3 id="org9685226">Clipboard Inline Image Paste</h3>
+<div class="outline-text-3" id="text-org9685226">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">  (<span style="color: #F92672;">defun</span> <span style="color: #A6E22E;">paste-clipboard-image</span> ()
-    (<span style="color: #F92672;">interactive</span>)
-    (<span style="color: #F92672;">let*</span> ((image-dir (concat (file-name-directory (buffer-file-name))
-                              <span style="color: #E6DB74;">"../images/from_clipboard/"</span>))
-           (file-name (concat (format-time-string <span style="color: #E6DB74;">"%Y%m%d_%H%M%S"</span>) <span style="color: #E6DB74;">".png"</span>))
+<pre class="src src-emacs-lisp">  (<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">paste-clipboard-image</span> ()
+    (<span style="font-weight: bold;">interactive</span>)
+    (<span style="font-weight: bold;">let*</span> ((image-dir (concat (file-name-directory (buffer-file-name))
+                              <span style="font-style: italic;">"../images/from_clipboard/"</span>))
+           (file-name (concat (format-time-string <span style="font-style: italic;">"%Y%m%d_%H%M%S"</span>) <span style="font-style: italic;">".png"</span>))
            (file-path (concat image-dir file-name)))
-      (<span style="color: #F92672;">unless</span> (file-exists-p image-dir)
+      (<span style="font-weight: bold;">unless</span> (file-exists-p image-dir)
         (make-directory image-dir t))
-      <span style="color: #75715E;">;; </span><span style="color: #75715E;">replace '</span><span style="color: #AE81FF;">pngpaste</span><span style="color: #75715E;">' with '</span><span style="color: #AE81FF;">xclip</span><span style="color: #75715E;">' for Linux.
-</span>      (shell-command (concat <span style="color: #E6DB74;">"/opt/homebrew/bin/pngpaste "</span> file-path))
-      (insert (concat <span style="color: #E6DB74;">"[[../images/from_clipboard/"</span> file-name <span style="color: #E6DB74;">"]]"</span>))
+      <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">replace '</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">pngpaste</span><span style="font-weight: bold; font-style: italic;">' with '</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">xclip</span><span style="font-weight: bold; font-style: italic;">' for Linux.
+</span>      (shell-command (concat <span style="font-style: italic;">"/opt/homebrew/bin/pngpaste "</span> file-path))
+      (insert (concat <span style="font-style: italic;">"[[../images/from_clipboard/"</span> file-name <span style="font-style: italic;">"]]"</span>))
       (org-display-inline-images)))
 
-(<span style="color: #F92672;">with-eval-after-load</span> 'org
-  (define-key org-mode-map (kbd <span style="color: #E6DB74;">"C-c C-x i"</span>) 'paste-clipboard-image))
+(<span style="font-weight: bold;">with-eval-after-load</span> 'org
+  (define-key org-mode-map (kbd <span style="font-style: italic;">"C-c C-x i"</span>) 'paste-clipboard-image))
 
 </pre>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org2db18be" class="outline-3">
-<h3 id="org2db18be">Capture templates</h3>
-<div class="outline-text-3" id="text-org2db18be">
+<div id="outline-container-org1488975" class="outline-3">
+<h3 id="org1488975">Capture templates</h3>
+<div class="outline-text-3" id="text-org1488975">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #F92672;">setq</span> org-capture-templates
-      '((<span style="color: #E6DB74;">"a"</span> <span style="color: #E6DB74;">"anki basic"</span> entry (file+headline <span style="color: #E6DB74;">"~/Dropbox/org/logs/added_anki.org"</span> <span style="color: #E6DB74;">"Basic"</span>)
-         <span style="color: #E6DB74;">"* know :deck: \n** Item :note: \n\t:PROPERTIES:\n\t:ANKI_NOTE_TYPE: Basic\n\t:ANKI_TAGS: \n\t:END:\n*** Front\n%?\n*** Back\n"</span>)
-        (<span style="color: #E6DB74;">"t"</span> <span style="color: #E6DB74;">"task"</span> entry (file+headline <span style="color: #E6DB74;">"~/Dropbox/org/main.org"</span> <span style="color: #E6DB74;">"Assorted Things"</span>)
-         <span style="color: #E6DB74;">"* TODO %?"</span>)
-        (<span style="color: #E6DB74;">"l"</span> <span style="color: #E6DB74;">"links"</span> item (file <span style="color: #E6DB74;">"~/Dropbox/org/links.org"</span>)
-         <span style="color: #E6DB74;">"[[%^{prompt}][%^{prompt}]] %?"</span>)
-        (<span style="color: #E6DB74;">"j"</span> <span style="color: #E6DB74;">"journal"</span> entry (file+headline <span style="color: #E6DB74;">"~/Dropbox/org/logs/captains_log.org"</span> <span style="color: #E6DB74;">"journal"</span>)
-         <span style="color: #E6DB74;">"* %t \n%?"</span>)
+<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> org-capture-templates
+      '((<span style="font-style: italic;">"a"</span> <span style="font-style: italic;">"anki basic"</span> entry (file+headline <span style="font-style: italic;">"~/Dropbox/org/logs/added_anki.org"</span> <span style="font-style: italic;">"Basic"</span>)
+         <span style="font-style: italic;">"* know :deck: \n** Item :note: \n\t:PROPERTIES:\n\t:ANKI_NOTE_TYPE: Basic\n\t:ANKI_TAGS: \n\t:END:\n*** Front\n%?\n*** Back\n"</span>)
+        (<span style="font-style: italic;">"t"</span> <span style="font-style: italic;">"task"</span> entry (file+headline <span style="font-style: italic;">"~/Dropbox/org/main.org"</span> <span style="font-style: italic;">"Assorted Things"</span>)
+         <span style="font-style: italic;">"* TODO %?"</span>)
+        (<span style="font-style: italic;">"l"</span> <span style="font-style: italic;">"links"</span> item (file <span style="font-style: italic;">"~/Dropbox/org/links.org"</span>)
+         <span style="font-style: italic;">"[[%^{prompt}][%^{prompt}]] %?"</span>)
+        (<span style="font-style: italic;">"j"</span> <span style="font-style: italic;">"journal"</span> entry (file+headline <span style="font-style: italic;">"~/Dropbox/org/logs/captains_log.org"</span> <span style="font-style: italic;">"journal"</span>)
+         <span style="font-style: italic;">"* %t \n%?"</span>)
         ))
 </pre>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org3b8e899" class="outline-3">
-<h3 id="org3b8e899">Anki</h3>
-<div class="outline-text-3" id="text-org3b8e899">
+<div id="outline-container-org723bf32" class="outline-3">
+<h3 id="org723bf32">Anki</h3>
+<div class="outline-text-3" id="text-org723bf32">
 <p>
 I spend a lot of time in anki, so one of my org capture templates saves things in anki card format in a stowed away org file - I need to transfer these to anki somehow so I use a package called anki-editor and a short hotkey to send them all when I am done writing them. At some point I need to find out if there is a hook I can use during the capture process to do this directly but for now a keystroke to send it isn't the worst thing in the world.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #F92672;">use-package</span> <span style="color: #AE81FF;">anki-editor</span> <span style="color: #F92672;">:ensure</span> t)
+<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">use-package</span> <span style="font-weight: bold; text-decoration: underline;">anki-editor</span> <span style="font-weight: bold;">:ensure</span> t)
 
-(global-set-key <span style="color: #E6DB74;">"\C-c0"</span> 'send-to-anki)
+(global-set-key <span style="font-style: italic;">"\C-c0"</span> 'send-to-anki)
 
-(<span style="color: #F92672;">defun</span> <span style="color: #A6E22E;">send-to-anki</span> ()
-  (<span style="color: #F92672;">interactive</span>)
-  (find-file <span style="color: #E6DB74;">"~/Dropbox/org/logs/added_anki.org"</span>)
+(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">send-to-anki</span> ()
+  (<span style="font-weight: bold;">interactive</span>)
+  (find-file <span style="font-style: italic;">"~/Dropbox/org/logs/added_anki.org"</span>)
   (anki-editor-submit)
   (erase-buffer)
   (save-buffer)
@@ -619,15 +604,14 @@ I spend a lot of time in anki, so one of my org capture templates saves things i
 </div>
 </div>
 </div>
-
-<div id="outline-container-org63856b2" class="outline-3">
-<h3 id="org63856b2">Programming QOL Stuff</h3>
-<div class="outline-text-3" id="text-org63856b2">
+<div id="outline-container-orgcbffea0" class="outline-3">
+<h3 id="orgcbffea0">Programming QOL Stuff</h3>
+<div class="outline-text-3" id="text-orgcbffea0">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #75715E;">;</span><span style="color: #75715E;">probably change this so that it only asks once per file upon opening, since this is sort of dangerous
-</span>(<span style="color: #F92672;">defun</span> <span style="color: #A6E22E;">my-org-confirm-babel-evaluate</span> (lang body)
-  (not (member lang '(<span style="color: #E6DB74;">"python"</span>))))
-(<span style="color: #F92672;">setq</span> org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
+<pre class="src src-emacs-lisp"><span style="font-weight: bold; font-style: italic;">;</span><span style="font-weight: bold; font-style: italic;">probably change this so that it only asks once per file upon opening, since this is sort of dangerous
+</span>(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">my-org-confirm-babel-evaluate</span> (lang body)
+  (not (member lang '(<span style="font-style: italic;">"python"</span>))))
+(<span style="font-weight: bold;">setq</span> org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
 
 (org-babel-do-load-languages
  'org-babel-load-languages
@@ -637,13 +621,12 @@ I spend a lot of time in anki, so one of my org capture templates saves things i
 </div>
 </div>
 </div>
-
-<div id="outline-container-org270691d" class="outline-3">
-<h3 id="org270691d">packages</h3>
-<div class="outline-text-3" id="text-org270691d">
+<div id="outline-container-orgeb22cbe" class="outline-3">
+<h3 id="orgeb22cbe">packages</h3>
+<div class="outline-text-3" id="text-orgeb22cbe">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #F92672;">use-package</span> <span style="color: #AE81FF;">pdf-tools</span> <span style="color: #F92672;">:ensure</span> t)
-(add-to-list 'load-path <span style="color: #E6DB74;">"~/.emacs.d/lisp/"</span>)
+<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">use-package</span> <span style="font-weight: bold; text-decoration: underline;">pdf-tools</span> <span style="font-weight: bold;">:ensure</span> t)
+(add-to-list 'load-path <span style="font-style: italic;">"~/.emacs.d/lisp/"</span>)
 (pdf-loader-install)
 </pre>
 </div>

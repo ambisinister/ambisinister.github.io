@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-22 Sat 16:16 -->
+<!-- 2026-08-22 Sat 16:23 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Advanced Memory Palaces</title>
@@ -98,6 +98,7 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
             <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
             <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
@@ -111,32 +112,31 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org4b02b4f">Memorizing a Double Elimination Tournament</a>
+<li><a href="#orgf3a4f94">Memorizing a Double Elimination Tournament</a>
 <ul>
-<li><a href="#org05ea8d7">Context</a></li>
+<li><a href="#org24b386f">Context</a></li>
 <li><a href="#org0a17f57">GENESIS 1</a>
 <ul>
-<li><a href="#org8c17143">An Array of Pointers</a></li>
-<li><a href="#orgfb33f73">Class Structure</a></li>
-<li><a href="#orga9bae03">Result</a>
+<li><a href="#org3e31ec0">An Array of Pointers</a></li>
+<li><a href="#org8f2bfad">Class Structure</a></li>
+<li><a href="#org990c513">Result</a>
 <ul>
-<li><a href="#org4d8b7c9">Thoughts on using a Peg Tree</a></li>
+<li><a href="#orgd4af2fc">Thoughts on using a Peg Tree</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org06d1a2a">Thoughts on "More Fun" Memory Contests</a></li>
-<li><a href="#orgb24f90b">Unsorted notes</a></li>
-<li><a href="#org70239bb">Appendix A: Mini-Experiment LLM-Augmented Links</a></li>
+<li><a href="#org3a2fe2b">Thoughts on "More Fun" Memory Contests</a></li>
+<li><a href="#org6a69378">Unsorted notes</a></li>
+<li><a href="#org95dd73c">Appendix A: Mini-Experiment LLM-Augmented Links</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org4b02b4f" class="outline-1">
-<h1 id="org4b02b4f">Memorizing a Double Elimination Tournament</h1>
-<div class="outline-text-1" id="text-org4b02b4f">
+<div id="outline-container-orgf3a4f94" class="outline-1">
+<h1 id="orgf3a4f94">Memorizing a Double Elimination Tournament</h1>
+<div class="outline-text-1" id="text-orgf3a4f94">
 <p>
 I recently read Joe Reddington's <i>Advanced Memory Palaces</i>. I thought this was a really thought provoking read &#x2013; as a machine learning researcher by trade and a relatively beginner <i>memorist</i>, it was nice to see some intersection between concepts I think about every day with concepts I have been thinking about a lot lately.
 </p>
@@ -146,13 +146,12 @@ To jump to the good part:
 </p>
 
 <p>
-<a id="org7aee62e"></a>
+<a id="org5d3835a"></a>
 </p>
 </div>
-
-<div id="outline-container-org05ea8d7" class="outline-2">
-<h2 id="org05ea8d7">Context</h2>
-<div class="outline-text-2" id="text-org05ea8d7">
+<div id="outline-container-org24b386f" class="outline-2">
+<h2 id="org24b386f">Context</h2>
+<div class="outline-text-2" id="text-org24b386f">
 <p>
 On the back of this book, there is a paragraph which leads with the following:
 </p>
@@ -174,7 +173,6 @@ What really got me engaged was the back half of this book, which is an experimen
 </p>
 </div>
 </div>
-
 <div id="outline-container-org0a17f57" class="outline-2">
 <h2 id="org0a17f57">GENESIS 1</h2>
 <div class="outline-text-2" id="text-org0a17f57">
@@ -186,10 +184,9 @@ I often joke with my friends that GENESIS is my favorite movie. I'll often put o
 I am going to attempt to memorize the entire bracket phase of this tournament. After several rounds of pools, the surviving players were dumped into a double-elimination bracket starting from the round of 128<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>. Double elimination is not a very common format in most competitions<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>, so I'll need to make some adaptations to what is in the book.
 </p>
 </div>
-
-<div id="outline-container-org8c17143" class="outline-3">
-<h3 id="org8c17143">An Array of Pointers</h3>
-<div class="outline-text-3" id="text-org8c17143">
+<div id="outline-container-org3e31ec0" class="outline-3">
+<h3 id="org3e31ec0">An Array of Pointers</h3>
+<div class="outline-text-3" id="text-org3e31ec0">
 <p>
 One thing I was surprised to not see discussed in this book were <a href="https://en.wikipedia.org/wiki/Pointer_(computer_programming)">pointers</a>, which are objects which serve as maps which reference locations in memory, rather than values themselves. Locations are our whole thing, as memory technique people! It was really daunting to remember such a large list of events, but one modification I made was to remember blocks of the bracket, and store those blocks in an array<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>.
 </p>
@@ -199,24 +196,23 @@ The way that I tackled memorizing the winners bracket of such a large, tree-like
 </p>
 
 
-<div id="org580655c" class="figure">
+<div id="orgd8def15" class="figure">
 <p><img src="../images/from_clipboard/20240117_105159.png" alt="20240117_105159.png" />
 </p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgfb33f73" class="outline-3">
-<h3 id="orgfb33f73">Class Structure</h3>
-<div class="outline-text-3" id="text-orgfb33f73">
+<div id="outline-container-org8f2bfad" class="outline-3">
+<h3 id="org8f2bfad">Class Structure</h3>
+<div class="outline-text-3" id="text-org8f2bfad">
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #F92672;">class</span> <span style="color: #66D9EF;">BracketMatch</span>():
-  <span style="color: #F92672;">def</span> <span style="color: #A6E22E;">__init__</span>(<span style="color: #F92672;">self</span>, location, upper, lower, winner,
-               u_prev, l_prev):
-    <span style="color: #F92672;">self</span>.<span style="color: #FD971F;">story</span> = f<span style="color: #E6DB74;">"</span>{upper}<span style="color: #E6DB74;"> and </span>{lower}<span style="color: #E6DB74;"> are fighting because they want to eat </span>{location}<span style="color: #E6DB74;">.\
-                  </span>{winner}<span style="color: #E6DB74;"> wins their fight and decides to eat </span>{loser}<span style="color: #E6DB74;"> along with </span>{location}<span style="color: #E6DB74;">."</span>
-    <span style="color: #F92672;">self</span>.<span style="color: #FD971F;">up</span> = f<span style="color: #E6DB74;">"</span>{upper}<span style="color: #E6DB74;"> and </span>{u_prev}<span style="color: #E6DB74;"> are riding on </span>{Related(location)}<span style="color: #E6DB74;">"</span>
-    <span style="color: #F92672;">self</span>.<span style="color: #FD971F;">down</span> = f<span style="color: #E6DB74;">"</span>{lower}<span style="color: #E6DB74;"> and </span>{l_prev}<span style="color: #E6DB74;"> are being ridden on by </span>{Related(location)}<span style="color: #E6DB74;">"</span>
+<pre class="src src-python"><span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">BracketMatch</span>():
+  <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__init__</span>(<span style="font-weight: bold;">self</span>, location, upper, lower, winner,
+                 u_prev, l_prev):
+    <span style="font-weight: bold;">self</span>.<span style="font-weight: bold; font-style: italic;">story</span> = f<span style="font-style: italic;">"</span>{upper}<span style="font-style: italic;"> and </span>{lower}<span style="font-style: italic;"> are fighting because they want to eat </span>{location}<span style="font-style: italic;">.\
+                    </span>{winner}<span style="font-style: italic;"> wins their fight and decides to eat </span>{loser}<span style="font-style: italic;"> along with </span>{location}<span style="font-style: italic;">."</span>
+    <span style="font-weight: bold;">self</span>.<span style="font-weight: bold; font-style: italic;">up</span> = f<span style="font-style: italic;">"</span>{upper}<span style="font-style: italic;"> and </span>{u_prev}<span style="font-style: italic;"> are riding on </span>{Related(location)}<span style="font-style: italic;">"</span>
+    <span style="font-weight: bold;">self</span>.<span style="font-weight: bold; font-style: italic;">down</span> = f<span style="font-style: italic;">"</span>{lower}<span style="font-style: italic;"> and </span>{l_prev}<span style="font-style: italic;"> are being ridden on by </span>{Related(location)}<span style="font-style: italic;">"</span>
 </pre>
 </div>
 
@@ -229,35 +225,32 @@ Likewise, an interesting aspect here is that the use of a "related" function: as
 </p>
 
 
-<div id="orgbbd21a5" class="figure">
+<div id="org827a635" class="figure">
 <p><img src="../images/from_clipboard/20240117_100543.png" alt="20240117_100543.png" />
 </p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-orga9bae03" class="outline-3">
-<h3 id="orga9bae03">Result</h3>
-<div class="outline-text-3" id="text-orga9bae03">
+<div id="outline-container-org990c513" class="outline-3">
+<h3 id="org990c513">Result</h3>
+<div class="outline-text-3" id="text-org990c513">
 <p>
 The big thing here is that all of the mental images, as far as memory techniques go, are very busy. It's not really so bad, but the images take kind of a long time to encode and doing this quickly seems very challenging. 
 </p>
 </div>
-
-<div id="outline-container-org4d8b7c9" class="outline-4">
-<h4 id="org4d8b7c9">Thoughts on using a Peg Tree</h4>
-<div class="outline-text-4" id="text-org4d8b7c9">
+<div id="outline-container-orgd4af2fc" class="outline-4">
+<h4 id="orgd4af2fc">Thoughts on using a Peg Tree</h4>
+<div class="outline-text-4" id="text-orgd4af2fc">
 <p>
-<a id="orgb5e7188"></a>
+<a id="org7f823f1"></a>
 </p>
 </div>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org06d1a2a" class="outline-2">
-<h2 id="org06d1a2a">Thoughts on "More Fun" Memory Contests</h2>
-<div class="outline-text-2" id="text-org06d1a2a">
+<div id="outline-container-org3a2fe2b" class="outline-2">
+<h2 id="org3a2fe2b">Thoughts on "More Fun" Memory Contests</h2>
+<div class="outline-text-2" id="text-org3a2fe2b">
 <p>
 The more I do this sort of thing, the more I think it's no fun to just bring an a priori system into a competition to remember one particular type of thing very well. All of the really interesting stuff I read about mnemonics is about people who design clever systems to remember weird stuff; as fun as memorizing cards is, I think it would be really interesting to hold a competition where you don't know ahead of time what events you will be doing.
 </p>
@@ -267,10 +260,9 @@ This whole exercise being vaguely different, yet fundamentally similar to more t
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgb24f90b" class="outline-2">
-<h2 id="orgb24f90b">Unsorted notes</h2>
-<div class="outline-text-2" id="text-orgb24f90b">
+<div id="outline-container-org6a69378" class="outline-2">
+<h2 id="org6a69378">Unsorted notes</h2>
+<div class="outline-text-2" id="text-org6a69378">
 <p>
 The two types of links: natural links (strong) artificial links (fade)
 </p>
@@ -332,10 +324,9 @@ Tree-to-Tree Array
 </p>
 </div>
 </div>
-
-<div id="outline-container-org70239bb" class="outline-2">
-<h2 id="org70239bb">Appendix A: Mini-Experiment LLM-Augmented Links</h2>
-<div class="outline-text-2" id="text-org70239bb">
+<div id="outline-container-org95dd73c" class="outline-2">
+<h2 id="org95dd73c">Appendix A: Mini-Experiment LLM-Augmented Links</h2>
+<div class="outline-text-2" id="text-org95dd73c">
 <p>
 The nice thing about formalizing a class structure, as recommended in this particular book, is that all of the stories follow a very simple natural language template, and there's a simple "related object" task associated with it. As such, I thought it seemed likely that an LLM like chatGPT could pretty quickly generate stories in the format associated with a class format. Since you input most of the "structure" by making the template, the task for each pair is mostly just imputing the details and coming up with related words.
 </p>
@@ -345,7 +336,7 @@ GPT-4 is not good enough to understand something this convoluted zero-shot; the 
 </p>
 
 
-<div id="orgf4a3022" class="figure">
+<div id="org0528318" class="figure">
 <p><img src="../images/from_clipboard/20240119_161837.png" alt="20240119_161837.png" />
 </p>
 </div>
@@ -377,7 +368,7 @@ After this point, it started to almost-work. I think with a less convoluted setu
 </p>
 
 
-<div id="org183dcbf" class="figure">
+<div id="orgd961f5d" class="figure">
 <p><img src="../images/from_clipboard/20240119_163736.png" alt="20240119_163736.png" />
 </p>
 </div>

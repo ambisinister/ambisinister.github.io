@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-22 Sat 16:16 -->
+<!-- 2026-08-22 Sat 16:23 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Insights from Mnemonics</title>
@@ -98,6 +98,7 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
             <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
             <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
@@ -111,30 +112,29 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orga38091d">Learning to Memorize, Cheating to Memorize Quickly</a>
+<li><a href="#org98ca74d">Learning to Memorize, Cheating to Memorize Quickly</a>
 <ul>
-<li><a href="#orgb495d34">Introduction</a></li>
-<li><a href="#orgc84dae0">Developing a PAO system</a>
+<li><a href="#orge1a7d50">Introduction</a></li>
+<li><a href="#org2aeabcd">Developing a PAO system</a>
 <ul>
-<li><a href="#org1665a8b">Hash Collisions in System Creation</a></li>
-<li><a href="#orga871b74">Encoding Cost</a></li>
+<li><a href="#org4338bec">Hash Collisions in System Creation</a></li>
+<li><a href="#orgb1f2403">Encoding Cost</a></li>
 </ul>
 </li>
-<li><a href="#orgd280897">Proof of Concept: Computer-Aided Encoding</a></li>
-<li><a href="#org04ef238">We Should All Do More Pointless Things</a></li>
+<li><a href="#org3780a53">Proof of Concept: Computer-Aided Encoding</a></li>
+<li><a href="#orgd71444f">We Should All Do More Pointless Things</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-
-<div id="outline-container-orga38091d" class="outline-1">
-<h1 id="orga38091d">Learning to Memorize, Cheating to Memorize Quickly</h1>
-<div class="outline-text-1" id="text-orga38091d">
+<div id="outline-container-org98ca74d" class="outline-1">
+<h1 id="org98ca74d">Learning to Memorize, Cheating to Memorize Quickly</h1>
+<div class="outline-text-1" id="text-org98ca74d">
 </div>
-<div id="outline-container-orgb495d34" class="outline-2">
-<h2 id="orgb495d34">Introduction</h2>
-<div class="outline-text-2" id="text-orgb495d34">
+<div id="outline-container-orge1a7d50" class="outline-2">
+<h2 id="orge1a7d50">Introduction</h2>
+<div class="outline-text-2" id="text-orge1a7d50">
 <p>
 When I was in high school I remember reading Harry Lorayne's <a href="https://www.goodreads.com/review/show/1948744189">The Memory Book</a>, and using it to learn to memorize a deck of cards in about 35 minutes of memorization time. It was nice to learn about <a href="https://artofmemory.com/blog/list-of-memory-techniques/">the basic memory techniques</a>, and they were helpful for my studies (especially when I needed to learn ordered lists). I also read <a href="https://en.wikipedia.org/wiki/Moonwalking_with_Einstein">Josh Foer's Moonwalking with Einstein</a>, which was a nice glimpse into the world of competitive memory sports.
 </p>
@@ -148,10 +148,9 @@ But in pursuit of hacking away at the idea of LLM-powered knowledge management s
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgc84dae0" class="outline-2">
-<h2 id="orgc84dae0">Developing a PAO system</h2>
-<div class="outline-text-2" id="text-orgc84dae0">
+<div id="outline-container-org2aeabcd" class="outline-2">
+<h2 id="org2aeabcd">Developing a PAO system</h2>
+<div class="outline-text-2" id="text-org2aeabcd">
 <p>
 I pretty much immediately dove into creating a PAO system, since I could envision a lot of different use cases for spots where I would want to use three numbers. The way PAO works is that for each number from 00 to 99, you come up with a person, an action, and an object. This way, you can memorize groups of 6 digits by taking the person from the first pair, the action from the second pair, and the object from the third pair. To memorize cards, you repurpose 52 of these as representing playing cards, and you place them in a specific order using a <a href="https://artofmemory.com/blog/how-to-build-a-memory-palace/">memory palace</a>. This was the system prominently featured in <i>Moonwalking with Einstein</i>, so I understood how it worked and didn't need that much help to get off the ground.
 </p>
@@ -164,10 +163,9 @@ My PAO pegs can be found <a href="https://docs.google.com/spreadsheets/d/18Dg96G
 Making the sheet took a couple days of on-off idle thoughts / asking chatGPT for ideas when I gave up. I practiced memorizing cards for about two hours before I could do it while looking at the sheet. After four or five attempts, I was able to use this to get a deck of cards memorized in just over 8 minutes, with no errors.
 </p>
 </div>
-
-<div id="outline-container-org1665a8b" class="outline-3">
-<h3 id="org1665a8b">Hash Collisions in System Creation</h3>
-<div class="outline-text-3" id="text-org1665a8b">
+<div id="outline-container-org4338bec" class="outline-3">
+<h3 id="org4338bec">Hash Collisions in System Creation</h3>
+<div class="outline-text-3" id="text-org4338bec">
 <p>
 One thing I ran into really fast with making my PAO spreadsheet was the fact that it's really easy to encounter cases where you accidentally use the same action or object for multiple different values. There's the obvious type, where two entries have the same value (e.g. "basketball" and "basketball"), and there's also the ambiguous type, where two entries have completely different words which are easily confused when you manifest them as visual images (e.g. "eating" and "chomping"). Some of these I was able to make a simple substitution to disambiguate (e.g. "eating" -&gt; "swallowing", which is decidedly not "chomping" since no teeth are involved), and for others I simply had to come up with an entirely new PAO entry from scratch.
 </p>
@@ -177,10 +175,9 @@ I truly cannot imagine how people are capable of making these for 000-999, for a
 </p>
 </div>
 </div>
-
-<div id="outline-container-orga871b74" class="outline-3">
-<h3 id="orga871b74">Encoding Cost</h3>
-<div class="outline-text-3" id="text-orga871b74">
+<div id="outline-container-orgb1f2403" class="outline-3">
+<h3 id="orgb1f2403">Encoding Cost</h3>
+<div class="outline-text-3" id="text-orgb1f2403">
 <p>
 Learning to memorize playing cards at first seemed unlikely to cause any huge real benefit for me in the real world (other than a use case for testing my PAO sheet), but surprisingly that was not the case. Drilling through decks of cards made it very clear to me that "seeing something" and "storing it in memory" are not the same thing, and that more or less this entire time I've only been able to remember things that were familiar enough that this was pretty much instantaneous. If I see three cards and read them as "Kanye West Blowing Up a Mountain" (7h, 8s, Kc), I will lose the image if I do not take a moment to really "see" it, to place it somewhere in my head. Sometimes there are images that are so cartoonish that I don't have to try very hard to remember them, and this class of information is the only type of information which I am regularly able to absorb in most real life settings.
 </p>
@@ -209,10 +206,9 @@ This, to me, was the most valuable takeaway from my time doing all of this memor
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgd280897" class="outline-2">
-<h2 id="orgd280897">Proof of Concept: Computer-Aided Encoding</h2>
-<div class="outline-text-2" id="text-orgd280897">
+<div id="outline-container-org3780a53" class="outline-2">
+<h2 id="org3780a53">Proof of Concept: Computer-Aided Encoding</h2>
+<div class="outline-text-2" id="text-org3780a53">
 <p>
 The big "reason" I went down this rabbit hole again was to explore the question of if it would be possible to somehow write software which would "make me remember things". To reiterate, this is slightly different from software which would "let me practice remembering things", which is what the multitude of very good flashcard applications are useful for. What I was specifically after was exploring whether or not it was possible to use these techniques in order to <i>directly put something into my memory</i>, to reduce the friction involved in encoding things after reading them.
 </p>
@@ -244,10 +240,9 @@ Creating PAO pegs is a pretty high up-front cost, so I don't know if this sort o
 </p>
 </div>
 </div>
-
-<div id="outline-container-org04ef238" class="outline-2">
-<h2 id="org04ef238">We Should All Do More Pointless Things</h2>
-<div class="outline-text-2" id="text-org04ef238">
+<div id="outline-container-orgd71444f" class="outline-2">
+<h2 id="orgd71444f">We Should All Do More Pointless Things</h2>
+<div class="outline-text-2" id="text-orgd71444f">
 <p>
 A belief I have is that the most human thing in the world is to do something nobody else cares about.
 </p>

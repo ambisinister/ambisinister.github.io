@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-22 Sat 16:16 -->
+<!-- 2026-08-22 Sat 16:22 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>This Hitbox Does Not Exist</title>
@@ -98,6 +98,7 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
             <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
             <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
@@ -111,30 +112,30 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgfa242d7">This Hitbox Does Not Exist</a>
+<li><a href="#orgc7b7cc7">This Hitbox Does Not Exist</a>
 <ul>
-<li><a href="#orgfbcf4b6">Introduction</a></li>
-<li><a href="#orgc52ea90">Dataset</a></li>
-<li><a href="#org832ee6c">An Aside: Character Classification</a></li>
-<li><a href="#org6d28deb">StyleGAN</a></li>
-<li><a href="#org63c3d03">Other Things I Tried Which Worked Less Well</a>
+<li><a href="#orgd0511a4">Introduction</a></li>
+<li><a href="#orga07b0ba">Dataset</a></li>
+<li><a href="#org0113ab4">An Aside: Character Classification</a></li>
+<li><a href="#org74c5e34">StyleGAN</a></li>
+<li><a href="#orga758afe">Other Things I Tried Which Worked Less Well</a>
 <ul>
-<li><a href="#org0d99fa1">Auxiliary Classifier GANs</a></li>
+<li><a href="#org76d301e">Auxiliary Classifier GANs</a></li>
 </ul>
 </li>
-<li><a href="#org4fc8192">References</a></li>
+<li><a href="#orge597427">References</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgfa242d7" class="outline-1">
-<h1 id="orgfa242d7">This Hitbox Does Not Exist</h1>
-<div class="outline-text-1" id="text-orgfa242d7">
+<div id="outline-container-orgc7b7cc7" class="outline-1">
+<h1 id="orgc7b7cc7">This Hitbox Does Not Exist</h1>
+<div class="outline-text-1" id="text-orgc7b7cc7">
 </div>
-<div id="outline-container-orgfbcf4b6" class="outline-2">
-<h2 id="orgfbcf4b6">Introduction</h2>
-<div class="outline-text-2" id="text-orgfbcf4b6">
+<div id="outline-container-orgd0511a4" class="outline-2">
+<h2 id="orgd0511a4">Introduction</h2>
+<div class="outline-text-2" id="text-orgd0511a4">
 <p>
 Recently at work I've been getting interested in some properties of Generative Adversarial Networks (GANs), The actual properties I was looking at aren't terribly interesting to a general audience, but I figured it would be fun and worthwhile to train a few networks to generate some fun images. 
 </p>
@@ -144,44 +145,43 @@ In short, I played around with GANs to generate images that looked like Super Sm
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgc52ea90" class="outline-2">
-<h2 id="orgc52ea90">Dataset</h2>
-<div class="outline-text-2" id="text-orgc52ea90">
+<div id="outline-container-orga07b0ba" class="outline-2">
+<h2 id="orga07b0ba">Dataset</h2>
+<div class="outline-text-2" id="text-orga07b0ba">
 <p>
 To assemble this dataset, I scraped every character's moves on ssbwiki and assembled a corpus of gifs, which can be found in a zip file at <a href="http://tinyurl.com/every-hitbox">http://tinyurl.com/every-hitbox</a>. From there, I did some basic image processing to save each frame as a 256x256 square png, which was surprisingly a huge pain given how insistent openCV is on saving frames of gifs as 1-channel images. Here's some very not-optimized code I used to accomplish this task
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #F92672;">import</span> os
-<span style="color: #F92672;">from</span> PIL <span style="color: #F92672;">import</span> Image
-<span style="color: #F92672;">from</span> PIL <span style="color: #F92672;">import</span> GifImagePlugin
-<span style="color: #F92672;">import</span> numpy <span style="color: #F92672;">as</span> np
-<span style="color: #F92672;">import</span> cv2
+<pre class="src src-python"><span style="font-weight: bold;">import</span> os
+<span style="font-weight: bold;">from</span> PIL <span style="font-weight: bold;">import</span> Image
+<span style="font-weight: bold;">from</span> PIL <span style="font-weight: bold;">import</span> GifImagePlugin
+<span style="font-weight: bold;">import</span> numpy <span style="font-weight: bold;">as</span> np
+<span style="font-weight: bold;">import</span> cv2
 
-<span style="color: #F92672;">from</span> PIL <span style="color: #F92672;">import</span> Image, ImageSequence
+<span style="font-weight: bold;">from</span> PIL <span style="font-weight: bold;">import</span> Image, ImageSequence
 
-<span style="color: #FD971F;">dataloc</span> = <span style="color: #E6DB74;">"/home/ambi/Downloads/data/hitboxes/"</span>
-<span style="color: #FD971F;">dataput</span> = <span style="color: #E6DB74;">"/home/ambi/Downloads/data/hitboxes/dataset/pngs/"</span>
+<span style="font-weight: bold; font-style: italic;">dataloc</span> = <span style="font-style: italic;">"/home/ambi/Downloads/data/hitboxes/"</span>
+<span style="font-weight: bold; font-style: italic;">dataput</span> = <span style="font-style: italic;">"/home/ambi/Downloads/data/hitboxes/dataset/pngs/"</span>
 
-<span style="color: #FD971F;">frames</span> = []
+<span style="font-weight: bold; font-style: italic;">frames</span> = []
 
-<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">pngify</span>():
-    <span style="color: #F92672;">for</span> folder <span style="color: #F92672;">in</span> os.listdir(dataloc):
-        <span style="color: #F92672;">if</span> folder == <span style="color: #E6DB74;">"dataset"</span>:
-            <span style="color: #F92672;">continue</span>
-        <span style="color: #F92672;">else</span>:
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">pngify</span>():
+    <span style="font-weight: bold;">for</span> folder <span style="font-weight: bold;">in</span> os.listdir(dataloc):
+        <span style="font-weight: bold;">if</span> folder == <span style="font-style: italic;">"dataset"</span>:
+            <span style="font-weight: bold;">continue</span>
+        <span style="font-weight: bold;">else</span>:
             os.mkdir(dataput+folder)
-        <span style="color: #F92672;">for</span> move <span style="color: #F92672;">in</span> os.listdir(dataloc+folder):
-            imageObject = Image.<span style="color: #F92672;">open</span>(dataloc+folder+<span style="color: #E6DB74;">'/'</span>+move)
-            <span style="color: #F92672;">try</span>:
-                <span style="color: #F92672;">print</span>(<span style="color: #E6DB74;">"{}: {} frames"</span>.<span style="color: #F92672;">format</span>(move, imageObject.n_frames))
+        <span style="font-weight: bold;">for</span> move <span style="font-weight: bold;">in</span> os.listdir(dataloc+folder):
+            <span style="font-weight: bold; font-style: italic;">imageObject</span> = Image.<span style="font-weight: bold;">open</span>(dataloc+folder+<span style="font-style: italic;">'/'</span>+move)
+            <span style="font-weight: bold;">try</span>:
+                <span style="font-weight: bold;">print</span>(<span style="font-style: italic;">"{}: {} frames"</span>.<span style="font-weight: bold;">format</span>(move, imageObject.n_frames))
 
-                <span style="color: #F92672;">for</span> i, frame <span style="color: #F92672;">in</span> <span style="color: #F92672;">enumerate</span>(ImageSequence.Iterator(imageObject)):
-                    frame.save(dataput+folder+<span style="color: #E6DB74;">'/'</span>+move.split(<span style="color: #E6DB74;">'.'</span>)[0]+<span style="color: #E6DB74;">'_'</span>+<span style="color: #F92672;">str</span>(i)+<span style="color: #E6DB74;">'.png'</span>)
-            <span style="color: #F92672;">except</span>:
-                <span style="color: #F92672;">print</span>(<span style="color: #E6DB74;">"{} not animated: adding only frame"</span>.<span style="color: #F92672;">format</span>(move))
-                frame.save(dataput+folder+<span style="color: #E6DB74;">'/'</span>+move+<span style="color: #E6DB74;">'.png'</span>)
+                <span style="font-weight: bold;">for</span> i, frame <span style="font-weight: bold;">in</span> <span style="font-weight: bold;">enumerate</span>(ImageSequence.Iterator(imageObject)):
+                    frame.save(dataput+folder+<span style="font-style: italic;">'/'</span>+move.split(<span style="font-style: italic;">'.'</span>)[0]+<span style="font-style: italic;">'_'</span>+<span style="font-weight: bold;">str</span>(i)+<span style="font-style: italic;">'.png'</span>)
+            <span style="font-weight: bold;">except</span>:
+                <span style="font-weight: bold;">print</span>(<span style="font-style: italic;">"{} not animated: adding only frame"</span>.<span style="font-weight: bold;">format</span>(move))
+                frame.save(dataput+folder+<span style="font-style: italic;">'/'</span>+move+<span style="font-style: italic;">'.png'</span>)
 
 </pre>
 </div>
@@ -191,16 +191,15 @@ This yields us a corpus of 33,292 frames, which should be a solid enough baselin
 </p>
 </div>
 </div>
-
-<div id="outline-container-org832ee6c" class="outline-2">
-<h2 id="org832ee6c">An Aside: Character Classification</h2>
-<div class="outline-text-2" id="text-org832ee6c">
+<div id="outline-container-org0113ab4" class="outline-2">
+<h2 id="org0113ab4">An Aside: Character Classification</h2>
+<div class="outline-text-2" id="text-org0113ab4">
 <p>
 Just to verify that things are working properly, I wrote a very simple CNN to identify which character was on screen. This wasn't much code, and could easily tell the characters apart. 
 </p>
 
 <p>
-<a id="orgdea5b89"></a>
+<a id="orgfa944a2"></a>
 </p>
 
 <p>
@@ -208,14 +207,13 @@ The harder frames are an interesting thing to look at &#x2013; with a simple out
 </p>
 
 <p>
-<a id="org8c44e5b"></a>
+<a id="org7eebaca"></a>
 </p>
 </div>
 </div>
-
-<div id="outline-container-org6d28deb" class="outline-2">
-<h2 id="org6d28deb">StyleGAN</h2>
-<div class="outline-text-2" id="text-org6d28deb">
+<div id="outline-container-org74c5e34" class="outline-2">
+<h2 id="org74c5e34">StyleGAN</h2>
+<div class="outline-text-2" id="text-org74c5e34">
 <p>
 StyleGAN is an intensely media-famous GAN architecture which was notable for how well it was able to synthesize human faces (see, of course, <a href="https://thispersondoesnotexist.com/">This Person Does Not Exist</a>). Gwern notably applied this to a large dataset of anime faces scraped off Danbooru, <a href="https://www.thiswaifudoesnotexist.net/">for a waifu-flavored variant on this</a>. Both the original styleGAN paper (<a href="https://arxiv.org/pdf/1812.04948.pdf">here</a>) and Gwern's writeup (<a href="https://www.gwern.net/TWDNE">here</a>) are must-reads, but it's relatively clear styleGAN works relatively well for both real and drawn images and seems like a good starting point for our 
 </p>
@@ -225,18 +223,17 @@ StyleGAN has a <a href="https://github.com/manicman1999/StyleGAN-Keras">Keras im
 </p>
 
 <p>
-<a id="orgf548c3e"></a>
+<a id="orgaefd213"></a>
 </p>
 </div>
 </div>
-
-<div id="outline-container-org63c3d03" class="outline-2">
-<h2 id="org63c3d03">Other Things I Tried Which Worked Less Well</h2>
-<div class="outline-text-2" id="text-org63c3d03">
+<div id="outline-container-orga758afe" class="outline-2">
+<h2 id="orga758afe">Other Things I Tried Which Worked Less Well</h2>
+<div class="outline-text-2" id="text-orga758afe">
 </div>
-<div id="outline-container-org0d99fa1" class="outline-3">
-<h3 id="org0d99fa1">Auxiliary Classifier GANs</h3>
-<div class="outline-text-3" id="text-org0d99fa1">
+<div id="outline-container-org76d301e" class="outline-3">
+<h3 id="org76d301e">Auxiliary Classifier GANs</h3>
+<div class="outline-text-3" id="text-org76d301e">
 <p>
 I played a bit with AC-GANs for this project, because it's a relatively simple idea which yields samples which have labels associated with them, which I thought would be fun to look at ("ah yes, this blob looks like kirby" is something I caught myself doing a good amount with the styleGAN images, but it's a bit of a rorshach test &#x2013; if the label associated with an image is supposed to be Marth, we should expect it to either look close to Marth or to look horrible. 
 </p>
@@ -246,18 +243,17 @@ AC-GAN generates extremely beautiful MNIST digits, but I think it doesn't scale 
 </p>
 
 <p>
-<a id="orgd70539a"></a>
+<a id="org119404f"></a>
 </p>
 
 <p>
-<a id="orgd13fead"></a>
+<a id="org65afddf"></a>
 </p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org4fc8192" class="outline-2">
-<h2 id="org4fc8192">References</h2>
+<div id="outline-container-orge597427" class="outline-2">
+<h2 id="orge597427">References</h2>
 </div>
 </div>
 </div>

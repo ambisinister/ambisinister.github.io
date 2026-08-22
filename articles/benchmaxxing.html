@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-22 Sat 16:16 -->
+<!-- 2026-08-22 Sat 16:22 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Benchmaxxing</title>
@@ -73,27 +73,38 @@ $(function() {
 
 <link rel="stylesheet" type="text/css" href="https://planetbanatt.net/css/default_20240614.css" />
 <link rel="shortcut icon" type="image/jpg" href="https://planetbanatt.net/favicon.ico" />
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
-
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "AMS"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
-});
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -119,6 +130,7 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
             <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
             <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
@@ -132,26 +144,25 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgbcfc0f6">Benchmaxxing Mechanisms</a>
+<li><a href="#org117fd75">Benchmaxxing Mechanisms</a>
 <ul>
-<li><a href="#org8234f18">Do Imagenet Classifiers Generalize To Imagenet?</a></li>
-<li><a href="#org9df282a">Does Grade School Math Performance Generalize To Grade School Math</a></li>
-<li><a href="#org58e4188">What Are Some Reasons This Might Happen?</a>
+<li><a href="#orga678485">Do Imagenet Classifiers Generalize To Imagenet?</a></li>
+<li><a href="#org069dfb1">Does Grade School Math Performance Generalize To Grade School Math</a></li>
+<li><a href="#org6004056">What Are Some Reasons This Might Happen?</a>
 <ul>
-<li><a href="#org3ea9e71">Data Cleaning Angle</a></li>
-<li><a href="#org5f2e9ef">Evolutionary Angle</a></li>
+<li><a href="#org31231c7">Data Cleaning Angle</a></li>
+<li><a href="#orgab813d3">Evolutionary Angle</a></li>
 </ul>
 </li>
-<li><a href="#orgdce9118">Conclusion</a></li>
+<li><a href="#orgb1e4d4f">Conclusion</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-
-<div id="outline-container-orgbcfc0f6" class="outline-1">
-<h1 id="orgbcfc0f6">Benchmaxxing Mechanisms</h1>
-<div class="outline-text-1" id="text-orgbcfc0f6">
+<div id="outline-container-org117fd75" class="outline-1">
+<h1 id="org117fd75">Benchmaxxing Mechanisms</h1>
+<div class="outline-text-1" id="text-org117fd75">
 <p>
 I've been thinking a bit about benchmarks recently. In machine learning, once a benchmark gets released, each subsequent hill-climbing step seems to confer less and less signal about the underlying model. Performance upon the benchmark will eventually saturate, and researchers will move on to some other benchmark.
 </p>
@@ -160,10 +171,9 @@ I've been thinking a bit about benchmarks recently. In machine learning, once a 
 I often see discussion around benchmarks seemingly suggesting that this phenomenon is due to all the labs directly training on the test set in order to inflate performance. While I'm certain this happens, I think there are some works which can shed some more nuanced insight into how and why this happens.
 </p>
 </div>
-
-<div id="outline-container-org8234f18" class="outline-2">
-<h2 id="org8234f18">Do Imagenet Classifiers Generalize To Imagenet?</h2>
-<div class="outline-text-2" id="text-org8234f18">
+<div id="outline-container-orga678485" class="outline-2">
+<h2 id="orga678485">Do Imagenet Classifiers Generalize To Imagenet?</h2>
+<div class="outline-text-2" id="text-orga678485">
 <p>
 A paper I refer back to frequently is <a href="https://arxiv.org/abs/1902.10811">Do ImageNet Classifiers Generalize to ImageNet?</a>
 </p>
@@ -177,7 +187,7 @@ Perhaps the most in-distribution data imaginable here is the ImageNet data, but 
 </p>
 
 
-<div id="org974d964" class="figure">
+<div id="orgc249c6e" class="figure">
 <p><img src="../images/from_clipboard/20260130_132827.png" alt="20260130_132827.png" />
 </p>
 </div>
@@ -195,10 +205,9 @@ Likewise, if you limit the data to only the easiest examples with more aggressiv
 </p>
 </div>
 </div>
-
-<div id="outline-container-org9df282a" class="outline-2">
-<h2 id="org9df282a">Does Grade School Math Performance Generalize To Grade School Math</h2>
-<div class="outline-text-2" id="text-org9df282a">
+<div id="outline-container-org069dfb1" class="outline-2">
+<h2 id="org069dfb1">Does Grade School Math Performance Generalize To Grade School Math</h2>
+<div class="outline-text-2" id="text-org069dfb1">
 <p>
 In 2024 Scale put out <a href="https://arxiv.org/abs/2405.00332">A Careful Examination of Large Language Model Performance on Grade School Arithmetic</a>, which is another great paper I talk about all the time.
 </p>
@@ -218,7 +227,7 @@ Most of the labs make claims that they perform some degree of data cleaning in a
 </p>
 
 
-<div id="orgbeefc1b" class="figure">
+<div id="orgbf389e5" class="figure">
 <p><img src="../images/from_clipboard/20260130_135248.png" alt="20260130_135248.png" />
 </p>
 </div>
@@ -230,10 +239,9 @@ I have always felt that this chart communicated a lot. I've spoken in the past a
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Benchmarks are a funny thing. The implicit thing with these tables in most papers is &quot;this model is good at ~everything, here are some arbitrary capabilities.&quot; The Phi models are good at almost nothing except for these benchmarks. Yet the format is the same!</p>&mdash; Eryk (@erykbanatt) <a href="https://twitter.com/erykbanatt/status/1877127585550725521?ref_src=twsrc%5Etfw">January 8, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </div>
 </div>
-
-<div id="outline-container-org58e4188" class="outline-2">
-<h2 id="org58e4188">What Are Some Reasons This Might Happen?</h2>
-<div class="outline-text-2" id="text-org58e4188">
+<div id="outline-container-org6004056" class="outline-2">
+<h2 id="org6004056">What Are Some Reasons This Might Happen?</h2>
+<div class="outline-text-2" id="text-org6004056">
 <p>
 This is a really curious phenomenon. There are obviously nefarious explanations (shaped like "they deliberately included test examples to juice the benchmarks"), but these explanations are typically the only ones that ever get discussed. But we can see from the GSM paper that the models exhibit degradation in varying degrees, with some obviously much worse than others.
 </p>
@@ -242,10 +250,9 @@ This is a really curious phenomenon. There are obviously nefarious explanations 
 Likewise, it seems hard to square with the ordering in the ImageNet paper, which seems to describe a related phenomenon with no real evidence of foul play (i.e. models degrade upon new ostensibly in-distribution data, but the ordering does not change in a manner that suggests anybody trained on test). It's potentially interesting to explore a few non-malicious angles which could cause stuff like this to happen. 
 </p>
 </div>
-
-<div id="outline-container-org3ea9e71" class="outline-3">
-<h3 id="org3ea9e71">Data Cleaning Angle</h3>
-<div class="outline-text-3" id="text-org3ea9e71">
+<div id="outline-container-org31231c7" class="outline-3">
+<h3 id="org31231c7">Data Cleaning Angle</h3>
+<div class="outline-text-3" id="text-org31231c7">
 <p>
 The ImageNet paper defines three "gaps" which sum to the total degradation of the models:
 </p>
@@ -269,10 +276,9 @@ One could argue that the closed and open source LLM labs have slightly different
 </p>
 </div>
 </div>
-
-<div id="outline-container-org5f2e9ef" class="outline-3">
-<h3 id="org5f2e9ef">Evolutionary Angle</h3>
-<div class="outline-text-3" id="text-org5f2e9ef">
+<div id="outline-container-orgab813d3" class="outline-3">
+<h3 id="orgab813d3">Evolutionary Angle</h3>
+<div class="outline-text-3" id="text-orgab813d3">
 <p>
 A funny thing about hill climbing benchmarks is that the machine learning community is, in effect, performing a sort of evolutionary neural architecture search as a big collective.
 </p>
@@ -295,10 +301,9 @@ It's worth noting that, unlike hyperparameter tuning on the test set, this does 
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgdce9118" class="outline-2">
-<h2 id="orgdce9118">Conclusion</h2>
-<div class="outline-text-2" id="text-orgdce9118">
+<div id="outline-container-orgb1e4d4f" class="outline-2">
+<h2 id="orgb1e4d4f">Conclusion</h2>
+<div class="outline-text-2" id="text-orgb1e4d4f">
 <p>
 Benchmaxxing is ubiquitous, and very easy to see everywhere in language model research. The different labs directly climb benchmarks to varying degrees, and this all should not be misconstrued as saying "open models benchmaxx and closed labs don't"<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>. But I think benchmaxxing is not "one single thing", nor is it always just "deliberate training on the test set". I think it's a more of a symptom than a disease, and there are both many possible causes and varying degrees of severity.
 </p>

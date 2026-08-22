@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-22 Sat 16:16 -->
+<!-- 2026-08-22 Sat 16:23 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>V3 Training Fermi Estimate</title>
@@ -73,27 +73,38 @@ $(function() {
 
 <link rel="stylesheet" type="text/css" href="https://planetbanatt.net/css/default_20240614.css" />
 <link rel="shortcut icon" type="image/jpg" href="https://planetbanatt.net/favicon.ico" />
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
-
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "AMS"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
-});
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -119,6 +130,7 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
             <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
             <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
@@ -132,25 +144,24 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org12a6464">Deepseek-V3 Training Budget Fermi Estimation</a>
+<li><a href="#org2862e33">Deepseek-V3 Training Budget Fermi Estimation</a>
 <ul>
-<li><a href="#org9f1f6be">What Is The Actual Claim?</a></li>
-<li><a href="#org3c4a6ed">Estimating FLOPs</a></li>
-<li><a href="#org874b1f2">Additional Overhead from MoE / H800</a></li>
-<li><a href="#orge681a06">Conclusion</a></li>
+<li><a href="#orgd6c0e98">What Is The Actual Claim?</a></li>
+<li><a href="#org81e707a">Estimating FLOPs</a></li>
+<li><a href="#org6bfa530">Additional Overhead from MoE / H800</a></li>
+<li><a href="#org2325c7b">Conclusion</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org12a6464" class="outline-1">
-<h1 id="org12a6464">Deepseek-V3 Training Budget Fermi Estimation</h1>
-<div class="outline-text-1" id="text-org12a6464">
+<div id="outline-container-org2862e33" class="outline-1">
+<h1 id="org2862e33">Deepseek-V3 Training Budget Fermi Estimation</h1>
+<div class="outline-text-1" id="text-org2862e33">
 </div>
-<div id="outline-container-org9f1f6be" class="outline-2">
-<h2 id="org9f1f6be">What Is The Actual Claim?</h2>
-<div class="outline-text-2" id="text-org9f1f6be">
+<div id="outline-container-orgd6c0e98" class="outline-2">
+<h2 id="orgd6c0e98">What Is The Actual Claim?</h2>
+<div class="outline-text-2" id="text-orgd6c0e98">
 <p>
 There are a variety of opinions floating around about the validity of the table in the <a href="https://arxiv.org/abs/2412.19437v1">Deepseek-V3 paper</a>, which claims that the model was trained on a budget of $5.5 Million USD. Some people are going so far as to call it an outright lie, or some sort of psyop to make American labs chase an impossible target.
 </p>
@@ -164,16 +175,15 @@ Let’s reframe the convo: the figure from the V3 paper is that they trained it 
 </p>
 
 
-<div id="org83109e4" class="figure">
+<div id="orgca5ba8b" class="figure">
 <p><img src="../images/from_clipboard/20250125_153530.png" alt="20250125_153530.png" />
 </p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org3c4a6ed" class="outline-2">
-<h2 id="org3c4a6ed">Estimating FLOPs</h2>
-<div class="outline-text-2" id="text-org3c4a6ed">
+<div id="outline-container-org81e707a" class="outline-2">
+<h2 id="org81e707a">Estimating FLOPs</h2>
+<div class="outline-text-2" id="text-org81e707a">
 <p>
 It would be helpful to start with a quick summary on what <a href="https://en.wikipedia.org/wiki/Floating_point_operations_per_second">floating point operations</a>, or "FLOPs" are. These are an important way to measure computing performance. Modern GPUs are good at manipulating floats in different formats, which make them useful for different ML applications. Because we know how many parameters are active in the forward and backward passes, and they told us how many tokens they trained on, we can estimate how long it should take by starting with the total number of floating point operations were used. 
 </p>
@@ -191,10 +201,9 @@ Per the same usage as llama 3 \((30.84M / 3.8e25) * 3.29e24\), this should take 
 </p>
 </div>
 </div>
-
-<div id="outline-container-org874b1f2" class="outline-2">
-<h2 id="org874b1f2">Additional Overhead from MoE / H800</h2>
-<div class="outline-text-2" id="text-org874b1f2">
+<div id="outline-container-org6bfa530" class="outline-2">
+<h2 id="org6bfa530">Additional Overhead from MoE / H800</h2>
+<div class="outline-text-2" id="text-org6bfa530">
 <p>
 Deepseek-V3 uses H800s instead of llama's H100s, which have the same TFLOPS but inferior <a href="https://www.fibermall.com/blog/nvidia-ai-chip.htm">interconnection bandwidth</a>. H800s have 44% of the communication bandwidth as H100s (400 GB/s vs 900 GB/s), and the decision to use mixture-of-experts will add some intrinsic additional overhead. A somewhat arbitrary, but hopefully reasonably conservative estimate is between MoE overhead and H800 bandwidth overhead, it sums to it taking twice as long<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>, which would put us at about 5.34M GPU hours, or about $10.6 Million USD. We can think of this as a very rough upper bound for how much training a model like this "should cost". Doing this many FLOPs on this architecture at ~llama 3 speeds with ~100% overhead lands us at about $10 million USD. There are two ways we can reduce this number: going faster than llama 3, and reducing the MoE overhead.
 </p>
@@ -216,10 +225,9 @@ Reducing the overhead is also a big part of the paper. <a href="https://arxiv.or
 </p>
 </div>
 </div>
-
-<div id="outline-container-orge681a06" class="outline-2">
-<h2 id="orge681a06">Conclusion</h2>
-<div class="outline-text-2" id="text-orge681a06">
+<div id="outline-container-org2325c7b" class="outline-2">
+<h2 id="org2325c7b">Conclusion</h2>
+<div class="outline-text-2" id="text-org2325c7b">
 <p>
 These are all just estimates, and it's possible I'm missing something really big or made a huge assumption somewhere that I shouldn't have. But all in all, the claims that Deepseek trained a 671B parameter MoE with 37B active parameters on 14.8T tokens in 2.788M GPU hours to be very plausible, and this many GPU hours across 2048 H800s represents about 1.8 months, which is in line with the claims in the paper ("two months").
 </p>

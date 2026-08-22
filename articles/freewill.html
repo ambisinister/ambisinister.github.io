@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-22 Sat 16:16 -->
+<!-- 2026-08-22 Sat 16:23 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Free Will</title>
@@ -98,6 +98,7 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
             <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
             <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
@@ -111,21 +112,21 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org3e14e65">The "Free Will" Test</a>
+<li><a href="#org43a4aef">The "Free Will" Test</a>
 <ul>
-<li><a href="#orgec8af87">Existing Implementations</a></li>
-<li><a href="#org4c0db5e">My Implementation</a></li>
-<li><a href="#org11a7531">Simple Heuristics for Being More Random</a></li>
-<li><a href="#orgc9b9941">Thoughts on "Feeling Random"</a></li>
-<li><a href="#orgdf759af">Closing Thoughts</a></li>
+<li><a href="#org844d47d">Existing Implementations</a></li>
+<li><a href="#org653f8f9">My Implementation</a></li>
+<li><a href="#orgbc3cdcc">Simple Heuristics for Being More Random</a></li>
+<li><a href="#org8f873fa">Thoughts on "Feeling Random"</a></li>
+<li><a href="#org7f2466d">Closing Thoughts</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org3e14e65" class="outline-1">
-<h1 id="org3e14e65">The "Free Will" Test</h1>
-<div class="outline-text-1" id="text-org3e14e65">
+<div id="outline-container-org43a4aef" class="outline-1">
+<h1 id="org43a4aef">The "Free Will" Test</h1>
+<div class="outline-text-1" id="text-org43a4aef">
 <blockquote>
 <p>
 In a class I taught at Berkeley, I did an experiment where I wrote a simple little program that would let people type either “f” or “d” and would predict which key they were going to push next. It’s actually very easy to write a program that will make the right prediction about 70% of the time. Most people don’t really know how to type randomly. They’ll have too many alternations and so on. There will be all sorts of patterns, so you just have to build some sort of probabilistic model. Even a very crude one will do well. I couldn’t even beat my own program, knowing exactly how it worked. I challenged people to try this and the program was getting between 70% and 80% prediction rates. Then, we found one student that the program predicted exactly 50% of the time. We asked him what his secret was and he responded that he “just used his free will.”
@@ -152,16 +153,15 @@ I certainly agree that people are bad at being random &#x2013; I have won many t
 What I ended up finding out was that I performed better than the reported average reported in the book (hooray!) but that I still had some pretty clear flaws in my random behaviors (oh no!). I do some thinking about how to generate random processes reliably, and test those also.
 </p>
 </div>
-
-<div id="outline-container-orgec8af87" class="outline-2">
-<h2 id="orgec8af87">Existing Implementations</h2>
-<div class="outline-text-2" id="text-orgec8af87">
+<div id="outline-container-org844d47d" class="outline-2">
+<h2 id="org844d47d">Existing Implementations</h2>
+<div class="outline-text-2" id="text-org844d47d">
 <p>
 This was a pretty popular viral meme at one point, so I ended up finding an existing repository implementing it. You can find it <a href="https://people.ischool.berkeley.edu/~nick/aaronson-oracle/">here</a>, and the code describing it <a href="https://github.com/elsehow/aaronson-oracle">here</a>. However, I got the sense that something was a bit off about this implementation, as I immediately crushed it:
 </p>
 
 
-<div id="org7aecd0d" class="figure">
+<div id="orgc0b89ea" class="figure">
 <p><img src="../images/freewill/oracle.png" alt="oracle.png" />
 </p>
 </div>
@@ -186,7 +186,7 @@ Armed with this knowledge, I dug into their code and found the following
 </p>
 
 
-<div id="orgacb3d03" class="figure">
+<div id="org1862501" class="figure">
 <p><img src="../images/freewill/oracle_fn.png" alt="oracle_fn.png" />
 </p>
 </div>
@@ -196,66 +196,65 @@ So, if you have a 5-gram which has never been seen before, it will always predic
 </p>
 </div>
 </div>
-
-<div id="outline-container-org4c0db5e" class="outline-2">
-<h2 id="org4c0db5e">My Implementation</h2>
-<div class="outline-text-2" id="text-org4c0db5e">
+<div id="outline-container-org653f8f9" class="outline-2">
+<h2 id="org653f8f9">My Implementation</h2>
+<div class="outline-text-2" id="text-org653f8f9">
 <p>
 The code here is, as Aaronson says, very simple. The basic implementation is minimally different from elsehow's repository, but I added the random choice part, let you control how big you wanted the n-grams. The random choice means this is no longer deterministic, so I run it a few times to get consistent measurements.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #F92672;">import</span> random
-<span style="color: #F92672;">import</span> itertools
-<span style="color: #F92672;">import</span> matplotlib.pyplot <span style="color: #F92672;">as</span> plt
+<pre class="src src-python"><span style="font-weight: bold;">import</span> random
+<span style="font-weight: bold;">import</span> itertools
+<span style="font-weight: bold;">import</span> matplotlib.pyplot <span style="font-weight: bold;">as</span> plt
 
-<span style="color: #F92672;">class</span> <span style="color: #66D9EF;">Predictor</span>:
-    <span style="color: #F92672;">def</span> <span style="color: #A6E22E;">__init__</span>(<span style="color: #F92672;">self</span>, n):
-        <span style="color: #F92672;">self</span>.n = n
-        <span style="color: #F92672;">self</span>.<span style="color: #FD971F;">ngrams</span> = {}
-        <span style="color: #F92672;">self</span>.<span style="color: #FD971F;">correct_predictions</span> = 0
-        <span style="color: #F92672;">self</span>.<span style="color: #FD971F;">total_predictions</span> = 0
-        <span style="color: #FD971F;">all_combinations</span> = itertools.product([<span style="color: #E6DB74;">'f'</span>, <span style="color: #E6DB74;">'d'</span>], repeat=n)
-        <span style="color: #F92672;">for</span> combination <span style="color: #F92672;">in</span> all_combinations:
-            <span style="color: #F92672;">self</span>.ngrams[<span style="color: #E6DB74;">''</span>.join(combination)] = {<span style="color: #E6DB74;">'f'</span>: 0, <span style="color: #E6DB74;">'d'</span>: 0}
+<span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">Predictor</span>:
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__init__</span>(<span style="font-weight: bold;">self</span>, n):
+        <span style="font-weight: bold;">self</span>.<span style="font-weight: bold; font-style: italic;">n</span> = n
+        <span style="font-weight: bold;">self</span>.<span style="font-weight: bold; font-style: italic;">ngrams</span> = {}
+        <span style="font-weight: bold;">self</span>.<span style="font-weight: bold; font-style: italic;">correct_predictions</span> = 0
+        <span style="font-weight: bold;">self</span>.<span style="font-weight: bold; font-style: italic;">total_predictions</span> = 0
+        <span style="font-weight: bold; font-style: italic;">all_combinations</span> = itertools.product([<span style="font-style: italic;">'f'</span>, <span style="font-style: italic;">'d'</span>], repeat=n)
+        <span style="font-weight: bold;">for</span> combination <span style="font-weight: bold;">in</span> all_combinations:
+            <span style="font-weight: bold;">self</span>.<span style="font-weight: bold; font-style: italic;">ngrams</span>[<span style="font-style: italic;">''</span>.join(combination)] = {<span style="font-style: italic;">'f'</span>: 0, <span style="font-style: italic;">'d'</span>: 0}
 
-    <span style="color: #F92672;">def</span> <span style="color: #A6E22E;">predict</span>(<span style="color: #F92672;">self</span>, sequence):
-        correct_predictions = 0
-        total_predictions = 0
-        history = sequence[:<span style="color: #F92672;">self</span>.n]
-        <span style="color: #F92672;">for</span> next_character <span style="color: #F92672;">in</span> sequence[<span style="color: #F92672;">self</span>.n:]:
-            prediction = <span style="color: #F92672;">self</span>._make_prediction(history)
-            history = <span style="color: #F92672;">self</span>._update_history(history, next_character)
-            total_predictions += 1
-            <span style="color: #F92672;">if</span> prediction == next_character:
-                correct_predictions += 1
-        <span style="color: #F92672;">self</span>.correct_predictions = correct_predictions
-        <span style="color: #F92672;">self</span>.total_predictions = total_predictions
-        <span style="color: #F92672;">return</span> correct_predictions / total_predictions <span style="color: #F92672;">if</span> total_predictions != 0 <span style="color: #F92672;">else</span> 0
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">predict</span>(<span style="font-weight: bold;">self</span>, sequence):
+        <span style="font-weight: bold; font-style: italic;">correct_predictions</span> = 0
+        <span style="font-weight: bold; font-style: italic;">total_predictions</span> = 0
+        <span style="font-weight: bold; font-style: italic;">history</span> = sequence[:<span style="font-weight: bold;">self</span>.n]
+        <span style="font-weight: bold;">for</span> next_character <span style="font-weight: bold;">in</span> sequence[<span style="font-weight: bold;">self</span>.n:]:
+            <span style="font-weight: bold; font-style: italic;">prediction</span> = <span style="font-weight: bold;">self</span>._make_prediction(history)
+            <span style="font-weight: bold; font-style: italic;">history</span> = <span style="font-weight: bold;">self</span>._update_history(history, next_character)
+            <span style="font-weight: bold; font-style: italic;">total_predictions</span> += 1
+            <span style="font-weight: bold;">if</span> prediction == next_character:
+                <span style="font-weight: bold; font-style: italic;">correct_predictions</span> += 1
+        <span style="font-weight: bold;">self</span>.<span style="font-weight: bold; font-style: italic;">correct_predictions</span> = correct_predictions
+        <span style="font-weight: bold;">self</span>.<span style="font-weight: bold; font-style: italic;">total_predictions</span> = total_predictions
+        <span style="font-weight: bold;">return</span> correct_predictions / total_predictions <span style="font-weight: bold;">if</span> total_predictions != 0 <span style="font-weight: bold;">else</span> 0
 
-    <span style="color: #F92672;">def</span> <span style="color: #A6E22E;">_make_prediction</span>(<span style="color: #F92672;">self</span>, history):
-        prediction = <span style="color: #F92672;">self</span>.ngrams[history]
-        <span style="color: #F92672;">if</span> prediction[<span style="color: #E6DB74;">'f'</span>] &gt; prediction[<span style="color: #E6DB74;">'d'</span>]:
-            <span style="color: #F92672;">return</span> <span style="color: #E6DB74;">'f'</span>
-        <span style="color: #F92672;">elif</span> prediction[<span style="color: #E6DB74;">'d'</span>] &gt; prediction[<span style="color: #E6DB74;">'f'</span>]:
-            <span style="color: #F92672;">return</span> <span style="color: #E6DB74;">'d'</span>
-        <span style="color: #F92672;">else</span>:
-            <span style="color: #F92672;">return</span> random.choice([<span style="color: #E6DB74;">'f'</span>, <span style="color: #E6DB74;">'d'</span>])
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">_make_prediction</span>(<span style="font-weight: bold;">self</span>, history):
+        <span style="font-weight: bold; font-style: italic;">prediction</span> = <span style="font-weight: bold;">self</span>.ngrams[history]
+        <span style="font-weight: bold;">if</span> prediction[<span style="font-style: italic;">'f'</span>] &gt; prediction[<span style="font-style: italic;">'d'</span>]:
+            <span style="font-weight: bold;">return</span> <span style="font-style: italic;">'f'</span>
+        <span style="font-weight: bold;">elif</span> prediction[<span style="font-style: italic;">'d'</span>] &gt; prediction[<span style="font-style: italic;">'f'</span>]:
+            <span style="font-weight: bold;">return</span> <span style="font-style: italic;">'d'</span>
+        <span style="font-weight: bold;">else</span>:
+            <span style="font-weight: bold;">return</span> random.choice([<span style="font-style: italic;">'f'</span>, <span style="font-style: italic;">'d'</span>])
 
-    <span style="color: #F92672;">def</span> <span style="color: #A6E22E;">_update_history</span>(<span style="color: #F92672;">self</span>, history, next_character):
-        <span style="color: #F92672;">self</span>.ngrams[history][<span style="color: #FD971F;">next_character</span>] += 1
-        history = history[1:] + next_character
-        <span style="color: #F92672;">return</span> history
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">_update_history</span>(<span style="font-weight: bold;">self</span>, history, next_character):
+        <span style="font-weight: bold;">self</span>.ngrams[history][next_character] += 1
+        <span style="font-weight: bold; font-style: italic;">history</span> = history[1:] + next_character
+        <span style="font-weight: bold;">return</span> history
 
-<span style="color: #F92672;">def</span> <span style="color: #A6E22E;">plot_predictions</span>(sequence, n=3, runs=100):
-    percentages = []
-    <span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(<span style="color: #F92672;">len</span>(sequence)):
-        avg_percentage = 0
-        <span style="color: #F92672;">for</span> _ <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(runs):  <span style="color: #75715E;"># </span><span style="color: #75715E;">(break ties random)
-</span>            this_predictor = Predictor(n)
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">plot_predictions</span>(sequence, n=3, runs=100):
+    <span style="font-weight: bold; font-style: italic;">percentages</span> = []
+    <span style="font-weight: bold;">for</span> i <span style="font-weight: bold;">in</span> <span style="font-weight: bold;">range</span>(<span style="font-weight: bold;">len</span>(sequence)):
+        <span style="font-weight: bold; font-style: italic;">avg_percentage</span> = 0
+        <span style="font-weight: bold;">for</span> _ <span style="font-weight: bold;">in</span> <span style="font-weight: bold;">range</span>(runs):  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">(break ties random)
+</span>            <span style="font-weight: bold; font-style: italic;">this_predictor</span> = Predictor(n)
             this_predictor.predict(sequence[:i])
-            avg_percentage += this_predictor.correct_predictions / this_predictor.total_predictions <span style="color: #F92672;">if</span> this_predictor.total_predictions != 0 <span style="color: #F92672;">else</span> 0
-        avg_percentage /= runs 
+            <span style="font-weight: bold; font-style: italic;">avg_percentage</span> += this_predictor.correct_predictions / this_predictor.total_predictions <span style="font-weight: bold;">if</span> this_predictor.total_predictions != 0 <span style="font-weight: bold;">else</span> 0
+        <span style="font-weight: bold; font-style: italic;">avg_percentage</span> /= runs 
         percentages.append(avg_percentage)    
 </pre>
 </div>
@@ -269,16 +268,16 @@ Below is my attempt at it, using only general intuition and no heuristics or cou
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #FD971F;">sequence</span> = <span style="color: #E6DB74;">'ffdffdddfffddffddffdddffddfffdfdddffdfddfddfdfddffddfdfffdfddffdffddffddfdffdddddffdfdfffdfddffdddff'</span>
-<span style="color: #F92672;">print</span>(sequence.count(<span style="color: #E6DB74;">'f'</span>))
-<span style="color: #F92672;">print</span>(sequence.count(<span style="color: #E6DB74;">'d'</span>))
-<span style="color: #75715E;"># </span><span style="color: #75715E;">pretty good / lucky distribution for no heuristics
+<pre class="src src-python"><span style="font-weight: bold; font-style: italic;">sequence</span> = <span style="font-style: italic;">'ffdffdddfffddffddffdddffddfffdfdddffdfddfddfdfddffddfdfffdfddffdffddffddfdffdddddffdfdfffdfddffdddff'</span>
+<span style="font-weight: bold;">print</span>(sequence.count(<span style="font-style: italic;">'f'</span>))
+<span style="font-weight: bold;">print</span>(sequence.count(<span style="font-style: italic;">'d'</span>))
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">pretty good / lucky distribution for no heuristics
 </span>
-<span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(3,6):
-  <span style="color: #FD971F;">predictor</span> = plot_predictions(sequence, n=i)
+<span style="font-weight: bold;">for</span> i <span style="font-weight: bold;">in</span> <span style="font-weight: bold;">range</span>(3,6):
+  <span style="font-weight: bold; font-style: italic;">predictor</span> = plot_predictions(sequence, n=i)
 
-  <span style="color: #F92672;">for</span> fd <span style="color: #F92672;">in</span> predictor.ngrams:
-    <span style="color: #F92672;">print</span>(fd, predictor.ngrams[fd])
+  <span style="font-weight: bold;">for</span> fd <span style="font-weight: bold;">in</span> predictor.ngrams:
+    <span style="font-weight: bold;">print</span>(fd, predictor.ngrams[fd])
 </pre>
 </div>
 
@@ -308,29 +307,28 @@ This was cool: it exposed a blindspot in some of my decisions (especially near t
 </p>
 </div>
 </div>
-
-<div id="outline-container-org11a7531" class="outline-2">
-<h2 id="org11a7531">Simple Heuristics for Being More Random</h2>
-<div class="outline-text-2" id="text-org11a7531">
+<div id="outline-container-orgbc3cdcc" class="outline-2">
+<h2 id="orgbc3cdcc">Simple Heuristics for Being More Random</h2>
+<div class="outline-text-2" id="text-orgbc3cdcc">
 <p>
 If you had time to think about it, could you beat this test? I think you could &#x2013; and I will present the only use I've ever heard of for memorizing digits of pi: using digits of an irrational number as a random number generator. Here are 100 digits of pi, and I generate a string for this task by taking 'd' for evens and 'f' for odds.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #F92672;">print</span>(<span style="color: #E6DB74;">"generating using 100 digits of pi"</span>)
+<pre class="src src-python"><span style="font-weight: bold;">print</span>(<span style="font-style: italic;">"generating using 100 digits of pi"</span>)
 
-<span style="color: #75715E;"># </span><span style="color: #75715E;">Generate sequence using digits of pi
-</span><span style="color: #FD971F;">pi</span> = <span style="color: #E6DB74;">'3141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067'</span>
-<span style="color: #FD971F;">sequence</span> = <span style="color: #E6DB74;">''</span>.join([<span style="color: #E6DB74;">'d'</span> <span style="color: #F92672;">if</span> <span style="color: #F92672;">int</span>(x)%2==0 <span style="color: #F92672;">else</span> <span style="color: #E6DB74;">'f'</span> <span style="color: #F92672;">for</span> x <span style="color: #F92672;">in</span> pi])
-<span style="color: #F92672;">assert</span> sequence == <span style="color: #E6DB74;">'ffdfffddfffdffffdfddddddffdfdfffdddddffffdffffffffdfdddffdfddffdfdfdfddddddddddffdddddfdddffddfffddf'</span>
-<span style="color: #F92672;">print</span>(sequence.count(<span style="color: #E6DB74;">'f'</span>))
-<span style="color: #F92672;">print</span>(sequence.count(<span style="color: #E6DB74;">'d'</span>))
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Generate sequence using digits of pi
+</span><span style="font-weight: bold; font-style: italic;">pi</span> = <span style="font-style: italic;">'3141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067'</span>
+<span style="font-weight: bold; font-style: italic;">sequence</span> = <span style="font-style: italic;">''</span>.join([<span style="font-style: italic;">'d'</span> <span style="font-weight: bold;">if</span> <span style="font-weight: bold;">int</span>(x)%2==0 <span style="font-weight: bold;">else</span> <span style="font-style: italic;">'f'</span> <span style="font-weight: bold;">for</span> x <span style="font-weight: bold;">in</span> pi])
+<span style="font-weight: bold;">assert</span> sequence == <span style="font-style: italic;">'ffdfffddfffdffffdfddddddffdfdfffdddddffffdffffffffdfdddffdfddffdfdfdfddddddddddffdddddfdddffddfffddf'</span>
+<span style="font-weight: bold;">print</span>(sequence.count(<span style="font-style: italic;">'f'</span>))
+<span style="font-weight: bold;">print</span>(sequence.count(<span style="font-style: italic;">'d'</span>))
 
-<span style="color: #F92672;">for</span> i <span style="color: #F92672;">in</span> <span style="color: #F92672;">range</span>(3,6):
-  predictor = plot_predictions(sequence, n=i)
+<span style="font-weight: bold;">for</span> i <span style="font-weight: bold;">in</span> <span style="font-weight: bold;">range</span>(3,6):
+  <span style="font-weight: bold; font-style: italic;">predictor</span> = plot_predictions(sequence, n=i)
 
-  <span style="color: #F92672;">for</span> fd <span style="color: #F92672;">in</span> predictor.ngrams:
-    <span style="color: #F92672;">print</span>(fd, predictor.ngrams[fd])
+  <span style="font-weight: bold;">for</span> fd <span style="font-weight: bold;">in</span> predictor.ngrams:
+    <span style="font-weight: bold;">print</span>(fd, predictor.ngrams[fd])
 </pre>
 </div>
 
@@ -349,10 +347,9 @@ It should be possible to get random arbitrarily weighted coin flips this way too
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgc9b9941" class="outline-2">
-<h2 id="orgc9b9941">Thoughts on "Feeling Random"</h2>
-<div class="outline-text-2" id="text-orgc9b9941">
+<div id="outline-container-org8f873fa" class="outline-2">
+<h2 id="org8f873fa">Thoughts on "Feeling Random"</h2>
+<div class="outline-text-2" id="text-org8f873fa">
 <p>
 The pi-generated string made me feel extremely uneasy. It severely outperformed me despite feeling "obviously more patterned". There were many stretches where it generated the same value many times in a row, and I felt worried that my idea of using irrational number digits as a random number generator was actually somehow wrong because of some number theory patterning result I had never heard of before.
 </p>
@@ -375,10 +372,9 @@ I wonder which situations would reward vs punish this behavior &#x2013; if you w
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgdf759af" class="outline-2">
-<h2 id="orgdf759af">Closing Thoughts</h2>
-<div class="outline-text-2" id="text-orgdf759af">
+<div id="outline-container-org7f2466d" class="outline-2">
+<h2 id="org7f2466d">Closing Thoughts</h2>
+<div class="outline-text-2" id="text-org7f2466d">
 <p>
 I came away from this test feeling affirmed that I possess at least some small quantity of "free will". At the very least, I came away from this thinking that I can make roughly 100 decisions that are relatively random, and that my fighting game training was not for naught. It's possible that if I did 600 keypresses, that this model would slowly build an advantage over me. However, I simply do not have the patience to carefully make 600 keypresses. If I can get a good result in 100, that's good enough for me. 
 </p>

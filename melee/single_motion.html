@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-22 Sat 16:16 -->
+<!-- 2026-08-22 Sat 16:23 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Controller Stuff</title>
@@ -73,27 +73,38 @@ $(function() {
 
 <link rel="stylesheet" type="text/css" href="https://planetbanatt.net/css/default_20240614.css" />
 <link rel="shortcut icon" type="image/jpg" href="https://planetbanatt.net/favicon.ico" />
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
-
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "AMS"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
-});
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -119,6 +130,7 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
             <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
             <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
@@ -132,50 +144,49 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org8ddbd0b">Single Motion / Phob Stuff</a>
+<li><a href="#orgfcd3913">Single Motion / Phob Stuff</a>
 <ul>
-<li><a href="#org8e9f81c">Ledgedashing</a>
+<li><a href="#org0490127">Ledgedashing</a>
 <ul>
-<li><a href="#org090b65b">Why I Use Single Motion</a></li>
-<li><a href="#org53bd31c">Inputting Single Motion Ledgedash</a>
+<li><a href="#orgbec11bb">Why I Use Single Motion</a></li>
+<li><a href="#org7ada528">Inputting Single Motion Ledgedash</a>
 <ul>
-<li><a href="#org444cb17">The Frame 4 Airdodge Compromise</a></li>
+<li><a href="#org4a166dd">The Frame 4 Airdodge Compromise</a></li>
 </ul>
 </li>
-<li><a href="#org05698ee">How This Interacts With PODE</a></li>
-<li><a href="#org0b6ca95">My Controller Settings</a></li>
-<li><a href="#orgb20e228">Understanding The Phob</a>
+<li><a href="#org5db8586">How This Interacts With PODE</a></li>
+<li><a href="#org79e0604">My Controller Settings</a></li>
+<li><a href="#org0581e37">Understanding The Phob</a>
 <ul>
-<li><a href="#org86aac35">Waveshaping</a></li>
-<li><a href="#org44ba012">Axis Smoothing</a></li>
-<li><a href="#org86c6293">Smart Snapback</a></li>
+<li><a href="#org01babe5">Waveshaping</a></li>
+<li><a href="#orgc544c96">Axis Smoothing</a></li>
+<li><a href="#org6ff7d87">Smart Snapback</a></li>
 </ul>
 </li>
-<li><a href="#org57668fc">The TL;DR</a></li>
+<li><a href="#org058eaf8">The TL;DR</a></li>
 </ul>
 </li>
-<li><a href="#org9b423a0">Other Important Controller Resources</a></li>
-<li><a href="#org64326c2">More Links</a></li>
+<li><a href="#org0225221">Other Important Controller Resources</a></li>
+<li><a href="#org9074e6d">More Links</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org8ddbd0b" class="outline-1">
-<h1 id="org8ddbd0b">Single Motion / Phob Stuff</h1>
-<div class="outline-text-1" id="text-org8ddbd0b">
+<div id="outline-container-orgfcd3913" class="outline-1">
+<h1 id="orgfcd3913">Single Motion / Phob Stuff</h1>
+<div class="outline-text-1" id="text-orgfcd3913">
 <p>
 This page holds info about the phob controller settings I use, important for building backup controllers for consistent performance. As a fox player and <a href="https://www.youtube.com/watch?v=j97XqzDSLlo">non-rectangle user</a>, I do not have the luxury of simply buying another controller if mine breaks and assuming it will be the same as the last one.
 </p>
 </div>
-
-<div id="outline-container-org8e9f81c" class="outline-2">
-<h2 id="org8e9f81c">Ledgedashing</h2>
-<div class="outline-text-2" id="text-org8e9f81c">
+<div id="outline-container-org0490127" class="outline-2">
+<h2 id="org0490127">Ledgedashing</h2>
+<div class="outline-text-2" id="text-org0490127">
 </div>
-<div id="outline-container-org090b65b" class="outline-3">
-<h3 id="org090b65b">Why I Use Single Motion</h3>
-<div class="outline-text-3" id="text-org090b65b">
+<div id="outline-container-orgbec11bb" class="outline-3">
+<h3 id="orgbec11bb">Why I Use Single Motion</h3>
+<div class="outline-text-3" id="text-orgbec11bb">
 <p>
 There are three primary methods to input a ledgedash, all with pros and cons.
 </p>
@@ -197,10 +208,9 @@ I use single motion ledgedash, primarily because I'm interested in abusing the i
 </p>
 </div>
 </div>
-
-<div id="outline-container-org53bd31c" class="outline-3">
-<h3 id="org53bd31c">Inputting Single Motion Ledgedash</h3>
-<div class="outline-text-3" id="text-org53bd31c">
+<div id="outline-container-org7ada528" class="outline-3">
+<h3 id="org7ada528">Inputting Single Motion Ledgedash</h3>
+<div class="outline-text-3" id="text-org7ada528">
 <p>
 The fastfall line is (Y -.6625). The forwards jump line is (X .2875). The neutral getup angle is roughly 50 degrees. With this in mind, our ideal outcome (for Fox, specifically) is:
 </p>
@@ -224,55 +234,55 @@ We can show this off with a number of simulated input trajectories just to illus
 </p>
 
 
-<div id="org2e1f3a5" class="figure">
+<div id="org5a79e18" class="figure">
 <p><img src="../images/melee/controller_polling_simulation_9ms_0poll.png" alt="controller_polling_simulation_9ms_0poll.png" />
 </p>
 </div>
 
 
-<div id="orgebcb1e7" class="figure">
+<div id="orgf328439" class="figure">
 <p><img src="../images/melee/controller_polling_simulation_9ms_8poll.png" alt="controller_polling_simulation_9ms_8poll.png" />
 </p>
 </div>
 
 
-<div id="org21ff740" class="figure">
+<div id="org27d15b1" class="figure">
 <p><img src="../images/melee/controller_polling_simulation_9ms_14poll.png" alt="controller_polling_simulation_9ms_14poll.png" />
 </p>
 </div>
 
 
-<div id="org310b392" class="figure">
+<div id="org3590688" class="figure">
 <p><img src="../images/melee/sim_35ms_0poll.png" alt="sim_35ms_0poll.png" />
 </p>
 </div>
 
 
-<div id="orga55252a" class="figure">
+<div id="org22fd18a" class="figure">
 <p><img src="../images/melee/sim_35ms_8poll.png" alt="sim_35ms_8poll.png" />
 </p>
 </div>
 
 
-<div id="org3f5ae21" class="figure">
+<div id="orgd07bad2" class="figure">
 <p><img src="../images/melee/sim_35ms_14poll.png" alt="sim_35ms_14poll.png" />
 </p>
 </div>
 
 
-<div id="orga619659" class="figure">
+<div id="org713f06d" class="figure">
 <p><img src="../images/melee/sim_45ms_0poll.png" alt="sim_45ms_0poll.png" />
 </p>
 </div>
 
 
-<div id="orgce00c06" class="figure">
+<div id="org99f4df7" class="figure">
 <p><img src="../images/melee/sim_45ms_8poll.png" alt="sim_45ms_8poll.png" />
 </p>
 </div>
 
 
-<div id="org73b7931" class="figure">
+<div id="orga224a51" class="figure">
 <p><img src="../images/melee/sim_45ms_14poll.png" alt="sim_45ms_14poll.png" />
 </p>
 </div>
@@ -301,10 +311,9 @@ B: Your first frame is polled outside the deadzone. You do a frame perfect relea
 Alternatively, you can start the motion 1f before the first frame you can let go. If you get polling timered here, you will do a frame perfect ledgedash. If you do not get polling timered here, you will likely do tournament winner (since you input ledgedrop too early and then pressed jump while on ledge). If you can reliably do this input slow enough to always take a frame's worth of time to exit the deadzone, this might be better, but it seems like doing a bit too much theorycrafting based on this linear speed assumption (which is likely not a perfect representation).
 </p>
 </div>
-
-<div id="outline-container-org444cb17" class="outline-4">
-<h4 id="org444cb17">The Frame 4 Airdodge Compromise</h4>
-<div class="outline-text-4" id="text-org444cb17">
+<div id="outline-container-org4a166dd" class="outline-4">
+<h4 id="org4a166dd">The Frame 4 Airdodge Compromise</h4>
+<div class="outline-text-4" id="text-org4a166dd">
 <p>
 Choosing to do a frame 4 airdodge instead of a frame 3 one is pretty strong. The reason it's pretty strong is that it works for a lot more ECB states compared to the frame 3 one. The frame 4 airdodge is sort of like a second serve, it's a good consistent input that gets lots of GALINT and gives a pretty low chance of dying, even if it sacrifices some optimality.
 </p>
@@ -342,17 +351,15 @@ doublejump back regrab
 </div>
 </div>
 </div>
-
-
-<div id="outline-container-org05698ee" class="outline-3">
-<h3 id="org05698ee">How This Interacts With PODE</h3>
-<div class="outline-text-3" id="text-org05698ee">
+<div id="outline-container-org5db8586" class="outline-3">
+<h3 id="org5db8586">How This Interacts With PODE</h3>
+<div class="outline-text-3" id="text-org5db8586">
 <p>
 PODE, as covered by R2DLiu in the past, can be thought of as an X-axis delay, providing us a frame of straight down where we would otherwise be getting some non-cardinal angle. This lets us do a single motion ledgedash even if we input a shallower angle, for example 45 degrees.
 </p>
 
 
-<div id="orgf29a064" class="figure">
+<div id="org0da952e" class="figure">
 <p><img src="../images/melee/sim_pode.png" alt="sim_pode.png" />
 </p>
 </div>
@@ -366,25 +373,25 @@ A funny thing about this bug is that this changes the nature of the polling time
 </p>
 
 
-<div id="org474a039" class="figure">
+<div id="orgc4237e9" class="figure">
 <p><img src="../images/melee/pode_polling_simulation_30ms_0poll_16pode.png" alt="pode_polling_simulation_30ms_0poll_16pode.png" />
 </p>
 </div>
 
 
-<div id="org2946284" class="figure">
+<div id="org9472b6a" class="figure">
 <p><img src="../images/melee/pode_polling_simulation_30ms_15poll_16pode.png" alt="pode_polling_simulation_30ms_15poll_16pode.png" />
 </p>
 </div>
 
 
-<div id="org4486f5e" class="figure">
+<div id="orgfed7e84" class="figure">
 <p><img src="../images/melee/pode_polling_simulation_45ms_0poll_16pode.png" alt="pode_polling_simulation_45ms_0poll_16pode.png" />
 </p>
 </div>
 
 
-<div id="orgf10f66d" class="figure">
+<div id="orgd59f9cb" class="figure">
 <p><img src="../images/melee/pode_polling_simulation_45ms_15poll_16pode.png" alt="pode_polling_simulation_45ms_15poll_16pode.png" />
 </p>
 </div>
@@ -394,10 +401,9 @@ However, I am not as interested in PODE itself, since getting a controller with 
 </p>
 </div>
 </div>
-
-<div id="outline-container-org0b6ca95" class="outline-3">
-<h3 id="org0b6ca95">My Controller Settings</h3>
-<div class="outline-text-3" id="text-org0b6ca95">
+<div id="outline-container-org79e0604" class="outline-3">
+<h3 id="org79e0604">My Controller Settings</h3>
+<div class="outline-text-3" id="text-org79e0604">
 <p>
 You can emulate PODE by adjusting waveshaping, axis smoothing, and smart snapback filtering. We will get into what these do in a moment, but here's what shows up in <a href="https://drive.google.com/file/d/1rYSEaf_AJXQ5TP5UlGmj8xVYNdXGGOAG/view">smashscope</a> when I check the values. You can adjust these values by following the <a href="https://github.com/PhobGCC/PhobGCC-doc/blob/main/For_Users/Phob_Calibration_Guide_Latest.md">phobGCC documentation</a>.
 </p>
@@ -433,10 +439,9 @@ TODO: These are probably pretty bad after investigating this somewhat.
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgb20e228" class="outline-3">
-<h3 id="orgb20e228">Understanding The Phob</h3>
-<div class="outline-text-3" id="text-orgb20e228">
+<div id="outline-container-org0581e37" class="outline-3">
+<h3 id="org0581e37">Understanding The Phob</h3>
+<div class="outline-text-3" id="text-org0581e37">
 <p>
 The relevant links to understanding waveshaping, smart snapback filter, and axis smoothing, can be found in these three spots in the phobGCC code:
 </p>
@@ -450,10 +455,9 @@ The relevant links to understanding waveshaping, smart snapback filter, and axis
 Generally speaking, even players who know how to use smashscope at all will mostly just input values people tell them to use, without clear understanding of what is actually happening to their controller when they do these things (source: me). I will attempt to pull some of these apart.
 </p>
 </div>
-
-<div id="outline-container-org86aac35" class="outline-4">
-<h4 id="org86aac35">Waveshaping</h4>
-<div class="outline-text-4" id="text-org86aac35">
+<div id="outline-container-org01babe5" class="outline-4">
+<h4 id="org01babe5">Waveshaping</h4>
+<div class="outline-text-4" id="text-org01babe5">
 <p>
 Waveshaping ostensibly works by trying to emulate PODE by delaying the input of one axis specifically. However, it works in an "idealized" manner, where it will delay inputs if they cross a velocity threshold, but leave them alone otherwise.
 </p>
@@ -467,13 +471,13 @@ Here's showing how a 7.5ms fast motion can get you both deadzone polled AND getu
 </p>
 
 
-<div id="orgc9e273b" class="figure">
+<div id="org295146c" class="figure">
 <p><img src="../images/melee/phobgcc_7ms_ws_poll2.png" alt="phobgcc_7ms_ws_poll2.png" />
 </p>
 </div>
 
 
-<div id="orgadb6e7a" class="figure">
+<div id="orge688fb2" class="figure">
 <p><img src="../images/melee/phobgcc_7ms_ws_poll14.png" alt="phobgcc_7ms_ws_poll14.png" />
 </p>
 </div>
@@ -483,22 +487,21 @@ And here's showing how a 12ms fast motion can never get you anything but neutral
 </p>
 
 
-<div id="org22628cb" class="figure">
+<div id="org3c1448a" class="figure">
 <p><img src="../images/melee/phobgcc_12ms_ws.png" alt="phobgcc_12ms_ws.png" />
 </p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org44ba012" class="outline-4">
-<h4 id="org44ba012">Axis Smoothing</h4>
-<div class="outline-text-4" id="text-org44ba012">
+<div id="outline-container-orgc544c96" class="outline-4">
+<h4 id="orgc544c96">Axis Smoothing</h4>
+<div class="outline-text-4" id="text-orgc544c96">
 <p>
 To understand axis smoothing's interaction with this, let's assume a waveshaping x=11 and a speed of 9ms. This is just a cartoon to establish what the other things do.
 </p>
 
 
-<div id="orgc4946e4" class="figure">
+<div id="orgfee4ef6" class="figure">
 <p><img src="../images/melee/standard_waveshape_example.png" alt="standard_waveshape_example.png" />
 </p>
 </div>
@@ -508,7 +511,7 @@ Axis smoothing is pretty simple to understand: it is a <a href="https://en.wikip
 </p>
 
 
-<div id="orgf6b3be7" class="figure">
+<div id="org512881b" class="figure">
 <p><img src="../images/melee/phobgcc_9ms_ws-sm_5.png" alt="phobgcc_9ms_ws-sm_5.png" />
 </p>
 </div>
@@ -522,10 +525,9 @@ The <b>purpose</b> of axis smoothing is to reduce jitter / artifacts / noise / e
 </p>
 </div>
 </div>
-
-<div id="outline-container-org86c6293" class="outline-4">
-<h4 id="org86c6293">Smart Snapback</h4>
-<div class="outline-text-4" id="text-org86c6293">
+<div id="outline-container-org6ff7d87" class="outline-4">
+<h4 id="org6ff7d87">Smart Snapback</h4>
+<div class="outline-text-4" id="text-org6ff7d87">
 <p>
 Smart Snapback actually has two filters, "positive" and "negative". Negative values correspond to something we've seen before, it just applied a low-pass filter to the input. Here we can see what applying negative 5 to the y axis affects the curve:
 </p>
@@ -548,29 +550,26 @@ TODO: I think my code for this is wrong, it's complicated in the code.
 </div>
 </div>
 </div>
-
-<div id="outline-container-org57668fc" class="outline-3">
-<h3 id="org57668fc">The TL;DR</h3>
-<div class="outline-text-3" id="text-org57668fc">
+<div id="outline-container-org058eaf8" class="outline-3">
+<h3 id="org058eaf8">The TL;DR</h3>
+<div class="outline-text-3" id="text-org058eaf8">
 <p>
 Doing this input fast is possible, and for that you want to maximize the amount of curve-per-unit-time to the left of the neutral getup line, most ideally where two frames will be polled left of it, starting from the movement's beginning (either 1 deadzone and 1 drop, or 2 drop). This seems sort of untenable. More reliable is doing the input slowly, swooshing it manually, and getting it consistently with no fastfalls or neutral getups. 
 </p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org9b423a0" class="outline-2">
-<h2 id="org9b423a0">Other Important Controller Resources</h2>
-<div class="outline-text-2" id="text-org9b423a0">
+<div id="outline-container-org0225221" class="outline-2">
+<h2 id="org0225221">Other Important Controller Resources</h2>
+<div class="outline-text-2" id="text-org0225221">
 <p>
 <a href="https://www.sparkplatemelee.com/">Sparkplate</a>: full firefox notches are quite a bit cheaper to obtain now that they are mass-producible. 
 </p>
 </div>
 </div>
-
-<div id="outline-container-org64326c2" class="outline-2">
-<h2 id="org64326c2">More Links</h2>
-<div class="outline-text-2" id="text-org64326c2">
+<div id="outline-container-org9074e6d" class="outline-2">
+<h2 id="org9074e6d">More Links</h2>
+<div class="outline-text-2" id="text-org9074e6d">
 <p>
 TODO: Host the smashscope files because they're not available anymore??
 </p>

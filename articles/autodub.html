@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-08-22 Sat 16:16 -->
+<!-- 2026-08-22 Sat 16:23 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Auto-Dubbing BOTW</title>
@@ -73,27 +73,38 @@ $(function() {
 
 <link rel="stylesheet" type="text/css" href="https://planetbanatt.net/css/default_20240614.css" />
 <link rel="shortcut icon" type="image/jpg" href="https://planetbanatt.net/favicon.ico" />
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
-
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "AMS"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
-});
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -119,6 +130,7 @@ $(function() {
             <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
             <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
             <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
             <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
             <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
           </ul>
@@ -132,29 +144,29 @@ $(function() {
 <h1>Table of Contents</h1>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgce85399">Cheaply Auto-Dubbing Breath of the Wild with Local Models</a>
+<li><a href="#orga246b6a">Cheaply Auto-Dubbing Breath of the Wild with Local Models</a>
 <ul>
-<li><a href="#org2349f16">Context</a></li>
-<li><a href="#org039b7ea">Pipeline</a>
+<li><a href="#orgf28be9c">Context</a></li>
+<li><a href="#org3899a10">Pipeline</a>
 <ul>
-<li><a href="#orgbffcfa0">Making the Audio Usable</a></li>
-<li><a href="#org651c15f">Coordinating the Script</a>
+<li><a href="#org12300b6">Making the Audio Usable</a></li>
+<li><a href="#orga7cd634">Coordinating the Script</a>
 <ul>
-<li><a href="#orgfbfbc00">Reference Audio Verification + More Filtering</a></li>
+<li><a href="#orga963d35">Reference Audio Verification + More Filtering</a></li>
 </ul>
 </li>
-<li><a href="#orgcc316b9">Generating the Audio</a></li>
-<li><a href="#org0a84d9f">Detecting Early Exits</a></li>
-<li><a href="#org02c976f">Dealing with "Sticky" Lines</a></li>
-<li><a href="#orgb5efd3e">Improving Line Delivery</a></li>
-<li><a href="#orgb008360">Improving Volume Balance</a></li>
-<li><a href="#org8768cb5">Repackaging Back Into The Game</a></li>
+<li><a href="#org664dd53">Generating the Audio</a></li>
+<li><a href="#org2cfb76a">Detecting Early Exits</a></li>
+<li><a href="#orge81d2ce">Dealing with "Sticky" Lines</a></li>
+<li><a href="#org51af2cd">Improving Line Delivery</a></li>
+<li><a href="#org7e0e638">Improving Volume Balance</a></li>
+<li><a href="#orgfe9f4db">Repackaging Back Into The Game</a></li>
 </ul>
 </li>
-<li><a href="#org7ea7b8b">Results</a></li>
-<li><a href="#org2005f28">Appendix A: Possible Extensions</a>
+<li><a href="#org7d6b05c">Results</a></li>
+<li><a href="#orgb2d13b5">Appendix A: Possible Extensions</a>
 <ul>
-<li><a href="#org35d37ca">Adjusting Lip Sync</a></li>
+<li><a href="#org862a892">Adjusting Lip Sync</a></li>
 </ul>
 </li>
 </ul>
@@ -162,22 +174,20 @@ $(function() {
 </ul>
 </div>
 </div>
-
-<div id="outline-container-orgce85399" class="outline-1">
-<h1 id="orgce85399">Cheaply Auto-Dubbing Breath of the Wild with Local Models</h1>
-<div class="outline-text-1" id="text-orgce85399">
+<div id="outline-container-orga246b6a" class="outline-1">
+<h1 id="orga246b6a">Cheaply Auto-Dubbing Breath of the Wild with Local Models</h1>
+<div class="outline-text-1" id="text-orga246b6a">
 <p>
 In this post, I outline a straightforward pipeline for automatically dubbing a The Legend of Zelda: Breath of the Wild (BoTW) into Mandarin Chinese. We do this with no finetuning, no external API usage, and at no cost, completing the entire project using local models that run on my home computer.
 </p>
 
 <p>
-<a id="org6b82841"></a>
+<a id="orgee8344c"></a>
 </p>
 </div>
-
-<div id="outline-container-org2349f16" class="outline-2">
-<h2 id="org2349f16">Context</h2>
-<div class="outline-text-2" id="text-org2349f16">
+<div id="outline-container-orgf28be9c" class="outline-2">
+<h2 id="orgf28be9c">Context</h2>
+<div class="outline-text-2" id="text-orgf28be9c">
 <p>
 The Switch version of Breath of the Wild has a Chinese language translation for all the text in the game, but not for the voice acting. Properly dubbing this at the level required for release in a mainline Nintendo game would obviously be a huge and expensive project, requiring a very high bar of quality for release. But for people who just want to play in their native language, something passable might still be a big improvement.
 </p>
@@ -187,14 +197,13 @@ I wanted to take a crack at creating a mod for Breath of the Wild which replaced
 </p>
 </div>
 </div>
-
-<div id="outline-container-org039b7ea" class="outline-2">
-<h2 id="org039b7ea">Pipeline</h2>
-<div class="outline-text-2" id="text-org039b7ea">
+<div id="outline-container-org3899a10" class="outline-2">
+<h2 id="org3899a10">Pipeline</h2>
+<div class="outline-text-2" id="text-org3899a10">
 </div>
-<div id="outline-container-orgbffcfa0" class="outline-3">
-<h3 id="orgbffcfa0">Making the Audio Usable</h3>
-<div class="outline-text-3" id="text-orgbffcfa0">
+<div id="outline-container-org12300b6" class="outline-3">
+<h3 id="org12300b6">Making the Audio Usable</h3>
+<div class="outline-text-3" id="text-org12300b6">
 <p>
 Game files for BoTW are in this proprietary format called <a href="https://nintendo-formats.com/libs/nw/bfstm.html">BFSTM</a>. This is unfortunate for us, since everything we would want to use generally requires audio to be in formats people typically use for actual everyday things.
 </p>
@@ -204,10 +213,9 @@ Thankfully there's tools like <a href="https://github.com/vgmstream/vgmstream">v
 </p>
 </div>
 </div>
-
-<div id="outline-container-org651c15f" class="outline-3">
-<h3 id="org651c15f">Coordinating the Script</h3>
-<div class="outline-text-3" id="text-org651c15f">
+<div id="outline-container-orga7cd634" class="outline-3">
+<h3 id="orga7cd634">Coordinating the Script</h3>
+<div class="outline-text-3" id="text-orga7cd634">
 <p>
 Dumps of Breath of the Wild contain all the text data in <i>pack files</i> which exist for several different languages in the game. The very first step here is getting all the data wrangled up together. Each voice line in the script is linked to a particular voice sound file in the game. Thankfully, this data is nicely formatted in a way which allows us to immediately know the contents of every voice file in the game, which saves us a ton of time figuring out how to transcribe all of this ourselves.
 </p>
@@ -216,10 +224,9 @@ Dumps of Breath of the Wild contain all the text data in <i>pack files</i> which
 It's not so hard to create a big set of tuples \((V, E, C)\) where \(V\) is the audio file for the English version, \(E\) is the English text associated with that file, and \(C\) is the Simplified Chinese translation of that text. We can frame our problem in a very simple way from here: \((V, E, C) \rightarrow V'\), where \(V'\) is \(V\) converted into Mandarin Chinese. This actually fully describes our problem: if you play with Chinese text and English audio, \((V, C)\) is what you will see in regular gameplay, so we just need to solve this single domain shift problem for every tuple in the set.
 </p>
 </div>
-
-<div id="outline-container-orgfbfbc00" class="outline-4">
-<h4 id="orgfbfbc00">Reference Audio Verification + More Filtering</h4>
-<div class="outline-text-4" id="text-orgfbfbc00">
+<div id="outline-container-orga963d35" class="outline-4">
+<h4 id="orga963d35">Reference Audio Verification + More Filtering</h4>
+<div class="outline-text-4" id="text-orga963d35">
 <p>
 Unfortunately, it's not as easy at it sounds once it gets scaled all the way up. There are a number of voice lines which are "in English" which are not really english at all. For example, when you complete a shrine, the monk will tell you that you did a good job and give you a spirit orb. But this isn't really english words, it's more like "<a href="https://www.youtube.com/watch?v=QIGz9qRS3iI">bwahhhhhh</a>" which has a subtitle. Likewise, there's lots of grunts and sounds performed by the characters which get labels in one language or the other (something like "hah!" or "ugh!") which we don't really need to dub to a new language. 
 </p>
@@ -234,10 +241,9 @@ So, we need to do a transcription pass anyways. That's okay, it's mostly a one-t
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgcc316b9" class="outline-3">
-<h3 id="orgcc316b9">Generating the Audio</h3>
-<div class="outline-text-3" id="text-orgcc316b9">
+<div id="outline-container-org664dd53" class="outline-3">
+<h3 id="org664dd53">Generating the Audio</h3>
+<div class="outline-text-3" id="text-org664dd53">
 <p>
 The obvious model to use for this project, at the time of writing, is <a href="https://github.com/QwenLM/Qwen3-TTS">Qwen3-TTS</a>. This model is 1.7B parameters so it easily fits on my RTX 3090. It is obviously specifically performant upon generating voices in Chinese, which is a hugely important part of this particular project. And, importantly, it allows for cloning a particular voice, when provided text-audio pairing. That is to say, you can provide Qwen3-TTS \((V,E)\) and it will produce a function \(f(C) \rightarrow V'\) <sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>. That looks suspiciously like what we just said we wanted!
 </p>
@@ -269,10 +275,9 @@ However, it's not perfect. It's not consistent enough to just let it rip on the 
 </p>
 </div>
 </div>
-
-<div id="outline-container-org0a84d9f" class="outline-3">
-<h3 id="org0a84d9f">Detecting Early Exits</h3>
-<div class="outline-text-3" id="text-org0a84d9f">
+<div id="outline-container-org2cfb76a" class="outline-3">
+<h3 id="org2cfb76a">Detecting Early Exits</h3>
+<div class="outline-text-3" id="text-org2cfb76a">
 <p>
 Many times, Qwen3-TTS will emit the end-of-sequence token early, and produce an output which is cut off early before reading the entire line. There is <a href="https://github.com/QwenLM/Qwen3-TTS/discussions/75">much discussion</a> around tricks to make it more likely to pause at the end: stuff like adding '\n' or '&#x2026;' at the end of your prompt, and so on. I didn't see too much success with these methods, there was always just a huge risk of this happening anyways no matter what I put at the end.
 </p>
@@ -290,23 +295,21 @@ Going further, we convert both lines into <a href="https://en.wikipedia.org/wiki
 </p>
 </div>
 </div>
-
-<div id="outline-container-org02c976f" class="outline-3">
-<h3 id="org02c976f">Dealing with "Sticky" Lines</h3>
-<div class="outline-text-3" id="text-org02c976f">
+<div id="outline-container-orge81d2ce" class="outline-3">
+<h3 id="orge81d2ce">Dealing with "Sticky" Lines</h3>
+<div class="outline-text-3" id="text-orge81d2ce">
 <p>
-Qwen3-TTS is not perfect. Certain things it struggles to say, like <a id="orgadde60b"></a>
+Qwen3-TTS is not perfect. Certain things it struggles to say, like <a id="orga521e07"></a>
 </p>
 
 <p>
-<a id="org18e1b3f"></a>
+<a id="org29f76e2"></a>
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgb5efd3e" class="outline-3">
-<h3 id="orgb5efd3e">Improving Line Delivery</h3>
-<div class="outline-text-3" id="text-orgb5efd3e">
+<div id="outline-container-org51af2cd" class="outline-3">
+<h3 id="org51af2cd">Improving Line Delivery</h3>
+<div class="outline-text-3" id="text-org51af2cd">
 <p>
 Sometimes the audio generated by Qwen3-TTS is intelligible and sounds good, but produces a delivery which is totally off from the original line. Since we don't provide the original audio in generating the audio generation step (remember: we have a function \(f(C) \rightarrow V'\) which we get by using Qwen3-TTS voice cloning \(q(V, E) \rightarrow f\)), we will sometimes lose the emotional delivery of the line.
 </p>
@@ -324,10 +327,9 @@ For this, we can keep with our local models focus and use <a href="https://ai.go
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgb008360" class="outline-3">
-<h3 id="orgb008360">Improving Volume Balance</h3>
-<div class="outline-text-3" id="text-orgb008360">
+<div id="outline-container-org7e0e638" class="outline-3">
+<h3 id="org7e0e638">Improving Volume Balance</h3>
+<div class="outline-text-3" id="text-org7e0e638">
 <p>
 Ideally, the generated audio will be at the same volume as the original line delivery, even if the line is slightly different after translation. Qwen3-TTS doesn't have access to this information in our pipeline, so sometimes it will produce text which is far too quiet compared to the original line.
 </p>
@@ -337,26 +339,24 @@ Thankfully there are really simple postprocessing approaches which work well for
 </p>
 </div>
 </div>
-
-<div id="outline-container-org8768cb5" class="outline-3">
-<h3 id="org8768cb5">Repackaging Back Into The Game</h3>
-<div class="outline-text-3" id="text-org8768cb5">
+<div id="outline-container-orgfe9f4db" class="outline-3">
+<h3 id="orgfe9f4db">Repackaging Back Into The Game</h3>
+<div class="outline-text-3" id="text-orgfe9f4db">
 <p>
 I use <a href="https://github.com/thealexbarney/vgaudio">VGAudio</a> to repackage all of these generated final candidate audio files back into the necessary BFSTM format. This also requires a simple ffmpeg layer to convert the audio to the appropriate sampling rate and back up into stereo.
 </p>
 
 <p>
-From here <a id="org22afd5d"></a>.
+From here <a id="org0928a4c"></a>.
 </p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org7ea7b8b" class="outline-2">
-<h2 id="org7ea7b8b">Results</h2>
-<div class="outline-text-2" id="text-org7ea7b8b">
+<div id="outline-container-org7d6b05c" class="outline-2">
+<h2 id="org7d6b05c">Results</h2>
+<div class="outline-text-2" id="text-org7d6b05c">
 <p>
-<a id="orge434969"></a>
+<a id="org3a8dca4"></a>
 </p>
 
 <p>
@@ -368,7 +368,7 @@ Overall I was quite pleased with the result of this project. There were many rou
 </p>
 
 <p>
-<a href="https://mother3.fobby.net/">Fan translations</a> are almost always really awesome projects, and I think it's probably a very good thing for the world that the difficulty of these sorts of projects keeps on falling. <a href="https://en.wikipedia.org/wiki/Le_Ton_beau_de_Marot">Douglas Hofstadter</a> has a lot of <a href="https://en.wikipedia.org/wiki/Le_Ton_beau_de_Marot">beautiful thoughts on the problem of translation</a>, and I suspect that the value of human translators for artistic text will remain at a premium for a very long time. It makes sense that creators are so hesitant to localize their game in a language they don't speak, since it yields a lot of creative control away from their original artistic intent. <a id="orgcdd42d8"></a>
+<a href="https://mother3.fobby.net/">Fan translations</a> are almost always really awesome projects, and I think it's probably a very good thing for the world that the difficulty of these sorts of projects keeps on falling. <a href="https://en.wikipedia.org/wiki/Le_Ton_beau_de_Marot">Douglas Hofstadter</a> has a lot of <a href="https://en.wikipedia.org/wiki/Le_Ton_beau_de_Marot">beautiful thoughts on the problem of translation</a>, and I suspect that the value of human translators for artistic text will remain at a premium for a very long time. It makes sense that creators are so hesitant to localize their game in a language they don't speak, since it yields a lot of creative control away from their original artistic intent. <a id="org321ae12"></a>
 </p>
 
 <p>
@@ -376,18 +376,16 @@ But at the same time, sometimes people just want to play the damn game, even if 
 </p>
 </div>
 </div>
-
-<div id="outline-container-org2005f28" class="outline-2">
-<h2 id="org2005f28">Appendix A: Possible Extensions</h2>
-<div class="outline-text-2" id="text-org2005f28">
+<div id="outline-container-orgb2d13b5" class="outline-2">
+<h2 id="orgb2d13b5">Appendix A: Possible Extensions</h2>
+<div class="outline-text-2" id="text-orgb2d13b5">
 <p>
 There are some interesting models out there which would have been great additions to this workflow if they were in a slightly different project (for example, auto-dubbing a movie).
 </p>
 </div>
-
-<div id="outline-container-org35d37ca" class="outline-3">
-<h3 id="org35d37ca">Adjusting Lip Sync</h3>
-<div class="outline-text-3" id="text-org35d37ca">
+<div id="outline-container-org862a892" class="outline-3">
+<h3 id="org862a892">Adjusting Lip Sync</h3>
+<div class="outline-text-3" id="text-org862a892">
 <p>
 Dubbed audio will not always match super well when overlaid upon these character-driven examples.
 </p>
@@ -397,7 +395,7 @@ In cases where we are just re-syncing the video to the audio, we can use some mo
 </p>
 
 <p>
-<a id="org7adc05c"></a> 
+<a id="orgb725ae3"></a> 
 </p>
 </div>
 </div>

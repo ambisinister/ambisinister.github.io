@@ -137,6 +137,7 @@ $(function() {
             <li><a href=\"http://planetbanatt.net/projects.html\">Projects</a></li>
             <li><a href=\"http://planetbanatt.net/melee/index.html\">Melee</a></li>
             <li><a href=\"http://planetbanatt.net/links.html\">Links</a></li>
+            <li><a href=\"http://planetbanatt.net/blog/\">Blog</a></li>
             <li><a href=\"http://planetbanatt.net/resume.pdf\">Resume</a></li>
             <li class=\"dark-mode-nav-item\"><a href=\"#\" class=\"dark-mode-toggle-nav\" onclick=\"toggleDarkMode(); return false;\">🌙</a></li>
           </ul>
