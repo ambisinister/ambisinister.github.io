@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-09-09 Wed 13:07 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Dark Forest Hypothesis</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+    // Dark mode functionality
+    window.toggleDarkMode = function() {
+        document.body.classList.toggle('dark-mode');
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDarkMode);
+        updateToggleButton();
+    }
+
+    function updateToggleButton() {
+        const toggle = document.querySelector('.dark-mode-toggle-nav');
+        if (toggle) {
+            toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        }
+    }
+
+    // Initialize dark mode from localStorage
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+
+    // Update toggle button on page load
+    updateToggleButton();
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="https://planetbanatt.net/css/default_20240614.css" />
+<link rel="shortcut icon" type="image/jpg" href="https://planetbanatt.net/favicon.ico" />
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
+            <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<h1 class="title">The Dark Forest Hypothesis</h1>
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orga1e9e2a">The Dark Forest Hypothesis for Works In Progress</a>
+<ul>
+<li><a href="#orgc3d3574">The Best-Case Above-Board Behaviors Are Still Bad</a></li>
+<li><a href="#orga8e52aa">The Dark Forest Hypothesis</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga1e9e2a" class="outline-1">
+<h1 id="orga1e9e2a">The Dark Forest Hypothesis for Works In Progress</h1>
+<div class="outline-text-1" id="text-orga1e9e2a">
+<p>
+Today, OpenAI announced <a href="https://openai.com/index/navier-stokes-solution/">a solution for the Navier-Stokes Millennium Prize problem</a>. This has made a lot of people very angry and been widely regarded as a bad move.
+</p>
+
+<p>
+In true 2026 AI drama fashion, this particular result carried with it a substantial degree of <a href="https://cims.nyu.edu/~tristanb/statement.pdf">attribution drama</a>, and it appears that this result was obtained by OpenAI using a super powerful internal model, burning through millions of dollars in compute in a short time to achieve it. The actors in our story have claimed or denied varying levels of foul play ranging from scooping to outright plagiarism. Somehow we have achieved the impossible: we have solved Navier-Stokes and managed to make that fact extremely annoying, sustaining reputational damage on all sides.
+</p>
+
+<p>
+The development of powerful AIs &#x2013; some would even say <i>superintelligent</i> ones &#x2013; is going to change norms about how work is performed in general. That is probably bad. 
+</p>
+</div>
+
+<div id="outline-container-orgc3d3574" class="outline-2">
+<h2 id="orgc3d3574">The Best-Case Above-Board Behaviors Are Still Bad</h2>
+<div class="outline-text-2" id="text-orgc3d3574">
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Some more technical points:<br><br> (a) We began working on the Millennium problems due to viral twitter rumors that Anthropic had resolved 2 Millenium problems. Our aim was to see whether our system was also capable of this impressive feat, especially given our excitement regarding…</p>&mdash; Sebastien Bubeck (@SebastienBubeck) <a href="https://x.com/SebastienBubeck/status/2097379415747342689?ref_src=twsrc%5Etfw">September 8, 2026</a></blockquote> <script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>
+
+<p>
+There are some half-baked claims that OpenAI used Tristan Buckmaster's codex chats to steal his results, whether intentionally (by accessing his chats directly), unintentionally (by a rogue agent moving laterally through OpenAI's internal infrastructure to obtain critical information to solve an otherwise unsolvable problem), or implicitly (by Buckmaster forgetting to opt-out of his data being used for model training, and then used to improve the model). For the most part, these claims seem <a href="https://x.com/_sholtodouglas/status/2097218240397410733">mostly unimportant</a> to me, being either unlikely, catastrophic, or both.
+</p>
+
+<p>
+However, OpenAI's own story, per their own admission, is roughly the following:
+</p>
+
+<ol class="org-ol">
+<li>They heard Anthropic was about to solve Navier-Stokes</li>
+<li>They rushed to try to solve Navier-Stokes leveraging the approaches of the mathematicians who they believed had solved it</li>
+<li>They solved Navier-Stokes and generously tried to give concurrent publication credit</li>
+<li>They realized Buckmaster and Levent had not actually solved NS, which made things a bit awkward, especially since a competitor was involved</li>
+</ol>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I spent much of the weekend talking with the team who did this work. Seb--and everyone else--acted with integrity and generosity throughout.<br><br>Initially we believed the other team had also solved the problem. We wanted to collaborate and do a joint release. <br><br>When we learned that… <a href="https://t.co/XESh5oFHHE">https://t.co/XESh5oFHHE</a></p>&mdash; Sam Altman (@sama) <a href="https://x.com/sama/status/2097385167002415140?ref_src=twsrc%5Etfw">September 8, 2026</a></blockquote> <script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">not at all a good read. what is happening here is that both labs would clearly like to find a human proxy to give most of the credit to. they find it more palatable and somewhat less self promotional than saying “our swarm of machines has solved the historic problem and…</p>&mdash; roon (@tszzl) <a href="https://x.com/tszzl/status/2097420747853402515?ref_src=twsrc%5Etfw">September 8, 2026</a></blockquote> <script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>
+
+<p>
+I think taking this reading, it's fair to come away from the situation with the read that OpenAI's behavior was mostly above board. But, well, it's above board only barely. OpenAI <a href="https://x.com/polynoamial/status/2093460474738393511">could not solve the problem back in August</a>, and made a clear and deliberate effort to scoop the result <a href="https://x.com/polynoamial/status/2097215233119211902">within the last week</a>, with a number of involved people posting this sort of playful bragging to gloat about it. Buckmaster and Alpoge seem to be running with the insinuation that <a href="https://x.com/__alpoge__/status/2097383870773748190">their in-progress results were trained upon</a>, which I think is A: unlikely to be true enough to move the needle on actually solving it, and B: not the part of this drama that I'm directly interested in unpacking.
+</p>
+
+<p>
+The whole situation is an interesting microcosm of the AI race in general. Both labs seem to be <a href="https://x.com/_sholtodouglas/status/2097224624274911368">wistfully wishing</a> that <a href="https://x.com/polynoamial/status/2097225279366414541">they could coordinate</a>, but ultimately they are enemies with unassailable cultural norms, and a good result for one team is considered bad for the other. People emerge from the woodwork to point out <a href="https://x.com/dheeraj_nagaraj/status/2097266146445774924">the people involved were rude to them in the past</a>, people weigh in about <a href="https://x.com/quantian1/status/2097477759958130712">the reputations of the people involved</a>, people seem more interested in the drama than in the amazing technical results, and everything eventually explodes.
+</p>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">wow so much drama about navier stokes. had no idea things could blow up so infinitely in such a finite time.</p>&mdash; Slater Stich (@slaterstich) <a href="https://x.com/slaterstich/status/2097219795724939436?ref_src=twsrc%5Etfw">September 8, 2026</a></blockquote> <script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>
+</div>
+</div>
+
+<div id="outline-container-orga8e52aa" class="outline-2">
+<h2 id="orga8e52aa">The Dark Forest Hypothesis</h2>
+<div class="outline-text-2" id="text-orga8e52aa">
+<p>
+The <a href="https://en.wikipedia.org/wiki/Dark_forest_hypothesis">dark forest hypothesis</a> posits that the universe is teeming with intelligent life, but most of that life is attempting to evade detection in order to avoid being summarily destroyed by a more technically advanced civilization. 
+</p>
+
+<p>
+We may soon live in a future where well-resourced groups equipped with superintelligent AI and near-endless compute budgets can make nearly anything happen near-instantaneously. Assuming OpenAI's account is true, they cut in front of two well-resourced mathematicians working on a year-long-plus effort in a single week, <a href="https://x.com/polynoamial/status/2097375837670785447">burning through tens of millions of dollars</a>. In such a future you can only do two things: you can do a preemptive strike, or you can evade detection.
+</p>
+
+<p>
+Even in a world where Buckmaster et al had a fully-formed NS solution, OpenAI chased after them, sparing no expense, in hopes that they could attach their names to that result. If they made any error, it's that they allowed a rumor to spread that they were close to solving it, and in doing so directed the Alien Death Laser at their work-in-progress. I am reminded of a particularly antisocial social media phenomenon, where people will take an artist's work-in-progress drawing or sketch, "finish it" with image-to-image models, and post the result as their own. This isn't against the law per se, but it does kind of suck, and the takeaway is that you probably shouldn't post WIP drawings if this would bother you.
+</p>
+
+<p>
+So too it will soon be with all work that can be performed on a computer. Indeed, OpenAI's behavior probably can be read as extra prosocial from the perspective of Those Who Wield The Alien Death Laser. They could have probably just posted their own solution first, and thems the breaks. We should probably be prepared for that future, if such capabilities ever become so widespread that any antisocial NEET can scoop any WIP work just as easily as handing a sketch to a diffusion model.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+</div>
+</body>
+</html>
