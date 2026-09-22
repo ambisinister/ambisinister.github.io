@@ -1,3 +1,5 @@
+;;; initfile.el --- Literate Emacs configuration -*- lexical-binding: nil; -*-
+
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (setq inhibit-startup-message t)
@@ -7,7 +9,27 @@
 
 ;theme
 (use-package monokai-theme :ensure t)
-(load-theme 'monokai t)
+(condition-case err
+    (progn
+      (disable-theme 'monokai)
+      (load-theme 'monokai t t)
+      ;; Emacs 31 checks inheritance cycles while enabling each face.
+      ;; Org headings initially inherit outline faces, so Monokai's reverse
+      ;; inheritance can fail before its Org heading styles are applied.
+      ;; Apply the default and Org heading styles before the outline styles.
+      (let* ((settings (get 'monokai 'theme-settings))
+             (first (seq-filter
+                     (lambda (setting)
+                       (memq (cadr setting)
+                             '(default org-level-1 org-level-2 org-level-3
+                               org-level-4 org-level-5 org-level-6
+                               org-level-7 org-level-8)))
+                     settings)))
+        (put 'monokai 'theme-settings
+             (append first (seq-difference settings first))))
+      (enable-theme 'monokai))
+  ;; A theme failure must not prevent publishing and keybindings from loading.
+  (error (display-warning 'monokai (error-message-string err) :warning)))
 
 ;encoding?
 (prefer-coding-system 'utf-8)
@@ -265,4 +287,5 @@ the post list in org/blog/index.org."
 
 (use-package pdf-tools :ensure t)
 (add-to-list 'load-path "~/.emacs.d/lisp/")
-(pdf-loader-install)
+;; Build the helper without prompting during startup when it is missing.
+(pdf-loader-install t)
