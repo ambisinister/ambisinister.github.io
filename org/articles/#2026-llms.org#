@@ -1,0 +1,226 @@
+#+TITLE: Understanding 2026 LLMs
+
+* Understanding 2026 LLM Developments
+
+** Intro
+
+On November 24th, 2025, Anthropic released [[https://www.anthropic.com/news/claude-opus-4-5][Claude Opus 4.5]]. To many people who were not [[https://planetbanatt.net/articles/deepseek.html][plugged in]] [[https://planetbanatt.net/articles/deepseek2.html][to how LLMs]] [[https://planetbanatt.net/articles/agentic.html][have been improving]], this release came as [[https://www.reddit.com/r/ClaudeAI/comments/1pmgk5c/opus_45_is_the_first_model_that_makes_me_actually/][a big shock]]. It was the first model release where the average software engineer finally started thinking "this might write better code than me."[fn:1]
+
+About one year later, this, too, is mundane. Current frontier language models solved [[https://openai.com/index/navier-stokes-solution/][the Navier-Stokes Millennium Prize Problem]], as well as [[https://github.com/openai/math][hundreds of other high profile unsolved math problems]]. On the [[https://artificialanalysis.ai/evaluations/artificial-analysis-intelligence-index?models=claude-opus-5-5%2Cclaude-sonnet-5-5%2Cclaude-opus-5-5-xhigh%2Cclaude-opus-5-5-high%2Cclaude-fable-5-1%2Cclaude-fable-5-1-xhigh%2Cgpt-6-astra%2Cgemini-4-argon%2Cgpt-6-astra-xhigh%2Cclaude-sonnet-5-5-xhigh%2Cgpt-6-1-sol%2Cmuse-spark-1-3%2Cgpt-6-sol%2Cgrok-4-7%2Cmimo-v2-6-pro%2Cqwen3-8-max%2Cglm-5-3%2Cstep-5%2Ckimi-k3%2Cclaude-haiku-5-5%2Cglm-5-3-flash%2Cgemini-3-8-flash%2Cdeepseek-v4-1-flash%2Cmistral-large-4%2Cgpt-6-luna%2Cqwen3-8-27b%2Ck2-horizon-375b-a23b%2Cminimax-m3%2Cinkling%2Cnvidia-nemotron-3-ultra-550b-a55b%2Cmuse-glimmer%2Cclaude-opus-4-5-thinking%2Cclaude-opus-4-5][Artificial Analysis Intelligence Index]], Opus 4.5 scores a 29, below models like GPT-6-Luna, DeepSeek-v4.1-Flash, even models like [[https://artificialanalysis.ai/models/qwen3-8-27b][Qwen 3.8 27B]], which can run on a single user's GPU[fn:2].
+
+#+BEGIN_EXPORT html
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">wow i cannot believe how well this aged</p>&mdash; will brown (@willcb) <a href="https://x.com/willcb/status/2108191005761847553?ref_src=twsrc%5Etfw">October 8, 2026</a></blockquote>
+<script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>
+#+END_EXPORT
+
+The Epoch Capabilities index suggests that the open weight frontier lags behind the closed frontier [[https://epoch.ai/data-insights/open-closed-eci-gap][by about 4 months]]: so understanding the November State-of-the-Art probably becomes tractable starting in early 2026[fn:3]. 
+
+[[../images/from_clipboard/20261008_143236.png]]
+
+In [[https://planetbanatt.net/articles/agentic.html][Understanding Agentic LLMs]] we left off around GPT-5 / GLM-4.6's release, around late September 2025. We were just starting to see the reasoning + coding agent paradigm start to take shape. It seemed like we were starting to see glimpses of a future where [[https://www.youtube.com/watch?v=87DyyMV0kCY][highly persistent models could spend a very long time on a task]]. What happened between then and now? 
+
+** TODO DeepSeekMath-V2
+
+Perhaps an appropriate place to start answering a question like "how did we go to average-ish coders to solving Navier-Stokes in under a year?" is DeepSeekMath-V2. This paper can be found [[https://arxiv.org/abs/2511.22570][here]]. It came out on November 27, 2025.
+
+Recall from DeepSeekMath that this was the original paper which introduced Group Relative Policy Optimization (GRPO). That paper was mostly a reinforcement learning paper using math as a verifiable domain. In contrast, this paper outlines DeepSeek's path towards training a model which scored a gold medal on IMO 2025. [[https://x.com/OpenAI/status/1946594928945148246][OpenAI]] and [[https://deepmind.google/blog/advanced-version-of-gemini-with-deep-think-officially-achieves-gold-medal-standard-at-the-international-mathematical-olympiad/][DeepMind]] both achieved this in July 2025, which tracks roughly with our 4 month lag figure[fn:4]. 
+
+Deepseek's code contribution in this paper is that to tackle sufficiently difficult problems, we need to be able to self-verify. We know we can use a verifiable outcome as the reward to encourage higher final-answer-accuracy, and we know we can scale test-time compute to spend more time on the problem. But if we don't have a way to demonstrate that we have correct reasoning on the way to the final answer, we may just get stuck spinning on useless tokens forever. How can we do this?
+
+** TODO Kimi K2.5
+
+Moonshot's Kimi line has some interesting ideas that make their approach somewhat different from the other Chinese labs. In particular, their 2.5 technical report offers two primary contributions: first, native multimodal training; second, RL training for multi-agent swarms. This paper can be found [[https://arxiv.org/abs/2602.02276][here]]. It came out on February 2, 2026.
+
+Native multimodal training is the de facto standard for frontier language models, in late 2026. Nearly all the frontier models are able to read images now, and models released without this ability are frequently criticized as lagging behind. It's not straightforward to make this work: we saw [[https://planetbanatt.net/articles/deepseek.html#orgb50a09e][in DeepSeek-VL]] that it's easy to degrade language capability when introducing vision capability. It seems like this was solved by the frontier at some point: how might that work?
+
+Likewise, parallel agents are one paradigm we [[https://planetbanatt.net/articles/agentic.html#org4b2d990][briefly hinted at]] when we talked about Tongyi WebResearcher. There's two main ways you can manage context: you can either summarize the trajectory and compact the context, or you can delegate tasks to another disposable agent with an independent context. Kimi K2.5 is the first general-purpose open model to successfully train with this in mind. What might this unlock? How does that work?
+
+** TODO GLM 5 -> 5.2 -> 5.3
+
+Z.ai emerged as a true powerhouse in 2026, so much so that Anthropic released [[https://www.anthropic.com/research/glm-5-3-and-the-spread-of-advanced-cyber-capabilities][a blogpost about GLM-5.3]] being too capable of enabling cybercrime[fn:5]. 
+
+GLM, in my view, can be viewed as the lab which is attempting to reach the frontier in the most "conventional" way compared to e.g. DeepSeek, Moonshot, MiniMax, etc. They got good at a few very specific things: 1) training on Huawei Ascend chips, 2) On-Policy Distillation, 3) scaling up.
+
+*** TODO GLM-5
+
+The original GLM-5 paper can be found [[https://arxiv.org/abs/2602.15763][here]]. It came out on February 17, 2026. Per Artificial Analysis, GLM-5.3 was just about the closest open model to Opus 4.5's capabilities, freely available for download on huggingface. 
+
+[[../images/from_clipboard/20261008_161354.png]]
+
+GLM 5 largely follows DeepSeek-v3.2. It uses DeepSeek Sparse Attention (DSA) with Multi-latent Attention (MLA), multi-token prediction, and so on. It makes some minor changes to these (e.g. Muon Split, a modification of MLA to make it more compatable with the Muon optimizer) but for the most part builds on existing approaches.
+
+Where GLM-5 differs is mostly in infra and post-training. Probably most importantly, GLM-5 is natively trained on Huawei Ascend chips, which made them far less compute constrained compared to other labs relying on Nvidia GPUs. This will come in handy when we later talk about [[https://z.ai/blog/glm-5.3-flash][GLM-5.3-flash]], where they were able to serve an absolutely mind-boggling amount of tokens in a short time.
+
+On post-training, GLM-5 was able to maximize GPU utilization during post-training by making this step more asynchronous. This is partially related to their excellent on-policy distillation, which they use to do several post-training steps concurrently as different expert models, and then merge at the end.
+
+[[../images/from_clipboard/20261008_172951.png]]
+
+*** TODO GLM-5.2
+
+GLM-5.2 was an update to the GLM-5 line which extended GLM-5 to 1M context, multiple effort levels, and some minor architecture improvements targetting speed. This post can be found [[https://z.ai/blog/glm-5.2][here]]. It came out on June 16, 2026.
+
+GLM-5.2 scales up their /Expert Models/ approach from GLM-4.5. Recall [[https://planetbanatt.net/articles/agentic.html#orgd78d255][from that work]] that they make three finetunes of the original model for reasoning, agent work, and general chat, and then do self-distillation to combine them all together at the end. GLM-5.2 claimed to train ten of these models, and used [[https://github.com/THUDM/slime][slime]] to efficiently distill these 10 models into the final model[fn:6]. 
+
+**** TODO IndexCache
+
+The IndexCache paper can be found [[https://arxiv.org/pdf/2603.12201][here]].
+
+*** GLM-5.3
+
+GLM-5.3 was an update to the GLM-5 line which scaled up the post-training. This was a big upgrade in ability over GLM-5.2 despite using the same underlying model. However, it's one example of the shifting trend in frontier language modeling away from pretraining: the majority of compute nowadays is spent on post-training and inference, and intuitions on how these models work based on insights from pretraining may not hold up as well as they used to.
+
+[[../images/from_clipboard/20261008_160420.png]]
+
+Z.ai's post on GLM-5.3 can be found [[https://z.ai/blog/glm-5.3][here]]. It came out on August 14, 2026. The details are somewhat light compared to 5.2. It's just "more environments, more diverse tasks, and more compute." The big takeaway is just that: most of the gains at the frontier are found in post-training. 
+
+** TODO DeepSeek-V4 -> V4.1-Flash
+
+
+
+This paper can be found [[https://arxiv.org/abs/2606.19348][here]]. It came out on April 24, 2026.
+
+This paper can be found [[https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/main/DeepSeek_V41_Tech_Report.pdf][here]]. It came out on September 10, 2026.
+
+*** TODO Manifold-Constrained Hyper-Connections (mHC)
+
+This paper can be found [[https://arxiv.org/abs/2512.24880][here]]. It came out on December 31, 2025.
+
+*** TODO Engram
+
+This paper can be found [[https://arxiv.org/abs/2601.07372][here]]. It came out on January 12, 2026.
+
+*** TODO DSpark
+
+This paper can be found [[https://arxiv.org/abs/2607.05147][here]]. It came out on July 6, 2026.
+
+** TODO GLM-5V-Turbo
+
+This paper can be found [[https://arxiv.org/abs/2604.26752][here]]. It came out on April 29, 2026.
+
+** TODO Minimax M3
+
+This post can be found [[https://www.minimax.io/blog/minimax-m3][here]]. It came out on June 1, 2026.
+
+*** TODO MiniMax Sparse Attention
+
+This paper can be found [[https://arxiv.org/abs/2606.13392][here]]. It came out on June 11, 2026.
+
+** TODO Kimi K3
+
+This paper can be found [[https://arxiv.org/abs/2607.24653][here]]. It came out on July 27, 2026.
+
+*** TODO Kimi Linear / Kimi Delta Attention (KDA)
+
+This paper can be found [[https://arxiv.org/abs/2510.26692][here]]. It came out on October 30, 2025.
+
+*** TODO Attention Residuals
+
+This paper can be found [[https://arxiv.org/abs/2603.15031][here]]. It came out on March 16, 2026.
+
+** TODO Qwen3.8-Next
+
+This paper can be found [[https://github.com/QwenLM/Qwen3.8-Flash-Next/blob/main/tech_report.pdf][here]]. It came out on August 26, 2026.
+
+** TODO GLM-5.3-Flash
+
+This post can be found [[https://z.ai/blog/glm-5.3-flash][here]]. It came out on August 26, 2026.
+
+GLM-5.3-flash was a separate model architecture compared to the GLM-5 line, with the intent to make it more efficient and natively multimodal. They got a really, really good result with this. The model was anonymously tested on openrouter as "ox-alpha" free for a week, and they served 40T+ tokens with no capacity problems.
+
+5.3-flash mostly mixes together stuff we've already seen so far. They use manifold-constrained hyper-connections, multi-token prediction, and a mix of linear and sparse attention. The model is still pretty large, at 320B parameters, but most of that is width: the model has only 45 layers and activates just 18B. In effect this means that the model is outrageously cheap to serve: it's priced at $0.03/$0.40, which is comparable to GPT-6 Luna at $0.10/$0.50[fn:7].
+
+[[../images/from_clipboard/20261009_154559.png]]
+
+Their big technical contribution is IndexPool, which ???
+
+5.3-flash was also specifically trained for self-verification loops, which hints at why they made the jump to natively multimodal training. That is, they write some code for something, take a screenshot of the output, and then use that screenshot to identify things that need to be improved. Their stated results here use websites as a test case but this loop can easily be applied to any code which produces a visual artifact. 
+
+** TODO MiMo-V2.6
+
+This paper can be found [[https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL/blob/main/MiMo_V2_6_technical_report.pdf][here]]. It came out on September 21, 2026.
+
+*** TODO On-Policy Distillation (OPD)
+
+This post can be found [[https://thinkingmachines.ai/blog/on-policy-distillation/][here]]. It came out on October 27, 2025.
+
+This paper can be found [[https://arxiv.org/abs/2606.30406][here]]. It came out on June 29, 2026.
+
+This paper can be found [[https://arxiv.org/abs/2607.04763][here]]. It came out on July 6, 2026.
+
+** TODO Qwen3.8-Omni
+
+This paper can be found [[https://arxiv.org/abs/2609.25611][here]]. It came out on September 22, 2026.
+
+** TODO Future Perspectives
+
+*** TODO Recursive Language Models (RLMs)
+
+This paper can be found [[https://arxiv.org/abs/2512.24601][here]]. It came out on December 31, 2025.
+
+*** TODO Looped Transformers
+
+This paper can be found [[https://arxiv.org/abs/2502.05171][here]]. It came out on February 7, 2025.
+
+This paper can be found [[https://arxiv.org/abs/2507.10524][here]]. It came out on July 14, 2025.
+
+This paper can be found [[https://arxiv.org/abs/2605.09165][here]]. It came out on May 9, 2026.
+
+This paper can be found [[https://arxiv.org/abs/2610.02383][here]]. It came out on October 1, 2026.
+
+*** TODO Jev, OpenAI Decisions API
+
+This post can be found [[https://typesafe.ai/blog/introducing-system-one-models-and-jev][here]]. It came out on September 15, 2026.
+
+This post can be found [[https://community.openai.com/t/decisions-api-is-now-available-in-public-beta/1403877][here]]. It came out on October 6, 2026.
+
+** TODO Conclusion
+
+** Appendix Papers
+
+This is where I think some interesting papers will go if they don't really build a narrative worth including in the main body
+
+*** TODO Qwen3-Coder-Next
+
+This paper can be found [[https://github.com/QwenLM/Qwen3-Coder/blob/main/qwen3_coder_next_tech_report.pdf][here]]. It came out on February 3, 2026.
+
+In this one Qwen outlines an 80B-A3B model which does pretty well for the size. They get good results for the size of the model, but they mostly do agentic training in the same style as their [[https://planetbanatt.net/articles/agentic.html#orgd3a35c0][Agentic CPT]] but applied to mid-training. They have some fun stuff in here about using github tickets as a mechanism for creating new agentic coding tasks, but it's nothing groundbreaking.
+
+*** TODO MiniMax M2
+
+MiniMax emerged as a strong player in 2026, with their primary differentiating factor being very low activation parameters. This paper can be found [[https://arxiv.org/abs/2605.26494][here]]. It came out on May 26, 2026.
+
+They got a pretty nice result with their model, but they are mostly following others: fine-grained experts, multi-head attention, GQA, collecting PRs from github, etc. Where they differ from other labs is their RL Objective trick, which got some attention e.g. in Meta's [[https://arxiv.org/pdf/2510.13786][The Art of Sacling RL Compute for LLMs]]. At the moment, MiniMax is really the only lab known to be using CISPO, but it's an interesting footnote.
+
+**** TODO Clipped Importance Sampling Policy Optimization (CISPO)
+
+This original CISPO paper can be found [[https://arxiv.org/abs/2506.13585][here]]. It came out on June 16, 2025.
+
+CISPO, more or less, is truncated importance sampling mixed with vanilla policy gradient. 
+
+* Footnotes
+
+[fn:7] It's a little misleading writing it this way since GLM-5.3-flash burns more tokens compared to Luna. Cost-per-task is a nicer way to represent which models are cheaper or more expensive, but I think it's fair to point out GLM-5.3-flash's per-token price specifically to highlight some of the efficiency improvements they made to the architecture. 
+
+[[../images/from_clipboard/20261009_155526.png]]
+
+[fn:6] Zhipu is amazing at distillation. I think this is not properly appreciated as a direct cause for their success, a genuine technical achievement rather than just something usable as a cheap dunk. [[https://www.anthropic.com/threat-intelligence-report-september-2026][Anthropic]] has revealed some fairly extensive distillation practices by Zhipu in order to copy Claude's outputs.
+
+I think conversation about the distillation campaigns are often mired with discussions about whether this should be allowed, or whether it's happening at all, etc. I think frequently missing from this conversation is that distillation is a really important capability for a lab to have, e.g. for merging expert models together, for training smaller models like Gemini Flash or Gemma, etc. [[https://thinkingmachines.ai/news/introducing-inkling/][Thinking Machines's Inkling]] is a good barometer for me: a western lab which is pretty open about how it's attempting to distill Kimi K2.5, and then in turn used to train a [[https://thinkingmachines.ai/news/inkling-small/][smaller version]] via on-policy distillation.
+
+A minor rant, maybe, but it does annoy me to see people talk about distillation as a means to discredit the technical ability of the researchers at Chinese labs. All serious labs do extensive work on distillation, even if they never (have to) use it upon any model outside their own doors. Weaker western labs are behind the open-weight Chinese models [[https://www.forbes.com/sites/antoniopequenoiv/2026/04/30/elon-musk-admits-xai-distilled-openai-data-to-train-models-heres-what-that-means/][because they are worse at it]], not because they're nobly foregoing it. 
+
+[fn:5] Without getting too in the weeds about it, I disliked this. For example, a core part of this post is the brief attempt at steelmanning the availability of GLM-5.3 for cyberdefense:
+
+#+BEGIN_QUOTE
+On the other hand, models with this level of capability can also be used by defenders. Our view is that cyber defenders should use the best available tools that meet their needs. We're working to safely expand access to Claude's cyber capabilities to as many defenders as we can. Cyber defenders face attackers who will use every capable tool they can, and we believe defenders should be equipped with frontier models that are at least as good as those their adversaries are using.
+#+END_QUOTE
+
+We have an example, in real life, of GLM-5.2 being used effectively for cyber defense: [[https://huggingface.co/blog/security-incident-july-2026][the huggingface incident]]. You could certainly argue that Anthropic's position is that any company in this position could be using Mythos instead. However, to me this does not square with their terms of service, [[https://www.anthropic.com/news/updating-restrictions-of-sales-to-unsupported-regions][prohibiting use of Claude models at American companies which are majority owned by Chinese entities]]. I think I'd be on board with them having one opinion or the other, but not both: the combination reads to me as "Chinese-owned companies should be defenseless to cybercrime." 
+
+[fn:4] [[https://www.youtube.com/watch?v=Nbwv5wHQoj0][3Blue1Brown]] has a beautiful video on this moment, released Sept 18, 2026: The last IMO problem AI could not solve. 
+
+[fn:3] Opus 4.5 interestingly is not on this curve at all. Benchmarking is more of an art than a science, I suppose.
+
+[fn:2] I'm being just a little facetious here. I don't think Qwen 3.8 27B is actually better than Opus 4.5 even if the benchmarks suggest this. But the point still stands: Opus 4.5 came and went, and now every random model can outperform it. Even [[https://mistral.ai/news/mistral-large-4/][Mistral]]. 
+
+[fn:1] Or at the very least, "this writes worse code than me, but it writes reasonable code way faster than I can."
