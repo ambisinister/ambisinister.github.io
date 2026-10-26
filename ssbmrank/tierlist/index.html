@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101211">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="2026 Melee tier list editor.">
+  <title>2026 Melee Tier List · Presented by parry.gg</title>
+  <link rel="icon" href="assets/ms-logo.png">
+  <link rel="stylesheet" href="styles.css">
+  <script src="model.js" defer></script>
+  <script src="ballot.js" defer></script>
+  <script src="app.js" defer></script>
+  <script src="submission.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="project-logos" href="#" aria-label="MS · Melee Tier List 2026"><img class="ms-logo" src="assets/ms-logo.png" alt="MS" width="870" height="850"><img class="melee-logo" src="assets/melee-2026-logo.png" alt="Melee Tier List 2026" width="2110" height="1070"></a>
+    <div class="sponsor"><img src="assets/parry-logo.png" alt="Sponsored by parry.gg" width="126" height="30"></div>
+  </header>
+  <main>
+    <form id="tier-form" novalidate>
+      <section class="builder" aria-labelledby="board-title">
+        <div class="section-heading"><h1 id="board-title" class="sr-only">Melee tier list</h1><div class="toolbar"><button type="button" id="undo" class="button subtle" disabled>↶ Undo</button><button type="button" id="reset" class="button subtle">Reset</button><button type="button" id="tier-controls-toggle" class="button" aria-pressed="false" aria-controls="tier-board">Tier controls</button></div></div>
+        <div id="tier-board" class="tier-board" aria-label="Ranked tiers"></div>
+        <button type="button" id="add-tier" class="add-tier"><span aria-hidden="true">＋</span> Add tier</button>
+      </section>
+      <section class="roster-section" aria-labelledby="roster-title"><div class="section-heading"><h2 id="roster-title">Unranked <span id="remaining-count" class="count">26</span></h2><label class="search"><input id="character-search" type="search" placeholder="Search characters" aria-label="Find an unranked character" autocomplete="off"></label></div><div id="unranked" class="roster" data-zone="unranked" aria-label="Unranked characters"></div></section>
+      <div id="selection-bar" class="selection-bar" hidden><strong id="selection-name"></strong><label class="sr-only" for="move-destination">Destination tier</label><select id="move-destination"></select><button type="button" id="move-selected" class="button">Move to end</button><button type="button" id="move-left" class="button" aria-label="Move selected character one position left">←</button><button type="button" id="move-right" class="button" aria-label="Move selected character one position right">→</button><button type="button" id="unrank-selected" class="button">Unrank</button><button type="button" id="cancel-selection" class="button subtle">Cancel</button></div>
+      <fieldset class="disclosure"><legend>Ballot disclosure</legend><label><input type="radio" name="disclosure" value="I would like to make my ballot public" required> I would like to make my ballot public</label><label><input type="radio" name="disclosure" value="I would like to keep my ballot anonymous" required> I would like to keep my ballot anonymous</label><p class="muted">Anonymous to the public. Organizers can identify your ballot through your private link.</p></fieldset>
+      <div class="submit-panel"><div class="completion"><span id="completion-label"><strong>0 / 26</strong> ranked</span><progress id="completion-progress" max="26" value="0" aria-label="Characters ranked"></progress><span id="save-status" class="muted">Local draft</span></div><div class="submit-actions"><button type="button" id="generate-results" class="button">Preview JSON</button><button type="submit" id="submit-ballot" class="button primary" disabled>Submit ballot</button></div></div>
+      <p id="form-error" class="form-error" role="alert" hidden></p>
+    </form>
+    <p id="submission-status" class="submission-status" role="status" aria-live="polite">Preview only. Ballot submission is not connected yet.</p>
+    <section id="results" class="results" aria-labelledby="results-title" hidden><div class="section-heading"><h2 id="results-title" tabindex="-1">Results</h2><button type="button" id="download-results" class="button primary">Download JSON files</button></div><div class="output-grid"><article><div class="output-heading"><h3>Ordered characters</h3><button type="button" class="button subtle" data-copy="ranking-output">Copy JSON</button></div><pre id="ranking-output" tabindex="0"></pre></article><article><div class="output-heading"><h3>Tier ranges</h3><button type="button" class="button subtle" data-copy="tiers-output">Copy JSON</button></div><pre id="tiers-output" tabindex="0"></pre></article></div></section>
+    <p id="announcement" class="announcement" role="status" aria-live="polite"></p>
+  </main>
+  <dialog id="tier-dialog"><form id="tier-settings"><div class="dialog-heading"><h2>Edit tier</h2><button type="button" id="close-dialog" class="button subtle" aria-label="Close tier settings">✕</button></div><label for="tier-label">Tier name</label><input id="tier-label" maxlength="24" required autocomplete="off"><label for="tier-color">Tier color</label><input id="tier-color" type="color"><p id="tier-error" class="form-error" role="alert" hidden></p><p class="muted">Removing a tier un-ranks its characters.</p><div class="dialog-actions"><button type="button" id="delete-tier" class="button danger">Remove tier</button><button type="submit" class="button primary">Save</button></div></form></dialog>
+  <noscript><p class="noscript">Enable JavaScript to build and submit your tier list.</p></noscript>
+</body>
+</html>
