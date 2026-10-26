@@ -9,26 +9,32 @@
   let linkId = null;
   let pending = null;
   let sending = false;
+  const apiBaseUrl = (window.MELEE_CONFIG?.apiBaseUrl || "").replace(/\/$/, "");
 
-  function rpc(method, payload) {
-    return new Promise((resolve, reject) => {
-      let finished = false;
-      const timeout = setTimeout(() => {
-        finished = true;
-        reject(new Error("No confirmation received. Your submission may have arrived. Retry without changing the ballot to check it without creating a duplicate."));
-      }, 45000);
-      const finish = callback => value => {
-        if (finished) return;
-        finished = true;
-        clearTimeout(timeout);
-        callback(value);
-      };
-      const runner = google.script.run
-        .withSuccessHandler(finish(resolve))
-        .withFailureHandler(finish(error => reject(new Error(error.message || "Could not reach the ballot service. Please retry."))));
-      if (method === "context") runner.getBallotContext(payload);
-      else runner.submitBallot(payload);
-    });
+  async function rpc(method, payload, credential) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 40000);
+    let response;
+    let data;
+    try {
+      response = await fetch(`${apiBaseUrl}/${method}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${credential}` },
+        body: JSON.stringify(payload),
+        credentials: "omit",
+        cache: "no-store",
+        referrerPolicy: "no-referrer",
+        redirect: "error",
+        signal: controller.signal,
+      });
+      data = await response.json();
+    } catch {
+      throw new Error("No confirmation received. Check your connection and retry the unchanged ballot; the same attempt will not create a duplicate.");
+    } finally {
+      clearTimeout(timer);
+    }
+    if (!response.ok || data?.ok !== true) throw new Error(typeof data?.error === "string" ? data.error : "The ballot service did not accept this request. Please retry.");
+    return data.result;
   }
 
   function showError(message) {
@@ -47,7 +53,7 @@
     }
     status.textContent = "Checking private link…";
     try {
-      const context = await rpc("context", candidate);
+      const context = await rpc("context", {}, candidate);
       if (!context || typeof context.linkId !== "string" || !/^[0-9a-f-]{36}$/i.test(context.linkId)) throw new Error("The link could not be verified. Reload or contact the organizer.");
       token = candidate;
       linkId = context.linkId;
@@ -96,7 +102,7 @@
     errorPanel.hidden = true;
     status.textContent = "Saving ballot…";
     try {
-      const receipt = await rpc("submit", { ...ballot, token, requestId });
+      const receipt = await rpc("submit", { ...ballot, requestId }, token);
       if (!receipt || receipt.submissionId !== requestId || !Number.isFinite(Date.parse(receipt.timestamp))) throw new Error("No valid confirmation received. Retry without changing your ballot to check its status.");
       status.textContent = `${receipt.duplicate ? "Already saved" : "Ballot saved"} at ${receipt.timestamp}. Receipt: ${receipt.submissionId}. Changes can be submitted as a new revision.`;
     } catch (error) {
@@ -111,16 +117,14 @@
     }
   });
 
-  if (window.google?.script?.run && window.google?.script?.url) {
-    form.inert = true;
-    status.textContent = "Opening private ballot link…";
-    const timer = setTimeout(() => {
-      form.inert = false;
-      status.textContent = "Couldn’t read the ballot link. Reload to reconnect. Preview JSON is still available.";
-    }, 15000);
-    google.script.url.getLocation(location => {
-      clearTimeout(timer);
-      connect(location);
-    });
+  if (!apiBaseUrl) return;
+  try {
+    const api = new URL(apiBaseUrl);
+    if (api.protocol !== "https:" || api.username || api.password || api.search || api.hash) throw new Error("Invalid API URL");
+  } catch {
+    status.textContent = "The submission endpoint is not configured correctly. Preview JSON is still available.";
+    return;
   }
+  form.inert = true;
+  connect(window.location);
 })();
