@@ -5,6 +5,7 @@
   const submit = document.getElementById("submit-ballot");
   const status = document.getElementById("submission-status");
   const errorPanel = document.getElementById("form-error");
+  const confirmation = document.getElementById("submission-dialog");
   let token = null;
   let linkId = null;
   let pending = null;
@@ -42,6 +43,18 @@
     errorPanel.hidden = false;
     errorPanel.scrollIntoView({ block: "nearest" });
   }
+
+  function showConfirmation(receipt) {
+    const number = receipt.submissionNumber;
+    const hasNumber = Number.isSafeInteger(number) && number > 0;
+    const lastTwo = number % 100;
+    const suffix = lastTwo >= 11 && lastTwo <= 13 ? "th" : ({ 1: "st", 2: "nd", 3: "rd" }[number % 10] || "th");
+    const message = hasNumber ? `This is your ${number}${suffix} submission.` : "Your ballot has been saved.";
+    document.getElementById("submission-dialog-details").textContent = message + (receipt.duplicate ? " This submission was already saved; no duplicate was created." : "");
+    confirmation.showModal();
+  }
+
+  confirmation.addEventListener("close", () => submit.focus({ preventScroll: true }));
 
   async function connect(location) {
     const params = new URLSearchParams((location.hash || "").replace(/^#/, ""));
@@ -101,10 +114,12 @@
     submit.textContent = "Submitting…";
     errorPanel.hidden = true;
     status.textContent = "Saving ballot…";
+    let confirmedReceipt = null;
     try {
       const receipt = await rpc("submit", { ...ballot, requestId }, token);
       if (!receipt || receipt.submissionId !== requestId || !Number.isFinite(Date.parse(receipt.timestamp))) throw new Error("No valid confirmation received. Retry without changing your ballot to check its status.");
       status.textContent = `${receipt.duplicate ? "Already saved" : "Ballot saved"} at ${receipt.timestamp}. Receipt: ${receipt.submissionId}. Changes can be submitted as a new revision.`;
+      confirmedReceipt = receipt;
     } catch (error) {
       showError(error.message);
       status.textContent = "Submission not confirmed. Your ballot is still here; retry the same ballot safely.";
@@ -115,6 +130,7 @@
       submit.disabled = false;
       submit.textContent = "Submit ballot";
     }
+    if (confirmedReceipt) showConfirmation(confirmedReceipt);
   });
 
   if (!apiBaseUrl) return;
