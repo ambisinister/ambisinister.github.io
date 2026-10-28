@@ -441,6 +441,7 @@
 
   window.MeleeEditor = {
     results: () => model.results(state),
+    snapshot: () => model.copy(state),
     setDraftScope(scope) {
       storageKey = `melee-tier-list:draft:v1:${scope}`;
       state = model.createState();

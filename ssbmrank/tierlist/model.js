@@ -19,7 +19,7 @@ const TierListModel = (() => {
   function createState() {
     return {
       version: 1,
-      tiers: ["S", "A", "B", "C", "D", "E"].map((label, index) => ({ id: `tier-${index + 1}`, label, color: colors[index], characters: [] })),
+      tiers: ["S", "A", "B", "C", "D", "E", "F"].map((label, index) => ({ id: `tier-${index + 1}`, label, color: colors[index], characters: [] })),
       unranked: characters.map(character => character.id),
     };
   }

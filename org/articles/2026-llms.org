@@ -35,7 +35,7 @@ Native multimodal training is the de facto standard for frontier language models
 
 Likewise, parallel agents are one paradigm we [[https://planetbanatt.net/articles/agentic.html#org4b2d990][briefly hinted at]] when we talked about Tongyi WebResearcher. There's two main ways you can manage context: you can either summarize the trajectory and compact the context, or you can delegate tasks to another disposable agent with an independent context. Kimi K2.5 is the first general-purpose open model to successfully train with this in mind. What might this unlock? How does that work?
 
-** TODO GLM 5 -> 5.2 -> 5.3
+** TODO GLM 5 -> 5V -> 5.2 -> 5.3
 
 Z.ai emerged as a true powerhouse in 2026, so much so that Anthropic released [[https://www.anthropic.com/research/glm-5-3-and-the-spread-of-advanced-cyber-capabilities][a blogpost about GLM-5.3]] being too capable of enabling cybercrime[fn:5]. 
 
@@ -55,6 +55,12 @@ On post-training, GLM-5 was able to maximize GPU utilization during post-trainin
 
 [[../images/from_clipboard/20261008_172951.png]]
 
+*** TODO GLM-5V-Turbo
+
+GLM-5V-Turbo was a slightly adjacent architecture compared to GLM-5, whose importance will become more clear later when we talk about other multimodal models. This paper can be found [[https://arxiv.org/abs/2604.26752][here]]. It came out on April 29, 2026.
+
+5V's primary contribution was CogViT, a natively trained vision encoder which is jointly trained with the rest of the model during pretraining. Much of the paper is about how to make that work, and about extending fairly common features like multi-token prediction to support native, interleaved, multimodal input. 
+
 *** TODO GLM-5.2
 
 GLM-5.2 was an update to the GLM-5 line which extended GLM-5 to 1M context, multiple effort levels, and some minor architecture improvements targetting speed. This post can be found [[https://z.ai/blog/glm-5.2][here]]. It came out on June 16, 2026.
@@ -73,12 +79,15 @@ GLM-5.3 was an update to the GLM-5 line which scaled up the post-training. This 
 
 Z.ai's post on GLM-5.3 can be found [[https://z.ai/blog/glm-5.3][here]]. It came out on August 14, 2026. The details are somewhat light compared to 5.2. It's just "more environments, more diverse tasks, and more compute." The big takeaway is just that: most of the gains at the frontier are found in post-training. 
 
-
 ** TODO DeepSeek-V4 -> V4.1-Flash
 
-This paper can be found [[https://arxiv.org/abs/2606.19348][here]]. It came out on April 24, 2026.
+The DeepSeek-V4 paper can be found [[https://arxiv.org/abs/2606.19348][here]]. It came out on April 24, 2026.
 
-This paper can be found [[https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/main/DeepSeek_V41_Tech_Report.pdf][here]]. It came out on September 10, 2026.
+Compared to DeepSeek-V3, V4 adds a few architecture improvements. Some of these are from DeepSeek, like Manifold-Constrained Hyper-Connections (mHC) and DeepSeek Sparse Attention. Some are broader things that were adopted -- like Kimi and GLM, DeepSeek now uses the Muon optimizer.
+
+DeepSeek-V4 was generally considered somewhat underwhelming upon release, but a few months later DeepSeek put out DeepSeek-V4.1-Flash, which stacked some additional architectural improvements onto v4, reducing the KV cache footprint by 75% over v4-flash. This release was also DeepSeek's first flagship which was natively multimodal, which made it much more useful. That paper can be found [[https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/main/DeepSeek_V41_Tech_Report.pdf][here]]. It came out on September 10, 2026.
+
+In general the v4 line is primarily notable for making speed and efficiency gains in the open-source language modeling landscape. DeepSeek-v4.1-flash is outrageously cheap, and there are ample providers for it, since DeepSeek would later [[https://github.com/deepseek-ai/DeepInfer][open source their inference framework]] for it. Most providers on Openrouter will serve at 150-200 tokens per second throughput, with cache reads priced at half a cent per million tokens. For comparison, it's on average cheaper, faster, and better than GLM-5.3-flash per [[https://artificialanalysis.ai/evaluations/artificial-analysis-intelligence-index?models=claude-opus-5-5%2Cclaude-sonnet-5-5%2Cmuse-wonder-full%2Ckimi-k3-1-pro%2Cclaude-fable-5-1%2Cgpt-6-astra%2Cgemini-4-argon%2Cmuse-wonder%2Cgpt-6-1-sol%2Cgpt-6-1-terra%2Cgrok-4-7%2Cmimo-v2-6-pro%2Cqwen3-8-max%2Cdeepseek-v4-1-flash-1017%2Cglm-5-3%2Cling-3-1-flash-1019%2Cstep-5%2Cclaude-haiku-5-5%2Cminimax-m3-1-flash%2Cgemini-3-8-flash%2Cmuse-spark-open%2Cmistral-large-4%2Cgpt-6-luna%2Cqwen3-8-27b%2Ck2-horizon-375b-a23b%2Creflection-beam%2Cnemotron-3-5-super-vl%2Cinkling%2Cglm-5-3-flash][artificial analysis]].
 
 *** TODO Manifold-Constrained Hyper-Connections (mHC)
 
@@ -92,9 +101,13 @@ This paper can be found [[https://arxiv.org/abs/2601.07372][here]]. It came out 
 
 This paper can be found [[https://arxiv.org/abs/2607.05147][here]]. It came out on July 6, 2026.
 
-** TODO GLM-5V-Turbo
+*** TODO Causal Encoder-Decoder
 
-This paper can be found [[https://arxiv.org/abs/2604.26752][here]]. It came out on April 29, 2026.
+in dsv4.1 flash
+
+*** TODO SWA Bounded Replay
+
+in dsv4.1-flash
 
 ** TODO Minimax M3
 
@@ -116,13 +129,19 @@ This paper can be found [[https://arxiv.org/abs/2510.26692][here]]. It came out 
 
 This paper can be found [[https://arxiv.org/abs/2603.15031][here]]. It came out on March 16, 2026.
 
-** TODO Qwen3.8-Next
-
-This paper can be found [[https://github.com/QwenLM/Qwen3.8-Flash-Next/blob/main/tech_report.pdf][here]]. It came out on August 26, 2026.
-
 ** TODO GLM-5.3-Flash
 
 This post can be found [[https://z.ai/blog/glm-5.3-flash][here]]. It came out on August 26, 2026.
+
+GLM-5.3-flash was a separate model architecture compared to the GLM-5 line, with the intent to make it more efficient and natively multimodal. They got a really, really good result with this. The model was anonymously tested on openrouter as "ox-alpha" free for a week, and they served 40T+ tokens with no capacity problems.
+
+5.3-flash mostly mixes together stuff we've already seen so far. They use manifold-constrained hyper-connections, multi-token prediction, and a mix of linear and sparse attention. The model is still pretty large, at 320B parameters, but most of that is width: the model has only 45 layers and activates just 18B. In effect this means that the model is outrageously cheap to serve: it's priced at $0.03/$0.40, which is comparable to GPT-6 Luna at $0.10/$0.50[fn:7].
+
+[[../images/from_clipboard/20261009_154559.png]]
+
+Their big technical contribution is IndexPool, which ???
+
+5.3-flash was also specifically trained for self-verification loops, which hints at why they made the jump to natively multimodal training. That is, they write some code for something, take a screenshot of the output, and then use that screenshot to identify things that need to be improved. Their stated results here use websites as a test case but this loop can easily be applied to any code which produces a visual artifact. 
 
 ** TODO MiMo-V2.6
 
@@ -135,10 +154,6 @@ This post can be found [[https://thinkingmachines.ai/blog/on-policy-distillation
 This paper can be found [[https://arxiv.org/abs/2606.30406][here]]. It came out on June 29, 2026.
 
 This paper can be found [[https://arxiv.org/abs/2607.04763][here]]. It came out on July 6, 2026.
-
-** TODO Qwen3.8-Omni
-
-This paper can be found [[https://arxiv.org/abs/2609.25611][here]]. It came out on September 22, 2026.
 
 ** TODO Future Perspectives
 
@@ -168,11 +183,23 @@ This post can be found [[https://community.openai.com/t/decisions-api-is-now-ava
 
 This is where I think some interesting papers will go if they don't really build a narrative worth including in the main body
 
+*** Qwen Model Papers
+
+In 2026 Qwen saw some falloff compared to their once-prominent status as a major player in the open source model development world. Most of their products see comparatively little use now, and you see them pop up mostly as a mechanism [[https://cohere.com/blog/concerning-behaviour-popular-open-weight-ai-model][for western labs to insinuate their residual behaviors from post-training are intentional backdoors]]. Nevertheless, they put a few papers out in 2026 which are worth skimming.
+
+*** TODO Qwen3.8-Next
+
+This paper can be found [[https://github.com/QwenLM/Qwen3.8-Flash-Next/blob/main/tech_report.pdf][here]]. It came out on August 26, 2026.
+
 *** TODO Qwen3-Coder-Next
 
 This paper can be found [[https://github.com/QwenLM/Qwen3-Coder/blob/main/qwen3_coder_next_tech_report.pdf][here]]. It came out on February 3, 2026.
 
 In this one Qwen outlines an 80B-A3B model which does pretty well for the size. They get good results for the size of the model, but they mostly do agentic training in the same style as their [[https://planetbanatt.net/articles/agentic.html#orgd3a35c0][Agentic CPT]] but applied to mid-training. They have some fun stuff in here about using github tickets as a mechanism for creating new agentic coding tasks, but it's nothing groundbreaking.
+
+*** TODO Qwen3.8-Omni
+
+This paper can be found [[https://arxiv.org/abs/2609.25611][here]]. It came out on September 22, 2026.
 
 *** TODO MiniMax M2
 
@@ -187,6 +214,10 @@ This original CISPO paper can be found [[https://arxiv.org/abs/2506.13585][here]
 CISPO, more or less, is truncated importance sampling mixed with vanilla policy gradient. 
 
 * Footnotes
+
+[fn:7] It's a little misleading writing it this way since GLM-5.3-flash burns more tokens compared to Luna. Cost-per-task is a nicer way to represent which models are cheaper or more expensive, but I think it's fair to point out GLM-5.3-flash's per-token price specifically to highlight some of the efficiency improvements they made to the architecture. 
+
+[[../images/from_clipboard/20261009_155526.png]]
 
 [fn:6] Zhipu is amazing at distillation. I think this is not properly appreciated as a direct cause for their success, a genuine technical achievement rather than just something usable as a cheap dunk. [[https://www.anthropic.com/threat-intelligence-report-september-2026][Anthropic]] has revealed some fairly extensive distillation practices by Zhipu in order to copy Claude's outputs.
 
