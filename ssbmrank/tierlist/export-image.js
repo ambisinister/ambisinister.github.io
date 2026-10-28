@@ -58,9 +58,6 @@
       context.drawImage(ms, 18, 13, 90, 88);
       context.drawImage(melee, 132, 10, 192, 98);
       context.drawImage(sponsor, width - 225, 34, 195, 46);
-      context.font = "18px sans-serif";
-      context.fillStyle = "#b9c7bd";
-      context.fillText(snapshot.unranked.length ? `Draft · ${26 - snapshot.unranked.length}/26 ranked` : "26 characters ranked", 355, 66);
       let top = headerHeight;
       let rank = 0;
       for (const row of rows) {
