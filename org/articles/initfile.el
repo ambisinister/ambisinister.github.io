@@ -237,17 +237,54 @@ the post list in org/blog/index.org."
 ;'("◉" "◎" "<img draggable="false" class="emoji" alt="⚫" src="https://s0.wp.com/wp-content/mu-plugins/wpcom-smileys/twemoji/2/svg/26ab.svg">" "○" "►" "◇"))
 
 (defun paste-clipboard-image ()
-    (interactive)
-    (let* ((image-dir (concat (file-name-directory (buffer-file-name))
-			      "../images/from_clipboard/"))
-	   (file-name (concat (format-time-string "%Y%m%d_%H%M%S") ".png"))
-	   (file-path (concat image-dir file-name)))
-      (unless (file-exists-p image-dir)
-	(make-directory image-dir t))
-      ;; replace 'pngpaste' with 'xclip' for Linux.
-      (shell-command (concat "/opt/homebrew/bin/pngpaste " file-path))
-      (insert (concat "[[../images/from_clipboard/" file-name "]]"))
-      (org-display-inline-images)))
+  "Save clipboard PNG bytes unchanged, or encode other images with ImageIO."
+  (interactive)
+  (unless buffer-file-name
+    (user-error "Save this buffer before pasting an image"))
+  (let* ((image-dir (expand-file-name "../images/from_clipboard/"
+                                      (file-name-directory buffer-file-name)))
+         (script "ObjC.import('AppKit');
+ObjC.import('ImageIO');
+function run(argv) {
+    const pasteboard = $.NSPasteboard.generalPasteboard;
+    const png = pasteboard.dataForType('public.png');
+    if (png && !png.isNil()) {
+        if (!png.writeToFileAtomically(argv[0], true))
+            throw new Error('Could not write clipboard PNG');
+        return;
+    }
+    const image = $.NSImage.alloc.initWithPasteboard(pasteboard);
+    if (!image || image.isNil())
+        throw new Error('No image on the clipboard');
+    const source = $.CGImageSourceCreateWithData(image.TIFFRepresentation, null);
+    if (!source) throw new Error('Could not decode clipboard image');
+    const bitmap = $.CGImageSourceCreateImageAtIndex(source, 0, null);
+    if (!bitmap) throw new Error('Could not decode clipboard bitmap');
+    const destination = $.CGImageDestinationCreateWithURL(
+        $.NSURL.fileURLWithPath(argv[0]), $('public.png'), 1, null);
+    if (!destination) throw new Error('Could not create PNG file');
+    $.CGImageDestinationAddImage(destination, bitmap, null);
+    if (!$.CGImageDestinationFinalize(destination))
+        throw new Error('Could not save clipboard image');
+}"))
+    (make-directory image-dir t)
+    (let ((file-path (make-temp-file
+                      (expand-file-name (format-time-string "%Y%m%d_%H%M%S_")
+                                        image-dir)
+                      nil ".png"))
+          (saved nil))
+      (unwind-protect
+          (progn
+            (with-temp-buffer
+              (unless (eq 0 (call-process "/usr/bin/osascript" nil t nil
+                                          "-l" "JavaScript" "-e" script file-path))
+                (user-error "Clipboard image paste failed: %s" (buffer-string))))
+            (setq saved t)
+            (insert (concat "[[../images/from_clipboard/"
+                            (file-name-nondirectory file-path) "]]"))
+            (org-display-inline-images))
+        (unless saved
+          (delete-file file-path))))))
 
 (with-eval-after-load 'org
   (define-key org-mode-map (kbd "C-c C-x i") 'paste-clipboard-image))

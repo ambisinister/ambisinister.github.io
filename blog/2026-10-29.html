@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-10-29 Thu 23:27 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Warped Metrics</title>
+<meta name="author" content="Eryk Banatt" />
+<meta name="generator" content="Org Mode" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-101739190-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-101739190-1');
+</script>
+
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+var shiftWindow = function() { scrollBy(0, -50) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+</script>
+
+<script type="text/javascript">
+
+$(function() {
+    'use strict';
+
+    $("#text-table-of-contents ul:first").addClass('nav')
+    $('body').attr('data-spy', 'scroll')
+    $('body').attr('data-target', '#text-table-of-contents')
+    $('body').attr('data-offset', '100')
+    $('table').addClass('table table-striped table-bordered table-hover table-condensed')
+
+    // Dark mode functionality
+    window.toggleDarkMode = function() {
+        document.body.classList.toggle('dark-mode');
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDarkMode);
+        updateToggleButton();
+    }
+
+    function updateToggleButton() {
+        const toggle = document.querySelector('.dark-mode-toggle-nav');
+        if (toggle) {
+            toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        }
+    }
+
+    // Initialize dark mode from localStorage
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+
+    // Update toggle button on page load
+    updateToggleButton();
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="https://planetbanatt.net/css/default_20240614.css" />
+<link rel="shortcut icon" type="image/jpg" href="https://planetbanatt.net/favicon.ico" />
+</head>
+<body>
+<div id="preamble" class="status">
+
+<!-- heading -->
+<!-- add here -->
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto" style="margin-left:3%">
+            <li class="nav-item"><a href="http://planetbanatt.net/">Home</a></li>
+            <li><a href="http://planetbanatt.net/about.html">About</a></li>
+            <li><a href="http://planetbanatt.net/projects.html">Projects</a></li>
+            <li><a href="http://planetbanatt.net/melee/index.html">Melee</a></li>
+            <li><a href="http://planetbanatt.net/links.html">Links</a></li>
+            <li><a href="http://planetbanatt.net/blog/">Blog</a></li>
+            <li><a href="http://planetbanatt.net/resume.pdf">Resume</a></li>
+            <li class="dark-mode-nav-item"><a href="#" class="dark-mode-toggle-nav" onclick="toggleDarkMode(); return false;">🌙</a></li>
+          </ul>
+          </ul>
+        </div><!--/.nav-collapse -->
+    </nav>
+</div>
+<div id="content" class="content">
+<h1 class="title">Warped Metrics</h1>
+<div id="table-of-contents" role="doc-toc">
+<h1>Table of Contents</h1>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org04cdedb">Beware the Warped Metric</a>
+<ul>
+<li><a href="#org9eb5ecc">Case Study: Sound Voltex Volforce</a>
+<ul>
+<li><a href="#org2702b31">What Is Volforce</a></li>
+<li><a href="#orgfcf0c85">An Unusual Distribution</a></li>
+<li><a href="#org66d005d">A Simple Volforce Model</a></li>
+</ul>
+</li>
+<li><a href="#orgf07caa8">Artificial Analysis Intelligence Index</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org04cdedb" class="outline-1">
+<h1 id="org04cdedb">Beware the Warped Metric</h1>
+<div class="outline-text-1" id="text-org04cdedb">
+<p>
+I have been doing a lot of thinking recently about ways that simple metrics could produce unintuitive distributions. There is an interesting phenomenon for scoring metrics that I have not seen discussed too frequently, where the resulting distribution of a sensible-seeming metric can end up confusing and hard to interpret.
+</p>
+
+<p>
+I have taken to calling these "warped metrics", and I wanted to put together a quick post outlining some examples of this potentially happening. 
+</p>
+</div>
+<div id="outline-container-org9eb5ecc" class="outline-2">
+<h2 id="org9eb5ecc">Case Study: Sound Voltex Volforce</h2>
+<div class="outline-text-2" id="text-org9eb5ecc">
+</div>
+<div id="outline-container-org2702b31" class="outline-3">
+<h3 id="org2702b31">What Is Volforce</h3>
+<div class="outline-text-3" id="text-org2702b31">
+<p>
+Recently I've been playing a lot of Sound Voltex, which is a Konami rhythm game in the Bemani series of games. The main way players measure skill level in Sound Voltex is through a metric called <i>Volforce</i>. To boil it down simply, Volforce takes your 50 all-time best scores and assigns a point value to each of your performances based on score. It is calculated as follows:
+</p>
+
+<p>
+At its core, volforce is a super simple metric. If you get more good scores, it goes up. Unlike something like Elo ratings or other matchmaking ratings, it never goes down. It's a bit like <a href="https://en.wikipedia.org/wiki/Masterpoints">Masterpoints</a> in competitive bridge, in that respect, in the sense that it's more of an awards system than a rating. A great article by <a href="https://www.lajollabridge.com/Articles/MasterpointNotes.htm">Matthew Kidd</a> discusses at length about the distribution of Masterpoints, and from that article we can see that the distribution is roughly log-normal, with a heavier left tail since there are more weak players than strong ones. 
+</p>
+
+
+<div id="orgc4e15f6" class="figure">
+<p><img src="../images/from_clipboard/20261029_212746_eREfPm.png" alt="20261029_212746_eREfPm.png" />
+</p>
+</div>
+
+<p>
+This seems like what we might expect the distribution of Volforce to look like. It takes time to climb in Sound Voltex, and you'd expect fewer and fewer people to exist in each consecutive tier. That would make sense. 
+</p>
+</div>
+</div>
+<div id="outline-container-orgfcf0c85" class="outline-3">
+<h3 id="orgfcf0c85">An Unusual Distribution</h3>
+<div class="outline-text-3" id="text-orgfcf0c85">
+<p>
+On May 25th, 2020, a user by the name of ANZUINFO put together a <a href="https://docs.google.com/spreadsheets/d/1MYdnlTNTER4pHapus1QIuhEGxmx3JuwV9_eLMavM6Y0/edit?gid=202767933#gid=202767933">spreadsheet</a> containing scraped data from public e-amuse profiles, in order to get a sense for the distribution of volforce ratings. This spreadsheet contained the volforce ratings of about 45,000 users, which we can use to construct the following distribution.
+</p>
+
+
+<div id="org61bf84c" class="figure">
+<p><img src="../images/from_clipboard/20261029_210731_1iap2H.png" alt="20261029_210731_1iap2H.png" />
+</p>
+</div>
+
+<p>
+I saw this emerge after playing around with the data and thought &ndash; wow, how incredibly strange. The modal volforce value for a player with an e-amuse profile is about 19.00! There are even more players with 19.00 volforce than there are players with the volforce amounts you'd expect to see after playing one set for the first time and never playing again. It is, very definitively, not log-normal like we might have expected. 
+</p>
+
+<p>
+How on earth is this possible?
+</p>
+</div>
+</div>
+<div id="outline-container-org66d005d" class="outline-3">
+<h3 id="org66d005d">A Simple Volforce Model</h3>
+<div class="outline-text-3" id="text-org66d005d">
+<p>
+A key insight you might have after seeing the above distribution is that, with equal width bins, the skill level required to climb from one bin to the next could be subject to some other, unseen function. For example, it could be that the climb from 19.00 to 19.10 could completely contain a hugely wide skill band, while the climbs from 18.90 to 19.00 <i>and</i> the climbs from 19.10 to 19.20 could both be much narrower.
+</p>
+
+<p>
+Putting this another way, our simple metric of Volforce might be an excellent way to describe the skill level of a Sound Voltex player, except for specific "dead zones" inherent to the metric where tons of players saturate at the same level until breaking through a plateau. This is what we can loosely describe as a <i>warped metric</i>. 
+</p>
+
+<p>
+We can create a simple model of Sound Voltex players which attempts to reproduce something as close as possible to the observed population of actual players we see in our dataset. We can create a population of players who all begin with different skill levels and rates of progress. As they play more charts, they improve in skill, and are able to get fewer errors and better timing on gradually harder and harder charts. Each "play" generates a score within the player's current estimated skill level, and the player improves with each play. We keep track of each player's 50 best plays by volforce, with our aim being to construct a population similar to our real-world data.
+</p>
+
+<p>
+In our model we can produce similar distributions through a mix of a few factors. First, we model attrition rate from players: newer players are more likely to quit, and players are less likely to quit right before a volforce milestone, and more likely to quit afterwards<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>. Next, we outline some "farming" behaviors, where ordinary plays are interspersed at some probability with charts played with the intent to get volforce. This becomes most noticeable starting at level 17, where maxing out charts for score is optimal for volforce, but playing charts in your normal skill range worth no volforce is necessary to improve to the next level of difficulty, which will eventually become needed to continue climbing once the player's current "farming level" saturates.
+</p>
+
+<p>
+Finally, we fit the constants of our model through stochastic local search to minimize L1 distance between our model's outputs and the true population<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>. A gist with our code can be found <a href="https://gist.github.com/ambisinister/a390e5c53e6be7cf68756b0352420ab3">here</a>. Running this model produces the following:
+</p>
+
+
+<div id="org8030f45" class="figure">
+<p><img src="../images/from_clipboard/20261029_214629_Y3gqF5.png" alt="20261029_214629_Y3gqF5.png" />
+</p>
+</div>
+
+<p>
+Here we see roughly the behavior that we're after: roughly uniform until 18.00 volforce, and then big plateaus at 18.00, 19.00 and 20.00. Our model produces too many players at 20.00 volforce but it's just a napkin cartoon, intended to illustrate the basic concept.
+</p>
+
+<p>
+Interestingly, we can pull back out the distribution of skill levels for our playerbase. This has a shape which looks a lot easier to understand. Players accumulate some basic skills super quickly, there's gradual attrition over time, and then there are bumps for spots where clearing hard charts and getting increasingly better timing are more important for accumulating more volforce. 
+</p>
+
+
+<div id="orgc1d10d5" class="figure">
+<p><img src="../images/from_clipboard/20261029_225743_hDpBWq.png" alt="20261029_225743_hDpBWq.png" />
+</p>
+</div>
+
+<p>
+The point here isn't necessarily to build something explanatory for the distribution of volforce scores in the arcadegoer population, it's just a simulation which produces a similar distribution. But the core thing we're demonstrating here is that a volforce point is not an even unit of skill, because there are chokepoints in the climb, and equal score differences do not necessarily imply equal differences in ability<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>. 
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf07caa8" class="outline-2">
+<h2 id="orgf07caa8">Artificial Analysis Intelligence Index</h2>
+<div class="outline-text-2" id="text-orgf07caa8">
+<p>
+On October 27, Artificial Analysis announced the <a href="https://x.com/ArtificialAnlys/status/2115265133467635877">v5 of their intelligence index</a> which was intended to update their single-value benchmark intended to broadly rank the intelligence of large language models. This was primarily by adding new, difficult benchmarks to the testing suite, upgrading existing benchmarks to new versions, and deprecating benchmarks which were already saturated. These were all well-received, good changes that seemed to improve the list a lot. Below is the old, v4.3.2 index:
+</p>
+
+
+<div id="org73f988c" class="figure">
+<p><img src="../images/from_clipboard/20261029_215544_hocSmj.png" alt="20261029_215544_hocSmj.png" />
+</p>
+</div>
+
+<p>
+&hellip;and now the new v5 index:
+</p>
+
+
+<div id="org9720f33" class="figure">
+<p><img src="../images/from_clipboard/20261029_215713_sVAG67.png" alt="20261029_215713_sVAG67.png" />
+</p>
+</div>
+
+<p>
+Most of the ordering changes to the list are ones which seem right, mostly by boosting OpenAI models, boosting Claude Haiku 5.5, and nerfing models like Kimi K3.1 and Muse Wonder Full.
+</p>
+
+<p>
+But discussion on this new change placed a lot of emphasis on the number of points between the models, which I find precarious for the reasons described above. For example, consider this tweet concerning the performance of open models.
+</p>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Open weights models fall further behind in v5. The leader, Kimi K3.1 Pro (weights not yet released), scores 46, 12 points behind the leader, compared with a 3-point gap in v4.3. Of models with released weights, DeepSeek V4.1 Flash 1017 (max) and GLM-5.3 (max) score highest at 32, and Claude Haiku 5.5 (max) outscores all of them.
+
+The gap is widest on HLE-Diamond and Terminal-Bench-Science, where Kimi K3.1 Pro scores 37% and 34%, compared with 68% for Claude Opus 5.5 (max) and 63% for GPT-6 Astra (max).</p>&mdash; Artificial Analysis (@ArtificialAnlys) <a href="https://x.com/ArtificialAnlys/status/2115265171233120627?ref_src=twsrc%5Etfw">October 28, 2026</a></blockquote>
+<script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>
+
+<p>
+Focusing on the top-performing open-weights model, DeepSeek-v4.1-flash-1017, the primary differences between the two models are now underperforming Haiku 5.5, and being a larger number of points behind the leaders. But the number attached to each model doesn't have a clear semantic meaning; are we meant to think that Opus 5.5 is nearly double the intelligence of DeepSeek? How many points does this metric rise if the model gets a little bit better? or a lot better? Is this different at different points along the metric?
+</p>
+
+<p>
+In some ways the gap between these two metrics is very similar to our volforce example above. The top one is much flatter, the bottom one has more vertical separation. We can probably use these metrics to determine which models are similar in power to other ones around it, and we definitely can use the ordering changes to see which models were disadvantaged/advantaged based on the lack of hard benchmarks or the inclusion of saturated ones (e.g. Astra and Kimi, respectively). But it's actually fairly difficult to quantify "how far away" models are from each other, because that depends on the marginal difficulty of each point, which may be highly variable depending on the model's current score.
+</p>
+
+<p>
+All this is to say: a point is not always just a point. Beware the warped metric. 
+</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Well supported in groups like <a href="https://www.nber.org/papers/w20343">marathon runners</a> and also myself in various games I got sick of playing immediately after reaching some goal ranking.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Other misc details about the model. Plays model both misses and near-misses, in order to model perfect ultimate clears being way harder than ultimate clears. Play counts have a ceiling, otherwise players could just play forever until they reach imperial. Difficulty levels are roughly exponential. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+See <a href="https://faculty.ucmerced.edu/jvevea/classes/290_21/readings/week%208/Stevens%201946.pdf">On the Theory of Scales of Measurement</a> 
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<a href="#top">Back to Top</a>
+</div>
+</body>
+</html>
