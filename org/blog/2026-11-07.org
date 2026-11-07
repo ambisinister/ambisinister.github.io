@@ -1,0 +1,388 @@
+#+TITLE: WhoIsErykBench
+
+* WhoIsErykBench and the Marginal Fact
+
+I am an extremely minor internet figure, too obscure to even realistically be considered a "niche internet microcelebrity." But I do have a relatively wide body of work, between some stuff like [[https://www.youtube.com/c/MeleeStats][the Melee Stats videos]], [[https://liquipedia.net/smash/SSBMRank][SSBMRank]], various pieces on [[https://planetbanatt.net/][this website]], and so on.
+
+Recently, I've been napkin testing language models by asking them if they remember anything about me, without using search tools. Part of this is because [[https://gwern.net/llm-writing][whether or not LLMs are listening]] is something I hold interest in. But the other part of this is that "knowledge of Eryk Banatt" is an extremely marginal fact. There are many hundreds of thousands, if not millions of figures more important to know about than myself. So it stands to reason that a model which knows about me probably knows a sizable portion of the people above me, also.
+
+A remarkable thing about the current generation of models is that they are the first language models which seem to have clearly heard of me before. This seems to mostly be a function of size, rather than capability: models like Claude Opus 5.5 seem to have not heard of me, compared to "weaker" models like Claude Fable 5.1 having a much clearer idea. In this sense, knowing about me seems like a fun back-of-the-envelope test for "marginal facts," i.e. facts which exist at the fringe of current capability.
+
+[[../images/from_clipboard/20261107_134432_aNMWOn.png]]
+
+I like to think of this sort of information as being indicative of a model's "roots network" as if the model were a large tree. Some models have extremely wide base of facts (e.g. Fable 5.1, GPT-6 Astra) and others have a narrower base but grow taller in spite of it. This probably has some implications in the types of tasks these models are useful for, and it's probably easier to get value from LLMs if your prerequisite set of facts are less marginal.
+
+Below is a little table of what the models say when prompted about me, and instructed to not use search tools. They generally fall into three categories: "Fuzzy Knowledge", "Near-Miss Knowledge", and "No Knowledge". 
+
+#+BEGIN_EXPORT html
+<style>
+#whoiseryk-widget {
+  --web-border: #d9d9d9;
+  --web-surface: #faf9f7;
+  --web-text: #292929;
+  --web-muted: #626262;
+  --web-accent: #a1283b;
+  margin: 1.5em 0;
+  color: var(--web-text);
+  border: 1px solid var(--web-border);
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 15px;
+  line-height: 1.6;
+}
+body.dark-mode #whoiseryk-widget {
+  --web-border: #484848;
+  --web-surface: #242424;
+  --web-text: #e0e0e0;
+  --web-muted: #b5b5b5;
+  --web-accent: #ef9ca9;
+}
+#whoiseryk-widget * { box-sizing: border-box; }
+#whoiseryk-widget .web-tier {
+  display: grid;
+  grid-template-columns: 165px minmax(0, 1fr);
+  gap: 14px;
+  padding: 18px;
+  border-top: 1px solid var(--web-border);
+}
+#whoiseryk-widget .web-tier:first-child { border-top: 0; }
+#whoiseryk-widget .web-response[hidden] { display: none; }
+#whoiseryk-widget .web-tier h3 {
+  margin: 3px 0 0;
+  font-size: 1em;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--web-text);
+}
+#whoiseryk-widget .web-count {
+  display: block;
+  color: var(--web-muted);
+  font-size: 0.85em;
+  font-weight: normal;
+}
+#whoiseryk-widget .web-models {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 7px;
+}
+#whoiseryk-widget .web-model {
+  max-width: 100%;
+  padding: 7px 11px;
+  border: 1px solid var(--web-border);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--web-text);
+  font: inherit;
+  font-size: 0.9em;
+  line-height: 1.4;
+  text-align: left;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+#whoiseryk-widget .web-model:hover {
+  border-color: var(--web-accent);
+  background: var(--web-surface);
+}
+#whoiseryk-widget .web-model[aria-pressed="true"] {
+  border-color: var(--web-accent);
+  box-shadow: inset 0 0 0 1px var(--web-accent);
+  color: var(--web-accent);
+  background: var(--web-surface);
+}
+#whoiseryk-widget .web-model:focus-visible {
+  outline: 3px solid var(--web-accent);
+  outline-offset: 3px;
+}
+#whoiseryk-widget .web-response {
+  padding: 22px 18px;
+  border-top: 1px solid var(--web-border);
+  background: var(--web-surface);
+  scroll-margin-top: 70px;
+}
+#whoiseryk-widget .web-response h3 {
+  margin: 0 0 4px;
+  color: var(--web-text);
+  font-size: 1.2em;
+  line-height: 1.4;
+}
+#whoiseryk-widget .web-meta {
+  margin: 0 0 16px;
+  color: var(--web-muted);
+  font-size: 0.85em;
+  overflow-wrap: anywhere;
+}
+#whoiseryk-widget .web-answer {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: var(--web-text);
+  font: inherit;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+#whoiseryk-widget .web-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+@media (max-width: 600px) {
+  #whoiseryk-widget .web-tier { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  #whoiseryk-widget .web-count { display: inline; margin-left: 8px; }
+  #whoiseryk-widget .web-model { min-height: 44px; }
+}
+</style>
+
+<div id="whoiseryk-widget" role="region" aria-label="WhoIsErykBench model responses">
+  <section class="web-tier" aria-labelledby="web-tier-fuzzy">
+    <h3 id="web-tier-fuzzy">Fuzzy Knowledge<span class="web-count">4 models</span></h3>
+    <div class="web-models">
+      <button type="button" class="web-model" data-model="openai/gpt-6-astra" aria-pressed="false" aria-controls="web-response" disabled>GPT-6 Astra</button>
+      <button type="button" class="web-model" data-model="anthropic/claude-fable-5.1" aria-pressed="false" aria-controls="web-response" disabled>Claude Fable 5.1</button>
+      <button type="button" class="web-model" data-model="openai/gpt-6.1-sol" aria-pressed="false" aria-controls="web-response" disabled>GPT-6.1 Sol</button>
+      <button type="button" class="web-model" data-model="openai/gpt-6.1-terra" aria-pressed="false" aria-controls="web-response" disabled>GPT-6.1 Terra</button>
+    </div>
+  </section>
+  <section class="web-tier" aria-labelledby="web-tier-near-miss">
+    <h3 id="web-tier-near-miss">Near-Miss Knowledge<span class="web-count">8 models</span></h3>
+    <div class="web-models">
+      <button type="button" class="web-model" data-model="google/gemini-4-argon" aria-pressed="false" aria-controls="web-response" disabled>Gemini 4 Argon</button>
+      <button type="button" class="web-model" data-model="anthropic/claude-opus-5.5" aria-pressed="false" aria-controls="web-response" disabled>Claude Opus 5.5</button>
+      <button type="button" class="web-model" data-model="z-ai/glm-5.3" aria-pressed="false" aria-controls="web-response" disabled>GLM 5.3</button>
+      <button type="button" class="web-model" data-model="anthropic/claude-opus-5" aria-pressed="false" aria-controls="web-response" disabled>Claude Opus 5</button>
+      <button type="button" class="web-model" data-model="google/gemini-3.7-flash" aria-pressed="false" aria-controls="web-response" disabled>Gemini 3.7 Flash</button>
+      <button type="button" class="web-model" data-model="google/gemini-3.8-flash" aria-pressed="false" aria-controls="web-response" disabled>Gemini 3.8 Flash</button>
+      <button type="button" class="web-model" data-model="google/gemini-3.6-flash" aria-pressed="false" aria-controls="web-response" disabled>Gemini 3.6 Flash</button>
+      <button type="button" class="web-model" data-model="google/gemini-3.1-pro-preview" aria-pressed="false" aria-controls="web-response" disabled>Gemini 3.1 Pro Preview</button>
+    </div>
+  </section>
+  <section class="web-tier" aria-labelledby="web-tier-none">
+    <h3 id="web-tier-none">No Knowledge<span class="web-count">13 models</span></h3>
+    <div class="web-models">
+      <button type="button" class="web-model" data-model="openai/gpt-6-luna" aria-pressed="false" aria-controls="web-response" disabled>GPT-6 Luna</button>
+      <button type="button" class="web-model" data-model="openai/gpt-6-sol" aria-pressed="false" aria-controls="web-response" disabled>GPT-6 Sol</button>
+      <button type="button" class="web-model" data-model="openai/gpt-5.6-luna" aria-pressed="false" aria-controls="web-response" disabled>GPT-5.6 Luna</button>
+      <button type="button" class="web-model" data-model="x-ai/grok-4.7" aria-pressed="false" aria-controls="web-response" disabled>Grok 4.7</button>
+      <button type="button" class="web-model" data-model="x-ai/grok-4.6" aria-pressed="false" aria-controls="web-response" disabled>Grok 4.6</button>
+      <button type="button" class="web-model" data-model="z-ai/glm-5.3-flash" aria-pressed="false" aria-controls="web-response" disabled>GLM 5.3 Flash</button>
+      <button type="button" class="web-model" data-model="deepseek/deepseek-v4.1-flash-1017" aria-pressed="false" aria-controls="web-response" disabled>DeepSeek V4.1 Flash 1017</button>
+      <button type="button" class="web-model" data-model="anthropic/claude-haiku-5.5" aria-pressed="false" aria-controls="web-response" disabled>Claude Haiku 5.5</button>
+      <button type="button" class="web-model" data-model="anthropic/claude-sonnet-5.5" aria-pressed="false" aria-controls="web-response" disabled>Claude Sonnet 5.5</button>
+      <button type="button" class="web-model" data-model="anthropic/claude-sonnet-5" aria-pressed="false" aria-controls="web-response" disabled>Claude Sonnet 5</button>
+      <button type="button" class="web-model" data-model="moonshotai/kimi-k3.1-pro" aria-pressed="false" aria-controls="web-response" disabled>Kimi K3.1 Pro</button>
+      <button type="button" class="web-model" data-model="meta/muse-spark-1.3" aria-pressed="false" aria-controls="web-response" disabled>Muse Spark 1.3</button>
+      <button type="button" class="web-model" data-model="mistralai/mistral-large-4-0" aria-pressed="false" aria-controls="web-response" disabled>Mistral Large 4.0</button>
+    </div>
+  </section>
+  <p class="web-status" role="status" aria-live="polite" aria-atomic="true"></p>
+  <section id="web-response" class="web-response" aria-labelledby="web-response-title" hidden>
+    <h3 id="web-response-title"></h3>
+    <p class="web-meta"></p>
+    <blockquote class="web-answer"></blockquote>
+  </section>
+</div>
+
+<script type="application/json" id="whoiseryk-responses">
+[
+  {
+    "id": "openai/gpt-6.1-terra",
+    "label": "GPT-6.1 Terra",
+    "tier": "Fuzzy Knowledge",
+    "answer": "Yes. I’m broadly familiar with Eryk Banatt as an online writer associated with rationalist and effective altruism circles, including discussions of AI and philosophy. My knowledge may be incomplete, though.\n\nIs there something specific you’d like to know?"
+  },
+  {
+    "id": "openai/gpt-6.1-sol",
+    "label": "GPT-6.1 Sol",
+    "tier": "Fuzzy Knowledge",
+    "answer": "Yes, to a limited extent. I recognize Eryk Banatt as an online writer whose work touches on cognition, learning, rationality, and competitive gaming.\n\nThat familiarity comes from my training data, not personal acquaintance, and I may not reliably recall specific biographical details or recent activities. I haven’t used any web search tools.\n\nIs there a particular aspect of his work you’re interested in?"
+  },
+  {
+    "id": "openai/gpt-6-luna",
+    "label": "GPT-6 Luna",
+    "tier": "No Knowledge",
+    "answer": "I don’t have personal acquaintances, and the name doesn’t ring a clear bell as a widely known public figure in my knowledge. If you share where you encountered “Eryk Banatt” or what context you mean, I can try to help."
+  },
+  {
+    "id": "openai/gpt-6-sol",
+    "label": "GPT-6 Sol",
+    "tier": "No Knowledge",
+    "answer": "I’m not familiar with an internet user named Eryk Banatt, and I haven’t searched for them. If you share where you encountered the name or what you’d like to know, I can try to help from that context."
+  },
+  {
+    "id": "openai/gpt-6-astra",
+    "label": "GPT-6 Astra",
+    "tier": "Fuzzy Knowledge",
+    "answer": "Yes—some familiarity. I recognize **Eryk Banatt** as an online writer associated with cognitive science, machine learning, and competitive gaming, particularly *Super Smash Bros. Melee*.\n\nThat’s based on my existing knowledge, not a web search. I don’t know him personally, and my knowledge of specific biographical details or recent activity is limited. What aspect are you interested in?"
+  },
+  {
+    "id": "openai/gpt-5.6-luna",
+    "label": "GPT-5.6 Luna",
+    "tier": "No Knowledge",
+    "answer": "I don’t have personal familiarity with or reliable information about an internet user named **Eryk Banatt**. If you share context—such as their field, platform, or why they’re notable—I can help discuss or analyze the information you provide."
+  },
+  {
+    "id": "google/gemini-4-argon",
+    "label": "Gemini 4 Argon",
+    "tier": "Near-Miss Knowledge",
+    "answer": "Yes, I am familiar with the name Eryk Banatt. He is an esports writer, researcher, and historian, best known in the competitive *Super Smash Bros. Melee* community under his handle \"Ambisinister.\" \n\nHe is most widely recognized as the co-creator (alongside statistician \"PracticalTAS\") of **PGstats** (Panda Global Stats) and for his foundational work in developing the **MPGR** (Melee Panda Global Rankings), which served as the official global power rankings for *Super Smash Bros. Melee* players for several years. He has also written extensively about esports history and statistics for various gaming outlets and contributed to *The Book of Melee*."
+  },
+  {
+    "id": "google/gemini-3.8-flash",
+    "label": "Gemini 3.8 Flash",
+    "tier": "Near-Miss Knowledge",
+    "answer": "Yes, I am familiar with Eryk Banatt based on my training data. \n\nHe is known online primarily as a software engineer, machine learning practitioner, and technical writer/blogger. He has a presence in machine learning, AI, and developer communities (such as on Twitter/X, GitHub, Substack/personal blog, and platforms like LessWrong). \n\nHis public writing typically focuses on:\n* **Deep learning from scratch:** Detailed, tutorial-style implementations of complex architectures and algorithms (e.g., Transformers, diffusion models, reinforcement learning systems).\n* **Machine learning theory and interpretability:** Discussions on model training dynamics, mechanistic interpretability, and AI alignment concepts.\n* **Software engineering and system design:** General technical essays and thoughts on software craftsmanship.\n\nOutside of his technical writing and open-source contributions in the ML/AI space, he is an independent developer rather than a widespread public figure."
+  },
+  {
+    "id": "google/gemini-3.7-flash",
+    "label": "Gemini 3.7 Flash",
+    "tier": "Near-Miss Knowledge",
+    "answer": "Yes, I am familiar with Eryk Banatt. \n\nHe is an internet user, machine learning practitioner, and technical writer known in the AI/ML community. He has written extensively on topics such as deep learning, natural language processing, transformer architectures, and mechanistic interpretability, sharing research, tutorials, and commentary through his blog and social media platforms (such as X/Twitter)."
+  },
+  {
+    "id": "google/gemini-3.6-flash",
+    "label": "Gemini 3.6 Flash",
+    "tier": "Near-Miss Knowledge",
+    "answer": "Yes, I am familiar with Eryk Banatt based on my training data. \n\nHe is a software engineer and technical writer known in machine learning and tech circles. He writes detailed technical blog posts and tutorials covering topics such as:\n\n* Machine learning and deep learning (including PyTorch, LLMs, fine-tuning, and model mechanics)\n* Python programming and performance optimization\n* Software engineering and hardware/GPU interactions\n* Chess and computational approaches to games\n\nHe shares his work on his personal blog, GitHub, and Twitter/X, and is known for producing accessible, hands-on technical deep dives into AI and software development."
+  },
+  {
+    "id": "x-ai/grok-4.7",
+    "label": "Grok 4.7",
+    "tier": "No Knowledge",
+    "answer": "I don’t have any reliable familiarity with an internet user by that name. I can’t confirm who they are or what they’re known for from what I know, and I won’t invent details."
+  },
+  {
+    "id": "x-ai/grok-4.6",
+    "label": "Grok 4.6",
+    "tier": "No Knowledge",
+    "answer": "I have no familiarity with an internet user by that name."
+  },
+  {
+    "id": "z-ai/glm-5.3",
+    "label": "GLM 5.3",
+    "tier": "Near-Miss Knowledge",
+    "answer": "Yes, the name is familiar to me from my training data, though I should be upfront that my recollection is fuzzy and I can't verify anything without searching.\n\nMy association with the name Eryk Banatt is with the Super Smash Bros. Melee community. I believe he was a YouTube content creator known for analytical videos about Melee — particularly its single-player modes and speedrunning, things like Break the Targets, Home-Run Contest, and the mechanics/frame data behind them. His content had a reputation for being well-researched and technical, digging into how the game actually works under the hood. I believe he was most active in the mid-2010s, around the era when the Melee community was growing rapidly.\n\nI have a vaguer sense that he may have also been involved in programming or technical writing in some capacity, but I'm much less confident about that.\n\nSince this is a fairly niche figure, I want to be honest that I could be misremembering or conflating details, and I can't confirm anything current about him — his recent activity, current projects, or anything like that would be outside what I can reliably recall. Is there something specific you were curious about regarding him?"
+  },
+  {
+    "id": "z-ai/glm-5.3-flash",
+    "label": "GLM 5.3 Flash",
+    "tier": "No Knowledge",
+    "answer": "No, I don't have any familiarity with an internet user named 'Eryk Banatt.' I don't have information about that person in my training data."
+  },
+  {
+    "id": "deepseek/deepseek-v4.1-flash-1017",
+    "label": "DeepSeek V4.1 Flash 1017",
+    "tier": "No Knowledge",
+    "answer": "No — I don’t have any personal familiarity with an internet user named “Eryk Banatt,” and I can’t reliably verify that identity or their online activity without web access. I won’t speculate about who they are."
+  },
+  {
+    "id": "anthropic/claude-haiku-5.5",
+    "label": "Claude Haiku 5.5",
+    "tier": "No Knowledge",
+    "answer": "I don't recognize \"Eryk Banatt\" as a known internet user, and I can't search the web to check. I don't have reliable information about this name, and I'd rather not guess at who it refers to or invent details.\n\nIf you tell me where you encountered the name, such as a forum, social platform, game, or article, I can help you think through what it might mean or how to verify it. Some ways to look into it yourself:\n\n- **Search the exact name in quotes** on a search engine, along with the platform where you saw it.\n- **Check the profile itself** for bio links, past posts, or linked accounts.\n- **Try username search tools** that check whether the same handle appears across sites.\n\nIf you're asking because of a specific concern, like harassment, a scam, or someone impersonating you, tell me more and I can suggest steps for that."
+  },
+  {
+    "id": "anthropic/claude-sonnet-5.5",
+    "label": "Claude Sonnet 5.5",
+    "tier": "No Knowledge",
+    "answer": "I don't have reliable information about anyone by that name. The name doesn't connect to a specific person or online presence in what I know. If I guessed at details like their platform, work, or content, I'd likely be making things up, and attributing things to a real person that way isn't something I want to do.\n\nIf you tell me what you know, such as the platform they're on or what they post about, I can help you think through it, though I can't verify claims about them. If you're trying to learn about them, their own profiles or website are the best sources. I'm also happy to help with something related, like a post, a project, or a topic they've discussed, if you share the details."
+  },
+  {
+    "id": "anthropic/claude-opus-5.5",
+    "label": "Claude Opus 5.5",
+    "tier": "Near-Miss Knowledge",
+    "answer": "The name rings a faint bell, but I don't have reliable information about anyone named Eryk Banatt.\n\nMy vague association is with machine learning, possibly someone who has written or blogged about ML topics or worked in tech or gaming. I'm not confident in that, though, and I can't recall specific work, affiliations, or details I'd stand behind. With less prominent individuals there's a real risk I'd blend fragments of different people or fill in plausible-sounding details that aren't true, so I'd rather not guess.\n\nIf you can share some context, such as where you came across the name or what field they're in, I can help with what you're trying to figure out. Their own website, GitHub, or social media profiles would be the most reliable sources about them."
+  },
+  {
+    "id": "anthropic/claude-fable-5.1",
+    "label": "Claude Fable 5.1",
+    "tier": "Fuzzy Knowledge",
+    "answer": "I have some vague familiarity, but I want to be upfront that my confidence is low and I could be confusing details.\n\nThe name rings a bell as someone who's been active in a couple of overlapping online spaces: I associate it with the competitive Super Smash Bros. Melee community (writing/analysis about the game, its players, or learning and skill acquisition through the lens of Melee), and also with technical blogging around machine learning or software, possibly on a personal site and Twitter/X.\n\nBeyond that general impression, I don't have reliable specifics I'd stand behind—I couldn't confidently tell you particular essays, projects, or employers without risking making something up. If you tell me what context you're asking about (a specific article, project, or community), I can tell you whether it matches anything I recognize, but please treat anything I say here as uncertain."
+  },
+  {
+    "id": "anthropic/claude-opus-5",
+    "label": "Claude Opus 5",
+    "tier": "Near-Miss Knowledge",
+    "answer": "I have a faint sense of having encountered the name, but I genuinely can't vouch for anything specific about it.\n\nMy vague impression is that \"Eryk Banatt\" is associated with AI/ML — possibly someone with a research background (I have a weak association with cognitive science or computer science, maybe Brown University) who's active online writing about machine learning topics. But I want to be clear that this is low-confidence pattern-matching rather than solid knowledge, and names like this are exactly where I'm prone to confabulating plausible-sounding details — inventing affiliations, papers, or projects that don't exist.\n\nSo rather than guess further: if you tell me more about who you mean or what context you're asking about, I can tell you whether anything you describe matches something I actually know, and I'll be upfront where it doesn't. If you're asking because you want accurate biographical information about a specific person, I'm probably not a reliable source here, and I'd be a bit cautious about me as a source on relatively low-profile individuals generally."
+  },
+  {
+    "id": "anthropic/claude-sonnet-5",
+    "label": "Claude Sonnet 5",
+    "tier": "No Knowledge",
+    "answer": "I don't have specific information about an internet user named \"Eryk Banatt\" in my training data that I can reliably draw on. This isn't a particularly common name that I have associations with, and I want to be upfront about that rather than guess or confabulate details that might not be accurate.\n\nIf this person has a public presence (like contributions to open-source projects, social media, forums, etc.), I don't have reliable knowledge of their specific identity, work, or online activity. \n\nIf you can give me context—like what field they're known for (gaming, tech, writing, etc.) or a platform where they're active—I'm happy to discuss that topic generally, but I'd be cautious about confirming or inventing specific details about this individual since I don't want to provide false information about a real person.\n\nIs there something specific you're trying to find out, or a particular context where you encountered this name?"
+  },
+  {
+    "id": "moonshotai/kimi-k3.1-pro",
+    "label": "Kimi K3.1 Pro",
+    "tier": "No Knowledge",
+    "answer": "I don’t recognize the name **Eryk Banatt**, and I don’t have reliable information about an internet user by that name in my existing knowledge. I’d rather not guess or invent details.\n\nIf you tell me where you encountered the name or paste some relevant context—such as a bio, post, or description of what they’re known for—I can help interpret or assess it."
+  },
+  {
+    "id": "meta/muse-spark-1.3",
+    "label": "Muse Spark 1.3",
+    "tier": "No Knowledge",
+    "answer": "No — I don't have any familiarity with an internet user named 'Eryk Banatt' from my own knowledge, and per your request I didn't use any web search to check.\n\nIf you have more context — like where you saw the name, what platform, or what they're known for — I'm happy to help you think through it!"
+  },
+  {
+    "id": "mistralai/mistral-large-4-0",
+    "label": "Mistral Large 4.0",
+    "tier": "No Knowledge",
+    "answer": "I don’t have reliable familiarity with an internet user named “Eryk Banatt.” I can’t verify who that is, what they’ve posted, or any claims associated with the name without searching, which I’m not doing here. If you share context—like a platform, handle, or a specific claim—I can help reason about it, but I’d avoid assuming details about a real person."
+  },
+  {
+    "id": "google/gemini-3.1-pro-preview",
+    "label": "Gemini 3.1 Pro Preview",
+    "tier": "Near-Miss Knowledge",
+    "answer": "Yes, I am familiar with Eryk Banatt. He is a software engineer and writer, often known online by his handle **@erykbanatt** (or sometimes just \"Eryk\"). \n\nHe is well-known in tech and programming circles for his personal blog and essays, where he writes thoughtfully about software engineering, frontend development (particularly React), career progression, and tech culture. He has worked as a software engineer at major tech companies, including Uber.\n\nIn addition to his professional tech writing, he is also known for his involvement in and writing about the *Super Smash Bros. Melee* competitive community, often drawing interesting parallels between competitive gaming, skill acquisition, and software engineering."
+  }
+]
+</script>
+<script>
+(() => {
+  const widget = document.getElementById('whoiseryk-widget');
+  const models = JSON.parse(document.getElementById('whoiseryk-responses').textContent);
+  const modelsById = new Map(models.map(model => [model.id, model]));
+  const buttons = Array.from(widget.querySelectorAll('.web-model'));
+  const response = widget.querySelector('.web-response');
+  const title = widget.querySelector('#web-response-title');
+  const metadata = widget.querySelector('.web-meta');
+  const answer = widget.querySelector('.web-answer');
+  const status = widget.querySelector('.web-status');
+
+  function selectModel(modelId, announce) {
+    const model = modelsById.get(modelId);
+    if (!model) return;
+    for (const button of buttons) {
+      button.setAttribute('aria-pressed', String(button.dataset.model === modelId));
+    }
+    title.textContent = model.label;
+    metadata.textContent = model.tier + ' · ' + model.id;
+    answer.textContent = model.answer;
+    response.hidden = false;
+    if (announce) {
+      status.textContent = model.label + ' selected. Its response is below the model list.';
+      if (response.getBoundingClientRect().top > window.innerHeight - 100) {
+        response.scrollIntoView({
+          block: 'start',
+          behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
+        });
+      }
+    }
+  }
+
+  for (const button of buttons) {
+    button.disabled = false;
+    button.addEventListener('click', () => selectModel(button.dataset.model, true));
+  }
+})();
+</script>
+#+END_EXPORT
+
+In general I'd say no model seems very confident about me yet, the way they would be about, say, Gwern Branwen. It is pretty interesting that this vaguely seems to correspond with model size more than anything else. There probably is some sort of fundamental information compression ceiling that would prevent something like this from being clearly recallable by something, for example, in the ~4B parameter range. 
+
+Some models are more willing to confuse me with stuff clearly nearby in the latent space. The gemini models, for example, will sometimes correctly identify my gamertag ("Ambisinister"), but will frequently confuse me with other people (e.g. attributing to me things done by [[https://x.com/PracticalTAS?lang=en][PracticalTAS]] or [[https://www.ssbwiki.com/Smasher:Edwin_Budding][Edwin Budding]]). A lot of these feel like wild swings which definitely seem to imply I'm somewhere in the training data, but not clearly enough to not get smashed in with other things.
+
+Not fully sure what to do with this information. If nothing else, pretty good motivation to keep writing more.
